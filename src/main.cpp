@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 #ifdef GIT_ID
 	about.version = GIT_ID;
 #else
-	about.version = "out of tree";
+	about.version = "2017.03-rc1";
 #endif
 
 	DIDaemon::up(argc, argv, about);
