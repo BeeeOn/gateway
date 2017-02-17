@@ -1,0 +1,6 @@
+<system>
+	<factory>
+		<instance name="main" class="BeeeOn::LoopRunner">
+		</instance>
+	</factory>
+</system>
