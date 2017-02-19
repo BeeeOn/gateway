@@ -1,0 +1,13 @@
+[Unit]
+Description=BeeeOn Gateway Application
+
+[Service]
+ExecStart=/usr/bin/beeeon-gateway -c /etc/beeeon/gateway/gateway-startup.ini
+TimeoutStartSec=30
+TimeoutStopSec=20
+Nice=-5
+RestartSec=5
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
