@@ -12,6 +12,7 @@ find_library (POCO_XML PocoXML)
 add_definitions(-std=c++11)
 
 file(GLOB TEST_SOURCES
+	${PROJECT_SOURCE_DIR}/util/IncompleteTimestampTest.cpp
 )
 
 include_directories(
