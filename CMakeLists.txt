@@ -18,6 +18,6 @@ add_subdirectory(base)
 add_subdirectory(test)
 
 install(FILES conf/gateway-startup.ini
-	DESTINATION etc/beeeon-gateway)
+	DESTINATION etc/beeeon/gateway)
 install(DIRECTORY conf/config.d
-	DESTINATION etc/beeeon-gateway)
+	DESTINATION etc/beeeon/gateway)
