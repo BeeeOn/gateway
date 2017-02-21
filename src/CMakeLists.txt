@@ -11,10 +11,16 @@ find_library (POCO_XML PocoXML)
 
 add_definitions(-std=c++11)
 
+file(GLOB SOURCES
+	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
+)
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/base/src
 )
+
+add_library(BeeeOnGateway ${SOURCES})
 
 add_executable(beeeon-gateway main.cpp)
 
@@ -30,12 +36,13 @@ set(LIBS
 
 target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
+		BeeeOnGateway
 		BeeeOnBase
 		-Wl,--no-whole-archive
 		${LIBS}
 )
 
-install(TARGETS beeeon-gateway
+install(TARGETS beeeon-gateway BeeeOnGateway
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
