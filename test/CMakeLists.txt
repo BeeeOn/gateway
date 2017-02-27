@@ -9,6 +9,8 @@ find_library (POCO_CRYPTO PocoCrypto)
 find_library (POCO_NET PocoNet)
 find_library (POCO_XML PocoXML)
 
+add_definitions(-std=c++11)
+
 file(GLOB TEST_SOURCES
 )
 
