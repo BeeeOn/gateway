@@ -13,6 +13,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
+	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/VirtualSensor.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
