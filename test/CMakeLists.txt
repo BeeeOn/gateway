@@ -10,6 +10,7 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_XML PocoXML)
 
 file(GLOB TEST_SOURCES
+	${PROJECT_SOURCE_DIR}/core/CommandsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/IncompleteTimestampTest.cpp
 )
 
