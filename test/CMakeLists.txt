@@ -39,6 +39,7 @@ set(LIBS
 
 target_link_libraries(test-suite-gateway
 	-Wl,--whole-archive
+	BeeeOnGateway
 	BeeeOnBaseTest
 	BeeeOnBase
 	-Wl,--no-whole-archive
