@@ -14,6 +14,7 @@ add_definitions(-std=c++11)
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
 	${PROJECT_SOURCE_DIR}/model/SensorValue.cpp
+	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 )
 
 include_directories(
