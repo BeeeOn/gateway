@@ -1,0 +1,7 @@
+<system>
+	<factory>
+		<instance name="CSVSensorDataFormatter" class="BeeeOn::CSVSensorDataFormatter">
+			<set name="separator" text="${Exporter.pipe.csv.separator}" />
+		</instance>
+	</factory>
+</system>
