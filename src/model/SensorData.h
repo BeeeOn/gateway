@@ -63,6 +63,18 @@ public:
 		return m_values.end();
 	}
 
+	bool operator !=(const SensorData &data) const
+	{
+		return !(*this == data);
+	}
+
+	bool operator ==(const SensorData &data) const
+	{
+		return m_deviceID == data.m_deviceID
+			&& m_timestamp == data.m_timestamp
+			&& m_values == data.m_values;
+	}
+
 private:
 	DeviceID m_deviceID;
 	IncompleteTimestamp m_timestamp;
