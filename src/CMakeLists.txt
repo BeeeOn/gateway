@@ -15,6 +15,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
 	${PROJECT_SOURCE_DIR}/model/SensorValue.cpp
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
+	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
