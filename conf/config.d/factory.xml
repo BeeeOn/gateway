@@ -2,5 +2,9 @@
 	<factory>
 		<instance name="main" class="BeeeOn::LoopRunner">
 		</instance>
+
+		<instance name="distributor" class="BeeeOn::BasicDistributor">
+		</instance>
+
 	</factory>
 </system>
