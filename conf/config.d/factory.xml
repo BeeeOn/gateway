@@ -7,6 +7,7 @@
 		</instance>
 
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
+			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 		</instance>
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
