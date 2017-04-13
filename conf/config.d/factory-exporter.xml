@@ -1,7 +1,7 @@
 <system>
 	<factory>
-		<instance name="NamedPipeExporter" class="BeeeOn::NamedPipeExporter">
-			<set name="fileName" text="${Exporter.pipe.name}" />
+		<instance name="namedPipeExporter" class="BeeeOn::NamedPipeExporter">
+			<set name="filePath" text="${Exporter.pipe.path}" />
 			<set name="formatter" ref="${Exporter.pipe.format}SensorDataFormatter" />
 		</instance>
 
