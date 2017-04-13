@@ -57,6 +57,31 @@ public:
 		return m_valid;
 	}
 
+	/*
+	 * If the SensorValue is invalid it doesn't check the value.
+	 */
+	bool operator !=(const SensorValue &value) const
+	{
+		return !(*this == value);
+	}
+
+	/*
+	 * If the SensorValue is invalid it doesn't check the value.
+	 */
+	bool operator ==(const SensorValue &value) const
+	{
+		if (m_moduleID != value.m_moduleID)
+			return false;
+
+		if (m_valid != value.m_valid)
+			return false;
+
+		if (m_valid)
+			return m_value == value.m_value;
+
+		return true;
+	}
+
 private:
 	ModuleID m_moduleID;
 	double m_value;
