@@ -12,15 +12,15 @@ find_library (POCO_XML PocoXML)
 add_definitions(-std=c++11)
 
 file(GLOB SOURCES
-	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
-	${PROJECT_SOURCE_DIR}/model/SensorValue.cpp
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
-	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
+	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
+	${PROJECT_SOURCE_DIR}/model/SensorValue.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
+	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
 )
 
 include_directories(
