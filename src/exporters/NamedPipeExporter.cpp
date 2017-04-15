@@ -16,7 +16,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, NamedPipeExporter)
 BEEEON_OBJECT_CASTABLE(Exporter)
-BEEEON_OBJECT_TEXT("fileName", &NamedPipeExporter::setFileName)
+BEEEON_OBJECT_TEXT("filePath", &NamedPipeExporter::setFilePath)
 BEEEON_OBJECT_REF("formatter", &NamedPipeExporter::setFormatter)
 BEEEON_OBJECT_END(BeeeOn, NamedPipeExporter)
 
@@ -31,8 +31,8 @@ NamedPipeExporter::NamedPipeExporter() :
 
 NamedPipeExporter::~NamedPipeExporter()
 {
-	if (!m_pipeName.empty())
-		remove(m_pipeName.c_str());
+	if (!m_pipePath.empty())
+		remove(m_pipePath.c_str());
 }
 
 bool NamedPipeExporter::ship(const SensorData &data)
@@ -55,9 +55,9 @@ bool NamedPipeExporter::ship(const SensorData &data)
 	}
 }
 
-void NamedPipeExporter::setFileName(const string &name)
+void NamedPipeExporter::setFilePath(const string &path)
 {
-	m_pipeName = name;
+	m_pipePath = path;
 }
 
 void NamedPipeExporter::setFormatter(SensorDataFormatter *formatter)
@@ -71,14 +71,14 @@ int NamedPipeExporter::openPipe()
 	int fd;
 
 	do { // forbid symlinks to be followed
-		fd = open(m_pipeName.c_str(), O_WRONLY | O_NONBLOCK | O_NOFOLLOW);
+		fd = open(m_pipePath.c_str(), O_WRONLY | O_NONBLOCK | O_NOFOLLOW);
 		if (fd < 0 && errno == ENOENT) {
 			mode_t permit = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
-			if (mkfifo(m_pipeName.c_str(), permit) < 0) {
+			if (mkfifo(m_pipePath.c_str(), permit) < 0) {
 					throw IOException(
 						"failed to initialize mkfifo "
-						+ m_pipeName + ": "
+						+ m_pipePath + ": "
 						+ strerror(errno));
 			}
 			continue;
@@ -97,7 +97,7 @@ int NamedPipeExporter::openPipe()
 			// others unexpected failures
 			throw IOException(
 				"failed to initialize named pipe "
-				+ m_pipeName + ": "
+				+ m_pipePath + ": "
 				+ strerror(errno));
 		}
 	} while (fd < 0 && attempts-- > 0);
@@ -105,7 +105,7 @@ int NamedPipeExporter::openPipe()
 	if (fd < 0 && attempts == 0) {
 		throw IOException(
 			"failed to create and open mkfifo "
-			+ m_pipeName + ": "
+			+ m_pipePath + ": "
 			+ strerror(errno));
 	}
 
@@ -115,7 +115,7 @@ int NamedPipeExporter::openPipe()
 		close(fd);
 		throw IOException(
 			"failed to stat mkfifo "
-			+ m_pipeName + ": "
+			+ m_pipePath + ": "
 			+ strerror(errno));
 	}
 
@@ -123,7 +123,7 @@ int NamedPipeExporter::openPipe()
 		// we opened non-fifo file, a race condition?
 		close(fd);
 		throw IOException(
-			"file '" + m_pipeName
+			"file '" + m_pipePath
 			+ "'' is not a fifo: "
 			+ strerror(errno));
 	}

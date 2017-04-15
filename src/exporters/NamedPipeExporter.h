@@ -24,9 +24,9 @@ public:
 	bool ship(const SensorData &data) override;
 
 	/**
-	 * Set name of file of named pipe (mkfifo)
+	 * Set file path of named pipe (mkfifo)
 	 */
-	void setFileName(const std::string &name);
+	void setFilePath(const std::string &path);
 
 	/**
 	 * Set formatter for type of output
@@ -49,7 +49,7 @@ private:
 	 */
 	bool writeAndClose(int fd, const std::string &msg);
 
-	std::string m_pipeName;
+	std::string m_pipePath;
 	SensorDataFormatter *m_formatter;
 };
 
