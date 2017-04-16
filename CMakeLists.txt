@@ -22,4 +22,4 @@ install(FILES conf/gateway-startup.ini
 install(DIRECTORY conf/config.d
 	DESTINATION etc/beeeon/gateway)
 install(FILES systemd/beeeon-gateway.service
-	DESTINATION /lib/systemd/system)
+	DESTINATION lib/systemd/system)
