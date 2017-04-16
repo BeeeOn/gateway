@@ -1,9 +1,37 @@
 <system>
 	<factory>
 		<instance name="main" class="BeeeOn::LoopRunner">
+			<add name="runnables" ref="virtualSensor1" if-yes="${virtual-sensor1.enable}" />
+			<add name="runnables" ref="virtualSensor2" if-yes="${virtual-sensor2.enable}" />
+			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
 		</instance>
 
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
+			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
+		</instance>
+
+		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
+			<set name="refresh" number="${virtual-sensor1.refresh}" />
+			<set name="min" number="${virtual-sensor1.min}" />
+			<set name="max" number="${virtual-sensor1.max}" />
+			<set name="deviceId" text="${virtual-sensor1.deviceId}" />
+			<set name="distributor" ref="distributor"/>
+		</instance>
+
+		<instance name="virtualSensor2" class="BeeeOn::VirtualSensor">
+			<set name="refresh" number="${virtual-sensor2.refresh}" />
+			<set name="min" number="${virtual-sensor2.min}" />
+			<set name="max" number="${virtual-sensor2.max}" />
+			<set name="deviceId" text="${virtual-sensor2.deviceId}" />
+			<set name="distributor" ref="distributor"/>
+		</instance>
+
+		<instance name="virtualSensor3" class="BeeeOn::VirtualSensor">
+			<set name="refresh" number="${virtual-sensor3.refresh}" />
+			<set name="min" number="${virtual-sensor3.min}" />
+			<set name="max" number="${virtual-sensor3.max}" />
+			<set name="deviceId" text="${virtual-sensor3.deviceId}" />
+			<set name="distributor" ref="distributor"/>
 		</instance>
 
 	</factory>
