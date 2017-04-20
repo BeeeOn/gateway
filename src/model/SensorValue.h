@@ -52,7 +52,7 @@ public:
 		m_valid = valid;
 	}
 
-	bool isValid()
+	bool isValid() const
 	{
 		return m_valid;
 	}
