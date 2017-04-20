@@ -33,6 +33,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandRunner.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandSender.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceManager.cpp
+	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
