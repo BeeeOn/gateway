@@ -11,6 +11,13 @@ else()
 		OUTPUT_VARIABLE GIT_ID)
 endif()
 
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+	message("Debug build")
+	add_definitions(-D_DEBUG)
+elseif(CMAKE_BUILD_TYPE MATCHES "Release")
+	message("Release build")
+endif()
+
 add_definitions(-DGIT_ID="${GIT_ID}")
 
 add_subdirectory(src)
