@@ -8,6 +8,7 @@ find_library (POCO_SSL PocoNetSSL)
 find_library (POCO_CRYPTO PocoCrypto)
 find_library (POCO_NET PocoNet)
 find_library (POCO_XML PocoXML)
+find_library (PTHREAD pthread)
 
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandsTest.cpp
@@ -34,6 +35,7 @@ set(LIBS
 	${POCO_NET}
 	${POCO_XML}
 	${CPP_UNIT}
+	${PTHREAD}
 )
 
 target_link_libraries(test-suite-gateway
