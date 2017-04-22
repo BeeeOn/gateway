@@ -11,6 +11,7 @@ find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 
 file(GLOB TEST_SOURCES
+	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/IncompleteTimestampTest.cpp
 )
