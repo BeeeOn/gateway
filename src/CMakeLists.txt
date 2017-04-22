@@ -12,6 +12,7 @@ find_library (PTHREAD pthread)
 
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
+	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
