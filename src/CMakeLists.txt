@@ -16,6 +16,8 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/commands/GatewayListenCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/ServerDeviceListCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/ServerDeviceListResult.cpp
+	${PROJECT_SOURCE_DIR}/commands/ServerLastValueCommand.cpp
+	${PROJECT_SOURCE_DIR}/commands/ServerLastValueResult.cpp
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
