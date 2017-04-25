@@ -19,7 +19,7 @@ public:
 
 	ModuleID(const uint16_t &moduleID);
 
-	const uint16_t value() const
+	uint16_t value() const
 	{
 		return m_moduleID;
 	}
