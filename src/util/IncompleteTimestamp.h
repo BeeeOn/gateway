@@ -40,6 +40,6 @@ typedef Incomplete<
 	Poco::Timestamp, TimestampCompleteTest, TimestampComplete
 > IncompleteTimestamp;
 
-};
+}
 
 #endif
