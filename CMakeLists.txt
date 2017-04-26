@@ -18,7 +18,7 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Release")
 	message("Release build")
 endif()
 
-add_definitions(-DGIT_ID="${GIT_ID}")
+add_definitions(-DGIT_ID="${GIT_ID}" -std=c++11)
 
 add_subdirectory(src)
 add_subdirectory(base)
