@@ -21,8 +21,7 @@ SensorDataFormatter &NullSensorDataFormatter::instance()
 	return *singleton.get();
 }
 
-std::string NullSensorDataFormatter::format(const SensorData &data)
+std::string NullSensorDataFormatter::format(const SensorData &)
 {
 	throw NotImplementedException(__func__);
-	return "";
 }

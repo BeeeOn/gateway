@@ -9,8 +9,6 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 
-add_definitions(-std=c++11)
-
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp

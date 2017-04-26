@@ -42,7 +42,7 @@ public:
 		m_value = value;
 	}
 
-	const double value() const
+	double value() const
 	{
 		return m_value;
 	}
