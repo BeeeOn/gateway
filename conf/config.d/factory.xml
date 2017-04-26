@@ -10,6 +10,9 @@
 			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 		</instance>
 
+		<instance name="commandDispatcher" class="BeeeOn::CommandDispatcher">
+		</instance>
+
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
 			<set name="refresh" number="${virtual-sensor1.refresh}" />
 			<set name="min" number="${virtual-sensor1.min}" />
