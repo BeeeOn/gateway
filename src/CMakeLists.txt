@@ -8,11 +8,20 @@ find_library (POCO_UTIL PocoUtil)
 find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
+find_library (PTHREAD pthread)
 
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
+	${PROJECT_SOURCE_DIR}/core/Answer.cpp
+	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
+	${PROJECT_SOURCE_DIR}/core/Command.cpp
+	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
+	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
+	${PROJECT_SOURCE_DIR}/core/CommandProgressHandler.cpp
+	${PROJECT_SOURCE_DIR}/core/CommandRunner.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
+	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/core/VirtualSensor.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
@@ -39,6 +48,7 @@ set(LIBS
 	${POCO_NET}
 	${POCO_JSON}
 	${POCO_XML}
+	${PTHREAD}
 )
 
 target_link_libraries(beeeon-gateway
