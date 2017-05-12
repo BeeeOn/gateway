@@ -16,6 +16,10 @@
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
 			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 			<set name="exporter" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
+			<set name="executor" ref="asyncExecutor"/>
+		</instance>
+
+		<instance name="asyncExecutor" class="BeeeOn::AsyncExecutor">
 		</instance>
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
