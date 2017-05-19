@@ -1,0 +1,49 @@
+#ifndef BEEEON_DEVICE_SET_VALUE_COMMAND_H
+#define BEEEON_DEVICE_SET_VALUE_COMMAND_H
+
+#include <Poco/Timespan.h>
+
+#include "core/Command.h"
+#include "model/DeviceID.h"
+#include "model/ModuleID.h"
+
+namespace BeeeOn {
+
+/*
+ * The command to set the value of a particular device.
+ *
+ * When system receives command, the device manager sets
+ * the value of a device identified by DeviceID containing
+ * the module identified by ModuleID. The value has to be
+ * set before timeout expiration. If status of set value
+ * cannot be find and the timeout is expired, device
+ * manager must send message about this failure to server.
+ * The individual states of the settings to which the command
+ * can get need to be reported on server.
+ *
+ */
+class DeviceSetValueCommand : public Command {
+public:
+	typedef Poco::AutoPtr<DeviceSetValueCommand> Ptr;
+
+	DeviceSetValueCommand(const DeviceID &deviceID, const ModuleID &moduleID,
+		const double value, const Poco::Timespan &timeout);
+
+	ModuleID moduleID() const;
+	double value() const;
+	Poco::Timespan timeout() const;
+	DeviceID deviceID() const;
+
+protected:
+	~DeviceSetValueCommand();
+
+private:
+	DeviceID m_deviceID;
+	ModuleID m_moduleID;
+	double m_value;
+	Poco::Timespan m_timeout;
+};
+
+}
+
+#endif
