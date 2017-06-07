@@ -1,4 +1,5 @@
 #include "credentials/CredentialsStorage.h"
+#include "credentials/PasswordCredentials.h"
 
 using namespace BeeeOn;
 using namespace std;
@@ -7,6 +8,7 @@ using namespace Poco::Util;
 
 CredentialsStorage::CredentialsStorage()
 {
+	m_factory[PasswordCredentials::TYPE] = &PasswordCredentials::create;
 }
 
 CredentialsStorage::CredentialsStorage(
