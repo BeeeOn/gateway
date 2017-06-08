@@ -44,12 +44,17 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
 )
 
+file(GLOB TESTING_SOURCES
+	${PROJECT_SOURCE_DIR}/core/TestingCenter.cpp
+)
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/base/src
 )
 
 add_library(BeeeOnGateway ${SOURCES})
+add_library(BeeeOnTesting ${TESTING_SOURCES})
 
 add_executable(beeeon-gateway main.cpp)
 
@@ -67,12 +72,13 @@ set(LIBS
 target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
 		BeeeOnGateway
+		BeeeOnTesting
 		BeeeOnBase
 		-Wl,--no-whole-archive
 		${LIBS}
 )
 
-install(TARGETS beeeon-gateway BeeeOnGateway
+install(TARGETS beeeon-gateway BeeeOnGateway BeeeOnTesting
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib

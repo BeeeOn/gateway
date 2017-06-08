@@ -4,6 +4,7 @@
 			<add name="runnables" ref="virtualSensor1" if-yes="${virtual-sensor1.enable}" />
 			<add name="runnables" ref="virtualSensor2" if-yes="${virtual-sensor2.enable}" />
 			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
+			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
 		</instance>
 
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
@@ -37,5 +38,15 @@
 			<set name="distributor" ref="distributor"/>
 		</instance>
 
+		<instance name="testingConsole" class="BeeeOn::TCPConsole">
+			<set name="address" text="${testing.center.tcp.address}" />
+			<set name="port" number="${testing.center.tcp.port}" />
+			<set name="recvTimeout" number="0" />
+		</instance>
+
+		<instance name="testingCenter" class="BeeeOn::TestingCenter">
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="console" ref="testingConsole" />
+		</instance>
 	</factory>
 </system>
