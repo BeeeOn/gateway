@@ -5,6 +5,7 @@
 #include "di/Injectable.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
+#include "commands/GatewayListenCommand.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
 
@@ -68,6 +69,15 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 			timeout
 		);
 	}
+	else if (args[1] == "listen") {
+		assureArgs(context, 2, "command listen");
+
+		Timespan duration(5 * Timespan::SECONDS);
+		if (args.size() > 2)
+			duration = Timespan(NumberParser::parse(args[2]) * Timespan::SECONDS);
+
+		return new GatewayListenCommand(duration);
+	}
 
 	return NULL;
 }
@@ -87,6 +97,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("names:");
 		console.print("  unpair <device-id>");
 		console.print("  set-value <device-id> <module-id> <value> [<timeout>]");
+		console.print("  listen [<timeout>]");
 		return;
 	}
 
