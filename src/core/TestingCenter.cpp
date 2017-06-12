@@ -3,6 +3,7 @@
 #include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
+#include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
@@ -53,6 +54,20 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 		assureArgs(context, 3, "command unpair");
 		return new DeviceUnpairCommand(DeviceID::parse(args[2]));
 	}
+	else if (args[1] == "set-value") {
+		assureArgs(context, 5, "command set-value");
+
+		Timespan timeout(0);
+		if (args.size() >= 6)
+			timeout = Timespan(NumberParser::parse(args[5]) * Timespan::MILLISECONDS);
+
+		return new DeviceSetValueCommand(
+			DeviceID::parse(args[2]),
+			ModuleID::parse(args[3]),
+			NumberParser::parseFloat(args[4]),
+			timeout
+		);
+	}
 
 	return NULL;
 }
@@ -71,6 +86,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("usage: command <name> [<args>...]");
 		console.print("names:");
 		console.print("  unpair <device-id>");
+		console.print("  set-value <device-id> <module-id> <value> [<timeout>]");
 		return;
 	}
 
