@@ -3,6 +3,7 @@
 #include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
+#include "commands/DeviceUnpairCommand.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
 
@@ -48,6 +49,11 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 {
 	auto &args = context.args;
 
+	if (args[1] == "unpair") {
+		assureArgs(context, 3, "command unpair");
+		return new DeviceUnpairCommand(DeviceID::parse(args[2]));
+	}
+
 	return NULL;
 }
 
@@ -64,6 +70,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 	if (context.args[1] == "help") {
 		console.print("usage: command <name> [<args>...]");
 		console.print("names:");
+		console.print("  unpair <device-id>");
 		return;
 	}
 
