@@ -1,4 +1,5 @@
 #include <Poco/NumberFormatter.h>
+#include <Poco/NumberParser.h>
 #include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
@@ -84,6 +85,32 @@ static void commandAction(TestingCenter::ActionContext &context)
 		context.queue.remove(answer);
 }
 
+static void waitQueueAction(TestingCenter::ActionContext &context)
+{
+	ConsoleSession &console = context.console;
+	auto &args = context.args;
+
+	if (args.size() > 1 && args[1] == "help") {
+		console.print("usage: wait-queue [<timeout>]");
+		return;
+	}
+
+	Timespan timeout(0);
+	if (args.size() > 1)
+		timeout = Timespan(NumberParser::parse(args[1]) * Timespan::MILLISECONDS);
+
+	list<Answer::Ptr> dirtyList;
+	context.queue.wait(timeout, dirtyList);
+
+	for (auto dirty : dirtyList) {
+		FastMutex::ScopedLock guard(dirty->lock());
+
+		console.print(reportAnswer(dirty, guard));
+
+		if (!dirty->isPendingUnlocked())
+			context.queue.remove(dirty);
+	}
+}
 
 /**
  * Echo the space-separated arguments to the console.
@@ -108,6 +135,7 @@ TestingCenter::TestingCenter():
 {
 	registerAction("echo", echoAction, "echo arguments to output separated by space");
 	registerAction("command", commandAction, "dispatch a command into the system");
+	registerAction("wait-queue", waitQueueAction, "wait for new command answers");
 }
 
 void TestingCenter::registerAction(
