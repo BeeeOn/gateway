@@ -7,6 +7,7 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "commands/ServerDeviceListCommand.h"
+#include "commands/ServerLastValueCommand.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
 
@@ -86,6 +87,14 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 			DevicePrefix::parse(args[2])
 		);
 	}
+	else if (args[1] == "last-value") {
+		assureArgs(context, 4, "command last-value");
+
+		return new ServerLastValueCommand(
+			DeviceID::parse(args[2]),
+			ModuleID::parse(args[3])
+		);
+	}
 
 	return NULL;
 }
@@ -107,6 +116,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("  set-value <device-id> <module-id> <value> [<timeout>]");
 		console.print("  listen [<timeout>]");
 		console.print("  list-devices <device-prefix>");
+		console.print("  last-value <device-id> <module-id>");
 		return;
 	}
 
