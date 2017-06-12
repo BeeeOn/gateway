@@ -1,3 +1,4 @@
+#include <Poco/NumberFormatter.h>
 #include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
@@ -13,6 +14,76 @@ BEEEON_OBJECT_END(BeeeOn, TestingCenter)
 using namespace std;
 using namespace Poco;
 using namespace BeeeOn;
+
+static string identifyAnswer(const Answer::Ptr p)
+{
+	return NumberFormatter::formatHex(reinterpret_cast<size_t>(p.get()), true);
+}
+
+static string reportAnswer(Answer::Ptr p, FastMutex::ScopedLock &)
+{
+	string line(identifyAnswer(p));
+
+	line += p->isPendingUnlocked()? " PENDING " : " DONE ";
+	line += to_string(p->resultsCountUnlocked());
+	line += "/";
+	line += to_string(p->commandsCountUnlocked());
+
+	return line;
+}
+
+static void assureArgs(
+		const TestingCenter::ActionContext &context,
+		size_t expectedCount,
+		const string &command)
+{
+	if (context.args.size() < expectedCount) {
+		throw InvalidArgumentException(
+			"missing arguments for action '" + command + "'");
+	}
+}
+
+static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
+{
+	auto &args = context.args;
+
+	return NULL;
+}
+
+static void commandAction(TestingCenter::ActionContext &context)
+{
+	ConsoleSession &console = context.console;
+	Command::Ptr command;
+
+	if (context.args.size() <= 1) {
+		console.print("missing arguments for action 'command'");
+		return;
+	}
+
+	if (context.args[1] == "help") {
+		console.print("usage: command <name> [<args>...]");
+		console.print("names:");
+		return;
+	}
+
+	command = parseCommand(context);
+
+	if (command.isNull()) {
+		console.print("unrecognized command: " + context.args[0]);
+		return;
+	}
+
+	Answer::Ptr answer(new Answer(context.queue));
+
+	context.dispatcher->dispatch(command, answer);
+
+	FastMutex::ScopedLock guard(answer->lock());
+	console.print(reportAnswer(answer, guard));
+
+	if (!answer->isPendingUnlocked())
+		context.queue.remove(answer);
+}
+
 
 /**
  * Echo the space-separated arguments to the console.
@@ -36,6 +107,7 @@ TestingCenter::TestingCenter():
 	m_stop(0)
 {
 	registerAction("echo", echoAction, "echo arguments to output separated by space");
+	registerAction("command", commandAction, "dispatch a command into the system");
 }
 
 void TestingCenter::registerAction(
