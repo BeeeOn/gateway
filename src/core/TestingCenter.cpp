@@ -6,6 +6,7 @@
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
+#include "commands/ServerDeviceListCommand.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
 
@@ -78,6 +79,13 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 
 		return new GatewayListenCommand(duration);
 	}
+	else if (args[1] == "list-devices") {
+		assureArgs(context, 3, "command list-devices");
+
+		return new ServerDeviceListCommand(
+			DevicePrefix::parse(args[2])
+		);
+	}
 
 	return NULL;
 }
@@ -98,6 +106,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("  unpair <device-id>");
 		console.print("  set-value <device-id> <module-id> <value> [<timeout>]");
 		console.print("  listen [<timeout>]");
+		console.print("  list-devices <device-prefix>");
 		return;
 	}
 
