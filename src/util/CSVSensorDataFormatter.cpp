@@ -3,7 +3,7 @@
 #include <Poco/NumberFormatter.h>
 #include <Poco/Timestamp.h>
 
-#include "CSVSensorDataFormatter.h"
+#include "util/CSVSensorDataFormatter.h"
 #include "di/Injectable.h"
 #include "model/SensorData.h"
 

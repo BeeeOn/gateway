@@ -1,7 +1,7 @@
 #include <Poco/Exception.h>
 #include <Poco/SingletonHolder.h>
 
-#include "NullSensorDataFormatter.h"
+#include "util/NullSensorDataFormatter.h"
 #include "model/SensorData.h"
 
 using namespace BeeeOn;

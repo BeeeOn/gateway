@@ -8,7 +8,7 @@
 #include <Poco/Exception.h>
 
 #include "di/Injectable.h"
-#include "NamedPipeExporter.h"
+#include "exporters/NamedPipeExporter.h"
 #include "util/NullSensorDataFormatter.h"
 #include "util/SensorDataFormatter.h"
 

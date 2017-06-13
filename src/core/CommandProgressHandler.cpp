@@ -1,6 +1,6 @@
 #include <Poco/Logger.h>
 
-#include "CommandProgressHandler.h"
+#include "core/CommandProgressHandler.h"
 
 using namespace BeeeOn;
 using namespace Poco;

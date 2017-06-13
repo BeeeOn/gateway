@@ -1,5 +1,5 @@
-#include "NullSensorDataFormatter.h"
-#include "SensorDataFormatter.h"
+#include "util/NullSensorDataFormatter.h"
+#include "util/SensorDataFormatter.h"
 
 using namespace BeeeOn;
 
