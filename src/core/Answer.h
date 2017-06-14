@@ -8,7 +8,7 @@
 #include <Poco/Task.h>
 #include <Poco/TaskManager.h>
 
-#include "Command.h"
+#include "core/Command.h"
 #include "core/CommandProgressHandler.h"
 #include "core/Result.h"
 

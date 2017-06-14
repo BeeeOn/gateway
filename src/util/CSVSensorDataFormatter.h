@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "SensorDataFormatter.h"
+#include "util/SensorDataFormatter.h"
 
 namespace BeeeOn {
 
