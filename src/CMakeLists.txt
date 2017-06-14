@@ -30,6 +30,10 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/core/VirtualSensor.cpp
+	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
+	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
+	${PROJECT_SOURCE_DIR}/credentials/PasswordCredentials.cpp
+	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
 	${PROJECT_SOURCE_DIR}/model/SensorValue.cpp
