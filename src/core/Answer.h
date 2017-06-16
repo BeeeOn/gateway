@@ -65,7 +65,10 @@ public:
 	bool isEmpty() const;
 
 	unsigned long resultsCount() const;
+	unsigned long resultsCountUnlocked() const;
+
 	int commandsCount() const;
+	int commandsCountUnlocked() const;
 
 	void addResult(Result *result);
 

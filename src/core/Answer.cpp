@@ -117,6 +117,11 @@ bool Answer::isEmpty() const
 unsigned long Answer::resultsCount() const
 {
 	FastMutex::ScopedLock guard(m_lock);
+	return resultsCountUnlocked();
+}
+
+unsigned long Answer::resultsCountUnlocked() const
+{
 	return m_resultList.size();
 }
 
@@ -137,6 +142,11 @@ void Answer::addResult(Result *result)
 int Answer::commandsCount() const
 {
 	FastMutex::ScopedLock guard(m_lock);
+	return commandsCountUnlocked();
+}
+
+int Answer::commandsCountUnlocked() const
+{
 	return m_commands;
 }
 
