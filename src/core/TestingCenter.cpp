@@ -1,5 +1,6 @@
 #include <Poco/NumberFormatter.h>
 #include <Poco/NumberParser.h>
+#include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
 #include "commands/DeviceSetValueCommand.h"
