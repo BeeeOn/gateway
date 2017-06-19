@@ -11,6 +11,7 @@ find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 
 file(GLOB SOURCES
+	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/GatewayListenCommand.cpp
