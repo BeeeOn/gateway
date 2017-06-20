@@ -1,21 +1,16 @@
 #include <vector>
 
-#include <Poco/Observer.h>
-
 #include "core/Answer.h"
 #include "core/AnswerQueue.h"
-#include "core/CommandRunner.h"
 
 using namespace BeeeOn;
 using namespace Poco;
 
 Answer::Answer(AnswerQueue &answerQueue):
 	m_answerQueue(answerQueue),
-	m_dirty(0),
-	m_taskManager(Poco::ThreadPool::defaultPool())
+	m_dirty(0)
 {
 	answerQueue.add(this);
-	installObservers();
 }
 
 void Answer::setDirty(bool dirty)
@@ -76,39 +71,6 @@ bool Answer::isPendingUnlocked() const
 	return false;
 }
 
-void Answer::runCommands()
-{
-	assureLocked();
-
-	for (auto item : m_commandList) {
-		m_taskManager.start(item);
-	}
-
-	m_commandList.clear();
-}
-
-void Answer::installObservers()
-{
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskFinishedNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onFinished)
-	);
-
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskFailedNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onFailed)
-	);
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskStartedNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onStarted)
-	);
-
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskCancelledNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onCancel)
-	);
-}
-
 bool Answer::isEmpty() const
 {
 	return m_commands == 0;
@@ -123,14 +85,6 @@ unsigned long Answer::resultsCount() const
 unsigned long Answer::resultsCountUnlocked() const
 {
 	return m_resultList.size();
-}
-
-void Answer::addCommand(Poco::SharedPtr<CommandHandler> handler,
-	Command::Ptr cmd, Answer::Ptr answer)
-{
-	FastMutex::ScopedLock guard(m_lock);
-	m_commandList.push_back(new CommandRunner(cmd, answer, handler));
-	m_commands++;
 }
 
 void Answer::addResult(Result *result)

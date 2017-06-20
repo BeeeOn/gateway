@@ -27,6 +27,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandProgressHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandRunner.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
+	${PROJECT_SOURCE_DIR}/core/PocoAnswerImpl.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoCommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/core/VirtualSensor.cpp

@@ -90,31 +90,11 @@ protected:
 	 */
 	void assureLocked() const;
 
-	/*
-	 * Run all commands from the Answer.
-	 */
-	void runCommands();
-
-	/*
-	 * Adds the command for running and also creates the result
-	 * for a given result.
-	 */
-	void addCommand(Poco::SharedPtr<CommandHandler> handler,
-		Command::Ptr cmd, Answer::Ptr answer);
-
-	/*
-	 * Registers an observer with the NotificationCenter.
-	 */
-	void installObservers();
-
 private:
 	AnswerQueue &m_answerQueue;
 	Poco::AtomicCounter m_dirty;
 	mutable Poco::FastMutex m_lock;
 	std::vector<Result::Ptr> m_resultList;
-	std::vector<Poco::Task *> m_commandList;
-	Poco::TaskManager m_taskManager;
-	CommandProgressHandler m_commandProgressHandler;
 	Poco::AtomicCounter m_commands;
 };
 
