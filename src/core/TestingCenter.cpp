@@ -137,15 +137,15 @@ static void commandAction(TestingCenter::ActionContext &context)
 		return;
 	}
 
-	Answer::Ptr answer(new Answer(context.queue));
+	Answer::Ptr answer(new Answer(context.sender.answerQueue()));
 
-	context.dispatcher->dispatch(command, answer);
+	context.sender.dispatch(command, answer);
 
 	FastMutex::ScopedLock guard(answer->lock());
 	console.print(reportAnswer(answer, guard));
 
 	if (!answer->isPendingUnlocked())
-		context.queue.remove(answer);
+		context.sender.answerQueue().remove(answer);
 }
 
 static void waitQueueAction(TestingCenter::ActionContext &context)
@@ -163,7 +163,7 @@ static void waitQueueAction(TestingCenter::ActionContext &context)
 		timeout = Timespan(NumberParser::parse(args[1]) * Timespan::MILLISECONDS);
 
 	list<Answer::Ptr> dirtyList;
-	context.queue.wait(timeout, dirtyList);
+	context.sender.answerQueue().wait(timeout, dirtyList);
 
 	for (auto dirty : dirtyList) {
 		FastMutex::ScopedLock guard(dirty->lock());
@@ -171,7 +171,7 @@ static void waitQueueAction(TestingCenter::ActionContext &context)
 		console.print(reportAnswer(dirty, guard));
 
 		if (!dirty->isPendingUnlocked())
-			context.queue.remove(dirty);
+			context.sender.answerQueue().remove(dirty);
 	}
 }
 
@@ -282,16 +282,6 @@ void TestingCenter::registerAction(
 	m_action.emplace(name, record);
 }
 
-void TestingCenter::setCommandDispatcher(SharedPtr<PocoCommandDispatcher> dispatcher)
-{
-	m_dispatcher = dispatcher;
-}
-
-SharedPtr<PocoCommandDispatcher> TestingCenter::commandDispatcher() const
-{
-	return m_dispatcher;
-}
-
 void TestingCenter::setConsole(SharedPtr<Console> console)
 {
 	m_console = console;
@@ -327,8 +317,7 @@ void TestingCenter::processLine(ConsoleSession &session, const string &line)
 	}
 
 	vector<string> args(action.begin(), action.end());
-	ActionContext context {session, m_queue, m_dispatcher,
-			m_devices, m_mutex, args};
+	ActionContext context {session, m_devices, m_mutex, *this, args};
 	Action f = it->second.action;
 
 	try {
