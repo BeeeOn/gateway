@@ -6,13 +6,15 @@
 #include <Poco/SharedPtr.h>
 
 #include "core/Answer.h"
+#include "core/AnswerImpl.h"
 #include "core/Command.h"
 
 namespace BeeeOn {
 
 class CommandHandler;
 
-class PocoAnswerImpl {
+class PocoAnswerImpl : public AnswerImpl {
+
 public:
 	typedef Poco::SharedPtr<PocoAnswerImpl> Ptr;
 
