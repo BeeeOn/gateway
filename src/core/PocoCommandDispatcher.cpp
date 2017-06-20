@@ -1,17 +1,17 @@
 #include <Poco/Exception.h>
 
 #include "core/Answer.h"
-#include "core/CommandDispatcher.h"
+#include "core/PocoCommandDispatcher.h"
 #include "di/Injectable.h"
 
-BEEEON_OBJECT_BEGIN(BeeeOn, CommandDispatcher)
-BEEEON_OBJECT_CASTABLE(CommandDispatcher)
-BEEEON_OBJECT_REF("registerHandler", &CommandDispatcher::registerHandler)
-BEEEON_OBJECT_END(BeeeOn, CommandDispatcher)
+BEEEON_OBJECT_BEGIN(BeeeOn, PocoCommandDispatcher)
+BEEEON_OBJECT_CASTABLE(PocoCommandDispatcher)
+BEEEON_OBJECT_REF("registerHandler", &PocoCommandDispatcher::registerHandler)
+BEEEON_OBJECT_END(BeeeOn, PocoCommandDispatcher)
 
 using namespace BeeeOn;
 
-void CommandDispatcher::registerHandler(Poco::SharedPtr<CommandHandler> handler)
+void PocoCommandDispatcher::registerHandler(Poco::SharedPtr<CommandHandler> handler)
 {
 	for (auto &item : m_commandHandlers) {
 		if (item.get() == handler.get()) {
@@ -23,7 +23,7 @@ void CommandDispatcher::registerHandler(Poco::SharedPtr<CommandHandler> handler)
 	m_commandHandlers.push_back(handler);
 }
 
-void CommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
+void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 {
 	Poco::FastMutex::ScopedLock guard(m_mutex);
 

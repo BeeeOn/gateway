@@ -282,12 +282,12 @@ void TestingCenter::registerAction(
 	m_action.emplace(name, record);
 }
 
-void TestingCenter::setCommandDispatcher(SharedPtr<CommandDispatcher> dispatcher)
+void TestingCenter::setCommandDispatcher(SharedPtr<PocoCommandDispatcher> dispatcher)
 {
 	m_dispatcher = dispatcher;
 }
 
-SharedPtr<CommandDispatcher> TestingCenter::commandDispatcher() const
+SharedPtr<PocoCommandDispatcher> TestingCenter::commandDispatcher() const
 {
 	return m_dispatcher;
 }

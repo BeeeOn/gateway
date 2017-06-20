@@ -1,5 +1,5 @@
-#ifndef BEEEON_COMMAND_DISPATCHER_H
-#define BEEEON_COMMAND_DISPATCHER_H
+#ifndef BEEEON_POCO_COMMAND_DISPATCHER_H
+#define BEEEON_POCO_COMMAND_DISPATCHER_H
 
 #include <list>
 
@@ -18,7 +18,7 @@ class Command;
  * The CommandDispatcher the given command to the target handler and
  * contain registered command handlers.
  */
-class CommandDispatcher {
+class PocoCommandDispatcher {
 public:
 	/*
 	 * Register a command handler for command dispatching.
