@@ -2,6 +2,7 @@
 
 #include "core/AnswerQueue.h"
 #include "core/PocoCommandDispatcher.h"
+#include "core/CommandSender.h"
 #include "core/Result.h"
 #include "model/DeviceID.h"
 
@@ -11,17 +12,21 @@ class CommandDispatcherTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(CommandDispatcherTest);
 	CPPUNIT_TEST(testSupportedCommand);
 	CPPUNIT_TEST(testUnsupportedCommand);
+	CPPUNIT_TEST(testCommandSender);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
 	void testSupportedCommand();
 	void testUnsupportedCommand();
+	void testCommandSender();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CommandDispatcherTest);
 
 class FakeCommand : public Command {
 public:
+	typedef Poco::AutoPtr<FakeCommand> Ptr;
+
 	FakeCommand(const DeviceID &deviceID):
 		Command("FakeCommand"),
 		m_deviceID(deviceID)
@@ -31,6 +36,11 @@ public:
 	DeviceID deviceID() const
 	{
 		return m_deviceID;
+	}
+
+	CommandHandler* sendingHandler() const
+	{
+		return Command::sendingHandler();
 	}
 
 private:
@@ -124,6 +134,41 @@ public:
 	}
 };
 
+class FakeCommandSender : public CommandSender, public CommandHandler {
+public:
+	FakeCommandSender(const DeviceID &deviceID):
+		CommandHandler("FakeCommandSender"),
+		m_deviceID(deviceID)
+	{
+	}
+
+	virtual ~FakeCommandSender()
+	{
+	}
+
+	bool accept(Command::Ptr cmd) override
+	{
+		if (cmd->is<FakeCommand>()) {
+			return m_deviceID == cmd.cast<FakeCommand>()->deviceID();
+		}
+
+		return false;
+	}
+
+	void handle(Command::Ptr cmd, Answer::Ptr answer) override
+	{
+		if (cmd->is<FakeCommand>()) {
+			Poco::Thread::sleep(60);
+
+			Result::Ptr result = new Result(answer);
+			result->setStatus(Result::FAILED);
+		}
+	}
+
+private:
+	DeviceID m_deviceID;
+};
+
 /*
  * The waiting for the response to the supported command in the
  * FakeHandler1 and the FakeHandler2.
@@ -201,6 +246,40 @@ void CommandDispatcherTest::testUnsupportedCommand()
 
 	CPPUNIT_ASSERT(queue.wait(1, answerList));
 	CPPUNIT_ASSERT(1 == answerList.size());
+
+	// Answer will not be served, answer doesn't contain any Result
+	CPPUNIT_ASSERT(answer->isEmpty());
+
+	queue.remove(answer);
+}
+
+/*
+ * Sending of command and verification, if handler that sent command
+ * will not process sent command.
+ */
+void CommandDispatcherTest::testCommandSender()
+{
+	AnswerQueue queue;
+	Poco::SharedPtr<CommandDispatcher> dispatcher(new PocoCommandDispatcher());
+
+	DeviceID deviceID = DeviceID(0xfe01020304050607);
+
+	Poco::SharedPtr<FakeCommandSender> commandSender(new FakeCommandSender(deviceID));
+	dispatcher->registerHandler(commandSender);
+
+	FakeCommand::Ptr cmd =  new FakeCommand(deviceID);
+	std::list<Answer::Ptr> answerList;
+	Answer::Ptr answer = new Answer(queue);
+
+	commandSender->setCommandDispatcher(dispatcher);
+	commandSender->dispatch(cmd, answer);
+
+	// Answer was not served
+	CPPUNIT_ASSERT(!answer->isPending());
+
+	CPPUNIT_ASSERT(queue.wait(100, answerList));
+	CPPUNIT_ASSERT(1 == answerList.size());
+	CPPUNIT_ASSERT(0 == answerList.front()->resultsCount());
 
 	// Answer will not be served, answer doesn't contain any Result
 	CPPUNIT_ASSERT(answer->isEmpty());
