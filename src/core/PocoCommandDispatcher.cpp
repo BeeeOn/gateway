@@ -3,6 +3,7 @@
 #include "core/Answer.h"
 #include "core/PocoCommandDispatcher.h"
 #include "di/Injectable.h"
+#include "core/PocoAnswerImpl.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, PocoCommandDispatcher)
 BEEEON_OBJECT_CASTABLE(PocoCommandDispatcher)
@@ -27,12 +28,17 @@ void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 {
 	Poco::FastMutex::ScopedLock guard(m_mutex);
 
+	PocoAnswerImpl::Ptr impl = new PocoAnswerImpl;
+	injectImpl(answer, impl);
+
 	for (auto item : m_commandHandlers) {
 		if (!item->accept(cmd))
 			continue;
 
-		answer->addCommand(item, cmd, answer);
+		impl->addTask(item, cmd, answer);
 	}
+
+	answer->setHandlersCount(impl->tasks());
 
 	Poco::FastMutex::ScopedLock lock(answer->lock());
 	if (!answer->isPendingUnlocked()) {
@@ -40,5 +46,10 @@ void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 		return;
 	}
 
-	answer->runCommands();
+	impl->runTasks();
+}
+
+void PocoCommandDispatcher::injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl)
+{
+	answer->installImpl(impl);
 }

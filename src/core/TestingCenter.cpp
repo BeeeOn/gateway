@@ -36,7 +36,7 @@ static string reportAnswer(Answer::Ptr p, FastMutex::ScopedLock &)
 	line += p->isPendingUnlocked()? " PENDING " : " DONE ";
 	line += to_string(p->resultsCountUnlocked());
 	line += "/";
-	line += to_string(p->commandsCountUnlocked());
+	line += to_string(p->handlersCountUnlocked());
 
 	return line;
 }

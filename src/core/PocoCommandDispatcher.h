@@ -34,6 +34,9 @@ public:
 	void dispatch(Command::Ptr cmd, Answer::Ptr answer);
 
 private:
+	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);
+
+private:
 	std::list<Poco::SharedPtr<CommandHandler>> m_commandHandlers;
 	Poco::FastMutex m_mutex;
 };

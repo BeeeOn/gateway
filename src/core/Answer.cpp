@@ -57,10 +57,10 @@ bool Answer::isPendingUnlocked() const
 {
 	assureLocked();
 
-	if ((unsigned long) m_commands != m_resultList.size())
+	if ((unsigned long) m_handlers != m_resultList.size())
 		return true;
 
-	if (m_commands == 0)
+	if (m_handlers == 0)
 		return false;
 
 	for (auto &result : m_resultList) {
@@ -73,7 +73,7 @@ bool Answer::isPendingUnlocked() const
 
 bool Answer::isEmpty() const
 {
-	return m_commands == 0;
+	return m_handlers == 0;
 }
 
 unsigned long Answer::resultsCount() const
@@ -93,15 +93,15 @@ void Answer::addResult(Result *result)
 	m_resultList.push_back(AutoPtr<Result>(result, true));
 }
 
-int Answer::commandsCount() const
+int Answer::handlersCount() const
 {
 	FastMutex::ScopedLock guard(m_lock);
-	return commandsCountUnlocked();
+	return handlersCountUnlocked();
 }
 
-int Answer::commandsCountUnlocked() const
+int Answer::handlersCountUnlocked() const
 {
-	return m_commands;
+	return m_handlers;
 }
 
 void Answer::assureLocked() const
@@ -142,4 +142,14 @@ std::vector<Result::Ptr>::iterator Answer::end()
 {
 	assureLocked();
 	return m_resultList.end();
+}
+
+void Answer::installImpl(Poco::SharedPtr<AnswerImpl> answerImpl)
+{
+	m_answerImpl = answerImpl;
+}
+
+void Answer::setHandlersCount(unsigned long handlers)
+{
+	m_handlers = handlers;
 }
