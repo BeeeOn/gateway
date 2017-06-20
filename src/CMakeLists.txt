@@ -23,6 +23,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
+	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandProgressHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandRunner.cpp

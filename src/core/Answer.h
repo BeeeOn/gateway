@@ -17,7 +17,7 @@ namespace BeeeOn {
 
 class AnswerQueue;
 class Command;
-class PocoCommandDispatcher;
+class CommandDispatcher;
 class CommandHandler;
 class Result;
 
@@ -30,7 +30,7 @@ class Result;
  * change the status in the Answer and in the Result MUST be locked.
  */
 class Answer : public Poco::RefCountedObject {
-	friend PocoCommandDispatcher;
+	friend CommandDispatcher;
 public:
 	typedef Poco::AutoPtr<Answer> Ptr;
 
