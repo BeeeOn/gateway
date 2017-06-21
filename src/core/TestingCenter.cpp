@@ -198,6 +198,7 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		console.print("actions:");
 		console.print("  create <device-id> [<module-value>...]");
 		console.print("  update <device-id> <module-id> <module-value>");
+		console.print("  list");
 		return;
 	}
 	else if (context.args[1] == "create") {
@@ -225,6 +226,19 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		context.devices[deviceID][moduleId] = value;
 
 		context.console.print(deviceID.toString() + " updated");
+	}
+	else if (context.args[1] == "list") {
+		assureArgs(context, 2, "device list");
+
+		ScopedLock<Mutex> guard(context.mutex);
+		for (auto &deviceIt: context.devices){
+			console.print(deviceIt.first.toString());
+
+			for (auto &moduleIt: deviceIt.second) {
+				console.print(moduleIt.first.toString()
+						+ ": " + to_string(moduleIt.second));
+			}
+		}
 	}
 }
 
