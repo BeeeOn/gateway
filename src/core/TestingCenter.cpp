@@ -196,7 +196,22 @@ static void deviceAction(TestingCenter::ActionContext &context)
 	if (context.args[1] == "help") {
 		console.print("usage: device <action> [<args>...]");
 		console.print("actions:");
+		console.print("  create <device-id> [<module-value>...]");
 		return;
+	}
+	else if (context.args[1] == "create") {
+		assureArgs(context, 3, "device create");
+
+		DeviceID deviceID(DeviceID::parse(context.args[2]));
+		TestingCenter::DeviceData deviceData;
+
+		for (unsigned i = 3; i < context.args.size(); i++)
+			deviceData[i - 3] = NumberParser::parseFloat(context.args[i]);
+
+		ScopedLock<Mutex> guard(context.mutex);
+		context.devices[deviceID] = deviceData;
+
+		context.console.print(deviceID.toString() + " created");
 	}
 }
 
