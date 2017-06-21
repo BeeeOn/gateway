@@ -12,6 +12,7 @@
 		</instance>
 
 		<instance name="commandDispatcher" class="BeeeOn::CommandDispatcher">
+			<set name="registerHandler" ref="testingCenter"/>
 		</instance>
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">

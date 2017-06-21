@@ -7,11 +7,14 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "commands/ServerDeviceListCommand.h"
+#include "commands/ServerDeviceListResult.h"
 #include "commands/ServerLastValueCommand.h"
+#include "commands/ServerLastValueResult.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
+BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_REF("commandDispatcher", &TestingCenter::setCommandDispatcher)
 BEEEON_OBJECT_REF("console", &TestingCenter::setConsole)
@@ -254,6 +257,7 @@ static void deviceAction(TestingCenter::ActionContext &context)
 }
 
 TestingCenter::TestingCenter():
+	CommandHandler("TestingCenter"),
 	m_stop(0)
 {
 	registerAction("echo", echoAction, "echo arguments to output separated by space");
@@ -336,6 +340,56 @@ void TestingCenter::processLine(ConsoleSession &session, const string &line)
 		logger().critical("unknown error", __FILE__, __LINE__);
 		session.print("unknown error");
 		throw;
+	}
+}
+
+bool TestingCenter::accept(const Command::Ptr cmd)
+{
+	if (cmd->is<ServerLastValueCommand>()) {
+		auto command = cmd.cast<ServerLastValueCommand>();
+		ScopedLock<Mutex> guard(m_mutex);
+		return m_devices.find(command->deviceID()) != m_devices.end();
+	}
+
+	return cmd->is<ServerDeviceListCommand>();
+}
+
+void TestingCenter::handle(Command::Ptr cmd, Answer::Ptr answer)
+{
+	if (cmd->is<ServerDeviceListCommand>()) {
+		DevicePrefix prefix = cmd.cast<ServerDeviceListCommand>()->devicePrefix();
+		ServerDeviceListResult::Ptr result = new ServerDeviceListResult(answer);
+
+		vector<DeviceID> devices;
+
+		ScopedLock<Mutex> guard(m_mutex);
+		for (auto &it : m_devices) {
+			if (it.first.prefix() == prefix)
+				devices.push_back(it.first);
+		}
+
+		result->setDeviceList(devices);
+		result->setStatus(Result::SUCCESS);
+	}
+	else if (cmd->is<ServerLastValueCommand>()) {
+		ServerLastValueCommand::Ptr command = cmd.cast<ServerLastValueCommand>();
+		ServerLastValueResult::Ptr result = new ServerLastValueResult(answer);
+
+		ScopedLock<Mutex> guard(m_mutex);
+		auto deviceIt = m_devices.find(command->deviceID());
+		if (deviceIt == m_devices.end()) {
+			result->setStatus(Result::FAILED);
+			return;
+		}
+
+		auto moduleIt = deviceIt->second.find(command->moduleID());
+		if (moduleIt == deviceIt->second.end()) {
+			result->setStatus(Result::FAILED);
+			return;
+		}
+
+		result->setValue(moduleIt->second);
+		result->setStatus(Result::SUCCESS);
 	}
 }
 

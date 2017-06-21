@@ -10,6 +10,7 @@
 
 #include "core/AnswerQueue.h"
 #include "core/CommandDispatcher.h"
+#include "core/CommandHandler.h"
 #include "io/Console.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
@@ -18,7 +19,10 @@
 
 namespace BeeeOn {
 
-class TestingCenter : public StoppableRunnable, protected Loggable {
+class TestingCenter :
+		public CommandHandler,
+		public StoppableRunnable,
+		protected Loggable {
 public:
 	typedef std::map<ModuleID, double> DeviceData;
 
@@ -42,6 +46,9 @@ public:
 	};
 
 	TestingCenter();
+
+	bool accept(const Command::Ptr cmd) override;
+	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	void run() override;
 	void stop() override;
