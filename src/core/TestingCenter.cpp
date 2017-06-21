@@ -197,6 +197,7 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		console.print("usage: device <action> [<args>...]");
 		console.print("actions:");
 		console.print("  create <device-id> [<module-value>...]");
+		console.print("  update <device-id> <module-id> <module-value>");
 		return;
 	}
 	else if (context.args[1] == "create") {
@@ -212,6 +213,18 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		context.devices[deviceID] = deviceData;
 
 		context.console.print(deviceID.toString() + " created");
+	}
+	else if (context.args[1] == "update") {
+		assureArgs(context, 5, "device update");
+
+		DeviceID deviceID = DeviceID::parse(context.args[2]);
+		ModuleID moduleId = ModuleID::parse(context.args[3]);
+		double value = NumberParser::parseFloat(context.args[4]);
+
+		ScopedLock<Mutex> guard(context.mutex);
+		context.devices[deviceID][moduleId] = value;
+
+		context.console.print(deviceID.toString() + " updated");
 	}
 }
 
