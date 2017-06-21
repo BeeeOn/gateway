@@ -3,6 +3,7 @@
 #include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
+#include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
@@ -138,6 +139,13 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 			NumberParser::parse(args[5])
 		);
 	}
+	else if (args[1] == "device-accept") {
+		assureArgs(context, 3, "command device-accept");
+
+		return new DeviceAcceptCommand(
+			DeviceID::parse(args[2])
+		);
+	}
 
 	return NULL;
 }
@@ -162,6 +170,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("  last-value <device-id> <module-id>");
 		console.print("  new-device <device-id> <vendor> <product-name> <refresh-time> "
 			"[<type>,[<attribute>]...]...");
+		console.print("  device-accept <device-id>");
 		return;
 	}
 
