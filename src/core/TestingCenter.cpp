@@ -199,6 +199,7 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		console.print("  create <device-id> [<module-value>...]");
 		console.print("  update <device-id> <module-id> <module-value>");
 		console.print("  list");
+		console.print("  delete <device-id>");
 		return;
 	}
 	else if (context.args[1] == "create") {
@@ -239,6 +240,16 @@ static void deviceAction(TestingCenter::ActionContext &context)
 						+ ": " + to_string(moduleIt.second));
 			}
 		}
+	}
+	else if (context.args[1] == "delete") {
+		assureArgs(context, 3, "device delete");
+
+		DeviceID deviceID(DeviceID::parse(context.args[2]));
+
+		ScopedLock<Mutex> guard(context.mutex);
+		context.devices.erase(deviceID);
+
+		context.console.print(deviceID.toString() + " deleted");
 	}
 }
 
