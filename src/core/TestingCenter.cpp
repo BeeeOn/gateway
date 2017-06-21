@@ -183,12 +183,30 @@ static void echoAction(TestingCenter::ActionContext &context)
 	console.print("");
 }
 
+static void deviceAction(TestingCenter::ActionContext &context)
+{
+	ConsoleSession &console = context.console;
+	Command::Ptr command;
+
+	if (context.args.size() <= 1) {
+		console.print("missing arguments for action 'device'");
+		return;
+	}
+
+	if (context.args[1] == "help") {
+		console.print("usage: device <action> [<args>...]");
+		console.print("actions:");
+		return;
+	}
+}
+
 TestingCenter::TestingCenter():
 	m_stop(0)
 {
 	registerAction("echo", echoAction, "echo arguments to output separated by space");
 	registerAction("command", commandAction, "dispatch a command into the system");
 	registerAction("wait-queue", waitQueueAction, "wait for new command answers");
+	registerAction("device", deviceAction, "simulate device in server database");
 }
 
 void TestingCenter::registerAction(
@@ -245,7 +263,8 @@ void TestingCenter::processLine(ConsoleSession &session, const string &line)
 	}
 
 	vector<string> args(action.begin(), action.end());
-	ActionContext context {session, m_queue, m_dispatcher, args};
+	ActionContext context {session, m_queue, m_dispatcher,
+			m_devices, m_mutex, args};
 	Action f = it->second.action;
 
 	try {

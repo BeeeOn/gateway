@@ -12,16 +12,22 @@
 #include "core/CommandDispatcher.h"
 #include "io/Console.h"
 #include "loop/StoppableRunnable.h"
+#include "model/DeviceID.h"
+#include "model/ModuleID.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
 
 class TestingCenter : public StoppableRunnable, protected Loggable {
 public:
+	typedef std::map<ModuleID, double> DeviceData;
+
 	struct ActionContext {
 		ConsoleSession &console;
 		AnswerQueue &queue;
 		Poco::SharedPtr<CommandDispatcher> dispatcher;
+		std::map<DeviceID, DeviceData> &devices;
+		Poco::Mutex &mutex;
 		const std::vector<std::string> args;
 	};
 
@@ -59,6 +65,8 @@ private:
 	Poco::SharedPtr<Console> m_console;
 	Poco::AtomicCounter m_stop;
 	std::map<std::string, ActionRecord> m_action;
+	std::map<DeviceID, DeviceData> m_devices;
+	Poco::Mutex m_mutex;
 };
 
 }
