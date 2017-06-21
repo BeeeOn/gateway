@@ -1,6 +1,5 @@
 #include <Poco/NumberFormatter.h>
 #include <Poco/NumberParser.h>
-#include <Poco/StringTokenizer.h>
 
 #include "di/Injectable.h"
 #include "commands/DeviceSetValueCommand.h"
@@ -12,6 +11,7 @@
 #include "commands/ServerLastValueResult.h"
 #include "core/Command.h"
 #include "core/TestingCenter.h"
+#include "util/ArgsParser.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -307,16 +307,24 @@ void TestingCenter::printHelp(ConsoleSession &session)
 
 void TestingCenter::processLine(ConsoleSession &session, const string &line)
 {
-	StringTokenizer action(line, " ",
-		StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+	ArgsParser parser;
+	vector<string> args;
 
-	auto it = m_action.find(action[0]);
+	try {
+		args = parser.parse(line);
+	}
+	catch (const SyntaxException &e) {
+		logger().log(e, __FILE__, __LINE__);
+		session.print("error: " + e.message());
+		return;
+	}
+
+	auto it = m_action.find(args[0]);
 	if (it == m_action.end()) {
 		session.print("no such action defined");
 		return;
 	}
 
-	vector<string> args(action.begin(), action.end());
 	ActionContext context {session, m_devices, m_mutex, *this, args};
 	Action f = it->second.action;
 
