@@ -86,9 +86,16 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 	else if (args[1] == "list-devices") {
 		assureArgs(context, 3, "command list-devices");
 
-		return new ServerDeviceListCommand(
-			DevicePrefix::parse(args[2])
-		);
+		if (args[2].substr(0, 2) == "0x") {
+			return new ServerDeviceListCommand(
+				DevicePrefix::fromRaw(NumberParser::parseHex(args[2]))
+			);
+		}
+		else {
+			return new ServerDeviceListCommand(
+				DevicePrefix::parse(args[2])
+			);
+		}
 	}
 	else if (args[1] == "last-value") {
 		assureArgs(context, 4, "command last-value");
