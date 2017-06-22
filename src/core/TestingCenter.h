@@ -9,7 +9,7 @@
 #include <Poco/SharedPtr.h>
 
 #include "core/AnswerQueue.h"
-#include "core/CommandDispatcher.h"
+#include "core/PocoCommandDispatcher.h"
 #include "core/CommandHandler.h"
 #include "io/Console.h"
 #include "loop/StoppableRunnable.h"
@@ -29,7 +29,7 @@ public:
 	struct ActionContext {
 		ConsoleSession &console;
 		AnswerQueue &queue;
-		Poco::SharedPtr<CommandDispatcher> dispatcher;
+		Poco::SharedPtr<PocoCommandDispatcher> dispatcher;
 		std::map<DeviceID, DeviceData> &devices;
 		Poco::Mutex &mutex;
 		const std::vector<std::string> args;
@@ -53,8 +53,8 @@ public:
 	void run() override;
 	void stop() override;
 
-	void setCommandDispatcher(Poco::SharedPtr<CommandDispatcher> dispatcher);
-	Poco::SharedPtr<CommandDispatcher> commandDispatcher() const;
+	void setCommandDispatcher(Poco::SharedPtr<PocoCommandDispatcher> dispatcher);
+	Poco::SharedPtr<PocoCommandDispatcher> commandDispatcher() const;
 	void setConsole(Poco::SharedPtr<Console> console);
 	Poco::SharedPtr<Console> console() const;
 
@@ -68,7 +68,7 @@ protected:
 
 private:
 	AnswerQueue m_queue;
-	Poco::SharedPtr<CommandDispatcher> m_dispatcher;
+	Poco::SharedPtr<PocoCommandDispatcher> m_dispatcher;
 	Poco::SharedPtr<Console> m_console;
 	Poco::AtomicCounter m_stop;
 	std::map<std::string, ActionRecord> m_action;

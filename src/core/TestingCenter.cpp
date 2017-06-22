@@ -36,7 +36,7 @@ static string reportAnswer(Answer::Ptr p, FastMutex::ScopedLock &)
 	line += p->isPendingUnlocked()? " PENDING " : " DONE ";
 	line += to_string(p->resultsCountUnlocked());
 	line += "/";
-	line += to_string(p->commandsCountUnlocked());
+	line += to_string(p->handlersCountUnlocked());
 
 	return line;
 }
@@ -282,12 +282,12 @@ void TestingCenter::registerAction(
 	m_action.emplace(name, record);
 }
 
-void TestingCenter::setCommandDispatcher(SharedPtr<CommandDispatcher> dispatcher)
+void TestingCenter::setCommandDispatcher(SharedPtr<PocoCommandDispatcher> dispatcher)
 {
 	m_dispatcher = dispatcher;
 }
 
-SharedPtr<CommandDispatcher> TestingCenter::commandDispatcher() const
+SharedPtr<PocoCommandDispatcher> TestingCenter::commandDispatcher() const
 {
 	return m_dispatcher;
 }

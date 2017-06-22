@@ -1,23 +1,12 @@
 #ifndef BEEEON_COMMAND_DISPATCHER_H
 #define BEEEON_COMMAND_DISPATCHER_H
 
-#include <list>
-
-#include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 
 #include "core/CommandHandler.h"
-#include "core/Command.h"
 
 namespace BeeeOn {
 
-class Answer;
-class Command;
-
-/*
- * The CommandDispatcher the given command to the target handler and
- * contain registered command handlers.
- */
 class CommandDispatcher {
 public:
 	/*
@@ -31,11 +20,13 @@ public:
 	 * will be set to Result::SUCCESS or Result::ERROR after the execution of
 	 * CommandHandler::handle().
 	 */
-	void dispatch(Command::Ptr cmd, Answer::Ptr answer);
+	virtual void dispatch(Command::Ptr cmd, Answer::Ptr answer) = 0;
 
-private:
+protected:
+	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);
+
+protected:
 	std::list<Poco::SharedPtr<CommandHandler>> m_commandHandlers;
-	Poco::FastMutex m_mutex;
 };
 
 }

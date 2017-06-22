@@ -14,5 +14,9 @@ CommandRunner::CommandRunner(Command::Ptr cmd, Answer::Ptr answer,
 
 void CommandRunner::runTask()
 {
+	/*
+	 * The TaskManager takes ownership of the Task object
+	 * and deletes it when it it finished.
+	 */
 	m_handler->handle(m_cmd, m_answer);
 }

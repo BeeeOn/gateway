@@ -1,7 +1,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/AnswerQueue.h"
-#include "core/CommandDispatcher.h"
+#include "core/PocoCommandDispatcher.h"
 #include "core/Result.h"
 #include "model/DeviceID.h"
 
@@ -131,7 +131,7 @@ public:
 void CommandDispatcherTest::testSupportedCommand()
 {
 	DeviceID deviceID = DeviceID(0xfe01020304050607);
-	CommandDispatcher dispatcher;
+	PocoCommandDispatcher dispatcher;
 
 	AnswerQueue queue;
 	std::list<Answer::Ptr> answerList;
@@ -183,7 +183,7 @@ void CommandDispatcherTest::testSupportedCommand()
 void CommandDispatcherTest::testUnsupportedCommand()
 {
 	AnswerQueue queue;
-	CommandDispatcher dispatcher;
+	PocoCommandDispatcher dispatcher;
 
 	DeviceID deviceID = DeviceID(0xfe01020304050607);
 
