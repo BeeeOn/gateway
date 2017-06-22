@@ -18,7 +18,7 @@ PinCredentials::~PinCredentials()
 
 const string PinCredentials::TYPE = "pin";
 
-void PinCredentials::PinCredentials::setPin(const string &pin, Cipher *cipher)
+void PinCredentials::setPin(const string &pin, Cipher *cipher)
 {
 	m_pin = cipher->encryptString(pin, Cipher::ENC_BASE64);
 }
