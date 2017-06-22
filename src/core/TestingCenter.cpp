@@ -1,3 +1,6 @@
+#include <Poco/Crypto/Cipher.h>
+#include <Poco/Crypto/CipherFactory.h>
+#include <Poco/Crypto/CipherKey.h>
 #include <Poco/NumberFormatter.h>
 #include <Poco/NumberParser.h>
 #include <Poco/StringTokenizer.h>
@@ -15,16 +18,21 @@
 #include "core/Command.h"
 #include "core/TestingCenter.h"
 #include "util/ArgsParser.h"
+#include "credentials/PinCredentials.h"
+#include "credentials/PasswordCredentials.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_REF("commandDispatcher", &TestingCenter::setCommandDispatcher)
 BEEEON_OBJECT_REF("console", &TestingCenter::setConsole)
+BEEEON_OBJECT_REF("credentialsStorage", &TestingCenter::setCredentialsStorage)
+BEEEON_OBJECT_REF("cryptoConfig", &TestingCenter::setCryptoConfig)
 BEEEON_OBJECT_END(BeeeOn, TestingCenter)
 
 using namespace std;
 using namespace Poco;
+using namespace Poco::Crypto;
 using namespace BeeeOn;
 
 static string identifyAnswer(const Answer::Ptr p)
@@ -306,6 +314,117 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		context.console.print(deviceID.toString() + " deleted");
 	}
 }
+static void credentialsAction(TestingCenter::ActionContext &context)
+{
+	ConsoleSession &console = context.console;
+	SharedPtr<FileCredentialsStorage> storage = context.credentialsStorage;
+	SharedPtr<CryptoConfig> cryptoConfig = context.cryptoConfig;
+	CipherFactory &cryptoFactory = CipherFactory::defaultFactory();
+	CryptoParams cryptoParams = cryptoConfig->deriveParams();
+	Cipher *cipher =
+	cryptoFactory.createCipher(cryptoConfig->createKey(cryptoParams));
+
+	if (context.args.size() <= 1) {
+		console.print("missing arguments for action 'credentials'");
+		return;
+	}
+
+	if (context.args[1] == "help") {
+		console.print("usage: credentials <action> [<args>...]");
+		console.print("actions:");
+		console.print("  set <device-id> pin <pin>");
+		console.print("  set <device-id> password <username> <password>");
+		console.print("  show <deviceID>");
+		console.print("  remove <deviceID>");
+		console.print("  clear");
+		console.print("  save");
+		console.print("  load");
+		console.print("  autosave disable");
+		console.print("  autosave <seconds>");
+		return;
+	}	
+	else if (context.args[1] == "set") {
+		assureArgs(context, 5, "credentials set");
+
+		DeviceID deviceID = DeviceID::parse(context.args[2]);
+		string type = context.args[3];
+		SharedPtr<Credentials> credential;
+
+		if (type == "password") {
+			assureArgs(context, 6, "credentials set");
+			SharedPtr<PasswordCredentials> password = new PasswordCredentials;
+			password->setUsername(context.args[4], cipher);
+			password->setPassword(context.args[5], cipher);
+			password->setParams(cryptoParams);
+			credential = password;
+		}
+		else if (type == "pin") {
+			SharedPtr<PinCredentials> pin = new PinCredentials;
+			pin->setPin(context.args[4], cipher);
+			pin->setParams(cryptoParams);
+			credential = pin;
+		}
+
+		storage->insertOrUpdate(deviceID, credential);
+	}
+	else if (context.args[1] == "remove") {
+		assureArgs(context, 3, "credentials remove");
+		DeviceID deviceID = DeviceID::parse(context.args[2]);
+		storage->remove(deviceID);
+	}
+	else if (context.args[1] == "show") {
+		assureArgs(context, 3, "credentials show");
+		DeviceID deviceID = DeviceID::parse(context.args[2]);
+		SharedPtr<Credentials> credential = storage->find(deviceID);
+
+		if (credential.isNull()) {
+			console.print(deviceID.toString() + " none");
+		}
+		else if (!credential.cast<PinCredentials>().isNull()) {
+			SharedPtr<PinCredentials> pin = credential.cast<PinCredentials>();
+			console.print(deviceID.toString() + " pin " + pin->pin(cipher));
+		}
+		else if (!credential.cast<PasswordCredentials>().isNull()) {
+			SharedPtr<PasswordCredentials> password =
+				credential.cast<PasswordCredentials>();
+			console.print(deviceID.toString()
+				+ " password "
+				+ password->username(cipher)
+				+ " "
+				+ password->password(cipher)
+			);
+		}
+		else {
+			console.print("unsupported credentials type found");
+		}
+	}
+	else if (context.args[1] == "save") {
+		assureArgs(context, 2, "credentials save");
+		storage->save();
+	}
+	else if (context.args[1] == "load") {
+		assureArgs(context, 2, "credentials load");
+		storage->load();
+	}
+	else if (context.args[1] == "clear") {
+		assureArgs(context, 2, "credentials clear");
+		storage->clear();
+	}
+	else if (context.args[1] == "autosave") {
+		assureArgs(context, 3, "credentials autosave");
+
+		if (context.args[2] == "disable") {
+			storage->setSaveDelay(-1);
+		}
+		else {
+			int delay = NumberParser::parse(context.args[2]);
+			storage->setSaveDelay(delay);
+		}
+	}
+	else {
+		console.print("unrecognized action: " + context.args[1]);
+	}
+}
 
 TestingCenter::TestingCenter():
 	CommandHandler("TestingCenter"),
@@ -315,6 +434,7 @@ TestingCenter::TestingCenter():
 	registerAction("command", commandAction, "dispatch a command into the system");
 	registerAction("wait-queue", waitQueueAction, "wait for new command answers");
 	registerAction("device", deviceAction, "simulate device in server database");
+	registerAction("credentials", credentialsAction, "manage credentials storage");
 }
 
 void TestingCenter::registerAction(
@@ -334,6 +454,16 @@ void TestingCenter::setConsole(SharedPtr<Console> console)
 SharedPtr<Console> TestingCenter::console() const
 {
 	return m_console;
+}
+
+void TestingCenter::setCredentialsStorage(SharedPtr<FileCredentialsStorage> storage)
+{
+	m_credentialsStorage = storage;
+}
+
+void TestingCenter::setCryptoConfig(SharedPtr<CryptoConfig> config)
+{
+	m_cryptoConfig = config;
 }
 
 void TestingCenter::printHelp(ConsoleSession &session)
@@ -369,7 +499,8 @@ void TestingCenter::processLine(ConsoleSession &session, const string &line)
 		return;
 	}
 
-	ActionContext context {session, m_devices, m_mutex, *this, args};
+	ActionContext context {session, m_devices, m_mutex,
+		*this, args, m_credentialsStorage, m_cryptoConfig};
 	Action f = it->second.action;
 
 	try {
