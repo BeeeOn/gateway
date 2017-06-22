@@ -11,7 +11,7 @@
 			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 		</instance>
 
-		<instance name="commandDispatcher" class="BeeeOn::CommandDispatcher">
+		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
 			<set name="registerHandler" ref="testingCenter"/>
 		</instance>
 
