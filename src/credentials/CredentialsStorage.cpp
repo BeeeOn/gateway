@@ -11,7 +11,6 @@ CredentialsStorage::CredentialsStorage()
 {
 	m_factory[PasswordCredentials::TYPE] = &PasswordCredentials::create;
 	m_factory[PinCredentials::TYPE] = &PinCredentials::create;
-
 }
 
 CredentialsStorage::CredentialsStorage(
@@ -60,16 +59,16 @@ SharedPtr<Credentials> CredentialsStorage::createCredential(
 	string type = conf->getString("type");
 
 	if (m_factory.find(type) == m_factory.end())
-		throw InvalidArgumentException("Unrecognized credential type: " + type);
+		throw InvalidArgumentException("unrecognized credential type: " + type);
 
 	return m_factory[type](conf);
 }
 
 void CredentialsStorage::load(
-		AutoPtr <AbstractConfiguration> rootConf,
+		AutoPtr<AbstractConfiguration> rootConf,
 		const std::string &root)
 {
-	AutoPtr <AbstractConfiguration> conf = rootConf->createView(root);
+	AutoPtr<AbstractConfiguration> conf = rootConf->createView(root);
 
 	AbstractConfiguration::Keys keys;
 	conf->keys(keys);
@@ -80,7 +79,7 @@ void CredentialsStorage::load(
 		try {
 			id = DeviceID::parse(itr);
 		} catch (const Exception &e) {
-			logger().warning("Expected DeviceID, got: " + itr);
+			logger().warning("expected DeviceID, got: " + itr);
 			continue;
 		}
 
