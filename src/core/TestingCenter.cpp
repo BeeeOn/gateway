@@ -133,7 +133,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 	command = parseCommand(context);
 
 	if (command.isNull()) {
-		console.print("unrecognized command: " + context.args[0]);
+		console.print("unrecognized command: " + context.args[1]);
 		return;
 	}
 
