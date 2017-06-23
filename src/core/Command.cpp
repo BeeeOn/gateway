@@ -1,4 +1,5 @@
 #include "core/Command.h"
+#include "core/CommandSender.h"
 
 using namespace BeeeOn;
 using namespace std;
@@ -15,4 +16,14 @@ string Command::name() const
 
 Command::~Command()
 {
+}
+
+void Command::setSendingHandler(CommandHandler *sender)
+{
+	m_sendingHandler = sender;
+}
+
+CommandHandler* Command::sendingHandler() const
+{
+	return m_sendingHandler;
 }

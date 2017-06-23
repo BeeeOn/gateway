@@ -20,6 +20,10 @@ void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 	injectImpl(answer, impl);
 
 	for (auto item : m_commandHandlers) {
+		// avoid "dispatch to itself" issue
+		if (item.get() == cmd->sendingHandler())
+			continue;
+
 		if (!item->accept(cmd))
 			continue;
 

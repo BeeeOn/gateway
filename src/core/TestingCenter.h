@@ -11,6 +11,7 @@
 #include "core/AnswerQueue.h"
 #include "core/PocoCommandDispatcher.h"
 #include "core/CommandHandler.h"
+#include "core/CommandSender.h"
 #include "io/Console.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
@@ -20,6 +21,7 @@
 namespace BeeeOn {
 
 class TestingCenter :
+		public CommandSender,
 		public CommandHandler,
 		public StoppableRunnable,
 		protected Loggable {
@@ -28,10 +30,9 @@ public:
 
 	struct ActionContext {
 		ConsoleSession &console;
-		AnswerQueue &queue;
-		Poco::SharedPtr<PocoCommandDispatcher> dispatcher;
 		std::map<DeviceID, DeviceData> &devices;
 		Poco::Mutex &mutex;
+		CommandSender &sender;
 		const std::vector<std::string> args;
 	};
 
@@ -53,8 +54,6 @@ public:
 	void run() override;
 	void stop() override;
 
-	void setCommandDispatcher(Poco::SharedPtr<PocoCommandDispatcher> dispatcher);
-	Poco::SharedPtr<PocoCommandDispatcher> commandDispatcher() const;
 	void setConsole(Poco::SharedPtr<Console> console);
 	Poco::SharedPtr<Console> console() const;
 
@@ -67,8 +66,6 @@ protected:
 	void processLine(ConsoleSession &session, const std::string &line);
 
 private:
-	AnswerQueue m_queue;
-	Poco::SharedPtr<PocoCommandDispatcher> m_dispatcher;
 	Poco::SharedPtr<Console> m_console;
 	Poco::AtomicCounter m_stop;
 	std::map<std::string, ActionRecord> m_action;
