@@ -7,6 +7,11 @@
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
 		</instance>
 
+		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo">
+			<set name="loadCertificate" text="${ssl.certificate.filePath}" />
+			<set name="loadPrivateKey" text="${ssl.privateKey.filePath}" />
+		</instance>
+
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
 			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 		</instance>
