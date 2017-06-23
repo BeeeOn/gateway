@@ -60,6 +60,17 @@ void CredentialsStorage::removeUnlocked(const DeviceID &device)
 	m_credentialsMap.erase(device);
 }
 
+void CredentialsStorage::clear()
+{
+	RWLock::ScopedWriteLock guard(m_lock);
+	clearUnlocked();
+}
+
+void CredentialsStorage::clearUnlocked()
+{
+	m_credentialsMap.clear();
+}
+
 void CredentialsStorage::save(
 		AutoPtr<AbstractConfiguration> conf,
 		const std::string &root) const

@@ -54,6 +54,7 @@ public:
 		const Poco::SharedPtr<Credentials> credentials);
 
 	virtual void remove(const DeviceID &device);
+	virtual void clear();
 
 	void save(
 		Poco::AutoPtr<Poco::Util::AbstractConfiguration> conf,
@@ -71,6 +72,7 @@ protected:
 		const Poco::SharedPtr<Credentials> credentials);
 
 	void removeUnlocked(const DeviceID &device);
+	void clearUnlocked();
 
 private:
 	Poco::SharedPtr<Credentials> createCredential(
