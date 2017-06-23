@@ -49,11 +49,11 @@ public:
 
 	Poco::SharedPtr<Credentials> find(const DeviceID &ID);
 
-	void insertOrUpdate(
+	virtual void insertOrUpdate(
 		const DeviceID &device,
 		const Poco::SharedPtr<Credentials> credentials);
 
-	void remove(const DeviceID &device);
+	virtual void remove(const DeviceID &device);
 
 	void save(
 		Poco::AutoPtr<Poco::Util::AbstractConfiguration> conf,
