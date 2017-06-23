@@ -34,9 +34,9 @@ string PinCredentials::pin(Cipher *cipher) const
 }
 
 void PinCredentials::save(
-	Poco::AutoPtr<Poco::Util::AbstractConfiguration> conf,
+	AutoPtr<AbstractConfiguration> conf,
 	const DeviceID &device,
-	const std::string &root) const
+	const string &root) const
 {
 	conf->setString(makeConfString(device, "type", root), TYPE);
 	conf->setString(makeConfString(device, "params", root), m_params.toString());
