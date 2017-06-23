@@ -54,5 +54,11 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="console" ref="testingConsole" />
 		</instance>
+
+		<instance name="credentialsStorage" class="BeeeOn::FileCredentialsStorage" init="early">
+			<set name="file" text="${credentials.file}" />
+			<set name="configurationRoot" text="${credentials.configuration.root}" />
+			<set name="saveDelayTime" number="${credentials.save.delay}" />
+		</instance>
 	</factory>
 </system>
