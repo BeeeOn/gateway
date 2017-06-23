@@ -25,6 +25,7 @@ CredentialsStorage::~CredentialsStorage()
 
 SharedPtr<Credentials> CredentialsStorage::find(const DeviceID &ID)
 {
+	RWLock::ScopedReadLock guard(lock());
 	auto search = m_credentialsMap.find(ID);
 
 	if (search != m_credentialsMap.end())
@@ -37,10 +38,24 @@ void CredentialsStorage::insertOrUpdate(
 		const DeviceID &device,
 		const SharedPtr<Credentials> credentials)
 {
+	RWLock::ScopedWriteLock guard(lock());
+	insertOrUpdateUnlocked(device, credentials);
+}
+
+void CredentialsStorage::insertOrUpdateUnlocked(
+		const DeviceID &device,
+		const SharedPtr<Credentials> credentials)
+{
 	m_credentialsMap[device] = credentials;
 }
 
 void CredentialsStorage::remove(const DeviceID &device)
+{
+	RWLock::ScopedWriteLock guard(lock());
+	removeUnlocked(device);
+}
+
+void CredentialsStorage::removeUnlocked(const DeviceID &device)
 {
 	m_credentialsMap.erase(device);
 }
@@ -68,6 +83,8 @@ void CredentialsStorage::load(
 		AutoPtr<AbstractConfiguration> rootConf,
 		const std::string &root)
 {
+	RWLock::ScopedWriteLock guard(lock());
+
 	AutoPtr<AbstractConfiguration> conf = rootConf->createView(root);
 
 	AbstractConfiguration::Keys keys;
@@ -84,9 +101,14 @@ void CredentialsStorage::load(
 		}
 
 		try {
-			insertOrUpdate(id, createCredential(conf->createView(itr)));
+			insertOrUpdateUnlocked(id, createCredential(conf->createView(itr)));
 		} catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
 		}
 	}
+}
+
+Poco::RWLock &CredentialsStorage::lock() const
+{
+	return m_lock;
 }

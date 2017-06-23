@@ -5,6 +5,7 @@
 
 #include <Poco/Util/AbstractConfiguration.h>
 #include <Poco/StringTokenizer.h>
+#include <Poco/RWLock.h>
 
 #include "credentials/Credentials.h"
 #include "model/DeviceID.h"
@@ -62,12 +63,22 @@ public:
 		Poco::AutoPtr<Poco::Util::AbstractConfiguration> rootConf,
 		const std::string &root = "credentials");
 
+protected:
+	Poco::RWLock &lock() const;
+
+	void insertOrUpdateUnlocked(
+		const DeviceID &device,
+		const Poco::SharedPtr<Credentials> credentials);
+
+	void removeUnlocked(const DeviceID &device);
+
 private:
 	Poco::SharedPtr<Credentials> createCredential(
 		Poco::AutoPtr<Poco::Util::AbstractConfiguration> conf);
 
 	std::map<DeviceID, Poco::SharedPtr<Credentials>> m_credentialsMap;
 	std::map<std::string, CredentialsFactory> m_factory;
+	mutable Poco::RWLock m_lock;
 };
 
 }
