@@ -7,6 +7,7 @@ find_library (POCO_UTIL PocoUtil)
 find_library (POCO_SSL PocoNetSSL)
 find_library (POCO_CRYPTO PocoCrypto)
 find_library (POCO_NET PocoNet)
+find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 
@@ -37,6 +38,7 @@ set(LIBS
 	${POCO_CRYPTO}
 	${POCO_UTIL}
 	${POCO_NET}
+	${POCO_JSON}
 	${POCO_XML}
 	${CPP_UNIT}
 	${PTHREAD}
