@@ -11,7 +11,6 @@ CredentialsStorage::CredentialsStorage()
 {
 	m_factory[PasswordCredentials::TYPE] = &PasswordCredentials::create;
 	m_factory[PinCredentials::TYPE] = &PinCredentials::create;
-
 }
 
 CredentialsStorage::CredentialsStorage(
@@ -26,6 +25,7 @@ CredentialsStorage::~CredentialsStorage()
 
 SharedPtr<Credentials> CredentialsStorage::find(const DeviceID &ID)
 {
+	RWLock::ScopedReadLock guard(lock());
 	auto search = m_credentialsMap.find(ID);
 
 	if (search != m_credentialsMap.end())
@@ -38,12 +38,37 @@ void CredentialsStorage::insertOrUpdate(
 		const DeviceID &device,
 		const SharedPtr<Credentials> credentials)
 {
+	RWLock::ScopedWriteLock guard(lock());
+	insertOrUpdateUnlocked(device, credentials);
+}
+
+void CredentialsStorage::insertOrUpdateUnlocked(
+		const DeviceID &device,
+		const SharedPtr<Credentials> credentials)
+{
 	m_credentialsMap[device] = credentials;
 }
 
 void CredentialsStorage::remove(const DeviceID &device)
 {
+	RWLock::ScopedWriteLock guard(lock());
+	removeUnlocked(device);
+}
+
+void CredentialsStorage::removeUnlocked(const DeviceID &device)
+{
 	m_credentialsMap.erase(device);
+}
+
+void CredentialsStorage::clear()
+{
+	RWLock::ScopedWriteLock guard(m_lock);
+	clearUnlocked();
+}
+
+void CredentialsStorage::clearUnlocked()
+{
+	m_credentialsMap.clear();
 }
 
 void CredentialsStorage::save(
@@ -60,16 +85,18 @@ SharedPtr<Credentials> CredentialsStorage::createCredential(
 	string type = conf->getString("type");
 
 	if (m_factory.find(type) == m_factory.end())
-		throw InvalidArgumentException("Unrecognized credential type: " + type);
+		throw InvalidArgumentException("unrecognized credential type: " + type);
 
 	return m_factory[type](conf);
 }
 
 void CredentialsStorage::load(
-		AutoPtr <AbstractConfiguration> rootConf,
+		AutoPtr<AbstractConfiguration> rootConf,
 		const std::string &root)
 {
-	AutoPtr <AbstractConfiguration> conf = rootConf->createView(root);
+	RWLock::ScopedWriteLock guard(lock());
+
+	AutoPtr<AbstractConfiguration> conf = rootConf->createView(root);
 
 	AbstractConfiguration::Keys keys;
 	conf->keys(keys);
@@ -80,14 +107,19 @@ void CredentialsStorage::load(
 		try {
 			id = DeviceID::parse(itr);
 		} catch (const Exception &e) {
-			logger().warning("Expected DeviceID, got: " + itr);
+			logger().warning("expected DeviceID, got: " + itr);
 			continue;
 		}
 
 		try {
-			insertOrUpdate(id, createCredential(conf->createView(itr)));
+			insertOrUpdateUnlocked(id, createCredential(conf->createView(itr)));
 		} catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
 		}
 	}
+}
+
+Poco::RWLock &CredentialsStorage::lock() const
+{
+	return m_lock;
 }

@@ -17,20 +17,20 @@ namespace BeeeOn {
 
 class TestingCredentials : public Credentials {
 public:
-	void setName(const std::string &name)
+	void setName(const string &name)
 	{
 		m_name = name;
 	}
 
-	std::string name()
+	string name()
 	{
 		return m_name;
 	}
 
 	void save(
-		Poco::AutoPtr<Poco::Util::AbstractConfiguration> conf,
+		AutoPtr<AbstractConfiguration> conf,
 		const DeviceID &device,
-		const std::string &root) const
+		const string &root) const
 	{
 		conf->setString(root + "." + device.toString() + "." + "type", "test");
 		conf->setString(root + "." + device.toString() + "." + "name", m_name);
@@ -44,7 +44,7 @@ public:
 	}
 
 private:
-        std::string m_name;
+        string m_name;
 };
 
 

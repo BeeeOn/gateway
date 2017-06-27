@@ -53,6 +53,19 @@
 		<instance name="testingCenter" class="BeeeOn::TestingCenter">
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="console" ref="testingConsole" />
+			<set name="credentialsStorage" ref="credentialsStorage" />
+			<set name="cryptoConfig" ref="cryptoConfig" />
+		</instance>
+
+		<instance name="credentialsStorage" class="BeeeOn::FileCredentialsStorage" init="early">
+			<set name="file" text="${credentials.file}" />
+			<set name="configurationRoot" text="${credentials.configuration.root}" />
+			<set name="saveDelayTime" number="${credentials.save.delay}" />
+		</instance>
+
+		<instance name="cryptoConfig" class="BeeeOn::CryptoConfig">
+			<set name="passphrase" text="${credentials.crypto.passphrase}" />
+			<set name="algorithm" text="${credentials.crypto.algorithm}" />
 		</instance>
 	</factory>
 </system>

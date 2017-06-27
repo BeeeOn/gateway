@@ -12,10 +12,12 @@
 #include "core/PocoCommandDispatcher.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
+#include "credentials/FileCredentialsStorage.h"
 #include "io/Console.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
+#include "util/CryptoConfig.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -34,6 +36,8 @@ public:
 		Poco::Mutex &mutex;
 		CommandSender &sender;
 		const std::vector<std::string> args;
+		Poco::SharedPtr<FileCredentialsStorage> credentialsStorage;
+		Poco::SharedPtr<CryptoConfig> cryptoConfig;
 	};
 
 	/**
@@ -56,6 +60,8 @@ public:
 
 	void setConsole(Poco::SharedPtr<Console> console);
 	Poco::SharedPtr<Console> console() const;
+	void setCredentialsStorage(Poco::SharedPtr<FileCredentialsStorage> storage);
+	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);
 
 protected:
 	void registerAction(
@@ -71,6 +77,8 @@ private:
 	std::map<std::string, ActionRecord> m_action;
 	std::map<DeviceID, DeviceData> m_devices;
 	Poco::Mutex m_mutex;
+	Poco::SharedPtr<FileCredentialsStorage> m_credentialsStorage;
+	Poco::SharedPtr<CryptoConfig> m_cryptoConfig;
 };
 
 }
