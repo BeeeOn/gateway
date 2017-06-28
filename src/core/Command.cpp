@@ -5,7 +5,8 @@ using namespace BeeeOn;
 using namespace std;
 
 Command::Command(const string &commandName):
-	m_commandName(commandName)
+	m_commandName(commandName),
+	m_sendingHandler(NULL)
 {
 }
 
