@@ -1,5 +1,7 @@
 #include "commands/ServerDeviceListCommand.h"
 #include "commands/ServerDeviceListResult.h"
+#include "commands/ServerLastValueCommand.h"
+#include "commands/ServerLastValueResult.h"
 #include "core/DeviceManager.h"
 #include "util/ClassInfo.h"
 
@@ -109,4 +111,57 @@ set<DeviceID> DeviceManager::responseDeviceList(
 	}
 
 	return devices;
+}
+
+double DeviceManager::lastValue(const DeviceID &deviceID,
+	const ModuleID &moduleID, const Timespan &waitTime)
+{
+	Answer::Ptr answer = new Answer(answerQueue());
+
+	ServerLastValueCommand::Ptr cmd =
+		new ServerLastValueCommand(deviceID, moduleID);
+
+	dispatch(cmd, answer);
+	answer->waitNotPending(waitTime);
+
+	int failedResults = 0;
+	ServerLastValueResult::Ptr result;
+
+	for (unsigned long i = 0; i < answer->resultsCount(); i++) {
+		if (answer->at(i)->status() != Result::SUCCESS) {
+			failedResults++;
+			continue;
+		}
+
+		if (answer->at(i).cast<ServerLastValueResult>().isNull()) {
+			logger().critical(
+				"unexpected result " + ClassInfo::forPointer(answer->at(i).get()).name()
+				+ " for device: " + deviceID.toString(), __FILE__, __LINE__);
+			failedResults++;
+			continue;
+		}
+
+		if (result.isNull())
+			result = answer->at(i).cast<ServerLastValueResult>();
+	}
+
+	answerQueue().remove(answer);
+
+	if (result.isNull()) {
+		throw Exception(
+			"failed to obtain last value for device: "
+			+ deviceID.toString());
+	}
+
+	if (failedResults > 0) {
+		logger().warning(
+			to_string(failedResults)
+			+ "/" + to_string(answer->resultsCount())
+			+ " results has failed when waiting for last value for "
+			+ deviceID.toString(),
+			__FILE__, __LINE__
+		);
+	}
+
+	return result->value();
 }

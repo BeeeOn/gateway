@@ -12,6 +12,7 @@
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
 #include "model/DevicePrefix.h"
+#include "model/ModuleID.h"
 
 namespace BeeeOn {
 
@@ -61,6 +62,20 @@ protected:
 	 */
 	std::set<DeviceID> deviceList(
 		const Poco::Timespan &timeout = DEFAULT_REQUEST_TIMEOUT);
+
+	/**
+	 * Obtain Answer with Results which contains last measured value
+	 * from server, method is blocking/non-blocking. Type of blocking
+	 * is divided on the basis of timeout.
+	 * Blocking waiting returns Answer with last measured value result
+	 * from server and non-blocking waiting returns Answer with last
+	 * measured value result from server or TimeoutException.
+	 *
+	 * If Answer contains several Results, the first Result SUCCESS will
+	 * be selected.
+	 */
+	double lastValue(const DeviceID &deviceID, const ModuleID &moduleID,
+		const Poco::Timespan &waitTime = DEFAULT_REQUEST_TIMEOUT);
 
 private:
 	void requestDeviceList(Answer::Ptr answer);
