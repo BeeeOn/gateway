@@ -6,12 +6,15 @@
 #include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
+#include <Poco/Util/Timer.h>
 
 #include "commands/DeviceSetValueCommand.h"
+#include "commands/GatewayListenCommand.h"
 #include "core/DongleDeviceManager.h"
 #include "io/SerialPort.h"
 #include "jablotron/JablotronDevice.h"
 #include "model/DeviceID.h"
+#include "util/LambdaTimerTask.h"
 
 namespace BeeeOn {
 
@@ -102,6 +105,10 @@ private:
 	bool transmitMessage(const std::string &msg, bool autoResult);
 
 	void doSetValue(DeviceSetValueCommand::Ptr cmd, Answer::Ptr answer);
+	void doListenCommand(
+		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
+	void doNewDevice(const DeviceID &deviceID,
+		std::map<DeviceID, JablotronDevice::Ptr>::iterator &it);
 
 	bool getResponse();
 	bool isResponse(MessageType type);
@@ -114,6 +121,8 @@ private:
 
 	MessageType m_lastResponse;
 	Poco::Event m_responseRcv;
+	Poco::AtomicCounter m_isListen;
+	Poco::Util::Timer m_listenTimer;
 };
 
 }

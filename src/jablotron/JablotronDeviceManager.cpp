@@ -2,11 +2,13 @@
 #include <Poco/Thread.h>
 #include <Poco/StringTokenizer.h>
 
+#include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "io/AutoClose.h"
 #include "jablotron/JablotronDeviceManager.h"
 #include "udev/UDevEvent.h"
+#include "util/LambdaTimerTask.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -22,6 +24,7 @@ using namespace std;
 
 static const string JABLOTRON_VENDOR_ID = "0403";
 static const string JABLOTRON_PRODUCT_ID = "6015";
+static const string VENDOR_NAME = "Jablotron";
 static const int BAUD_RATE = 57600;
 static const int MAX_DEVICES_IN_JABLOTRON = 32;
 static const int NUMBER_OF_RETRIES = 3;
@@ -34,7 +37,8 @@ static const Timespan DELAY_BEETWEEN_CYCLES = 300 * Timespan::MILLISECONDS;
 
 JablotronDeviceManager::JablotronDeviceManager():
 	DongleDeviceManager(DevicePrefix::PREFIX_JABLOTRON),
-	m_lastResponse(NONE)
+	m_lastResponse(NONE),
+	m_isListen(false)
 {
 }
 
@@ -98,6 +102,7 @@ void JablotronDeviceManager::dongleAvailable()
 void JablotronDeviceManager::stop()
 {
 	DongleDeviceManager::stop();
+	m_listenTimer.cancel(true);
 }
 
 void JablotronDeviceManager::jablotronProcess()
@@ -135,6 +140,9 @@ void JablotronDeviceManager::jablotronProcess()
 		if (!it->second.isNull() && it->second->paired()) {
 			shipMessage(message, it->second);
 		}
+		else if (m_isListen) {
+			doNewDevice(id, it);
+		}
 		else {
 			logger().debug(
 				"device " + id.toString()
@@ -148,6 +156,8 @@ bool JablotronDeviceManager::accept(const Command::Ptr cmd)
 {
 	if (cmd->is<DeviceSetValueCommand>())
 		return true;
+	else if (cmd->is<GatewayListenCommand>())
+		return true;
 
 	return false;
 }
@@ -156,8 +166,68 @@ void JablotronDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 {
 	if (cmd->is<DeviceSetValueCommand>())
 		doSetValue(cmd.cast<DeviceSetValueCommand>(), answer);
+	else if (cmd->is<GatewayListenCommand>())
+		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
 	else
 		throw IllegalStateException("received unaccepted command");
+}
+
+void JablotronDeviceManager::doListenCommand(
+	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
+{
+	Result::Ptr result = new Result(answer);
+	result->setStatus(Result::SUCCESS);
+
+	if (m_isListen)
+		return;
+
+	m_isListen = true;
+
+	LambdaTimerTask::Ptr task(new LambdaTimerTask([=]()
+	{
+		logger().debug("listen is done", __FILE__, __LINE__);
+		m_isListen = false;
+
+		Mutex::ScopedLock guard(m_lock);
+		for (auto &device : m_devices) {
+			if (device.second.isNull())
+				continue;
+
+			if (!device.second->paired())
+				device.second = nullptr;
+		}
+	}));
+
+	m_listenTimer.schedule(
+		task,
+		Timestamp() + cmd->duration());
+}
+
+void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
+	map<DeviceID, JablotronDevice::Ptr>::iterator &it)
+{
+	if (it->second.isNull()) {
+		try {
+			it->second = JablotronDevice::create(deviceID.ident());
+		}
+		catch (const InvalidArgumentException &ex) {
+			logger().log(ex, __FILE__, __LINE__);
+			return;
+		}
+
+		it->second->setPaired(false);
+	}
+
+	NewDeviceCommand::Ptr cmd =
+		new NewDeviceCommand(
+			it->second->deviceID(),
+			VENDOR_NAME,
+			it->second->name(),
+			it->second->moduleTypes(),
+			it->second->refreshTime()
+		);
+
+	dispatch(cmd);
 }
 
 void JablotronDeviceManager::loadDeviceList()
