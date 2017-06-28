@@ -158,6 +158,10 @@ bool JablotronDeviceManager::accept(const Command::Ptr cmd)
 		return true;
 	else if (cmd->is<GatewayListenCommand>())
 		return true;
+	else if (cmd->is<DeviceUnpairCommand>()) {
+		auto it = m_devices.find(cmd->cast<DeviceUnpairCommand>().deviceID());
+		return it != m_devices.end();
+	}
 
 	return false;
 }
@@ -168,8 +172,30 @@ void JablotronDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 		doSetValue(cmd.cast<DeviceSetValueCommand>(), answer);
 	else if (cmd->is<GatewayListenCommand>())
 		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+	else if (cmd->is<DeviceUnpairCommand>())
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
 	else
 		throw IllegalStateException("received unaccepted command");
+}
+
+void JablotronDeviceManager::doUnpairCommand(
+	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+{
+	Result::Ptr result = new Result(answer);
+
+	Mutex::ScopedLock guard(m_lock);
+	auto it = m_devices.find(cmd->deviceID());
+
+	if (it != m_devices.end()) {
+		it->second = nullptr;
+	}
+	else {
+		logger().warning(
+			"attempt to unpair unknown device: "
+			+ cmd->deviceID().toString());
+	}
+
+	result->setStatus(Result::SUCCESS);
 }
 
 void JablotronDeviceManager::doListenCommand(

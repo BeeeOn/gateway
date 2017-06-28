@@ -9,6 +9,7 @@
 #include <Poco/Util/Timer.h>
 
 #include "commands/DeviceSetValueCommand.h"
+#include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/DongleDeviceManager.h"
 #include "io/SerialPort.h"
@@ -109,6 +110,8 @@ private:
 		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
 	void doNewDevice(const DeviceID &deviceID,
 		std::map<DeviceID, JablotronDevice::Ptr>::iterator &it);
+	void doUnpairCommand(
+		const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer);
 
 	bool getResponse();
 	bool isResponse(MessageType type);
