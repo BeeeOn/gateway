@@ -58,7 +58,7 @@ void CredentialsTest::setUp()
 void CredentialsTest::testCrypt()
 {
 	const CipherKey &key = m_params.randomKey();
-	Cipher *cipher = m_factory.createCipher(key);
+	SharedPtr<Cipher> cipher = m_factory.createCipher(key);
 
 	///Pin Crypt
 	SharedPtr<PinCredentials> pin01(new PinCredentials);
