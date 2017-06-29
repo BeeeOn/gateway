@@ -52,6 +52,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
 	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
+	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
