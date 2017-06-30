@@ -191,12 +191,12 @@ void CommandDispatcherTest::testSupportedCommand()
 	dispatcher.registerHandler(handlerTest2);
 
 	dispatcher.dispatch(cmd, answer);
+	Poco::Timestamp now;
 
 	CPPUNIT_ASSERT(!queue.wait(1, answerList));
 	CPPUNIT_ASSERT(1 == queue.size());
 	CPPUNIT_ASSERT(answerList.empty());
 
-	Poco::Timestamp now;
 	// wait for result from FakeHandler1, execute in about 20 ms
 	CPPUNIT_ASSERT(queue.wait(200*Poco::Timespan::MILLISECONDS, answerList));
 	CPPUNIT_ASSERT(now.elapsed() >= 20000); // FakeHandler1 was executed
