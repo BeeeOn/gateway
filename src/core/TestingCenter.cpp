@@ -5,7 +5,6 @@
 #include <Poco/NumberParser.h>
 #include <Poco/StringTokenizer.h>
 
-#include "di/Injectable.h"
 #include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
@@ -18,9 +17,10 @@
 #include "core/Command.h"
 #include "core/CommandDispatcher.h"
 #include "core/TestingCenter.h"
-#include "util/ArgsParser.h"
-#include "credentials/PinCredentials.h"
 #include "credentials/PasswordCredentials.h"
+#include "credentials/PinCredentials.h"
+#include "di/Injectable.h"
+#include "util/ArgsParser.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
