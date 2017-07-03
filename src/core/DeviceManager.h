@@ -28,6 +28,7 @@ namespace BeeeOn {
  */
 class DeviceManager:
 	public CommandHandler,
+	public CommandSender,
 	protected Loggable,
 	public StoppableRunnable {
 public:
@@ -50,7 +51,6 @@ protected:
 
 protected:
 	Poco::AtomicCounter m_stop;
-	Poco::SharedPtr<CommandSender> m_commandSender;
 
 private:
 	Poco::SharedPtr<Distributor> m_distributor;
