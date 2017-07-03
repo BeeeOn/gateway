@@ -16,6 +16,7 @@
 #include "commands/ServerLastValueCommand.h"
 #include "commands/ServerLastValueResult.h"
 #include "core/Command.h"
+#include "core/CommandDispatcher.h"
 #include "core/TestingCenter.h"
 #include "util/ArgsParser.h"
 #include "credentials/PinCredentials.h"

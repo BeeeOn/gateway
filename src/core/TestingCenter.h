@@ -8,8 +8,6 @@
 #include <Poco/AtomicCounter.h>
 #include <Poco/SharedPtr.h>
 
-#include "core/AnswerQueue.h"
-#include "core/PocoCommandDispatcher.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
 #include "credentials/FileCredentialsStorage.h"
