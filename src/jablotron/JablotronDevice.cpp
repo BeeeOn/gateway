@@ -3,6 +3,7 @@
 
 #include "jablotron/JablotronDevice.h"
 #include "jablotron/JablotronDeviceAC88.h"
+#include "jablotron/JablotronDeviceTP82N.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -24,6 +25,9 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 
 	if ((serialNumber >= 0xCF0000) && (serialNumber <= 0xCFFFFF))
 		return new JablotronDeviceAC88(deviceID, "AC-88");
+
+	if ((serialNumber >= 0x240000) && (serialNumber <= 0x25FFFF))
+		return new JablotronDeviceTP82N(deviceID, "TP-82N");
 
 	throw InvalidArgumentException(
 		"unsupported device: " + to_string(serialNumber));

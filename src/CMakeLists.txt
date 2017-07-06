@@ -55,6 +55,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
+	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceTP82N.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
