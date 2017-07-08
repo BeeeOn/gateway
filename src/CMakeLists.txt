@@ -53,6 +53,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/net/VPTHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/udev/UDevEvent.cpp
 	${PROJECT_SOURCE_DIR}/udev/UDevListener.cpp
+	${PROJECT_SOURCE_DIR}/udev/UDevMonitor.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
