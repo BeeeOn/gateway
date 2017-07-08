@@ -5,6 +5,7 @@
 			<add name="runnables" ref="virtualSensor2" if-yes="${virtual-sensor2.enable}" />
 			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
+			<add name="runnables" ref="udevMonitor" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo">
@@ -18,6 +19,10 @@
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
 			<set name="registerHandler" ref="testingCenter"/>
+		</instance>
+
+		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
+			<set name="matches" list="bluetooth,tty" />
 		</instance>
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
