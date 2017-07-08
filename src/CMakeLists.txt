@@ -9,6 +9,7 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
+find_library (UDEV udev)
 
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
@@ -79,6 +80,7 @@ set(LIBS
 	${POCO_JSON}
 	${POCO_XML}
 	${PTHREAD}
+	${UDEV}
 )
 
 target_link_libraries(beeeon-gateway
