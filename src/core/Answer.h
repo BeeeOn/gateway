@@ -80,6 +80,16 @@ public:
 	 */
 	void notifyUpdated();
 
+	/**
+	 * Waiting for the Answer in which Results aren't in PENDING
+	 * state. Waiting can be blocking or non-blocking.
+	 * Type of waiting is given by timeout. If timeout is less than 0,
+	 * waiting is blocking, non-blocking otherwise. If timeout
+	 * is non-blocking and Answer will not be signalled within
+	 * the specified time interval, TimeoutException is thrown.
+	 */
+	void waitNotPending(const Poco::Timespan &timeout);
+
 	Result::Ptr at(size_t position);
 	Result::Ptr atUnlocked(size_t position);
 
