@@ -3,9 +3,11 @@
 using namespace BeeeOn;
 using namespace Poco;
 
-DeviceManager::DeviceManager(const std::string &name):
+DeviceManager::DeviceManager(const std::string &name,
+		const DevicePrefix &prefix):
 	CommandHandler(name),
-	m_stop(false)
+	m_stop(false),
+	m_prefix(prefix)
 {
 }
 

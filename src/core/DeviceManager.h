@@ -8,6 +8,7 @@
 #include "core/CommandSender.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
+#include "model/DevicePrefix.h"
 
 namespace BeeeOn {
 
@@ -32,7 +33,7 @@ class DeviceManager:
 	protected Loggable,
 	public StoppableRunnable {
 public:
-	DeviceManager(const std::string &name);
+	DeviceManager(const std::string &name, const DevicePrefix &prefix);
 	virtual ~DeviceManager();
 
 	/**
@@ -51,6 +52,7 @@ protected:
 
 protected:
 	Poco::AtomicCounter m_stop;
+	DevicePrefix m_prefix;
 
 private:
 	Poco::SharedPtr<Distributor> m_distributor;

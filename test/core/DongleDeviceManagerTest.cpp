@@ -14,8 +14,9 @@ namespace BeeeOn {
 
 class TestableDongleDeviceManager : public DongleDeviceManager {
 public:
-	TestableDongleDeviceManager(const std::string name):
-		DongleDeviceManager(name),
+	TestableDongleDeviceManager(
+			const std::string name, const DevicePrefix &prefix):
+		DongleDeviceManager(name, prefix),
 		m_name(name)
 	{
 	}
@@ -106,7 +107,7 @@ private:
 CPPUNIT_TEST_SUITE_REGISTRATION(DongleDeviceManagerTest);
 
 DongleDeviceManagerTest::DongleDeviceManagerTest():
-	m_manager("testing-device")
+	m_manager("testing-device", DevicePrefix::PREFIX_JABLOTRON)
 {
 }
 
