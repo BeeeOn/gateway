@@ -8,5 +8,8 @@
 		<instance name="CSVSensorDataFormatter" class="BeeeOn::CSVSensorDataFormatter">
 			<set name="separator" text="${exporter.pipe.csv.separator}" />
 		</instance>
+
+		<instance name="JSONSensorDataFormatter" class="BeeeOn::JSONSensorDataFormatter">
+		</instance>
 	</factory>
 </system>
