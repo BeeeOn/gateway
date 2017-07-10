@@ -1,6 +1,8 @@
 #ifndef BEEEON_DEVICE_MANAGER_H
 #define BEEEON_DEVICE_MANAGER_H
 
+#include <set>
+
 #include <Poco/AtomicCounter.h>
 
 #include "core/AnswerQueue.h"
@@ -8,6 +10,7 @@
 #include "core/CommandSender.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
+#include "model/DeviceID.h"
 #include "model/DevicePrefix.h"
 
 namespace BeeeOn {
@@ -50,7 +53,23 @@ protected:
 	*/
 	void ship(const SensorData &sensorData);
 
+	/**
+	 * Obtain device list from server, method is blocking/non-blocking.
+	 * Type of blocking is divided on the basis of timeout.
+	 * Blocking waiting returns device list from server and non-blocking
+	 * waiting returns device list from server or TimeoutException.
+	 */
+	std::set<DeviceID> deviceList(
+		const Poco::Timespan &timeout = DEFAULT_REQUEST_TIMEOUT);
+
+private:
+	void requestDeviceList(Answer::Ptr answer);
+	std::set<DeviceID> responseDeviceList(
+		const Poco::Timespan &waitTime, Answer::Ptr answer);
+
 protected:
+	static const Poco::Timespan DEFAULT_REQUEST_TIMEOUT;
+
 	Poco::AtomicCounter m_stop;
 	DevicePrefix m_prefix;
 
