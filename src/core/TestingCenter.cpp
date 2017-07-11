@@ -568,6 +568,8 @@ void TestingCenter::handle(Command::Ptr cmd, Answer::Ptr answer)
 			return;
 		}
 
+		result->setDeviceID(command->deviceID());
+		result->setModuleID(command->moduleID());
 		result->setValue(moduleIt->second);
 		result->setStatus(Result::SUCCESS);
 	}

@@ -3,6 +3,8 @@
 
 #include "core/Answer.h"
 #include "core/Result.h"
+#include "model/DeviceID.h"
+#include "model/ModuleID.h"
 
 namespace BeeeOn {
 
@@ -22,11 +24,25 @@ public:
 	double value() const;
 	double valueUnlocked() const;
 
+	void setDeviceID(const DeviceID &deviceID);
+	void setDeviceIDUnlocked(const DeviceID &deviceID);
+
+	DeviceID deviceID() const;
+	DeviceID deviceIDUnlocked() const;
+
+	void setModuleID(const ModuleID &moduleID);
+	void setModuleIDUnlocked(const ModuleID &moduleID);
+
+	ModuleID moduleID() const;
+	ModuleID moduleIDUnlocked() const;
+
 protected:
 	~ServerLastValueResult();
 
 private:
 	double m_value;
+	DeviceID m_deviceID;
+	ModuleID m_moduleID;
 };
 
 }
