@@ -6,8 +6,8 @@
 #include <Poco/Timespan.h>
 
 #include "core/Command.h"
-#include "core/ModuleType.h"
 #include "model/DeviceID.h"
+#include "model/ModuleType.h"
 
 namespace BeeeOn {
 

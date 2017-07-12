@@ -35,7 +35,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
-	${PROJECT_SOURCE_DIR}/core/ModuleType.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoAnswerImpl.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoCommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
@@ -47,6 +46,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/model/ModuleID.cpp
+	${PROJECT_SOURCE_DIR}/model/ModuleType.cpp
 	${PROJECT_SOURCE_DIR}/model/SensorValue.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
