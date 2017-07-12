@@ -1,4 +1,4 @@
-#include "core/ModuleType.h"
+#include "model/ModuleType.h"
 
 using namespace BeeeOn;
 using namespace std;
