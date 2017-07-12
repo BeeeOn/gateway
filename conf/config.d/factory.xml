@@ -18,7 +18,7 @@
 		</instance>
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
-			<set name="registerHandler" ref="testingCenter"/>
+			<set name="registerHandler" ref="testingCenter" if-yes="${testing.center.enable}"/>
 		</instance>
 
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
