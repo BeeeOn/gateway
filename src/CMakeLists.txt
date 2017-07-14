@@ -81,6 +81,8 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
 	${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
 	${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
+	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
+	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
 	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveDeviceInfoRegistry.cpp
 	${PROJECT_SOURCE_DIR}/zwave/VendorZWaveDeviceInfoRegistry.cpp
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistry.cpp

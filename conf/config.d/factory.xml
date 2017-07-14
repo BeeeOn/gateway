@@ -127,6 +127,10 @@
 		</instance>
 
 		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
+			<set name="defaultRegistry" ref="defaultZWaveDeviceInfoRegistry" />
+		</instance>
+
+		<instance name="defaultZWaveDeviceInfoRegistry" class="BeeeOn::DefaultZWaveDeviceInfoRegistry">
 		</instance>
 	</factory>
 </system>
