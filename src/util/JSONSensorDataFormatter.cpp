@@ -56,5 +56,5 @@ string JSONSensorDataFormatter::format(const SensorData &data)
 
 	json.endArray();
 	json.endObject();
-	return output.str() + '\n';
+	return output.str();
 }

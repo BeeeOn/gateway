@@ -34,7 +34,6 @@ string CSVSensorDataFormatter::format(const SensorData &data)
 		output += "sensor" + separator() + timestamp + separator() + device + separator();
 		output += item.moduleID().toString() + separator();
 		output += NumberFormatter::format(item.value(), PRECISION_OF_VALUE) + separator();
-		output += "\n";
 	}
 
 	return output;

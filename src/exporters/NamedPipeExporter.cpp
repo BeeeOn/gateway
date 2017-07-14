@@ -47,7 +47,7 @@ bool NamedPipeExporter::ship(const SensorData &data)
 	poco_assert(fd >= 0);
 
 	try {
-		return writeAndClose(fd, m_formatter->format(data));
+		return writeAndClose(fd, m_formatter->format(data) + "\n");
 	}
 	catch (...) {
 		close(fd);
