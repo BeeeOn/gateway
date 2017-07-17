@@ -20,14 +20,12 @@ using namespace Poco;
 using namespace Poco::Util;
 using namespace std;
 
-#define SAVE_DELAY_TIME_30MIN 1800000
-
 FileCredentialsStorage::FileCredentialsStorage():
 	m_confRoot("credentials"),
 	m_callback(*this, &FileCredentialsStorage::onSaveLater),
-	m_timerRunning(false)
+	m_timerRunning(false),
+	m_saveDelayTime(30 * Timespan::MINUTES)
 {
-	m_saveDelayTime = SAVE_DELAY_TIME_30MIN;
 }
 
 FileCredentialsStorage::~FileCredentialsStorage()
