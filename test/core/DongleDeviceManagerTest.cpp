@@ -50,6 +50,7 @@ public:
 
 	bool dongleMissing() override
 	{
+		m_becameMissing.set();
 		missing().wait();
 		done().set();
 		return false;
@@ -70,6 +71,11 @@ public:
 		return m_missing;
 	}
 
+	Event &becameMissing()
+	{
+		return m_becameMissing;
+	}
+
 	Event &done()
 	{
 		return m_done;
@@ -78,6 +84,7 @@ public:
 private:
 	string m_name;
 	Event m_becameAvailable;
+	Event m_becameMissing;
 	Event m_available;
 	Event m_missing;
 	Event m_done;
@@ -119,18 +126,19 @@ void DongleDeviceManagerTest::testNoDongleRun()
 {
 	m_thread.start(m_manager);
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	// we are inside the dongleMissing()
 	m_manager.stop();
 
-	// we are inside the dongleMissing()
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
-	// we are inside the dongleMissing() but stopped
-	m_manager.missing().set();
+	// we are stopped and leaving the main loop
 	CPPUNIT_ASSERT(m_thread.tryJoin(10000));
 }
 
@@ -148,14 +156,18 @@ void DongleDeviceManagerTest::testAddDongleRun()
 
 	m_thread.start(m_manager);
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	// we are inside the dongleMissing()
+
 	event.setName("testing-device");
 	m_manager.onAdd(event);
 
-	// we are inside the dongleMissing()
+	// wakeup from dongleMissing and check for dongle
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
@@ -209,13 +221,16 @@ void DongleDeviceManagerTest::testAddRemoveDongleRun()
 
 	m_thread.start(m_manager);
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	// we are inside the dongleMissing()
+
 	m_manager.onAdd(event);
 
-	// we are inside the dongleMissing()
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
@@ -226,12 +241,15 @@ void DongleDeviceManagerTest::testAddRemoveDongleRun()
 	m_manager.available().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
 	// we are again inside the dongleMissing()
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
-	m_manager.stop();
+	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
+	m_manager.stop();
+
 	m_manager.missing().set();
 	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
 
