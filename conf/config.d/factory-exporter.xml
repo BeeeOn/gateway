@@ -5,6 +5,15 @@
 			<set name="formatter" ref="${exporter.pipe.format}SensorDataFormatter" />
 		</instance>
 
+		<instance name="mosquittoExporter" class="BeeeOn::MosquittoExporter">
+			<set name="host" text="${exporter.mqtt.host}" />
+			<set name="port" number="${exporter.mqtt.port}" />
+			<set name="topic" text="${exporter.mqtt.topic}" />
+			<set name="qos" number="${exporter.mqtt.qos}" />
+			<set name="clientName" text="${exporter.mqtt.clientName}" />
+			<set name="formatter" ref="${exporter.mqtt.format}SensorDataFormatter" />
+		</instance>
+
 		<instance name="CSVSensorDataFormatter" class="BeeeOn::CSVSensorDataFormatter">
 			<set name="separator" text="${exporter.pipe.csv.separator}" />
 		</instance>
