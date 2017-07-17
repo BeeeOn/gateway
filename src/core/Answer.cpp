@@ -153,3 +153,25 @@ void Answer::setHandlersCount(unsigned long handlers)
 {
 	m_handlers = handlers;
 }
+
+void Answer::waitNotPending(const Poco::Timespan &timeout)
+{
+	// blocking wait
+	if (timeout < 0) {
+		while (isPending())
+			event().wait();
+
+		return;
+	}
+
+	// non-blocking wait with timeout
+	Timestamp start;
+	while (isPending()) {
+		const Timespan remaining(timeout - start.elapsed());
+
+		if (remaining <= 0)
+			throw TimeoutException("timeout expired");
+
+		event().wait(remaining.totalMilliseconds());
+	}
+}
