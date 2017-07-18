@@ -72,6 +72,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
+	${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
 )
 
 file(GLOB TESTING_SOURCES
