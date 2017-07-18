@@ -6,6 +6,7 @@
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "io/AutoClose.h"
+#include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
 #include "udev/UDevEvent.h"
 #include "util/LambdaTimerTask.h"
@@ -30,15 +31,20 @@ static const int MAX_DEVICES_IN_JABLOTRON = 32;
 static const int NUMBER_OF_RETRIES = 3;
 static const int MAX_NUMBER_FAILED_REPEATS = 10;
 static const int RESPONSE_WAIT_MSEC = 5000;
+static const int DEFAULT_PG_VALUE = 0;
 static const Timespan READ_TIMEOUT = 1 * Timespan::SECONDS;
 static const Timespan SLEEP_AFTER_FAILED = 1 * Timespan::SECONDS;
 static const Timespan DELAY_AFTER_SET_SWITCH = 1 * Timespan::SECONDS;
 static const Timespan DELAY_BEETWEEN_CYCLES = 300 * Timespan::MILLISECONDS;
+static const DeviceID DEFAULT_DEVICE_ID(DevicePrefix::PREFIX_JABLOTRON, 0);
+
 
 JablotronDeviceManager::JablotronDeviceManager():
 	DongleDeviceManager(DevicePrefix::PREFIX_JABLOTRON),
 	m_lastResponse(NONE),
-	m_isListen(false)
+	m_isListen(false),
+	m_pgx(DEFAULT_DEVICE_ID, DEFAULT_PG_VALUE),
+	m_pgy(DEFAULT_DEVICE_ID, DEFAULT_PG_VALUE)
 {
 }
 
@@ -300,6 +306,8 @@ void JablotronDeviceManager::loadDeviceList()
 			it->second->setPaired(true);
 		}
 	}
+
+	obtainLastValue();
 }
 
 JablotronDeviceManager::MessageType JablotronDeviceManager::nextMessage(
@@ -382,6 +390,14 @@ void JablotronDeviceManager::setupDongleDevices()
 			logger().debug(
 				"created device: " + to_string(serialNumber)
 				+ " from dongle", __FILE__, __LINE__);
+
+			if (JablotronDevice::create(serialNumber).cast<JablotronDeviceAC88>().isNull())
+				continue;
+
+			if (m_pgx.first == DEFAULT_DEVICE_ID)
+				m_pgx.first = deviceID;
+			else
+				m_pgy.first = deviceID;
 		}
 		catch (const InvalidArgumentException &ex) {
 			logger().log(ex, __FILE__, __LINE__);
@@ -497,9 +513,83 @@ bool JablotronDeviceManager::isResponse(MessageType type)
 	return type == OK || type == ERROR;
 }
 
+bool JablotronDeviceManager::modifyValue(
+			const DeviceID &deviceID, int value, bool autoResult)
+{
+	Mutex::ScopedLock guard(m_lock);
+
+	auto it = m_devices.find(deviceID);
+	if (it == m_devices.end()) {
+		throw NotFoundException(
+			"device " + it->second->deviceID().toString()
+			+ " not found");
+	}
+
+	if (it->second.cast<JablotronDeviceAC88>().isNull()) {
+		throw InvalidArgumentException(
+			"device " + it->first.toString()
+			+ " is not Jablotron AC-88");
+	}
+
+	if (!it->second->paired()) {
+		InvalidArgumentException(
+			"device " + it->first.toString()
+			+ " is not paired");
+	}
+
+	if (m_pgx.first == deviceID)
+		m_pgx.second = value;
+	else
+		m_pgy.second = value;
+
+	string modifyString = "\x1BTX ENROLL:0 PGX:" + to_string(m_pgx.second) +
+		" PGY:" + to_string(m_pgy.second) + " ALARM:0 BEEP:FAST\n";
+
+	return transmitMessage(modifyString, autoResult);
+}
+
+void JablotronDeviceManager::obtainLastValue()
+{
+	int value;
+	for (auto &device : m_devices) {
+		if (device.second.cast<JablotronDeviceAC88>().isNull())
+			continue;
+
+		if (!device.second->paired())
+			continue;
+
+		try {
+			value = lastValue(device.first, 0);
+		}
+		catch (const Exception &ex) {
+			logger().log(ex, __FILE__, __LINE__);
+			continue;
+		}
+
+		if (!modifyValue(device.first, value, false)) {
+			logger().warning(
+				"last value on device: " + device.first.toString()
+				+ " is not set",
+				__FILE__, __LINE__);
+		}
+	}
+}
+
 void JablotronDeviceManager::doSetValue(
 	DeviceSetValueCommand::Ptr cmd, Answer::Ptr answer)
 {
 	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::FAILED);
+	bool ret = false;
+
+	try {
+		ret = modifyValue(cmd->deviceID(), cmd->value());
+	}
+	catch (const Exception &ex) {
+		logger().log(ex, __FILE__, __LINE__);
+	}
+
+	if (ret)
+		result->setStatus(Result::SUCCESS);
+	else
+		result->setStatus(Result::FAILED);
 }

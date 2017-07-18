@@ -106,6 +106,16 @@ private:
 	 */
 	bool transmitMessage(const std::string &msg, bool autoResult);
 
+	/**
+	 * It obtains last value from server and sets value to the device.
+	 */
+	void obtainLastValue();
+
+	/**
+	 * It modifies value in the device.
+	 */
+	bool modifyValue(const DeviceID &deviceID, int value, bool autoResult = true);
+
 	void doSetValue(DeviceSetValueCommand::Ptr cmd, Answer::Ptr answer);
 	void doListenCommand(
 		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
@@ -129,6 +139,18 @@ private:
 	Poco::Event m_responseRcv;
 	Poco::AtomicCounter m_isListen;
 	Poco::Util::Timer m_listenTimer;
+
+	/**
+	 * Field X - output X
+	 * Slot which contains the state of the first AC-88 device
+	 */
+	std::pair<DeviceID, int> m_pgx;
+
+	/**
+	 * Field Y - output Y
+	 * Slot which contains the state of the second AC-88 device
+	 */
+	std::pair<DeviceID, int> m_pgy;
 };
 
 }
