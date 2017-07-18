@@ -2,6 +2,7 @@
 #include <Poco/StringTokenizer.h>
 
 #include "jablotron/JablotronDevice.h"
+#include "jablotron/JablotronDeviceAC88.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -19,6 +20,11 @@ JablotronDevice::~JablotronDevice()
 
 JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 {
+	DeviceID deviceID = JablotronDevice::buildID(serialNumber);
+
+	if ((serialNumber >= 0xCF0000) && (serialNumber <= 0xCFFFFF))
+		return new JablotronDeviceAC88(deviceID, "AC-88");
+
 	throw InvalidArgumentException(
 		"unsupported device: " + to_string(serialNumber));
 }

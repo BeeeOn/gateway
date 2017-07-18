@@ -53,6 +53,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
+	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
