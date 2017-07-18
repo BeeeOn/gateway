@@ -8,6 +8,7 @@
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
 			<add name="runnables" ref="udevMonitor" />
 			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
+			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
@@ -29,6 +30,7 @@
 			<set name="registerHandler" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<set name="registerHandler" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
 			<set name="registerHandler" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
+			<set name="registerHandler" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
 		</instance>
 
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
@@ -42,6 +44,12 @@
 			<set name="refresh" number="${belkinwemo.refresh}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+		</instance>
+
+		<instance name="virtualDeviceManager" class="BeeeOn::VirtualDeviceManager">
+			<set name="distributor" ref="distributor"/>
+			<set name="commandDispatcher" ref="commandDispatcher"/>
+			<set name="file" text="${vdev.ini}"/>
 		</instance>
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
