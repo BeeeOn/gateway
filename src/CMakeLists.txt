@@ -74,6 +74,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
 	${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
+	${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
 )
 
 file(GLOB TESTING_SOURCES
