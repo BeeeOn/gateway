@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (gateway-core CXX)
 
+find_library (MOSQUITTO_CPP mosquittopp)
 find_library (POCO_FOUNDATION PocoFoundation)
 find_library (POCO_SSL PocoNetSSL)
 find_library (POCO_CRYPTO PocoCrypto)
@@ -44,6 +45,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/FileCredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/PasswordCredentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
+	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
@@ -73,6 +75,7 @@ add_library(BeeeOnTesting ${TESTING_SOURCES})
 add_executable(beeeon-gateway main.cpp)
 
 set(LIBS
+	${MOSQUITTO_CPP}
 	${POCO_FOUNDATION}
 	${POCO_SSL}
 	${POCO_CRYPTO}

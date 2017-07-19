@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.8.11)
 project (gateway-tests CXX)
 
 find_library (CPP_UNIT cppunit)
+find_library (MOSQUITTO_CPP mosquittopp)
 find_library (POCO_FOUNDATION PocoFoundation)
 find_library (POCO_UTIL PocoUtil)
 find_library (POCO_SSL PocoNetSSL)
@@ -36,6 +37,7 @@ add_executable(test-suite-gateway
 )
 
 set(LIBS
+	${MOSQUITTO_CPP}
 	${POCO_FOUNDATION}
 	${POCO_SSL}
 	${POCO_CRYPTO}
