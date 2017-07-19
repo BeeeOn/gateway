@@ -8,6 +8,7 @@
 #include "jablotron/JablotronDeviceOpenClose.h"
 #include "jablotron/JablotronDeviceRC86K.h"
 #include "jablotron/JablotronDeviceTP82N.h"
+#include "jablotron/JablotronDeviceJA85ST.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -41,6 +42,9 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 
 	if ((serialNumber >= 0x640000) && (serialNumber <= 0x65FFFF))
 		return new JablotronDeviceJA83P(deviceID, "JA-83P");
+
+	if ((serialNumber >= 0x760000) && (serialNumber <= 0x76FFFF))
+		return new JablotronDeviceJA85ST(deviceID, "JA-85ST");
 
 	if ((serialNumber >= 0x800000) && (serialNumber <= 0x97FFFF))
 		return new JablotronDeviceRC86K(deviceID, "RC-86K");
