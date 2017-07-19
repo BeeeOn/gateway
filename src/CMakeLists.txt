@@ -54,6 +54,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
+	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA83P.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceOpenClose.cpp
