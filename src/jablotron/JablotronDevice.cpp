@@ -3,6 +3,7 @@
 
 #include "jablotron/JablotronDevice.h"
 #include "jablotron/JablotronDeviceAC88.h"
+#include "jablotron/JablotronDeviceOpenClose.h"
 #include "jablotron/JablotronDeviceTP82N.h"
 
 using namespace BeeeOn;
@@ -25,6 +26,9 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 
 	if ((serialNumber >= 0xCF0000) && (serialNumber <= 0xCFFFFF))
 		return new JablotronDeviceAC88(deviceID, "AC-88");
+
+	if ((serialNumber >= 0x180000) && (serialNumber <= 0x1BFFFF))
+		return new JablotronDeviceOpenClose(deviceID, "JA-81M");
 
 	if ((serialNumber >= 0x240000) && (serialNumber <= 0x25FFFF))
 		return new JablotronDeviceTP82N(deviceID, "TP-82N");
