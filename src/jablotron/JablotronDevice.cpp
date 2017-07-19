@@ -3,6 +3,7 @@
 
 #include "jablotron/JablotronDevice.h"
 #include "jablotron/JablotronDeviceAC88.h"
+#include "jablotron/JablotronDeviceJA83P.h"
 #include "jablotron/JablotronDeviceOpenClose.h"
 #include "jablotron/JablotronDeviceTP82N.h"
 
@@ -32,6 +33,9 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 
 	if ((serialNumber >= 0x1C0000) && (serialNumber <= 0x1DFFFF))
 		return new JablotronDeviceOpenClose(deviceID, "JA-83M");
+
+	if ((serialNumber >= 0x640000) && (serialNumber <= 0x65FFFF))
+		return new JablotronDeviceJA83P(deviceID, "JA-83P");
 
 	if ((serialNumber >= 0x240000) && (serialNumber <= 0x25FFFF))
 		return new JablotronDeviceTP82N(deviceID, "TP-82N");
