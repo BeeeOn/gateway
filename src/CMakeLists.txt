@@ -58,6 +58,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA83P.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceOpenClose.cpp
+	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceRC86K.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceTP82N.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
