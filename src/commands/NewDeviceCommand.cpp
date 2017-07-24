@@ -23,7 +23,7 @@ NewDeviceCommand::~NewDeviceCommand()
 
 DeviceID NewDeviceCommand::deviceID() const
 {
-	return DeviceID();
+	return m_deviceID;
 }
 
 string NewDeviceCommand::vendor() const
