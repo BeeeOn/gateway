@@ -179,9 +179,6 @@ fi
 # the gateway key-pair is used (leads to a self-signed certificate).
 if [ -z "${ca_pair}" ]; then
 	ca_pair="${gateway_pair}"
-elif [ ! -f "${ca_pair}" ]; then
-	ca_pair="ca.pair"
-	rsa_gen_pair "${ca_pair}" ${RSA_SIZE} || die "failed to generate CA key-pair"
 fi
 
 csr="${gateway_cert}.csr"
