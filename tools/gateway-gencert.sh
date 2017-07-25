@@ -82,7 +82,7 @@ die()
 
 # ==============================
 
-opts=`getopt -o "hfp:c:G:o:" -- "$@"`
+opts=`getopt -o "hfp:c:G:o:k:" -- "$@"`
 if [ "$?" != 0 ]; then
 	die "invalid options given: $@"
 fi
