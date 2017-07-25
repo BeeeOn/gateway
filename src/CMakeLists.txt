@@ -12,6 +12,9 @@ find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 find_library (UDEV udev)
 
+find_package(OpenZWave REQUIRED)
+include_directories(${OPENZWAVE_INCLUDE_DIR})
+
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
@@ -105,6 +108,7 @@ set(LIBS
 	${POCO_XML}
 	${PTHREAD}
 	${UDEV}
+	${OPENZWAVE_LIBRARY}
 )
 
 target_link_libraries(beeeon-gateway

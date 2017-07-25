@@ -13,6 +13,9 @@ find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 find_library (UDEV udev)
 
+find_package(OpenZWave REQUIRED)
+include_directories(${OPENZWAVE_INCLUDE_DIR})
+
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
@@ -48,6 +51,7 @@ set(LIBS
 	${CPP_UNIT}
 	${PTHREAD}
 	${UDEV}
+	${OPENZWAVE_LIBRARY}
 )
 
 target_link_libraries(test-suite-gateway
