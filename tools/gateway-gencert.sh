@@ -51,11 +51,19 @@ cert_request()
 cert_sign()
 {
 	request="$1"
-	key_pair="$2"
+	ca_pair="$2"
 	days="$3"
 	out="$4"
+	ca_cert="$5"
 
-	openssl x509 -in "${request}" -out "${out}" -req -signkey "${key_pair}" -days ${days}
+	if [ -z "${ca_cert}" ]; then
+		echo "Self-signing with ${ca_pair}" >&2
+		openssl x509 -in "${request}" -out "${out}" -req -signkey "${ca_pair}" -days ${days}
+	else
+		echo "Signing with ${ca_pair} and ${ca_cert}" >&2
+		openssl x509 -in "${request}" -out "${out}" -req -CA "${ca_cert}" \
+			-CAkey "${ca_pair}" -CAcreateserial -days ${days}
+	fi
 }
 
 # Compute SHA-256 digest of the given file.
@@ -82,7 +90,7 @@ die()
 
 # ==============================
 
-opts=`getopt -o "hfp:c:G:o:" -- "$@"`
+opts=`getopt -o "hfp:c:C:G:o:k:" -- "$@"`
 if [ "$?" != 0 ]; then
 	die "invalid options given: $@"
 fi
@@ -95,7 +103,8 @@ while [ -n "$1" ]; do
 		echo "$0 [-h] [-f] options -G <id>"
 		echo "  -p <file> - provide a gateway key-pair, otherwise a new one is generated"
 		echo "  -k <file> - file where to extract the gateway public key"
-		echo "  -c <file> - provide a CA key-pair, otherwise the gateway key-pair is used (self-signed)"
+		echo "  -c <file> - provide a CA key-pair, otherwise a self-signed certificate is created"
+		echo "  -C <file> - provide a CA certificate, otherwise a self-signed certificate is created"
 		echo "  -o <file> - target file containing the signed gateway certificate"
 		echo "  -f        - force overriding of the existing signed gateway certificate"
 		echo "  -G <id>   - provide gateway ID (mandatory)"
@@ -114,6 +123,11 @@ while [ -n "$1" ]; do
 		;;
 	-c)
 		ca_pair="$2"
+		shift
+		shift
+		;;
+	-C)
+		ca_cert="$2"
 		shift
 		shift
 		;;
@@ -150,6 +164,11 @@ if [ -z "${gateway_cert}" ]; then
 	gateway_cert="gateway.pem"
 fi
 
+# If -C is given, also -c must be specified.
+if [ -n "${ca_cert}" ] && [ -z "${ca_pair}" ]; then
+	die "No CA private key specified (-c)"
+fi
+
 # File where to store the generated and signed gateway certificate
 # must not exists unless -f option is set.
 if [ -f "${gateway_cert}" ]; then
@@ -179,9 +198,6 @@ fi
 # the gateway key-pair is used (leads to a self-signed certificate).
 if [ -z "${ca_pair}" ]; then
 	ca_pair="${gateway_pair}"
-elif [ ! -f "${ca_pair}" ]; then
-	ca_pair="ca.pair"
-	rsa_gen_pair "${ca_pair}" ${RSA_SIZE} || die "failed to generate CA key-pair"
 fi
 
 csr="${gateway_cert}.csr"
@@ -189,7 +205,7 @@ csr="${gateway_cert}.csr"
 cert_request "${gateway_pair}" `cert_subj "${gateway_id}"` > "${csr}" \
 	|| die "failed to create gateway certificate signing request"
 
-cert_sign "${csr}" "${ca_pair}" ${CERT_DAYS} "${gateway_cert}" \
+cert_sign "${csr}" "${ca_pair}" ${CERT_DAYS} "${gateway_cert}" "${ca_cert}" \
 	|| die "failed to sign gateway certificate"
 
 # List digests and fingerprints of the resulted files.
