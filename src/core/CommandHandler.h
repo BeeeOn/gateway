@@ -19,6 +19,7 @@ class Answer;
 class CommandHandler {
 public:
 	CommandHandler();
+	virtual ~CommandHandler();
 
 	/*
 	 * Returns true if the given command can be handled by this handler.

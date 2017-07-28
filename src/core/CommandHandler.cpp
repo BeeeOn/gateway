@@ -6,3 +6,7 @@ using namespace std;
 CommandHandler::CommandHandler()
 {
 }
+
+CommandHandler::~CommandHandler()
+{
+}
