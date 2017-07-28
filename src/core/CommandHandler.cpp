@@ -3,12 +3,6 @@
 using namespace BeeeOn;
 using namespace std;
 
-CommandHandler::CommandHandler(const string &name):
-	m_name(name)
+CommandHandler::CommandHandler()
 {
-}
-
-string CommandHandler::name() const
-{
-	return m_name;
 }

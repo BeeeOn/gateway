@@ -18,16 +18,7 @@ class Answer;
  */
 class CommandHandler {
 public:
-	/*
-	 * CommandHandler with specific name of handler.
-	 * The name is intended for debugging purposes only.
-	 */
-	CommandHandler(const std::string &name);
-
-	/*
-	 * Name of handler.
-	 */
-	std::string name() const;
+	CommandHandler();
 
 	/*
 	 * Returns true if the given command can be handled by this handler.

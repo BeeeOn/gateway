@@ -54,7 +54,6 @@ private:
 class FakeHandler1 : public CommandHandler {
 public:
 	FakeHandler1(const DeviceID &deviceID):
-		CommandHandler("FakeHandler1"),
 		m_deviceID(deviceID)
 	{
 	}
@@ -89,7 +88,6 @@ private:
 class FakeHandler2 : public CommandHandler {
 public:
 	FakeHandler2(const DeviceID &deviceID):
-		CommandHandler("FakeHandler2"),
 		m_deviceID(deviceID)
 	{
 	}
@@ -119,8 +117,7 @@ private:
 
 class NonAcceptingCommandHandler : public CommandHandler {
 public:
-	NonAcceptingCommandHandler():
-		CommandHandler("NonAcceptingCommandHandler")
+	NonAcceptingCommandHandler()
 	{
 	}
 
@@ -137,7 +134,6 @@ public:
 class FakeCommandSender : public CommandSender, public CommandHandler {
 public:
 	FakeCommandSender(const DeviceID &deviceID):
-		CommandHandler("FakeCommandSender"),
 		m_deviceID(deviceID)
 	{
 	}

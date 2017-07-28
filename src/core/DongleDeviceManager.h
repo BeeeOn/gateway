@@ -11,7 +11,7 @@ namespace BeeeOn {
 
 class DongleDeviceManager : public DeviceManager, public UDevListener {
 public:
-	DongleDeviceManager(const std::string &name, const DevicePrefix &prefix);
+	DongleDeviceManager(const DevicePrefix &prefix);
 
 	void run() override;
 	void stop() override;

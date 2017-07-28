@@ -37,7 +37,7 @@ class DeviceManager:
 	protected Loggable,
 	public StoppableRunnable {
 public:
-	DeviceManager(const std::string &name, const DevicePrefix &prefix);
+	DeviceManager(const DevicePrefix &prefix);
 	virtual ~DeviceManager();
 
 	/**

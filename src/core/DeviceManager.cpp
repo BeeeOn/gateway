@@ -11,9 +11,7 @@ using namespace std;
 
 const Timespan DeviceManager::DEFAULT_REQUEST_TIMEOUT(5 * Timespan::SECONDS);
 
-DeviceManager::DeviceManager(const std::string &name,
-		const DevicePrefix &prefix):
-	CommandHandler(name),
+DeviceManager::DeviceManager(const DevicePrefix &prefix):
 	m_stop(false),
 	m_prefix(prefix)
 {

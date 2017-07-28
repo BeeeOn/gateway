@@ -16,7 +16,7 @@ class TestableDongleDeviceManager : public DongleDeviceManager {
 public:
 	TestableDongleDeviceManager(
 			const std::string name, const DevicePrefix &prefix):
-		DongleDeviceManager(name, prefix),
+		DongleDeviceManager(prefix),
 		m_name(name)
 	{
 	}

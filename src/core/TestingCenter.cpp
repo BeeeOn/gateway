@@ -413,7 +413,6 @@ static void credentialsAction(TestingCenter::ActionContext &context)
 }
 
 TestingCenter::TestingCenter():
-	CommandHandler("TestingCenter"),
 	m_stop(0)
 {
 	registerAction("echo", echoAction, "echo arguments to output separated by space");

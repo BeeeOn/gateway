@@ -8,9 +8,8 @@ using namespace std;
 using namespace Poco;
 using namespace BeeeOn;
 
-DongleDeviceManager::DongleDeviceManager(
-		const string &name, const DevicePrefix &prefix):
-	DeviceManager(name, prefix)
+DongleDeviceManager::DongleDeviceManager(const DevicePrefix &prefix):
+	DeviceManager(prefix)
 {
 }
 
