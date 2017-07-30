@@ -7,7 +7,7 @@
 			<add name="runnables" ref="virtualSensor2" if-yes="${virtual-sensor2.enable}" />
 			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
-			<add name="runnables" ref="udevMonitor" />
+			<add name="runnables" ref="hotplugMonitor" />
 			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
@@ -67,6 +67,8 @@
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
 			<set name="pipePath" text="${hotplug.pipe.path}" />
 		</instance>
+
+		<alias name="hotplugMonitor" ref="${hotplug.impl}Monitor" />
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
 			<set name="refresh" number="${virtual-sensor1.refresh}" />
