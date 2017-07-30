@@ -59,7 +59,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugEvent.cpp
-	${PROJECT_SOURCE_DIR}/hotplug/UDevListener.cpp
+	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/UDevMonitor.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp

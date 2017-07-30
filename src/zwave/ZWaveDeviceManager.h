@@ -15,7 +15,7 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/DeviceManager.h"
-#include "hotplug/UDevListener.h"
+#include "hotplug/HotplugListener.h"
 #include "zwave/ZWaveDriver.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveNodeInfo.h"
@@ -31,7 +31,7 @@ namespace BeeeOn {
  * After a supported Z-Wave driver is connected, the onAdd event
  * ensures its setup and initialization via the OpenZWave library.
  */
-class ZWaveDeviceManager : public DeviceManager, public UDevListener {
+class ZWaveDeviceManager : public DeviceManager, public HotplugListener {
 public:
 	ZWaveDeviceManager();
 	~ZWaveDeviceManager();

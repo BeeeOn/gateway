@@ -8,7 +8,7 @@
 #include <Poco/AtomicCounter.h>
 #include <Poco/Timespan.h>
 
-#include "hotplug/UDevListener.h"
+#include "hotplug/HotplugListener.h"
 #include "loop/StoppableRunnable.h"
 #include "util/Loggable.h"
 
@@ -29,7 +29,7 @@ public:
 	void setMatches(const std::list<std::string> &matches);
 	void setPollTimeout(const int ms);
 	void setIncludeParents(bool enable);
-	void registerListener(UDevListener::Ptr listener);
+	void registerListener(HotplugListener::Ptr listener);
 
 	void initialScan();
 
@@ -49,7 +49,7 @@ private:
 	void fireMoveEvent(const HotplugEvent &event);
 
 private:
-	std::list<UDevListener::Ptr> m_listeners;
+	std::list<HotplugListener::Ptr> m_listeners;
 	std::set<std::string> m_matches;
 	Poco::AtomicCounter m_stop;
 	Poco::Timespan m_pollTimeout;

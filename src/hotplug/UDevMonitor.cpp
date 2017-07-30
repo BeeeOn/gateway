@@ -73,7 +73,7 @@ void UDevMonitor::setIncludeParents(bool enable)
 	m_includeParents = enable;
 }
 
-void UDevMonitor::registerListener(UDevListener::Ptr listener)
+void UDevMonitor::registerListener(HotplugListener::Ptr listener)
 {
 	m_listeners.push_back(listener);
 }

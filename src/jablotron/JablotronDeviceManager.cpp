@@ -14,7 +14,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(UDevListener)
+BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_REF("distributor", &JablotronDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &JablotronDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_END(BeeeOn, JablotronDeviceManager)

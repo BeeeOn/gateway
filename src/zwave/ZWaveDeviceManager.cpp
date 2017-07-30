@@ -19,7 +19,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, ZWaveDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(UDevListener)
+BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_TEXT("userPath", &ZWaveDeviceManager::setUserPath)
 BEEEON_OBJECT_TEXT("configPath", &ZWaveDeviceManager::setConfigPath)
 BEEEON_OBJECT_NUMBER("pollInterval", &ZWaveDeviceManager::setPollInterval)

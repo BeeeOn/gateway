@@ -5,11 +5,11 @@
 #include <Poco/Mutex.h>
 
 #include "core/DeviceManager.h"
-#include "hotplug/UDevListener.h"
+#include "hotplug/HotplugListener.h"
 
 namespace BeeeOn {
 
-class DongleDeviceManager : public DeviceManager, public UDevListener {
+class DongleDeviceManager : public DeviceManager, public HotplugListener {
 public:
 	DongleDeviceManager(const DevicePrefix &prefix);
 

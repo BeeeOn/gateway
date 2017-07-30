@@ -21,7 +21,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(UDevListener)
+BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_NUMBER("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_REF("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
