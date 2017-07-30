@@ -6,18 +6,18 @@ UDevListener::~UDevListener()
 {
 }
 
-void UDevListener::onAdd(const UDevEvent &)
+void UDevListener::onAdd(const HotplugEvent &)
 {
 }
 
-void UDevListener::onRemove(const UDevEvent &)
+void UDevListener::onRemove(const HotplugEvent &)
 {
 }
 
-void UDevListener::onChange(const UDevEvent &)
+void UDevListener::onChange(const HotplugEvent &)
 {
 }
 
-void UDevListener::onMove(const UDevEvent &)
+void UDevListener::onMove(const HotplugEvent &)
 {
 }

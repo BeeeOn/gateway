@@ -1,5 +1,5 @@
-#ifndef BEEEON_UDEV_EVENT_H
-#define BEEEON_UDEV_EVENT_H
+#ifndef BEEEON_HOTPLUG_EVENT_H
+#define BEEEON_HOTPLUG_EVENT_H
 
 #include <string>
 
@@ -8,11 +8,11 @@
 
 namespace BeeeOn {
 
-class UDevEvent {
+class HotplugEvent {
 public:
 	typedef Poco::Util::PropertyFileConfiguration Properties;
 
-	UDevEvent();
+	HotplugEvent();
 
 	void setSubsystem(const std::string &subsystem);
 	std::string subsystem() const;

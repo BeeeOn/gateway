@@ -39,8 +39,8 @@ public:
 	void run() override;
 	void stop() override;
 
-	void onAdd(const UDevEvent &event) override;
-	void onRemove(const UDevEvent &event) override;
+	void onAdd(const HotplugEvent &event) override;
+	void onRemove(const HotplugEvent &event) override;
 
 	bool accept(Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
@@ -76,7 +76,7 @@ private:
 	/**
 	 * Finding dongle path.
 	 */
-	std::string dongleMatch(const UDevEvent &e);
+	std::string dongleMatch(const HotplugEvent &e);
 
 	/**
 	 * A new node value (OpenZWave::ValeID) has been added to OpenZWave's

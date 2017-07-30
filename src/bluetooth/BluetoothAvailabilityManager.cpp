@@ -16,7 +16,7 @@
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
-#include "hotplug/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -92,7 +92,7 @@ bool BluetoothAvailabilityManager::dongleMissing()
 	return true;
 }
 
-string BluetoothAvailabilityManager::dongleMatch(const UDevEvent &e)
+string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
 {
 	if (e.subsystem() == "bluetooth") {
 		if (e.name().empty()) {

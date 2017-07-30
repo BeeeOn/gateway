@@ -10,7 +10,7 @@
 #include <Poco/Thread.h>
 
 #include "di/Injectable.h"
-#include "hotplug/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 #include "hotplug/UDevMonitor.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, UDevMonitor)
@@ -78,7 +78,7 @@ void UDevMonitor::registerListener(UDevListener::Ptr listener)
 	m_listeners.push_back(listener);
 }
 
-void UDevMonitor::fireAddEvent(const UDevEvent &event)
+void UDevMonitor::fireAddEvent(const HotplugEvent &event)
 {
 	for (auto &listener : m_listeners) {
 		try {
@@ -96,7 +96,7 @@ void UDevMonitor::fireAddEvent(const UDevEvent &event)
 	}
 }
 
-void UDevMonitor::fireRemoveEvent(const UDevEvent &event)
+void UDevMonitor::fireRemoveEvent(const HotplugEvent &event)
 {
 	for (auto &listener : m_listeners) {
 		try {
@@ -114,7 +114,7 @@ void UDevMonitor::fireRemoveEvent(const UDevEvent &event)
 	}
 }
 
-void UDevMonitor::fireChangeEvent(const UDevEvent &event)
+void UDevMonitor::fireChangeEvent(const HotplugEvent &event)
 {
 	for (auto &listener : m_listeners) {
 		try {
@@ -132,7 +132,7 @@ void UDevMonitor::fireChangeEvent(const UDevEvent &event)
 	}
 }
 
-void UDevMonitor::fireMoveEvent(const UDevEvent &event)
+void UDevMonitor::fireMoveEvent(const HotplugEvent &event)
 {
 	for (auto &listener : m_listeners) {
 		try {
@@ -151,7 +151,7 @@ void UDevMonitor::fireMoveEvent(const UDevEvent &event)
 }
 
 void UDevMonitor::collectProperties(
-	UDevEvent::Properties &properties, struct udev_device *dev) const
+	HotplugEvent::Properties &properties, struct udev_device *dev) const
 {
 	const char *subsystem = ::udev_device_get_subsystem(dev);
 	const string &prefix = string(subsystem ? subsystem : "") + (subsystem ? "." : "");
@@ -170,10 +170,10 @@ void UDevMonitor::collectProperties(
 	}
 }
 
-UDevEvent UDevMonitor::createEvent(struct udev_device *dev) const
+HotplugEvent UDevMonitor::createEvent(struct udev_device *dev) const
 {
 	const char *subsystem = ::udev_device_get_subsystem(dev);
-	UDevEvent event;
+	HotplugEvent event;
 
 	const char *node = ::udev_device_get_devnode(dev);
 	const char *type = ::udev_device_get_devtype(dev);
@@ -197,7 +197,7 @@ UDevEvent UDevMonitor::createEvent(struct udev_device *dev) const
 	return event;
 }
 
-void UDevMonitor::logEvent(const UDevEvent &event, const string &action) const
+void UDevMonitor::logEvent(const HotplugEvent &event, const string &action) const
 {
 	logger().debug("device event " + event.toString()
 		       + " (" + action + ")",
@@ -249,7 +249,7 @@ void UDevMonitor::initialScan()
 			throwFromErrno("udev_device_new_from_syspath");
 		}
 
-		const UDevEvent &event = createEvent(dev);
+		const HotplugEvent &event = createEvent(dev);
 		::udev_device_unref(dev);
 
 		logEvent(event, "initial");
@@ -291,7 +291,7 @@ void UDevMonitor::scanDevice(struct udev_monitor *mon)
 		throwFromErrno("udev_device_get_action");
 	}
 
-	const UDevEvent &event = createEvent(dev);
+	const HotplugEvent &event = createEvent(dev);
 	logEvent(event, action);
 
 	if (!::strcmp(action, "add"))

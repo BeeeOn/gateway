@@ -10,7 +10,7 @@
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
-#include "hotplug/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 #include "model/SensorData.h"
 #include "zwave/GenericZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveDeviceManager.h"
@@ -94,7 +94,7 @@ void ZWaveDeviceManager::run()
 	m_stopEvent.wait();
 }
 
-string ZWaveDeviceManager::dongleMatch(const UDevEvent &e)
+string ZWaveDeviceManager::dongleMatch(const HotplugEvent &e)
 {
 	if (!e.properties()->has("tty.BEEEON_DONGLE"))
 		return "";
@@ -108,7 +108,7 @@ string ZWaveDeviceManager::dongleMatch(const UDevEvent &e)
 	return e.node();
 }
 
-void ZWaveDeviceManager::onAdd(const UDevEvent &event)
+void ZWaveDeviceManager::onAdd(const HotplugEvent &event)
 {
 	FastMutex::ScopedLock guard(m_dongleLock);
 
@@ -135,7 +135,7 @@ void ZWaveDeviceManager::onAdd(const UDevEvent &event)
 	m_driver.registerItself();
 }
 
-void ZWaveDeviceManager::onRemove(const UDevEvent &event)
+void ZWaveDeviceManager::onRemove(const HotplugEvent &event)
 {
 	FastMutex::ScopedLock guard(m_dongleLock);
 

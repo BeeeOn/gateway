@@ -37,16 +37,16 @@ private:
 	struct udev_monitor *createMonitor();
 	struct udev_monitor *doCreateMonitor();
 	void collectProperties(
-		UDevEvent::Properties &event, struct udev_device *dev) const;
-	UDevEvent createEvent(struct udev_device *dev) const;
+		HotplugEvent::Properties &event, struct udev_device *dev) const;
+	HotplugEvent createEvent(struct udev_device *dev) const;
 	void scanDevice(struct udev_monitor *mon);
-	void logEvent(const UDevEvent &event, const std::string &action) const;
+	void logEvent(const HotplugEvent &event, const std::string &action) const;
 	void throwFromErrno(const std::string &name);
 
-	void fireAddEvent(const UDevEvent &event);
-	void fireRemoveEvent(const UDevEvent &event);
-	void fireChangeEvent(const UDevEvent &event);
-	void fireMoveEvent(const UDevEvent &event);
+	void fireAddEvent(const HotplugEvent &event);
+	void fireRemoveEvent(const HotplugEvent &event);
+	void fireChangeEvent(const HotplugEvent &event);
+	void fireMoveEvent(const HotplugEvent &event);
 
 private:
 	std::list<UDevListener::Ptr> m_listeners;

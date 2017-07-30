@@ -5,7 +5,7 @@
 
 namespace BeeeOn {
 
-class UDevEvent;
+class HotplugEvent;
 
 class UDevListener {
 public:
@@ -13,10 +13,10 @@ public:
 
 	virtual ~UDevListener();
 
-	virtual void onAdd(const UDevEvent &event);
-	virtual void onRemove(const UDevEvent &event);
-	virtual void onChange(const UDevEvent &event);
-	virtual void onMove(const UDevEvent &event);
+	virtual void onAdd(const HotplugEvent &event);
+	virtual void onRemove(const HotplugEvent &event);
+	virtual void onChange(const HotplugEvent &event);
+	virtual void onMove(const HotplugEvent &event);
 };
 
 }

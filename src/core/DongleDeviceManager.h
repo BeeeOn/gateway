@@ -16,8 +16,8 @@ public:
 	void run() override;
 	void stop() override;
 
-	void onAdd(const UDevEvent &e) override;
-	void onRemove(const UDevEvent &e) override;
+	void onAdd(const HotplugEvent &e) override;
+	void onRemove(const HotplugEvent &e) override;
 
 protected:
 	/**
@@ -27,7 +27,7 @@ protected:
 	 * If the event represents an inappropriate device, it returns
 	 * an empty string.
 	 */
-	virtual std::string dongleMatch(const UDevEvent &e) = 0;
+	virtual std::string dongleMatch(const HotplugEvent &e) = 0;
 
 	/**
 	 * The main execution loop that is to be run while the appropriate
