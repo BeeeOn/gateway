@@ -64,6 +64,10 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
+		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
+			<set name="pipePath" text="${hotplug.pipe.path}" />
+		</instance>
+
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
 			<set name="refresh" number="${virtual-sensor1.refresh}" />
 			<set name="min" number="${virtual-sensor1.min}" />
