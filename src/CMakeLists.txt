@@ -58,6 +58,9 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
 	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
+	${PROJECT_SOURCE_DIR}/hotplug/UDevEvent.cpp
+	${PROJECT_SOURCE_DIR}/hotplug/UDevListener.cpp
+	${PROJECT_SOURCE_DIR}/hotplug/UDevMonitor.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
@@ -71,9 +74,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
 	${PROJECT_SOURCE_DIR}/net/VPTHTTPScanner.cpp
-	${PROJECT_SOURCE_DIR}/udev/UDevEvent.cpp
-	${PROJECT_SOURCE_DIR}/udev/UDevListener.cpp
-	${PROJECT_SOURCE_DIR}/udev/UDevMonitor.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp

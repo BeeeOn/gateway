@@ -16,7 +16,7 @@
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
-#include "udev/UDevEvent.h"
+#include "hotplug/UDevEvent.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)

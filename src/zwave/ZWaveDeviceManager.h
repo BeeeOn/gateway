@@ -15,7 +15,7 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/DeviceManager.h"
-#include "udev/UDevListener.h"
+#include "hotplug/UDevListener.h"
 #include "zwave/ZWaveDriver.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveNodeInfo.h"

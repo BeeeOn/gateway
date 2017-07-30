@@ -10,8 +10,8 @@
 #include <Poco/Thread.h>
 
 #include "di/Injectable.h"
-#include "udev/UDevEvent.h"
-#include "udev/UDevMonitor.h"
+#include "hotplug/UDevEvent.h"
+#include "hotplug/UDevMonitor.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, UDevMonitor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)

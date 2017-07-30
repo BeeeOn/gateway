@@ -8,7 +8,7 @@
 #include "io/AutoClose.h"
 #include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
-#include "udev/UDevEvent.h"
+#include "hotplug/UDevEvent.h"
 #include "util/LambdaTimerTask.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)

@@ -8,8 +8,8 @@
 #include <Poco/AtomicCounter.h>
 #include <Poco/Timespan.h>
 
+#include "hotplug/UDevListener.h"
 #include "loop/StoppableRunnable.h"
-#include "udev/UDevListener.h"
 #include "util/Loggable.h"
 
 struct udev;

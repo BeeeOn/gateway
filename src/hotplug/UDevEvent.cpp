@@ -1,6 +1,6 @@
 #include <Poco/Format.h>
 
-#include "udev/UDevEvent.h"
+#include "hotplug/UDevEvent.h"
 
 using namespace std;
 using namespace Poco;
