@@ -153,8 +153,7 @@ bool PipeHotplugMonitor::processEvent(FdInputStream &input)
 		return true;
 	}
 
-	logger().debug("event " + action + ": " + event.toString(),
-		       __FILE__, __LINE__);
+	logEvent(event, action);
 	fireEvent(event, action);
 
 	return true;
@@ -278,81 +277,4 @@ void PipeHotplugMonitor::setPollTimeout(int ms)
 	// negative ... blocking
 	// positive ... blocking with timeout
 	m_pollTimeout = Timespan(ms * Timespan::MILLISECONDS);
-}
-
-void PipeHotplugMonitor::registerListener(HotplugListener::Ptr listener)
-{
-	m_listeners.push_back(listener);
-}
-
-void PipeHotplugMonitor::fireAddEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onAdd(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void PipeHotplugMonitor::fireRemoveEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onRemove(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void PipeHotplugMonitor::fireChangeEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onChange(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void PipeHotplugMonitor::fireMoveEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onMove(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
 }

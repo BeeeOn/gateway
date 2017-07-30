@@ -6,7 +6,6 @@
 
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
-#include <Poco/LogStream.h>
 #include <Poco/Thread.h>
 
 #include "di/Injectable.h"
@@ -73,83 +72,6 @@ void UDevMonitor::setIncludeParents(bool enable)
 	m_includeParents = enable;
 }
 
-void UDevMonitor::registerListener(HotplugListener::Ptr listener)
-{
-	m_listeners.push_back(listener);
-}
-
-void UDevMonitor::fireAddEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onAdd(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void UDevMonitor::fireRemoveEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onRemove(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void UDevMonitor::fireChangeEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onChange(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void UDevMonitor::fireMoveEvent(const HotplugEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onMove(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
 void UDevMonitor::collectProperties(
 	HotplugEvent::Properties &properties, struct udev_device *dev) const
 {
@@ -195,18 +117,6 @@ HotplugEvent UDevMonitor::createEvent(struct udev_device *dev) const
 	collectProperties(*event.properties(), dev);
 
 	return event;
-}
-
-void UDevMonitor::logEvent(const HotplugEvent &event, const string &action) const
-{
-	logger().debug("device event " + event.toString()
-		       + " (" + action + ")",
-		       __FILE__, __LINE__);
-
-	if (logger().trace()) {
-		LogStream stream(logger(), Message::PRIO_TRACE);
-		event.properties()->save(stream);
-	}
 }
 
 void UDevMonitor::initialScan()

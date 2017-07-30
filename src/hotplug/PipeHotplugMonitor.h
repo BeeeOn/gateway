@@ -10,8 +10,7 @@
 #include <Poco/Timespan.h>
 
 #include "loop/StoppableRunnable.h"
-#include "hotplug/HotplugListener.h"
-#include "util/Loggable.h"
+#include "hotplug/AbstractHotplugMonitor.h"
 
 namespace BeeeOn {
 
@@ -40,7 +39,9 @@ class FdInputStream;
  * <LF|EOF>
  * </pre>
  */
-class PipeHotplugMonitor : public StoppableRunnable, Loggable {
+class PipeHotplugMonitor :
+		public StoppableRunnable,
+		public AbstractHotplugMonitor {
 public:
 	PipeHotplugMonitor();
 	~PipeHotplugMonitor();
@@ -62,14 +63,8 @@ public:
 	 * The timeout is expected in milliseconds.
 	 */
 	void setPollTimeout(const int ms);
-	void registerListener(HotplugListener::Ptr listener);
 
 protected:
-	void fireAddEvent(const HotplugEvent &event);
-	void fireRemoveEvent(const HotplugEvent &event);
-	void fireChangeEvent(const HotplugEvent &event);
-	void fireMoveEvent(const HotplugEvent &event);
-
 	/**
 	 * Open the pipe for receiving hotplug events.
 	 */
@@ -107,7 +102,6 @@ protected:
 
 private:
 	std::string m_pipePath;
-	std::list<HotplugListener::Ptr> m_listeners;
 	Poco::Event m_waitPipe;
 	Poco::Timespan m_pollTimeout;
 	Poco::AtomicCounter m_stop;

@@ -58,6 +58,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
 	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
+	${PROJECT_SOURCE_DIR}/hotplug/AbstractHotplugMonitor.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugEvent.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/PipeHotplugMonitor.cpp
