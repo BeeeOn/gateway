@@ -150,12 +150,12 @@ void BelkinWemoDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 		Result::Ptr result = new Result(answer);
 
 		if (modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
-			result->setStatus(Result::SUCCESS);
+			result->setStatus(Result::Status::SUCCESS);
 			logger().debug("success to change state of switch " + cmdSet->deviceID().toString(),
 				__FILE__, __LINE__);
 		}
 		else {
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 			logger().debug("failed to change state of switch " + cmdSet->deviceID().toString(),
 				__FILE__, __LINE__);
 		}
@@ -182,7 +182,7 @@ void BelkinWemoDeviceManager::doListenCommand(const Command::Ptr cmd, const Answ
 		catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
 			logger().error("listening thread failed to start", __FILE__, __LINE__);
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 			return;
 		}
 	}
@@ -190,7 +190,7 @@ void BelkinWemoDeviceManager::doListenCommand(const Command::Ptr cmd, const Answ
 		logger().warning("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
 	}
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd, const Answer::Ptr answer)
@@ -210,7 +210,7 @@ void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd, const Answ
 	}
 
 	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BelkinWemoDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd, const Answer::Ptr answer)
@@ -224,13 +224,13 @@ void BelkinWemoDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd, cons
 	if (it == m_switches.end()) {
 		logger().warning("not accepting device that is not found: " + cmdAccept->deviceID().toString(),
 			__FILE__, __LINE__);
-		result->setStatus(Result::FAILED);
+		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
 	m_pairedDevices.insert(cmdAccept->deviceID());
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,

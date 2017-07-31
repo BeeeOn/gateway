@@ -533,7 +533,7 @@ void TestingCenter::handle(Command::Ptr cmd, Answer::Ptr answer)
 		}
 
 		result->setDeviceList(devices);
-		result->setStatus(Result::SUCCESS);
+		result->setStatus(Result::Status::SUCCESS);
 	}
 	else if (cmd->is<ServerLastValueCommand>()) {
 		ServerLastValueCommand::Ptr command = cmd.cast<ServerLastValueCommand>();
@@ -542,20 +542,20 @@ void TestingCenter::handle(Command::Ptr cmd, Answer::Ptr answer)
 		ScopedLock<Mutex> guard(m_mutex);
 		auto deviceIt = m_devices.find(command->deviceID());
 		if (deviceIt == m_devices.end()) {
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 			return;
 		}
 
 		auto moduleIt = deviceIt->second.find(command->moduleID());
 		if (moduleIt == deviceIt->second.end()) {
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 			return;
 		}
 
 		result->setDeviceID(command->deviceID());
 		result->setModuleID(command->moduleID());
 		result->setValue(moduleIt->second);
-		result->setStatus(Result::SUCCESS);
+		result->setStatus(Result::Status::SUCCESS);
 	}
 }
 

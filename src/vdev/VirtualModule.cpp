@@ -117,10 +117,10 @@ void VirtualModule::modifyValue(double value, Result::Ptr result)
 {
 	if (reaction() == REACTION_SUCCESS) {
 		m_value = value;
-		result->setStatus(Result::SUCCESS);
+		result->setStatus(Result::Status::SUCCESS);
 	}
 	else if (reaction() == REACTION_FAILURE) {
-		result->setStatus(Result::FAILED);
+		result->setStatus(Result::Status::FAILED);
 	}
 	else {
 		throw IllegalStateException(

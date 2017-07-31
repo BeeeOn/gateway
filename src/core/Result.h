@@ -6,6 +6,7 @@
 #include <Poco/RefCountedObject.h>
 
 #include "util/Castable.h"
+#include "util/Enum.h"
 
 namespace BeeeOn {
 
@@ -30,11 +31,19 @@ class Result : public Poco::RefCountedObject, public Castable {
 public:
 	typedef Poco::AutoPtr<Result> Ptr;
 
-	enum Status {
-		PENDING,
-		SUCCESS,
-		FAILED,
+	struct StatusEnum
+	{
+		enum Raw
+		{
+			PENDING,
+			SUCCESS,
+			FAILED,
+		};
+
+		static EnumHelper<Raw>::ValueMap &valueMap();
 	};
+
+	typedef Enum<StatusEnum> Status;
 
 	Result(Poco::AutoPtr<Answer> answer);
 

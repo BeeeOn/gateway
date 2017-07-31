@@ -60,7 +60,7 @@ set<DeviceID> DeviceManager::responseDeviceList(
 
 	answer->waitNotPending(waitTime);
 	for (unsigned long i = 0; i < answer->resultsCount(); i++) {
-		if (answer->at(i)->status() != Result::SUCCESS) {
+		if (answer->at(i)->status() != Result::Status::SUCCESS) {
 			failedResults++;
 			continue;
 		}
@@ -126,7 +126,7 @@ double DeviceManager::lastValue(const DeviceID &deviceID,
 	ServerLastValueResult::Ptr result;
 
 	for (unsigned long i = 0; i < answer->resultsCount(); i++) {
-		if (answer->at(i)->status() != Result::SUCCESS) {
+		if (answer->at(i)->status() != Result::Status::SUCCESS) {
 			failedResults++;
 			continue;
 		}

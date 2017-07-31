@@ -240,7 +240,7 @@ void VirtualDeviceManager::doListenCommand(
 			dispatchNewDevice(item.second);
 	}
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doDeviceAcceptCommand(
@@ -258,7 +258,7 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::SUCCESS);
+		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
@@ -274,7 +274,7 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 	entry.device()->setPaired(true);
 	scheduleEntryUnlocked(entry);
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doUnpairCommand(
@@ -291,7 +291,7 @@ void VirtualDeviceManager::doUnpairCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::FAILED);
+		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
@@ -305,7 +305,7 @@ void VirtualDeviceManager::doUnpairCommand(
 
 	it->second->setPaired(false);
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doSetValueCommand(
@@ -322,7 +322,7 @@ void VirtualDeviceManager::doSetValueCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::FAILED);
+		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
@@ -334,7 +334,7 @@ void VirtualDeviceManager::doSetValueCommand(
 					+ item->moduleType().type().toString()
 					+ " cannot be set");
 
-				result->setStatus(Result::FAILED);
+				result->setStatus(Result::Status::FAILED);
 				return;
 			}
 		}

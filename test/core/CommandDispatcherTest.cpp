@@ -73,7 +73,7 @@ public:
 			Poco::Thread::sleep(20);
 
 			Result::Ptr result = new Result(answer);
-			result->setStatus(Result::SUCCESS);
+			result->setStatus(Result::Status::SUCCESS);
 		}
 	}
 
@@ -107,7 +107,7 @@ public:
 			Poco::Thread::sleep(60);
 
 			Result::Ptr result = new Result(answer);
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 		}
 	}
 
@@ -157,7 +157,7 @@ public:
 			Poco::Thread::sleep(60);
 
 			Result::Ptr result = new Result(answer);
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 		}
 	}
 
@@ -207,8 +207,8 @@ void CommandDispatcherTest::testSupportedCommand()
 	CPPUNIT_ASSERT(answerList.size() == 1);
 
 	// check the set values from handlers
-	CPPUNIT_ASSERT(answer->at(0)->status() == Result::SUCCESS);
-	CPPUNIT_ASSERT(answer->at(1)->status() == Result::FAILED);
+	CPPUNIT_ASSERT(answer->at(0)->status() == Result::Status::SUCCESS);
+	CPPUNIT_ASSERT(answer->at(1)->status() == Result::Status::FAILED);
 
 	// Answer will be served, answer contains 2 Results
 	CPPUNIT_ASSERT(!answer->isEmpty());

@@ -213,7 +213,7 @@ void BluetoothAvailabilityManager::doDeviceAcceptCommand(
 	addDevice(cmd.cast<DeviceAcceptCommand>()->deviceID());
 
 	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BluetoothAvailabilityManager::doUnpairCommand(
@@ -224,7 +224,7 @@ void BluetoothAvailabilityManager::doUnpairCommand(
 	removeDevice(cmd->cast<DeviceUnpairCommand>().deviceID());
 
 	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd, const Answer::Ptr &answer)
@@ -238,7 +238,7 @@ void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd, cons
 		}
 		catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
-			result->setStatus(Result::FAILED);
+			result->setStatus(Result::Status::FAILED);
 			return;
 		}
 	}
@@ -247,7 +247,7 @@ void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd, cons
 			__FILE__, __LINE__);
 	}
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BluetoothAvailabilityManager::fetchDeviceList()

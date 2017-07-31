@@ -64,7 +64,7 @@ bool Answer::isPendingUnlocked() const
 		return false;
 
 	for (auto &result : m_resultList) {
-		if (result->statusUnlocked() == Result::PENDING)
+		if (result->statusUnlocked() == Result::Status::PENDING)
 			return true;
 	}
 

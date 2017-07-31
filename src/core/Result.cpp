@@ -29,7 +29,7 @@ void Result::setStatusUnlocked(const Result::Status status)
 	if (m_status == status)
 		return;
 
-	if (status < m_status) {
+	if (status.raw() < m_status.raw()) {
 		throw Poco::InvalidArgumentException(
 			"invalid status change: " + status);
 	}
@@ -69,4 +69,15 @@ void Result::assureLocked() const
 		throw IllegalStateException(
 			"modifying unlocked Result");
 	}
+}
+
+EnumHelper<BeeeOn::Result::StatusEnum::Raw>::ValueMap &Result::StatusEnum::valueMap()
+{
+	static EnumHelper<Result::Status::Raw>::ValueMap valueMap = {
+		{Status::PENDING, "PENDING"},
+		{Status::SUCCESS, "SUCCESS"},
+		{Status::FAILED, "FAILED"},
+	};
+
+	return valueMap;
 }
