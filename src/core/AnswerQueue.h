@@ -32,6 +32,8 @@ public:
 	bool wait(const Poco::Timespan &timeout,
 		std::list<Answer::Ptr> &dirtyList);
 
+	Answer::Ptr newAnswer();
+
 	void remove(const Answer::Ptr answer);
 
 	Poco::Event &event();

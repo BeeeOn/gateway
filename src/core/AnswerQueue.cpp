@@ -8,6 +8,11 @@ AnswerQueue::AnswerQueue()
 {
 }
 
+Answer::Ptr AnswerQueue::newAnswer()
+{
+	return new Answer(*this);
+}
+
 bool AnswerQueue::wait(const Timespan &timeout, list<Answer::Ptr> &dirtyList)
 {
 	do {
