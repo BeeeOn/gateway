@@ -231,7 +231,7 @@ void CommandDispatcherTest::testUnsupportedCommand()
 	Poco::SharedPtr<CommandHandler> handlerTest1(new NonAcceptingCommandHandler());
 	dispatcher.registerHandler(handlerTest1);
 
-	FakeCommand::Ptr cmd =  new FakeCommand(deviceID);
+	FakeCommand::Ptr cmd = new FakeCommand(deviceID);
 	std::list<Answer::Ptr> answerList;
 	Answer::Ptr answer = new Answer(queue);
 
@@ -263,7 +263,7 @@ void CommandDispatcherTest::testCommandSender()
 	Poco::SharedPtr<FakeCommandSender> commandSender(new FakeCommandSender(deviceID));
 	dispatcher->registerHandler(commandSender);
 
-	FakeCommand::Ptr cmd =  new FakeCommand(deviceID);
+	FakeCommand::Ptr cmd = new FakeCommand(deviceID);
 	std::list<Answer::Ptr> answerList;
 	Answer::Ptr answer = new Answer(queue);
 
