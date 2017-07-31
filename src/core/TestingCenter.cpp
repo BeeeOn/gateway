@@ -20,6 +20,7 @@
 #include "credentials/PasswordCredentials.h"
 #include "credentials/PinCredentials.h"
 #include "di/Injectable.h"
+#include "model/ModuleType.h"
 #include "util/ArgsParser.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
@@ -120,31 +121,15 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 	else if (args[1] == "new-device") {
 		assureArgs(context, 6, "command new-device");
 
-		list<ModuleType> dataTypes;
-		for (unsigned int i = 6; i < context.args.size(); i++) {
-			set<ModuleType::Attribute> attributes;
-
-			StringTokenizer tokens(args[i], ",",
-				StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-
-			if (tokens.count() > 1) {
-				for (unsigned int k = 1; k < tokens.count(); k++)
-					attributes.insert(ModuleType::Attribute::parse(tokens[k]));
-			}
-
-			dataTypes.push_back(
-				ModuleType(
-					ModuleType::Type::parse(tokens[0]),
-					attributes
-				)
-			);
-		}
+		list<ModuleType> moduleTypes;
+		for (unsigned int i = 6; i < context.args.size(); i++)
+			moduleTypes.push_back(ModuleType::parse(args[i]));
 
 		return new NewDeviceCommand(
 			DeviceID::parse(args[2]),
 			args[3],
 			args[4],
-			dataTypes,
+			moduleTypes,
 			NumberParser::parse(args[5])
 		);
 	}
