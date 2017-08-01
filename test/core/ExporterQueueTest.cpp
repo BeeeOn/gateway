@@ -185,11 +185,11 @@ void ExporterQueueTest::testQueueOverloaded()
 
 /**
  * The test vertifies that when the used exporter fails to export data and fails
- * multiple times while reaching the ExporterQueue::threshold(), the queue changes
- * its status to "not working". When exporter is again successfully
+ * multiple times (in a row) while reaching the ExporterQueue::threshold(), the
+ * queue changes its status to "not working". When exporter is again successfully
  * exporting data, queue changes status to "working" after the first successfull
  * export.
- * Treshold is set to 0 for this test.
+ * Treshold is set to 2 for this test.
  * "deadTimeout" is 5 seconds because it is assumed that time between calling
  * ExporterQueue::exportBatch() and ExporterQueue::canExport() in this test will
  * be (much) shorter than 5 seconds.
@@ -198,7 +198,7 @@ void ExporterQueueTest::testExporterBroken()
 {
 	SharedPtr<Exporter> exporter = new QueueTestingExporter(&QueueTestingExporter::shipBroken);
 
-	ExporterQueue queue(exporter, 10, 20, 0);
+	ExporterQueue queue(exporter, 10, 20, 2);
 
 	SensorData data;
 
@@ -212,6 +212,26 @@ void ExporterQueueTest::testExporterBroken()
 	CPPUNIT_ASSERT_EQUAL(0, queue.exportBatch());
 	CPPUNIT_ASSERT_EQUAL(0, exporter.cast<QueueTestingExporter>()->m_shipped);
 
+	// queue is working, treshold is not reached yet
+	CPPUNIT_ASSERT(queue.working());
+
+	exporter.cast<QueueTestingExporter>()->setOK();
+
+	CPPUNIT_ASSERT_EQUAL(1, queue.exportBatch());
+	CPPUNIT_ASSERT_EQUAL(1, exporter.cast<QueueTestingExporter>()->m_shipped);
+
+	exporter.cast<QueueTestingExporter>()->setBroken();
+
+	queue.enqueue(data);
+
+	// queue is still working, fails have to be in a row to reach treshold
+	CPPUNIT_ASSERT_EQUAL(0, queue.exportBatch());
+	CPPUNIT_ASSERT(queue.working());
+
+	// now after 2 unsuccessful attempts in a row, queue in not working anymore
+	CPPUNIT_ASSERT_EQUAL(0, queue.exportBatch());
+	CPPUNIT_ASSERT(!queue.working());
+
 	// we are dead for much less then 5 seconds
 	Timespan deadTimeout(5 * Timespan::SECONDS);
 	CPPUNIT_ASSERT(!queue.canExport(deadTimeout));
@@ -219,7 +239,7 @@ void ExporterQueueTest::testExporterBroken()
 	exporter.cast<QueueTestingExporter>()->setOK();
 
 	CPPUNIT_ASSERT_EQUAL(1, queue.exportBatch());
-	CPPUNIT_ASSERT_EQUAL(1, exporter.cast<QueueTestingExporter>()->m_shipped);
+	CPPUNIT_ASSERT_EQUAL(2, exporter.cast<QueueTestingExporter>()->m_shipped);
 
 	CPPUNIT_ASSERT(queue.working());
 
