@@ -10,8 +10,10 @@
 #include "model/GatewayID.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GatewayInfo)
-BEEEON_OBJECT_TEXT("loadCertificate", &GatewayInfo::loadCertificate)
-BEEEON_OBJECT_TEXT("loadPrivateKey", &GatewayInfo::loadPrivateKey)
+BEEEON_OBJECT_TEXT("certificatePath", &GatewayInfo::setCertPath)
+BEEEON_OBJECT_TEXT("keyPath", &GatewayInfo::setKeyPath)
+BEEEON_OBJECT_TEXT("gatewayID", &GatewayInfo::setGatewayID)
+BEEEON_OBJECT_HOOK("done", &GatewayInfo::initialize)
 BEEEON_OBJECT_END(BeeeOn, GatewayInfo)
 
 using namespace BeeeOn;
@@ -25,13 +27,38 @@ GatewayInfo::GatewayInfo()
 {
 }
 
+void GatewayInfo::setCertPath(const string &path)
+{
+	m_certPath = path;
+}
+
+void GatewayInfo::setKeyPath(const string &path)
+{
+	m_keyPath = path;
+}
+
+void GatewayInfo::setGatewayID(const string &gatewayID)
+{
+	m_gatewayID = GatewayID::parse(gatewayID);
+	poco_warning(logger(),
+		"gatewayID was set directly, this should be done only in case of debugging");
+}
+
 GatewayID GatewayInfo::gatewayID() const
 {
-	if (m_certificate.isNull())
-		throw Poco::Exception(string("could not retrieve gatewayID,")
-				+ string("certificate needs to be loaded first"));
+	if (m_gatewayID.isNull())
+		throw Poco::NullPointerException("no gateway ID set");
 
-	return m_gatewayID;
+	return m_gatewayID.value();
+}
+
+void GatewayInfo::initialize()
+{
+	if (!m_keyPath.empty())
+		loadPrivateKey();
+
+	if (!m_certPath.empty())
+		loadCertificate();
 }
 
 string GatewayInfo::version()
@@ -44,9 +71,9 @@ Poco::SharedPtr<X509Certificate> GatewayInfo::certificate() const
 	return m_certificate;
 }
 
-void GatewayInfo::loadCertificate(const string &filePath)
+void GatewayInfo::loadCertificate()
 {
-	m_certificate.assign(new X509Certificate(filePath));
+	m_certificate.assign(new X509Certificate(m_certPath));
 	string commonName = m_certificate->commonName();
 	string stringID = "";
 	Poco::RegularExpression numberPattern("[0-9]+");
@@ -54,6 +81,12 @@ void GatewayInfo::loadCertificate(const string &filePath)
 	poco_debug(logger() ,"loaded certificate with common name: " + commonName);
 
 	if (numberPattern.extract(commonName, stringID) == 1) {
+		if (!m_gatewayID.isNull()) {
+			poco_warning(logger(),
+				"overriding directly set gateway ID from certificate: "
+				+ stringID);
+		}
+
 		m_gatewayID = GatewayID::parse(stringID);
 	}
 	else {
@@ -62,7 +95,7 @@ void GatewayInfo::loadCertificate(const string &filePath)
 	}
 }
 
-void GatewayInfo::loadPrivateKey(const std::string &filePath)
+void GatewayInfo::loadPrivateKey()
 {
-	m_privateKey.assign(new RSAKey("", filePath));
+	m_privateKey.assign(new RSAKey("", m_keyPath));
 }

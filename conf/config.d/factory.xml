@@ -8,9 +8,10 @@
 			<add name="runnables" ref="udevMonitor" />
 		</instance>
 
-		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo">
-			<set name="loadCertificate" text="${ssl.certificate.filePath}" />
-			<set name="loadPrivateKey" text="${ssl.privateKey.filePath}" />
+		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
+			<set name="certificatePath" text="${ssl.certificate.filePath}" />
+			<set name="keyPath" text="${ssl.privateKey.filePath}" />
+			<set name="gatewayID" text="${gateway.id}" />
 		</instance>
 
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
