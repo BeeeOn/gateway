@@ -75,8 +75,10 @@ unsigned int ExporterQueue::exportBatch()
 		return i;
 	}
 
-	if (i > 0)
+	if (i > 0) {
 		m_working = true;
+		m_fails = 0;
+	}
 
 	return i;
 }
