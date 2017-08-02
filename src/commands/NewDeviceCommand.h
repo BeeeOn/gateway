@@ -20,7 +20,7 @@ public:
 	typedef Poco::AutoPtr<NewDeviceCommand> Ptr;
 
 	NewDeviceCommand(const DeviceID &deviceID, const std::string &vendor,
-		const std::string &productName, std::list<ModuleType> &dataTypes,
+		const std::string &productName, const std::list<ModuleType> &dataTypes,
 		Poco::Timespan refresh_time = -1);
 
 	DeviceID deviceID() const;
