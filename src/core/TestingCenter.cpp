@@ -50,6 +50,10 @@ static string reportAnswer(Answer::Ptr p, FastMutex::ScopedLock &)
 	line += to_string(p->resultsCountUnlocked());
 	line += "/";
 	line += to_string(p->handlersCountUnlocked());
+	line += " ";
+
+	for (size_t i = 0; i < p->resultsCountUnlocked(); ++i)
+		line +=  p->atUnlocked(i)->statusUnlocked().toString().at(0);
 
 	return line;
 }
