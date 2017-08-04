@@ -33,9 +33,6 @@ public:
 	 * For example: Mutex::ScopedLock lock(m_mutex);
 	 */
 	virtual void handle(Command::Ptr cmd, Answer::Ptr answer) = 0;
-
-private:
-	std::string m_name;
 };
 
 }
