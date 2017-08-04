@@ -199,6 +199,7 @@ void QueuingDistributorTest::testFullExporter()
 	SharedPtr<Exporter> exporter2 = new TestingExporter(&TestingExporter::shipFull);
 
 	distributor->setDeadTimeout(0);
+	distributor->setIdleTimeout(0);
 	distributor->registerExporter(exporter1);
 	distributor->registerExporter(exporter2);
 
@@ -257,6 +258,7 @@ void QueuingDistributorTest::testNoConnectivityExporter()
 	SharedPtr<Exporter> exporter2 = new TestingExporter(&TestingExporter::shipBroken);
 
 	distributor->setDeadTimeout(0);
+	distributor->setIdleTimeout(0);
 	distributor->registerExporter(exporter1);
 	distributor->registerExporter(exporter2);
 
