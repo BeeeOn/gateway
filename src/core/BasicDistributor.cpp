@@ -38,8 +38,7 @@ void BasicDistributor::exportData(const SensorData &sensorData)
 			poco_critical(logger(), "Data failed to ship: " + std::string(ex.what()));
 
 		} catch (...) {
-			poco_critical(logger(), "Unknown error occured when shipping data");
-
+			poco_critical(logger(), "Unknown error occurred when shipping data");
 		}
 	}
 }
