@@ -25,6 +25,14 @@ void CommandSender::dispatch(AutoPtr<Command> cmd, AutoPtr<Answer> answer)
 	m_commandDispatcher->dispatch(cmd, answer);
 }
 
+void CommandSender::dispatch(AutoPtr<Command> cmd)
+{
+	Answer::Ptr answer = new Answer(answerQueue());
+	dispatch(cmd, answer);
+
+	answer->waitNotPending(-1);
+}
+
 AnswerQueue &CommandSender::answerQueue()
 {
 	return m_answerQueue;

@@ -31,6 +31,12 @@ public:
 	void dispatch(Poco::AutoPtr<Command> cmd, Poco::AutoPtr<Answer> answer);
 
 	/**
+	 * Dispatches commands where the caller does not care about
+	 * the answer (there is no sensible reaction possible).
+	 */
+	void dispatch(Poco::AutoPtr<Command> cmd);
+
+	/**
 	 * Provides an implicit answer queue for the sender.
 	 */
 	AnswerQueue &answerQueue();
