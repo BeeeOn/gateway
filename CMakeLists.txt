@@ -32,3 +32,5 @@ install(DIRECTORY conf/config.d
 	DESTINATION etc/beeeon/gateway)
 install(FILES systemd/beeeon-gateway.service
 	DESTINATION lib/systemd/system)
+install(DIRECTORY udev/rules.d
+	DESTINATION etc/udev)

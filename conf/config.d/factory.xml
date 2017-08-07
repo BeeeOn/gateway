@@ -10,6 +10,7 @@
 			<add name="runnables" ref="udevMonitor" />
 			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
+			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
@@ -33,12 +34,14 @@
 			<add name="registerHandler" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<set name="registerHandler" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<set name="registerHandler" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
+			<set name="registerHandler" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
 			<set name="matches" list="bluetooth,tty" />
 			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<set name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
+			<set name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
@@ -112,6 +115,15 @@
 		<instance name="jablotronDeviceManager" class="BeeeOn::JablotronDeviceManager">
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+		</instance>
+
+		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
+			<set name="userPath" text="${zwave.user.path}" />
+			<set name="configPath" text="${zwave.config.path}" />
+			<set name="pollInterval" number="${zwave.poll.interval}" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="distributor" ref="distributor" />
+			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
 		</instance>
 
 		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
