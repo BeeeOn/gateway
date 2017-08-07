@@ -13,6 +13,7 @@ find_library (PTHREAD pthread)
 find_library (UDEV udev)
 
 file(GLOB SOURCES
+	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
