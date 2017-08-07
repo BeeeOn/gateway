@@ -1,6 +1,7 @@
 <system>
 	<factory>
 		<instance name="main" class="BeeeOn::LoopRunner">
+			<add name="runnables" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
 			<add name="runnables" ref="virtualSensor1" if-yes="${virtual-sensor1.enable}" />
 			<add name="runnables" ref="virtualSensor2" if-yes="${virtual-sensor2.enable}" />
 			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
@@ -25,10 +26,19 @@
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
 			<set name="registerHandler" ref="testingCenter" if-yes="${testing.center.enable}"/>
+			<set name="registerHandler" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
 		</instance>
 
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
 			<set name="matches" list="bluetooth,tty" />
+		</instance>
+
+		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
+			<set name="httpTimeout" number="${belkinwemo.http.timeout}" />
+			<set name="upnpTimeout" number="${belkinwemo.upnp.timeout}" />
+			<set name="refresh" number="${belkinwemo.refresh}" />
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
