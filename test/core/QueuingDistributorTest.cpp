@@ -40,21 +40,26 @@ public:
 		if (!m_shipEnabled.tryWait(10000))
 			return false;
 
+		m_notShipping.reset();
+
 		try {
 			FastMutex::ScopedLock lock(m_functMutex);
 			if (m_ship()) {
 				++m_shipped;
 				m_lastShipped = data;
 				m_shipAttempt.set();
+				m_notShipping.set();
 				return true;
 			}
 			else {
 				m_shipAttempt.set();
+				m_notShipping.set();
 				return false;
 			}
 		}
 		catch (...) {
 			m_shipAttempt.set();
+			m_notShipping.set();
 			throw;
 		}
 	}
@@ -107,8 +112,9 @@ public:
 
 	void disableShipping()
 	{
-		m_shipAttempt.reset();
 		m_shipEnabled.reset();
+		m_notShipping.wait(5000);
+		m_shipAttempt.reset();
 	}
 
 	void enableShipping()
@@ -120,6 +126,7 @@ public:
 	SensorData m_lastShipped;
 
 private:
+	Event m_notShipping;
 	Event m_shipSet;
 	Event m_shipEnabled;
 	Event m_shipAttempt;
@@ -217,8 +224,8 @@ void QueuingDistributorTest::testFullExporter()
 	CPPUNIT_ASSERT_EQUAL(0, exporter1.cast<TestingExporter>()->m_shipped);
 	CPPUNIT_ASSERT_EQUAL(0, exporter2.cast<TestingExporter>()->m_shipped);
 
-	exporter1.cast<TestingExporter>()->disableShipping();
-	exporter2.cast<TestingExporter>()->disableShipping();
+	CPPUNIT_ASSERT_NO_THROW(exporter1.cast<TestingExporter>()->disableShipping());
+	CPPUNIT_ASSERT_NO_THROW(exporter2.cast<TestingExporter>()->disableShipping());
 
 	exporter1.cast<TestingExporter>()->setOK();
 	exporter2.cast<TestingExporter>()->setOK();
@@ -276,8 +283,8 @@ void QueuingDistributorTest::testNoConnectivityExporter()
 	CPPUNIT_ASSERT_EQUAL(0, exporter1.cast<TestingExporter>()->m_shipped);
 	CPPUNIT_ASSERT_EQUAL(0, exporter2.cast<TestingExporter>()->m_shipped);
 
-	exporter1.cast<TestingExporter>()->disableShipping();
-	exporter2.cast<TestingExporter>()->disableShipping();
+	CPPUNIT_ASSERT_NO_THROW(exporter1.cast<TestingExporter>()->disableShipping());
+	CPPUNIT_ASSERT_NO_THROW(exporter2.cast<TestingExporter>()->disableShipping());
 
 	exporter1.cast<TestingExporter>()->setOK();
 	exporter2.cast<TestingExporter>()->setOK();
