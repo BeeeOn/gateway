@@ -2,6 +2,7 @@
 	<factory>
 		<instance name="main" class="BeeeOn::LoopRunner">
 			<add name="runnables" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
+			<add name="runnables" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<add name="runnables" ref="virtualSensor1" if-yes="${virtual-sensor1.enable}" />
 			<add name="runnables" ref="virtualSensor2" if-yes="${virtual-sensor2.enable}" />
 			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
@@ -29,12 +30,14 @@
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
 			<set name="registerHandler" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<set name="registerHandler" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
+			<add name="registerHandler" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<set name="registerHandler" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<set name="registerHandler" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
 		</instance>
 
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
 			<set name="matches" list="bluetooth,tty" />
+			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<set name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 		</instance>
 
@@ -50,6 +53,12 @@
 			<set name="distributor" ref="distributor"/>
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 			<set name="file" text="${vdev.ini}"/>
+		</instance>
+
+		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
+			<set name="wakeUpTime" number="${bluetooth.refresh.time}" />
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
 		<instance name="virtualSensor1" class="BeeeOn::VirtualSensor">
