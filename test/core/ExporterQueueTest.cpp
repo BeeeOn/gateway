@@ -100,7 +100,7 @@ void ExporterQueueTest::testExportOk()
 {
 	SharedPtr<Exporter> exporter = new QueueTestingExporter;
 
-	ExporterQueue queue(exporter, 10, 20, 0);
+	ExporterQueue queue(exporter, 10, 20, 1);
 
 	DeviceID id01(0x1111222233334444UL);
 
@@ -152,7 +152,7 @@ void ExporterQueueTest::testQueueOverloaded()
 {
 	SharedPtr<Exporter> exporter = new QueueTestingExporter;
 
-	ExporterQueue queue(exporter, 10, 20, 0);
+	ExporterQueue queue(exporter, 10, 20, 1);
 
 	DeviceID id01(0x1111222233334444UL);
 
@@ -252,13 +252,13 @@ void ExporterQueueTest::testExporterBroken()
 /**
  * The test vertifies that when the used exporter fails to export data
  * because it is full, it does not affect queue working status.
- * Treshold is set to 0 for this test.
+ * Treshold is set to 1 for this test.
  */
 void ExporterQueueTest::testExporterFull()
 {
 	SharedPtr<Exporter> exporter = new QueueTestingExporter(&QueueTestingExporter::shipFull);
 
-	ExporterQueue queue(exporter, 10, 20, 0);
+	ExporterQueue queue(exporter, 10, 20, 1);
 
 	SensorData data;
 	DeviceID id(0x1111222233334444UL);

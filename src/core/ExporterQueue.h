@@ -9,6 +9,7 @@
 #include "core/Exporter.h"
 #include "model/SensorData.h"
 #include "util/Loggable.h"
+#include "util/FailDetector.h"
 
 namespace BeeeOn {
 
@@ -18,12 +19,12 @@ public:
 
 	const static int UNLIMITED_BATCH_SIZE = 0;
 	const static int UNLIMITED_CAPACITY = 0;
-	const static int UNLIMITED_THRESHOLD = -1;
+	const static int UNLIMITED_THRESHOLD = FailDetector::TRESHOLD_UNLIMITED;
 
 	/**
 	 * If batchSize <= 0 then size of batch is unlimited.
 	 * If capacity <= 0 then data count is unlimited.
-	 * If treshold < 0 then treshold is unlimited.
+	 * If treshold <= 0 then treshold is unlimited.
 	 */
 	ExporterQueue(
 		Poco::SharedPtr<Exporter> exporter,
@@ -69,15 +70,11 @@ private:
 
 	Poco::AtomicCounter m_dropped;
 	Poco::AtomicCounter m_sent;
-	int m_fails;
-	int m_treshold;
 
+	FailDetector m_failDetector;
 	std::queue<SensorData> m_queue;
 	unsigned int m_capacity;
 	unsigned int m_batchSize;
-
-	Poco::Timestamp m_timeOfFailure;
-	Poco::AtomicCounter m_working;
 };
 
 }
