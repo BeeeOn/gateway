@@ -46,6 +46,9 @@ public:
 	AnswerQueue &answerQueue();
 
 private:
+	CommandHandler* sendingHandler();
+
+private:
 	UnsafePtr<CommandDispatcher> m_commandDispatcher;
 	AnswerQueue m_answerQueue;
 };

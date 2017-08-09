@@ -15,12 +15,7 @@ void CommandSender::setCommandDispatcher(CommandDispatcher *dispatcher)
 
 void CommandSender::dispatch(AutoPtr<Command> cmd, AutoPtr<Answer> answer)
 {
-	// If the sender does not implement CommandHandler, the handler
-	// is NULL. Otherwise, we set ourself to prevent "dispatch to
-	// itself" issue.
-	CommandHandler *handler = dynamic_cast<CommandHandler *>(this);
-	cmd->setSendingHandler(handler);
-
+	cmd->setSendingHandler(sendingHandler());
 	m_commandDispatcher->dispatch(cmd, answer);
 }
 
@@ -35,4 +30,12 @@ void CommandSender::dispatch(AutoPtr<Command> cmd)
 AnswerQueue &CommandSender::answerQueue()
 {
 	return m_answerQueue;
+}
+
+CommandHandler* CommandSender::sendingHandler()
+{
+	// If the sender does not implement CommandHandler, the handler
+	// is NULL. Otherwise, we set ourself to prevent "dispatch to
+	// itself" issue.
+	return dynamic_cast<CommandHandler *>(this);
 }
