@@ -126,6 +126,9 @@ void MosquittoExporter::connect()
 
 void MosquittoExporter::disconnect()
 {
+	if (m_mq.isNull())
+		return;
+
 	m_mq->disconnect();
 	m_mq = nullptr;
 }
