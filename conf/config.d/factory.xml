@@ -7,6 +7,7 @@
 			<add name="runnables" ref="virtualSensor3" if-yes="${virtual-sensor3.enable}" />
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
 			<add name="runnables" ref="udevMonitor" />
+			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
@@ -27,10 +28,12 @@
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
 			<set name="registerHandler" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<set name="registerHandler" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
+			<set name="registerHandler" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 		</instance>
 
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
 			<set name="matches" list="bluetooth,tty" />
+			<set name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 		</instance>
 
 		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
@@ -87,6 +90,11 @@
 		<instance name="cryptoConfig" class="BeeeOn::CryptoConfig">
 			<set name="passphrase" text="${credentials.crypto.passphrase}" />
 			<set name="algorithm" text="${credentials.crypto.algorithm}" />
+		</instance>
+
+		<instance name="jablotronDeviceManager" class="BeeeOn::JablotronDeviceManager">
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 	</factory>
 </system>
