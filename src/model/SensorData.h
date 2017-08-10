@@ -33,6 +33,11 @@ public:
 		m_timestamp = timestamp;
 	}
 
+	bool isEmpty() const
+	{
+		return m_values.empty();
+	}
+
 	const IncompleteTimestamp timestamp() const
 	{
 		return m_timestamp;
