@@ -451,10 +451,12 @@ void VirtualDeviceManager::run()
 			__FILE__, __LINE__);
 
 		SensorData sensorData = entry.device()->generate();
-		if (!sensorData.isEmpty())
+		if (!sensorData.isEmpty()) {
 			ship(entry.device()->generate());
-		else
+		}
+		else {
 			poco_debug(logger(), "received empty SensorData");
+		}
 
 		scheduleEntryUnlocked(entry);
 		m_event.reset();
