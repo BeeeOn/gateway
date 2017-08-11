@@ -16,12 +16,9 @@ ExporterQueue::ExporterQueue(
 	m_exporter(exporter),
 	m_dropped(0),
 	m_sent(0),
-	m_fails(0),
-	m_treshold(treshold),
+	m_failDetector(treshold),
 	m_capacity(capacity),
-	m_batchSize(batchSize),
-	m_timeOfFailure(Poco::Timestamp()),
-	m_working(true)
+	m_batchSize(batchSize)
 {
 }
 
@@ -60,45 +57,25 @@ unsigned int ExporterQueue::exportBatch()
 		}
 	}
 	catch (const Exception &e) {
-		fail();
+		m_failDetector.fail();
 		logger().log(e, __FILE__, __LINE__);
 		return i;
 	}
 	catch (exception &e) {
-		fail();
+		m_failDetector.fail();
 		poco_critical(logger(), e.what());
 		return i;
 	}
 	catch (...) {
-		fail();
+		m_failDetector.fail();
 		poco_critical(logger(), "unknown error occured while shipping data");
 		return i;
 	}
 
-	if (i > 0) {
-		m_working = true;
-		m_fails = 0;
-	}
+	if (i > 0)
+		m_failDetector.success();
 
 	return i;
-}
-
-void ExporterQueue::fail()
-{
-	logger().debug("ship has failed");
-
-	if (m_treshold < 0)
-		return;
-
-	if (working()) {
-		if (++m_fails >= m_treshold) {
-			m_working = false;
-			m_fails = 0;
-		}
-	}
-	else {
-		m_timeOfFailure = Timestamp();
-	}
 }
 
 
@@ -112,12 +89,12 @@ bool ExporterQueue::canExport(const Timespan &deadTimeout) const
 
 bool ExporterQueue::working() const
 {
-	return m_working;
+	return !m_failDetector.isFailed();
 }
 
 bool ExporterQueue::deadTooLong(const Timespan deadTimeout) const
 {
-	return working() || m_timeOfFailure.isElapsed(deadTimeout.totalMicroseconds());
+	return working() || m_failDetector.lastFailBefore(deadTimeout);
 }
 
 bool ExporterQueue::isEmpty() const
