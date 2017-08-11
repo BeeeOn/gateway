@@ -8,8 +8,7 @@ CommandSender::~CommandSender()
 {
 }
 
-void CommandSender::setCommandDispatcher(
-	SharedPtr<CommandDispatcher> dispatcher)
+void CommandSender::setCommandDispatcher(CommandDispatcher *dispatcher)
 {
 	m_commandDispatcher = dispatcher;
 }
@@ -36,9 +35,4 @@ void CommandSender::dispatch(AutoPtr<Command> cmd)
 AnswerQueue &CommandSender::answerQueue()
 {
 	return m_answerQueue;
-}
-
-SharedPtr<CommandDispatcher> CommandSender::commandDispatcher() const
-{
-	return m_commandDispatcher;
 }

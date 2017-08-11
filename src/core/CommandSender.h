@@ -2,10 +2,10 @@
 #define BEEEON_COMMAND_SENDER_H
 
 #include <Poco/AutoPtr.h>
-#include <Poco/SharedPtr.h>
 
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
+#include "util/UnsafePtr.h"
 
 namespace BeeeOn {
 
@@ -22,8 +22,12 @@ class CommandSender {
 public:
 	virtual ~CommandSender();
 
-	void setCommandDispatcher(Poco::SharedPtr<CommandDispatcher> dispatcher);
-	Poco::SharedPtr<CommandDispatcher> commandDispatcher() const;
+	/**
+	 * Setting raw pointer to avoid circular dependencies when
+	 * an implementation of CommandSender also implements CommandHandler
+	 * and is registered with the same dispatcher.
+	 */
+	void setCommandDispatcher(CommandDispatcher *dispatcher);
 
 	/**
 	 * Dispatches commands via the configured CommandDispatcher.
@@ -42,7 +46,7 @@ public:
 	AnswerQueue &answerQueue();
 
 private:
-	Poco::SharedPtr<CommandDispatcher> m_commandDispatcher;
+	UnsafePtr<CommandDispatcher> m_commandDispatcher;
 	AnswerQueue m_answerQueue;
 };
 
