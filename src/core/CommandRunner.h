@@ -8,6 +8,7 @@
 
 #include "core/CommandHandler.h"
 #include "core/Answer.h"
+#include "util/Loggable.h"
 
 namespace BeeeOn {
 
@@ -20,7 +21,7 @@ class CommandHandler;
  * via the Poco::Task class. Thus, the command handling is
  * always non-blocking.
  */
-class CommandRunner : public Poco::Task {
+class CommandRunner : public Poco::Task, public Loggable {
 public:
 	CommandRunner(Command::Ptr cmd, Answer::Ptr answer,
 		Poco::SharedPtr<CommandHandler> handler);

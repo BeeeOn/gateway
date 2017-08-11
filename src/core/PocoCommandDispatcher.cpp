@@ -11,6 +11,8 @@ BEEEON_OBJECT_REF("registerHandler", &PocoCommandDispatcher::registerHandler)
 BEEEON_OBJECT_END(BeeeOn, PocoCommandDispatcher)
 
 using namespace BeeeOn;
+using namespace Poco;
+using namespace std;
 
 void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 {
@@ -24,10 +26,21 @@ void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 		if (item.get() == cmd->sendingHandler())
 			continue;
 
-		if (!item->accept(cmd))
-			continue;
+		try {
+			if (!item->accept(cmd))
+				continue;
 
-		impl->addTask(item, cmd, answer);
+			impl->addTask(item, cmd, answer);
+		}
+		catch (Exception &ex) {
+			logger().log(ex);
+		}
+		catch (exception &ex) {
+			poco_critical(logger(), ex.what());
+		}
+		catch(...) {
+			poco_critical(logger(), "unknown error");
+		}
 	}
 
 	answer->setHandlersCount(impl->tasks());
