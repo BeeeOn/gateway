@@ -11,6 +11,8 @@ class UDevListener {
 public:
 	typedef Poco::SharedPtr<UDevListener> Ptr;
 
+	virtual ~UDevListener();
+
 	virtual void onAdd(const UDevEvent &event);
 	virtual void onRemove(const UDevEvent &event);
 	virtual void onChange(const UDevEvent &event);

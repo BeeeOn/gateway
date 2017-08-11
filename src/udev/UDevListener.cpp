@@ -2,6 +2,10 @@
 
 using namespace BeeeOn;
 
+UDevListener::~UDevListener()
+{
+}
+
 void UDevListener::onAdd(const UDevEvent &)
 {
 }
