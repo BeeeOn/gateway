@@ -127,10 +127,12 @@ bool BelkinWemoDeviceManager::accept(const Command::Ptr cmd)
 	if (cmd->is<GatewayListenCommand>()) {
 		return true;
 	}
-	else if (cmd->is<DeviceSetValueCommand>()
-				|| cmd->is<DeviceUnpairCommand>()) {
+	else if (cmd->is<DeviceSetValueCommand>()) {
 		auto it = m_pairedDevices.find(cmd->cast<DeviceSetValueCommand>().deviceID());
 		return it != m_pairedDevices.end();
+	}
+	else if (cmd->is<DeviceUnpairCommand>()) {
+		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
 		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::parse("BelkinWemo");
