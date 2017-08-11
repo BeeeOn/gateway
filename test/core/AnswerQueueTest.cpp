@@ -245,10 +245,10 @@ void AnswerQueueTest::testResultUpdated()
 	CPPUNIT_ASSERT(answerList.empty());
 
 	Poco::Timer deferAfter20(21, 0);
-	ResultSetStatusLater failResult0(queue, result0, Result::FAILED);
+	ResultSetStatusLater failResult0(queue, result0, Result::Status::FAILED);
 
 	// the result0 must be PENDING here because it has just been created
-	CPPUNIT_ASSERT(result0->status() == Result::PENDING);
+	CPPUNIT_ASSERT(result0->status() == Result::Status::PENDING);
 
 	Timestamp now;
 	failResult0.start(deferAfter20);
@@ -257,7 +257,7 @@ void AnswerQueueTest::testResultUpdated()
 	// failResult0 wakes the queue up after 20 ms
 	CPPUNIT_ASSERT(now.elapsed() >= 20000);
 	CPPUNIT_ASSERT(now.elapsed() < 100000);
-	CPPUNIT_ASSERT(result0->status() == Result::FAILED);
+	CPPUNIT_ASSERT(result0->status() == Result::Status::FAILED);
 
 	CPPUNIT_ASSERT(2 == queue.size());
 

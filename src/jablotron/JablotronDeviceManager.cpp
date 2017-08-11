@@ -201,10 +201,10 @@ void JablotronDeviceManager::doDeviceAcceptCommand(
 			"unknown " + cmd->deviceID().toString()
 			+ " device", __FILE__, __LINE__);
 
-		result->setStatus(Result::FAILED);
+		result->setStatus(Result::Status::FAILED);
 	} else {
 		it->second->setPaired(true);
-		result->setStatus(Result::SUCCESS);
+		result->setStatus(Result::Status::SUCCESS);
 	}
 }
 
@@ -225,14 +225,14 @@ void JablotronDeviceManager::doUnpairCommand(
 			+ cmd->deviceID().toString());
 	}
 
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void JablotronDeviceManager::doListenCommand(
 	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
 {
 	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::SUCCESS);
+	result->setStatus(Result::Status::SUCCESS);
 
 	if (m_isListen)
 		return;
@@ -589,7 +589,7 @@ void JablotronDeviceManager::doSetValue(
 	}
 
 	if (ret)
-		result->setStatus(Result::SUCCESS);
+		result->setStatus(Result::Status::SUCCESS);
 	else
-		result->setStatus(Result::FAILED);
+		result->setStatus(Result::Status::FAILED);
 }
