@@ -16,7 +16,6 @@ find_library (UDEV udev)
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
-	${PROJECT_SOURCE_DIR}/core/CommandsTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
 	${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
