@@ -113,5 +113,8 @@
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
+
+		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
+		</instance>
 	</factory>
 </system>
