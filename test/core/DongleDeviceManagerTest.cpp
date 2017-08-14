@@ -91,12 +91,79 @@ private:
 	Event m_done;
 };
 
+class AlwaysFailingDongleDeviceManager : public DongleDeviceManager {
+public:
+	static const string MATCHING_NAME;
+
+	AlwaysFailingDongleDeviceManager(
+			const std::string name,
+			const DevicePrefix &prefix,
+			std::function<void()> success,
+			std::function<void()> fail):
+		DongleDeviceManager(prefix),
+		m_success(success),
+		m_fail(fail),
+		m_attempts(0),
+		m_name(name)
+	{
+	}
+
+	bool accept(const Command::Ptr) override
+	{
+		return false;
+	}
+
+	void handle(Command::Ptr, Answer::Ptr) override
+	{
+	}
+
+	string dongleMatch(const HotplugEvent &e) override
+	{
+		if (e.name() == m_name)
+			return m_name;
+
+		return "";
+	}
+
+	void dongleAvailable() override
+	{
+		m_attempts += 1;
+
+		throw Exception("always failing");
+	}
+
+	bool dongleMissing() override
+	{
+		return true;
+	}
+
+	void dongleFailed(const FailDetector &) override
+	{
+		if (m_attempts == 3)
+			m_success();
+		else
+			m_fail();
+
+		m_attempts = 0;
+		event().wait();
+	}
+
+private:
+	std::function<void()> m_success;
+	std::function<void()> m_fail;
+	int m_attempts;
+	string m_name;
+};
+
+const string AlwaysFailingDongleDeviceManager::MATCHING_NAME = "failing";
+
 class DongleDeviceManagerTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(DongleDeviceManagerTest);
 	CPPUNIT_TEST(testNoDongleRun);
 	CPPUNIT_TEST(testAddDongleRun);
 	CPPUNIT_TEST(testAddDongleBeforeRun);
 	CPPUNIT_TEST(testAddRemoveDongleRun);
+	CPPUNIT_TEST(testFailDetection);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -108,6 +175,7 @@ public:
 	void testAddDongleRun();
 	void testAddDongleBeforeRun();
 	void testAddRemoveDongleRun();
+	void testFailDetection();
 
 private:
 	SharedPtr<TestableDongleDeviceManager> m_manager;
@@ -264,5 +332,34 @@ void DongleDeviceManagerTest::testAddRemoveDongleRun()
 	CPPUNIT_ASSERT(m_thread->tryJoin(10000));
 }
 
+void DongleDeviceManagerTest::testFailDetection()
+{
+	enum {
+		R_NONE,
+		R_SUCCESS,
+		R_FAIL
+	} result = R_NONE;
+
+	Event sync;
+
+	AlwaysFailingDongleDeviceManager manager(
+		AlwaysFailingDongleDeviceManager::MATCHING_NAME,
+		DevicePrefix::PREFIX_JABLOTRON,
+		[&]() {result = R_SUCCESS; sync.set();},
+		[&]() {result = R_FAIL;    sync.set();}
+	);
+
+	m_thread->start(manager);
+
+	HotplugEvent event;
+	event.setName(AlwaysFailingDongleDeviceManager::MATCHING_NAME);
+
+	manager.onAdd(event);
+	CPPUNIT_ASSERT(sync.tryWait(10000));
+	CPPUNIT_ASSERT_EQUAL(R_SUCCESS, result);
+
+	manager.stop();
+	CPPUNIT_ASSERT(m_thread->tryJoin(10000));
+}
 
 }
