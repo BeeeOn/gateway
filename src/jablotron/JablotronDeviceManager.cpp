@@ -97,15 +97,7 @@ void JablotronDeviceManager::dongleAvailable()
 
 	initJablotronDongle();
 	dongleVersion();
-
-	try {
-		jablotronProcess();
-	}
-	catch (const IOException &ex) {
-		// waiting so that HotplugEvent can arrive after exception on serial port
-		Thread::sleep(SLEEP_AFTER_FAILED.totalMilliseconds());
-		ex.rethrow();
-	}
+	jablotronProcess();
 }
 
 void JablotronDeviceManager::stop()
