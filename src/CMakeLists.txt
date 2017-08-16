@@ -10,7 +10,10 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
-find_library (UDEV udev)
+
+if(ENABLE_UDEV)
+	find_library (UDEV udev)
+endif()
 
 find_package(OpenZWave REQUIRED)
 include_directories(${OPENZWAVE_INCLUDE_DIR})
@@ -61,7 +64,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugEvent.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/PipeHotplugMonitor.cpp
-	${PROJECT_SOURCE_DIR}/hotplug/UDevMonitor.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
 	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
@@ -93,6 +95,13 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
 	${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
 )
+
+if(ENABLE_UDEV)
+	file(GLOB UDEV_SOURCES ${PROJECT_SOURCE_DIR}/hotplug/UDevMonitor.cpp)
+	list(APPEND SOURCES ${UDEV_SOURCES})
+else()
+	message(STATUS "udev support is disabled")
+endif()
 
 file(GLOB TESTING_SOURCES
 	${PROJECT_SOURCE_DIR}/core/TestingCenter.cpp

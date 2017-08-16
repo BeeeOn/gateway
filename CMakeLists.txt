@@ -22,6 +22,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 add_definitions(-DGIT_ID="${GIT_ID}" -std=c++11 -Wall -pedantic -Wextra)
 
+option(ENABLE_UDEV "Enable support of udev" ON)
+
 add_subdirectory(src)
 add_subdirectory(base)
 add_subdirectory(test)
