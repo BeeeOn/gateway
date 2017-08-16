@@ -134,11 +134,6 @@ void JablotronDeviceManager::jablotronProcess()
 			continue;
 		}
 
-		if (message.empty()) {
-			logger().debug("empty message",
-				__FILE__, __LINE__);
-		}
-
 		DeviceID id = JablotronDevice::buildID(extractSerialNumber(message));
 		Mutex::ScopedLock guard(m_lock);
 
@@ -329,7 +324,7 @@ JablotronDeviceManager::MessageType JablotronDeviceManager::nextMessage(
 
 	// erase matched message from buffer + 2x newline
 	m_buffer.erase(0, message.size() + 2);
-	logger().debug("received data: " + message, __FILE__, __LINE__);
+	logger().trace("received data: " + message, __FILE__, __LINE__);
 
 	return messageType(message);
 }
@@ -373,9 +368,7 @@ void JablotronDeviceManager::setupDongleDevices()
 		// finding empty slot: SLOT:XX [--------]
 		RegularExpression re(".*[--------].*");
 		if (re.match(buffer)) {
-			logger().debug(
-				"empty slot",
-				__FILE__, __LINE__);
+			logger().trace("empty slot", __FILE__, __LINE__);
 			continue;
 		}
 
