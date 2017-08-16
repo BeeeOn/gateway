@@ -26,13 +26,19 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
-	${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
-	${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 )
+
+if (ENABLE_QUEUING_DISTRIBUTOR)
+	file(GLOB QUEUING_DISTRIBUTOR_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
+		${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${QUEUING_DISTRIBUTOR_TEST_SOURCES})
+endif()
 
 include_directories(
 	${PROJECT_SOURCE_DIR}

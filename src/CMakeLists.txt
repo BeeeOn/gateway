@@ -44,11 +44,9 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
-	${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoAnswerImpl.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoCommandDispatcher.cpp
-	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
@@ -152,6 +150,16 @@ if(ENABLE_BASIC_DISTRIBUTOR)
 	list(APPEND SOURCES ${BASIC_DISTRIBUTOR_SOURCES})
 else()
 	message(STATUS "Basic Distributor support is disabled")
+endif()
+
+if(ENABLE_QUEUING_DISTRIBUTOR)
+	file(GLOB QUEUING_DISTRIBUTOR_SOURCES
+		${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
+		${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
+	)
+	list(APPEND SOURCES ${QUEUING_DISTRIBUTOR_SOURCES})
+else()
+	message(STATUS "Queuing Distributor support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
