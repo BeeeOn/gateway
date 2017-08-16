@@ -24,6 +24,7 @@ add_definitions(-DGIT_ID="${GIT_ID}" -std=c++11 -Wall -pedantic -Wextra)
 
 option(ENABLE_UDEV "Enable support of udev" ON)
 option(ENABLE_BELKIN_WEMO "Enable support of Belkin Wemo" ON)
+option(ENABLE_BLUETOOTH_AVAILABILITY "Enable support of Bluetooth Availability" ON)
 
 add_subdirectory(src)
 add_subdirectory(base)

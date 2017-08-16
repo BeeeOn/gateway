@@ -19,9 +19,6 @@ find_package(OpenZWave REQUIRED)
 include_directories(${OPENZWAVE_INCLUDE_DIR})
 
 file(GLOB SOURCES
-	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
-	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
-	${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairCommand.cpp
@@ -109,6 +106,17 @@ if(ENABLE_BELKIN_WEMO)
 	list(APPEND SOURCES ${BELKIN_SOURCES})
 else()
 	message(STATUS "Belkin Wemo support is disabled")
+endif()
+
+if(ENABLE_BLUETOOTH_AVAILABILITY)
+	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
+	)
+	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+else()
+	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
