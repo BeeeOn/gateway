@@ -303,6 +303,9 @@ static void deviceAction(TestingCenter::ActionContext &context)
 
 		context.console.print(deviceID.toString() + " deleted");
 	}
+	else {
+		console.print("unrecognized action: " + context.args[1]);
+	}
 }
 static void credentialsAction(TestingCenter::ActionContext &context)
 {
