@@ -2,7 +2,6 @@ cmake_minimum_required (VERSION 2.8.11)
 project (gateway-tests CXX)
 
 find_library (CPP_UNIT cppunit)
-find_library (MOSQUITTO_CPP mosquittopp)
 find_library (POCO_FOUNDATION PocoFoundation)
 find_library (POCO_UTIL PocoUtil)
 find_library (POCO_SSL PocoNetSSL)
@@ -18,6 +17,10 @@ endif()
 
 find_package(OpenZWave REQUIRED)
 include_directories(${OPENZWAVE_INCLUDE_DIR})
+
+if(ENABLE_MOSQUITTO_EXPORTER)
+	find_library (MOSQUITTO_CPP mosquittopp)
+endif()
 
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp

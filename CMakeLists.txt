@@ -27,6 +27,7 @@ option(ENABLE_BELKIN_WEMO "Enable support of Belkin Wemo" ON)
 option(ENABLE_BLUETOOTH_AVAILABILITY "Enable support of Bluetooth Availability" ON)
 option(ENABLE_JABLOTRON "Enable support of Jablotron" ON)
 option(ENABLE_VIRTUAL_DEVICES "Enable support of Virtual Devices" ON)
+option(ENABLE_MOSQUITTO_EXPORTER "Enable support of Mosquitto Exporting" ON)
 
 add_subdirectory(src)
 add_subdirectory(base)

@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (gateway-core CXX)
 
-find_library (MOSQUITTO_CPP mosquittopp)
 find_library (POCO_FOUNDATION PocoFoundation)
 find_library (POCO_SSL PocoNetSSL)
 find_library (POCO_CRYPTO PocoCrypto)
@@ -17,6 +16,10 @@ endif()
 
 find_package(OpenZWave REQUIRED)
 include_directories(${OPENZWAVE_INCLUDE_DIR})
+
+if(ENABLE_MOSQUITTO_EXPORTER)
+	find_library (MOSQUITTO_CPP mosquittopp)
+endif()
 
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
@@ -53,7 +56,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/FileCredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/PasswordCredentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
-	${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/AbstractHotplugMonitor.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugEvent.cpp
@@ -133,6 +135,15 @@ if(ENABLE_VIRTUAL_DEVICES)
 	list(APPEND SOURCES ${VIRTUAL_DEVICES_SOURCES})
 else()
 	message(STATUS "Virtual Devices support is disabled")
+endif()
+
+if(ENABLE_MOSQUITTO_EXPORTER)
+	file(GLOB MOSQUITTO_EXPORTER_SOURCES
+		${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
+	)
+	list(APPEND SOURCES ${MOSQUITTO_EXPORTER_SOURCES})
+else()
+	message(STATUS "Mosquitto Exporting support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
