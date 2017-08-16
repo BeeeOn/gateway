@@ -132,6 +132,7 @@ if(ENABLE_VPT)
 	file(GLOB VPT_SOURCES
 		${PROJECT_SOURCE_DIR}/vpt/VPTBoilerModuleType.cpp
 		${PROJECT_SOURCE_DIR}/vpt/VPTDevice.cpp
+		${PROJECT_SOURCE_DIR}/vpt/VPTDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/vpt/VPTValuesParser.cpp
 		${PROJECT_SOURCE_DIR}/vpt/VPTZoneModuleType.cpp
 	)

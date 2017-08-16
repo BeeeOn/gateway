@@ -1,0 +1,161 @@
+#ifndef GATEWAY_VPT_H
+#define GATEWAY_VPT_H
+
+#include <map>
+#include <set>
+#include <vector>
+
+#include <Poco/AtomicCounter.h>
+#include <Poco/Event.h>
+#include <Poco/Mutex.h>
+#include <Poco/SharedPtr.h>
+#include <Poco/Thread.h>
+#include <Poco/Timespan.h>
+
+#include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceSetValueCommand.h"
+#include "commands/DeviceUnpairCommand.h"
+#include "commands/GatewayListenCommand.h"
+#include "commands/NewDeviceCommand.h"
+#include "core/Answer.h"
+#include "core/DeviceManager.h"
+#include "credentials/CredentialsStorage.h"
+#include "loop/StoppableRunnable.h"
+#include "model/DeviceID.h"
+#include "util/CryptoConfig.h"
+#include "vpt/VPTDevice.h"
+
+namespace BeeeOn {
+
+/**
+ * @brief The class implements the work with Regulators VPT LAN v1.0. Allows us
+ * to process and execute the commands from server. It means modify state
+ * of proper device.
+ */
+class VPTDeviceManager : public DeviceManager {
+public:
+	/**
+	 * @brief Provides searching vpt devices on network in own thread.
+	 * Also takes care of thread where is the listen command performed.
+	 */
+	class VPTSeeker : public StoppableRunnable {
+	public:
+		VPTSeeker(VPTDeviceManager& parent);
+
+		/**
+		 * @brief Waits for thread to finish
+		 */
+		~VPTSeeker();
+
+		bool startSeeking(const Poco::Timespan& duration);
+
+		void run() override;
+		void stop() override;
+
+	private:
+		VPTDeviceManager& m_parent;
+
+		Poco::Timespan m_duration;
+		Poco::Thread m_seekerThread;
+		Poco::AtomicCounter m_stop;
+	};
+
+	VPTDeviceManager();
+
+	void run() override;
+	void stop() override;
+
+	void setRefresh(int secs);
+	void setPingTimeout(int millisecs);
+	void setHTTPTimeout(int secs);
+	void setMaxMsgSize(int size);
+	void setBlackList(const std::list<std::string>& list);
+	void setPath(const std::string& path);
+	void setPort(const int port);
+	void setMinNetMask(const std::string& minNetMask);
+	void setCredentialsStorage(Poco::SharedPtr<CredentialsStorage> storage);
+	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);
+
+protected:
+	bool accept(const Command::Ptr cmd) override;
+	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+
+	/**
+	 * @brief Gathers SensorData from devices and
+	 * ships them.
+	 */
+	void shipFromDevices();
+
+	/**
+	 * @brief Initialized search of paired devices
+	 * that were obtained by deviceList().
+	 */
+	void searchPairedDevices();
+
+	/**
+	 * @brief Processes the listen command.
+	 */
+	void doListenCommand(const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
+
+	/**
+	 * @brief Processes the unpair command.
+	 */
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer);
+
+	/**
+	 * @brief Processes the device accept command.
+	 */
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer);
+
+	/**
+	 * @brief Sets the proper device's module to given value.
+	 * @param result Will contains information about
+	 * the success of the request
+	 */
+	void modifyValue(const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer);
+
+	/**
+	 * @brief Returns true if any subdevice is paired.
+	 * @param id DeviceID of real VPT
+	 */
+	bool noSubdevicePaired(const DeviceID& id) const;
+
+	/**
+	 * @brief Searchs the devices on the network.
+	 */
+	std::vector<VPTDevice::Ptr> seekDevices();
+
+	/**
+	 * @brief Processes a new device. It means saving the new device
+	 * and informing the server about it.
+	 */
+	void processNewDevice(Poco::SharedPtr<VPTDevice> newDevice);
+
+private:
+	VPTDeviceManager::VPTSeeker m_seeker;
+	VPTHTTPScanner m_scanner;
+	uint32_t m_maxMsgSize;
+	Poco::FastMutex m_pairedMutex;
+	Poco::Event m_event;
+
+	Poco::Timespan m_refresh;
+	Poco::Timespan m_httpTimeout;
+	Poco::Timespan m_pingTimeout;
+
+	/**
+	 * The set contains DeviceID of paired devices.
+	 */
+	std::set<DeviceID> m_pairedDevices;
+	/**
+	 * The map maps only DeviceIDs of real VPT
+	 * devices to VPTDevices.
+	 */
+	std::map<DeviceID, VPTDevice::Ptr> m_devices;
+
+	Poco::SharedPtr<CredentialsStorage> m_credentialsStorage;
+	Poco::SharedPtr<CryptoConfig> m_cryptoConfig;
+};
+
+}
+
+#endif
