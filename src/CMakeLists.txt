@@ -59,15 +59,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugEvent.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/PipeHotplugMonitor.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA83P.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA85ST.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceOpenClose.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceRC86K.cpp
-	${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceTP82N.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
@@ -117,6 +108,23 @@ if(ENABLE_BLUETOOTH_AVAILABILITY)
 	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
+endif()
+
+if(ENABLE_JABLOTRON)
+	file(GLOB JABLOTRON_SOURCES
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA83P.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA85ST.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceOpenClose.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceRC86K.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceTP82N.cpp
+	)
+	list(APPEND SOURCES ${JABLOTRON_SOURCES})
+else()
+	message(STATUS "Jablotron support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
