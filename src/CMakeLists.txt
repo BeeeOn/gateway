@@ -162,9 +162,14 @@ else()
 	message(STATUS "Queuing Distributor support is disabled")
 endif()
 
-file(GLOB TESTING_SOURCES
-	${PROJECT_SOURCE_DIR}/core/TestingCenter.cpp
-)
+if (ENABLE_TESTING_CENTER)
+	file(GLOB TESTING_CENTER_SOURCES
+		${PROJECT_SOURCE_DIR}/core/TestingCenter.cpp
+	)
+	list(APPEND SOURCES ${TESTING_CENTER_SOURCES})
+else()
+	message(STATUS "Testing Center support is disabled")
+endif()
 
 include_directories(
 	${PROJECT_SOURCE_DIR}
@@ -172,7 +177,6 @@ include_directories(
 )
 
 add_library(BeeeOnGateway ${SOURCES})
-add_library(BeeeOnTesting ${TESTING_SOURCES})
 
 add_executable(beeeon-gateway main.cpp)
 
@@ -193,13 +197,12 @@ set(LIBS
 target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
 		BeeeOnGateway
-		BeeeOnTesting
 		BeeeOnBase
 		-Wl,--no-whole-archive
 		${LIBS}
 )
 
-install(TARGETS beeeon-gateway BeeeOnGateway BeeeOnTesting
+install(TARGETS beeeon-gateway BeeeOnGateway
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
