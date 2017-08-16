@@ -28,6 +28,7 @@ option(ENABLE_BLUETOOTH_AVAILABILITY "Enable support of Bluetooth Availability" 
 option(ENABLE_JABLOTRON "Enable support of Jablotron" ON)
 option(ENABLE_VIRTUAL_DEVICES "Enable support of Virtual Devices" ON)
 option(ENABLE_MOSQUITTO_EXPORTER "Enable support of Mosquitto Exporting" ON)
+option(ENABLE_BASIC_DISTRIBUTOR "Enable support of Basic Distributor" ON)
 
 add_subdirectory(src)
 add_subdirectory(base)

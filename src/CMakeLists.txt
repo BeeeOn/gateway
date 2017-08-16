@@ -34,7 +34,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
-	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
@@ -144,6 +143,15 @@ if(ENABLE_MOSQUITTO_EXPORTER)
 	list(APPEND SOURCES ${MOSQUITTO_EXPORTER_SOURCES})
 else()
 	message(STATUS "Mosquitto Exporting support is disabled")
+endif()
+
+if(ENABLE_BASIC_DISTRIBUTOR)
+	file(GLOB BASIC_DISTRIBUTOR_SOURCES
+		${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
+	)
+	list(APPEND SOURCES ${BASIC_DISTRIBUTOR_SOURCES})
+else()
+	message(STATUS "Basic Distributor support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
