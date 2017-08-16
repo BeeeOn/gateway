@@ -67,9 +67,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
-	${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
-	${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
-	${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
 	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
 	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveDeviceInfoRegistry.cpp
@@ -125,6 +122,17 @@ if(ENABLE_JABLOTRON)
 	list(APPEND SOURCES ${JABLOTRON_SOURCES})
 else()
 	message(STATUS "Jablotron support is disabled")
+endif()
+
+if(ENABLE_VIRTUAL_DEVICES)
+	file(GLOB VIRTUAL_DEVICES_SOURCES
+		${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
+		${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
+		${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
+	)
+	list(APPEND SOURCES ${VIRTUAL_DEVICES_SOURCES})
+else()
+	message(STATUS "Virtual Devices support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
