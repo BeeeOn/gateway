@@ -368,7 +368,7 @@ void JablotronDeviceManager::setupDongleDevices()
 		// finding empty slot: SLOT:XX [--------]
 		RegularExpression re(".*[--------].*");
 		if (re.match(buffer)) {
-			logger().debug(
+			logger().trace(
 				"empty slot",
 				__FILE__, __LINE__);
 			continue;
