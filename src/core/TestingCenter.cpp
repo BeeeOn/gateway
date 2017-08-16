@@ -251,6 +251,7 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		console.print("  create <device-id> [<module-value>...]");
 		console.print("  update <device-id> <module-id> <module-value>");
 		console.print("  list");
+		console.print("  list-new");
 		console.print("  delete <device-id>");
 		return;
 	}
@@ -292,6 +293,16 @@ static void deviceAction(TestingCenter::ActionContext &context)
 						+ ": " + to_string(moduleIt.second));
 			}
 		}
+	}
+	else if (context.args[1] == "list-new") {
+		assureArgs(context, 2, "device list-new");
+
+		ScopedLock<Mutex> guard(context.mutex);
+
+		for (auto &deviceID: context.newDevices)
+			console.print(deviceID.toString());
+
+		context.newDevices.clear();
 	}
 	else if (context.args[1] == "delete") {
 		assureArgs(context, 3, "device delete");
@@ -492,7 +503,7 @@ void TestingCenter::processLine(ConsoleSession &session, const string &line)
 	}
 
 	ActionContext context {session, m_devices, m_mutex,
-		*this, args, m_credentialsStorage, m_cryptoConfig};
+		*this, args, m_credentialsStorage, m_cryptoConfig, m_newDevices};
 	Action f = it->second.action;
 
 	try {
@@ -520,6 +531,9 @@ bool TestingCenter::accept(const Command::Ptr cmd)
 		auto command = cmd.cast<ServerLastValueCommand>();
 		ScopedLock<Mutex> guard(m_mutex);
 		return m_devices.find(command->deviceID()) != m_devices.end();
+	}
+	else if (cmd->is<NewDeviceCommand>()) {
+		return true;
 	}
 
 	return cmd->is<ServerDeviceListCommand>();
@@ -562,6 +576,14 @@ void TestingCenter::handle(Command::Ptr cmd, Answer::Ptr answer)
 		result->setDeviceID(command->deviceID());
 		result->setModuleID(command->moduleID());
 		result->setValue(moduleIt->second);
+		result->setStatus(Result::Status::SUCCESS);
+	}
+	else if (cmd->is<NewDeviceCommand>()) {
+		NewDeviceCommand::Ptr command = cmd.cast<NewDeviceCommand>();
+		Result::Ptr result = new Result(answer);
+
+		ScopedLock<Mutex> guard(m_mutex);
+		m_newDevices.push_back(command->deviceID());
 		result->setStatus(Result::Status::SUCCESS);
 	}
 }
