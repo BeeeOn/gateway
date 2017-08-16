@@ -21,6 +21,11 @@ if(ENABLE_MOSQUITTO_EXPORTER)
 	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
+if(ENABLE_ZWAVE)
+	find_package(OpenZWave REQUIRED)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+endif()
+
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
@@ -66,16 +71,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
-	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
-	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
-	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveDeviceInfoRegistry.cpp
-	${PROJECT_SOURCE_DIR}/zwave/VendorZWaveDeviceInfoRegistry.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistry.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceInfo.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveDriver.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
 )
 
 if(ENABLE_UDEV)
@@ -132,6 +127,24 @@ if(ENABLE_VIRTUAL_DEVICES)
 	list(APPEND SOURCES ${VIRTUAL_DEVICES_SOURCES})
 else()
 	message(STATUS "Virtual Devices support is disabled")
+endif()
+
+if(ENABLE_ZWAVE)
+	file(GLOB ZWAVE_SOURCES
+		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
+		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
+		${PROJECT_SOURCE_DIR}/zwave/GenericZWaveDeviceInfoRegistry.cpp
+		${PROJECT_SOURCE_DIR}/zwave/VendorZWaveDeviceInfoRegistry.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistry.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceInfo.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriver.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
+	)
+	list(APPEND SOURCES ${ZWAVE_SOURCES})
+else()
+	message(STATUS "Z-Wave support is disabled")
 endif()
 
 if(ENABLE_MOSQUITTO_EXPORTER)

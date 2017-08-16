@@ -22,6 +22,11 @@ if(ENABLE_MOSQUITTO_EXPORTER)
 	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
+if(ENABLE_ZWAVE)
+	find_package(OpenZWave REQUIRED)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+endif()
+
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
@@ -29,8 +34,14 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 )
+
+if(ENABLE_ZWAVE)
+	file(GLOB ZWAVE_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
+endif()
 
 if (ENABLE_QUEUING_DISTRIBUTOR)
 	file(GLOB QUEUING_DISTRIBUTOR_TEST_SOURCES
