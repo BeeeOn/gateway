@@ -19,8 +19,6 @@ find_package(OpenZWave REQUIRED)
 include_directories(${OPENZWAVE_INCLUDE_DIR})
 
 file(GLOB SOURCES
-	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
-	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
 	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
 	${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
@@ -101,6 +99,16 @@ if(ENABLE_UDEV)
 	list(APPEND SOURCES ${UDEV_SOURCES})
 else()
 	message(STATUS "udev support is disabled")
+endif()
+
+if(ENABLE_BELKIN_WEMO)
+	file(GLOB BELKIN_SOURCES
+		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
+	)
+	list(APPEND SOURCES ${BELKIN_SOURCES})
+else()
+	message(STATUS "Belkin Wemo support is disabled")
 endif()
 
 file(GLOB TESTING_SOURCES
