@@ -13,7 +13,11 @@ using namespace Poco::JSON;
 using namespace Poco::Net;
 using namespace std;
 
-VPTHTTPScanner::VPTHTTPScanner(const string& path, UInt16 port, const IPAddress& minNetMask):
+VPTHTTPScanner::VPTHTTPScanner()
+{
+}
+
+VPTHTTPScanner::VPTHTTPScanner(const string& path, uint16_t port, const IPAddress& minNetMask):
 	AbstractHTTPScanner(path, port, minNetMask)
 {
 }

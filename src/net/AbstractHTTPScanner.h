@@ -23,12 +23,13 @@ namespace BeeeOn {
  */
 class AbstractHTTPScanner : protected Loggable {
 public:
+	AbstractHTTPScanner();
 	/*
 	 * @param path Defines path of HTTP request.
 	 * @param port Defines receiver's port.
 	 * @param minNetMask Defines minimal range of exploring IP address.
 	 */
-	AbstractHTTPScanner(const std::string& path, Poco::UInt16 port, const Poco::Net::IPAddress& minNetMask);
+	AbstractHTTPScanner(const std::string& path, uint16_t port, const Poco::Net::IPAddress& minNetMask);
 	~AbstractHTTPScanner();
 
 	/*
@@ -39,6 +40,9 @@ public:
 	 */
 	std::vector<Poco::Net::SocketAddress> scan(const uint32_t maxResponseLength);
 
+	void setPath(const std::string& path);
+	void setPort(Poco::UInt16 port);
+	void setMinNetMask(const Poco::Net::IPAddress& minNetMask);
 	void setPingTimeout(const Poco::Timespan& pingTimeout);
 	void setHTTPTimeout(const Poco::Timespan& httpTimeout);
 	void setBlackList(const std::set<std::string>& set);
@@ -96,7 +100,7 @@ protected:
 
 private:
 	std::string m_path;
-	Poco::UInt16 m_port;
+	uint16_t m_port;
 	Poco::Net::IPAddress m_minNetMask;
 	Poco::Timespan m_pingTimeout;
 	Poco::Timespan m_httpTimeout;

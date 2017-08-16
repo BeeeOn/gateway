@@ -14,7 +14,13 @@ using namespace Poco;
 using namespace Poco::Net;
 using namespace std;
 
-AbstractHTTPScanner::AbstractHTTPScanner(const string& path, UInt16 port, const IPAddress& minNetMask):
+AbstractHTTPScanner::AbstractHTTPScanner():
+	m_port(0),
+	m_minNetMask("255.255.255.255")
+{
+}
+
+AbstractHTTPScanner::AbstractHTTPScanner(const string& path, uint16_t port, const IPAddress& minNetMask):
 	m_path(path),
 	m_port(port),
 	m_minNetMask(minNetMask)
@@ -25,12 +31,27 @@ AbstractHTTPScanner::~AbstractHTTPScanner()
 {
 }
 
-void AbstractHTTPScanner::setPingTimeout(const Poco::Timespan& pingTimeout)
+void AbstractHTTPScanner::setPath(const string& path)
+{
+	m_path = path;
+}
+
+void AbstractHTTPScanner::setPort(uint16_t port)
+{
+	m_port = port;
+}
+
+void AbstractHTTPScanner::setMinNetMask(const IPAddress& minNetMask)
+{
+	m_minNetMask = minNetMask;
+}
+
+void AbstractHTTPScanner::setPingTimeout(const Timespan& pingTimeout)
 {
 	m_pingTimeout = pingTimeout;
 }
 
-void AbstractHTTPScanner::setHTTPTimeout(const Poco::Timespan& httpTimeout)
+void AbstractHTTPScanner::setHTTPTimeout(const Timespan& httpTimeout)
 {
 	m_httpTimeout = httpTimeout;
 }
