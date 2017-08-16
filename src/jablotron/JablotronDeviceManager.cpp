@@ -324,7 +324,7 @@ JablotronDeviceManager::MessageType JablotronDeviceManager::nextMessage(
 
 	// erase matched message from buffer + 2x newline
 	m_buffer.erase(0, message.size() + 2);
-	logger().debug("received data: " + message, __FILE__, __LINE__);
+	logger().trace("received data: " + message, __FILE__, __LINE__);
 
 	return messageType(message);
 }
