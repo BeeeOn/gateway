@@ -3,6 +3,7 @@
 
 #include <set>
 
+#include <Poco/AtomicCounter.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/IPAddress.h>
 #include <Poco/Net/NetworkInterface.h>
@@ -39,6 +40,8 @@ public:
 	 * @return Vector of SocketAddress belongs to found devices.
 	 */
 	std::vector<Poco::Net::SocketAddress> scan(const uint32_t maxResponseLength);
+
+	void cancel();
 
 	void setPath(const std::string& path);
 	void setPort(Poco::UInt16 port);
@@ -105,6 +108,7 @@ private:
 	Poco::Timespan m_pingTimeout;
 	Poco::Timespan m_httpTimeout;
 	std::set<std::string> m_blackList;
+	Poco::AtomicCounter m_cancel;
 };
 
 }

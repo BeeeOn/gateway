@@ -16,14 +16,16 @@ using namespace std;
 
 AbstractHTTPScanner::AbstractHTTPScanner():
 	m_port(0),
-	m_minNetMask("255.255.255.255")
+	m_minNetMask("255.255.255.255"),
+	m_cancel(false)
 {
 }
 
 AbstractHTTPScanner::AbstractHTTPScanner(const string& path, uint16_t port, const IPAddress& minNetMask):
 	m_path(path),
 	m_port(port),
-	m_minNetMask(minNetMask)
+	m_minNetMask(minNetMask),
+	m_cancel(false)
 {
 }
 
@@ -76,13 +78,23 @@ vector<SocketAddress> AbstractHTTPScanner::scan(const uint32_t maxResponseLength
 	vector<NetworkInterface> listOfNetworkInterfaces = listNetworkInterfaces();
 	vector<SocketAddress> devices;
 
-	for (auto &interface : listOfNetworkInterfaces)
+	for (auto &interface : listOfNetworkInterfaces) {
 		probeInterface(interface, devices, maxResponseLength);
+
+		if (m_cancel)
+			break;
+	}
 
 	if (devices.empty())
 		logger().notice("no device found", __FILE__, __LINE__);
 
+	m_cancel = false;
 	return devices;
+}
+
+void AbstractHTTPScanner::cancel()
+{
+	m_cancel = true;
 }
 
 void AbstractHTTPScanner::probeInterface(const NetworkInterface& interface,
@@ -110,6 +122,9 @@ void AbstractHTTPScanner::probeInterface(const NetworkInterface& interface,
 
 		IPAddressRange range(networkAddress, netMask);
 		probeAddressRange(range, devices, maxResponseLength);
+
+		if (m_cancel)
+			break;
 	}
 }
 
@@ -155,6 +170,9 @@ void AbstractHTTPScanner::probeAddressRange(const IPAddressRange& range,
 
 		if (isValidResponse(response.getBody()))
 			devices.push_back(socketAddress);
+
+		if (m_cancel)
+			break;
 	}
 }
 
