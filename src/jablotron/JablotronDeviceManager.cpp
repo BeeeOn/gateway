@@ -134,11 +134,6 @@ void JablotronDeviceManager::jablotronProcess()
 			continue;
 		}
 
-		if (message.empty()) {
-			logger().debug("empty message",
-				__FILE__, __LINE__);
-		}
-
 		DeviceID id = JablotronDevice::buildID(extractSerialNumber(message));
 		Mutex::ScopedLock guard(m_lock);
 
