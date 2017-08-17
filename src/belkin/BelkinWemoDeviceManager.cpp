@@ -37,8 +37,9 @@ using namespace std;
 BelkinWemoDeviceManager::BelkinWemoDeviceManager():
 	DeviceManager(DevicePrefix::PREFIX_BELKIN_WEMO),
 	m_refresh(5 * Timespan::SECONDS),
-	m_seeker(*this, 5 * Timespan::SECONDS),
-	m_httpTimeout(3 * Timespan::SECONDS)
+	m_seeker(*this),
+	m_httpTimeout(3 * Timespan::SECONDS),
+	m_upnpTimeout(5 * Timespan::SECONDS)
 {
 }
 
@@ -83,7 +84,7 @@ void BelkinWemoDeviceManager::setUPnPTimeout(int secs)
 	if (secs <= 0)
 		throw InvalidArgumentException("UPnP timeout time must be a positive number");
 
-	m_seeker.setUPnPTimeout(secs * Timespan::SECONDS);
+	m_upnpTimeout = Timespan(secs * Timespan::SECONDS);
 }
 
 void BelkinWemoDeviceManager::setHTTPTimeout(int secs)
@@ -289,16 +290,10 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch& newDevice)
 			types));
 }
 
-BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Timespan& upnpTimeout) :
+BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
 	m_parent(parent),
-	m_upnpTimeout(upnpTimeout),
 	m_stop(false)
 {
-}
-
-void BelkinWemoDeviceManager::BelkinWemoSeeker::setUPnPTimeout(const Poco::Timespan& timeout)
-{
-	m_upnpTimeout = timeout;
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::setDuration(const Poco::Timespan& duration)
@@ -316,10 +311,10 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
 
-	int count = divRoundUp(m_duration.totalSeconds(), m_upnpTimeout.totalSeconds());
+	int count = divRoundUp(m_duration.totalSeconds(), m_parent.m_upnpTimeout.totalSeconds());
 
 	for (int i = 0; i < count; i++) {
-		listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
+		listOfDevices = upnp.discover(m_parent.m_upnpTimeout, "urn:Belkin:device:controllee:1");
 
 		for (const auto &address : listOfDevices) {
 			BelkinWemoSwitch newDevice;

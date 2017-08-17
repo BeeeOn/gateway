@@ -26,9 +26,8 @@ public:
 	 */
 	class BelkinWemoSeeker : public StoppableRunnable {
 	public:
-		BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Poco::Timespan& upnpTimeout);
+		BelkinWemoSeeker(BelkinWemoDeviceManager& parent);
 
-		void setUPnPTimeout(const Poco::Timespan& timeout);
 		void setDuration(const Poco::Timespan& duration);
 
 		void run() override;
@@ -38,7 +37,6 @@ public:
 
 	private:
 		BelkinWemoDeviceManager& m_parent;
-		Poco::Timespan m_upnpTimeout;
 		Poco::Timespan m_duration;
 		Poco::AtomicCounter m_stop;
 	};
@@ -91,6 +89,7 @@ private:
 	Poco::Timespan m_refresh;
 	BelkinWemoDeviceManager::BelkinWemoSeeker m_seeker;
 	Poco::Timespan m_httpTimeout;
+	Poco::Timespan m_upnpTimeout;
 	Poco::Event m_event;
 };
 
