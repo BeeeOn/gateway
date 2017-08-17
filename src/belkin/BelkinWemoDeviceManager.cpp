@@ -326,16 +326,11 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::setDuration(const Poco::Timespan
 	m_duration = duration;
 }
 
-int BelkinWemoDeviceManager::BelkinWemoSeeker::divRoundUp(const int x, const int y)
-{
-	return (x / y + (x % y != 0));
-}
-
 void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 {
-	int count = divRoundUp(m_duration.totalSeconds(), m_parent.m_upnpTimeout.totalSeconds());
+	Timestamp now;
 
-	for (int i = 0; i < count; i++) {
+	while (now.elapsed() < m_duration.totalMicroseconds()) {
 		for (auto device : m_parent.seekSwitches()) {
 			if (m_stop)
 				break;

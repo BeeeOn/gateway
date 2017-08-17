@@ -34,8 +34,6 @@ public:
 		void run() override;
 		void stop() override;
 
-		int divRoundUp(const int x, const int y);
-
 	private:
 		BelkinWemoDeviceManager& m_parent;
 		Poco::Timespan m_duration;
