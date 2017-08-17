@@ -54,6 +54,7 @@ protected:
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	void refreshPairedDevices();
+	void searchPairedDevices();
 
 	/*
 	 * @brief Processes the listen command.

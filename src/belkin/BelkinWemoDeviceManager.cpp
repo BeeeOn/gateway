@@ -46,6 +46,8 @@ void BelkinWemoDeviceManager::run()
 	logger().information("starting Belkin WeMo device manager", __FILE__, __LINE__);
 
 	m_pairedDevices = deviceList(-1);
+	if (m_pairedDevices.size() > 0)
+		searchPairedDevices();
 
 	while (!m_stop) {
 		Timestamp now;
@@ -119,6 +121,18 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 			logger().warning("device " + device.deviceID().toString() + " did not answer",
 				__FILE__, __LINE__);
 		}
+	}
+}
+
+void BelkinWemoDeviceManager::searchPairedDevices()
+{
+	vector<BelkinWemoSwitch> switches = seekSwitches();
+
+	ScopedLock<FastMutex> lock(m_pairedMutex);
+	for (auto device : switches) {
+		auto it = m_pairedDevices.find(device.deviceID());
+		if (it != m_pairedDevices.end())
+			m_switches.emplace(device.deviceID(), device);
 	}
 }
 
