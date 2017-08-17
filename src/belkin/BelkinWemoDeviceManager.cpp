@@ -142,8 +142,7 @@ bool BelkinWemoDeviceManager::accept(const Command::Ptr cmd)
 		return true;
 	}
 	else if (cmd->is<DeviceSetValueCommand>()) {
-		auto it = m_pairedDevices.find(cmd->cast<DeviceSetValueCommand>().deviceID());
-		return it != m_pairedDevices.end();
+		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
