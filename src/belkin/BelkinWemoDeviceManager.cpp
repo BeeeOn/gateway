@@ -148,7 +148,7 @@ bool BelkinWemoDeviceManager::accept(const Command::Ptr cmd)
 		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::parse("BelkinWemo");
+		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 
 	return false;
