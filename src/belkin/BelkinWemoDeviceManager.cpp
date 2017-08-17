@@ -1,5 +1,3 @@
-#include <vector>
-
 #include <Poco/Net/SocketAddress.h>
 #include <Poco/ScopedLock.h>
 #include <Poco/Timestamp.h>
@@ -264,6 +262,32 @@ bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
 	return false;
 }
 
+vector<BelkinWemoSwitch> BelkinWemoDeviceManager::seekSwitches()
+{
+	UPnP upnp;
+	list<SocketAddress> listOfDevices;
+	vector<BelkinWemoSwitch> devices;
+
+	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
+	for (const auto &address : listOfDevices) {
+		if (m_stop)
+			break;
+
+		BelkinWemoSwitch newDevice;
+		try {
+			newDevice = BelkinWemoSwitch::buildDevice(address, m_httpTimeout);
+		}
+		catch (const TimeoutException& e) {
+			logger().debug("found device has disconnected", __FILE__, __LINE__);
+			continue;
+		}
+
+		devices.push_back(newDevice);
+	}
+
+	return devices;
+}
+
 void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch& newDevice)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
@@ -309,25 +333,14 @@ int BelkinWemoDeviceManager::BelkinWemoSeeker::divRoundUp(const int x, const int
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 {
-	UPnP upnp;
-	list<SocketAddress> listOfDevices;
-
 	int count = divRoundUp(m_duration.totalSeconds(), m_parent.m_upnpTimeout.totalSeconds());
 
 	for (int i = 0; i < count; i++) {
-		listOfDevices = upnp.discover(m_parent.m_upnpTimeout, "urn:Belkin:device:controllee:1");
+		for (auto device : m_parent.seekSwitches()) {
+			if (m_stop)
+				break;
 
-		for (const auto &address : listOfDevices) {
-			BelkinWemoSwitch newDevice;
-			try {
-				newDevice = BelkinWemoSwitch::buildDevice(address, m_parent.m_httpTimeout);
-			}
-			catch (const TimeoutException& e) {
-				m_parent.logger().debug("found device has disconnected", __FILE__, __LINE__);
-				continue;
-			}
-
-			m_parent.processNewDevice(newDevice);
+			m_parent.processNewDevice(device);
 		}
 
 		if (m_stop)

@@ -3,6 +3,7 @@
 
 #include <map>
 #include <set>
+#include <vector>
 
 #include <Poco/AtomicCounter.h>
 #include <Poco/Event.h>
@@ -76,6 +77,8 @@ protected:
 	 * @return If the setting was successfull or not.
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
+
+	std::vector<BelkinWemoSwitch> seekSwitches();
 
 	void processNewDevice(BelkinWemoSwitch& newDevice);
 
