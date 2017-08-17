@@ -156,7 +156,7 @@ void JablotronDeviceManager::jablotronProcess()
 bool JablotronDeviceManager::accept(const Command::Ptr cmd)
 {
 	if (cmd->is<DeviceSetValueCommand>())
-		return true;
+		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == m_prefix;
 	else if (cmd->is<GatewayListenCommand>())
 		return true;
 	else if (cmd->is<DeviceUnpairCommand>()) {
