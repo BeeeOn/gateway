@@ -61,6 +61,7 @@ void BelkinWemoDeviceManager::run()
 
 	logger().information("stopping Belkin WeMo device manager", __FILE__, __LINE__);
 
+	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
 	m_stop = false;
 }
 
