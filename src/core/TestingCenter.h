@@ -36,6 +36,7 @@ public:
 		const std::vector<std::string> args;
 		Poco::SharedPtr<FileCredentialsStorage> credentialsStorage;
 		Poco::SharedPtr<CryptoConfig> cryptoConfig;
+		std::list<DeviceID> &newDevices;
 	};
 
 	/**
@@ -71,6 +72,7 @@ protected:
 
 private:
 	Poco::SharedPtr<Console> m_console;
+	std::list<DeviceID> m_newDevices;
 	Poco::AtomicCounter m_stop;
 	std::map<std::string, ActionRecord> m_action;
 	std::map<DeviceID, DeviceData> m_devices;
