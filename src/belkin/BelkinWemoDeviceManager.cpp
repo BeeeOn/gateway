@@ -1,5 +1,3 @@
-#include <vector>
-
 #include <Poco/Net/SocketAddress.h>
 #include <Poco/ScopedLock.h>
 #include <Poco/Timestamp.h>
@@ -37,8 +35,9 @@ using namespace std;
 BelkinWemoDeviceManager::BelkinWemoDeviceManager():
 	DeviceManager(DevicePrefix::PREFIX_BELKIN_WEMO),
 	m_refresh(5 * Timespan::SECONDS),
-	m_seeker(*this, 5 * Timespan::SECONDS),
-	m_httpTimeout(3 * Timespan::SECONDS)
+	m_seeker(*this),
+	m_httpTimeout(3 * Timespan::SECONDS),
+	m_upnpTimeout(5 * Timespan::SECONDS)
 {
 }
 
@@ -47,6 +46,8 @@ void BelkinWemoDeviceManager::run()
 	logger().information("starting Belkin WeMo device manager", __FILE__, __LINE__);
 
 	m_pairedDevices = deviceList(-1);
+	if (m_pairedDevices.size() > 0)
+		searchPairedDevices();
 
 	while (!m_stop) {
 		Timestamp now;
@@ -60,6 +61,7 @@ void BelkinWemoDeviceManager::run()
 
 	logger().information("stopping Belkin WeMo device manager", __FILE__, __LINE__);
 
+	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
 	m_stop = false;
 }
 
@@ -83,7 +85,7 @@ void BelkinWemoDeviceManager::setUPnPTimeout(int secs)
 	if (secs <= 0)
 		throw InvalidArgumentException("UPnP timeout time must be a positive number");
 
-	m_seeker.setUPnPTimeout(secs * Timespan::SECONDS);
+	m_upnpTimeout = Timespan(secs * Timespan::SECONDS);
 }
 
 void BelkinWemoDeviceManager::setHTTPTimeout(int secs)
@@ -122,20 +124,31 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 	}
 }
 
+void BelkinWemoDeviceManager::searchPairedDevices()
+{
+	vector<BelkinWemoSwitch> switches = seekSwitches();
+
+	ScopedLock<FastMutex> lock(m_pairedMutex);
+	for (auto device : switches) {
+		auto it = m_pairedDevices.find(device.deviceID());
+		if (it != m_pairedDevices.end())
+			m_switches.emplace(device.deviceID(), device);
+	}
+}
+
 bool BelkinWemoDeviceManager::accept(const Command::Ptr cmd)
 {
 	if (cmd->is<GatewayListenCommand>()) {
 		return true;
 	}
 	else if (cmd->is<DeviceSetValueCommand>()) {
-		auto it = m_pairedDevices.find(cmd->cast<DeviceSetValueCommand>().deviceID());
-		return it != m_pairedDevices.end();
+		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::parse("BelkinWemo");
+		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
 	}
 
 	return false;
@@ -262,6 +275,32 @@ bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
 	return false;
 }
 
+vector<BelkinWemoSwitch> BelkinWemoDeviceManager::seekSwitches()
+{
+	UPnP upnp;
+	list<SocketAddress> listOfDevices;
+	vector<BelkinWemoSwitch> devices;
+
+	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
+	for (const auto &address : listOfDevices) {
+		if (m_stop)
+			break;
+
+		BelkinWemoSwitch newDevice;
+		try {
+			newDevice = BelkinWemoSwitch::buildDevice(address, m_httpTimeout);
+		}
+		catch (const TimeoutException& e) {
+			logger().debug("found device has disconnected", __FILE__, __LINE__);
+			continue;
+		}
+
+		devices.push_back(newDevice);
+	}
+
+	return devices;
+}
+
 void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch& newDevice)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
@@ -289,16 +328,10 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch& newDevice)
 			types));
 }
 
-BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Timespan& upnpTimeout) :
+BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
 	m_parent(parent),
-	m_upnpTimeout(upnpTimeout),
 	m_stop(false)
 {
-}
-
-void BelkinWemoDeviceManager::BelkinWemoSeeker::setUPnPTimeout(const Poco::Timespan& timeout)
-{
-	m_upnpTimeout = timeout;
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::setDuration(const Poco::Timespan& duration)
@@ -306,32 +339,16 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::setDuration(const Poco::Timespan
 	m_duration = duration;
 }
 
-int BelkinWemoDeviceManager::BelkinWemoSeeker::divRoundUp(const int x, const int y)
-{
-	return (x / y + (x % y != 0));
-}
-
 void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 {
-	UPnP upnp;
-	list<SocketAddress> listOfDevices;
+	Timestamp now;
 
-	int count = divRoundUp(m_duration.totalSeconds(), m_upnpTimeout.totalSeconds());
+	while (now.elapsed() < m_duration.totalMicroseconds()) {
+		for (auto device : m_parent.seekSwitches()) {
+			if (m_stop)
+				break;
 
-	for (int i = 0; i < count; i++) {
-		listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
-
-		for (const auto &address : listOfDevices) {
-			BelkinWemoSwitch newDevice;
-			try {
-				newDevice = BelkinWemoSwitch::buildDevice(address, m_parent.m_httpTimeout);
-			}
-			catch (const TimeoutException& e) {
-				m_parent.logger().debug("found device has disconnected", __FILE__, __LINE__);
-				continue;
-			}
-
-			m_parent.processNewDevice(newDevice);
+			m_parent.processNewDevice(device);
 		}
 
 		if (m_stop)

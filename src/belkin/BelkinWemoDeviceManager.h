@@ -3,6 +3,7 @@
 
 #include <map>
 #include <set>
+#include <vector>
 
 #include <Poco/AtomicCounter.h>
 #include <Poco/Event.h>
@@ -26,19 +27,15 @@ public:
 	 */
 	class BelkinWemoSeeker : public StoppableRunnable {
 	public:
-		BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Poco::Timespan& upnpTimeout);
+		BelkinWemoSeeker(BelkinWemoDeviceManager& parent);
 
-		void setUPnPTimeout(const Poco::Timespan& timeout);
 		void setDuration(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
 
-		int divRoundUp(const int x, const int y);
-
 	private:
 		BelkinWemoDeviceManager& m_parent;
-		Poco::Timespan m_upnpTimeout;
 		Poco::Timespan m_duration;
 		Poco::AtomicCounter m_stop;
 	};
@@ -57,6 +54,7 @@ protected:
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	void refreshPairedDevices();
+	void searchPairedDevices();
 
 	/*
 	 * @brief Processes the listen command.
@@ -79,6 +77,8 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
+	std::vector<BelkinWemoSwitch> seekSwitches();
+
 	void processNewDevice(BelkinWemoSwitch& newDevice);
 
 private:
@@ -91,6 +91,7 @@ private:
 	Poco::Timespan m_refresh;
 	BelkinWemoDeviceManager::BelkinWemoSeeker m_seeker;
 	Poco::Timespan m_httpTimeout;
+	Poco::Timespan m_upnpTimeout;
 	Poco::Event m_event;
 };
 
