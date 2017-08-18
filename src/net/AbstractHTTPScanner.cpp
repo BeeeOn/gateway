@@ -14,10 +14,18 @@ using namespace Poco;
 using namespace Poco::Net;
 using namespace std;
 
-AbstractHTTPScanner::AbstractHTTPScanner(const string& path, UInt16 port, const IPAddress& minNetMask):
+AbstractHTTPScanner::AbstractHTTPScanner():
+	m_port(0),
+	m_minNetMask("255.255.255.255"),
+	m_cancel(false)
+{
+}
+
+AbstractHTTPScanner::AbstractHTTPScanner(const string& path, uint16_t port, const IPAddress& minNetMask):
 	m_path(path),
 	m_port(port),
-	m_minNetMask(minNetMask)
+	m_minNetMask(minNetMask),
+	m_cancel(false)
 {
 }
 
@@ -25,12 +33,27 @@ AbstractHTTPScanner::~AbstractHTTPScanner()
 {
 }
 
-void AbstractHTTPScanner::setPingTimeout(const Poco::Timespan& pingTimeout)
+void AbstractHTTPScanner::setPath(const string& path)
+{
+	m_path = path;
+}
+
+void AbstractHTTPScanner::setPort(uint16_t port)
+{
+	m_port = port;
+}
+
+void AbstractHTTPScanner::setMinNetMask(const IPAddress& minNetMask)
+{
+	m_minNetMask = minNetMask;
+}
+
+void AbstractHTTPScanner::setPingTimeout(const Timespan& pingTimeout)
 {
 	m_pingTimeout = pingTimeout;
 }
 
-void AbstractHTTPScanner::setHTTPTimeout(const Poco::Timespan& httpTimeout)
+void AbstractHTTPScanner::setHTTPTimeout(const Timespan& httpTimeout)
 {
 	m_httpTimeout = httpTimeout;
 }
@@ -55,13 +78,23 @@ vector<SocketAddress> AbstractHTTPScanner::scan(const uint32_t maxResponseLength
 	vector<NetworkInterface> listOfNetworkInterfaces = listNetworkInterfaces();
 	vector<SocketAddress> devices;
 
-	for (auto &interface : listOfNetworkInterfaces)
+	for (auto &interface : listOfNetworkInterfaces) {
 		probeInterface(interface, devices, maxResponseLength);
+
+		if (m_cancel)
+			break;
+	}
 
 	if (devices.empty())
 		logger().notice("no device found", __FILE__, __LINE__);
 
+	m_cancel = false;
 	return devices;
+}
+
+void AbstractHTTPScanner::cancel()
+{
+	m_cancel = true;
 }
 
 void AbstractHTTPScanner::probeInterface(const NetworkInterface& interface,
@@ -89,6 +122,9 @@ void AbstractHTTPScanner::probeInterface(const NetworkInterface& interface,
 
 		IPAddressRange range(networkAddress, netMask);
 		probeAddressRange(range, devices, maxResponseLength);
+
+		if (m_cancel)
+			break;
 	}
 }
 
@@ -134,6 +170,9 @@ void AbstractHTTPScanner::probeAddressRange(const IPAddressRange& range,
 
 		if (isValidResponse(response.getBody()))
 			devices.push_back(socketAddress);
+
+		if (m_cancel)
+			break;
 	}
 }
 

@@ -10,7 +10,8 @@ namespace BeeeOn {
 
 class VPTHTTPScanner : public AbstractHTTPScanner {
 public:
-	VPTHTTPScanner(const std::string& path, Poco::UInt16 port, const Poco::Net::IPAddress& minNetMask);
+	VPTHTTPScanner();
+	VPTHTTPScanner(const std::string& path, uint16_t port, const Poco::Net::IPAddress& minNetMask);
 	~VPTHTTPScanner();
 
 protected:
