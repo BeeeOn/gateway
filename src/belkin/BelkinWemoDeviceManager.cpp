@@ -52,6 +52,8 @@ void BelkinWemoDeviceManager::run()
 	while (!m_stop) {
 		Timestamp now;
 
+		eraseUnusedLinks();
+
 		refreshPairedDevices();
 
 		Timespan sleepTime = m_refresh - now.elapsed();
@@ -130,11 +132,39 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 {
 	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches();
 
-	ScopedLock<FastMutex> lock(m_pairedMutex);
+	ScopedLockWithUnlock<FastMutex> lockSwitch(m_pairedMutex);
 	for (auto device : switches) {
 		auto it = m_pairedDevices.find(device->deviceID());
 		if (it != m_pairedDevices.end())
 			m_devices.emplace(device->deviceID(), device);
+	}
+	lockSwitch.unlock();
+
+	vector<BelkinWemoBulb::Ptr> bulbs = seekBulbs();
+
+	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
+	for (auto device : bulbs) {
+		auto it = m_pairedDevices.find(device->deviceID());
+		if (it != m_pairedDevices.end())
+			m_devices.emplace(device->deviceID(), device);
+	}
+	lockBulb.unlock();
+}
+
+void BelkinWemoDeviceManager::eraseUnusedLinks()
+{
+	ScopedLock<FastMutex> lock(m_linksMutex);
+	vector<BelkinWemoLink::Ptr> links;
+
+	for (auto link : m_links) {
+		if (link->countOfBulbs() == 0)
+			links.push_back(link);
+	}
+
+	for (auto link : links) {
+		logger().debug("erase Belkin Wemo Link " + link->macAddress().toString(), __FILE__, __LINE__);
+
+		m_links.erase(link);
 	}
 }
 
@@ -223,7 +253,10 @@ void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd, const Answ
 	}
 	else {
 		m_pairedDevices.erase(it);
-		m_devices.erase(cmdUnpair->deviceID());
+
+		auto itDevice = m_devices.find(cmdUnpair->deviceID());
+		if (itDevice != m_devices.end())
+			m_devices.erase(cmdUnpair->deviceID());
 	}
 
 	Result::Ptr result = new Result(answer);
@@ -304,6 +337,70 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 	return devices;
 }
 
+vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
+{
+	UPnP upnp;
+	list<SocketAddress> listOfDevices;
+	vector<BelkinWemoBulb::Ptr> devices;
+
+	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:bridge:1");
+	for (const auto &address : listOfDevices) {
+		if (m_stop)
+			break;
+
+		logger().debug("discovered a device at " + address.toString(),  __FILE__, __LINE__);
+
+		BelkinWemoLink::Ptr link;
+		try {
+			link = BelkinWemoLink::buildDevice(address, m_httpTimeout);
+		}
+		catch (const TimeoutException& e) {
+			logger().debug("found device has disconnected", __FILE__, __LINE__);
+			continue;
+		}
+
+		logger().notice("discovered Belkin Wemo Link " + link->macAddress().toString(), __FILE__, __LINE__);
+
+		/*
+		 * Finds out if the link is already added.
+		 * If the link already exists but has different IP address
+		 * update the link.
+		 */
+		ScopedLockWithUnlock<FastMutex> linksLock(m_linksMutex);
+		auto itLink = m_links.find(link);
+		if (itLink != m_links.end()) {
+			BelkinWemoLink::Ptr existingLink = *itLink;
+			ScopedLock<FastMutex> guard(existingLink->lock());
+
+			existingLink->setAddress(link->address());
+			link = existingLink;
+
+			logger().information("updating address of Belkin Wemo Link " + link->macAddress().toString(),
+				__FILE__, __LINE__);
+		}
+		else {
+			m_links.insert(link);
+		}
+		linksLock.unlock();
+
+		logger().notice("discovering Belkin Wemo Bulbs...", __FILE__, __LINE__);
+
+		ScopedLock<FastMutex> guard(link->lock());
+		list<BelkinWemoLink::BulbID> bulbIDs = link->requestDeviceList();
+
+		logger().notice("discovered link with " + to_string(bulbIDs.size()) + " Belkin Wemo Bulbs", __FILE__, __LINE__);
+
+		for (auto id : bulbIDs) {
+			BelkinWemoBulb::Ptr newDevice = new BelkinWemoBulb(id, link);
+			devices.push_back(newDevice);
+
+			logger().information("discovered Belkin Wemo Bulb " + newDevice->deviceID().toString());
+		}
+	}
+
+	return devices;
+}
+
 void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
@@ -354,6 +451,16 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
 		for (auto device : m_parent.seekSwitches()) {
+			if (m_stop)
+				break;
+
+			m_parent.processNewDevice(device);
+		}
+
+		if (m_stop)
+			break;
+
+		for (auto device : m_parent.seekBulbs()) {
 			if (m_stop)
 				break;
 
