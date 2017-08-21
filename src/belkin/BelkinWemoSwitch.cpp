@@ -1,9 +1,9 @@
 #include <Poco/AutoPtr.h>
 #include <Poco/DOM/AutoPtr.h>
 #include <Poco/DOM/Document.h>
+#include <Poco/DOM/NodeFilter.h>
+#include <Poco/DOM/NodeIterator.h>
 #include <Poco/Exception.h>
-#include <Poco/Net/HTTPClientSession.h>
-#include <Poco/Net/HTTPResponse.h>
 #include <Poco/NumberParser.h>
 #include <Poco/RegularExpression.h>
 #include <Poco/SAX/AttributesImpl.h>
@@ -12,6 +12,7 @@
 
 #include "belkin/BelkinWemoSwitch.h"
 #include "model/DevicePrefix.h"
+#include "net/HTTPEntireResponse.h"
 #include "net/SOAPMessage.h"
 #include "util/SecureXmlParser.h"
 
@@ -52,7 +53,7 @@ void BelkinWemoSwitch::buildDeviceID()
 	m_deviceId = DeviceID(DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr());
 }
 
-bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const bool value)
+bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const double value)
 {
 	if (moduleID != BELKIN_SWITCH_MODULE_ID)
 		return false;
@@ -163,7 +164,7 @@ bool BelkinWemoSwitch::turnOff() const
 	return xmlNode->nodeValue() == "0";
 }
 
-SensorData BelkinWemoSwitch::requestState() const
+SensorData BelkinWemoSwitch::requestState()
 {
 	HTTPRequest request;
 
@@ -259,27 +260,6 @@ MACAddress BelkinWemoSwitch::requestMacAddr()
 	return MACAddress(NumberParser::parseHex64(xmlNode->nodeValue()));
 }
 
-Node* BelkinWemoSwitch::findNode(NodeIterator& iterator, const string& name) const
-{
-	Node* xmlNode = iterator.nextNode();
-
-	while (xmlNode) {
-		if (xmlNode->nodeName() == name) {
-			xmlNode = iterator.nextNode();
-			return xmlNode;
-		}
-
-		xmlNode = iterator.nextNode();
-	}
-
-	throw SyntaxException("node " + name + " in XML message from belkin device not found");
-}
-
-DeviceID BelkinWemoSwitch::deviceID() const
-{
-	return m_deviceId;
-}
-
 SocketAddress BelkinWemoSwitch::address() const
 {
 	return SocketAddress(m_uri.getHost(), m_uri.getPort());
@@ -310,28 +290,4 @@ string BelkinWemoSwitch::name() const
 bool BelkinWemoSwitch::operator==(const BelkinWemoSwitch& bws) const
 {
 	return bws.deviceID() == m_deviceId;
-}
-
-FastMutex& BelkinWemoSwitch::lock()
-{
-	return m_lock;
-}
-
-HTTPEntireResponse BelkinWemoSwitch::sendHTTPRequest(HTTPRequest& request, const string& msg,
-	const Poco::URI& uri, const Timespan& timeout) const
-{
-	HTTPClientSession http;
-	HTTPEntireResponse response;
-
-	http.setHost(uri.getHost());
-	http.setPort(uri.getPort());
-	http.setTimeout(timeout);
-
-	request.setURI(uri.toString());
-
-	http.sendRequest(request) << msg;
-	istream& input = http.receiveResponse(response);
-	response.readBody(input);
-
-	return response;
 }
