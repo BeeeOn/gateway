@@ -7,10 +7,8 @@
 #include <Poco/Net/SocketAddress.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
-#include <Poco/URI.h>
 
-#include "belkin/BelkinWemoDevice.h"
-#include "net/MACAddress.h"
+#include "belkin/BelkinWemoStandaloneDevice.h"
 #include "model/ModuleType.h"
 #include "model/SensorData.h"
 
@@ -20,11 +18,10 @@ namespace BeeeOn {
  * @brief The class represents Belkin WeMo Switch F7C027fr.
  * Provides functions to control the switch. It means turn on, turn off, get state.
  */
-class BelkinWemoSwitch : public BelkinWemoDevice{
+class BelkinWemoSwitch : public BelkinWemoStandaloneDevice {
 public:
 	typedef Poco::SharedPtr<BelkinWemoSwitch> Ptr;
 
-	BelkinWemoSwitch();
 	~BelkinWemoSwitch();
 
 	/**
@@ -52,8 +49,6 @@ public:
 	 */
 	SensorData requestState() override;
 
-	Poco::Net::SocketAddress address() const;
-	void setAddress(const Poco::Net::SocketAddress& address);
 	std::list<ModuleType> moduleTypes() const override;
 	std::string name() const override;
 
@@ -64,43 +59,6 @@ public:
 
 protected:
 	BelkinWemoSwitch(const Poco::Net::SocketAddress& address);
-
-	/**
-	 * @brief Prepares SOAP message containing turn on command
-	 * and sends it to device via HTTP. If the device is not on
-	 * network throws Poco::TimeoutException also in this case
-	 * it is blocking.
-	 * @return If the request was successful or not.
-	 */
-	bool turnOn() const;
-
-	/**
-	 * @brief Prepares SOAP message containing turn off command
-	 * and sends it to device via HTTP. If the device is not on
-	 * network throws Poco::TimeoutException also in this case
-	 * it is blocking.
-	 * @return If the request was successful or not.
-	 */
-	bool turnOff() const;
-
-	/**
-	 * @brief Prepares SOAP message containing request Mac address
-	 * command and sends it to device via HTTP. If the device is not
-	 * on network throws Poco::TimeoutException also in this case
-	 * it is blocking. Request mac address of the device.
-	 * @return Mac address of the device.
-	 */
-	MACAddress requestMacAddr();
-
-	/**
-	 * @brief Called internally when constructing the instance.
-	 * Creates DeviceID based on Mac address of device.
-	 */
-	void buildDeviceID();
-
-private:
-	Poco::URI m_uri;
-	Poco::Timespan m_httpTimeout;
 };
 
 }

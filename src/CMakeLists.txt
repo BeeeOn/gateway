@@ -98,6 +98,7 @@ if(ENABLE_BELKIN_WEMO)
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoLink.cpp
+		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoStandaloneDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
 	)
 	list(APPEND SOURCES ${BELKIN_SOURCES})
