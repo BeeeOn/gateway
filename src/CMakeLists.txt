@@ -88,6 +88,7 @@ endif()
 
 if(ENABLE_BELKIN_WEMO)
 	file(GLOB BELKIN_SOURCES
+		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoBulb.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoLink.cpp
