@@ -34,6 +34,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/commands/ServerLastValueCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/ServerLastValueResult.cpp
 	${PROJECT_SOURCE_DIR}/core/AbstractDistributor.cpp
+	${PROJECT_SOURCE_DIR}/core/AbstractCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
