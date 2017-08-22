@@ -140,6 +140,7 @@ if(ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriver.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveListener.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
