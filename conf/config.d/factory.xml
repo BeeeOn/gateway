@@ -104,6 +104,8 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="distributor" ref="distributor" />
 			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
+			<set name="statisticsInterval" number="${zwave.statistics.interval}" />
+			<set name="executor" ref="asyncExecutor"/>
 		</instance>
 
 		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">

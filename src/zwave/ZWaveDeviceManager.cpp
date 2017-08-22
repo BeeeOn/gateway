@@ -13,7 +13,9 @@
 #include "hotplug/HotplugEvent.h"
 #include "model/SensorData.h"
 #include "zwave/GenericZWaveDeviceInfoRegistry.h"
+#include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveDeviceManager.h"
+#include "zwave/ZWaveNodeEvent.h"
 #include "zwave/ZWavePocoLoggerAdapter.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, ZWaveDeviceManager)
@@ -23,9 +25,12 @@ BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_TEXT("userPath", &ZWaveDeviceManager::setUserPath)
 BEEEON_OBJECT_TEXT("configPath", &ZWaveDeviceManager::setConfigPath)
 BEEEON_OBJECT_NUMBER("pollInterval", &ZWaveDeviceManager::setPollInterval)
+BEEEON_OBJECT_NUMBER("statisticsInterval", &ZWaveDeviceManager::setStatisticsInterval)
 BEEEON_OBJECT_REF("commandDispatcher", &ZWaveDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_REF("distributor", &ZWaveDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("deviceInfoRegistry", &ZWaveDeviceManager::setDeviceInfoRegistry)
+BEEEON_OBJECT_REF("listeners", &ZWaveDeviceManager::registerListener)
+BEEEON_OBJECT_REF("executor", &ZWaveDeviceManager::setExecutor)
 BEEEON_OBJECT_HOOK("done", &ZWaveDeviceManager::installConfiguration);
 BEEEON_OBJECT_END(BeeeOn, ZWaveDeviceManager)
 
@@ -63,7 +68,9 @@ ZWaveDeviceManager::ZWaveDeviceManager():
 	DeviceManager(DevicePrefix::PREFIX_ZWAVE),
 	m_state(State::IDLE),
 	m_commandCallback(*this, &ZWaveDeviceManager::stopCommand),
-	m_commandTimer(0, 0)
+	m_commandTimer(0, 0),
+	m_sentStatistics(*this, &ZWaveDeviceManager::fireStatistics),
+	m_statisticsTimer(0, 0)
 {
 }
 
@@ -133,6 +140,16 @@ void ZWaveDeviceManager::onAdd(const HotplugEvent &event)
 
 	Manager::Get()->AddWatcher(::onNotification, this);
 	m_driver.registerItself();
+
+	if (m_executor.isNull()) {
+		logger().critical(
+			"runtime statistics could not be send, executor was not set",
+			__FILE__, __LINE__);
+	}
+	else {
+		m_statisticsTimer.setPeriodicInterval(m_statisticsInterval.totalMilliseconds());
+		m_statisticsTimer.start(m_sentStatistics);
+	}
 }
 
 void ZWaveDeviceManager::onRemove(const HotplugEvent &event)
@@ -160,6 +177,8 @@ void ZWaveDeviceManager::onRemove(const HotplugEvent &event)
 
 	logger().debug("unregistering dongle " + event.toString(),
 		__FILE__, __LINE__);
+
+	m_statisticsTimer.stop();
 
 	m_state = State::IDLE;
 	m_driver.unregisterItself();
@@ -745,6 +764,48 @@ DeviceID ZWaveDeviceManager::buildID(uint8_t nodeID) const
 	return DeviceID(DevicePrefix::PREFIX_ZWAVE, deviceID);
 }
 
+void ZWaveDeviceManager::fireStatistics(Poco::Timer &)
+{
+	if (m_state == IDLE) {
+		logger().debug("statistics cannot be sent, dongle is not ready");
+		return;
+	}
+
+	Poco::FastMutex::ScopedLock guard(m_lock);
+	fireDriverEventStatistics();
+
+	for (auto &id : m_beeeonDevices)
+		fireNodeEventStatistics(id.first);
+}
+
+void ZWaveDeviceManager::fireNodeEventStatistics(uint8_t nodeID)
+{
+	Node::NodeData data;
+	Manager::Get()->GetNodeStatistics(m_homeID, nodeID, &data);
+	ZWaveNodeEvent nodeEvent(data, nodeID);
+
+	vector<ZWaveListener::Ptr> listeners = m_listeners;
+
+	m_executor->invoke([listeners, nodeEvent]() {
+		for (auto listener : listeners)
+			listener->onNodeStats(nodeEvent);
+	});
+}
+
+void ZWaveDeviceManager::fireDriverEventStatistics()
+{
+	Driver::DriverData data;
+	Manager::Get()->GetDriverStatistics(m_homeID, &data);
+	ZWaveDriverEvent driverEvent(data);
+
+	vector<ZWaveListener::Ptr> listeners = m_listeners;
+
+	m_executor->invoke([listeners, driverEvent]() {
+		for (auto listener : listeners)
+			listener->onDriverStats(driverEvent);
+	});
+}
+
 void ZWaveDeviceManager::setUserPath(const string &userPath)
 {
 	m_userPath = userPath;
@@ -780,4 +841,24 @@ void ZWaveDeviceManager::createBeeeOnDevice(uint8_t nodeID)
 	catch (const Poco::ExistsException &ex) {
 		logger().log(ex, __FILE__, __LINE__);
 	}
+}
+
+void ZWaveDeviceManager::setStatisticsInterval(int seconds)
+{
+	if (seconds <= 0) {
+		throw Poco::InvalidArgumentException(
+			"statistics interval must be a positive number");
+	}
+
+	m_statisticsInterval = seconds * Poco::Timespan::SECONDS;
+}
+
+void ZWaveDeviceManager::registerListener(ZWaveListener::Ptr listener)
+{
+	m_listeners.push_back(listener);
+}
+
+void ZWaveDeviceManager::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
+{
+	m_executor = executor;
 }

@@ -16,8 +16,10 @@
 #include "commands/GatewayListenCommand.h"
 #include "core/DeviceManager.h"
 #include "hotplug/HotplugListener.h"
+#include "util/AsyncExecutor.h"
 #include "zwave/ZWaveDriver.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
+#include "zwave/ZWaveListener.h"
 #include "zwave/ZWaveNodeInfo.h"
 
 namespace BeeeOn {
@@ -57,11 +59,22 @@ public:
 	void setConfigPath(const std::string &configPath);
 
 	/**
+	 * Periodic interval for sending of statistics. If interval
+	 * is not set, statistics is not sent.
+	 */
+	void setStatisticsInterval(int seconds);
+
+	/**
 	 * For old devices, detect status changes.
 	 */
 	void setPollInterval(int pollInterval);
 
 	void setDeviceInfoRegistry(Poco::SharedPtr<ZWaveDeviceInfoRegistry> factory);
+
+	/**
+	 * Class for asynchronous sending of statistics from ZWave network.
+	 */
+	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
 
 	void installConfiguration();
 
@@ -71,6 +84,8 @@ public:
 	 * the notification
 	 */
 	void onNotification(const OpenZWave::Notification *notification);
+
+	void registerListener(ZWaveListener::Ptr listener);
 
 private:
 	/**
@@ -155,6 +170,21 @@ private:
 
 	void configureDefaultUnit(OpenZWave::ValueID &valueID);
 
+	/**
+	 * Processing of statistics in given periodic interval.
+	 */
+	void fireStatistics(Poco::Timer &timer);
+
+	/**
+	 * Sending of statistics from node to listeners.
+	 */
+	void fireNodeEventStatistics(uint8_t nodeID);
+
+	/**
+	 * Sending of statistics from ZWave driver to listeners.
+	 */
+	void fireDriverEventStatistics();
+
 private:
 	enum State {
 		/**
@@ -192,9 +222,15 @@ private:
 	ZWaveDeviceInfoRegistry::Ptr m_registry;
 	std::map<uint8_t, std::list<OpenZWave::ValueID>> m_zwaveNodes;
 	Poco::Event m_stopEvent;
+	Poco::SharedPtr<AsyncExecutor> m_executor;
 
 	Poco::TimerCallback<ZWaveDeviceManager> m_commandCallback;
 	Poco::Timer m_commandTimer;
+
+	Poco::TimerCallback<ZWaveDeviceManager> m_sentStatistics;
+	Poco::Timer m_statisticsTimer;
+	Poco::Timespan m_statisticsInterval;
+	std::vector<ZWaveListener::Ptr> m_listeners;
 };
 
 }
