@@ -1,6 +1,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <Poco/Event.h>
+#include <Poco/SharedPtr.h>
 #include <Poco/Thread.h>
 
 #include "cppunit/BetterAssert.h"
@@ -101,21 +102,28 @@ class DongleDeviceManagerTest : public CppUnit::TestFixture {
 public:
 	DongleDeviceManagerTest();
 
+	void setUp() override;
+
 	void testNoDongleRun();
 	void testAddDongleRun();
 	void testAddDongleBeforeRun();
 	void testAddRemoveDongleRun();
 
 private:
-	TestableDongleDeviceManager m_manager;
-	Thread m_thread;
+	SharedPtr<TestableDongleDeviceManager> m_manager;
+	SharedPtr<Thread> m_thread;
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DongleDeviceManagerTest);
 
-DongleDeviceManagerTest::DongleDeviceManagerTest():
-	m_manager("testing-device", DevicePrefix::PREFIX_JABLOTRON)
+DongleDeviceManagerTest::DongleDeviceManagerTest()
 {
+}
+
+void DongleDeviceManagerTest::setUp()
+{
+	m_manager = new TestableDongleDeviceManager("testing-device", DevicePrefix::PREFIX_JABLOTRON);
+	m_thread = new Thread;
 }
 
 /**
@@ -124,22 +132,22 @@ DongleDeviceManagerTest::DongleDeviceManagerTest():
  */
 void DongleDeviceManagerTest::testNoDongleRun()
 {
-	m_thread.start(m_manager);
+	m_thread->start(*m_manager);
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
-	m_manager.stop();
+	m_manager->stop();
 
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
 	// we are stopped and leaving the main loop
-	CPPUNIT_ASSERT(m_thread.tryJoin(10000));
+	CPPUNIT_ASSERT(m_thread->tryJoin(10000));
 }
 
 /**
@@ -154,30 +162,30 @@ void DongleDeviceManagerTest::testAddDongleRun()
 {
 	UDevEvent event;
 
-	m_thread.start(m_manager);
+	m_thread->start(*m_manager);
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
 
 	event.setName("testing-device");
-	m_manager.onAdd(event);
+	m_manager->onAdd(event);
 
 	// wakeup from dongleMissing and check for dongle
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameAvailable().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameAvailable().tryWait(10000));
 	// we are inside the dongleAvailable()
-	m_manager.available().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->available().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
 	// dongleAvailable() has finished gracefully
-	CPPUNIT_ASSERT(m_thread.tryJoin(10000));
+	CPPUNIT_ASSERT(m_thread->tryJoin(10000));
 }
 
 /**
@@ -193,17 +201,17 @@ void DongleDeviceManagerTest::testAddDongleBeforeRun()
 	UDevEvent event;
 
 	event.setName("testing-device");
-	m_manager.onAdd(event);
+	m_manager->onAdd(event);
 
-	m_thread.start(m_manager);
+	m_thread->start(*m_manager);
 
-	CPPUNIT_ASSERT(m_manager.becameAvailable().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameAvailable().tryWait(10000));
 	// we are inside the dongleAvailable()
-	m_manager.available().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->available().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
 	// dongleAvailable() has finished gracefully
-	CPPUNIT_ASSERT(m_thread.tryJoin(10000));
+	CPPUNIT_ASSERT(m_thread->tryJoin(10000));
 }
 
 /**
@@ -219,41 +227,41 @@ void DongleDeviceManagerTest::testAddRemoveDongleRun()
 	UDevEvent event;
 	event.setName("testing-device");
 
-	m_thread.start(m_manager);
+	m_thread->start(*m_manager);
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
 
-	m_manager.onAdd(event);
+	m_manager->onAdd(event);
 
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameAvailable().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameAvailable().tryWait(10000));
 	// no we must be inside dongleAvailable()
-	m_manager.onRemove(event);
+	m_manager->onRemove(event);
 
-	m_manager.available().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->available().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are again inside the dongleMissing()
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_manager.becameMissing().tryWait(10000));
+	CPPUNIT_ASSERT(m_manager->becameMissing().tryWait(10000));
 	// we are inside the dongleMissing()
-	m_manager.stop();
+	m_manager->stop();
 
-	m_manager.missing().set();
-	CPPUNIT_ASSERT(m_manager.done().tryWait(10000));
+	m_manager->missing().set();
+	CPPUNIT_ASSERT(m_manager->done().tryWait(10000));
 
-	CPPUNIT_ASSERT(m_thread.tryJoin(10000));
+	CPPUNIT_ASSERT(m_thread->tryJoin(10000));
 }
 
 
