@@ -11,6 +11,7 @@
 			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
+			<add name="runnables" ref="asyncExecutor" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
