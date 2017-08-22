@@ -12,6 +12,9 @@ find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 find_library (UDEV udev)
 
+find_package(OpenZWave REQUIRED)
+include_directories(${OPENZWAVE_INCLUDE_DIR})
+
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
@@ -78,6 +81,16 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
 	${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
 	${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
+	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
+	${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
+	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveDeviceInfoRegistry.cpp
+	${PROJECT_SOURCE_DIR}/zwave/VendorZWaveDeviceInfoRegistry.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistry.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceInfo.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveDriver.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
 )
 
 file(GLOB TESTING_SOURCES
@@ -105,6 +118,7 @@ set(LIBS
 	${POCO_XML}
 	${PTHREAD}
 	${UDEV}
+	${OPENZWAVE_LIBRARY}
 )
 
 target_link_libraries(beeeon-gateway

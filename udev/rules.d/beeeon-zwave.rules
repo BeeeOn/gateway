@@ -1,0 +1,1 @@
+KERNEL=="ttyACM?", ATTRS{idVendor}=="0658", ATTRS{idProduct}=="0200", ENV{BEEEON_DONGLE}="zwave"
