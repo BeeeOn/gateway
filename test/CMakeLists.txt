@@ -21,7 +21,6 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
-	${PROJECT_SOURCE_DIR}/util/IncompleteTimestampTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 )
 
