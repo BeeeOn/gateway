@@ -119,3 +119,13 @@ sending _accept_ command and waiting for the result. This time, only one Device 
 
 A paired device would ship its measured sensor data to the Distributor component that would export it to
 the configured Exporters.
+
+### Device Manager
+
+Each supported technology (Jablotron, Z-Wave, ...) is represented by a Device Manager. A Device Manager is
+usually a singleton class created once on startup. Its purpose is to translate the BeeeOn common interfaces
+to the specifics of the target technology. Each Device Manager is basically a thread (but no necessarily).
+It reacts to certain commands dispatched by the component CommandDispatcher. All such commands are asynchronous
+and can report the status of execution multiple times until finished. A Device Manager also ensures that
+the data delivered from the paired sensors are shipped into the Distributor component (and then exported out).
+Device Managers can also report technology-specific events via custom interfaces.
