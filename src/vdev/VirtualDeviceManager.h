@@ -81,9 +81,9 @@ public:
  *
  * It also ensures reaction to commands sent from server:
  *
- * ListenCommand, DeviceAcceptCommand - device attempts to pair
- * SetValueCommand - modification of module value
- * UnpairCommand - device attempts to unpair
+ * - GatewayListenCommand, DeviceAcceptCommand - device attempts to pair
+ * - DeviceSetValueCommand - modification of module value
+ * - DeviceUnpairCommand - device attempts to unpair
  */
 class VirtualDeviceManager : public DeviceManager {
 public:
@@ -162,14 +162,14 @@ protected:
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	/**
-	 * Reacts to ListenCommand. It sends NewDeviceCommand if
+	 * Reacts to GatewayListenCommand. It sends NewDeviceCommand if
 	 * device is not paired.
 	 */
 	void doListenCommand(const GatewayListenCommand::Ptr,
 		const Answer::Ptr answer);
 
 	/**
-	 * Reacts to AcceptCommand. Device has to be stored in map
+	 * Reacts to DeviceAcceptCommand. Device has to be stored in map
 	 * of virtual devices and it has to be unpaired. If these conditions
 	 * are fulfilled, method inserts device into a calendar, it sets device
 	 * as paired and it plans next activation (data generation) of this device.
@@ -178,7 +178,7 @@ protected:
 		const Answer::Ptr answer);
 
 	/**
-	* Reacts to SetValueCommand. Device has to be in map of
+	* Reacts to DeviceSetValueCommand. Device has to be in map of
 	* virtual devices, it has to be sensor and reaction has to be
 	* set to success.
 	*/
@@ -186,7 +186,7 @@ protected:
 		const Answer::Ptr answer);
 
 	/**
-	* Reacts to UnpairCommand. Device has to be in map of
+	* Reacts to DeviceUnpairCommand. Device has to be in map of
 	* virtual devices and it has to be paired.
 	*/
 	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd,
