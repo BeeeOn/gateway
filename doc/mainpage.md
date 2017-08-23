@@ -39,3 +39,8 @@ The executable `beeeon-gateway` reads the given configuration file and configura
 files from conf/config.d. Then, the definition of the _main_ instance (of class
 LoopRunner) is searched, created and executed. Then, all main application threads
 start.
+
+## Hacking the BeeeOn Gateway
+
+In the following sections, you can find some tips how to work with the BeeeOn
+Gateway or how to customize it.
