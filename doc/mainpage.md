@@ -84,3 +84,38 @@ The TestingCenter allows to see some internals of the BeeeOn Gateway runtime.
 It provides a very basic help. The most important feature of the TestingCenter
 is the possibility to mimic the server. It allows to dispatch commands to the
 particular connected devices and receive results.
+
+### Pairing a device via TestingCenter
+
+The BeeeOn Gateway implements the pairing process used in the BeeeOn system.
+The pairing process is used for all technologies regardless of their own
+pairing mechanisms. Some technologies may require a manual intervention
+with the particular devices (Jablotron, Z-Wave).
+
+Pairing has always the two steps:
+
+1. Discover new devices (listen).
+2. Confirm devices to be paired (accept).
+
+To pair a device using the TestingCenter, type the following commands into the
+TestingCenter prompt:
+
+```
+> command listen 30
+0x7F3CB0002030 PENDING 0/3
+> wait-queue
+0x7F3CB0002030 DONE 3/3 SSS
+> device list-new
+0xa300000000000003
+> command device-accept 0xa300000000000003
+0x7F3CB0002CD0 PENDING 0/1
+> wait-queue
+0x7F3CB0002CD0 DONE 1/1 S
+```
+
+First, the _listen_ command has discovered there is a single available device with ID `0xa300000000000003`.
+Note, that there were 3 Device Managers handling the _listen_ command. Then, we accepted the device by
+sending _accept_ command and waiting for the result. This time, only one Device Manager has responded.
+
+A paired device would ship its measured sensor data to the Distributor component that would export it to
+the configured Exporters.
