@@ -129,3 +129,96 @@ It reacts to certain commands dispatched by the component CommandDispatcher. All
 and can report the status of execution multiple times until finished. A Device Manager also ensures that
 the data delivered from the paired sensors are shipped into the Distributor component (and then exported out).
 Device Managers can also report technology-specific events via custom interfaces.
+
+### Configuration
+
+The BeeeOn Gateway is configured at 2 levels of abstraction:
+
+1. user level - mostly INI files
+2. developer level - INI and XML files
+
+The _user level_ configuration can be found in the `conf/gateway-startup.ini`. To
+configure virtual sensors, see also `conf/virtual-devices.ini`.
+
+The _developer level_ configuration is made by files located in the `conf/config.d`
+directory. Those files are loaded automatically during startup and define how to
+startup the whole system. The main component that is created and build is called
+_main_ and it is defined in the `conf/config.d/factory.xml` file. It denotes an
+instance of the LoopRunner class. Its purpose is to start all main application
+threads (internally called loops).
+
+#### User level configuration
+
+The _user level_ configuration is divided into several sections according to the
+number of subsystems in the BeeeOn Gateway.
+
+##### Core configuration entries
+
+* ssl.certificate.filePath - path to the SSL certificate used to identify the BeeeOn
+Gateway when connecting to the BeeeOn Server. Each BeeeOn Gateway should have a unique
+certificate signed by the BeeeOn Server authority.
+
+* ssl.privateKey.filePath - path to the SSL private key.
+
+* gateway.id - ID of the BeeeOn Gateway intended for *testing only*. In production, the
+ID is extracted from the SSL certificate.
+
+##### Credentials storage facility
+
+The BeeeOn Gateway provides a credentials storage facility. Its purpose is to serve
+credentials to Device Managers to authenticate with its sensors properly. The credentials
+storage can persist the credentials with a certain level of security. The current
+implementation stores all credentials in an encrypted form.
+
+* credentials.file - encrypted file where to persist credentials
+
+* credentials.configuration.root - name of the configuration root element
+
+* credentials.save.delay - persisting of the dirty credentials cache is not done immediately,
+instead, it waits for the given amount of seconds
+
+* credentials.crypto.passphrase - secret passphrase intended for encryption; this should be
+unique for each BeeeOn Gateway
+
+* credentials.crypto.algorithm - algorithm used for credentials encryption
+
+##### TestingCenter configuration
+
+* testing.center.enable - enable or disable starting of the TestingCenter on startup
+
+* testing.center.address - address to listen on for new connections (should be localhost)
+
+* testing.center.port - port to listen on for new connections
+
+##### Hotplug configuration
+
+Some Device Managers depend on external hardware - USB dongles. To detect that a dongle is present
+or disconnected, a hotplug mechanism is used. The preferred hotplug implementation is the udev
+(via UDevMonitor). However, there is also the PipeHotplugMonitor, the second hotplug interface
+that is controlled via a named pipe from some external sources.
+
+* hotplug.pipe.path - path to the named pipe when the pipeHotplug implementation is used
+
+* hotplug.impl - name of the hotplug mechanism to use (available: udev, pipeHotplug)
+
+##### Exporters configuration
+
+* exporter.pipe.enable - enable the NamedPipeExporter to be registered with the Distributor
+
+* exporter.pipe.path - path to the named pipe file to be used (created if not exists)
+
+* exporter.pipe.format - output format (available: CSV, JSON)
+
+* exporter.mqtt.enable - enable the MosquittoExporter to be registered with the Distributor
+
+* exporter.mqtt.host - host where the MQTT broker is running
+
+* exporter.mqtt.port - port where the MQTT broker is running
+
+* exporter.mqtt.topic - name of topic where to advertise data
+
+* exporter.mqtt.qos - MQTT QoS specification
+
+* exporter.mqtt.clientName - name of the MQTT client
+
+* exporter.mqtt.format - output format (available: CSV, JSON)
