@@ -222,3 +222,46 @@ that is controlled via a named pipe from some external sources.
 * exporter.mqtt.clientName - name of the MQTT client
 
 * exporter.mqtt.format - output format (available: CSV, JSON)
+
+##### Belkin Wemo
+
+* belkinwemo.enable - enable the Belkin Wemo support
+
+* belkinwemo.upnp.timeout - timeout of the UPnP lookup
+
+* belkinwemo.http.timeout - timeout of HTTP requests
+
+* belkinwemo.refresh - interval of polling the particular Belkin Wemo devices (seconds)
+
+##### Bluetooth availability
+
+The BeeeOn Gateway can scan the Bluetooth for availability of devices. When a device
+is available or unavailable, such event is distributed.
+
+* bluetooth.enable - enable the Bluetooth availability support
+
+* bluetooth.refresh - interval of scanning the network and reporting results
+
+##### Jablotron
+
+* jablotron.enable - enable the Jablotron support
+
+##### Virtual devices
+
+For debugging and testing purposes, the BeeeOn Gateway contains a subsystem for creating
+virtual devices. Virtual devices are configured once before startup. Then they mimic
+real sensors or actuators.
+
+* vdev.enable - enable the Virtual devices support
+
+* vdev.ini - path to INI file with definitions of particular virtual devices to create on startup
+
+##### Z-Wave
+
+* zwave.enable - enable the Z-Wave support
+
+* zwave.user.path - path to Z-Wave user config data and state
+
+* zwave.config.path - path to Z-Wave XML config data
+
+* zwave.poll.interval - polling interval to be used with older devices
