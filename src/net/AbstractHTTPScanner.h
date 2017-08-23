@@ -16,7 +16,7 @@
 
 namespace BeeeOn {
 
-/*
+/**
  * @brief The abstract class contains core of HTTP scanning
  * of network. Derivated classes will have to implement
  * methods to prepare HTTP request and if the response
@@ -25,7 +25,7 @@ namespace BeeeOn {
 class AbstractHTTPScanner : protected Loggable {
 public:
 	AbstractHTTPScanner();
-	/*
+	/**
 	 * @param path Defines path of HTTP request.
 	 * @param port Defines receiver's port.
 	 * @param minNetMask Defines minimal range of exploring IP address.
@@ -33,7 +33,7 @@ public:
 	AbstractHTTPScanner(const std::string& path, uint16_t port, const Poco::Net::IPAddress& minNetMask);
 	~AbstractHTTPScanner();
 
-	/*
+	/**
 	 * @brief It executes the scan of proper network interfaces.
 	 * @param maxResponseLength Defines maximal length of response message which
 	 * will be process.
@@ -55,14 +55,14 @@ public:
 
 protected:
 	virtual void prepareRequest(Poco::Net::HTTPRequest& request) = 0;
-	/*
+	/**
 	 * @brief It defines if the response is valid or not.
 	 * @param response Response message.
 	 * @return If the response is valid or not.
 	 */
 	virtual bool isValidResponse(const std::string& response) = 0;
 
-	/*
+	/**
 	 * @brief It explores network interface.
 	 * @param interafce Exploring interface.
 	 * @param devices Structure where are found devices saved.
@@ -73,7 +73,7 @@ protected:
 		std::vector<Poco::Net::SocketAddress>& devices,
 		const Poco::Int64 maxResponseLength);
 
-	/*
+	/**
 	 * @brief It explores IP address range.
 	 * @param range Exploring IP address range.
 	 * @param devices Structure where are found devices saved.
@@ -84,7 +84,7 @@ protected:
 		std::vector<Poco::Net::SocketAddress>& devices,
 		const Poco::Int64 maxResponseLength);
 
-	/*
+	/**
 	 * @brief It sends HTTP request.
 	 * @param socketAddress Address of receiver.
 	 * @param maxResponseLength Defines maximal length of response message which
@@ -96,7 +96,7 @@ protected:
 
 	bool addressIncompatible(const Poco::Net::NetworkInterface::AddressTuple& addressTuple) const;
 
-	/*
+	/**
 	 * @return Vector of active network interfaces.
 	 */
 	std::vector<Poco::Net::NetworkInterface> listNetworkInterfaces();
