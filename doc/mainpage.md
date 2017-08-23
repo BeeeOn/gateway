@@ -44,3 +44,43 @@ start.
 
 In the following sections, you can find some tips how to work with the BeeeOn
 Gateway or how to customize it.
+
+### Server-less debugging (TestingCenter)
+
+The BeeeOn Gateway is primarily intended to be controlled from a remote server.
+The server allows its users to communicate with gateways and their sensors.
+However, for development, it is uncomfortable to always work with a server. For this
+purpose, there is an internal debugging component named TestingCenter.
+
+The TestingCenter is disabled as default. It must be enabled explicitly:
+
+```
+$ beeeon-gateway -c conf/gateway-startup -Dtesting.center.enable=yes
+...
+BeeeOn::TestingCenter 20:46:34.627 7052 [Critical] TESTING CENTER IS NOT INTENDED FOR PRODUCTION
+BeeeOn::TCPConsole 20:46:34.627 7052 [Information] waiting for connection...
+...
+```
+
+During startup, it will inform you that the TestingCenter is listening for TCP
+connections. The default port is 6000. Use some TCP line oriented tool (e.g. telnet,
+netcat) to connect and get the prompt:
+
+```
+$ nc localhost 6000
+> help
+Gateway Testing Center
+Commands:
+  help - print this help
+  exit - exit the console session
+  command - dispatch a command into the system
+  credentials - manage credentials storage
+  device - simulate device in server database
+  echo - echo arguments to output separated by space
+  wait-queue - wait for new command answers
+```
+
+The TestingCenter allows to see some internals of the BeeeOn Gateway runtime.
+It provides a very basic help. The most important feature of the TestingCenter
+is the possibility to mimic the server. It allows to dispatch commands to the
+particular connected devices and receive results.
