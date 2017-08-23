@@ -135,6 +135,12 @@ private:
 
 	void stopCommand(Poco::Timer &timer);
 
+	/**
+	 * Creates BeeeOn devices from ZWave nodes. BeeeOn device contains
+	 * information about manufacturer, product and supported measured values.
+	 */
+	void createBeeeOnDevice(uint8_t nodeID);
+
 	void doNewDeviceCommand();
 	void doListenCommand(
 		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);

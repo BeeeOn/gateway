@@ -482,15 +482,6 @@ void ZWaveDeviceManager::doNewDeviceCommand()
 		return;
 	}
 
-	for (auto &node : m_zwaveNodes) {
-		try {
-			createDevice(buildID(node.first), false);
-		}
-		catch (const Poco::ExistsException &ex) {
-			logger().log(ex, __FILE__, __LINE__);
-		}
-	}
-
 	for (auto &nodeID : m_beeeonDevices) {
 		if (nodeID.second.paired())
 			continue;
@@ -535,6 +526,8 @@ void ZWaveDeviceManager::onNotification(
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
 	case Notification::Type_NodeQueriesComplete:
+		createBeeeOnDevice(notification->GetNodeId());
+
 		doNewDeviceCommand();
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
@@ -777,4 +770,14 @@ void ZWaveDeviceManager::stop()
 {
 	DeviceManager::stop();
 	m_stopEvent.set();
+}
+
+void ZWaveDeviceManager::createBeeeOnDevice(uint8_t nodeID)
+{
+	try {
+		createDevice(buildID(nodeID), false);
+	}
+	catch (const Poco::ExistsException &ex) {
+		logger().log(ex, __FILE__, __LINE__);
+	}
 }
