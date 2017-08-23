@@ -6,7 +6,7 @@
 
 #include "cppunit/BetterAssert.h"
 #include "core/DongleDeviceManager.h"
-#include "udev/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 
 using namespace std;
 using namespace Poco;
@@ -31,7 +31,7 @@ public:
 	{
 	}
 
-	string dongleMatch(const UDevEvent &e) override
+	string dongleMatch(const HotplugEvent &e) override
 	{
 		if (e.name() == m_name)
 			return m_name;
@@ -160,7 +160,7 @@ void DongleDeviceManagerTest::testNoDongleRun()
  */
 void DongleDeviceManagerTest::testAddDongleRun()
 {
-	UDevEvent event;
+	HotplugEvent event;
 
 	m_thread->start(*m_manager);
 
@@ -198,7 +198,7 @@ void DongleDeviceManagerTest::testAddDongleRun()
  */
 void DongleDeviceManagerTest::testAddDongleBeforeRun()
 {
-	UDevEvent event;
+	HotplugEvent event;
 
 	event.setName("testing-device");
 	m_manager->onAdd(event);
@@ -224,7 +224,7 @@ void DongleDeviceManagerTest::testAddDongleBeforeRun()
  */
 void DongleDeviceManagerTest::testAddRemoveDongleRun()
 {
-	UDevEvent event;
+	HotplugEvent event;
 	event.setName("testing-device");
 
 	m_thread->start(*m_manager);

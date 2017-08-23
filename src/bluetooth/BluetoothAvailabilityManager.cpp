@@ -16,12 +16,12 @@
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
-#include "udev/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(UDevListener)
+BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_NUMBER("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_REF("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
@@ -92,7 +92,7 @@ bool BluetoothAvailabilityManager::dongleMissing()
 	return true;
 }
 
-string BluetoothAvailabilityManager::dongleMatch(const UDevEvent &e)
+string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
 {
 	if (e.subsystem() == "bluetooth") {
 		if (e.name().empty()) {

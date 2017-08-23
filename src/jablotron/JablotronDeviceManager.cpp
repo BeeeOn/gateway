@@ -8,13 +8,13 @@
 #include "io/AutoClose.h"
 #include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
-#include "udev/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 #include "util/LambdaTimerTask.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(UDevListener)
+BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_REF("distributor", &JablotronDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &JablotronDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_END(BeeeOn, JablotronDeviceManager)
@@ -99,7 +99,7 @@ void JablotronDeviceManager::dongleAvailable()
 		jablotronProcess();
 	}
 	catch (const IOException &ex) {
-		// waiting so that UDevEvent can arrive after exception on serial port
+		// waiting so that HotplugEvent can arrive after exception on serial port
 		Thread::sleep(SLEEP_AFTER_FAILED.totalMilliseconds());
 		ex.rethrow();
 	}
@@ -430,7 +430,7 @@ void JablotronDeviceManager::shipMessage(
 	};
 }
 
-string JablotronDeviceManager::dongleMatch(const UDevEvent &e)
+string JablotronDeviceManager::dongleMatch(const HotplugEvent &e)
 {
 	const string &productID = e.properties()
 		->getString("tty.ID_MODEL_ID", "");

@@ -32,7 +32,7 @@ public:
 
 	bool dongleMissing() override;
 
-	std::string dongleMatch(const UDevEvent &e) override;
+	std::string dongleMatch(const HotplugEvent &e) override;
 
 	void stop() override;
 

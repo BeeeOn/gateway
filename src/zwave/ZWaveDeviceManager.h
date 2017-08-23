@@ -15,7 +15,7 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/DeviceManager.h"
-#include "udev/UDevListener.h"
+#include "hotplug/HotplugListener.h"
 #include "zwave/ZWaveDriver.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveNodeInfo.h"
@@ -31,7 +31,7 @@ namespace BeeeOn {
  * After a supported Z-Wave driver is connected, the onAdd event
  * ensures its setup and initialization via the OpenZWave library.
  */
-class ZWaveDeviceManager : public DeviceManager, public UDevListener {
+class ZWaveDeviceManager : public DeviceManager, public HotplugListener {
 public:
 	ZWaveDeviceManager();
 	~ZWaveDeviceManager();
@@ -39,8 +39,8 @@ public:
 	void run() override;
 	void stop() override;
 
-	void onAdd(const UDevEvent &event) override;
-	void onRemove(const UDevEvent &event) override;
+	void onAdd(const HotplugEvent &event) override;
+	void onRemove(const HotplugEvent &event) override;
 
 	bool accept(Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
@@ -76,7 +76,7 @@ private:
 	/**
 	 * Finding dongle path.
 	 */
-	std::string dongleMatch(const UDevEvent &e);
+	std::string dongleMatch(const HotplugEvent &e);
 
 	/**
 	 * A new node value (OpenZWave::ValeID) has been added to OpenZWave's

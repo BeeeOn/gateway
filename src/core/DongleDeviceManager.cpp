@@ -2,7 +2,7 @@
 #include <Poco/Logger.h>
 
 #include "core/DongleDeviceManager.h"
-#include "udev/UDevEvent.h"
+#include "hotplug/HotplugEvent.h"
 
 using namespace std;
 using namespace Poco;
@@ -33,7 +33,7 @@ Event &DongleDeviceManager::event()
 	return m_event;
 }
 
-void DongleDeviceManager::onAdd(const UDevEvent &e)
+void DongleDeviceManager::onAdd(const HotplugEvent &e)
 {
 	FastMutex::ScopedLock guard(m_lock);
 
@@ -57,7 +57,7 @@ void DongleDeviceManager::onAdd(const UDevEvent &e)
 	event().set();
 }
 
-void DongleDeviceManager::onRemove(const UDevEvent &e)
+void DongleDeviceManager::onRemove(const HotplugEvent &e)
 {
 	FastMutex::ScopedLock guard(m_lock);
 

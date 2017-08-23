@@ -6,12 +6,11 @@
 
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
-#include <Poco/LogStream.h>
 #include <Poco/Thread.h>
 
 #include "di/Injectable.h"
-#include "udev/UDevEvent.h"
-#include "udev/UDevMonitor.h"
+#include "hotplug/HotplugEvent.h"
+#include "hotplug/UDevMonitor.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, UDevMonitor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
@@ -73,85 +72,8 @@ void UDevMonitor::setIncludeParents(bool enable)
 	m_includeParents = enable;
 }
 
-void UDevMonitor::registerListener(UDevListener::Ptr listener)
-{
-	m_listeners.push_back(listener);
-}
-
-void UDevMonitor::fireAddEvent(const UDevEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onAdd(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void UDevMonitor::fireRemoveEvent(const UDevEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onRemove(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void UDevMonitor::fireChangeEvent(const UDevEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onChange(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
-void UDevMonitor::fireMoveEvent(const UDevEvent &event)
-{
-	for (auto &listener : m_listeners) {
-		try {
-			listener->onMove(event);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
-	}
-}
-
 void UDevMonitor::collectProperties(
-	UDevEvent::Properties &properties, struct udev_device *dev) const
+	HotplugEvent::Properties &properties, struct udev_device *dev) const
 {
 	const char *subsystem = ::udev_device_get_subsystem(dev);
 	const string &prefix = string(subsystem ? subsystem : "") + (subsystem ? "." : "");
@@ -170,10 +92,10 @@ void UDevMonitor::collectProperties(
 	}
 }
 
-UDevEvent UDevMonitor::createEvent(struct udev_device *dev) const
+HotplugEvent UDevMonitor::createEvent(struct udev_device *dev) const
 {
 	const char *subsystem = ::udev_device_get_subsystem(dev);
-	UDevEvent event;
+	HotplugEvent event;
 
 	const char *node = ::udev_device_get_devnode(dev);
 	const char *type = ::udev_device_get_devtype(dev);
@@ -195,18 +117,6 @@ UDevEvent UDevMonitor::createEvent(struct udev_device *dev) const
 	collectProperties(*event.properties(), dev);
 
 	return event;
-}
-
-void UDevMonitor::logEvent(const UDevEvent &event, const string &action) const
-{
-	logger().debug("device event " + event.toString()
-		       + " (" + action + ")",
-		       __FILE__, __LINE__);
-
-	if (logger().trace()) {
-		LogStream stream(logger(), Message::PRIO_TRACE);
-		event.properties()->save(stream);
-	}
 }
 
 void UDevMonitor::initialScan()
@@ -249,7 +159,7 @@ void UDevMonitor::initialScan()
 			throwFromErrno("udev_device_new_from_syspath");
 		}
 
-		const UDevEvent &event = createEvent(dev);
+		const HotplugEvent &event = createEvent(dev);
 		::udev_device_unref(dev);
 
 		logEvent(event, "initial");
@@ -291,7 +201,7 @@ void UDevMonitor::scanDevice(struct udev_monitor *mon)
 		throwFromErrno("udev_device_get_action");
 	}
 
-	const UDevEvent &event = createEvent(dev);
+	const HotplugEvent &event = createEvent(dev);
 	logEvent(event, action);
 
 	if (!::strcmp(action, "add"))

@@ -10,8 +10,8 @@
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
+#include "hotplug/HotplugEvent.h"
 #include "model/SensorData.h"
-#include "udev/UDevEvent.h"
 #include "zwave/GenericZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveDeviceManager.h"
 #include "zwave/ZWavePocoLoggerAdapter.h"
@@ -19,7 +19,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, ZWaveDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(UDevListener)
+BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_TEXT("userPath", &ZWaveDeviceManager::setUserPath)
 BEEEON_OBJECT_TEXT("configPath", &ZWaveDeviceManager::setConfigPath)
 BEEEON_OBJECT_NUMBER("pollInterval", &ZWaveDeviceManager::setPollInterval)
@@ -94,7 +94,7 @@ void ZWaveDeviceManager::run()
 	m_stopEvent.wait();
 }
 
-string ZWaveDeviceManager::dongleMatch(const UDevEvent &e)
+string ZWaveDeviceManager::dongleMatch(const HotplugEvent &e)
 {
 	if (!e.properties()->has("tty.BEEEON_DONGLE"))
 		return "";
@@ -108,7 +108,7 @@ string ZWaveDeviceManager::dongleMatch(const UDevEvent &e)
 	return e.node();
 }
 
-void ZWaveDeviceManager::onAdd(const UDevEvent &event)
+void ZWaveDeviceManager::onAdd(const HotplugEvent &event)
 {
 	FastMutex::ScopedLock guard(m_dongleLock);
 
@@ -135,7 +135,7 @@ void ZWaveDeviceManager::onAdd(const UDevEvent &event)
 	m_driver.registerItself();
 }
 
-void ZWaveDeviceManager::onRemove(const UDevEvent &event)
+void ZWaveDeviceManager::onRemove(const HotplugEvent &event)
 {
 	FastMutex::ScopedLock guard(m_dongleLock);
 

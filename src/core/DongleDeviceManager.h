@@ -5,19 +5,19 @@
 #include <Poco/Mutex.h>
 
 #include "core/DeviceManager.h"
-#include "udev/UDevListener.h"
+#include "hotplug/HotplugListener.h"
 
 namespace BeeeOn {
 
-class DongleDeviceManager : public DeviceManager, public UDevListener {
+class DongleDeviceManager : public DeviceManager, public HotplugListener {
 public:
 	DongleDeviceManager(const DevicePrefix &prefix);
 
 	void run() override;
 	void stop() override;
 
-	void onAdd(const UDevEvent &e) override;
-	void onRemove(const UDevEvent &e) override;
+	void onAdd(const HotplugEvent &e) override;
+	void onRemove(const HotplugEvent &e) override;
 
 protected:
 	/**
@@ -27,7 +27,7 @@ protected:
 	 * If the event represents an inappropriate device, it returns
 	 * an empty string.
 	 */
-	virtual std::string dongleMatch(const UDevEvent &e) = 0;
+	virtual std::string dongleMatch(const HotplugEvent &e) = 0;
 
 	/**
 	 * The main execution loop that is to be run while the appropriate

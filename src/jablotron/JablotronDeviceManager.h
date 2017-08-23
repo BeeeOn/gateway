@@ -50,7 +50,7 @@ public:
 	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
-	std::string dongleMatch(const UDevEvent &e) override;
+	std::string dongleMatch(const HotplugEvent &e) override;
 	void dongleAvailable() override;
 
 	void stop() override;
