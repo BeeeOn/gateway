@@ -11,6 +11,7 @@
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
+#include "belkin/BelkinWemoDevice.h"
 #include "belkin/BelkinWemoSwitch.h"
 #include "core/DeviceManager.h"
 #include "loop/StoppableRunnable.h"
@@ -79,13 +80,13 @@ protected:
 
 	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
 
-	void processNewDevice(BelkinWemoSwitch::Ptr newDevice);
+	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
 private:
 	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_pairedMutex;
 
-	std::map<DeviceID, BelkinWemoSwitch::Ptr> m_switches;
+	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 	std::set<DeviceID> m_pairedDevices;
 
 	Poco::Timespan m_refresh;
