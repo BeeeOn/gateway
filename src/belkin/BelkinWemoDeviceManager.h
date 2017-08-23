@@ -77,15 +77,15 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<BelkinWemoSwitch> seekSwitches();
+	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
 
-	void processNewDevice(BelkinWemoSwitch& newDevice);
+	void processNewDevice(BelkinWemoSwitch::Ptr newDevice);
 
 private:
 	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_pairedMutex;
 
-	std::map<DeviceID, BelkinWemoSwitch> m_switches;
+	std::map<DeviceID, BelkinWemoSwitch::Ptr> m_switches;
 	std::set<DeviceID> m_pairedDevices;
 
 	Poco::Timespan m_refresh;

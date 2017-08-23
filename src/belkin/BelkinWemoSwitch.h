@@ -6,8 +6,10 @@
 
 #include <Poco/DOM/NodeFilter.h>
 #include <Poco/DOM/NodeIterator.h>
+#include <Poco/Mutex.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/SocketAddress.h>
+#include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 #include <Poco/URI.h>
 
@@ -25,6 +27,8 @@ namespace BeeeOn {
  */
 class BelkinWemoSwitch {
 public:
+	typedef Poco::SharedPtr<BelkinWemoSwitch> Ptr;
+
 	BelkinWemoSwitch();
 	~BelkinWemoSwitch();
 
@@ -35,7 +39,7 @@ public:
 	 * @param &timeout HTTP timeout.
 	 * @return Belkin WeMo Switch.
 	 */
-	static BelkinWemoSwitch buildDevice(const Poco::Net::SocketAddress& address,
+	static BelkinWemoSwitch::Ptr buildDevice(const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& timeout);
 
 	/**
@@ -58,6 +62,7 @@ public:
 	void setAddress(const Poco::Net::SocketAddress& address);
 	std::list<ModuleType> moduleTypes() const;
 	std::string name() const;
+	Poco::FastMutex& lock();
 
 	/**
 	 * @brief It compares two switches based on DeviceID.
@@ -108,6 +113,7 @@ private:
 	DeviceID m_deviceId;
 	Poco::URI m_uri;
 	Poco::Timespan m_httpTimeout;
+	Poco::FastMutex m_lock;
 };
 
 }

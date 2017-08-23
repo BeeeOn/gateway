@@ -39,11 +39,11 @@ BelkinWemoSwitch::~BelkinWemoSwitch()
 {
 }
 
-BelkinWemoSwitch BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
+BelkinWemoSwitch::Ptr BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	BelkinWemoSwitch device(address);
-	device.m_httpTimeout = timeout;
-	device.buildDeviceID();
+	BelkinWemoSwitch::Ptr device = new BelkinWemoSwitch(address);
+	device->m_httpTimeout = timeout;
+	device->buildDeviceID();
 	return device;
 }
 
@@ -306,6 +306,11 @@ string BelkinWemoSwitch::name() const
 bool BelkinWemoSwitch::operator==(const BelkinWemoSwitch& bws) const
 {
 	return bws.deviceID() == m_deviceId;
+}
+
+FastMutex& BelkinWemoSwitch::lock()
+{
+	return m_lock;
 }
 
 HTTPEntireResponse BelkinWemoSwitch::sendHTTPRequest(HTTPRequest& request, const string& msg, const Timespan& timeout) const

@@ -99,7 +99,7 @@ void BelkinWemoDeviceManager::setHTTPTimeout(const Timespan &timeout)
 
 void BelkinWemoDeviceManager::refreshPairedDevices()
 {
-	vector<BelkinWemoSwitch> devices;
+	vector<BelkinWemoSwitch::Ptr> devices;
 
 	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
 	for (auto &id : m_pairedDevices) {
@@ -115,11 +115,12 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 
 	for (auto &device : devices) {
 		try {
-			ship(device.requestState());
+			ScopedLock<FastMutex> guard(device->lock());
+			ship(device->requestState());
 		}
 		catch (Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
-			logger().warning("device " + device.deviceID().toString() + " did not answer",
+			logger().warning("device " + device->deviceID().toString() + " did not answer",
 				__FILE__, __LINE__);
 		}
 	}
@@ -127,13 +128,13 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 
 void BelkinWemoDeviceManager::searchPairedDevices()
 {
-	vector<BelkinWemoSwitch> switches = seekSwitches();
+	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches();
 
 	ScopedLock<FastMutex> lock(m_pairedMutex);
 	for (auto device : switches) {
-		auto it = m_pairedDevices.find(device.deviceID());
+		auto it = m_pairedDevices.find(device->deviceID());
 		if (it != m_pairedDevices.end())
-			m_switches.emplace(device.deviceID(), device);
+			m_switches.emplace(device->deviceID(), device);
 	}
 }
 
@@ -261,7 +262,8 @@ bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
 			return false;
 		}
 		else {
-			return it->second.requestModifyState(moduleID, value);
+			ScopedLock<FastMutex> guard(it->second->lock());
+			return it->second->requestModifyState(moduleID, value);
 		}
 	}
 	catch (const Exception& e) {
@@ -276,18 +278,18 @@ bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
 	return false;
 }
 
-vector<BelkinWemoSwitch> BelkinWemoDeviceManager::seekSwitches()
+vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
-	vector<BelkinWemoSwitch> devices;
+	vector<BelkinWemoSwitch::Ptr> devices;
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
 	for (const auto &address : listOfDevices) {
 		if (m_stop)
 			break;
 
-		BelkinWemoSwitch newDevice;
+		BelkinWemoSwitch::Ptr newDevice;
 		try {
 			newDevice = BelkinWemoSwitch::buildDevice(address, m_httpTimeout);
 		}
@@ -302,7 +304,7 @@ vector<BelkinWemoSwitch> BelkinWemoDeviceManager::seekSwitches()
 	return devices;
 }
 
-void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch& newDevice)
+void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch::Ptr newDevice)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
@@ -311,21 +313,23 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoSwitch& newDevice)
 	 * If the device already exists but has different IP address
 	 * update the device.
 	 */
-	auto it = m_switches.emplace(newDevice.deviceID(), newDevice);
+	auto it = m_switches.emplace(newDevice->deviceID(), newDevice);
 	if (!it.second) {
-		it.first->second.setAddress(newDevice.address());
+		ScopedLock<FastMutex> guard(it.first->second->lock());
+
+		it.first->second->setAddress(newDevice->address());
 		return;
 	}
 
-	logger().debug("found device " + newDevice.deviceID().toString() +
-		" at " + newDevice.address().toString(), __FILE__, __LINE__);
+	logger().debug("found device " + newDevice->deviceID().toString() +
+		" at " + newDevice->address().toString(), __FILE__, __LINE__);
 
-	auto types = newDevice.moduleTypes();
+	auto types = newDevice->moduleTypes();
 	dispatch(
 		new NewDeviceCommand(
-			newDevice.deviceID(),
+			newDevice->deviceID(),
 			BELKIN_WEMO_VENDOR,
-			newDevice.name(),
+			newDevice->name(),
 			types));
 }
 
