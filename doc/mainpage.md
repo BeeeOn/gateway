@@ -18,3 +18,24 @@ The collection point can be MQTT, some cloud service, Unix Pipe, etc.
 Gateway. A class that implements the CommandHandler interface can be registered
 with the CommandDispatcher to be able to handle incoming commands. Commands
 are usually inserted into the BeeeOn Gateway from a remote control server.
+
+## Quick start
+
+The BeeeOn Gateway is built by the CMake build system:
+
+```
+$ mkdir build
+$ (cd build && cmake ..)
+$ make -C build
+```
+
+During development, the BeeeOn Gateway can be started as:
+
+```
+$ build/src/beeeon-gateway -c conf/gateway-startup.ini
+```
+
+The executable `beeeon-gateway` reads the given configuration file and configuration
+files from conf/config.d. Then, the definition of the _main_ instance (of class
+LoopRunner) is searched, created and executed. Then, all main application threads
+start.
