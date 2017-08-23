@@ -50,7 +50,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/PocoCommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
-	${PROJECT_SOURCE_DIR}/core/VirtualSensor.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/FileCredentialsStorage.cpp
