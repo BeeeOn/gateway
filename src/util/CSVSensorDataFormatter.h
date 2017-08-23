@@ -16,7 +16,9 @@ public:
 	/**
 	 * Convert data from struct SensorData to csv format
 	 * @return type;timestamp;deviceID;moduleID;value;
-	 * @example sensor;1488879656;0x499602d2;5;4.200000;
+	 *
+	 * Example output:
+	 * <pre>sensor;1488879656;0x499602d2;5;4.200000;</pre>
 	 */
 	std::string format(const SensorData &data) override;
 
