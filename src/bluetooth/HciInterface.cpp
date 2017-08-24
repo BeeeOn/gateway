@@ -10,12 +10,6 @@
 
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
-#include <Poco/PipeStream.h>
-#include <Poco/Process.h>
-#include <Poco/RegularExpression.h>
-#include <Poco/StreamCopier.h>
-#include <Poco/String.h>
-#include <Poco/StringTokenizer.h>
 
 #include "bluetooth/HciInterface.h"
 #include "io/AutoClose.h"
@@ -210,50 +204,4 @@ list<pair<string, MACAddress>> HciInterface::scan() const
 	::hci_close_dev(sock);
 
 	return devices;
-}
-
-int HciInterface::exec(const string &command, const vector<string> &args, string &output) const
-{
-	Mutex::ScopedLock lock(m_mutexExec);
-
-	Pipe outPipe;
-	ProcessHandle ph = Process::launch(command, args, NULL, &outPipe, NULL);
-	PipeInputStream istr(outPipe);
-	StreamCopier::copyToString(istr, output);
-
-	Process::requestTermination(ph.id());
-	return ph.wait();
-}
-
-list<pair<string, MACAddress>> HciInterface::parseScan(const string &scan) const
-{
-	const RegularExpression expr("^(([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2})\t((.)+)$");
-
-	list<pair<string, MACAddress>> scanedDevices;
-	vector<string> lines = split(scan, "\n");
-
-	for (auto line: lines) {
-		RegularExpression::MatchVec posVec;
-		if (!expr.match(line, 0, posVec))
-			continue;
-
-		const string macAddress = line.substr(posVec[1].offset, posVec[1].length);
-		const string deviceName = line.substr(posVec[3].offset, posVec[3].length);
-
-		scanedDevices.push_back(make_pair(deviceName, MACAddress::parse(macAddress)));
-	}
-	return scanedDevices;
-}
-
-vector<string> HciInterface::split(const string &input, const string &div) const
-{
-	vector<string> output;
-
-	StringTokenizer st(input, div,
-		StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-
-	for (auto item: st)
-		output.push_back(item);
-
-	return output;
 }

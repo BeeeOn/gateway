@@ -40,31 +40,6 @@ public:
 
 private:
 	/**
-	 * Command execution utility.
-	 * @param command - program.
-	 * @param args    - vector of agruments for program
-	 * @param result  - stdout from program in terminal
-	 * @return exit_code
-	 *   return 0     => OK
-	 *   return n > 0 => Some error
-	 */
-	int exec(const std::string &command, const std::vector<std::string> &args,
-		std::string &output) const;
-
-	/**
-	 * Parse and process the stdout message from hcitool scan.
-	 * Example stdout:
-	   Scanning ...
-		   AA:BB:CC:DD:EE:FF	Device_name
-	 */
-	std::list<std::pair<std::string, MACAddress>> parseScan(const std::string &scan) const;
-
-	/**
-	 * Distribution of string into the vector by divide string
-	 */
-	std::vector<std::string> split(const std::string &input, const std::string &div) const;
-
-	/**
 	 * Open HCI socket to be able to ioctl() about HCI interfaces.
 	 * @throws IOException on failure
 	 */
@@ -86,7 +61,6 @@ private:
 	int findHci(int sock, const std::string &name) const;
 
 private:
-	mutable Poco::Mutex m_mutexExec;
 	std::string m_name;
 };
 
