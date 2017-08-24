@@ -108,15 +108,17 @@ int HciInterface::findHci(int sock, const std::string &name) const
 
 void HciInterface::up() const
 {
-	string ignoredResult;
-	vector<string> args;
-	args.push_back(m_name);
-	args.push_back("up");
+	FdAutoClose sock(hciSocket());
+	struct hci_dev_info info = findHciInfo(*sock, m_name);
 
-	int code;
-	if ((code = exec("hciconfig", args, ignoredResult))) {
-		throw IOException("hciconfig " + m_name
-			+ " up has failed: " + to_string(code));
+	logger().debug("bringing up " + m_name, __FILE__, __LINE__);
+
+	if (::hci_test_bit(HCI_UP, &info.flags))
+		return; // already UP
+
+	if (::ioctl(*sock, HCIDEVUP, info.dev_id)) {
+		if (errno != EALREADY)
+			throwFromErrno(errno);
 	}
 }
 
