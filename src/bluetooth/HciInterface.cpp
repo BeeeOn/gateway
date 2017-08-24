@@ -24,6 +24,9 @@ using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
 
+static const int INQUIRY_LENGTH = 8; // ~10 seconds
+static const int MAX_RESPONSES = 255;
+
 HciInterface::HciInterface(const std::string &name) :
 	m_name(name)
 {
@@ -157,17 +160,56 @@ bool HciInterface::detect(const MACAddress &address) const
 
 list<pair<string, MACAddress>> HciInterface::scan() const
 {
-	string result;
-	vector<string> args;
-	args.push_back("-i");
-	args.push_back(m_name);
-	args.push_back("scan");
+	const int dev = findHci(m_name);
 
-	int code;
-	if ((code = exec("hcitool", args, result)))
-		throw IOException("hcitool failed to perform scan: " + to_string(code));
+	logger().debug("starting inquiry", __FILE__, __LINE__);
 
-	return parseScan(result);
+	inquiry_info *info = NULL;
+
+	const int count = ::hci_inquiry(
+		dev, INQUIRY_LENGTH, MAX_RESPONSES, NULL, &info, IREQ_CACHE_FLUSH);
+	if (count < 0)
+		throwFromErrno(errno);
+
+	logger().debug("received " + to_string(count) + " responses",
+			__FILE__, __LINE__);
+
+	list<pair<string, MACAddress>> devices;
+
+	if (count == 0)
+		return devices; // empty
+
+	const int sock = ::hci_open_dev(dev);
+	if (sock < 0)
+		throwFromErrno(errno);
+
+	for (int i = 0; i < count; ++i) {
+		MACAddress address(info[i].bdaddr.b);
+
+		logger().debug("determine name of device " + address.toString(':'),
+				__FILE__, __LINE__);
+
+		char name[248];
+		::memset(name, 0, sizeof(name));
+
+		const int ret = ::hci_read_remote_name(
+			sock, &info[i].bdaddr, sizeof(name), name, 0);
+		if (ret < 0)
+			devices.push_back(make_pair(string("unknown"), address));
+		else
+			devices.push_back(make_pair(string(name), address));
+
+		logger().debug("detected device "
+				+ address.toString(':')
+				+ " with name "
+				+ string(name),
+				__FILE__, __LINE__);
+	}
+
+	::bt_free(info);
+	::hci_close_dev(sock);
+
+	return devices;
 }
 
 int HciInterface::exec(const string &command, const vector<string> &args, string &output) const
