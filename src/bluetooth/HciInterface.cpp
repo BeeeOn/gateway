@@ -124,24 +124,35 @@ void HciInterface::up() const
 
 bool HciInterface::detect(const MACAddress &address) const
 {
-	string mac = address.toString(':');
+	logger().debug("trying to detect device " + address.toString(':'),
+			__FILE__, __LINE__);
 
-	string result;
-	vector<string> args;
-	args.push_back("-i");
-	args.push_back(m_name);
-	args.push_back("name");
-	args.push_back(mac);
+	const int dev = findHci(m_name);
+	const int sock = ::hci_open_dev(dev);
+	if (sock < 0)
+		throwFromErrno(errno);
 
-	int code;
-	if ((code = exec("hcitool", args, result))) {
-		throw IOException("hcitool failed to scan for address "
-			+ mac + ": " + to_string(code));
+	bdaddr_t addr;
+	address.into(addr.b);
+
+	char name[248];
+	::memset(name, 0, sizeof(name));
+
+	const int ret = ::hci_read_remote_name(sock, &addr, sizeof(name), name, 0);
+
+	::hci_close_dev(sock); // close as soon as possible
+
+	if (ret < 0) {
+		if (errno == EIO)
+			logger().debug("missing device " + address.toString(':'));
+		else
+			logger().error(::strerror(errno), __FILE__, __LINE__);
+
+		return false;
 	}
-	else {
-		result = trim(result);
-		return result.size() > 0;
-	}
+
+	logger().debug("detected device " + string(name) + " by address " + address.toString(':'));
+	return true;
 }
 
 list<pair<string, MACAddress>> HciInterface::scan() const
