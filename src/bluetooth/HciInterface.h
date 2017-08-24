@@ -9,10 +9,11 @@
 #include <Poco/Mutex.h>
 
 #include "net/MACAddress.h"
+#include "util/Loggable.h"
 
 namespace BeeeOn {
 
-class HciInterface {
+class HciInterface : Loggable {
 public:
 	HciInterface(const std::string &name);
 

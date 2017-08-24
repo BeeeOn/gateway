@@ -9,6 +9,7 @@
 #include <bluetooth/hci_lib.h>
 
 #include <Poco/Exception.h>
+#include <Poco/Logger.h>
 #include <Poco/PipeStream.h>
 #include <Poco/Process.h>
 #include <Poco/RegularExpression.h>
