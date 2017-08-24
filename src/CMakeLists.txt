@@ -18,6 +18,10 @@ if(ENABLE_MOSQUITTO_EXPORTER)
 	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
+if(ENABLE_BLUETOOTH_AVAILABILITY)
+	find_library (BLUETOOTH bluetooth)
+endif()
+
 if(ENABLE_ZWAVE)
 	find_package(OpenZWave REQUIRED)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
@@ -208,6 +212,7 @@ add_library(BeeeOnGateway ${SOURCES})
 add_executable(beeeon-gateway main.cpp)
 
 set(LIBS
+	${BLUETOOTH}
 	${MOSQUITTO_CPP}
 	${POCO_FOUNDATION}
 	${POCO_SSL}
