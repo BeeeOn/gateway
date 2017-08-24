@@ -1,3 +1,7 @@
+#include <cerrno>
+#include <cstring>
+
+#include <Poco/Exception.h>
 #include <Poco/PipeStream.h>
 #include <Poco/Process.h>
 #include <Poco/RegularExpression.h>
@@ -14,6 +18,15 @@ using namespace std;
 HciInterface::HciInterface(const std::string &name) :
 	m_name(name)
 {
+}
+
+/**
+ * Convert the given errno value into the appropriate exception
+ * and throw it.
+ */
+static void throwFromErrno(const int e)
+{
+	throw IOException(::strerror(e));
 }
 
 void HciInterface::up() const
