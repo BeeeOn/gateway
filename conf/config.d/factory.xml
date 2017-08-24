@@ -14,6 +14,7 @@
 			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
 			<add name="runnables" ref="asyncExecutor" />
+			<add name="runnables" ref="mqttGWExporterClient" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">

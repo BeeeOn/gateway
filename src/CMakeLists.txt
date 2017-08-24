@@ -14,10 +14,6 @@ if(ENABLE_UDEV)
 	find_library (UDEV udev)
 endif()
 
-if(ENABLE_MOSQUITTO_EXPORTER)
-	find_library (MOSQUITTO_CPP mosquittopp)
-endif()
-
 if(ENABLE_BLUETOOTH_AVAILABILITY)
 	find_library (BLUETOOTH bluetooth)
 endif()
@@ -211,7 +207,7 @@ else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
 
-if(ENABLE_MOSQUITTO_EXPORTER)
+if((ENABLE_MOSQUITTO_EXPORTER) AND (ENABLE_MOSQUITTO_CLIENT))
 	file(GLOB MOSQUITTO_EXPORTER_SOURCES
 		${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	)
