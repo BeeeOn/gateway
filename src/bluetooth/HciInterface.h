@@ -69,6 +69,21 @@ private:
 	 */
 	int hciSocket() const;
 
+	/**
+	 * Find index of the HCI interface by the given name.
+	 * @throws NotFoundException when not found
+	 * @see HciInterface::findHci(int, std::string)
+	 */
+	int findHci(const std::string &name) const;
+
+	/**
+	 * Find index of the HCI interface by the given name.
+	 * Use the given HCI socket for this operation.
+	 * @throws NotFoundException when not found
+	 * @see HciInterface::hciSocket()
+	 */
+	int findHci(int sock, const std::string &name) const;
+
 private:
 	mutable Poco::Mutex m_mutexExec;
 	std::string m_name;

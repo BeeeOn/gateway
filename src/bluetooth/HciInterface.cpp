@@ -1,8 +1,12 @@
 #include <cerrno>
+#include <cstdlib>
 #include <cstring>
 
+#include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <bluetooth/bluetooth.h>
+#include <bluetooth/hci.h>
+#include <bluetooth/hci_lib.h>
 
 #include <Poco/Exception.h>
 #include <Poco/PipeStream.h>
@@ -13,6 +17,7 @@
 #include <Poco/StringTokenizer.h>
 
 #include "bluetooth/HciInterface.h"
+#include "io/AutoClose.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -39,6 +44,65 @@ int HciInterface::hciSocket() const
 		throwFromErrno(errno);
 
 	return sock;
+}
+
+int HciInterface::findHci(const std::string &name) const
+{
+	FdAutoClose sock(hciSocket());
+	return findHci(*sock, name);
+}
+
+static struct hci_dev_info findHciInfo(int sock, const string name)
+{
+	struct hci_dev_list_req *list;
+	struct hci_dev_req *req;
+
+	/*
+	 * The kernel API expects buffer in the following format:
+	 * | count | hci_dev_req | hci_dev_req | ...
+	 *    2 B        ...
+	 */
+	list = (struct hci_dev_list_req*) ::malloc(
+			sizeof(uint16_t) + HCI_MAX_DEV * sizeof(*req));
+	if (list == NULL)
+		throw OutOfMemoryException("failed to alloc list of HCI devices");
+
+	list->dev_num = HCI_MAX_DEV;
+	req = list->dev_req;
+
+	if (::ioctl(sock, HCIGETDEVLIST, (void *) list) < 0) {
+		const int e = errno;
+		::free(list);
+		throwFromErrno(e);
+	}
+
+	for (int i = 0; i < list->dev_num; ++i) {
+		struct hci_dev_info info;
+		::memset(&info, 0, sizeof(info));
+		info.dev_id = req[i].dev_id;
+
+		if (::ioctl(sock, HCIGETDEVINFO, (void *) &info) < 0) {
+			Loggable::forMethod(__func__)
+				.error("ioctl(HCIGETDEVINFO): " + string(strerror(errno)),
+					__FILE__, __LINE__);
+			continue;
+		}
+
+		const string dev_name(info.name);
+		if (dev_name == name) {
+			::free(list);
+			return info;
+		}
+	}
+
+	::free(list);
+	throw NotFoundException("no such HCI interface: " + name);
+}
+
+int HciInterface::findHci(int sock, const std::string &name) const
+{
+	struct hci_dev_info info = findHciInfo(sock, name);
+	return info.dev_id;
 }
 
 void HciInterface::up() const
