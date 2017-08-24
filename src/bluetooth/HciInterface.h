@@ -63,6 +63,12 @@ private:
 	 */
 	std::vector<std::string> split(const std::string &input, const std::string &div) const;
 
+	/**
+	 * Open HCI socket to be able to ioctl() about HCI interfaces.
+	 * @throws IOException on failure
+	 */
+	int hciSocket() const;
+
 private:
 	mutable Poco::Mutex m_mutexExec;
 	std::string m_name;

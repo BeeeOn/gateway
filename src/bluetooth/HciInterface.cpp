@@ -1,6 +1,9 @@
 #include <cerrno>
 #include <cstring>
 
+#include <sys/socket.h>
+#include <bluetooth/bluetooth.h>
+
 #include <Poco/Exception.h>
 #include <Poco/PipeStream.h>
 #include <Poco/Process.h>
@@ -27,6 +30,15 @@ HciInterface::HciInterface(const std::string &name) :
 static void throwFromErrno(const int e)
 {
 	throw IOException(::strerror(e));
+}
+
+int HciInterface::hciSocket() const
+{
+	int sock = ::socket(AF_BLUETOOTH, SOCK_RAW, BTPROTO_HCI);
+	if (sock < 0)
+		throwFromErrno(errno);
+
+	return sock;
 }
 
 void HciInterface::up() const
