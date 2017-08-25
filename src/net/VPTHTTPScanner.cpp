@@ -67,7 +67,7 @@ bool VPTHTTPScanner::isValidResponse(const string& response)
 		return false;
 	}
 
-	logger().notice("found device" + vendor + " " + device, __FILE__, __LINE__);
+	logger().notice("found device " + vendor + " " + device, __FILE__, __LINE__);
 
 	return true;
 }
