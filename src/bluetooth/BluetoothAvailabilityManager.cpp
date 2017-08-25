@@ -25,6 +25,9 @@ BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_NUMBER("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_REF("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
+BEEEON_OBJECT_NUMBER("attemptsCount", &BluetoothAvailabilityManager::setAttemptsCount)
+BEEEON_OBJECT_NUMBER("retryTimeout", &BluetoothAvailabilityManager::setRetryTimeout)
+BEEEON_OBJECT_NUMBER("failTimeout", &BluetoothAvailabilityManager::setFailTimeout)
 BEEEON_OBJECT_END(BeeeOn, BluetoothAvailabilityManager)
 
 using namespace BeeeOn;

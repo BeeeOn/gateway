@@ -3,11 +3,14 @@
 
 #include <Poco/Event.h>
 #include <Poco/Mutex.h>
+#include <Poco/Timespan.h>
 
 #include "core/DeviceManager.h"
 #include "hotplug/HotplugListener.h"
 
 namespace BeeeOn {
+
+class FailDetector;
 
 class DongleDeviceManager : public DeviceManager, public HotplugListener {
 public:
@@ -18,6 +21,29 @@ public:
 
 	void onAdd(const HotplugEvent &e) override;
 	void onRemove(const HotplugEvent &e) override;
+
+	/**
+	 * Set how many attempts of dongleAvailable() should be done before it
+	 * is considered as failing.
+	 */
+	void setAttemptsCount(const int count);
+
+	/**
+	 * Set the timeout to retry the count of attempts to call dongleAvailable()
+	 * successfully. If the timeout is negative, do not repeat any attempt unless
+	 * some event occures.
+	 */
+	void setRetryTimeout(const int msecs);
+
+	/**
+	 * Set the timeout to detect a failure. If the dongleAvailable() fails
+	 * multiple times in a row within the given number of milliseconds,
+	 * it is considered as failing and dongleFailed() might be called.
+	 * If there are multiple fails within a greater time interval, then
+	 * we do not considered to be failing as it might be just a dongle
+	 * removal event.
+	 */
+	void setFailTimeout(const int msecs);
 
 protected:
 	/**
@@ -52,6 +78,13 @@ protected:
 	virtual bool dongleMissing();
 
 	/**
+	 * Called when dongleAvailable() fails multiple times (according
+	 * to the FailDetector instance). The default implementation just
+	 * sleeps for a while.
+	 */
+	virtual void dongleFailed(const FailDetector &dongleStatus);
+
+	/**
 	 * Return the name of associated dongle.
 	 * If the failWhenMissing is true, then it throws an exception
 	 * when no such dongle name is available (disconnected).
@@ -69,6 +102,9 @@ private:
 	mutable Poco::FastMutex m_lock;
 	Poco::Event m_event;
 	std::string m_dongleName;
+	unsigned int m_attemptsCount;
+	Poco::Timespan m_retryTimeout;
+	Poco::Timespan m_failTimeout;
 };
 
 }

@@ -17,6 +17,9 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_REF("distributor", &JablotronDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &JablotronDeviceManager::setCommandDispatcher)
+BEEEON_OBJECT_NUMBER("attemptsCount", &JablotronDeviceManager::setAttemptsCount)
+BEEEON_OBJECT_NUMBER("retryTimeout", &JablotronDeviceManager::setRetryTimeout)
+BEEEON_OBJECT_NUMBER("failTimeout", &JablotronDeviceManager::setFailTimeout)
 BEEEON_OBJECT_END(BeeeOn, JablotronDeviceManager)
 
 using namespace BeeeOn;
@@ -94,15 +97,7 @@ void JablotronDeviceManager::dongleAvailable()
 
 	initJablotronDongle();
 	dongleVersion();
-
-	try {
-		jablotronProcess();
-	}
-	catch (const IOException &ex) {
-		// waiting so that HotplugEvent can arrive after exception on serial port
-		Thread::sleep(SLEEP_AFTER_FAILED.totalMilliseconds());
-		ex.rethrow();
-	}
+	jablotronProcess();
 }
 
 void JablotronDeviceManager::stop()
