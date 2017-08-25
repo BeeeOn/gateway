@@ -119,7 +119,7 @@
 		<instance name="credentialsStorage" class="BeeeOn::FileCredentialsStorage" init="early">
 			<set name="file" text="${credentials.file}" />
 			<set name="configurationRoot" text="${credentials.configuration.root}" />
-			<set name="saveDelayTime" number="${credentials.save.delay}" />
+			<set name="saveDelayTime" time="${credentials.save.delay}" />
 		</instance>
 
 		<instance name="cryptoConfig" class="BeeeOn::CryptoConfig">

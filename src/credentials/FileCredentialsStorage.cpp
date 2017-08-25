@@ -11,7 +11,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, FileCredentialsStorage)
 BEEEON_OBJECT_CASTABLE(CredentialsStorage)
 BEEEON_OBJECT_TEXT("file", &FileCredentialsStorage::setFile)
 BEEEON_OBJECT_TEXT("configurationRoot", &FileCredentialsStorage::setConfigRoot)
-BEEEON_OBJECT_NUMBER("saveDelayTime", &FileCredentialsStorage::setSaveDelay)
+BEEEON_OBJECT_TIME("saveDelayTime", &FileCredentialsStorage::setSaveDelay)
 BEEEON_OBJECT_HOOK("done", &FileCredentialsStorage::load)
 BEEEON_OBJECT_END(BeeeOn, FileCredentialsStorage)
 
@@ -46,14 +46,18 @@ FileCredentialsStorage::~FileCredentialsStorage()
 	}
 }
 
-void FileCredentialsStorage::setSaveDelay(int seconds)
+void FileCredentialsStorage::setSaveDelay(const Timespan &delay)
 {
+	if (delay >= 0 && delay.totalSeconds() == 0)
+		throw InvalidArgumentException("saveDelay must be negative or at least 1 second");
+
 	RWLock::ScopedWriteLock guard(lock());
-	if (seconds < 0 && m_timerRunning) {
+	if (delay < 0 && m_timerRunning) {
 		m_timer.stop();
 		m_timerRunning = false;
 	}
-	m_saveDelayTime = Timespan(seconds * Timespan::SECONDS);
+
+	m_saveDelayTime = delay;
 }
 
 void FileCredentialsStorage::setFile(const string &path)

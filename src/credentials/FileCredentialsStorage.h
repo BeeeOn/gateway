@@ -35,7 +35,7 @@ public:
 	 * Passing negative number to this funcion causes disabling of autosave (if
 	 * autosave timer is already running, storage is saved).
 	 */
-	void setSaveDelay(int seconds);
+	void setSaveDelay(const Poco::Timespan &delay);
 	void load();
 	void save();
 

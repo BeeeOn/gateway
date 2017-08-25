@@ -422,7 +422,7 @@ static void credentialsAction(TestingCenter::ActionContext &context)
 		}
 		else {
 			int delay = NumberParser::parse(context.args[2]);
-			storage->setSaveDelay(delay);
+			storage->setSaveDelay(delay * Timespan::SECONDS);
 		}
 	}
 	else {
