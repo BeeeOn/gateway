@@ -42,7 +42,6 @@ public:
 	void modifyValue(double value, Result::Ptr result);
 
 	void setGenerator(const std::string &generator);
-	Poco::SharedPtr<ValueGenerator> generator() const;
 	bool generatorEnabled() const;
 
 	SensorValue generate();
