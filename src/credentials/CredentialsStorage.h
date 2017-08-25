@@ -24,14 +24,18 @@ public:
 	*
 	* Configuration:
 	*
+	* <pre>
 	* credentials.0xff0123456789abcd.type = sometype
 	* credentials.0xff0123456789abcd.value = X
+	* </pre>
 	*
 	* is send to function CredentialsStorage::load and
 	* transformed into:
 	*
+	* <pre>
 	* type = sometype
 	* value = X
+	* </pre>
 	*
 	* The corresponding CredentialsFactory function is selected from
 	* CredentialsStorage::m_factory based on the "type". It creates
