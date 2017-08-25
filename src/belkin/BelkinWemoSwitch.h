@@ -107,7 +107,7 @@ protected:
 
 	Poco::XML::Node* findNode(Poco::XML::NodeIterator& iterator, const std::string& name) const;
 	HTTPEntireResponse sendHTTPRequest(Poco::Net::HTTPRequest& request, const std::string& msg,
-		const Poco::Timespan& timeout) const;
+		const Poco::URI& uri, const Poco::Timespan& timeout) const;
 
 private:
 	DeviceID m_deviceId;

@@ -102,7 +102,8 @@ bool BelkinWemoSwitch::turnOn() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -151,7 +152,8 @@ bool BelkinWemoSwitch::turnOff() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -199,7 +201,8 @@ SensorData BelkinWemoSwitch::requestState() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -245,7 +248,8 @@ MACAddress BelkinWemoSwitch::requestMacAddr()
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -313,16 +317,17 @@ FastMutex& BelkinWemoSwitch::lock()
 	return m_lock;
 }
 
-HTTPEntireResponse BelkinWemoSwitch::sendHTTPRequest(HTTPRequest& request, const string& msg, const Timespan& timeout) const
+HTTPEntireResponse BelkinWemoSwitch::sendHTTPRequest(HTTPRequest& request, const string& msg,
+	const Poco::URI& uri, const Timespan& timeout) const
 {
 	HTTPClientSession http;
 	HTTPEntireResponse response;
 
-	http.setHost(m_uri.getHost());
-	http.setPort(m_uri.getPort());
+	http.setHost(uri.getHost());
+	http.setPort(uri.getPort());
 	http.setTimeout(timeout);
 
-	request.setURI(m_uri.toString());
+	request.setURI(uri.toString());
 
 	http.sendRequest(request) << msg;
 	istream& input = http.receiveResponse(response);
