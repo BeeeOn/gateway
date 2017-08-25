@@ -43,6 +43,7 @@ using Poco::Nullable;
 using Poco::NumberFormatter;
 using Poco::SharedPtr;
 using Poco::Timer;
+using Poco::Timespan;
 
 static const int NODE_ID_MASK = 0xff;
 static const int DEFAULT_UNPAIR_TIMEOUT_MS = 5000;
@@ -66,6 +67,7 @@ static void onNotification(
 
 ZWaveDeviceManager::ZWaveDeviceManager():
 	DeviceManager(DevicePrefix::PREFIX_ZWAVE),
+	m_pollInterval(1 * Timespan::SECONDS),
 	m_state(State::IDLE),
 	m_commandCallback(*this, &ZWaveDeviceManager::stopCommand),
 	m_commandTimer(0, 0)
@@ -81,7 +83,7 @@ ZWaveDeviceManager::~ZWaveDeviceManager()
 void ZWaveDeviceManager::installConfiguration()
 {
 	Options::Create(m_configPath, m_userPath, "");
-	Options::Get()->AddOptionInt("PollInterval", m_pollInterval);
+	Options::Get()->AddOptionInt("PollInterval", m_pollInterval.totalMilliseconds());
 	Options::Get()->AddOptionBool("logging", true);
 	Options::Get()->AddOptionBool("SaveConfiguration", false);
 	Options::Get()->Lock();
@@ -807,7 +809,7 @@ void ZWaveDeviceManager::setConfigPath(const string &configPath)
 
 void ZWaveDeviceManager::setPollInterval(int pollInterval)
 {
-	m_pollInterval = pollInterval;
+	m_pollInterval = pollInterval * Timespan::MILLISECONDS;
 }
 
 void ZWaveDeviceManager::setDeviceInfoRegistry(

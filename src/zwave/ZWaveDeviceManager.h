@@ -7,6 +7,7 @@
 #include <Poco/Nullable.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timer.h>
+#include <Poco/Timespan.h>
 
 #include <openzwave/Notification.h>
 
@@ -218,7 +219,7 @@ private:
 	uint32_t m_homeID;
 	std::string m_userPath;
 	std::string m_configPath;
-	int m_pollInterval;
+	Poco::Timespan m_pollInterval;
 	State m_state;
 	ZWaveDeviceInfoRegistry::Ptr m_registry;
 	std::map<uint8_t, std::list<OpenZWave::ValueID>> m_zwaveNodes;
