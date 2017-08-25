@@ -21,7 +21,7 @@ namespace BeeeOn {
 
 class BelkinWemoDeviceManager : public DeviceManager {
 public:
-	/*
+	/**
 	 * @brief Provides searching belkin wemo devices on network
 	 * in own thread.
 	 */
@@ -56,22 +56,22 @@ protected:
 	void refreshPairedDevices();
 	void searchPairedDevices();
 
-	/*
+	/**
 	 * @brief Processes the listen command.
 	 */
 	void doListenCommand(const Command::Ptr cmd, const Answer::Ptr answer);
 
-	/*
+	/**
 	 * @brief Processes the unpair command.
 	 */
 	void doUnpairCommand(const Command::Ptr cmd, const Answer::Ptr answer);
 
-	/*
+	/**
 	 * @brief Processes the device accept command.
 	 */
 	void doDeviceAcceptCommand(const Command::Ptr cmd, const Answer::Ptr answer);
 
-	/*
+	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @return If the setting was successfull or not.
 	 */

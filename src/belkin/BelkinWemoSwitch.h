@@ -19,7 +19,7 @@
 
 namespace BeeeOn {
 
-/*
+/**
  * @brief The class represents Belkin WeMo Switch F7C027fr.
  * Provides functions to control the switch. It means turn on, turn off, get state.
  */
@@ -28,7 +28,7 @@ public:
 	BelkinWemoSwitch();
 	~BelkinWemoSwitch();
 
-	/*
+	/**
 	 * @brief Creates belkin wemo switch. If the device is not on network
 	 * throws Poco::TimeoutException also in this case it is blocking.
 	 * @param &address IP address and port where the device is listening.
@@ -38,12 +38,12 @@ public:
 	static BelkinWemoSwitch buildDevice(const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& timeout);
 
-	/*
+	/**
 	 * @brief It sets the switch to the given state.
 	 */
 	bool requestModifyState(const ModuleID& moduleID, const bool value);
 
-	/*
+	/**
 	 * @brief Prepares SOAP message containing request state
 	 * command and sends it to device via HTTP. If the device is
 	 * not on network throws Poco::TimeoutException also in this
@@ -59,7 +59,7 @@ public:
 	std::list<ModuleType> moduleTypes() const;
 	std::string name() const;
 
-	/*
+	/**
 	 * @brief It compares two switches based on DeviceID.
 	 */
 	bool operator==(const BelkinWemoSwitch& bws) const;
@@ -67,7 +67,7 @@ public:
 protected:
 	BelkinWemoSwitch(const Poco::Net::SocketAddress& address);
 
-	/*
+	/**
 	 * @brief Prepares SOAP message containing turn on command
 	 * and sends it to device via HTTP. If the device is not on
 	 * network throws Poco::TimeoutException also in this case
@@ -76,7 +76,7 @@ protected:
 	 */
 	bool turnOn() const;
 
-	/*
+	/**
 	 * @brief Prepares SOAP message containing turn off command
 	 * and sends it to device via HTTP. If the device is not on
 	 * network throws Poco::TimeoutException also in this case
@@ -85,7 +85,7 @@ protected:
 	 */
 	bool turnOff() const;
 
-	/*
+	/**
 	 * @brief Prepares SOAP message containing request Mac address
 	 * command and sends it to device via HTTP. If the device is not
 	 * on network throws Poco::TimeoutException also in this case
@@ -94,7 +94,7 @@ protected:
 	 */
 	MACAddress requestMacAddr();
 
-	/*
+	/**
 	 * @brief Called internally when constructing the instance.
 	 * Creates DeviceID based on Mac address of device.
 	 */

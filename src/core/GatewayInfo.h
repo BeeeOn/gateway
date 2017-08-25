@@ -12,17 +12,17 @@
 
 namespace BeeeOn {
 
-/*
- * Class for storing basic information about gatway.
- * */
+/**
+ * @brief Class for storing basic information about gateway.
+ */
 class GatewayInfo : public Loggable {
 public:
-	/*
+	/**
 	 * Creates an uninitialized instance.
-	 * */
+	 */
 	GatewayInfo();
 
-	/*
+	/**
 	 * GatewayID can be set directly for debugging purposes.
 	 */
 	void setGatewayID(const std::string &gatewayID);
@@ -37,15 +37,15 @@ public:
 	void initialize();
 
 protected:
-	/*
+	/**
 	 * Loads and stores X509 certificate from file.
 	 * Also gets and stores gatewayID from common name of the certificate.
-	 * */
+	 */
 	void loadCertificate();
 
-	/*
+	/**
 	 * Loads and stores RSA private key from file.
-	 * */
+	 */
 	void loadPrivateKey();
 
 private:

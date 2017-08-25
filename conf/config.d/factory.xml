@@ -57,7 +57,7 @@
 		</instance>
 
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
-			<set name="wakeUpTime" number="${bluetooth.refresh.time}" />
+			<set name="wakeUpTime" number="${bluetooth.refresh}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
