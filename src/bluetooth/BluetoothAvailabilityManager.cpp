@@ -54,7 +54,7 @@ void BluetoothAvailabilityManager::setWakeUpTime(int time)
 {
 	if(time < MIN_WAKE_UP_TIME.totalSeconds()) {
 		throw InvalidArgumentException("wakeUpTime must not be smaller then "
-			+ to_string(MIN_WAKE_UP_TIME.totalSeconds()));
+			+ to_string(MIN_WAKE_UP_TIME.totalSeconds()) + " s");
 	}
 
 	m_wakeUpTime = Timespan(time * Timespan::SECONDS);
