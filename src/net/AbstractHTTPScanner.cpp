@@ -1,4 +1,5 @@
 #include <Poco/Exception.h>
+#include <Poco/Glob.h>
 #include <Poco/Logger.h>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPResponse.h>
@@ -224,12 +225,19 @@ vector<NetworkInterface> AbstractHTTPScanner::listNetworkInterfaces()
 			continue;
 		}
 
-		if (m_blackList.find(interface.adapterName()) != m_blackList.end()) {
-			logger().information("skipping blacklisted interface " + interface.adapterName());
-			continue;
+		bool skip = false;
+		for (auto& it : m_blackList) {
+			Glob glob(it);
+			if (glob.match(interface.adapterName())) {
+				skip = true;
+				logger().information("skipping blacklisted interface " + interface.adapterName(),
+					__FILE__, __LINE__);
+				break;
+			}
 		}
 
-		list.push_back(interface);
+		if (!skip)
+			list.push_back(interface);
 	}
 
 	if (list.empty())
