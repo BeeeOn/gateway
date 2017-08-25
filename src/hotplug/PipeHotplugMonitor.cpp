@@ -18,7 +18,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, PipeHotplugMonitor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_TEXT("pipePath", &PipeHotplugMonitor::setPipePath)
-BEEEON_OBJECT_NUMBER("pollTimeout", &PipeHotplugMonitor::setPollTimeout)
+BEEEON_OBJECT_TIME("pollTimeout", &PipeHotplugMonitor::setPollTimeout)
 BEEEON_OBJECT_REF("listeners", &PipeHotplugMonitor::registerListener)
 BEEEON_OBJECT_END(BeeeOn, PipeHotplugMonitor)
 
@@ -271,10 +271,23 @@ void PipeHotplugMonitor::setPipePath(const string &pipePath)
 	m_pipePath = pipePath;
 }
 
-void PipeHotplugMonitor::setPollTimeout(int ms)
+void PipeHotplugMonitor::setPollTimeout(const Timespan &timeout)
 {
 	// 0 ... non-blocking
 	// negative ... blocking
 	// positive ... blocking with timeout
-	m_pollTimeout = Timespan(ms * Timespan::MILLISECONDS);
+
+	if (timeout < 0) {
+		m_pollTimeout = -1 * Timespan::MILLISECONDS;
+	}
+	else if (timeout == 0) {
+		m_pollTimeout = 0;
+	}
+	else if (timeout < 1 * Timespan::MILLISECONDS) {
+		throw InvalidArgumentException(
+			"pollTimeout must be at least 1 ms");
+	}
+	else {
+		m_pollTimeout = timeout;
+	}
 }
