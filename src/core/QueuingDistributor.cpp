@@ -8,8 +8,8 @@ BEEEON_OBJECT_BEGIN(BeeeOn, QueuingDistributor)
 BEEEON_OBJECT_CASTABLE(Distributor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_REF("exporter", &QueuingDistributor::registerExporter)
-BEEEON_OBJECT_NUMBER("deadTimeout", &QueuingDistributor::setDeadTimeout)
-BEEEON_OBJECT_NUMBER("idleTimeout", &QueuingDistributor::setIdleTimeout)
+BEEEON_OBJECT_TIME("deadTimeout", &QueuingDistributor::setDeadTimeout)
+BEEEON_OBJECT_TIME("idleTimeout", &QueuingDistributor::setIdleTimeout)
 BEEEON_OBJECT_NUMBER("queueCapacity", &QueuingDistributor::setQueueCapacity)
 BEEEON_OBJECT_NUMBER("batchSize", &QueuingDistributor::setQueueBatchSize)
 BEEEON_OBJECT_NUMBER("treshold", &QueuingDistributor::setQueueTreshold)
@@ -63,20 +63,20 @@ void QueuingDistributor::setQueueBatchSize(int batchSize)
 	m_batchSize = batchSize;
 }
 
-void QueuingDistributor::setDeadTimeout(int seconds)
+void QueuingDistributor::setDeadTimeout(const Timespan &timeout)
 {
-	if (seconds < 0)
+	if (timeout < 0)
 		throw InvalidArgumentException("dead timeout must not be negative");
 
-	m_deadTimeout = Timespan(seconds * Timespan::SECONDS);
+	m_deadTimeout = timeout;
 }
 
-void QueuingDistributor::setIdleTimeout(int seconds)
+void QueuingDistributor::setIdleTimeout(const Timespan &timeout)
 {
-	if (seconds < 0)
+	if (timeout < 0)
 		throw InvalidArgumentException("empty timeout must not be negative");
 
-	m_idleTimeout = Timespan(seconds * Timespan::SECONDS);
+	m_idleTimeout = timeout;
 }
 
 void QueuingDistributor::registerExporter(SharedPtr<Exporter> exporter)

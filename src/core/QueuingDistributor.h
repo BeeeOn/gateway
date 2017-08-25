@@ -30,13 +30,13 @@ public:
 	 * The "not working" ExporterQueue tries to export data when the deadTimeout
 	 * has elapsed since queue's thershold of fails was exceeded.
 	 */
-	void setDeadTimeout(int seconds);
+	void setDeadTimeout(const Poco::Timespan &timeout);
 
 	/**
 	 * When all ExporterQueues are broken or empty, exporting thread sleeps
 	 * for the idleTimeout. New incoming data wakes the thread up.
 	 */
-	void setIdleTimeout(int seconds);
+	void setIdleTimeout(const Poco::Timespan &timeout);
 
 	void run() override;
 	void stop() override;
