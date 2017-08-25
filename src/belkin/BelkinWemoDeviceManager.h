@@ -45,9 +45,9 @@ public:
 	void run() override;
 	void stop() override;
 
-	void setUPnPTimeout(int secs);
-	void setHTTPTimeout(int secs);
-	void setRefresh(int secs);
+	void setUPnPTimeout(const Poco::Timespan &timeout);
+	void setHTTPTimeout(const Poco::Timespan &timeout);
+	void setRefresh(const Poco::Timespan &refresh);
 
 protected:
 	bool accept(const Command::Ptr cmd) override;

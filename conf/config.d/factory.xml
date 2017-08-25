@@ -76,9 +76,9 @@
 		</instance>
 
 		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
-			<set name="httpTimeout" number="${belkinwemo.http.timeout}" />
-			<set name="upnpTimeout" number="${belkinwemo.upnp.timeout}" />
-			<set name="refresh" number="${belkinwemo.refresh}" />
+			<set name="httpTimeout" time="${belkinwemo.http.timeout}" />
+			<set name="upnpTimeout" time="${belkinwemo.upnp.timeout}" />
+			<set name="refresh" time="${belkinwemo.refresh}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
