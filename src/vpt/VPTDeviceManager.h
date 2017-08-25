@@ -65,9 +65,9 @@ public:
 	void run() override;
 	void stop() override;
 
-	void setRefresh(int secs);
-	void setPingTimeout(int millisecs);
-	void setHTTPTimeout(int secs);
+	void setRefresh(const Poco::Timespan &refresh);
+	void setPingTimeout(const Poco::Timespan &timeout);
+	void setHTTPTimeout(const Poco::Timespan &timeout);
 	void setMaxMsgSize(int size);
 	void setBlackList(const std::list<std::string>& list);
 	void setPath(const std::string& path);

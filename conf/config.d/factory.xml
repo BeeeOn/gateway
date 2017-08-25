@@ -133,9 +133,9 @@
 		</instance>
 
 		<instance name="vptDeviceManager" class="BeeeOn::VPTDeviceManager">
-			<set name="httpTimeout" number="${vpt.http.timeout}" />
-			<set name="pingTimeout" number="${vpt.ping.timeout}" />
-			<set name="refresh" number="${vpt.refresh}" />
+			<set name="httpTimeout" time="${vpt.http.timeout}" />
+			<set name="pingTimeout" time="${vpt.ping.timeout}" />
+			<set name="refresh" time="${vpt.refresh}" />
 			<set name="interfaceBlackList" list="${vpt.netif.blacklist}" />
 			<set name="maxMsgSize" number="${vpt.max.msg.size}" />
 			<set name="path" text="${vpt.path}" />
