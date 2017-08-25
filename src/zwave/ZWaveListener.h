@@ -2,10 +2,10 @@
 
 #include <Poco/SharedPtr.h>
 
-#include "zwave/ZWaveDriverEvent.h"
-#include "zwave/ZWaveNodeEvent.h"
-
 namespace BeeeOn {
+
+class ZWaveDriverEvent;
+class ZWaveNodeEvent;
 
 /**
  * Interface for reporting statistics from ZWaveDeviceManager.
