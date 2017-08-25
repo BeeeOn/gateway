@@ -24,9 +24,12 @@ void DongleDeviceManager::setAttemptsCount(const int count)
 	m_attemptsCount = count;
 }
 
-void DongleDeviceManager::setRetryTimeout(const int msecs)
+void DongleDeviceManager::setRetryTimeout(const Timespan &timeout)
 {
-	m_retryTimeout = msecs * Timespan::MILLISECONDS;
+	if (timeout > 0 && timeout < 1 * Timespan::MILLISECONDS)
+		throw InvalidArgumentException("retryTimeout must be at least 1 ms or negative");
+
+	m_retryTimeout = timeout;
 }
 
 bool DongleDeviceManager::dongleMissing()

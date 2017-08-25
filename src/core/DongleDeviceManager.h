@@ -32,8 +32,10 @@ public:
 	 * Set the timeout to retry the count of attempts to call dongleAvailable()
 	 * successfully. If the timeout is negative, do not repeat any attempt unless
 	 * some event occures.
+	 *
+	 * The timeout must be at least in milliseconds.
 	 */
-	void setRetryTimeout(const int msecs);
+	void setRetryTimeout(const Poco::Timespan &timeout);
 
 protected:
 	/**
