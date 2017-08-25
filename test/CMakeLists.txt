@@ -2,7 +2,6 @@ cmake_minimum_required (VERSION 2.8.11)
 project (gateway-tests CXX)
 
 find_library (CPP_UNIT cppunit)
-find_library (MOSQUITTO_CPP mosquittopp)
 find_library (POCO_FOUNDATION PocoFoundation)
 find_library (POCO_UTIL PocoUtil)
 find_library (POCO_SSL PocoNetSSL)
@@ -11,22 +10,46 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
-find_library (UDEV udev)
+
+if(ENABLE_UDEV)
+	find_library (UDEV udev)
+endif()
 
 find_package(OpenZWave REQUIRED)
 include_directories(${OPENZWAVE_INCLUDE_DIR})
+
+if(ENABLE_MOSQUITTO_EXPORTER)
+	find_library (MOSQUITTO_CPP mosquittopp)
+endif()
+
+if(ENABLE_ZWAVE)
+	find_package(OpenZWave REQUIRED)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+endif()
 
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
-	${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
-	${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 )
+
+if(ENABLE_ZWAVE)
+	file(GLOB ZWAVE_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
+endif()
+
+if (ENABLE_QUEUING_DISTRIBUTOR)
+	file(GLOB QUEUING_DISTRIBUTOR_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
+		${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${QUEUING_DISTRIBUTOR_TEST_SOURCES})
+endif()
 
 include_directories(
 	${PROJECT_SOURCE_DIR}
