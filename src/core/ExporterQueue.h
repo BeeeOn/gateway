@@ -57,7 +57,6 @@ private:
 	*/
 	bool deadTooLong(const Poco::Timespan deadTimeout) const;
 
-	void fail();
 	bool isEmpty() const;
 
 	SensorData &front();
