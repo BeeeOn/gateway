@@ -52,6 +52,8 @@ endif()
 
 install(FILES conf/gateway-startup.ini
 	DESTINATION etc/beeeon/gateway)
+install(FILES conf/virtual-devices.ini
+	DESTINATION etc/beeeon/gateway)
 install(DIRECTORY conf/config.d
 	DESTINATION etc/beeeon/gateway)
 install(FILES systemd/beeeon-gateway.service
