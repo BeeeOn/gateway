@@ -1,5 +1,6 @@
 #include <list>
 
+#include <Poco/Exception.h>
 #include <Poco/Logger.h>
 #include <Poco/NumberParser.h>
 #include <Poco/RegularExpression.h>
@@ -24,8 +25,8 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_TEXT("userPath", &ZWaveDeviceManager::setUserPath)
 BEEEON_OBJECT_TEXT("configPath", &ZWaveDeviceManager::setConfigPath)
-BEEEON_OBJECT_NUMBER("pollInterval", &ZWaveDeviceManager::setPollInterval)
-BEEEON_OBJECT_NUMBER("statisticsInterval", &ZWaveDeviceManager::setStatisticsInterval)
+BEEEON_OBJECT_TIME("pollInterval", &ZWaveDeviceManager::setPollInterval)
+BEEEON_OBJECT_TIME("statisticsInterval", &ZWaveDeviceManager::setStatisticsInterval)
 BEEEON_OBJECT_REF("commandDispatcher", &ZWaveDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_REF("distributor", &ZWaveDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("deviceInfoRegistry", &ZWaveDeviceManager::setDeviceInfoRegistry)
@@ -807,9 +808,12 @@ void ZWaveDeviceManager::setConfigPath(const string &configPath)
 	m_configPath = configPath;
 }
 
-void ZWaveDeviceManager::setPollInterval(int pollInterval)
+void ZWaveDeviceManager::setPollInterval(const Timespan &pollInterval)
 {
-	m_pollInterval = pollInterval * Timespan::MILLISECONDS;
+	if (pollInterval != 0 && pollInterval < 1 * Timespan::MILLISECONDS)
+		throw Poco::InvalidArgumentException("pollInterval must be at least 1 ms or 0");
+
+	m_pollInterval = pollInterval;
 }
 
 void ZWaveDeviceManager::setDeviceInfoRegistry(
@@ -835,14 +839,14 @@ void ZWaveDeviceManager::createBeeeOnDevice(uint8_t nodeID)
 	}
 }
 
-void ZWaveDeviceManager::setStatisticsInterval(int seconds)
+void ZWaveDeviceManager::setStatisticsInterval(const Timespan &interval)
 {
-	if (seconds <= 0) {
+	if (interval <= 0) {
 		throw Poco::InvalidArgumentException(
 			"statistics interval must be a positive number");
 	}
 
-	m_statisticsRunner.setInterval(seconds * Poco::Timespan::SECONDS);
+	m_statisticsRunner.setInterval(interval);
 }
 
 void ZWaveDeviceManager::registerListener(ZWaveListener::Ptr listener)

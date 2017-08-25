@@ -64,12 +64,12 @@ public:
 	 * Periodic interval for sending of statistics. If interval
 	 * is not set, statistics is not sent.
 	 */
-	void setStatisticsInterval(int seconds);
+	void setStatisticsInterval(const Poco::Timespan &interval);
 
 	/**
 	 * For old devices, detect status changes.
 	 */
-	void setPollInterval(int pollInterval);
+	void setPollInterval(const Poco::Timespan &pollInterval);
 
 	void setDeviceInfoRegistry(Poco::SharedPtr<ZWaveDeviceInfoRegistry> factory);
 

@@ -150,11 +150,11 @@
 		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
 			<set name="userPath" text="${zwave.user.path}" />
 			<set name="configPath" text="${zwave.config.path}" />
-			<set name="pollInterval" number="${zwave.poll.interval}" />
+			<set name="pollInterval" time="${zwave.poll.interval}" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="distributor" ref="distributor" />
 			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
-			<set name="statisticsInterval" number="${zwave.statistics.interval}" />
+			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 		</instance>
 
