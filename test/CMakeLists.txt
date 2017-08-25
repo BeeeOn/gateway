@@ -15,9 +15,6 @@ if(ENABLE_UDEV)
 	find_library (UDEV udev)
 endif()
 
-find_package(OpenZWave REQUIRED)
-include_directories(${OPENZWAVE_INCLUDE_DIR})
-
 if(ENABLE_MOSQUITTO_EXPORTER)
 	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
