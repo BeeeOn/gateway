@@ -28,6 +28,7 @@ if(ENABLE_ZWAVE)
 endif()
 
 file(GLOB SOURCES
+	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairCommand.cpp
