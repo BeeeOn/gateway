@@ -1,6 +1,7 @@
 #ifndef BEEEON_ABSTRACT_COLLECTOR_H
 #define BEEEON_ABSTRACT_COLLECTOR_H
 
+#include "bluetooth/BluetoothListener.h"
 #include "core/DistributorListener.h"
 #include "zwave/ZWaveListener.h"
 
@@ -13,6 +14,7 @@ namespace BeeeOn {
  * sensors.
  */
 class AbstractCollector :
+	public BluetoothListener,
 	public DistributorListener,
 	public ZWaveListener {
 public:
@@ -32,6 +34,11 @@ public:
 	 * Empty implementation to be overrided if needed.
 	 */
 	void onNodeStats(const ZWaveNodeEvent &event) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
+	void onHciStats(const HciInfo &info) override;
 };
 
 }
