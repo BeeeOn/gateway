@@ -6,7 +6,7 @@
 
 #include "core/Distributor.h"
 #include "core/DistributorListener.h"
-#include "util/AsyncExecutor.h"
+#include "util/EventSource.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -43,8 +43,7 @@ protected:
 	void notifyListeners(const SensorData &data);
 
 	std::vector<Poco::SharedPtr<Exporter>> m_exporters;
-	std::vector<DistributorListener::Ptr> m_listeners;
-	Poco::SharedPtr<AsyncExecutor> m_executor;
+	EventSource<DistributorListener> m_eventSource;
 };
 
 }
