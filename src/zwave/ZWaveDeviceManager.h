@@ -16,7 +16,7 @@
 #include "commands/GatewayListenCommand.h"
 #include "core/DeviceManager.h"
 #include "hotplug/HotplugListener.h"
-#include "util/AsyncExecutor.h"
+#include "util/EventSource.h"
 #include "zwave/ZWaveDriver.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveListener.h"
@@ -222,7 +222,6 @@ private:
 	ZWaveDeviceInfoRegistry::Ptr m_registry;
 	std::map<uint8_t, std::list<OpenZWave::ValueID>> m_zwaveNodes;
 	Poco::Event m_stopEvent;
-	Poco::SharedPtr<AsyncExecutor> m_executor;
 
 	Poco::TimerCallback<ZWaveDeviceManager> m_commandCallback;
 	Poco::Timer m_commandTimer;
@@ -230,7 +229,7 @@ private:
 	Poco::TimerCallback<ZWaveDeviceManager> m_sentStatistics;
 	Poco::Timer m_statisticsTimer;
 	Poco::Timespan m_statisticsInterval;
-	std::vector<ZWaveListener::Ptr> m_listeners;
+	EventSource<ZWaveListener> m_eventSource;
 };
 
 }

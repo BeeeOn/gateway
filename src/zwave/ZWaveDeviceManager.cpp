@@ -141,7 +141,7 @@ void ZWaveDeviceManager::onAdd(const HotplugEvent &event)
 	Manager::Get()->AddWatcher(::onNotification, this);
 	m_driver.registerItself();
 
-	if (m_executor.isNull()) {
+	if (m_eventSource.asyncExecutor().isNull()) {
 		logger().critical(
 			"runtime statistics could not be send, executor was not set",
 			__FILE__, __LINE__);
@@ -784,12 +784,7 @@ void ZWaveDeviceManager::fireNodeEventStatistics(uint8_t nodeID)
 	Manager::Get()->GetNodeStatistics(m_homeID, nodeID, &data);
 	ZWaveNodeEvent nodeEvent(data, nodeID);
 
-	vector<ZWaveListener::Ptr> listeners = m_listeners;
-
-	m_executor->invoke([listeners, nodeEvent]() {
-		for (auto listener : listeners)
-			listener->onNodeStats(nodeEvent);
-	});
+	m_eventSource.fireEvent(nodeEvent, &ZWaveListener::onNodeStats);
 }
 
 void ZWaveDeviceManager::fireDriverEventStatistics()
@@ -798,12 +793,7 @@ void ZWaveDeviceManager::fireDriverEventStatistics()
 	Manager::Get()->GetDriverStatistics(m_homeID, &data);
 	ZWaveDriverEvent driverEvent(data);
 
-	vector<ZWaveListener::Ptr> listeners = m_listeners;
-
-	m_executor->invoke([listeners, driverEvent]() {
-		for (auto listener : listeners)
-			listener->onDriverStats(driverEvent);
-	});
+	m_eventSource.fireEvent(driverEvent, &ZWaveListener::onDriverStats);
 }
 
 void ZWaveDeviceManager::setUserPath(const string &userPath)
@@ -855,10 +845,10 @@ void ZWaveDeviceManager::setStatisticsInterval(int seconds)
 
 void ZWaveDeviceManager::registerListener(ZWaveListener::Ptr listener)
 {
-	m_listeners.push_back(listener);
+	m_eventSource.addListener(listener);
 }
 
 void ZWaveDeviceManager::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
 {
-	m_executor = executor;
+	m_eventSource.setAsyncExecutor(executor);
 }
