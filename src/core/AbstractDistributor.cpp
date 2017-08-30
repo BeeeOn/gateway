@@ -16,7 +16,7 @@ void AbstractDistributor::registerExporter(Poco::SharedPtr<Exporter> exporter)
 
 void AbstractDistributor::notifyListeners(const SensorData &data)
 {
-	std::vector<Poco::SharedPtr<DistributorListener>> listeners = m_listeners;
+	std::vector<DistributorListener::Ptr> listeners = m_listeners;
 
 	if (!m_executor.isNull()) {
 		m_executor->invoke([listeners, data]() {
@@ -26,7 +26,7 @@ void AbstractDistributor::notifyListeners(const SensorData &data)
 	}
 }
 
-void AbstractDistributor::registerListener(Poco::SharedPtr<DistributorListener> listener)
+void AbstractDistributor::registerListener(DistributorListener::Ptr listener)
 {
 	m_listeners.push_back(listener);
 }

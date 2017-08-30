@@ -27,7 +27,7 @@ public:
 	 */
 	virtual void exportData(const SensorData &sensorData) = 0;
 
-	void registerListener(Poco::SharedPtr<DistributorListener> listener);
+	void registerListener(DistributorListener::Ptr listener);
 
 	/*
 	 * Set executor instance for asynchronous data transfer to
@@ -43,7 +43,7 @@ protected:
 	void notifyListeners(const SensorData &data);
 
 	std::vector<Poco::SharedPtr<Exporter>> m_exporters;
-	std::vector<Poco::SharedPtr<DistributorListener>> m_listeners;
+	std::vector<DistributorListener::Ptr> m_listeners;
 	Poco::SharedPtr<AsyncExecutor> m_executor;
 };
 
