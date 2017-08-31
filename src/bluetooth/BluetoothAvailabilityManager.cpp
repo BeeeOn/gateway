@@ -60,7 +60,6 @@ void BluetoothAvailabilityManager::setWakeUpTime(int time)
 void BluetoothAvailabilityManager::dongleAvailable()
 {
 	HciInterface hci(dongleName());
-	hci.up();
 
 	fetchDeviceList();
 
@@ -76,6 +75,8 @@ void BluetoothAvailabilityManager::dongleAvailable()
 	 * "sleeping" period (wake up time).
 	 */
 	while (!m_stop) {
+		hci.up();
+
 		const Timespan &remaining = detectAll(hci);
 
 		if (remaining > 0 && !m_stop)
@@ -103,6 +104,8 @@ void BluetoothAvailabilityManager::notifyDongleRemoved()
 				__FILE__, __LINE__);
 		PosixSignal::send(m_thread, "SIGUSR1");
 	}
+
+	m_stopEvent.set();
 }
 
 string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
