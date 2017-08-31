@@ -17,6 +17,7 @@
 #include "core/DeviceManager.h"
 #include "hotplug/HotplugListener.h"
 #include "util/EventSource.h"
+#include "util/PeriodicRunner.h"
 #include "zwave/ZWaveDriver.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveListener.h"
@@ -173,7 +174,7 @@ private:
 	/**
 	 * Processing of statistics in given periodic interval.
 	 */
-	void fireStatistics(Poco::Timer &timer);
+	void fireStatistics();
 
 	/**
 	 * Sending of statistics from node to listeners.
@@ -226,9 +227,7 @@ private:
 	Poco::TimerCallback<ZWaveDeviceManager> m_commandCallback;
 	Poco::Timer m_commandTimer;
 
-	Poco::TimerCallback<ZWaveDeviceManager> m_sentStatistics;
-	Poco::Timer m_statisticsTimer;
-	Poco::Timespan m_statisticsInterval;
+	PeriodicRunner m_statisticsRunner;
 	EventSource<ZWaveListener> m_eventSource;
 };
 

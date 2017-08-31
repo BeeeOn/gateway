@@ -68,9 +68,7 @@ ZWaveDeviceManager::ZWaveDeviceManager():
 	DeviceManager(DevicePrefix::PREFIX_ZWAVE),
 	m_state(State::IDLE),
 	m_commandCallback(*this, &ZWaveDeviceManager::stopCommand),
-	m_commandTimer(0, 0),
-	m_sentStatistics(*this, &ZWaveDeviceManager::fireStatistics),
-	m_statisticsTimer(0, 0)
+	m_commandTimer(0, 0)
 {
 }
 
@@ -147,8 +145,9 @@ void ZWaveDeviceManager::onAdd(const HotplugEvent &event)
 			__FILE__, __LINE__);
 	}
 	else {
-		m_statisticsTimer.setPeriodicInterval(m_statisticsInterval.totalMilliseconds());
-		m_statisticsTimer.start(m_sentStatistics);
+		m_statisticsRunner.start([&]() {
+			fireStatistics();
+		});
 	}
 }
 
@@ -178,7 +177,7 @@ void ZWaveDeviceManager::onRemove(const HotplugEvent &event)
 	logger().debug("unregistering dongle " + event.toString(),
 		__FILE__, __LINE__);
 
-	m_statisticsTimer.stop();
+	m_statisticsRunner.stop();
 
 	m_state = State::IDLE;
 	m_driver.unregisterItself();
@@ -764,7 +763,7 @@ DeviceID ZWaveDeviceManager::buildID(uint8_t nodeID) const
 	return DeviceID(DevicePrefix::PREFIX_ZWAVE, deviceID);
 }
 
-void ZWaveDeviceManager::fireStatistics(Poco::Timer &)
+void ZWaveDeviceManager::fireStatistics()
 {
 	if (m_state == IDLE) {
 		logger().debug("statistics cannot be sent, dongle is not ready");
@@ -840,7 +839,7 @@ void ZWaveDeviceManager::setStatisticsInterval(int seconds)
 			"statistics interval must be a positive number");
 	}
 
-	m_statisticsInterval = seconds * Poco::Timespan::SECONDS;
+	m_statisticsRunner.setInterval(seconds * Poco::Timespan::SECONDS);
 }
 
 void ZWaveDeviceManager::registerListener(ZWaveListener::Ptr listener)
