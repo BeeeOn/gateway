@@ -167,5 +167,7 @@
 
 		<instance name="defaultZWaveDeviceInfoRegistry" class="BeeeOn::DefaultZWaveDeviceInfoRegistry">
 		</instance>
+
+		<instance name="loggingCollector" class="BeeeOn::LoggingCollector" />
 	</factory>
 </system>
