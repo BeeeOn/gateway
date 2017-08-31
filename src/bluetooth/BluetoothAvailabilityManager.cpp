@@ -17,6 +17,7 @@
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
 #include "hotplug/HotplugEvent.h"
+#include "util/PosixSignal.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -93,6 +94,15 @@ bool BluetoothAvailabilityManager::dongleMissing()
 		m_deviceList.clear();
 	}
 	return true;
+}
+
+void BluetoothAvailabilityManager::notifyDongleRemoved()
+{
+	if (m_thread.isRunning()) {
+		logger().warning("forcing listen thread to finish",
+				__FILE__, __LINE__);
+		PosixSignal::send(m_thread, "SIGUSR1");
+	}
 }
 
 string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)

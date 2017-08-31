@@ -55,6 +55,9 @@ public:
 
 	void doListenCommand(const Command::Ptr &cmd, const Answer::Ptr &answer);
 
+protected:
+	void notifyDongleRemoved() override;
+
 private:
 	bool haveTimeForInactive(Poco::Timespan elapsedTime);
 
