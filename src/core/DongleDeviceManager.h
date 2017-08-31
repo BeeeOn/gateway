@@ -85,6 +85,16 @@ protected:
 	virtual void dongleFailed(const FailDetector &dongleStatus);
 
 	/**
+	 * @brief The default implementation does nothing.
+	 *
+	 * This method is called when a dongle removal has been detected
+	 * via the onRemove() call. The derived
+	 * class can reimplement this method to make sure all its threads
+	 * are finished.
+	 */
+	virtual void notifyDongleRemoved();
+
+	/**
 	 * Return the name of associated dongle.
 	 * If the failWhenMissing is true, then it throws an exception
 	 * when no such dongle name is available (disconnected).
