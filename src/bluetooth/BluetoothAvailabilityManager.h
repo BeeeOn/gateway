@@ -12,11 +12,14 @@
 #include <Poco/Timespan.h>
 
 #include "bluetooth/BluetoothDevice.h"
+#include "bluetooth/BluetoothListener.h"
 #include "bluetooth/HciInterface.h"
 #include "core/Answer.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
 #include "model/SensorData.h"
+#include "util/EventSource.h"
+#include "util/PeriodicRunner.h"
 
 namespace BeeeOn {
 
@@ -31,6 +34,8 @@ public:
 	void dongleAvailable() override;
 
 	bool dongleMissing() override;
+
+	void dongleFailed(const FailDetector &dongleStatus) override;
 
 	std::string dongleMatch(const HotplugEvent &e) override;
 
@@ -54,6 +59,21 @@ public:
 		const Command::Ptr &cmd, const Answer::Ptr &answer);
 
 	void doListenCommand(const Command::Ptr &cmd, const Answer::Ptr &answer);
+
+	/**
+	 * Set interval of periodic bluetooth statistics generation.
+	 */
+	void setStatisticsInterval(const Poco::Timespan &interval);
+
+	/**
+	 * Set executor for delivering events.
+	 */
+	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+
+	/**
+	 * Register listener of bluetooth events.
+	 */
+	void registerListener(BluetoothListener::Ptr listener);
 
 protected:
 	void notifyDongleRemoved() override;
@@ -85,6 +105,8 @@ private:
 	std::map<DeviceID, BluetoothDevice> m_deviceList;
 	Poco::Event m_stopEvent;
 	Poco::FastMutex m_lock;
+	PeriodicRunner m_statisticsRunner;
+	EventSource<BluetoothListener> m_eventSource;
 };
 
 }

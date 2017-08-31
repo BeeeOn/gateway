@@ -29,6 +29,9 @@ BEEEON_OBJECT_REF("commandDispatcher", &BluetoothAvailabilityManager::setCommand
 BEEEON_OBJECT_NUMBER("attemptsCount", &BluetoothAvailabilityManager::setAttemptsCount)
 BEEEON_OBJECT_NUMBER("retryTimeout", &BluetoothAvailabilityManager::setRetryTimeout)
 BEEEON_OBJECT_NUMBER("failTimeout", &BluetoothAvailabilityManager::setFailTimeout)
+BEEEON_OBJECT_TIME("statisticsInterval", &BluetoothAvailabilityManager::setStatisticsInterval)
+BEEEON_OBJECT_REF("executor", &BluetoothAvailabilityManager::setExecutor)
+BEEEON_OBJECT_REF("listeners", &BluetoothAvailabilityManager::registerListener)
 BEEEON_OBJECT_END(BeeeOn, BluetoothAvailabilityManager)
 
 using namespace BeeeOn;
@@ -63,6 +66,19 @@ void BluetoothAvailabilityManager::dongleAvailable()
 
 	fetchDeviceList();
 
+	if (m_eventSource.asyncExecutor().isNull()) {
+		logger().critical("no executor to generate statistics",
+				__FILE__, __LINE__);
+	}
+	else {
+		m_statisticsRunner.start([&]() {
+			HciInterface hci(dongleName());
+
+			const HciInfo &info = hci.info();
+			m_eventSource.fireEvent(info, &BluetoothListener::onHciStats);
+		});
+	}
+
 	/*
 	 * Scanning of a single device.
 	 * ~5 seconds when it's unavailable,
@@ -82,10 +98,14 @@ void BluetoothAvailabilityManager::dongleAvailable()
 		if (remaining > 0 && !m_stop)
 			m_stopEvent.tryWait(remaining.totalMilliseconds());
 	}
+
+	m_statisticsRunner.stop();
 }
 
 bool BluetoothAvailabilityManager::dongleMissing()
 {
+	m_statisticsRunner.stop();
+
 	if (!m_deviceList.empty()) {
 		for (auto &device : m_deviceList) {
 			device.second.updateStatus(BluetoothDevice::UNKNOWN);
@@ -95,6 +115,12 @@ bool BluetoothAvailabilityManager::dongleMissing()
 		m_deviceList.clear();
 	}
 	return true;
+}
+
+void BluetoothAvailabilityManager::dongleFailed(const FailDetector &dongleStatus)
+{
+	m_statisticsRunner.stop();
+	DongleDeviceManager::dongleFailed(dongleStatus);
 }
 
 void BluetoothAvailabilityManager::notifyDongleRemoved()
@@ -354,4 +380,22 @@ list<ModuleType> BluetoothAvailabilityManager::moduleTypes() const
 DeviceID BluetoothAvailabilityManager::createDeviceID(const MACAddress &numMac) const
 {
 	return DeviceID(DevicePrefix::PREFIX_BLUETOOTH, numMac.toNumber());
+}
+
+void BluetoothAvailabilityManager::setStatisticsInterval(const Timespan &interval)
+{
+	if (interval <= 0)
+		throw InvalidArgumentException("statistics interval must be a positive number");
+
+	m_statisticsRunner.setInterval(interval);
+}
+
+void BluetoothAvailabilityManager::setExecutor(SharedPtr<AsyncExecutor> executor)
+{
+	m_eventSource.setAsyncExecutor(executor);
+}
+
+void BluetoothAvailabilityManager::registerListener(BluetoothListener::Ptr listener)
+{
+	m_eventSource.addListener(listener);
 }
