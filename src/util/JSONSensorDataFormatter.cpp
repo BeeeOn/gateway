@@ -33,7 +33,7 @@ string JSONSensorDataFormatter::format(const SensorData &data)
 	json.key("device_id");
 	json.value(data.deviceID().toString());
 	json.key("timestamp");
-	json.value((UInt64)data.timestamp().value().epochTime());
+	json.value((UInt64)data.timestamp().value().epochMicroseconds());
 
 	json.key("data");
 	json.startArray();
