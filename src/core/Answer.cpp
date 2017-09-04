@@ -8,7 +8,8 @@ using namespace Poco;
 
 Answer::Answer(AnswerQueue &answerQueue):
 	m_answerQueue(answerQueue),
-	m_dirty(0)
+	m_dirty(0),
+	m_handlers(0)
 {
 	answerQueue.add(this);
 }

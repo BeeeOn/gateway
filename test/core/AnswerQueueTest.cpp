@@ -24,6 +24,7 @@ class AnswerQueueTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testDisposeAnswerWithoutResult);
 	CPPUNIT_TEST(testSetResultAfterLock);
 	CPPUNIT_TEST(testCreateAnswerAfterLock);
+	CPPUNIT_TEST(testDisposeUnusedAnswer);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -35,6 +36,7 @@ public:
 	void testDisposeAnswerWithoutResult();
 	void testSetResultAfterLock();
 	void testCreateAnswerAfterLock();
+	void testDisposeUnusedAnswer();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(AnswerQueueTest);
@@ -433,6 +435,22 @@ void AnswerQueueTest::testCreateAnswerAfterLock()
 
 	CPPUNIT_ASSERT_THROW(queue.newAnswer(), IllegalStateException);
 	CPPUNIT_ASSERT_THROW(new Answer(queue), IllegalStateException);
+}
+
+void AnswerQueueTest::testDisposeUnusedAnswer()
+{
+	TestableAnswerQueue queue;
+	Answer::Ptr answer = queue.newAnswer();
+
+	CPPUNIT_ASSERT(1 == queue.size());
+	CPPUNIT_ASSERT(0 == queue.m_answerList.front()->resultsCount());
+	CPPUNIT_ASSERT(0 == queue.m_answerList.front()->handlersCount());
+
+	queue.dispose();
+
+	CPPUNIT_ASSERT(1 == queue.size());
+	CPPUNIT_ASSERT(0 == queue.m_answerList.front()->resultsCount());
+	CPPUNIT_ASSERT(0 == queue.m_answerList.front()->handlersCount());
 }
 
 }
