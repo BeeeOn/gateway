@@ -33,6 +33,13 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 )
 
+if(ENABLE_VPT)
+	file(GLOB VPT_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/vpt/VPTDeviceTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${VPT_TEST_SOURCES})
+endif()
+
 if(ENABLE_ZWAVE)
 	file(GLOB ZWAVE_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp

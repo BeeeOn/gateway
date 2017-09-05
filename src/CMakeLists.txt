@@ -128,6 +128,19 @@ else()
 	message(STATUS "Virtual Devices support is disabled")
 endif()
 
+if(ENABLE_VPT)
+	file(GLOB VPT_SOURCES
+		${PROJECT_SOURCE_DIR}/vpt/VPTBoilerModuleType.cpp
+		${PROJECT_SOURCE_DIR}/vpt/VPTDevice.cpp
+		${PROJECT_SOURCE_DIR}/vpt/VPTDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/vpt/VPTValuesParser.cpp
+		${PROJECT_SOURCE_DIR}/vpt/VPTZoneModuleType.cpp
+	)
+	list(APPEND SOURCES ${VPT_SOURCES})
+else()
+	message(STATUS "VPT support is disabled")
+endif()
+
 if(ENABLE_ZWAVE)
 	file(GLOB ZWAVE_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
