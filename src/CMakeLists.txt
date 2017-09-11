@@ -27,6 +27,10 @@ if(ENABLE_ZWAVE)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 endif()
 
+if(ENABLE_FITP)
+	find_library (FITP_LIB fitp)
+endif()
+
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
@@ -244,6 +248,15 @@ else()
 	message(STATUS "Internal air pressure sensor support is disabled")
 endif()
 
+if(ENABLE_FITP)
+	file(GLOB FITP_SOURCES
+		${PROJECT_SOURCE_DIR}/fitp/FitpDevice.cpp
+	)
+	list(APPEND SOURCES ${FITP_SOURCES})
+else()
+	message(STATUS "Fitp support is disabled")
+endif()
+
 configure_file(core/Version.cpp.in ${PROJECT_BINARY_DIR}/core/Version.cpp)
 list(APPEND SOURCES ${PROJECT_BINARY_DIR}/core/Version.cpp)
 
@@ -269,6 +282,7 @@ set(LIBS
 	${PTHREAD}
 	${UDEV}
 	${OPENZWAVE_LIBRARY}
+	${FITP_LIB}
 )
 
 target_link_libraries(beeeon-gateway
