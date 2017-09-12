@@ -1,5 +1,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <Poco/Thread.h>
+#include <Poco/ThreadPool.h>
+
 #include "core/AnswerQueue.h"
 #include "core/PocoCommandDispatcher.h"
 #include "core/CommandSender.h"
