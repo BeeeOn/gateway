@@ -100,6 +100,14 @@ void Answer::addResultUnlocked(Result *result)
 			"inserting result into a disposed AnswerQueue");
 	}
 
+	assureLocked();
+
+	if (m_resultList.size() >= m_handlers) {
+		// addResult is probably called too late
+		throw IllegalStateException(
+			"no more room for results");
+	}
+
 	m_resultList.push_back(AutoPtr<Result>(result, true));
 }
 

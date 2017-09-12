@@ -304,6 +304,8 @@ void AnswerQueueTest::testResultUpdated()
 	Answer::Ptr answer0 = new Answer(queue);
 	Answer::Ptr answer1 = new Answer(queue);
 
+	answer0->setHandlersCount(1);
+
 	Result::Ptr result0 = new Result(answer0);
 
 	queue.listDirty(answerList);
