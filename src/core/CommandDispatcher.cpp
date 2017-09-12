@@ -1,3 +1,5 @@
+#include <Poco/Logger.h>
+
 #include "core/CommandDispatcher.h"
 
 using namespace BeeeOn;

@@ -4,10 +4,11 @@
 #include <Poco/SharedPtr.h>
 
 #include "core/CommandHandler.h"
+#include "util/Loggable.h"
 
 namespace BeeeOn {
 
-class CommandDispatcher {
+class CommandDispatcher : protected Loggable {
 public:
 	/*
 	 * Register a command handler for command dispatching.

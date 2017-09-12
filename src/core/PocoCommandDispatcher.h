@@ -9,7 +9,6 @@
 #include "core/CommandHandler.h"
 #include "core/CommandDispatcher.h"
 #include "core/Command.h"
-#include "util/Loggable.h"
 
 namespace BeeeOn {
 
@@ -20,7 +19,7 @@ class Command;
  * The CommandDispatcher the given command to the target handler and
  * contain registered command handlers.
  */
-class PocoCommandDispatcher : public CommandDispatcher, public Loggable {
+class PocoCommandDispatcher : public CommandDispatcher {
 public:
 	/*
 	 * The operation might be asynchronous. The result of the command can come
