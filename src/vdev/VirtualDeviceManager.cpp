@@ -168,7 +168,7 @@ void VirtualDeviceManager::installVirtualDevices()
 	for (int i = 0; cfg->has("virtual-device" + to_string(i) + ".enable"); ++i) {
 		const string &prefix = "virtual-device" + to_string(i);
 
-		if (!cfg->getBool(prefix + ".enable", "no"))
+		if (!cfg->getBool(prefix + ".enable", false))
 			continue;
 
 		try {
