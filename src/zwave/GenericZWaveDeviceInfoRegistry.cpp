@@ -21,7 +21,7 @@ ZWaveDeviceInfo::Ptr GenericZWaveDeviceInfoRegistry::find(
 		return search->second->find(vendor, product);
 
 	logger().debug(
-		+ "vendor " + to_string(vendor)
+		"vendor " + to_string(vendor)
 		+ " is not registered",
 		__FILE__, __LINE__);
 
