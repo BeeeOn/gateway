@@ -70,6 +70,7 @@ void BelkinWemoDeviceManager::stop()
 	m_stop = true;
 	m_event.set();
 	m_seeker.stop();
+	answerQueue().dispose();
 }
 
 void BelkinWemoDeviceManager::setRefresh(int secs)

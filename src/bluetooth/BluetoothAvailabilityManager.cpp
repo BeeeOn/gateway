@@ -112,6 +112,7 @@ void BluetoothAvailabilityManager::stop()
 {
 	m_stopEvent.set();
 	DongleDeviceManager::stop();
+	answerQueue().dispose();
 }
 
 Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)

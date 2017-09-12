@@ -820,6 +820,7 @@ void ZWaveDeviceManager::stop()
 {
 	DeviceManager::stop();
 	m_stopEvent.set();
+	answerQueue().dispose();
 }
 
 void ZWaveDeviceManager::createBeeeOnDevice(uint8_t nodeID)

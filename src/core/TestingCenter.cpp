@@ -628,4 +628,5 @@ void TestingCenter::stop()
 {
 	m_console->close();
 	m_stop = 1;
+	answerQueue().dispose();
 }
