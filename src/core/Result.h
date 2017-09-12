@@ -45,7 +45,7 @@ public:
 
 	typedef Enum<StatusEnum> Status;
 
-	Result(Poco::AutoPtr<Answer> answer);
+	Result(Poco::AutoPtr<Answer> answer, bool locked = false);
 
 	void setStatus(const Status status);
 

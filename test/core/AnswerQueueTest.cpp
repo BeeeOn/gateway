@@ -1,11 +1,14 @@
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <Poco/Event.h>
 #include <Poco/Timer.h>
 #include <Poco/Timespan.h>
 
 #include "cppunit/BetterAssert.h"
 
 #include "core/AnswerQueue.h"
+#include "core/CommandHandler.h"
+#include "core/PocoCommandDispatcher.h"
 
 using namespace Poco;
 
@@ -17,6 +20,10 @@ class AnswerQueueTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testWaitTimeout);
 	CPPUNIT_TEST(testRemove);
 	CPPUNIT_TEST(testResultUpdated);
+	CPPUNIT_TEST(testDisposePendingAnswerResult);
+	CPPUNIT_TEST(testDisposeAnswerWithoutResult);
+	CPPUNIT_TEST(testSetResultAfterLock);
+	CPPUNIT_TEST(testCreateAnswerAfterLock);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -24,6 +31,10 @@ public:
 	void testWaitTimeout();
 	void testRemove();
 	void testResultUpdated();
+	void testDisposePendingAnswerResult();
+	void testDisposeAnswerWithoutResult();
+	void testSetResultAfterLock();
+	void testCreateAnswerAfterLock();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(AnswerQueueTest);
@@ -100,6 +111,60 @@ public:
 
 private:
 	bool m_dirty;
+	Answer::Ptr m_answer;
+};
+
+class TestableCommand : public Command {
+public:
+	typedef AutoPtr<TestableCommand> Ptr;
+
+	TestableCommand():
+		Command("TestableCommand")
+	{
+	}
+};
+
+class HandlerWithSetResultLater : public CommandHandler {
+public:
+	typedef SharedPtr<HandlerWithSetResultLater> Ptr;
+
+	HandlerWithSetResultLater()
+	{
+	}
+
+	bool accept(Command::Ptr cmd) override
+	{
+		return cmd->is<TestableCommand>();
+	}
+
+	void handle(Command::Ptr cmd, Answer::Ptr answer) override
+	{
+		if (cmd->is<TestableCommand>()) {
+			m_answer = answer;
+			m_eventHandle.set();
+		}
+	}
+
+	void setResult(const Result::Status &status)
+	{
+		Result::Ptr result = new Result(m_answer);
+		result->setStatus(status);
+		m_eventSetResult.set();
+	}
+
+	bool waitForRunHandle(const Timespan &timeout)
+	{
+		return m_eventHandle.tryWait(timeout.totalMilliseconds());
+	}
+
+	bool waitForCreateResult(const Timespan &timeout)
+	{
+		return m_eventSetResult.tryWait(timeout.totalMilliseconds());
+	}
+
+private:
+	Poco::Event m_eventHandle;
+	Poco::Event m_eventSetResult;
 	Answer::Ptr m_answer;
 };
 
@@ -266,6 +331,106 @@ void AnswerQueueTest::testResultUpdated()
 
 	queue.remove(answer1);
 	CPPUNIT_ASSERT(0 == queue.size());
+}
+
+/**
+ * It checks if dispose is able to set status of Result to FAILED,
+ * condition: Result is created and its state is PENDING.
+ */
+void AnswerQueueTest::testDisposePendingAnswerResult()
+{
+	PocoCommandDispatcher dispatcher;
+	AnswerQueue queue;
+
+	TestableCommand::Ptr cmd = new TestableCommand();
+	Answer::Ptr answer = queue.newAnswer();
+
+	HandlerWithSetResultLater::Ptr handler = new HandlerWithSetResultLater;
+	dispatcher.registerHandler(handler);
+
+	dispatcher.dispatch(cmd, answer);
+	CPPUNIT_ASSERT(handler->waitForRunHandle(5 * Timespan::SECONDS));
+
+	handler->setResult(Result::Status::PENDING);
+	CPPUNIT_ASSERT(handler->waitForCreateResult(5 * Timespan::SECONDS));
+
+	CPPUNIT_ASSERT_EQUAL(1, answer->resultsCount());
+	CPPUNIT_ASSERT_EQUAL(1, answer->handlersCount());
+	CPPUNIT_ASSERT(answer->isPending());
+
+	queue.dispose();
+	CPPUNIT_ASSERT(!answer->isPending());
+	CPPUNIT_ASSERT_EQUAL(1, answer->resultsCount());
+	CPPUNIT_ASSERT_EQUAL(1, answer->handlersCount());
+	CPPUNIT_ASSERT(Result::Status::FAILED == answer->at(0)->status());
+}
+
+/**
+ * It checks if dispose is able to create a Result that is set to FAILED.
+ */
+void AnswerQueueTest::testDisposeAnswerWithoutResult()
+{
+	PocoCommandDispatcher dispatcher;
+	AnswerQueue queue;
+
+	TestableCommand::Ptr cmd = new TestableCommand();
+	Answer::Ptr answer = queue.newAnswer();
+
+	HandlerWithSetResultLater::Ptr handler = new HandlerWithSetResultLater;
+	dispatcher.registerHandler(handler);
+
+	dispatcher.dispatch(cmd, answer);
+	CPPUNIT_ASSERT(handler->waitForRunHandle(5 * Timespan::SECONDS));
+
+	//empty result list in Answer
+	CPPUNIT_ASSERT_EQUAL(0, answer->resultsCount());
+	CPPUNIT_ASSERT_EQUAL(1, answer->handlersCount());
+	CPPUNIT_ASSERT(answer->isPending());
+
+	queue.dispose();
+	CPPUNIT_ASSERT(!answer->isPending());
+	CPPUNIT_ASSERT_EQUAL(1, answer->resultsCount());
+	CPPUNIT_ASSERT_EQUAL(1, answer->handlersCount());
+	CPPUNIT_ASSERT(Result::Status::FAILED == answer->at(0)->status());
+}
+
+/**
+ * Test that no other Result can be created after the queue is disposed.
+ */
+void AnswerQueueTest::testSetResultAfterLock()
+{
+	PocoCommandDispatcher dispatcher;
+	AnswerQueue queue;
+
+	TestableCommand::Ptr cmd = new TestableCommand;
+	Answer::Ptr answer = queue.newAnswer();
+
+	HandlerWithSetResultLater::Ptr handler = new HandlerWithSetResultLater;
+	dispatcher.registerHandler(handler);
+
+	dispatcher.dispatch(cmd, answer);
+	CPPUNIT_ASSERT(handler->waitForRunHandle(5 * Timespan::SECONDS));
+
+	//empty result list in Answer
+	CPPUNIT_ASSERT_EQUAL(0, answer->resultsCount());
+	CPPUNIT_ASSERT_EQUAL(1, answer->handlersCount());
+
+	queue.dispose();
+	CPPUNIT_ASSERT_THROW(handler->setResult(Result::Status::PENDING), IllegalStateException);
+	CPPUNIT_ASSERT_EQUAL(1, answer->resultsCount());
+	CPPUNIT_ASSERT_EQUAL(1, answer->handlersCount());
+}
+
+/**
+ * Test that no more answers can be created after the queue is locked.
+ */
+void AnswerQueueTest::testCreateAnswerAfterLock()
+{
+	AnswerQueue queue;
+	queue.dispose();
+
+	CPPUNIT_ASSERT_THROW(queue.newAnswer(), IllegalStateException);
+	CPPUNIT_ASSERT_THROW(new Answer(queue), IllegalStateException);
 }
 
 }

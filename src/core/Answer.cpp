@@ -90,6 +90,16 @@ unsigned long Answer::resultsCountUnlocked() const
 void Answer::addResult(Result *result)
 {
 	FastMutex::ScopedLock guard(m_lock);
+	addResultUnlocked(result);
+}
+
+void Answer::addResultUnlocked(Result *result)
+{
+	if (m_answerQueue.isDisposed()) {
+		throw IllegalStateException(
+			"inserting result into a disposed AnswerQueue");
+	}
+
 	m_resultList.push_back(AutoPtr<Result>(result, true));
 }
 

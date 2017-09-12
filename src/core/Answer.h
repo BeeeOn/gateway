@@ -73,6 +73,7 @@ public:
 	void setHandlersCount(unsigned long counter);
 
 	void addResult(Result *result);
+	void addResultUnlocked(Result *result);
 
 	/*
 	 * Notifies the waiting queue that this Answer isEmpty().
