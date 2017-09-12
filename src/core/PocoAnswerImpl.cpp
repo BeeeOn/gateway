@@ -19,28 +19,6 @@ void PocoAnswerImpl::runTasks()
 		m_taskManager.start(item);
 }
 
-void PocoAnswerImpl::installObservers()
-{
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskFinishedNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onFinished)
-	);
-
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskFailedNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onFailed)
-	);
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskStartedNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onStarted)
-	);
-
-	m_taskManager.addObserver(
-		Observer<CommandProgressHandler, Poco::TaskCancelledNotification>
-			(m_commandProgressHandler, &CommandProgressHandler::onCancel)
-	);
-}
-
 void PocoAnswerImpl::addTask(Poco::SharedPtr<CommandHandler> handler, Command::Ptr cmd, Answer::Ptr answer)
 {
 	// Increment reference counter of the runner. Thus, TaskManager

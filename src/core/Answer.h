@@ -10,7 +10,6 @@
 
 #include "core/AnswerImpl.h"
 #include "core/Command.h"
-#include "core/CommandProgressHandler.h"
 #include "core/Result.h"
 
 namespace BeeeOn {
