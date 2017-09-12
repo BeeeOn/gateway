@@ -1,4 +1,5 @@
 #include <Poco/Observer.h>
+#include <Poco/ThreadPool.h>
 
 #include "core/CommandRunner.h"
 #include "core/PocoAnswerImpl.h"
