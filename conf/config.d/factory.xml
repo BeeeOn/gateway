@@ -73,7 +73,7 @@
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
 			<set name="address" text="${testing.center.tcp.address}" />
 			<set name="port" number="${testing.center.tcp.port}" />
-			<set name="recvTimeout" time="0" />
+			<set name="recvTimeout" number="0" />
 		</instance>
 
 		<instance name="testingCenter" class="BeeeOn::TestingCenter">
