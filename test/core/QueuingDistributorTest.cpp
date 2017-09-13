@@ -5,6 +5,7 @@
 #include <Poco/AtomicCounter.h>
 #include <Poco/Event.h>
 #include <Poco/Exception.h>
+#include <Poco/Logger.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 

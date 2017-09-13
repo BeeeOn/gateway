@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Poco/SharedPtr.h>
+
 namespace BeeeOn {
 
 class SensorData;
@@ -13,6 +15,8 @@ class SensorData;
 class DistributorListener
 {
 public:
+	typedef Poco::SharedPtr<DistributorListener> Ptr;
+
 	DistributorListener();
 	virtual ~DistributorListener();
 
