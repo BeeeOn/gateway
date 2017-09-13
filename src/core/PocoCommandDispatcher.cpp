@@ -7,7 +7,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, PocoCommandDispatcher)
 BEEEON_OBJECT_CASTABLE(CommandDispatcher)
-BEEEON_OBJECT_REF("registerHandler", &PocoCommandDispatcher::registerHandler)
+BEEEON_OBJECT_REF("handlers", &PocoCommandDispatcher::registerHandler)
 BEEEON_OBJECT_END(BeeeOn, PocoCommandDispatcher)
 
 using namespace BeeeOn;
