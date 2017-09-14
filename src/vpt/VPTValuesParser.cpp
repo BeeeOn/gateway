@@ -1,6 +1,7 @@
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
 #include <Poco/NumberFormatter.h>
+#include <Poco/StringTokenizer.h>
 
 #include "model/SensorValue.h"
 #include "vpt/VPTBoilerModuleType.h"
@@ -26,6 +27,8 @@
 #define BOILER_MODE_UNDEFINED ""
 #define BOILER_MODE_ON "ZAPNUTO "
 #define BOILER_MODE_OFF "VYPNUTO "
+#define OT_FAULT_FLAGS 1
+#define OT_OEM_FAULTS 0
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -167,9 +170,13 @@ SensorData VPTValuesParser::parseBoiler(const DeviceID& id, const Object::Ptr js
 			case VPTBoilerModuleType::MOD_CURRENT_BOILER_PRESSURE:
 				data.insertValue(SensorValue(type.first, BAR_TO_HECTOPASCALS(NumberParser::parseFloat(value, ',', '.'))));
 				break;
-			case VPTBoilerModuleType::MOD_CURRENT_BOILER_ERROR:
-				data.insertValue(SensorValue(type.first, NumberParser::parseFloat(value, ',', '.')));
+			case VPTBoilerModuleType::MOD_CURRENT_BOILER_ERROR: {
+				StringTokenizer tokenizer(value, ",");
+				unsigned int errorBitMap = (NumberParser::parseUnsigned(tokenizer[OT_FAULT_FLAGS]) << 8) |
+					NumberParser::parseUnsigned(tokenizer[OT_OEM_FAULTS]);
+				data.insertValue(SensorValue(type.first, errorBitMap));
 				break;
+			}
 			default:
 				break;
 			}
