@@ -467,6 +467,7 @@ void VirtualDeviceManager::stop()
 {
 	m_stop = true;
 	m_event.set();
+	answerQueue().dispose();
 }
 
 void VirtualDeviceManager::scheduleEntryUnlocked(VirtualDeviceEntry entry)

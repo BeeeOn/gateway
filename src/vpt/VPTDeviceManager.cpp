@@ -80,6 +80,7 @@ void VPTDeviceManager::stop()
 	m_scanner.cancel();
 	m_seeker.stop();
 	m_event.set();
+	answerQueue().dispose();
 }
 
 void VPTDeviceManager::setRefresh(int secs)

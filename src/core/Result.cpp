@@ -5,11 +5,14 @@
 using namespace BeeeOn;
 using namespace Poco;
 
-Result::Result(Poco::AutoPtr<Answer> answer):
+Result::Result(Poco::AutoPtr<Answer> answer, bool locked):
 	m_status(Status::PENDING),
 	m_answer(*answer)
 {
-	m_answer.addResult(this);
+	if (locked)
+		m_answer.addResultUnlocked(this);
+	else
+		m_answer.addResult(this);
 }
 
 Result::~Result()

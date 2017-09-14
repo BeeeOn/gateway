@@ -7,6 +7,7 @@
 #include <Poco/Timespan.h>
 
 #include "core/Answer.h"
+#include "util/Loggable.h"
 
 namespace BeeeOn {
 
@@ -19,7 +20,7 @@ namespace BeeeOn {
  * wait(Timespan, dirtyList). After a given time Answers with the set dirty
  * (the status Response was set to the Answers) are stored to the dirtyList.
  */
-class AnswerQueue {
+class AnswerQueue : public Loggable {
 	friend Answer;
 public:
 	AnswerQueue();
@@ -32,14 +33,24 @@ public:
 	bool wait(const Poco::Timespan &timeout,
 		std::list<Answer::Ptr> &dirtyList);
 
+	Answer::Ptr newAnswer();
+
 	void remove(const Answer::Ptr answer);
 
 	Poco::Event &event();
 
 	unsigned long size() const;
 
+	/**
+	 * It processes all instances of Answer, adds their Results
+	 * and sets them as FAILED.
+	 */
+	void dispose();
+
 protected:
 	void add(Answer *answer);
+
+	bool isDisposed() const;
 
 	bool block(const Poco::Timespan &timeout);
 
@@ -52,6 +63,7 @@ protected:
 	std::list<Answer::Ptr> m_answerList;
 	Poco::Event m_event;
 	mutable Poco::FastMutex m_mutex;
+	Poco::AtomicCounter m_disposed;
 };
 
 }

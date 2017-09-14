@@ -8,7 +8,8 @@ using namespace Poco;
 
 Answer::Answer(AnswerQueue &answerQueue):
 	m_answerQueue(answerQueue),
-	m_dirty(0)
+	m_dirty(0),
+	m_handlers(0)
 {
 	answerQueue.add(this);
 }
@@ -90,6 +91,24 @@ unsigned long Answer::resultsCountUnlocked() const
 void Answer::addResult(Result *result)
 {
 	FastMutex::ScopedLock guard(m_lock);
+	addResultUnlocked(result);
+}
+
+void Answer::addResultUnlocked(Result *result)
+{
+	if (m_answerQueue.isDisposed()) {
+		throw IllegalStateException(
+			"inserting result into a disposed AnswerQueue");
+	}
+
+	assureLocked();
+
+	if (m_resultList.size() >= m_handlers) {
+		// addResult is probably called too late
+		throw IllegalStateException(
+			"no more room for results");
+	}
+
 	m_resultList.push_back(AutoPtr<Result>(result, true));
 }
 
