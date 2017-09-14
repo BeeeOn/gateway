@@ -140,7 +140,12 @@ SensorData VPTValuesParser::parseBoiler(const DeviceID& id, const Object::Ptr js
 	string value;
 	for (auto type : VPTBoilerModuleType::valueMap()) {
 		try {
-			value = sensor->getValue<string>(type.second);
+			if (type.second == VPTBoilerModuleType(VPTBoilerModuleType::MOD_CURRENT_BOILER_OT_FAULT_FLAGS).toString())
+				value = sensor->getValue<string>("MOD_CURRENT_BOILER_ERROR");
+			else if (type.second == VPTBoilerModuleType(VPTBoilerModuleType::MOD_CURRENT_BOILER_OT_OEM_FAULTS).toString())
+				value = sensor->getValue<string>("MOD_CURRENT_BOILER_ERROR");
+			else
+				value = sensor->getValue<string>(type.second);
 		}
 		catch (Exception& e) {
 			logger().warning("can not find " + type.second, __FILE__, __LINE__);
@@ -170,11 +175,14 @@ SensorData VPTValuesParser::parseBoiler(const DeviceID& id, const Object::Ptr js
 			case VPTBoilerModuleType::MOD_CURRENT_BOILER_PRESSURE:
 				data.insertValue(SensorValue(type.first, BAR_TO_HECTOPASCALS(NumberParser::parseFloat(value, ',', '.'))));
 				break;
-			case VPTBoilerModuleType::MOD_CURRENT_BOILER_ERROR: {
+			case VPTBoilerModuleType::MOD_CURRENT_BOILER_OT_FAULT_FLAGS: {
 				StringTokenizer tokenizer(value, ",");
-				unsigned int errorBitMap = (NumberParser::parseUnsigned(tokenizer[OT_FAULT_FLAGS]) << 8) |
-					NumberParser::parseUnsigned(tokenizer[OT_OEM_FAULTS]);
-				data.insertValue(SensorValue(type.first, errorBitMap));
+				data.insertValue(SensorValue(type.first, NumberParser::parseUnsigned(tokenizer[OT_FAULT_FLAGS])));
+				break;
+			}
+			case VPTBoilerModuleType::MOD_CURRENT_BOILER_OT_OEM_FAULTS: {
+				StringTokenizer tokenizer(value, ",");
+				data.insertValue(SensorValue(type.first, NumberParser::parseUnsigned(tokenizer[OT_OEM_FAULTS])));
 				break;
 			}
 			default:
