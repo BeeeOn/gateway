@@ -6,6 +6,7 @@
 
 #include "zwave/VendorZWaveDeviceInfoRegistry.h"
 #include "zwave/ZWaveDeviceInfoRegistry.h"
+#include "util/Loggable.h"
 
 namespace BeeeOn {
 
