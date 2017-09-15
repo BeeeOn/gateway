@@ -28,3 +28,8 @@ CommandHandler* Command::sendingHandler() const
 {
 	return m_sendingHandler;
 }
+
+string Command::toString() const
+{
+	return name();
+}

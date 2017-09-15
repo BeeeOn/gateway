@@ -39,6 +39,11 @@ public:
 	 */
 	CommandHandler* sendingHandler() const;
 
+	/**
+	 * Converts Command to human readable format.
+	 */
+	virtual std::string toString() const;
+
 protected:
 	void setSendingHandler(CommandHandler *sender);
 

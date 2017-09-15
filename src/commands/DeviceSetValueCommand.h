@@ -34,6 +34,8 @@ public:
 	Poco::Timespan timeout() const;
 	DeviceID deviceID() const;
 
+	std::string toString() const override;
+
 protected:
 	~DeviceSetValueCommand();
 

@@ -30,6 +30,8 @@ public:
 	bool supportRefreshTime() const;
 	Poco::Timespan refreshtime() const;
 
+	std::string toString() const override;
+
 protected:
 	~NewDeviceCommand();
 

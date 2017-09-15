@@ -22,6 +22,8 @@ public:
 	DeviceID deviceID() const;
 	ModuleID moduleID() const;
 
+	std::string toString() const override;
+
 protected:
 	~ServerLastValueCommand();
 
