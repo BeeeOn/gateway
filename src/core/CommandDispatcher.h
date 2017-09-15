@@ -10,6 +10,8 @@ namespace BeeeOn {
 
 class CommandDispatcher : protected Loggable {
 public:
+	virtual ~CommandDispatcher();
+
 	/*
 	 * Register a command handler for command dispatching.
 	 */

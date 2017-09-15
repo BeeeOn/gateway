@@ -5,6 +5,10 @@
 using namespace BeeeOn;
 using namespace Poco;
 
+CommandDispatcher::~CommandDispatcher()
+{
+}
+
 void CommandDispatcher::registerHandler(SharedPtr<CommandHandler> handler)
 {
 	for (auto &item : m_commandHandlers) {
