@@ -87,20 +87,6 @@ public:
 		m_shipSet.set();
 	}
 
-	void setFull()
-	{
-		FastMutex::ScopedLock lock(m_functMutex);
-		m_ship = &TestingExporter::shipFull;
-		m_shipSet.set();
-	}
-
-	void setBroken()
-	{
-		FastMutex::ScopedLock lock(m_functMutex);
-		m_ship = &TestingExporter::shipBroken;
-		m_shipSet.set();
-	}
-
 	bool waitShipAttempt(int seconds = 20)
 	{
 		return m_shipAttempt.tryWait(seconds * 1000);

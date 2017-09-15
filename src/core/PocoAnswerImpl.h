@@ -26,11 +26,6 @@ public:
 	void runTasks();
 
 	/**
-	 * Registers an observer with the NotificationCenter.
-	 */
-	void installObservers();
-
-	/**
 	 * @return number of tasks to be executed
 	 */
 	unsigned long tasks() const;
@@ -44,7 +39,6 @@ public:
 
 private:
 	Poco::TaskManager m_taskManager;
-	CommandProgressHandler m_commandProgressHandler;
 	std::vector<Poco::AutoPtr<Poco::Task>> m_taskList;
 };
 

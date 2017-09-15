@@ -185,7 +185,7 @@ void VPTDeviceManager::shipFromDevices()
 			continue;
 		}
 
-		ScopedLock<FastMutex> lock(m_pairedMutex);
+		ScopedLock<FastMutex> guard(m_pairedMutex);
 		for (auto &one : data) {
 			auto it = m_pairedDevices.find(one.deviceID());
 			if (it != m_pairedDevices.end())

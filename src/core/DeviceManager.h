@@ -13,6 +13,7 @@
 #include "model/DeviceID.h"
 #include "model/DevicePrefix.h"
 #include "model/ModuleID.h"
+#include "util/Loggable.h"
 
 namespace BeeeOn {
 

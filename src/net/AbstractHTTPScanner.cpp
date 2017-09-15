@@ -134,7 +134,6 @@ void AbstractHTTPScanner::probeAddressRange(const IPAddressRange& range,
 	const Int64 maxResponseLength)
 {
 	StreamSocket ping;
-	IPAddress ip;
 
 	for (auto& ip : range) {
 		SocketAddress socketAddress(ip, m_port);

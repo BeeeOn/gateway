@@ -475,8 +475,6 @@ bool JablotronDeviceManager::transmitMessage(const string &msg, bool autoResult)
 			poco_error(logger(), "no response received");
 			return false;
 		}
-
-		Thread::sleep(DELAY_BEETWEEN_CYCLES.totalMilliseconds());
 	}
 
 	Thread::sleep(DELAY_AFTER_SET_SWITCH.totalMilliseconds());
