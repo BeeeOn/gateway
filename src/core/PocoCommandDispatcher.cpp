@@ -18,6 +18,8 @@ void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 {
 	Poco::FastMutex::ScopedLock guard(m_mutex);
 
+	logger().debug(cmd->toString(), __FILE__, __LINE__);
+
 	PocoAnswerImpl::Ptr impl = new PocoAnswerImpl;
 	injectImpl(answer, impl);
 
