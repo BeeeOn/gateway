@@ -31,7 +31,6 @@ public:
 	typedef Poco::AutoPtr<FakeCommand> Ptr;
 
 	FakeCommand(const DeviceID &deviceID):
-		Command("FakeCommand"),
 		m_deviceID(deviceID)
 	{
 	}

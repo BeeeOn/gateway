@@ -4,7 +4,6 @@ using namespace BeeeOn;
 
 ServerLastValueCommand::ServerLastValueCommand(
 		const DeviceID &deviceID, const ModuleID &moduleID):
-	Command("ServerLastValueCommand"),
 	m_deviceID(deviceID),
 	m_moduleID(moduleID)
 {

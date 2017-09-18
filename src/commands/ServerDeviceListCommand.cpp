@@ -4,7 +4,6 @@ using namespace BeeeOn;
 
 ServerDeviceListCommand::ServerDeviceListCommand(
 		const DevicePrefix &prefix):
-	Command("ServerDeviceListCommand"),
 	m_prefix(prefix)
 {
 }

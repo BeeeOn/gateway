@@ -8,7 +8,6 @@ using namespace Poco;
 
 NewDeviceCommand::NewDeviceCommand(const DeviceID &deviceID, const string &vendor,
 	const string &productName, const list<ModuleType> &dataTypes, Timespan refresh_time):
-		Command("NewDeviceCommand"),
 		m_deviceID(deviceID),
 		m_vendor(vendor),
 		m_productName(productName),

@@ -3,7 +3,6 @@
 using namespace BeeeOn;
 
 DeviceAcceptCommand::DeviceAcceptCommand(const DeviceID &deviceID):
-	Command("DeviceAcceptCommand"),
 	m_deviceID(deviceID)
 {
 }

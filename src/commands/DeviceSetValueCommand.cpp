@@ -5,7 +5,6 @@ using namespace BeeeOn;
 
 DeviceSetValueCommand::DeviceSetValueCommand(const DeviceID &deviceID, const ModuleID &moduleID, const double value,
 		const Poco::Timespan &timeout) :
-	Command("DeviceSetValueCommand"),
 	m_deviceID(deviceID),
 	m_moduleID(moduleID),
 	m_value(value),

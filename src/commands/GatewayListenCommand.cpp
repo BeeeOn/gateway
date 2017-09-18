@@ -3,7 +3,6 @@
 using namespace BeeeOn;
 
 GatewayListenCommand::GatewayListenCommand(const Poco::Timespan &duration):
-	Command("GatewayListenCommand"),
 	m_duration(duration)
 {
 }

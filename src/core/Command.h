@@ -28,7 +28,7 @@ class Command : public Poco::RefCountedObject, public Castable {
 public:
 	typedef Poco::AutoPtr<Command> Ptr;
 
-	Command(const std::string &commandName);
+	Command();
 
 	std::string name() const;
 
@@ -45,7 +45,6 @@ protected:
 	virtual ~Command();
 
 protected:
-	std::string m_commandName;
 	CommandHandler *m_sendingHandler;
 };
 
