@@ -88,9 +88,12 @@ const std::list<ModuleType> VPTDevice::BOILER_MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_PERFORMANCE),
 	// MOD_CURRENT_BOILER_PRESSURE
 	ModuleType(ModuleType::Type::TYPE_PRESSURE),
-	// MOD_CURRENT_BOILER_ERROR
+	// MOD_CURRENT_BOILER_OT_FAULT_FLAGS
 	ModuleType(ModuleType::Type::TYPE_BITMAP,
-		VPTBoilerModuleType(VPTBoilerModuleType::MOD_CURRENT_BOILER_ERROR).toString()),
+		VPTBoilerModuleType(VPTBoilerModuleType::MOD_CURRENT_BOILER_OT_FAULT_FLAGS).toString()),
+	// MOD_CURRENT_BOILER_OT_OEM_FAULTS
+	ModuleType(ModuleType::Type::TYPE_BITMAP,
+		VPTBoilerModuleType(VPTBoilerModuleType::MOD_CURRENT_BOILER_OT_OEM_FAULTS).toString()),
 };
 
 const int VPTDevice::COUNT_OF_ZONES = 4;
