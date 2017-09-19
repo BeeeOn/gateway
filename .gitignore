@@ -5,3 +5,4 @@
 beeeon_pipe
 credentials.properties
 gateway.hotplug
+*.pyc
