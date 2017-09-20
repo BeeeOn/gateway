@@ -58,6 +58,10 @@ void DongleDeviceManager::dongleFailed(const FailDetector &)
 	}
 }
 
+void DongleDeviceManager::notifyDongleRemoved()
+{
+}
+
 string DongleDeviceManager::dongleName(bool failWhenMissing) const
 {
 	FastMutex::ScopedLock guard(m_lock);
@@ -119,6 +123,7 @@ void DongleDeviceManager::onRemove(const HotplugEvent &e)
 
 	m_dongleName.clear();
 	event().set();
+	notifyDongleRemoved();
 }
 
 void DongleDeviceManager::run()
