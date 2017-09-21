@@ -35,16 +35,6 @@ public:
 	 */
 	void setRetryTimeout(const int msecs);
 
-	/**
-	 * Set the timeout to detect a failure. If the dongleAvailable() fails
-	 * multiple times in a row within the given number of milliseconds,
-	 * it is considered as failing and dongleFailed() might be called.
-	 * If there are multiple fails within a greater time interval, then
-	 * we do not considered to be failing as it might be just a dongle
-	 * removal event.
-	 */
-	void setFailTimeout(const int msecs);
-
 protected:
 	/**
 	 * If the event represents an appropriate dongle, it should
@@ -114,7 +104,6 @@ private:
 	std::string m_dongleName;
 	unsigned int m_attemptsCount;
 	Poco::Timespan m_retryTimeout;
-	Poco::Timespan m_failTimeout;
 };
 
 }

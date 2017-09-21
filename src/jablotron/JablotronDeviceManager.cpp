@@ -19,7 +19,6 @@ BEEEON_OBJECT_REF("distributor", &JablotronDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &JablotronDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_NUMBER("attemptsCount", &JablotronDeviceManager::setAttemptsCount)
 BEEEON_OBJECT_NUMBER("retryTimeout", &JablotronDeviceManager::setRetryTimeout)
-BEEEON_OBJECT_NUMBER("failTimeout", &JablotronDeviceManager::setFailTimeout)
 BEEEON_OBJECT_END(BeeeOn, JablotronDeviceManager)
 
 using namespace BeeeOn;
