@@ -18,6 +18,8 @@ public:
 
 	DeviceID deviceID() const;
 
+	std::string toString() const override;
+
 protected:
 	~DeviceAcceptCommand();
 

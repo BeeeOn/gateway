@@ -119,11 +119,6 @@ private:
 class TestableCommand : public Command {
 public:
 	typedef AutoPtr<TestableCommand> Ptr;
-
-	TestableCommand():
-		Command("TestableCommand")
-	{
-	}
 };
 
 class HandlerWithSetResultLater : public CommandHandler {

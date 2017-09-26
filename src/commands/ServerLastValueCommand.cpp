@@ -1,10 +1,10 @@
 #include "commands/ServerLastValueCommand.h"
 
 using namespace BeeeOn;
+using namespace std;
 
 ServerLastValueCommand::ServerLastValueCommand(
 		const DeviceID &deviceID, const ModuleID &moduleID):
-	Command("ServerLastValueCommand"),
 	m_deviceID(deviceID),
 	m_moduleID(moduleID)
 {
@@ -22,4 +22,14 @@ DeviceID ServerLastValueCommand::deviceID() const
 ModuleID ServerLastValueCommand::moduleID() const
 {
 	return m_moduleID;
+}
+
+string ServerLastValueCommand::toString() const
+{
+	string cmdString;
+	cmdString += name() + " ";
+	cmdString += m_deviceID.toString() + " ";
+	cmdString += m_moduleID.toString();
+
+	return cmdString;
 }

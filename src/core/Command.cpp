@@ -1,18 +1,18 @@
 #include "core/Command.h"
 #include "core/CommandSender.h"
+#include "util/ClassInfo.h"
 
 using namespace BeeeOn;
 using namespace std;
 
-Command::Command(const string &commandName):
-	m_commandName(commandName),
+Command::Command():
 	m_sendingHandler(NULL)
 {
 }
 
 string Command::name() const
 {
-	return m_commandName;
+	return ClassInfo::forPointer(this).name();
 }
 
 Command::~Command()
@@ -27,4 +27,9 @@ void Command::setSendingHandler(CommandHandler *sender)
 CommandHandler* Command::sendingHandler() const
 {
 	return m_sendingHandler;
+}
+
+string Command::toString() const
+{
+	return name();
 }

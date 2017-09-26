@@ -8,7 +8,6 @@ using namespace Poco;
 
 NewDeviceCommand::NewDeviceCommand(const DeviceID &deviceID, const string &vendor,
 	const string &productName, const list<ModuleType> &dataTypes, Timespan refresh_time):
-		Command("NewDeviceCommand"),
 		m_deviceID(deviceID),
 		m_vendor(vendor),
 		m_productName(productName),
@@ -49,4 +48,38 @@ bool NewDeviceCommand::supportRefreshTime() const
 Timespan NewDeviceCommand::refreshtime() const
 {
 	return m_refreshTime;
+}
+
+string NewDeviceCommand::toString() const
+{
+	string cmdString;
+	string modules;
+
+	for (auto it = m_dataTypes.begin(); it != m_dataTypes.end(); ++it) {
+		modules += it->type().toString();
+
+		const auto &attributes = it->attributes();
+		if (!attributes.empty())
+			modules += ",";
+
+		for (auto attr = attributes.begin(); attr != attributes.end(); ++attr) {
+			modules += attr->toString();
+
+			if (attr != --attributes.end())
+				modules += ",";
+		}
+
+		if (it != --m_dataTypes.end())
+			modules += " ";
+	}
+
+	cmdString += name() + " ";
+	cmdString += m_deviceID.toString() + " ";
+	cmdString += m_vendor + " ";
+	cmdString += m_productName + " ";
+	cmdString += to_string(m_refreshTime.totalSeconds()) + " ";
+	cmdString += modules + " ";
+
+
+	return cmdString;
 }

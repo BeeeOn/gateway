@@ -20,6 +20,8 @@ public:
 
 	DevicePrefix devicePrefix() const;
 
+	std::string toString() const override;
+
 protected:
 	~ServerDeviceListCommand();
 

@@ -21,6 +21,8 @@ public:
 
 	Poco::Timespan duration() const;
 
+	std::string toString() const override;
+
 protected:
 	~GatewayListenCommand();
 
