@@ -108,6 +108,7 @@ if(ENABLE_BLUETOOTH_AVAILABILITY)
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)
 	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+	add_definitions(-DHAVE_HCI=1)
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
