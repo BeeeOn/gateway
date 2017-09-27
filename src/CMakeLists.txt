@@ -170,6 +170,7 @@ if(ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
+	add_definitions(-DHAVE_ZWAVE=1)
 else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
