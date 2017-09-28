@@ -17,6 +17,7 @@ static const set<ModuleType::Attribute> CURRENT_TEMPERATURE_ATTR = {
 static const set<ModuleType::Attribute> REQUESTED_TEMPERATURE_ATTR = {
 	ModuleType::Attribute::TYPE_INNER,
 	ModuleType::Attribute::TYPE_MANUAL_ONLY,
+	ModuleType::Attribute::TYPE_CONTROLLABLE,
 };
 
 static const list<ModuleType> MODULE_TYPES = {

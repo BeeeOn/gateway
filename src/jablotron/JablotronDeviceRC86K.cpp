@@ -15,6 +15,7 @@ static const int PANIC_VALUE = 1;
 
 static const set<ModuleType::Attribute> REQUESTED_TEMPERATURE_ATTR = {
 	ModuleType::Attribute::TYPE_MANUAL_ONLY,
+	ModuleType::Attribute::TYPE_CONTROLLABLE,
 };
 
 static const list<ModuleType> MODULE_TYPES = {
