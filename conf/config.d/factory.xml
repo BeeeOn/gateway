@@ -12,6 +12,7 @@
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="runnables" ref="vptDeviceManager" if-yes="${vpt.enable}" />
 			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
+			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
 			<add name="runnables" ref="asyncExecutor" />
 		</instance>
 
@@ -45,6 +46,7 @@
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
 		</instance>
 
 		<instance name="gwServerConnector" class="BeeeOn::GWServerConnector">
@@ -187,6 +189,20 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="credentialsStorage" ref="credentialsStorage" />
 			<set name="cryptoConfig" ref="cryptoConfig" />
+		</instance>
+
+		<instance name="fitpDeviceManager" class="BeeeOn::FitpDeviceManager">
+			<set name="distributor" ref="distributor"/>
+			<set name="commandDispatcher" ref="commandDispatcher"/>
+			<set name="gatewayInfo" ref="gatewayInfo"/>
+			<set name="file" text="${fitp.config.path}"/>
+			<set name="noiseMin" number="${fitp.noise.min}"/>
+			<set name="noiseMax" number="${fitp.noise.max}"/>
+			<set name="bitrate" number="${fitp.bitrate}"/>
+			<set name="band" number="${fitp.band}"/>
+			<set name="channel" number="${fitp.channel}"/>
+			<set name="power" number="${fitp.power}"/>
+			<set name="txRetries" number="${fitp.tx.retries}"/>
 		</instance>
 	</factory>
 </system>

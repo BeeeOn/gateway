@@ -251,6 +251,7 @@ endif()
 if(ENABLE_FITP)
 	file(GLOB FITP_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDevice.cpp
+		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceManager.cpp
 	)
 	list(APPEND SOURCES ${FITP_SOURCES})
 else()
