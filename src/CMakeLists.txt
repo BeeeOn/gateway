@@ -202,6 +202,15 @@ else()
 	message(STATUS "Testing Center support is disabled")
 endif()
 
+if (ENABLE_PRESSURE_SENSOR)
+	file(GLOB PRESSURE_SENSOR_SOURCES
+		${PROJECT_SOURCE_DIR}/psdev/PressureSensorManager.cpp
+	)
+	list(APPEND SOURCES ${PRESSURE_SENSOR_SOURCES})
+else()
+	message(STATUS "Internal air pressure sensor support is disabled")
+endif()
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/base/src

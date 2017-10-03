@@ -33,6 +33,7 @@ option(ENABLE_MOSQUITTO_EXPORTER "Enable support of Mosquitto Exporting" ON)
 option(ENABLE_BASIC_DISTRIBUTOR "Enable support of Basic Distributor" ON)
 option(ENABLE_QUEUING_DISTRIBUTOR "Enable support of Queuing Distributor" ON)
 option(ENABLE_TESTING_CENTER "Enable support of Testing Center" ON)
+option(ENABLE_PRESSURE_SENSOR "Enable support of internal air pressure sensor" ON)
 
 add_subdirectory(src)
 add_subdirectory(base)
