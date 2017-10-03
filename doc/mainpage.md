@@ -285,3 +285,11 @@ real sensors or actuators.
 * zwave.config.path - path to Z-Wave XML config data
 
 * zwave.poll.interval - polling interval to be used with older devices
+
+#### Thermona VPT
+
+* vpt.refresh - polling frequency of managed VPT devices (e.g. "20 s")
+
+* netif.blacklist - which network interfaces should not be scanned for new devices (allows glob patterns like "eth?", "tap[01]")
+
+* min.net.mask - specify the sub-network for scanning new devices (e.g. 255.255.255.0)
