@@ -68,6 +68,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
 	${PROJECT_SOURCE_DIR}/net/VPTHTTPScanner.cpp
+	${PROJECT_SOURCE_DIR}/server/GWServerConnector.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
