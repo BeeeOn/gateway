@@ -293,3 +293,12 @@ real sensors or actuators.
 * netif.blacklist - which network interfaces should not be scanned for new devices (allows glob patterns like "eth?", "tap[01]")
 
 * min.net.mask - specify the sub-network for scanning new devices (e.g. 255.255.255.0)
+
+#### Air Pressure Sensor
+
+Settings for the internal Air Pressure Sensor that is available on the
+original BeeeOn Gateway board. It can however be used for any pressure
+sensor available via sysfs.
+
+* psdev.path - specify path (typically in sysfs), where data can be accessed
+               (e.g. /sys/devices/platform/soc@01c00000/1c2b400.i2c/i2c-2/2-0077/pressure0_input)
