@@ -205,3 +205,9 @@ list<pair<string, MACAddress>> HciInterface::scan() const
 
 	return devices;
 }
+
+HciInfo HciInterface::info() const
+{
+	FdAutoClose sock(hciSocket());
+	return HciInfo(findHciInfo(*sock, m_name));
+}

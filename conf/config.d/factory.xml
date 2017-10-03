@@ -93,6 +93,8 @@
 			<set name="wakeUpTime" number="${bluetooth.refresh}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
+			<set name="executor" ref="asyncExecutor"/>
 		</instance>
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">

@@ -17,3 +17,7 @@ void AbstractCollector::onDriverStats(const ZWaveDriverEvent &)
 void AbstractCollector::onNodeStats(const ZWaveNodeEvent &)
 {
 }
+
+void AbstractCollector::onHciStats(const HciInfo &)
+{
+}

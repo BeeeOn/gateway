@@ -8,6 +8,7 @@
 
 #include <Poco/Mutex.h>
 
+#include "bluetooth/HciInfo.h"
 #include "net/MACAddress.h"
 #include "util/Loggable.h"
 
@@ -37,6 +38,11 @@ public:
 	 * @return list of MAC addresses with names
 	 */
 	std::list<std::pair<std::string, MACAddress>> scan() const;
+
+	/**
+	 * Read information about the iterface.
+	 */
+	HciInfo info() const;
 
 private:
 	/**

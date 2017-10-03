@@ -28,6 +28,7 @@ if(ENABLE_ZWAVE)
 endif()
 
 file(GLOB SOURCES
+	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairCommand.cpp
@@ -97,6 +98,7 @@ if(ENABLE_BLUETOOTH_AVAILABILITY)
 	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/HciInfo.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)
 	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
