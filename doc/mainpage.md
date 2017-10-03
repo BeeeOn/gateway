@@ -190,6 +190,26 @@ unique for each BeeeOn Gateway
 
 * testing.center.port - port to listen on for new connections
 
+##### Gateway Server connection
+
+The GWServerConnector is a component of the BeeeOn Gateway. It provides
+connection to the remote server that allows users to control the BeeeOn
+Gateway and the connected devices.
+
+* host - host machine (either IP address or domain name) where BeeeOn Server is supposed to run.
+
+* port - destination port of host for incoming connections
+
+* pollTimeout - timeout for polling network socket
+
+* receiveTimeout - timeout for receiving messages
+
+* sendTimeout - timeout for sending messages
+
+* retryConnectionTimeout - Specify how long should gateway wait before retrying in case of failed connection
+
+* maxMessageSize - specify maximum size (in bytes) of messages accepted by gateway application
+
 ##### Hotplug configuration
 
 Some Device Managers depend on external hardware - USB dongles. To detect that a dongle is present
