@@ -152,6 +152,7 @@ void AnswerQueue::dispose()
 		}
 	}
 
+	m_answerList.clear();
 	m_disposed = true;
 }
 

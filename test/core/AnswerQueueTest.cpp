@@ -443,9 +443,8 @@ void AnswerQueueTest::testDisposeUnusedAnswer()
 
 	queue.dispose();
 
-	CPPUNIT_ASSERT(1 == queue.size());
-	CPPUNIT_ASSERT(0 == queue.m_answerList.front()->resultsCount());
-	CPPUNIT_ASSERT(0 == queue.m_answerList.front()->handlersCount());
+	CPPUNIT_ASSERT(0 == queue.size());
+
 }
 
 }
