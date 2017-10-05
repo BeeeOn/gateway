@@ -15,7 +15,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, UDevMonitor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_LIST("matches", &UDevMonitor::setMatches)
-BEEEON_OBJECT_NUMBER("pollTimeout", &UDevMonitor::setPollTimeout)
+BEEEON_OBJECT_TIME("pollTimeout", &UDevMonitor::setPollTimeout)
 BEEEON_OBJECT_NUMBER("includeParents", &UDevMonitor::setIncludeParents)
 BEEEON_OBJECT_REF("listeners", &UDevMonitor::registerListener)
 BEEEON_OBJECT_HOOK("done", &UDevMonitor::initialScan)
@@ -57,14 +57,26 @@ void UDevMonitor::setMatches(const list<string> &matches)
 		m_matches.emplace(m);
 }
 
-void UDevMonitor::setPollTimeout(const int ms)
+void UDevMonitor::setPollTimeout(const Timespan &timeout)
 {
 	// we do not check the ms value because:
 	// * poll(..., 0) is non-blocking
 	// * poll(..., negative) is blocking
 	// * poll(..., positive) is blocking with timeout
 
-	m_pollTimeout = Timespan(ms * Timespan::MILLISECONDS);
+	if (timeout < 0) {
+		m_pollTimeout = -1 * Timespan::MILLISECONDS;
+	}
+	else if (timeout == 0) {
+		m_pollTimeout = 0;
+	}
+	else if (timeout < 1 * Timespan::MILLISECONDS) {
+		throw InvalidArgumentException(
+			"pollTimeout must be at least 1 ms");
+	}
+	else {
+		m_pollTimeout = timeout;
+	}
 }
 
 void UDevMonitor::setIncludeParents(bool enable)

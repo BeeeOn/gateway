@@ -12,8 +12,7 @@ using namespace BeeeOn;
 DongleDeviceManager::DongleDeviceManager(const DevicePrefix &prefix):
 	DeviceManager(prefix),
 	m_attemptsCount(3),
-	m_retryTimeout(10 * Timespan::SECONDS),
-	m_failTimeout(1 * Timespan::SECONDS)
+	m_retryTimeout(10 * Timespan::SECONDS)
 {
 }
 
@@ -25,17 +24,12 @@ void DongleDeviceManager::setAttemptsCount(const int count)
 	m_attemptsCount = count;
 }
 
-void DongleDeviceManager::setRetryTimeout(const int msecs)
+void DongleDeviceManager::setRetryTimeout(const Timespan &timeout)
 {
-	m_retryTimeout = msecs * Timespan::MILLISECONDS;
-}
+	if (timeout > 0 && timeout < 1 * Timespan::MILLISECONDS)
+		throw InvalidArgumentException("retryTimeout must be at least 1 ms or negative");
 
-void DongleDeviceManager::setFailTimeout(const int msecs)
-{
-	if (msecs < 0)
-		throw InvalidArgumentException("failTimeout must not be negative");
-
-	m_failTimeout = msecs * Timespan::MILLISECONDS;
+	m_retryTimeout = timeout;
 }
 
 bool DongleDeviceManager::dongleMissing()

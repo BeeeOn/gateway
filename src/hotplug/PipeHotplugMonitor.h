@@ -60,9 +60,9 @@ public:
 	 * Poll timeout determines how long to block while polling for
 	 * new events. Negative value leads to blocking mode. A positive
 	 * value leads to time-limited blocking and 0 denotes non-blocking.
-	 * The timeout is expected in milliseconds.
+	 * The timeout is expected at least in milliseconds.
 	 */
-	void setPollTimeout(const int ms);
+	void setPollTimeout(const Poco::Timespan &timeout);
 
 protected:
 	/**

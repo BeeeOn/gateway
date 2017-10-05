@@ -16,10 +16,10 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_REF("distributor", &VPTDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &VPTDeviceManager::setCommandDispatcher)
-BEEEON_OBJECT_NUMBER("refresh", &VPTDeviceManager::setRefresh)
+BEEEON_OBJECT_TIME("refresh", &VPTDeviceManager::setRefresh)
 BEEEON_OBJECT_LIST("interfaceBlackList", &VPTDeviceManager::setBlackList)
-BEEEON_OBJECT_NUMBER("pingTimeout", &VPTDeviceManager::setPingTimeout)
-BEEEON_OBJECT_NUMBER("httpTimeout", &VPTDeviceManager::setHTTPTimeout)
+BEEEON_OBJECT_TIME("pingTimeout", &VPTDeviceManager::setPingTimeout)
+BEEEON_OBJECT_TIME("httpTimeout", &VPTDeviceManager::setHTTPTimeout)
 BEEEON_OBJECT_NUMBER("maxMsgSize", &VPTDeviceManager::setMaxMsgSize)
 BEEEON_OBJECT_TEXT("path", &VPTDeviceManager::setPath)
 BEEEON_OBJECT_NUMBER("port", &VPTDeviceManager::setPort)
@@ -83,29 +83,29 @@ void VPTDeviceManager::stop()
 	answerQueue().dispose();
 }
 
-void VPTDeviceManager::setRefresh(int secs)
+void VPTDeviceManager::setRefresh(const Timespan &refresh)
 {
-	if (secs <= 0)
-		throw InvalidArgumentException("refresh time must be a positive number");
+	if (refresh.totalSeconds() <= 0)
+		throw InvalidArgumentException("refresh time must be at least 1 second");
 
-	m_refresh = secs * Timespan::SECONDS;
+	m_refresh = refresh;
 }
 
-void VPTDeviceManager::setPingTimeout(int millisecs)
+void VPTDeviceManager::setPingTimeout(const Timespan &timeout)
 {
-	if (millisecs <= 0)
-		throw InvalidArgumentException("ping timeout time must be a positive number");
+	if (timeout.totalMilliseconds() <= 0)
+		throw InvalidArgumentException("ping timeout time must be at least 1 ms");
 
-	m_scanner.setPingTimeout(millisecs * Timespan::MILLISECONDS);
+	m_scanner.setPingTimeout(timeout);
 }
 
-void VPTDeviceManager::setHTTPTimeout(int secs)
+void VPTDeviceManager::setHTTPTimeout(const Timespan &timeout)
 {
-	if (secs <= 0)
-		throw InvalidArgumentException("HTTP timeout time must be a positive number");
+	if (timeout.totalMilliseconds() <= 0)
+		throw InvalidArgumentException("HTTP timeout time must be at least 1 ms");
 
-	m_httpTimeout = secs * Timespan::SECONDS;
-	m_scanner.setHTTPTimeout(secs * Timespan::SECONDS);
+	m_httpTimeout = timeout;
+	m_scanner.setHTTPTimeout(timeout);
 }
 
 void VPTDeviceManager::setMaxMsgSize(int size)

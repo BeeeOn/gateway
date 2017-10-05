@@ -23,12 +23,11 @@ BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
-BEEEON_OBJECT_NUMBER("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
+BEEEON_OBJECT_TIME("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_REF("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
 BEEEON_OBJECT_NUMBER("attemptsCount", &BluetoothAvailabilityManager::setAttemptsCount)
-BEEEON_OBJECT_NUMBER("retryTimeout", &BluetoothAvailabilityManager::setRetryTimeout)
-BEEEON_OBJECT_NUMBER("failTimeout", &BluetoothAvailabilityManager::setFailTimeout)
+BEEEON_OBJECT_TIME("retryTimeout", &BluetoothAvailabilityManager::setRetryTimeout)
 BEEEON_OBJECT_TIME("statisticsInterval", &BluetoothAvailabilityManager::setStatisticsInterval)
 BEEEON_OBJECT_REF("executor", &BluetoothAvailabilityManager::setExecutor)
 BEEEON_OBJECT_REF("listeners", &BluetoothAvailabilityManager::registerListener)
@@ -50,14 +49,14 @@ BluetoothAvailabilityManager::BluetoothAvailabilityManager() :
 {
 }
 
-void BluetoothAvailabilityManager::setWakeUpTime(int time)
+void BluetoothAvailabilityManager::setWakeUpTime(const Timespan &time)
 {
-	if(time < MIN_WAKE_UP_TIME.totalSeconds()) {
+	if(time < MIN_WAKE_UP_TIME) {
 		throw InvalidArgumentException("wakeUpTime must not be smaller then "
-			+ to_string(MIN_WAKE_UP_TIME.totalSeconds()));
+			+ to_string(MIN_WAKE_UP_TIME.totalSeconds()) + " s");
 	}
 
-	m_wakeUpTime = Timespan(time * Timespan::SECONDS);
+	m_wakeUpTime = time;
 }
 
 void BluetoothAvailabilityManager::dongleAvailable()

@@ -46,7 +46,7 @@ public:
 	/**
 	 * How often will be scan of paired devices
 	 */
-	void setWakeUpTime(int time);
+	void setWakeUpTime(const Poco::Timespan &time);
 
 	bool accept(const Command::Ptr cmd) override;
 

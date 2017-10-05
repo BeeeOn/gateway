@@ -76,9 +76,9 @@
 		</instance>
 
 		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
-			<set name="httpTimeout" number="${belkinwemo.http.timeout}" />
-			<set name="upnpTimeout" number="${belkinwemo.upnp.timeout}" />
-			<set name="refresh" number="${belkinwemo.refresh}" />
+			<set name="httpTimeout" time="${belkinwemo.http.timeout}" />
+			<set name="upnpTimeout" time="${belkinwemo.upnp.timeout}" />
+			<set name="refresh" time="${belkinwemo.refresh}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
@@ -90,7 +90,7 @@
 		</instance>
 
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
-			<set name="wakeUpTime" number="${bluetooth.refresh}" />
+			<set name="wakeUpTime" time="${bluetooth.refresh}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
@@ -119,7 +119,7 @@
 		<instance name="credentialsStorage" class="BeeeOn::FileCredentialsStorage" init="early">
 			<set name="file" text="${credentials.file}" />
 			<set name="configurationRoot" text="${credentials.configuration.root}" />
-			<set name="saveDelayTime" number="${credentials.save.delay}" />
+			<set name="saveDelayTime" time="${credentials.save.delay}" />
 		</instance>
 
 		<instance name="cryptoConfig" class="BeeeOn::CryptoConfig">
@@ -133,9 +133,9 @@
 		</instance>
 
 		<instance name="vptDeviceManager" class="BeeeOn::VPTDeviceManager">
-			<set name="httpTimeout" number="${vpt.http.timeout}" />
-			<set name="pingTimeout" number="${vpt.ping.timeout}" />
-			<set name="refresh" number="${vpt.refresh}" />
+			<set name="httpTimeout" time="${vpt.http.timeout}" />
+			<set name="pingTimeout" time="${vpt.ping.timeout}" />
+			<set name="refresh" time="${vpt.refresh}" />
 			<set name="interfaceBlackList" list="${vpt.netif.blacklist}" />
 			<set name="maxMsgSize" number="${vpt.max.msg.size}" />
 			<set name="path" text="${vpt.path}" />
@@ -150,11 +150,11 @@
 		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
 			<set name="userPath" text="${zwave.user.path}" />
 			<set name="configPath" text="${zwave.config.path}" />
-			<set name="pollInterval" number="${zwave.poll.interval}" />
+			<set name="pollInterval" time="${zwave.poll.interval}" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="distributor" ref="distributor" />
 			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
-			<set name="statisticsInterval" number="${zwave.statistics.interval}" />
+			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 		</instance>
 

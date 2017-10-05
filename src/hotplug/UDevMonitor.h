@@ -26,7 +26,7 @@ public:
 	void stop() override;
 
 	void setMatches(const std::list<std::string> &matches);
-	void setPollTimeout(const int ms);
+	void setPollTimeout(const Poco::Timespan &timeout);
 	void setIncludeParents(bool enable);
 
 	void initialScan();

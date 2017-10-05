@@ -22,9 +22,9 @@ BEEEON_OBJECT_CASTABLE(BelkinWemoDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_REF("distributor", &BelkinWemoDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BelkinWemoDeviceManager::setCommandDispatcher)
-BEEEON_OBJECT_NUMBER("upnpTimeout", &BelkinWemoDeviceManager::setUPnPTimeout)
-BEEEON_OBJECT_NUMBER("httpTimeout", &BelkinWemoDeviceManager::setHTTPTimeout)
-BEEEON_OBJECT_NUMBER("refresh", &BelkinWemoDeviceManager::setRefresh)
+BEEEON_OBJECT_TIME("upnpTimeout", &BelkinWemoDeviceManager::setUPnPTimeout)
+BEEEON_OBJECT_TIME("httpTimeout", &BelkinWemoDeviceManager::setHTTPTimeout)
+BEEEON_OBJECT_TIME("refresh", &BelkinWemoDeviceManager::setRefresh)
 BEEEON_OBJECT_END(BeeeOn, BelkinWemoDeviceManager)
 
 using namespace BeeeOn;
@@ -73,28 +73,28 @@ void BelkinWemoDeviceManager::stop()
 	answerQueue().dispose();
 }
 
-void BelkinWemoDeviceManager::setRefresh(int secs)
+void BelkinWemoDeviceManager::setRefresh(const Timespan &refresh)
 {
-	if (secs <= 0)
-		throw InvalidArgumentException("refresh time must be a positive number");
+	if (refresh.totalSeconds() <= 0)
+		throw InvalidArgumentException("refresh time must at least a second");
 
-	m_refresh = Timespan(secs * Timespan::SECONDS);
+	m_refresh = refresh;
 }
 
-void BelkinWemoDeviceManager::setUPnPTimeout(int secs)
+void BelkinWemoDeviceManager::setUPnPTimeout(const Timespan &timeout)
 {
-	if (secs <= 0)
-		throw InvalidArgumentException("UPnP timeout time must be a positive number");
+	if (timeout.totalSeconds() <= 0)
+		throw InvalidArgumentException("UPnP timeout time must be at least a second");
 
-	m_upnpTimeout = Timespan(secs * Timespan::SECONDS);
+	m_upnpTimeout = timeout;
 }
 
-void BelkinWemoDeviceManager::setHTTPTimeout(int secs)
+void BelkinWemoDeviceManager::setHTTPTimeout(const Timespan &timeout)
 {
-	if (secs <= 0)
-		throw InvalidArgumentException("http timeout time must be a positive number");
+	if (timeout.totalSeconds() <= 0)
+		throw InvalidArgumentException("http timeout time must be at least a second");
 
-	m_httpTimeout = Timespan(secs * Timespan::SECONDS);
+	m_httpTimeout = timeout;
 }
 
 void BelkinWemoDeviceManager::refreshPairedDevices()
