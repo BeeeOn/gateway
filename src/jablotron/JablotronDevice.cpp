@@ -35,7 +35,7 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 		return new JablotronDeviceOpenClose(deviceID, "JA-81M");
 
 	if ((serialNumber >= 0x7F0000) && (serialNumber <= 0x7FFFFF))
-		return new JablotronDeviceJA82SH(deviceID, "JA-82SH");
+		return new JablotronDeviceJA82SH(deviceID);
 
 	if ((serialNumber >= 0x1C0000) && (serialNumber <= 0x1DFFFF))
 		return new JablotronDeviceOpenClose(deviceID, "JA-83M");
