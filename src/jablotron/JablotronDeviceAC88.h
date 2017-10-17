@@ -6,8 +6,7 @@ namespace BeeeOn {
 
 class JablotronDeviceAC88 : public JablotronDevice {
 public:
-	JablotronDeviceAC88(
-		const DeviceID &deviceID, const std::string &name);
+	JablotronDeviceAC88(const DeviceID &deviceID);
 
 	/**
 	 * Example:

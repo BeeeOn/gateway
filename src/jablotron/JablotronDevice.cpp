@@ -29,7 +29,7 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 	DeviceID deviceID = JablotronDevice::buildID(serialNumber);
 
 	if ((serialNumber >= 0xCF0000) && (serialNumber <= 0xCFFFFF))
-		return new JablotronDeviceAC88(deviceID, "AC-88");
+		return new JablotronDeviceAC88(deviceID);
 
 	if ((serialNumber >= 0x180000) && (serialNumber <= 0x1BFFFF))
 		return new JablotronDeviceOpenClose(deviceID, "JA-81M");

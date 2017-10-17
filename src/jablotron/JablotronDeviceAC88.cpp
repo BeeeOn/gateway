@@ -11,9 +11,8 @@ static const list<ModuleType> MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_ON_OFF),
 };
 
-JablotronDeviceAC88::JablotronDeviceAC88(
-		const DeviceID &deviceID, const string &name):
-	JablotronDevice(deviceID, name)
+JablotronDeviceAC88::JablotronDeviceAC88(const DeviceID &deviceID):
+	JablotronDevice(deviceID, "AC-88")
 {
 }
 
