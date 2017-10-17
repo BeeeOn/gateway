@@ -50,7 +50,7 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 		return new JablotronDeviceRC86K(deviceID);
 
 	if ((serialNumber >= 0x240000) && (serialNumber <= 0x25FFFF))
-		return new JablotronDeviceTP82N(deviceID, "TP-82N");
+		return new JablotronDeviceTP82N(deviceID);
 
 	throw InvalidArgumentException(
 		"unsupported device: " + to_string(serialNumber));

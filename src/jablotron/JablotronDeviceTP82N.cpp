@@ -30,9 +30,8 @@ static const list<ModuleType> MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_BATTERY)
 };
 
-JablotronDeviceTP82N::JablotronDeviceTP82N(
-		const DeviceID &deviceID, const string &name):
-	JablotronDevice(deviceID, name)
+JablotronDeviceTP82N::JablotronDeviceTP82N(const DeviceID &deviceID):
+	JablotronDevice(deviceID, "TP-82N")
 {
 }
 
