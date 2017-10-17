@@ -56,15 +56,15 @@ const std::list<ModuleType> VPTDevice::ZONE_MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_ENUM,
 		VPTZoneModuleType(VPTZoneModuleType::MOD_BOILER_OPERATION_MODE).toString()),
 	// MOD_REQUESTED_ROOM_TEMPERATURE
-	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
+	ModuleType(ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_INNER}),
 	// MOD_CURRENT_ROOM_TEMPERATURE
-	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
+	ModuleType(ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_INNER}),
 	// MOD_REQUESTED_WATER_TEMPERATURE_SET
 	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
 	// MOD_CURRENT_WATER_TEMPERATURE
 	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
 	// MANUAL_REQUESTED_ROOM_TEMPERATURE
-	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
+	ModuleType(ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_INNER}),
 	// MANUAL_REQUESTED_WATER_TEMPERATURE
 	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
 	// MANUAL_REQUESTED_TUV_TEMPERATURE
@@ -81,9 +81,9 @@ const std::list<ModuleType> VPTDevice::BOILER_MODULE_TYPES = {
 	// MOD_CURRENT_WATER_TEMPERATURE
 	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
 	// MOD_CURRENT_OUTSIDE_TEMPERATURE
-	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
+	ModuleType(ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_OUTER}),
 	// MOD_AVERAGE_OUTSIDE_TEMPERATURE
-	ModuleType(ModuleType::Type::TYPE_TEMPERATURE),
+	ModuleType(ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_OUTER}),
 	// MOD_CURRENT_BOILER_PERFORMANCE
 	ModuleType(ModuleType::Type::TYPE_PERFORMANCE),
 	// MOD_CURRENT_BOILER_PRESSURE
