@@ -76,6 +76,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/server/GWMessageContext.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSOutputQueue.cpp
 	${PROJECT_SOURCE_DIR}/server/GWServerConnector.cpp
+	${PROJECT_SOURCE_DIR}/server/ServerAnswer.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParser.cpp
