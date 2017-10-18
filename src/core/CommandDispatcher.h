@@ -3,7 +3,9 @@
 
 #include <Poco/SharedPtr.h>
 
+#include "core/CommandDispatcherListener.h"
 #include "core/CommandHandler.h"
+#include "util/EventSource.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -25,11 +27,23 @@ public:
 	 */
 	virtual void dispatch(Command::Ptr cmd, Answer::Ptr answer) = 0;
 
+	void registerListener(CommandDispatcherListener::Ptr listener);
+	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+
 protected:
 	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);
 
+	/**
+	 * This operation is suppose to be called, when dispatch has occured to
+	 * notify all registered listeners about this event.
+	 */
+	void notifyDispatch(Command::Ptr);
+
 protected:
 	std::list<Poco::SharedPtr<CommandHandler>> m_commandHandlers;
+
+private:
+	EventSource<CommandDispatcherListener> m_eventSource;
 };
 
 }
