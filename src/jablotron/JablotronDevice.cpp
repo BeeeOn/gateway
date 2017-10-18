@@ -29,28 +29,28 @@ JablotronDevice::Ptr JablotronDevice::create(uint32_t serialNumber)
 	DeviceID deviceID = JablotronDevice::buildID(serialNumber);
 
 	if ((serialNumber >= 0xCF0000) && (serialNumber <= 0xCFFFFF))
-		return new JablotronDeviceAC88(deviceID, "AC-88");
+		return new JablotronDeviceAC88(deviceID);
 
 	if ((serialNumber >= 0x180000) && (serialNumber <= 0x1BFFFF))
 		return new JablotronDeviceOpenClose(deviceID, "JA-81M");
 
 	if ((serialNumber >= 0x7F0000) && (serialNumber <= 0x7FFFFF))
-		return new JablotronDeviceJA82SH(deviceID, "JA-82SH");
+		return new JablotronDeviceJA82SH(deviceID);
 
 	if ((serialNumber >= 0x1C0000) && (serialNumber <= 0x1DFFFF))
 		return new JablotronDeviceOpenClose(deviceID, "JA-83M");
 
 	if ((serialNumber >= 0x640000) && (serialNumber <= 0x65FFFF))
-		return new JablotronDeviceJA83P(deviceID, "JA-83P");
+		return new JablotronDeviceJA83P(deviceID);
 
 	if ((serialNumber >= 0x760000) && (serialNumber <= 0x76FFFF))
-		return new JablotronDeviceJA85ST(deviceID, "JA-85ST");
+		return new JablotronDeviceJA85ST(deviceID);
 
 	if ((serialNumber >= 0x800000) && (serialNumber <= 0x97FFFF))
-		return new JablotronDeviceRC86K(deviceID, "RC-86K");
+		return new JablotronDeviceRC86K(deviceID);
 
 	if ((serialNumber >= 0x240000) && (serialNumber <= 0x25FFFF))
-		return new JablotronDeviceTP82N(deviceID, "TP-82N");
+		return new JablotronDeviceTP82N(deviceID);
 
 	throw InvalidArgumentException(
 		"unsupported device: " + to_string(serialNumber));

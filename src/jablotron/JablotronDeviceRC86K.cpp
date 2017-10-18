@@ -26,9 +26,8 @@ static const list<ModuleType> MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_BATTERY),
 };
 
-JablotronDeviceRC86K::JablotronDeviceRC86K(
-		const DeviceID &deviceID, const string &name):
-	JablotronDevice(deviceID, name)
+JablotronDeviceRC86K::JablotronDeviceRC86K(const DeviceID &deviceID):
+	JablotronDevice(deviceID, "RC-86K")
 {
 }
 
