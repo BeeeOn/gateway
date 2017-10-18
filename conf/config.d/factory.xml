@@ -24,6 +24,7 @@
 			<add name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 			<add name="exporter" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
 			<set name="executor" ref="asyncExecutor"/>
+			<add name="listener" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
 		<instance name="asyncExecutor" class="BeeeOn::AsyncExecutor">
@@ -39,6 +40,7 @@
 			<add name="handlers" ref="vptDeviceManager" if-yes="${vpt.enable}"/>
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
 		<instance name="gwServerConnector" class="BeeeOn::GWServerConnector">
@@ -96,6 +98,7 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
@@ -159,6 +162,7 @@
 			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
 			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
 		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
