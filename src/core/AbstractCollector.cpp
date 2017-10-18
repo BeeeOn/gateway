@@ -21,3 +21,7 @@ void AbstractCollector::onNodeStats(const ZWaveNodeEvent &)
 void AbstractCollector::onHciStats(const HciInfo &)
 {
 }
+
+void AbstractCollector::onDispatch(const Command::Ptr)
+{
+}

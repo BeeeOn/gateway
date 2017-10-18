@@ -2,6 +2,7 @@
 #define BEEEON_ABSTRACT_COLLECTOR_H
 
 #include "bluetooth/BluetoothListener.h"
+#include "core/CommandDispatcherListener.h"
 #include "core/DistributorListener.h"
 #include "zwave/ZWaveListener.h"
 
@@ -16,7 +17,8 @@ namespace BeeeOn {
 class AbstractCollector :
 	public BluetoothListener,
 	public DistributorListener,
-	public ZWaveListener {
+	public ZWaveListener,
+	public CommandDispatcherListener {
 public:
 	virtual ~AbstractCollector();
 
@@ -39,6 +41,11 @@ public:
 	 * Empty implementation to be overrided if needed.
 	 */
 	void onHciStats(const HciInfo &info) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
+	void onDispatch(const Command::Ptr cmd) override;
 };
 
 }
