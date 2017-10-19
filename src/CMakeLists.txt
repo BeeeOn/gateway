@@ -371,6 +371,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessage.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondNodeRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordClearAllBondsRequest.cpp

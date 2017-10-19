@@ -2,6 +2,7 @@
 
 #include "iqrf/IQRFJsonMessage.h"
 #include "iqrf/IQRFJsonRequest.h"
+#include "iqrf/IQRFJsonResponse.h"
 #include "util/JsonUtil.h"
 
 using namespace BeeeOn;
@@ -40,6 +41,24 @@ IQRFJsonMessage::Ptr IQRFJsonMessage::parse(const string &data)
 	timeout = NumberParser::parseUnsigned(
 		json->getValue<string>("timeout")) * Timespan::MILLISECONDS;
 	request = json->getValue<string>("request");
+
+	if (json->has("response")) {
+		IQRFJsonResponse::Ptr jsonResponse = new IQRFJsonResponse;
+
+		jsonResponse->setMessageID(id);
+		jsonResponse->setTimeout(timeout);
+		jsonResponse->setRequest(request);
+		jsonResponse->setResponse(json->getValue<string>("response"));
+		if (json->has("status")) {
+			jsonResponse->setErrorCode(
+				IQRFJsonResponse::DpaError::parse(
+					json->getValue<string>("status")
+				)
+			);
+		}
+
+		return jsonResponse;
+	}
 
 	IQRFJsonRequest::Ptr jsonRequest = new IQRFJsonRequest;
 
