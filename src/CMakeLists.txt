@@ -97,6 +97,7 @@ if(ENABLE_BELKIN_WEMO)
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoBulb.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoDimmer.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoLink.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoStandaloneDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
