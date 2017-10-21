@@ -148,6 +148,16 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 			m_devices.emplace(device->deviceID(), device);
 	}
 	lockBulb.unlock();
+
+	vector<BelkinWemoDimmer::Ptr> dimmers = seekDimmers();
+
+	ScopedLockWithUnlock<FastMutex> lockDimmer(m_pairedMutex);
+	for (auto device : dimmers) {
+		auto it = m_pairedDevices.find(device->deviceID());
+		if (it != m_pairedDevices.end())
+			m_devices.emplace(device->deviceID(), device);
+	}
+	lockDimmer.unlock();
 }
 
 void BelkinWemoDeviceManager::eraseUnusedLinks()
@@ -397,6 +407,32 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 	return devices;
 }
 
+vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers()
+{
+	UPnP upnp;
+	list<SocketAddress> listOfDevices;
+	vector<BelkinWemoDimmer::Ptr> devices;
+
+	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:dimmer:1");
+	for (const auto &address : listOfDevices) {
+		if (m_stop)
+			break;
+
+		BelkinWemoDimmer::Ptr newDevice;
+		try {
+			newDevice = BelkinWemoDimmer::buildDevice(address, m_httpTimeout);
+		}
+		catch (const TimeoutException& e) {
+			logger().debug("found device has disconnected", __FILE__, __LINE__);
+			continue;
+		}
+
+		devices.push_back(newDevice);
+	}
+
+	return devices;
+}
+
 void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
@@ -414,6 +450,12 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 			ScopedLock<FastMutex> guard(device->lock());
 
 			device->setAddress(newDevice.cast<BelkinWemoSwitch>()->address());
+		}
+		else if (!newDevice.cast<BelkinWemoDimmer>().isNull()) {
+			BelkinWemoDimmer::Ptr device = it.first->second.cast<BelkinWemoDimmer>();
+			ScopedLock<FastMutex> guard(device->lock());
+
+			device->setAddress(newDevice.cast<BelkinWemoDimmer>()->address());
 		}
 
 		return;
@@ -458,6 +500,16 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 			break;
 
 		for (auto device : m_parent.seekBulbs()) {
+			if (m_stop)
+				break;
+
+			m_parent.processNewDevice(device);
+		}
+
+		if (m_stop)
+			break;
+
+		for (auto device : m_parent.seekDimmers()) {
 			if (m_stop)
 				break;
 

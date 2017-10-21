@@ -13,6 +13,7 @@
 
 #include "belkin/BelkinWemoBulb.h"
 #include "belkin/BelkinWemoDevice.h"
+#include "belkin/BelkinWemoDimmer.h"
 #include "belkin/BelkinWemoLink.h"
 #include "belkin/BelkinWemoSwitch.h"
 #include "core/DeviceManager.h"
@@ -88,6 +89,7 @@ protected:
 
 	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
 	std::vector<BelkinWemoBulb::Ptr> seekBulbs();
+	std::vector<BelkinWemoDimmer::Ptr> seekDimmers();
 
 	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
