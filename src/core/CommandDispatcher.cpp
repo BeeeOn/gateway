@@ -23,3 +23,18 @@ void CommandDispatcher::injectImpl(Answer::Ptr answer, SharedPtr<AnswerImpl> imp
 {
 	answer->installImpl(impl);
 }
+
+void CommandDispatcher::registerListener(CommandDispatcherListener::Ptr listener)
+{
+	m_eventSource.addListener(listener);
+}
+
+void CommandDispatcher::notifyDispatch(Command::Ptr cmd)
+{
+	m_eventSource.fireEvent(cmd, &CommandDispatcherListener::onDispatch);
+}
+
+void CommandDispatcher::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
+{
+	m_eventSource.setAsyncExecutor(executor);
+}
