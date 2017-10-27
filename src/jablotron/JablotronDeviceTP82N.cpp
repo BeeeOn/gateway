@@ -12,12 +12,12 @@ static const ModuleID MODULE_ID_REQUESTED_ROOM_TEMPERATURE = 1;
 static const ModuleID MODULE_ID_BATTERY_LEVEL = 2;
 
 static const set<ModuleType::Attribute> CURRENT_TEMPERATURE_ATTR = {
-	ModuleType::Attribute::TYPE_INNER,
+	ModuleType::Attribute::ATTR_INNER,
 };
 static const set<ModuleType::Attribute> REQUESTED_TEMPERATURE_ATTR = {
-	ModuleType::Attribute::TYPE_INNER,
-	ModuleType::Attribute::TYPE_MANUAL_ONLY,
-	ModuleType::Attribute::TYPE_CONTROLLABLE,
+	ModuleType::Attribute::ATTR_INNER,
+	ModuleType::Attribute::ATTR_MANUAL_ONLY,
+	ModuleType::Attribute::ATTR_CONTROLLABLE,
 };
 
 static const list<ModuleType> MODULE_TYPES = {

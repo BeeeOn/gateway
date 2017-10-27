@@ -291,7 +291,7 @@ list<ModuleType> BelkinWemoSwitch::moduleTypes() const
 	std::list<ModuleType> moduleTypes;
 	moduleTypes.push_back(
 		ModuleType(
-			ModuleType::Type::TYPE_ON_OFF, std::set<ModuleType::Attribute>()
+			ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}
 		)
 	);
 
