@@ -245,6 +245,11 @@ that is controlled via a named pipe from some external sources.
 
 ##### Belkin Wemo
 
+The BeeeOn Gateway application is currently not capable of the initial setup of
+Belkin Wemo devices. This must be done via the official procedure usign the WeMo mobile
+application.
+After the initial setup, we have full control over all currently supported devices.
+
 * belkinwemo.enable - enable the Belkin Wemo support
 
 * belkinwemo.upnp.timeout - timeout of the UPnP lookup
