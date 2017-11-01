@@ -31,6 +31,8 @@ string CSVSensorDataFormatter::format(const SensorData &data)
 	string timestamp = to_string(data.timestamp().value().epochTime());
 
 	for (auto item : data) {
+		if (!output.empty())
+			output += '\n';
 		output += "sensor" + separator() + timestamp + separator() + device + separator();
 		output += item.moduleID().toString() + separator();
 		output += NumberFormatter::format(item.value(), PRECISION_OF_VALUE) + separator();
