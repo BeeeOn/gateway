@@ -1,9 +1,9 @@
 #include <Poco/AutoPtr.h>
 #include <Poco/DOM/AutoPtr.h>
 #include <Poco/DOM/Document.h>
+#include <Poco/DOM/NodeFilter.h>
+#include <Poco/DOM/NodeIterator.h>
 #include <Poco/Exception.h>
-#include <Poco/Net/HTTPClientSession.h>
-#include <Poco/Net/HTTPResponse.h>
 #include <Poco/NumberParser.h>
 #include <Poco/RegularExpression.h>
 #include <Poco/SAX/AttributesImpl.h>
@@ -12,6 +12,7 @@
 
 #include "belkin/BelkinWemoSwitch.h"
 #include "model/DevicePrefix.h"
+#include "net/HTTPEntireResponse.h"
 #include "net/SOAPMessage.h"
 #include "util/SecureXmlParser.h"
 
@@ -39,11 +40,11 @@ BelkinWemoSwitch::~BelkinWemoSwitch()
 {
 }
 
-BelkinWemoSwitch BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
+BelkinWemoSwitch::Ptr BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	BelkinWemoSwitch device(address);
-	device.m_httpTimeout = timeout;
-	device.buildDeviceID();
+	BelkinWemoSwitch::Ptr device = new BelkinWemoSwitch(address);
+	device->m_httpTimeout = timeout;
+	device->buildDeviceID();
 	return device;
 }
 
@@ -52,7 +53,7 @@ void BelkinWemoSwitch::buildDeviceID()
 	m_deviceId = DeviceID(DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr());
 }
 
-bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const bool value)
+bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const double value)
 {
 	if (moduleID != BELKIN_SWITCH_MODULE_ID)
 		return false;
@@ -102,7 +103,8 @@ bool BelkinWemoSwitch::turnOn() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -151,7 +153,8 @@ bool BelkinWemoSwitch::turnOff() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -161,7 +164,7 @@ bool BelkinWemoSwitch::turnOff() const
 	return xmlNode->nodeValue() == "0";
 }
 
-SensorData BelkinWemoSwitch::requestState() const
+SensorData BelkinWemoSwitch::requestState()
 {
 	HTTPRequest request;
 
@@ -199,7 +202,8 @@ SensorData BelkinWemoSwitch::requestState() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -245,7 +249,8 @@ MACAddress BelkinWemoSwitch::requestMacAddr()
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = sendHTTPRequest(request, msg.toString(), m_httpTimeout);
+	HTTPEntireResponse response = sendHTTPRequest(
+		request, msg.toString(), m_uri, m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -253,27 +258,6 @@ MACAddress BelkinWemoSwitch::requestMacAddr()
 	Node* xmlNode = findNode(iterator, "MacAddr");
 
 	return MACAddress(NumberParser::parseHex64(xmlNode->nodeValue()));
-}
-
-Node* BelkinWemoSwitch::findNode(NodeIterator& iterator, const string& name) const
-{
-	Node* xmlNode = iterator.nextNode();
-
-	while (xmlNode) {
-		if (xmlNode->nodeName() == name) {
-			xmlNode = iterator.nextNode();
-			return xmlNode;
-		}
-
-		xmlNode = iterator.nextNode();
-	}
-
-	throw SyntaxException("node " + name + " in XML message from belkin device not found");
-}
-
-DeviceID BelkinWemoSwitch::deviceID() const
-{
-	return m_deviceId;
 }
 
 SocketAddress BelkinWemoSwitch::address() const
@@ -306,22 +290,4 @@ string BelkinWemoSwitch::name() const
 bool BelkinWemoSwitch::operator==(const BelkinWemoSwitch& bws) const
 {
 	return bws.deviceID() == m_deviceId;
-}
-
-HTTPEntireResponse BelkinWemoSwitch::sendHTTPRequest(HTTPRequest& request, const string& msg, const Timespan& timeout) const
-{
-	HTTPClientSession http;
-	HTTPEntireResponse response;
-
-	http.setHost(m_uri.getHost());
-	http.setPort(m_uri.getPort());
-	http.setTimeout(timeout);
-
-	request.setURI(m_uri.toString());
-
-	http.sendRequest(request) << msg;
-	istream& input = http.receiveResponse(response);
-	response.readBody(input);
-
-	return response;
 }

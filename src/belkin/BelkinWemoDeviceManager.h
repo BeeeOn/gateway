@@ -11,6 +11,9 @@
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
+#include "belkin/BelkinWemoBulb.h"
+#include "belkin/BelkinWemoDevice.h"
+#include "belkin/BelkinWemoLink.h"
 #include "belkin/BelkinWemoSwitch.h"
 #include "core/DeviceManager.h"
 #include "loop/StoppableRunnable.h"
@@ -57,6 +60,11 @@ protected:
 	void searchPairedDevices();
 
 	/**
+	 * @brief Erases the links which don't care any bulb.
+	 */
+	void eraseUnusedLinks();
+
+	/**
 	 * @brief Processes the listen command.
 	 */
 	void doListenCommand(const Command::Ptr cmd, const Answer::Ptr answer);
@@ -77,15 +85,18 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<BelkinWemoSwitch> seekSwitches();
+	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
+	std::vector<BelkinWemoBulb::Ptr> seekBulbs();
 
-	void processNewDevice(BelkinWemoSwitch& newDevice);
+	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
 private:
 	Poco::Thread m_seekerThread;
+	Poco::FastMutex m_linksMutex;
 	Poco::FastMutex m_pairedMutex;
 
-	std::map<DeviceID, BelkinWemoSwitch> m_switches;
+	std::set<BelkinWemoLink::Ptr> m_links;
+	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 	std::set<DeviceID> m_pairedDevices;
 
 	Poco::Timespan m_refresh;
