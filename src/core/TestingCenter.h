@@ -2,6 +2,7 @@
 #define BEEEON_TESTING_CENTER_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <vector>
 
@@ -58,6 +59,7 @@ public:
 	void stop() override;
 
 	void setConsole(Poco::SharedPtr<Console> console);
+	void setPairedDevices(const std::list<std::string> &ids);
 	Poco::SharedPtr<Console> console() const;
 	void setCredentialsStorage(Poco::SharedPtr<FileCredentialsStorage> storage);
 	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);

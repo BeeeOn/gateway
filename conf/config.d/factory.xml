@@ -112,6 +112,7 @@
 
 		<instance name="testingCenter" class="BeeeOn::TestingCenter">
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="pairedDevices" list="${testing.center.pairedDevices}" />
 			<set name="console" ref="testingConsole" />
 			<set name="credentialsStorage" ref="credentialsStorage" />
 			<set name="cryptoConfig" ref="cryptoConfig" />
