@@ -30,6 +30,7 @@ BEEEON_OBJECT_REF("commandDispatcher", &TestingCenter::setCommandDispatcher)
 BEEEON_OBJECT_REF("console", &TestingCenter::setConsole)
 BEEEON_OBJECT_REF("credentialsStorage", &TestingCenter::setCredentialsStorage)
 BEEEON_OBJECT_REF("cryptoConfig", &TestingCenter::setCryptoConfig)
+BEEEON_OBJECT_LIST("pairedDevices", &TestingCenter::setPairedDevices)
 BEEEON_OBJECT_END(BeeeOn, TestingCenter)
 
 using namespace std;
@@ -452,6 +453,12 @@ void TestingCenter::registerAction(
 void TestingCenter::setConsole(SharedPtr<Console> console)
 {
 	m_console = console;
+}
+
+void TestingCenter::setPairedDevices(const list<string> &ids)
+{
+	for (auto id : ids)
+		m_devices.emplace(DeviceID::parse(id), DeviceData{});
 }
 
 SharedPtr<Console> TestingCenter::console() const
