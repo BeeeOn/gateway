@@ -34,7 +34,7 @@ void VPTHTTPScanner::prepareRequest(Poco::Net::HTTPRequest& request)
 
 bool VPTHTTPScanner::isValidResponse(const string& response)
 {
-	logger().debug(response, __FILE__, __LINE__);
+	logger().trace(response, __FILE__, __LINE__);
 
 	string vendor;
 	string device;
