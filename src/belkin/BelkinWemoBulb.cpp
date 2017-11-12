@@ -86,6 +86,7 @@ SensorData BelkinWemoBulb::requestState()
 		throw SyntaxException("wrong syntax of CapabilityValue element " + xmlNode->nodeValue());
 
 	SensorData data;
+	data.setDeviceID(m_deviceId);
 
 	int dim = NumberParser::parse(
 		xmlNode->nodeValue().substr(matches[2].offset, matches[2].length));
