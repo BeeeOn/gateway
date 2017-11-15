@@ -18,6 +18,7 @@
 #include "core/DeviceManager.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
+#include "net/MACAddress.h"
 
 
 namespace BeeeOn {
@@ -95,7 +96,7 @@ private:
 	Poco::FastMutex m_linksMutex;
 	Poco::FastMutex m_pairedMutex;
 
-	std::set<BelkinWemoLink::Ptr> m_links;
+	std::map<MACAddress, BelkinWemoLink::Ptr> m_links;
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 	std::set<DeviceID> m_pairedDevices;
 
