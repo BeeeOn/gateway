@@ -412,14 +412,15 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 	 */
 	auto it = m_devices.emplace(newDevice->deviceID(), newDevice);
 
-	if (!newDevice.cast<BelkinWemoSwitch>().isNull()) {
-		if (!it.second) {
+	if (!it.second) {
+		if (!newDevice.cast<BelkinWemoSwitch>().isNull()) {
 			BelkinWemoSwitch::Ptr device = it.first->second.cast<BelkinWemoSwitch>();
 			ScopedLock<FastMutex> guard(device->lock());
 
 			device->setAddress(newDevice.cast<BelkinWemoSwitch>()->address());
-			return;
 		}
+
+		return;
 	}
 
 	logger().debug("found device " + newDevice->deviceID().toString(),
