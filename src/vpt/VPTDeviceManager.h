@@ -19,6 +19,7 @@
 #include "commands/NewDeviceCommand.h"
 #include "core/Answer.h"
 #include "core/DeviceManager.h"
+#include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
@@ -73,6 +74,7 @@ public:
 	void setPath(const std::string& path);
 	void setPort(const int port);
 	void setMinNetMask(const std::string& minNetMask);
+	void setGatewayInfo(Poco::SharedPtr<GatewayInfo> gatewayInfo);
 	void setCredentialsStorage(Poco::SharedPtr<CredentialsStorage> storage);
 	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);
 
@@ -152,6 +154,7 @@ private:
 	 */
 	std::map<DeviceID, VPTDevice::Ptr> m_devices;
 
+	Poco::SharedPtr<GatewayInfo> m_gatewayInfo;
 	Poco::SharedPtr<CredentialsStorage> m_credentialsStorage;
 	Poco::SharedPtr<CryptoConfig> m_cryptoConfig;
 };

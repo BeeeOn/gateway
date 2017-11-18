@@ -145,6 +145,7 @@
 			<set name="minNetMask" text="${vpt.min.net.mask}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="gatewayInfo" ref="gatewayInfo" />
 			<set name="credentialsStorage" ref="credentialsStorage" />
 			<set name="cryptoConfig" ref="cryptoConfig" />
 		</instance>
