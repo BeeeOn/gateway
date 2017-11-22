@@ -157,14 +157,14 @@ void BelkinWemoDeviceManager::eraseUnusedLinks()
 	vector<BelkinWemoLink::Ptr> links;
 
 	for (auto link : m_links) {
-		if (link->countOfBulbs() == 0)
-			links.push_back(link);
+		if (link.second->countOfBulbs() == 0)
+			links.push_back(link.second);
 	}
 
 	for (auto link : links) {
 		logger().debug("erase Belkin Wemo Link " + link->macAddress().toString(), __FILE__, __LINE__);
 
-		m_links.erase(link);
+		m_links.erase(link->macAddress());
 	}
 }
 
@@ -367,9 +367,9 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 		 * update the link.
 		 */
 		ScopedLockWithUnlock<FastMutex> linksLock(m_linksMutex);
-		auto itLink = m_links.find(link);
-		if (itLink != m_links.end()) {
-			BelkinWemoLink::Ptr existingLink = *itLink;
+		auto itLink = m_links.emplace(link->macAddress(), link);
+		if (!itLink.second) {
+			BelkinWemoLink::Ptr existingLink = itLink.first->second;
 			ScopedLock<FastMutex> guard(existingLink->lock());
 
 			existingLink->setAddress(link->address());
@@ -377,9 +377,6 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 
 			logger().information("updating address of Belkin Wemo Link " + link->macAddress().toString(),
 				__FILE__, __LINE__);
-		}
-		else {
-			m_links.insert(link);
 		}
 		linksLock.unlock();
 
@@ -412,14 +409,15 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 	 */
 	auto it = m_devices.emplace(newDevice->deviceID(), newDevice);
 
-	if (!newDevice.cast<BelkinWemoSwitch>().isNull()) {
-		if (!it.second) {
+	if (!it.second) {
+		if (!newDevice.cast<BelkinWemoSwitch>().isNull()) {
 			BelkinWemoSwitch::Ptr device = it.first->second.cast<BelkinWemoSwitch>();
 			ScopedLock<FastMutex> guard(device->lock());
 
 			device->setAddress(newDevice.cast<BelkinWemoSwitch>()->address());
-			return;
 		}
+
+		return;
 	}
 
 	logger().debug("found device " + newDevice->deviceID().toString(),
