@@ -37,6 +37,8 @@ public:
 
 	void remove(const Answer::Ptr answer);
 
+	std::list<Answer::Ptr> finishedAnswers();
+
 	Poco::Event &event();
 
 	unsigned long size() const;

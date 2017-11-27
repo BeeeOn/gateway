@@ -50,6 +50,20 @@ void AnswerQueue::listDirty(list<Answer::Ptr> &dirtyList) const
 	}
 }
 
+std::list<Answer::Ptr> AnswerQueue::finishedAnswers()
+{
+	FastMutex::ScopedLock lock(m_mutex);
+	std::list<Answer::Ptr> result;
+
+	for (auto answer : m_answerList) {
+		FastMutex::ScopedLock guard(answer->lock());
+		if (!answer->isPendingUnlocked())
+			result.push_back(answer);
+	}
+
+	return result;
+}
+
 void AnswerQueue::add(Answer *answer)
 {
 	FastMutex::ScopedLock lock(m_mutex);
