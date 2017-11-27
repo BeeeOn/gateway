@@ -1,14 +1,13 @@
-#ifndef GATEWAY_SERVER_CONNECTOR_H
-#define GATEWAY_SERVER_CONNECTOR_H
+#pragma once
 
 #include <Poco/AtomicCounter.h>
 #include <Poco/AutoPtr.h>
 #include <Poco/Event.h>
 #include <Poco/Mutex.h>
-#include <Poco/SharedPtr.h>
-#include <Poco/Timespan.h>
-#include <Poco/Thread.h>
 #include <Poco/Net/WebSocket.h>
+#include <Poco/SharedPtr.h>
+#include <Poco/Thread.h>
+#include <Poco/Timespan.h>
 
 #include "core/GatewayInfo.h"
 #include "gwmessage/GWMessage.h"
@@ -130,5 +129,3 @@ private:
 };
 
 }
-
-#endif
