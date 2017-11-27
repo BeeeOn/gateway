@@ -269,6 +269,7 @@ endif()
 
 if (ENABLE_MOSQUITTO_CLIENT)
 	file(GLOB MOSQUITTO_CLIENT_SOURCES
+		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
 		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)
 	list(APPEND SOURCES ${MOSQUITTO_CLIENT_SOURCES})
