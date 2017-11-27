@@ -50,7 +50,7 @@
 			<set name="retryConnectTimeout" time="${gws.retryConnectTimeout}" />
 			<set name="maxMessageSize" number="${gws.maxMessageSize}" />
 			<set name="gatewayInfo" ref="gatewayInfo" />
-			<set name="sslConfig" ref="gwsSSLClient" if-yes="gws.ssl.enable"/>
+			<set name="sslConfig" ref="gwsSSLClient" if-yes="${gws.ssl.enable}"/>
 		</instance>
 
 		<instance name="gwsSSLClient" class="BeeeOn::SSLClient">
