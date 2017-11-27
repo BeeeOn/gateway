@@ -307,3 +307,13 @@ sensor available via sysfs.
 
 * psdev.path - specify path (typically in sysfs), where data can be accessed
                (e.g. /sys/devices/platform/soc@01c00000/1c2b400.i2c/i2c-2/2-0077/pressure0_input)
+
+##### Philips Hue
+
+* philipshue.enable - enable the Philips Hue support
+
+* philipshue.upnp.timeout - timeout of the UPnP lookup
+
+* philipshue.http.timeout - timeout of HTTP requests
+
+* philipshue.refresh - interval of polling the particular Philips Hue devices (seconds)
