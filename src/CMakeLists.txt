@@ -141,6 +141,7 @@ endif()
 
 if(ENABLE_PHILIPS_HUE)
 	file(GLOB PHILIPS_SOURCES
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBulb.cpp
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBridge.cpp
 	)
 	list(APPEND SOURCES ${PHILIPS_SOURCES})
