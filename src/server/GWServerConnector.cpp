@@ -26,6 +26,8 @@ using namespace Poco;
 using namespace Poco::Net;
 using namespace BeeeOn;
 
+static const Timespan RECONNECT_TIMEOUT = Timespan::SECONDS * 10;
+
 GWServerConnector::GWServerConnector():
 	m_port(0),
 	m_pollTimeout(250 * Timespan::MILLISECONDS),
@@ -34,7 +36,7 @@ GWServerConnector::GWServerConnector():
 	m_retryConnectTimeout(1 * Timespan::SECONDS),
 	m_maxMessageSize(4096),
 	m_receiveBuffer(m_maxMessageSize),
-	m_connected(false),
+	m_isConnected(false),
 	m_stop(false)
 {
 }
@@ -45,9 +47,6 @@ void GWServerConnector::start()
 
 	m_stop = false;
 
-	m_connected.reset();
-	m_requestReconnect.set();
-
 	startSender();
 	startReceiver();
 }
@@ -56,9 +55,7 @@ void GWServerConnector::stop()
 {
 	m_stop = true;
 	m_stopEvent.set();
-
-	m_connected.set();
-	m_requestReconnect.set();
+	m_connectedEvent.set();
 
 	m_senderThread.join();
 	m_receiverThread.join();
@@ -76,24 +73,29 @@ void GWServerConnector::startSender()
 void GWServerConnector::runSender()
 {
 	while (!m_stop) {
-		m_requestReconnect.wait();
 
-		if (m_stop)
-			break;
+		if (!m_isConnected) {
+			reconnect();
+			continue;
+		}
 
-		FastMutex::ScopedLock sendGuard(m_sendMutex);
-		FastMutex::ScopedLock receiveGuard(m_receiveMutex);
-		disconnectUnlocked();
-		connectAndRegisterUnlocked();
-
-		m_connected.set();
+		m_stopEvent.tryWait(RECONNECT_TIMEOUT.totalMilliseconds());
 	}
+}
+
+void GWServerConnector::reconnect()
+{
+	FastMutex::ScopedLock sendGuard(m_sendMutex);
+	FastMutex::ScopedLock receiveGuard(m_receiveMutex);
+	disconnectUnlocked();
+	connectAndRegisterUnlocked();
+	m_isConnected = true;
+	m_connectedEvent.set();
 }
 
 void GWServerConnector::startReceiver()
 {
 	m_receiverThread.startFunc([this](){
-		m_connected.wait();
 		runReceiver();
 	});
 }
@@ -101,9 +103,13 @@ void GWServerConnector::startReceiver()
 void GWServerConnector::runReceiver()
 {
 	while (!m_stop) {
-		try {
-			FastMutex::ScopedLock guard(m_receiveMutex);
+		if (!m_isConnected) {
+			m_connectedEvent.wait();
+			continue;
+		}
 
+		FastMutex::ScopedLock guard(m_receiveMutex);
+		try {
 			if (m_socket.isNull()) {
 				throw ConnectionResetException(
 					"server connection is not initialized");
@@ -133,24 +139,7 @@ void GWServerConnector::runReceiver()
 
 void GWServerConnector::requestReconnect()
 {
-	if (m_stop)
-		return;
-
-	if (m_reconnectMutex.tryLock()) {
-		try {
-			m_connected.reset();
-			m_requestReconnect.set();
-			m_connected.wait();
-		}
-		catch (...) {
-			logger().fatal("unexpected error", __FILE__, __LINE__);
-		}
-
-		m_reconnectMutex.unlock();
-	}
-	else {
-		m_connected.wait();
-	}
+	m_isConnected = false;
 }
 
 bool GWServerConnector::connectUnlocked()

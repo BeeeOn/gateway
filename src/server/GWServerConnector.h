@@ -93,7 +93,13 @@ private:
 	void disconnectUnlocked();
 
 	/**
-	 * Signals the sender to reconnect and then wait till connected.
+	 * Perform reconnect and register gateway to server,
+	 * after this call connection is considered established.
+	 */
+	void reconnect();
+
+	/**
+	 * Signals the sender to reconnect.
 	 */
 	void requestReconnect();
 
@@ -119,9 +125,10 @@ private:
 	Poco::FastMutex m_sendMutex;
 	Poco::Thread m_senderThread;
 	Poco::Thread m_receiverThread;
-	Poco::FastMutex m_reconnectMutex;
-	Poco::Event m_requestReconnect;
-	Poco::Event m_connected;
+
+	Poco::AtomicCounter m_isConnected;
+	Poco::Event m_connectedEvent;
+
 	Poco::AtomicCounter m_stop;
 	Poco::Event m_stopEvent;
 };
