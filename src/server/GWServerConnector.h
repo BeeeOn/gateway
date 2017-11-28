@@ -101,7 +101,7 @@ private:
 	/**
 	 * Signals the sender to reconnect.
 	 */
-	void requestReconnect();
+	void markDisconnected();
 
 	void sendMessage(const GWMessage::Ptr message);
 	void sendMessageUnlocked(const GWMessage::Ptr message);

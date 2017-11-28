@@ -124,20 +124,20 @@ void GWServerConnector::runReceiver()
 		}
 		catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
-			requestReconnect();
+			markDisconnected();
 		}
 		catch (const exception &e) {
 			logger().critical(e.what(), __FILE__, __LINE__);
-			requestReconnect();
+			markDisconnected();
 		}
 		catch (...) {
 			logger().critical("unknown error", __FILE__, __LINE__);
-			requestReconnect();
+			markDisconnected();
 		}
 	}
 }
 
-void GWServerConnector::requestReconnect()
+void GWServerConnector::markDisconnected()
 {
 	m_isConnected = false;
 }
