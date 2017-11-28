@@ -16,6 +16,8 @@ BEEEON_OBJECT_TIME("pollTimeout", &GWServerConnector::setPollTimeout)
 BEEEON_OBJECT_TIME("receiveTimeout", &GWServerConnector::setReceiveTimeout)
 BEEEON_OBJECT_TIME("sendTimeout", &GWServerConnector::setSendTimeout)
 BEEEON_OBJECT_TIME("retryConnectTimeout", &GWServerConnector::setRetryConnectTimeout)
+BEEEON_OBJECT_TIME("busySleep", &GWServerConnector::setBusySleep)
+BEEEON_OBJECT_TIME("resendTimeoutTimeout", &GWServerConnector::setResendTimeout)
 BEEEON_OBJECT_NUMBER("maxMessageSize", &GWServerConnector::setMaxMessageSize)
 BEEEON_OBJECT_REF("sslConfig", &GWServerConnector::setSSLConfig)
 BEEEON_OBJECT_REF("gatewayInfo", &GWServerConnector::setGatewayInfo)
@@ -26,18 +28,19 @@ using namespace Poco;
 using namespace Poco::Net;
 using namespace BeeeOn;
 
-static const Timespan RECONNECT_TIMEOUT = Timespan::SECONDS * 10;
-
 GWServerConnector::GWServerConnector():
 	m_port(0),
 	m_pollTimeout(250 * Timespan::MILLISECONDS),
 	m_receiveTimeout(3 * Timespan::SECONDS),
 	m_sendTimeout(1 * Timespan::SECONDS),
 	m_retryConnectTimeout(1 * Timespan::SECONDS),
+	m_busySleep(30 * Timespan::SECONDS),
+	m_resendTimeout(20 * Timespan::SECONDS),
 	m_maxMessageSize(4096),
 	m_receiveBuffer(m_maxMessageSize),
 	m_isConnected(false),
-	m_stop(false)
+	m_stop(false),
+	m_outputQueue(readyToSendEvent())
 {
 }
 
@@ -55,12 +58,17 @@ void GWServerConnector::stop()
 {
 	m_stop = true;
 	m_stopEvent.set();
+	readyToSendEvent().set();
 	m_connectedEvent.set();
 
 	m_senderThread.join();
 	m_receiverThread.join();
 
 	disconnectUnlocked();
+
+	m_timer.cancel(true);
+	m_outputQueue.clear();
+	m_contextPoll.clear();
 }
 
 void GWServerConnector::startSender()
@@ -79,7 +87,65 @@ void GWServerConnector::runSender()
 			continue;
 		}
 
-		m_stopEvent.tryWait(RECONNECT_TIMEOUT.totalMilliseconds());
+		forwardOutputQueue();
+	}
+}
+
+void GWServerConnector::forwardOutputQueue()
+{
+	try {
+		GWMessageContext::Ptr context = m_outputQueue.dequeue();
+		if (!context.isNull()) {
+			forwardContext(context);
+		}
+		else {
+			if (!readyToSendEvent().tryWait(m_busySleep.totalMilliseconds()))
+				sendPing();
+		}
+	}
+	catch (const Exception &e) {
+		logger().log(e, __FILE__, __LINE__);
+		markDisconnected();
+	}
+	catch (const exception &e) {
+		logger().critical(e.what(), __FILE__, __LINE__);
+		markDisconnected();
+	}
+	catch (...) {
+		logger().critical("unknown error", __FILE__, __LINE__);
+		markDisconnected();
+	}
+}
+
+void GWServerConnector::forwardContext(GWMessageContext::Ptr context)
+{
+	if (!context.cast<GWTimedContext>().isNull()) {
+		GWTimedContext::Ptr timedContext = context.cast<GWTimedContext>();
+
+		const GlobalID &id = timedContext->id();
+
+		LambdaTimerTask::Ptr task = new LambdaTimerTask(
+			[this, id](){
+				GWMessageContext::Ptr context = m_contextPoll.remove(id);
+				if (!context.isNull())
+					m_outputQueue.enqueue(context);
+			}
+		);
+
+		timedContext->setMissingResponseTask(task);
+		m_contextPoll.insert(timedContext);
+
+		try {
+			sendMessage(timedContext->message());
+		} catch (const Exception &e) {
+			m_contextPoll.remove(id);
+			e.rethrow();
+		}
+
+		m_timer.schedule(task, Timestamp() + m_resendTimeout);
+	}
+	else if (!context.isNull()) {
+		sendMessage(context->message());
 	}
 }
 
@@ -89,6 +155,11 @@ void GWServerConnector::sendPing()
 	poco_trace(logger(), "sending ping frame");
 
 	m_socket->sendFrame("echo", 4, WebSocket::FRAME_OP_PING);
+}
+
+Event &GWServerConnector::readyToSendEvent()
+{
+	return m_readyToSendEvent;
 }
 
 void GWServerConnector::reconnect()
@@ -330,6 +401,22 @@ void GWServerConnector::setRetryConnectTimeout(const Timespan &timeout)
 		throw InvalidArgumentException("retryConnectTimeout must be non negative");
 
 	m_retryConnectTimeout = timeout;
+}
+
+void GWServerConnector::setBusySleep(const Poco::Timespan &busySleep)
+{
+	if (busySleep < 0)
+		throw InvalidArgumentException("retryConnectTimeout must be non negative");
+
+	m_busySleep = busySleep;
+}
+
+void GWServerConnector::setResendTimeout(const Poco::Timespan &timeout)
+{
+	if (timeout < 0)
+		throw InvalidArgumentException("retryConnectTimeout must be non negative");
+
+	m_resendTimeout = timeout;
 }
 
 void GWServerConnector::setMaxMessageSize(int size)

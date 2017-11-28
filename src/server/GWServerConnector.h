@@ -9,10 +9,14 @@
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 #include <Poco/Timestamp.h>
+#include <Poco/Util/Timer.h>
 
 #include "core/GatewayInfo.h"
 #include "gwmessage/GWMessage.h"
 #include "loop/StoppableLoop.h"
+#include "server/GWMessageContext.h"
+#include "server/GWSOutputQueue.h"
+#include "server/GWContextPoll.h"
 #include "ssl/SSLClient.h"
 #include "util/Loggable.h"
 
@@ -44,6 +48,8 @@ public:
 	void setReceiveTimeout(const Poco::Timespan &timeout);
 	void setSendTimeout(const Poco::Timespan &timeout);
 	void setRetryConnectTimeout(const Poco::Timespan &timeout);
+	void setBusySleep(const Poco::Timespan &timeout);
+	void setResendTimeout(const Poco::Timespan &timeout);
 	void setMaxMessageSize(int size);
 	void setGatewayInfo(Poco::SharedPtr<GatewayInfo> info);
 	void setSSLConfig(Poco::SharedPtr<SSLClient> config);
@@ -108,10 +114,23 @@ private:
 	 * Send ping frame to server.
 	 */
 	void sendPing();
+
+	/**
+	 * Forward given context to server. If nullptr is given, waits
+	 * for readyToSendEvent() to be notified or send ping frame after timeout.
+	 */
+	void forwardContext(GWMessageContext::Ptr context);
+
+	/**
+	 * Dequeue context from outputQueue and forward is to server.
+	 */
+	void forwardOutputQueue();
 	void sendMessage(const GWMessage::Ptr message);
 	void sendMessageUnlocked(const GWMessage::Ptr message);
 
 	GWMessage::Ptr receiveMessageUnlocked();
+
+	Poco::Event &readyToSendEvent();
 
 private:
 	std::string m_host;
@@ -120,6 +139,8 @@ private:
 	Poco::Timespan m_receiveTimeout;
 	Poco::Timespan m_sendTimeout;
 	Poco::Timespan m_retryConnectTimeout;
+	Poco::Timespan m_busySleep;
+	Poco::Timespan m_resendTimeout;
 	size_t m_maxMessageSize;
 	Poco::SharedPtr<GatewayInfo> m_gatewayInfo;
 	Poco::SharedPtr<SSLClient> m_sslConfig;
@@ -137,6 +158,11 @@ private:
 
 	Poco::AtomicCounter m_stop;
 	Poco::Event m_stopEvent;
+
+	Poco::Event m_readyToSendEvent;
+	GWContextPoll m_contextPoll;
+	GWSOutputQueue m_outputQueue;
+	Poco::Util::Timer m_timer;
 };
 
 }
