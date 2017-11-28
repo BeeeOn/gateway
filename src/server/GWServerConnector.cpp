@@ -113,6 +113,8 @@ void GWServerConnector::runReceiver()
 				continue;
 
 			GWMessage::Ptr msg = receiveMessageUnlocked();
+			poco_information(logger(), "received new message of type: "
+					+ msg->type().toString());
 		}
 		catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
