@@ -3,13 +3,22 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/NetException.h>
 
+#include "commands/ServerDeviceListResult.h"
+#include "commands/ServerLastValueResult.h"
 #include "di/Injectable.h"
+#include "gwmessage/GWDeviceListRequest.h"
 #include "gwmessage/GWGatewayAccepted.h"
 #include "gwmessage/GWGatewayRegister.h"
+#include "gwmessage/GWLastValueRequest.h"
+#include "gwmessage/GWLastValueResponse.h"
+#include "gwmessage/GWNewDeviceRequest.h"
+#include "gwmessage/GWResponseWithAck.h"
+#include "gwmessage/GWSensorDataConfirm.h"
 #include "server/GWServerConnector.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GWServerConnector)
 BEEEON_OBJECT_CASTABLE(StoppableLoop)
+BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_TEXT("host", &GWServerConnector::setHost)
 BEEEON_OBJECT_NUMBER("port", &GWServerConnector::setPort)
 BEEEON_OBJECT_TIME("pollTimeout", &GWServerConnector::setPollTimeout)
@@ -435,4 +444,72 @@ void GWServerConnector::setGatewayInfo(SharedPtr<GatewayInfo> info)
 void GWServerConnector::setSSLConfig(SharedPtr<SSLClient> config)
 {
 	m_sslConfig = config;
+}
+
+bool GWServerConnector::accept(const Command::Ptr cmd)
+{
+	return cmd->is<NewDeviceCommand>()
+		|| cmd->is<ServerDeviceListCommand>()
+		|| cmd->is<ServerLastValueCommand>();
+}
+
+void GWServerConnector::handle(Command::Ptr cmd, Answer::Ptr answer)
+{
+	if (cmd->is<NewDeviceCommand>())
+		doNewDeviceCommand(cmd.cast<NewDeviceCommand>(), answer);
+	else if (cmd->is<ServerDeviceListCommand>())
+		doDeviceListCommand(cmd.cast<ServerDeviceListCommand>(), answer);
+	else if (cmd->is<ServerLastValueCommand>())
+		doLastValueCommand(cmd.cast<ServerLastValueCommand>(), answer);
+	else
+		throw IllegalStateException("received unexpected command");
+}
+
+void GWServerConnector::doNewDeviceCommand(NewDeviceCommand::Ptr cmd,
+		Answer::Ptr answer)
+{
+	Result::Ptr result = new Result(answer);
+
+	GlobalID id = GlobalID::random();
+
+	GWNewDeviceRequest::Ptr request = new GWNewDeviceRequest;
+	request->setID(id);
+	request->setDeviceID(cmd->deviceID());
+	request->setProductName(cmd->productName());
+	request->setVendor(cmd->vendor());
+	request->setRefreshTime(cmd->refreshtime());
+	request->setModuleTypes(cmd->dataTypes());
+
+	m_outputQueue.enqueue(new GWRequestContext(request, result));
+}
+
+void GWServerConnector::doDeviceListCommand(
+		ServerDeviceListCommand::Ptr cmd, Answer::Ptr answer)
+{
+	ServerDeviceListResult::Ptr result = new ServerDeviceListResult(answer);
+
+	GlobalID id = GlobalID::random();
+
+	GWDeviceListRequest::Ptr request = new GWDeviceListRequest;
+	request->setID(id);
+	request->setDevicePrefix(cmd->devicePrefix());
+
+	m_outputQueue.enqueue(new GWRequestContext(request, result));
+}
+
+void GWServerConnector::doLastValueCommand(
+		ServerLastValueCommand::Ptr cmd, Answer::Ptr answer)
+{
+	ServerLastValueResult::Ptr result = new ServerLastValueResult(answer);
+	result->setDeviceID(cmd->deviceID());
+	result->setModuleID(cmd->moduleID());
+
+	GlobalID id = GlobalID::random();
+
+	GWLastValueRequest::Ptr request = new GWLastValueRequest;
+	request->setID(id);
+	request->setDeviceID(cmd->deviceID());
+	request->setModuleID(cmd->moduleID());
+
+	m_outputQueue.enqueue(new GWRequestContext(request, result));
 }

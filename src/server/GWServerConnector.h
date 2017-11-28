@@ -11,6 +11,10 @@
 #include <Poco/Timestamp.h>
 #include <Poco/Util/Timer.h>
 
+#include "commands/NewDeviceCommand.h"
+#include "commands/ServerDeviceListCommand.h"
+#include "commands/ServerLastValueCommand.h"
+#include "core/CommandHandler.h"
 #include "core/GatewayInfo.h"
 #include "gwmessage/GWMessage.h"
 #include "loop/StoppableLoop.h"
@@ -33,6 +37,7 @@ namespace BeeeOn {
  */
 class GWServerConnector :
 	public StoppableLoop,
+	public CommandHandler,
 	protected Loggable {
 public:
 	typedef Poco::SharedPtr<GWServerConnector> Ptr;
@@ -53,6 +58,9 @@ public:
 	void setMaxMessageSize(int size);
 	void setGatewayInfo(Poco::SharedPtr<GatewayInfo> info);
 	void setSSLConfig(Poco::SharedPtr<SSLClient> config);
+
+	bool accept(const Command::Ptr cmd) override;
+	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 private:
 	/**
@@ -127,6 +135,10 @@ private:
 	void forwardOutputQueue();
 	void sendMessage(const GWMessage::Ptr message);
 	void sendMessageUnlocked(const GWMessage::Ptr message);
+
+	void doNewDeviceCommand(NewDeviceCommand::Ptr cmd, Answer::Ptr answer);
+	void doDeviceListCommand(ServerDeviceListCommand::Ptr cmd, Answer::Ptr answer);
+	void doLastValueCommand(ServerLastValueCommand::Ptr cmd, Answer::Ptr answer);
 
 	GWMessage::Ptr receiveMessageUnlocked();
 
