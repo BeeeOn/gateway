@@ -111,6 +111,7 @@ void GWServerConnector::runSender()
 void GWServerConnector::forwardOutputQueue()
 {
 	try {
+		enqueueFinishedAnswers();
 		GWMessageContext::Ptr context = m_outputQueue.dequeue();
 		if (!context.isNull()) {
 			forwardContext(context);
@@ -176,7 +177,7 @@ void GWServerConnector::sendPing()
 
 Event &GWServerConnector::readyToSendEvent()
 {
-	return m_readyToSendEvent;
+	return answerQueue().event();
 }
 
 void GWServerConnector::reconnect()
@@ -236,6 +237,55 @@ void GWServerConnector::runReceiver()
 void GWServerConnector::markDisconnected()
 {
 	m_isConnected = false;
+}
+
+void GWServerConnector::enqueueFinishedAnswers()
+{
+	list<Answer::Ptr> finishedAnswers = answerQueue().finishedAnswers();
+
+	for (auto answer : finishedAnswers) {
+		GWResponseWithAckContext::Ptr response;
+		ServerAnswer::Ptr serverAnswer = answer.cast<ServerAnswer>();
+
+		if (serverAnswer.isNull()) {
+			logger().warning("expected instance of ServerAnswer", __FILE__, __LINE__);
+			continue;
+		}
+
+		FastMutex::ScopedLock guard(serverAnswer->lock());
+
+		int failedResults = 0;
+
+		for (size_t i = 0; i < serverAnswer->resultsCountUnlocked(); i++) {
+			auto result = serverAnswer->atUnlocked(i);
+			if (result->statusUnlocked() != Result::Status::SUCCESS)
+				failedResults++;
+		}
+
+		GWResponse::Status status;
+		if (failedResults > 0) {
+			logger().warning(
+				to_string(failedResults)
+				+ "/" + to_string(serverAnswer->resultsCountUnlocked())
+				+ " results of answer "
+				+ serverAnswer->id().toString()
+				+ " has failed",
+				__FILE__, __LINE__
+			);
+			status = GWResponse::Status::FAILED;
+		}
+		else if (serverAnswer->resultsCountUnlocked() == 0) {
+			logger().error("command was not accepted by anyone");
+			status = GWResponse::Status::FAILED;
+		}
+		else {
+			status = GWResponse::Status::SUCCESS;
+		}
+
+		response = serverAnswer->toResponse(status);
+		m_outputQueue.enqueue(response);
+		answerQueue().remove(answer);
+	}
 }
 
 bool GWServerConnector::connectUnlocked()

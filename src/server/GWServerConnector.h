@@ -188,6 +188,8 @@ private:
 	 */
 	void handleMessage(GWMessage::Ptr msg);
 
+	void enqueueFinishedAnswers();
+
 	GWMessage::Ptr receiveMessageUnlocked();
 
 	Poco::Event &readyToSendEvent();
@@ -219,7 +221,6 @@ private:
 	Poco::AtomicCounter m_stop;
 	Poco::Event m_stopEvent;
 
-	Poco::Event m_readyToSendEvent;
 	GWContextPoll m_contextPoll;
 	GWSOutputQueue m_outputQueue;
 	Poco::Util::Timer m_timer;
