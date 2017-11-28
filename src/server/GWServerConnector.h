@@ -16,6 +16,7 @@
 #include "commands/ServerLastValueCommand.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
+#include "core/Exporter.h"
 #include "core/GatewayInfo.h"
 #include "gwmessage/GWDeviceAcceptRequest.h"
 #include "gwmessage/GWListenRequest.h"
@@ -49,6 +50,7 @@ class GWServerConnector :
 	public StoppableLoop,
 	public CommandSender,
 	public CommandHandler,
+	public Exporter,
 	protected Loggable {
 public:
 	typedef Poco::SharedPtr<GWServerConnector> Ptr;
@@ -72,6 +74,8 @@ public:
 
 	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+
+	bool ship(const SensorData &data) override;
 
 private:
 	/**

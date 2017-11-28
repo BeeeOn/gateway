@@ -25,6 +25,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GWServerConnector)
 BEEEON_OBJECT_CASTABLE(StoppableLoop)
+BEEEON_OBJECT_CASTABLE(Exporter)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_TEXT("host", &GWServerConnector::setHost)
 BEEEON_OBJECT_NUMBER("port", &GWServerConnector::setPort)
@@ -500,6 +501,23 @@ void GWServerConnector::setGatewayInfo(SharedPtr<GatewayInfo> info)
 void GWServerConnector::setSSLConfig(SharedPtr<SSLClient> config)
 {
 	m_sslConfig = config;
+}
+
+bool GWServerConnector::ship(const SensorData &data)
+{
+	GWSensorDataExport::Ptr exportMessage = new GWSensorDataExport();
+	GWSensorDataExportContext::Ptr exportContext = new GWSensorDataExportContext();
+
+	GlobalID id = GlobalID::random();
+
+	exportMessage->setID(id);
+	exportMessage->setData({data});
+
+	exportContext->setMessage(exportMessage);
+
+	m_outputQueue.enqueue(exportContext);
+
+	return true;
 }
 
 bool GWServerConnector::accept(const Command::Ptr cmd)
