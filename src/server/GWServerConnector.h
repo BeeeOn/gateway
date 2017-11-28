@@ -22,11 +22,9 @@ namespace BeeeOn {
  * with the BeeeOn Server using WebSocket. It automatically connects
  * and registers the gateway after start or connection loss.
  *
- * There are 3 threads, connector, receiver and sender (sender is currently
- * not implemented). Connector takes care about connecting to the server and
- * reconnecting if signalled. Receiver using poll takes care about receiving
- * messages from the server and detecting connection loss. Sender send queued
- * messages and export measured sensor data.
+ * There are 2 threads: sender and receiver. Sender's responsibility is reconnecting
+ * to server and sending messages. Receiver's responsibility is to to receive messages
+ * from server and handling them.
  */
 class GWServerConnector :
 	public StoppableLoop,
@@ -63,15 +61,15 @@ private:
 	void runReceiver();
 
 	/**
-	 * Starts connector in separate thread.
+	 * Starts sender in separate thread.
 	 */
-	void startConnector();
+	void startSender();
 
 	/**
 	 * Connects and registers the gateway to the server, if signalled by the
-	 * event m_requestReconnect.
+	 * event m_requestReconnect. Sends messages after connection is established.
 	 */
-	void runConnector();
+	void runSender();
 
 	/**
 	 * Tries connect to the server with WebSocket and returns status
@@ -95,7 +93,7 @@ private:
 	void disconnectUnlocked();
 
 	/**
-	 * Signals the connector to reconnect and then wait till connected.
+	 * Signals the sender to reconnect and then wait till connected.
 	 */
 	void requestReconnect();
 
@@ -119,7 +117,7 @@ private:
 	Poco::SharedPtr<Poco::Net::WebSocket> m_socket;
 	Poco::FastMutex m_receiveMutex;
 	Poco::FastMutex m_sendMutex;
-	Poco::Thread m_connectorThread;
+	Poco::Thread m_senderThread;
 	Poco::Thread m_receiverThread;
 	Poco::FastMutex m_reconnectMutex;
 	Poco::Event m_requestReconnect;

@@ -48,7 +48,7 @@ void GWServerConnector::start()
 	m_connected.reset();
 	m_requestReconnect.set();
 
-	startConnector();
+	startSender();
 	startReceiver();
 }
 
@@ -60,20 +60,20 @@ void GWServerConnector::stop()
 	m_connected.set();
 	m_requestReconnect.set();
 
-	m_connectorThread.join();
+	m_senderThread.join();
 	m_receiverThread.join();
 
 	disconnectUnlocked();
 }
 
-void GWServerConnector::startConnector()
+void GWServerConnector::startSender()
 {
-	m_connectorThread.startFunc([this](){
-		runConnector();
+	m_senderThread.startFunc([this](){
+		runSender();
 	});
 }
 
-void GWServerConnector::runConnector()
+void GWServerConnector::runSender()
 {
 	while (!m_stop) {
 		m_requestReconnect.wait();
