@@ -3,10 +3,16 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/NetException.h>
 
+#include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceSetValueCommand.h"
+#include "commands/DeviceUnpairCommand.h"
+#include "commands/GatewayListenCommand.h"
 #include "commands/ServerDeviceListResult.h"
 #include "commands/ServerLastValueResult.h"
+#include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "gwmessage/GWDeviceListRequest.h"
+#include "gwmessage/GWDeviceListResponse.h"
 #include "gwmessage/GWGatewayAccepted.h"
 #include "gwmessage/GWGatewayRegister.h"
 #include "gwmessage/GWLastValueRequest.h"
@@ -15,6 +21,7 @@
 #include "gwmessage/GWResponseWithAck.h"
 #include "gwmessage/GWSensorDataConfirm.h"
 #include "server/GWServerConnector.h"
+#include "server/ServerAnswer.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GWServerConnector)
 BEEEON_OBJECT_CASTABLE(StoppableLoop)
@@ -30,6 +37,7 @@ BEEEON_OBJECT_TIME("resendTimeoutTimeout", &GWServerConnector::setResendTimeout)
 BEEEON_OBJECT_NUMBER("maxMessageSize", &GWServerConnector::setMaxMessageSize)
 BEEEON_OBJECT_REF("sslConfig", &GWServerConnector::setSSLConfig)
 BEEEON_OBJECT_REF("gatewayInfo", &GWServerConnector::setGatewayInfo)
+BEEEON_OBJECT_REF("commandDispatcher", &GWServerConnector::setCommandDispatcher)
 BEEEON_OBJECT_END(BeeeOn, GWServerConnector)
 
 using namespace std;
@@ -207,10 +215,8 @@ void GWServerConnector::runReceiver()
 				continue;
 
 			GWMessage::Ptr msg = receiveMessageUnlocked();
-			if (!msg.isNull()) {
-				poco_information(logger(), "received new message of type: "
-						+ msg->type().toString());
-			}
+			if (!msg.isNull())
+				handleMessage(msg);
 		}
 		catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
@@ -512,4 +518,142 @@ void GWServerConnector::doLastValueCommand(
 	request->setModuleID(cmd->moduleID());
 
 	m_outputQueue.enqueue(new GWRequestContext(request, result));
+}
+
+void GWServerConnector::handleMessage(GWMessage::Ptr msg)
+{
+	if (!msg.cast<GWRequest>().isNull())
+		handleRequest(msg.cast<GWRequest>());
+	else if (!msg.cast<GWResponse>().isNull())
+		handleResponse(msg.cast<GWResponse>());
+	else if (!msg.cast<GWAck>().isNull())
+		handleAck(msg.cast<GWAck>());
+	else if (!msg.cast<GWSensorDataConfirm>().isNull())
+		handleSensorDataConfirm(msg.cast<GWSensorDataConfirm>());
+	else
+		throw InvalidArgumentException("bad message type " + msg->type().toString());
+}
+
+void GWServerConnector::handleRequest(GWRequest::Ptr request)
+{
+	switch (request->type()) {
+	case GWMessageType::DEVICE_ACCEPT_REQUEST:
+		handleDeviceAcceptRequest(request.cast<GWDeviceAcceptRequest>());
+		break;
+	case GWMessageType::LISTEN_REQUEST:
+		handleListenRequest(request.cast<GWListenRequest>());
+		break;
+	case GWMessageType::SET_VALUE_REQUEST:
+		handleSetValueRequest(request.cast<GWSetValueRequest>());
+		break;
+	case GWMessageType::UNPAIR_REQUEST:
+		handleUnpairRequest(request.cast<GWUnpairRequest>());
+		break;
+	default:
+		throw InvalidArgumentException("bad request type "+ request->type().toString());
+	}
+}
+
+void GWServerConnector::handleDeviceAcceptRequest(
+	GWDeviceAcceptRequest::Ptr request)
+{
+	DeviceAcceptCommand::Ptr command = new DeviceAcceptCommand(request->deviceID());
+
+	dispatchServerCommand(command, request->id(), request->derive());
+}
+
+void GWServerConnector::handleListenRequest(GWListenRequest::Ptr request)
+{
+	GatewayListenCommand::Ptr command =
+		new GatewayListenCommand(request->duration());
+
+	dispatchServerCommand(command, request->id(), request->derive());
+}
+
+void GWServerConnector::handleSetValueRequest(
+	GWSetValueRequest::Ptr request)
+{
+	DeviceSetValueCommand::Ptr command =
+		new DeviceSetValueCommand(
+			request->deviceID(),
+			request->moduleID(),
+			request->value(),
+			request->timeout());
+
+	dispatchServerCommand(command, request->id(), request->derive());
+}
+
+void GWServerConnector::handleUnpairRequest(GWUnpairRequest::Ptr request)
+{
+	DeviceUnpairCommand::Ptr command =
+		new DeviceUnpairCommand(request->deviceID());
+
+	dispatchServerCommand(command, request->id(), request->derive());
+}
+
+void GWServerConnector::dispatchServerCommand(
+		Command::Ptr cmd,
+		const GlobalID &id,
+		GWResponse::Ptr response)
+{
+	response->setStatus(GWResponse::Status::ACCEPTED);
+	GWResponseContext::Ptr context = new GWResponseContext(response);
+	m_outputQueue.enqueue(context);
+	dispatch(cmd, new ServerAnswer(answerQueue(), id));
+}
+
+void GWServerConnector::handleResponse(GWResponse::Ptr response)
+{
+	GWRequestContext::Ptr context = m_contextPoll.remove(response->id()).cast<GWRequestContext>();
+
+	if (context.isNull()) {
+		poco_warning(logger(), "no coresponding request found, dropping response of type "
+				+ response->toString()
+				+ " with id: " + response->id().toString());
+		return;
+	}
+
+	auto result = context->result();
+
+	if (response->status() == GWResponse::Status::SUCCESS) {
+		switch (response->type()) {
+		case GWMessageType::GENERIC_RESPONSE:
+			break;
+		case GWMessageType::DEVICE_LIST_RESPONSE:
+		{
+			ServerDeviceListResult::Ptr deviceListResult = result.cast<ServerDeviceListResult>();
+			if (deviceListResult.isNull())
+				throw IllegalStateException("request result do not match with response result");
+			deviceListResult->setDeviceList(response.cast<GWDeviceListResponse>()->devices());
+			break;
+		}
+		case GWMessageType::LAST_VALUE_RESPONSE:
+		{
+			ServerLastValueResult::Ptr lastValueResult = result.cast<ServerLastValueResult>();
+			if (lastValueResult.isNull())
+				throw IllegalStateException("request result do not match with response result");
+			lastValueResult->setValue(response.cast<GWLastValueResponse>()->value());
+			break;
+		}
+		default:
+			result->setStatus(Result::Status::FAILED);
+			throw InvalidArgumentException("bad response type "
+				+ response->type().toString());
+		}
+
+		result->setStatus(Result::Status::SUCCESS);
+	}
+	else {
+		result->setStatus(Result::Status::FAILED);
+	}
+}
+
+void GWServerConnector::handleSensorDataConfirm(GWSensorDataConfirm::Ptr confirm)
+{
+	m_contextPoll.remove(confirm->id());
+}
+
+void GWServerConnector::handleAck(GWAck::Ptr ack)
+{
+	m_contextPoll.remove(ack->id());
 }

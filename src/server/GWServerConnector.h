@@ -15,8 +15,18 @@
 #include "commands/ServerDeviceListCommand.h"
 #include "commands/ServerLastValueCommand.h"
 #include "core/CommandHandler.h"
+#include "core/CommandSender.h"
 #include "core/GatewayInfo.h"
+#include "gwmessage/GWDeviceAcceptRequest.h"
+#include "gwmessage/GWListenRequest.h"
 #include "gwmessage/GWMessage.h"
+#include "gwmessage/GWMessage.h"
+#include "gwmessage/GWPingRequest.h"
+#include "gwmessage/GWRequest.h"
+#include "gwmessage/GWResponse.h"
+#include "gwmessage/GWSensorDataConfirm.h"
+#include "gwmessage/GWSetValueRequest.h"
+#include "gwmessage/GWUnpairRequest.h"
 #include "loop/StoppableLoop.h"
 #include "server/GWMessageContext.h"
 #include "server/GWSOutputQueue.h"
@@ -37,6 +47,7 @@ namespace BeeeOn {
  */
 class GWServerConnector :
 	public StoppableLoop,
+	public CommandSender,
 	public CommandHandler,
 	protected Loggable {
 public:
@@ -139,6 +150,43 @@ private:
 	void doNewDeviceCommand(NewDeviceCommand::Ptr cmd, Answer::Ptr answer);
 	void doDeviceListCommand(ServerDeviceListCommand::Ptr cmd, Answer::Ptr answer);
 	void doLastValueCommand(ServerLastValueCommand::Ptr cmd, Answer::Ptr answer);
+
+	void dispatchServerCommand(Command::Ptr cmd, const GlobalID &id, GWResponse::Ptr response);
+
+	/**
+	 * Handle request received from server. one of the specific "handle*Reqest()" method
+	 * is called to process request. An appropriate Command is dispatched eventually.
+	 */
+	void handleRequest(GWRequest::Ptr request);
+
+	void handleDeviceAcceptRequest(GWDeviceAcceptRequest::Ptr request);
+	void handleListenRequest(GWListenRequest::Ptr request);
+	void handleSetValueRequest(GWSetValueRequest::Ptr request);
+	void handleUnpairRequest(GWUnpairRequest::Ptr request);
+
+	/**
+	 * Handle received response message, corresponding request is first
+	 * found in GWContextPoll and its result is set.
+	 */
+	void handleResponse(GWResponse::Ptr response);
+
+	/**
+	 * Handle Ack message, corresponding context is found
+	 * in GWContextPoll and remove it from m_contextPoll.
+	 */
+	void handleAck(GWAck::Ptr ack);
+
+	/**
+	 * Handle confirmation of receiving exported SensorData, this will remove
+	 * message from GWContextPoll so its not resend.
+	 */
+	void handleSensorDataConfirm(GWSensorDataConfirm::Ptr confirm);
+
+	/**
+	 * Handle generic message from server, specific handle*() method is
+	 * invoked based on message type.
+	 */
+	void handleMessage(GWMessage::Ptr msg);
 
 	GWMessage::Ptr receiveMessageUnlocked();
 
