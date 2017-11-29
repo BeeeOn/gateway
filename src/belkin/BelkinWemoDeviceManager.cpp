@@ -18,7 +18,6 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BelkinWemoDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(BelkinWemoDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_REF("distributor", &BelkinWemoDeviceManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BelkinWemoDeviceManager::setCommandDispatcher)

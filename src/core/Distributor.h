@@ -9,6 +9,8 @@ class SensorData;
  */
 class Distributor {
 public:
+	virtual ~Distributor();
+
 	/*
 	 * Export data to all registered exporters.
 	 */
