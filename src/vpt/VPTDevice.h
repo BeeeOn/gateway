@@ -17,6 +17,7 @@
 #include "commands/NewDeviceCommand.h"
 #include "core/Result.h"
 #include "model/DeviceID.h"
+#include "model/GatewayID.h"
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
 #include "model/SensorData.h"
@@ -74,6 +75,12 @@ public:
 
 	static const int COUNT_OF_ZONES;
 
+	enum Action {
+		PAIR = 0x01,
+		READ,
+		SET
+	};
+
 private:
 	VPTDevice(const Poco::Net::SocketAddress& address);
 
@@ -84,17 +91,32 @@ public:
 	 * @brief Connects to specified address to fetch information for creating VPT Device.
 	 * If the device do not respond in specified timeout, Poco::TimeoutException is thrown.
 	 * @param &address IP address and port where the device is listening.
-	 * @param timeout HTTP timeout.
+	 * @param httpTimeout HTTP timeout.
+	 * @param pingTimeout ping timeout used to obtain the IP address of gateway's interface
+	 * from which the VPT is available.
+	 * @param id Gateway id used in generating of stamp.
 	 * @return VPTDevice.
 	 */
 	static VPTDevice::Ptr buildDevice(const Poco::Net::SocketAddress& address,
-		const Poco::Timespan& timeout);
+		const Poco::Timespan& httpTimeout, const Poco::Timespan& pingTimeout, const GatewayID& id);
 
 	DeviceID deviceID() const;
 	Poco::Net::SocketAddress address() const;
 	void setAddress(const Poco::Net::SocketAddress& address);
 	void setPassword(const std::string& pwd);
 	Poco::FastMutex& lock();
+
+	/**
+	 * @brief Creates a stamp that consists of gateway id, IP address of gateway's interface
+	 * from whitch the VPT is available, time, and action.
+	 */
+	std::string generateStamp(const Action action);
+
+	/**
+	 * @brief Sends stamp with aciton to the VPT. It serves to verify that
+	 * the gateway communicates with the VPT.
+	 */
+	void stampVPT(const Action action);
 
 	/**
 	 * @param id Subdevice of VPT.
@@ -176,8 +198,10 @@ private:
 	Poco::Net::SocketAddress m_address;
 	std::string m_password;
 
+	Poco::Timespan m_pingTimeout;
 	Poco::Timespan m_httpTimeout;
 
+	GatewayID m_gatewayID;
 	VPTDevice::VPTCommandExecutor m_executor;
 	Poco::FastMutex m_lock;
 };

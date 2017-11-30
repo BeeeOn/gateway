@@ -24,6 +24,7 @@ BEEEON_OBJECT_NUMBER("maxMsgSize", &VPTDeviceManager::setMaxMsgSize)
 BEEEON_OBJECT_TEXT("path", &VPTDeviceManager::setPath)
 BEEEON_OBJECT_NUMBER("port", &VPTDeviceManager::setPort)
 BEEEON_OBJECT_TEXT("minNetMask", &VPTDeviceManager::setMinNetMask)
+BEEEON_OBJECT_REF("gatewayInfo", &VPTDeviceManager::setGatewayInfo)
 BEEEON_OBJECT_REF("credentialsStorage", &VPTDeviceManager::setCredentialsStorage)
 BEEEON_OBJECT_REF("cryptoConfig", &VPTDeviceManager::setCryptoConfig)
 BEEEON_OBJECT_END(BeeeOn, VPTDeviceManager)
@@ -140,6 +141,11 @@ void VPTDeviceManager::setPort(const int port)
 void VPTDeviceManager::setMinNetMask(const string& minNetMask)
 {
 	m_scanner.setMinNetMask(IPAddress(minNetMask));
+}
+
+void VPTDeviceManager::setGatewayInfo(SharedPtr<GatewayInfo> gatewayInfo)
+{
+	m_gatewayInfo = gatewayInfo;
 }
 
 void VPTDeviceManager::setCredentialsStorage(SharedPtr<CredentialsStorage> storage)
@@ -360,7 +366,8 @@ vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices()
 
 		VPTDevice::Ptr newDevice;
 		try {
-			newDevice = VPTDevice::buildDevice(address, m_httpTimeout);
+			newDevice = VPTDevice::buildDevice(address, m_httpTimeout,
+				m_pingTimeout, m_gatewayInfo->gatewayID());
 		}
 		catch (Exception& e) {
 			logger().warning("found device has disconnected", __FILE__, __LINE__);

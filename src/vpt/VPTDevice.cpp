@@ -1,8 +1,14 @@
+#include <arpa/inet.h>
+#include <netinet/in.h>
+
 #include <Poco/DigestStream.h>
 #include <Poco/Event.h>
 #include <Poco/NumberFormatter.h>
+#include <Poco/Timestamp.h>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPResponse.h>
+#include <Poco/Net/IPAddress.h>
+#include <Poco/Net/StreamSocket.h>
 #include <Poco/RegularExpression.h>
 #include <Poco/SHA1Engine.h>
 #include <Poco/StreamCopier.h>
@@ -20,6 +26,7 @@
 #define OMIT_SUBDEVICE_MASK 0xff00ffffffffffff
 #define MAX_ATTEMPTS 3
 #define SETTING_DELAY_MS 15000
+#define GATEWAY_ID_MASK 0x00ffffffffffffffUL
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -138,15 +145,66 @@ FastMutex& VPTDevice::lock()
 	return m_lock;
 }
 
+string VPTDevice::generateStamp(const Action action)
+{
+	string stamp;
+	StreamSocket ping;
+
+	struct in_addr *addr = NULL;
+	uint32_t ipAddress = 0;
+
+	try {
+		ping.connect(m_address, m_pingTimeout);
+
+		addr = (struct in_addr *) ping.address().host().addr();
+		ipAddress = (uint32_t) addr->s_addr;
+	}
+	catch (const Exception& e) {
+		logger().warning("unable to get IP address of proper gateway's interface, IP 0.0.0.0 is used",
+			__FILE__, __LINE__);
+	}
+	ping.close();
+
+	const uint64_t id = m_gatewayID.data() & GATEWAY_ID_MASK;
+
+	const uint32_t time = (uint32_t) Timestamp().epochTime();
+
+	//Format: 4B - GATEWAY IP, 7B - GATEWAY ID, 4B - TIME, 1B - ACTION
+	//Hex: 8 + 14 + 8 + 2 = 32 characters
+	NumberFormatter::appendHex(stamp, ipAddress, 8);
+	NumberFormatter::appendHex(stamp, id, 14);
+	NumberFormatter::appendHex(stamp, time, 8);
+	NumberFormatter::appendHex(stamp, action, 2);
+
+	return stamp;
+}
+
+void VPTDevice::stampVPT(const Action action)
+{
+	string stamp = generateStamp(action);
+
+	try {
+		prepareAndSendRequest("BEEE0", stamp);
+
+		logger().debug("update register BEEE0 to " + stamp, __FILE__, __LINE__);
+	}
+	catch (const Exception& e) {
+		logger().warning("the BEEE0 register update failed due to network", __FILE__, __LINE__);
+	}
+}
+
 bool VPTDevice::operator==(const VPTDevice& other) const
 {
 	return other.deviceID() == m_deviceId;
 }
 
-VPTDevice::Ptr VPTDevice::buildDevice(const SocketAddress& address, const Timespan& timeout)
+VPTDevice::Ptr VPTDevice::buildDevice(const SocketAddress& address,
+	const Timespan& httpTimeout, const Timespan& pingTimeout, const GatewayID& id)
 {
 	VPTDevice::Ptr device = new VPTDevice(address);
-	device->m_httpTimeout = timeout;
+	device->m_httpTimeout = httpTimeout;
+	device->m_pingTimeout = pingTimeout;
+	device->m_gatewayID = id;
 	device->buildDeviceID();
 	return device;
 }
@@ -161,6 +219,8 @@ void VPTDevice::buildDeviceID()
 	Object::Ptr object = JsonUtil::parse(response.getBody());
 	string mac = object->getValue<string>("id");
 	m_deviceId = DeviceID(DevicePrefix::PREFIX_VPT, NumberParser::parseHex64(mac));
+
+	stampVPT(Action::PAIR);
 }
 
 void VPTDevice::requestModifyState(const DeviceID& id, const ModuleID module,
@@ -223,6 +283,8 @@ void VPTDevice::requestSetModBoilerOperationType(const int zone, const int value
 
 	prepareAndSendRequest(registr, strValue);
 
+	stampVPT(Action::SET);
+
 	/*
 	 * The success of request is probed in iterations with
 	 * some delay because the setting time of request can be long.
@@ -267,6 +329,8 @@ void VPTDevice::requestSetModBoilerOperationMode(const int zone, const int value
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
+
+	stampVPT(Action::SET);
 }
 
 void VPTDevice::requestSetManualRoomTemperature(const int zone, const double value, Result::Ptr result)
@@ -284,6 +348,8 @@ void VPTDevice::requestSetManualRoomTemperature(const int zone, const double val
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
+
+	stampVPT(Action::SET);
 }
 
 void VPTDevice::requestSetManualWaterTemperature(const int zone, const double value, Result::Ptr result)
@@ -300,6 +366,8 @@ void VPTDevice::requestSetManualWaterTemperature(const int zone, const double va
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
+
+	stampVPT(Action::SET);
 }
 
 void VPTDevice::requestSetManualTUVTemperature(const int zone, const double value, Result::Ptr result)
@@ -316,6 +384,8 @@ void VPTDevice::requestSetManualTUVTemperature(const int zone, const double valu
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
+
+	stampVPT(Action::SET);
 }
 
 void VPTDevice::requestSetModWaterTemperature(const int zone, const double value, Result::Ptr result)
@@ -332,6 +402,8 @@ void VPTDevice::requestSetModWaterTemperature(const int zone, const double value
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
+
+	stampVPT(Action::SET);
 }
 
 HTTPEntireResponse VPTDevice::prepareAndSendRequest(const string& registr, const string& value)
@@ -426,6 +498,8 @@ vector<SensorData> VPTDevice::requestValues()
 	request.setURI("/values.json");
 
 	HTTPEntireResponse response = sendRequest(request, m_httpTimeout);
+
+	stampVPT(Action::READ);
 
 	VPTValuesParser parser;
 	return parser.parse(m_deviceId, response.getBody());
