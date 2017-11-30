@@ -63,7 +63,7 @@ void GatewayInfo::initialize()
 
 string GatewayInfo::version()
 {
-	return GIT_ID;
+	return BeeeOn::gitVersion();
 }
 
 Poco::SharedPtr<X509Certificate> GatewayInfo::certificate() const

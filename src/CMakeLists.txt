@@ -219,6 +219,9 @@ else()
 	message(STATUS "Internal air pressure sensor support is disabled")
 endif()
 
+configure_file(core/Version.cpp.in ${PROJECT_BINARY_DIR}/core/Version.cpp)
+list(APPEND SOURCES ${PROJECT_BINARY_DIR}/core/Version.cpp)
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/base/src

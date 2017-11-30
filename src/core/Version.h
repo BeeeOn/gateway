@@ -1,5 +1,9 @@
 #pragma once
 
-#ifndef GIT_ID
-	#define GIT_ID "unknown"
-#endif
+#include <string>
+
+namespace BeeeOn {
+
+std::string gitVersion();
+
+}

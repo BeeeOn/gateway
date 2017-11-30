@@ -1,0 +1,12 @@
+#include "core/Version.h"
+
+#cmakedefine GIT_ID "@GIT_ID@"
+
+#ifndef GIT_ID
+	#define GIT_ID "unknown"
+#endif
+
+std::string BeeeOn::gitVersion()
+{
+	return GIT_ID;
+}
