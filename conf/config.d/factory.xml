@@ -21,8 +21,8 @@
 		</instance>
 
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
-			<set name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
-			<set name="exporter" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
+			<add name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
+			<add name="exporter" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
 			<set name="executor" ref="asyncExecutor"/>
 		</instance>
 
@@ -64,8 +64,8 @@
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
 			<set name="matches" list="bluetooth,tty" />
 			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
-			<set name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
-			<set name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
+			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
+			<add name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
