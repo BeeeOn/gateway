@@ -71,6 +71,7 @@ public:
 	void setMaxMessageSize(int size);
 	void setGatewayInfo(Poco::SharedPtr<GatewayInfo> info);
 	void setSSLConfig(Poco::SharedPtr<SSLClient> config);
+	void setInactiveMultiplier(int multiplier);
 
 	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
@@ -194,6 +195,14 @@ private:
 
 	void enqueueFinishedAnswers();
 
+	/**
+	 * Returns true if too much time elapsed since we last
+	 * received message from server. In this case, connection
+	 * is considere broken and must be reconnected.
+	 */
+	bool connectionSeemsBroken();
+	void updateLastReceived();
+
 	GWMessage::Ptr receiveMessageUnlocked();
 
 	Poco::Event &readyToSendEvent();
@@ -211,6 +220,8 @@ private:
 	Poco::SharedPtr<GatewayInfo> m_gatewayInfo;
 	Poco::SharedPtr<SSLClient> m_sslConfig;
 	Poco::Timestamp m_lastReceived;
+	Poco::FastMutex m_lastReceivedMutex;
+	int m_inactiveMultiplier;
 
 	Poco::Buffer<char> m_receiveBuffer;
 	Poco::SharedPtr<Poco::Net::WebSocket> m_socket;

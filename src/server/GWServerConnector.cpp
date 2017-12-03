@@ -36,6 +36,7 @@ BEEEON_OBJECT_TIME("retryConnectTimeout", &GWServerConnector::setRetryConnectTim
 BEEEON_OBJECT_TIME("busySleep", &GWServerConnector::setBusySleep)
 BEEEON_OBJECT_TIME("resendTimeoutTimeout", &GWServerConnector::setResendTimeout)
 BEEEON_OBJECT_NUMBER("maxMessageSize", &GWServerConnector::setMaxMessageSize)
+BEEEON_OBJECT_NUMBER("inactiveMultiplier", &GWServerConnector::setInactiveMultiplier)
 BEEEON_OBJECT_REF("sslConfig", &GWServerConnector::setSSLConfig)
 BEEEON_OBJECT_REF("gatewayInfo", &GWServerConnector::setGatewayInfo)
 BEEEON_OBJECT_REF("commandDispatcher", &GWServerConnector::setCommandDispatcher)
@@ -55,6 +56,7 @@ GWServerConnector::GWServerConnector():
 	m_busySleep(30 * Timespan::SECONDS),
 	m_resendTimeout(20 * Timespan::SECONDS),
 	m_maxMessageSize(4096),
+	m_inactiveMultiplier(5),
 	m_receiveBuffer(m_maxMessageSize),
 	m_isConnected(false),
 	m_stop(false),
@@ -121,6 +123,8 @@ void GWServerConnector::forwardOutputQueue()
 			if (!readyToSendEvent().tryWait(m_busySleep.totalMilliseconds()))
 				sendPing();
 		}
+			if (connectionSeemsBroken())
+				markDisconnected();
 	}
 	catch (const Exception &e) {
 		logger().log(e, __FILE__, __LINE__);
@@ -407,7 +411,7 @@ GWMessage::Ptr GWServerConnector::receiveMessageUnlocked()
 
 	if (opcode == WebSocket::FRAME_OP_PONG) {
 		poco_trace(logger(), "received pong message");
-		m_lastReceived.update();
+		updateLastReceived();
 		return nullptr;
 	}
 
@@ -419,7 +423,7 @@ GWMessage::Ptr GWServerConnector::receiveMessageUnlocked()
 	if (logger().trace())
 		logger().trace("received:\n" + data, __FILE__, __LINE__);
 
-	m_lastReceived.update();
+	updateLastReceived();
 
 	return GWMessage::fromJSON(data);
 }
@@ -501,6 +505,13 @@ void GWServerConnector::setGatewayInfo(SharedPtr<GatewayInfo> info)
 void GWServerConnector::setSSLConfig(SharedPtr<SSLClient> config)
 {
 	m_sslConfig = config;
+}
+
+void GWServerConnector::setInactiveMultiplier(int multiplier)
+{
+	if (multiplier < 1)
+		throw InvalidArgumentException("multiplier must be greater than zero");
+	m_inactiveMultiplier = multiplier;
 }
 
 bool GWServerConnector::ship(const SensorData &data)
@@ -724,4 +735,18 @@ void GWServerConnector::handleSensorDataConfirm(GWSensorDataConfirm::Ptr confirm
 void GWServerConnector::handleAck(GWAck::Ptr ack)
 {
 	m_contextPoll.remove(ack->id());
+}
+
+bool GWServerConnector::connectionSeemsBroken()
+{
+	FastMutex::ScopedLock guard(m_lastReceivedMutex);
+	return m_lastReceived.isElapsed(
+			m_busySleep.totalMicroseconds()
+			* m_inactiveMultiplier);
+}
+
+void GWServerConnector::updateLastReceived()
+{
+	FastMutex::ScopedLock guard(m_lastReceivedMutex);
+	m_lastReceived.update();
 }
