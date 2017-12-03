@@ -54,6 +54,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
+	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoAnswerImpl.cpp
 	${PROJECT_SOURCE_DIR}/core/PocoCommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
@@ -108,6 +109,7 @@ if(ENABLE_BLUETOOTH_AVAILABILITY)
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)
 	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+	add_definitions(-DHAVE_HCI=1)
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
@@ -169,6 +171,7 @@ if(ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
+	add_definitions(-DHAVE_ZWAVE=1)
 else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
