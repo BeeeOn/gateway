@@ -119,8 +119,10 @@ void GWServerConnector::runReceiver()
 				continue;
 
 			GWMessage::Ptr msg = receiveMessageUnlocked();
-			poco_information(logger(), "received new message of type: "
-					+ msg->type().toString());
+			if (!msg.isNull()) {
+				poco_information(logger(), "received new message of type: "
+						+ msg->type().toString());
+			}
 		}
 		catch (const Exception &e) {
 			logger().log(e, __FILE__, __LINE__);
@@ -256,14 +258,23 @@ GWMessage::Ptr GWServerConnector::receiveMessageUnlocked()
 	int flags;
 	int ret = m_socket->receiveFrame(m_receiveBuffer.begin(),
 			m_receiveBuffer.size(), flags);
+	const int opcode = flags & WebSocket::FRAME_OP_BITMASK;
 
-	if (ret <= 0 || (flags & WebSocket::FRAME_OP_CLOSE))
+	if (opcode == WebSocket::FRAME_OP_PONG) {
+		poco_trace(logger(), "received pong message");
+		m_lastReceived.update();
+		return nullptr;
+	}
+
+	if (ret <= 0 || (opcode == WebSocket::FRAME_OP_CLOSE))
 		throw ConnectionResetException("server connection closed");
 
 	string data(m_receiveBuffer.begin(), ret);
 
 	if (logger().trace())
 		logger().trace("received:\n" + data, __FILE__, __LINE__);
+
+	m_lastReceived.update();
 
 	return GWMessage::fromJSON(data);
 }

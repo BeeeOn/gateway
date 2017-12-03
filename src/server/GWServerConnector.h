@@ -8,6 +8,7 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
+#include <Poco/Timestamp.h>
 
 #include "core/GatewayInfo.h"
 #include "gwmessage/GWMessage.h"
@@ -118,6 +119,7 @@ private:
 	size_t m_maxMessageSize;
 	Poco::SharedPtr<GatewayInfo> m_gatewayInfo;
 	Poco::SharedPtr<SSLClient> m_sslConfig;
+	Poco::Timestamp m_lastReceived;
 
 	Poco::Buffer<char> m_receiveBuffer;
 	Poco::SharedPtr<Poco::Net::WebSocket> m_socket;
