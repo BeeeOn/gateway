@@ -104,6 +104,10 @@ private:
 	 */
 	void markDisconnected();
 
+	/**
+	 * Send ping frame to server.
+	 */
+	void sendPing();
 	void sendMessage(const GWMessage::Ptr message);
 	void sendMessageUnlocked(const GWMessage::Ptr message);
 

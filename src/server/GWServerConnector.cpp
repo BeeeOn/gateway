@@ -83,6 +83,14 @@ void GWServerConnector::runSender()
 	}
 }
 
+void GWServerConnector::sendPing()
+{
+	FastMutex::ScopedLock guard(m_sendMutex);
+	poco_trace(logger(), "sending ping frame");
+
+	m_socket->sendFrame("echo", 4, WebSocket::FRAME_OP_PING);
+}
+
 void GWServerConnector::reconnect()
 {
 	FastMutex::ScopedLock sendGuard(m_sendMutex);
