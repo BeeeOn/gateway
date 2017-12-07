@@ -33,7 +33,7 @@ LoggingCollector::~LoggingCollector()
 {
 }
 
-void LoggingCollector::onExport(const SensorData &data)
+void LoggingCollector::onExport(const SensorData &)
 {
 	static Occasionally occasionally(SENSOR_DATA_FREQ);
 
