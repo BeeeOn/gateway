@@ -23,6 +23,7 @@
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
 			<add name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 			<add name="exporter" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
+			<add name="exporter" ref="gwServerConnector" if-yes="${gws.enable}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listener" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
@@ -32,6 +33,7 @@
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
 			<set name="executor" ref="asyncExecutor"/>
+			<add name="handlers" ref="gwServerConnector" if-yes="${gws.enable}"/>
 			<add name="handlers" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
 			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
@@ -53,6 +55,7 @@
 			<set name="maxMessageSize" number="${gws.maxMessageSize}" />
 			<set name="gatewayInfo" ref="gatewayInfo" />
 			<set name="sslConfig" ref="gwsSSLClient" if-yes="${gws.ssl.enable}"/>
+			<set name="commandDispatcher" ref="commandDispatcher"/>
 		</instance>
 
 		<instance name="gwsSSLClient" class="BeeeOn::SSLClient">
