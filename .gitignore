@@ -2,3 +2,6 @@
 .*.swo
 /build*
 /*.patch
+beeeon_pipe
+credentials.properties
+gateway.hotplug
