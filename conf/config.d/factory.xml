@@ -17,7 +17,7 @@
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
 			<set name="certificatePath" text="${ssl.certificate}" />
 			<set name="keyPath" text="${ssl.key}" />
-			<set name="gatewayID" text="${gateway.id}" />
+			<set name="gatewayID" text="${gateway.id}" if-yes="${gateway.id.enable}"/>
 		</instance>
 
 		<instance name="distributor" class="BeeeOn::BasicDistributor">
