@@ -15,8 +15,8 @@
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
-			<set name="certificatePath" text="${ssl.certificate.filePath}" />
-			<set name="keyPath" text="${ssl.privateKey.filePath}" />
+			<set name="certificatePath" text="${ssl.certificate}" />
+			<set name="keyPath" text="${ssl.key}" />
 			<set name="gatewayID" text="${gateway.id}" />
 		</instance>
 
@@ -54,15 +54,15 @@
 			<set name="retryConnectTimeout" time="${gws.retryConnectTimeout}" />
 			<set name="maxMessageSize" number="${gws.maxMessageSize}" />
 			<set name="gatewayInfo" ref="gatewayInfo" />
-			<set name="sslConfig" ref="gwsSSLClient" if-yes="${gws.ssl.enable}"/>
+			<set name="sslConfig" ref="gwsSSLClient" if-yes="${ssl.enable}"/>
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 		</instance>
 
 		<instance name="gwsSSLClient" class="BeeeOn::SSLClient">
-			<set name="certificate" text="${gws.ssl.certificate}" />
-			<set name="privateKey" text="${gws.ssl.key}" />
-			<set name="caLocation" text="${gws.ssl.authority}" />
-			<set name="verificationMode" text="${gws.ssl.verify_level}" />
+			<set name="certificate" text="${ssl.certificate}" />
+			<set name="privateKey" text="${ssl.key}" />
+			<set name="caLocation" text="${ssl.authority}" />
+			<set name="verificationMode" text="${ssl.verify_level}" />
 			<set name="loadDefaultCA" text="false" />
 		</instance>
 
