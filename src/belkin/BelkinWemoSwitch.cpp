@@ -3,17 +3,10 @@
 #include <Poco/DOM/Document.h>
 #include <Poco/DOM/NodeFilter.h>
 #include <Poco/DOM/NodeIterator.h>
-#include <Poco/Exception.h>
 #include <Poco/NumberParser.h>
-#include <Poco/RegularExpression.h>
-#include <Poco/SAX/AttributesImpl.h>
-#include <Poco/StreamCopier.h>
-#include <Poco/XML/XMLWriter.h>
 
 #include "belkin/BelkinWemoSwitch.h"
-#include "model/DevicePrefix.h"
 #include "net/HTTPEntireResponse.h"
-#include "net/SOAPMessage.h"
 #include "util/SecureXmlParser.h"
 
 #define BELKIN_SWITCH_NAME "Switch F7C027fr"
@@ -28,11 +21,7 @@ using namespace Poco::XML;
 using namespace std;
 
 BelkinWemoSwitch::BelkinWemoSwitch(const SocketAddress& address):
-	m_uri("http://" + address.toString() + "/upnp/control/basicevent1")
-{
-}
-
-BelkinWemoSwitch::BelkinWemoSwitch()
+	BelkinWemoStandaloneDevice(URI("http://" + address.toString() + "/upnp/control/basicevent1"))
 {
 }
 
@@ -48,162 +37,20 @@ BelkinWemoSwitch::Ptr BelkinWemoSwitch::buildDevice(const SocketAddress& address
 	return device;
 }
 
-void BelkinWemoSwitch::buildDeviceID()
-{
-	m_deviceId = DeviceID(DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr());
-}
-
 bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const double value)
 {
 	if (moduleID != BELKIN_SWITCH_MODULE_ID)
 		return false;
 
 	if (value)
-		return turnOn();
+		return requestModifyBinaryState("BinaryState", "BinaryState", BELKIN_SWITCH_STATE_ON);
 	else
-		return turnOff();
-}
-
-bool BelkinWemoSwitch::turnOn() const
-{
-	HTTPRequest request;
-
-	SOAPMessage msg;
-	msg.setAction("\"urn:Belkin:service:basicevent:1#SetBinaryState\"");
-
-	AttributesImpl attrs;
-	XMLWriter& writer = msg.bodyWriter();
-
-	attrs.addAttribute(
-		"",
-		"xmlns:u",
-		"xmlns",
-		"string",
-		"urn:Belkin:service:basicevent:1");
-	writer.startElement(
-		"",
-		"u:SetBinaryState",
-		"SetBinaryState",
-		attrs);
-
-	writer.startElement(
-		"",
-		"BinaryState",
-		"BinaryState");
-	writer.characters(to_string(BELKIN_SWITCH_STATE_ON));
-
-	writer.endElement(
-		"",
-		"BinaryState",
-		"BinaryState");
-	writer.endElement(
-		"",
-		"u:SetBinaryState",
-		"SetBinaryState");
-
-	msg.prepare(request);
-
-	HTTPEntireResponse response = sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
-
-	SecureXmlParser parser;
-	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
-	NodeIterator iterator(xmlDoc, NodeFilter::SHOW_ALL);
-	Node* xmlNode = findNode(iterator, "BinaryState");
-
-	return xmlNode->nodeValue() == "1";
-}
-
-bool BelkinWemoSwitch::turnOff() const
-{
-	HTTPRequest request;
-
-	SOAPMessage msg;
-	msg.setAction("\"urn:Belkin:service:basicevent:1#SetBinaryState\"");
-
-	AttributesImpl attrs;
-	XMLWriter& writer = msg.bodyWriter();
-
-	attrs.addAttribute(
-		"",
-		"xmlns:u",
-		"xmlns",
-		"string",
-		"urn:Belkin:service:basicevent:1");
-	writer.startElement(
-		"",
-		"u:SetBinaryState",
-		"SetBinaryState",
-		attrs);
-
-	writer.startElement(
-		"",
-		"BinaryState",
-		"BinaryState");
-	writer.characters(to_string(BELKIN_SWITCH_STATE_OFF));
-
-	writer.endElement(
-		"",
-		"BinaryState",
-		"BinaryState");
-	writer.endElement(
-		"",
-		"u:SetBinaryState",
-		"SetBinaryState");
-
-	msg.prepare(request);
-
-	HTTPEntireResponse response = sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
-
-	SecureXmlParser parser;
-	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
-	NodeIterator iterator(xmlDoc, NodeFilter::SHOW_ALL);
-	Node* xmlNode = findNode(iterator, "BinaryState");
-
-	return xmlNode->nodeValue() == "0";
+		return requestModifyBinaryState("BinaryState", "BinaryState", BELKIN_SWITCH_STATE_OFF);
 }
 
 SensorData BelkinWemoSwitch::requestState()
 {
-	HTTPRequest request;
-
-	SOAPMessage msg;
-	msg.setAction("\"urn:Belkin:service:basicevent:1#GetBinaryState\"");
-
-	AttributesImpl attrs;
-	XMLWriter& writer = msg.bodyWriter();
-
-	attrs.addAttribute(
-		"",
-		"xmlns:u",
-		"xmlns",
-		"string",
-		"urn:Belkin:service:basicevent:1");
-	writer.startElement(
-		"",
-		"u:GetBinaryState",
-		"GetBinaryState",
-		attrs);
-
-	writer.startElement(
-		"",
-		"BinaryState",
-		"BinaryState");
-
-	writer.endElement(
-		"",
-		"BinaryState",
-		"BinaryState");
-	writer.endElement(
-		"",
-		"u:GetBinaryState",
-		"GetBinaryState");
-
-	msg.prepare(request);
-
-	HTTPEntireResponse response = sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
+	HTTPEntireResponse response = requestBinaryState();
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -218,56 +65,6 @@ SensorData BelkinWemoSwitch::requestState()
 		data.insertValue(SensorValue(BELKIN_SWITCH_MODULE_ID, BELKIN_SWITCH_STATE_OFF));
 
 	return data;
-}
-
-MACAddress BelkinWemoSwitch::requestMacAddr()
-{
-	HTTPRequest request;
-
-	SOAPMessage msg;
-	msg.setAction("\"urn:Belkin:service:basicevent:1#GetMacAddr\"");
-
-	AttributesImpl attrs;
-	XMLWriter& writer = msg.bodyWriter();
-
-	attrs.addAttribute(
-		"",
-		"xmlns:u",
-		"xmlns",
-		"string",
-		"urn:Belkin:service:basicevent:1");
-	writer.startElement(
-		"",
-		"u:GetMacAddr",
-		"GetMacAddr",
-		attrs);
-
-	writer.endElement(
-		"",
-		"u:GetMacAddr",
-		"GetMacAddr");
-
-	msg.prepare(request);
-
-	HTTPEntireResponse response = sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
-
-	SecureXmlParser parser;
-	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
-	NodeIterator iterator(xmlDoc, NodeFilter::SHOW_ALL);
-	Node* xmlNode = findNode(iterator, "MacAddr");
-
-	return MACAddress(NumberParser::parseHex64(xmlNode->nodeValue()));
-}
-
-SocketAddress BelkinWemoSwitch::address() const
-{
-	return SocketAddress(m_uri.getHost(), m_uri.getPort());
-}
-
-void BelkinWemoSwitch::setAddress(const SocketAddress& address)
-{
-	m_uri = URI("http://" + address.toString() + "/upnp/control/basicevent1");
 }
 
 list<ModuleType> BelkinWemoSwitch::moduleTypes() const
