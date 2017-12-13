@@ -35,6 +35,8 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatterTest.cpp
+	${PROJECT_SOURCE_DIR}/util/DataWriterTest.cpp
+	${PROJECT_SOURCE_DIR}/util/DataReaderTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 )

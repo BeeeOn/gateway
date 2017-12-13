@@ -78,6 +78,8 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/server/GWServerConnector.cpp
 	${PROJECT_SOURCE_DIR}/server/ServerAnswer.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
+	${PROJECT_SOURCE_DIR}/util/DataReader.cpp
+	${PROJECT_SOURCE_DIR}/util/DataWriter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParser.cpp
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
