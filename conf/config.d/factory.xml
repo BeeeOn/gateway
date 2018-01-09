@@ -28,7 +28,7 @@
 			<add name="listener" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
-		<instance name="asyncExecutor" class="BeeeOn::AsyncExecutor">
+		<instance name="asyncExecutor" class="BeeeOn::SequentialAsyncExecutor">
 		</instance>
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
