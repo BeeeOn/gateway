@@ -52,8 +52,17 @@ list<SocketAddress> UPnP::discover(const Timespan& timeout, const string& device
 			break;
 		}
 
-		const string response(buffer, sizeOfResponse);
+		const string response = string(buffer, sizeOfResponse) + "\r\n";
+
 		RegularExpression::MatchVec matches;
+		RegularExpression reST("\r\n(?i)(st): (.*)\r\n");
+
+		if (reST.match(response, 0, matches)) {
+			if (response.substr(matches[2].offset, matches[2].length) != deviceType) {
+				continue;
+			}
+		}
+
 		RegularExpression reLocation(
 			"(?i)(location): "
 			"http://([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}:[0-9]{1,5})"
@@ -63,7 +72,10 @@ list<SocketAddress> UPnP::discover(const Timespan& timeout, const string& device
 			continue;
 
 		SocketAddress searchingDevice(response.substr(matches[2].offset, matches[2].length));
-		listOfDevices.push_front(searchingDevice);
+
+		auto it = find(listOfDevices.begin(), listOfDevices.end(), searchingDevice);
+		if (it == listOfDevices.end())
+			listOfDevices.push_front(searchingDevice);
 	}
 
 	logger().information("found " + to_string(listOfDevices.size()) + " device(s) " + deviceType, __FILE__, __LINE__);
