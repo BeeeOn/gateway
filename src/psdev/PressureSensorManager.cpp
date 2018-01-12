@@ -201,6 +201,7 @@ void PressureSensorManager::shipValue()
 		double value;
 		FileInputStream fStream(m_path);
 		fStream >> value;
+		value = value / 100.0; // convert to hPa
 		data.insertValue(SensorValue(ModuleID(0), value));
 		ship(data);
 	}
