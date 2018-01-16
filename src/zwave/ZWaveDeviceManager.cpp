@@ -23,6 +23,7 @@
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveDeviceManager.h"
 #include "zwave/ZWaveNodeEvent.h"
+#include "zwave/ZWaveNotificationEvent.h"
 #include "zwave/ZWavePocoLoggerAdapter.h"
 #include "zwave/ZWaveUtil.h"
 
@@ -536,6 +537,9 @@ void ZWaveDeviceManager::dispatchUnpairedDevices()
 void ZWaveDeviceManager::onNotification(
 	const Notification *notification)
 {
+	ZWaveNotificationEvent e(*notification);
+	m_eventSource.fireEvent(e, &ZWaveListener::onNotification);
+
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_beeeonDevices.find(notification->GetNodeId());
 

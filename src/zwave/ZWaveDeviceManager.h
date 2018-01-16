@@ -81,7 +81,9 @@ public:
 	void installConfiguration();
 
 	/**
-	 * It handles notification from Z-Wave network.
+	 * It handles notification from Z-Wave network. The method fires
+	 * the ZWaveListener::onNotification for each notification before
+	 * processing it.
 	 * @param notification Provides a container for data sent via
 	 * the notification
 	 */
