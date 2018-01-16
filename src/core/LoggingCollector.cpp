@@ -1,6 +1,7 @@
 #include <string>
 
 #include <Poco/Logger.h>
+#include <Poco/NumberFormatter.h>
 
 #include "bluetooth/HciInfo.h"
 #include "core/LoggingCollector.h"
@@ -9,6 +10,7 @@
 #include "util/Occasionally.h"
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveNodeEvent.h"
+#include "zwave/ZWaveNotificationEvent.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
@@ -82,12 +84,43 @@ void LoggingCollector::onNodeStats(const ZWaveNodeEvent &e)
 			+ "/"
 			+ to_string(e.quality()));
 }
+
+void LoggingCollector::onNotification(const ZWaveNotificationEvent &e)
+{
+	const string event = e.event().isNull() ?
+		"(null)" : NumberFormatter::formatHex(e.event().value(), 2, true);
+
+	logger().debug("Z-Wave Notification: "
+			+ to_string(e.type())
+			+ ", {"
+			+ NumberFormatter::formatHex(e.homeID(), 8, true)
+			+ ", "
+			+ NumberFormatter::formatHex(e.nodeID(), 2, true)
+			+ ", "
+			+ to_string(e.valueID().GetGenre())
+			+ ", "
+			+ NumberFormatter::formatHex(e.valueID().GetCommandClassId(), 2, true)
+			+ ", "
+			+ NumberFormatter::formatHex(e.valueID().GetInstance(), 2, true)
+			+ ", "
+			+ NumberFormatter::formatHex(e.valueID().GetIndex(), 2, true)
+			+ ", "
+			+ to_string(e.valueID().GetType())
+			+ "}, "
+			+ NumberFormatter::formatHex(e.byte(), 2, true)
+			+ ", "
+			+ event);
+}
 #else
 void LoggingCollector::onDriverStats(const ZWaveDriverEvent &)
 {
 }
 
 void LoggingCollector::onNodeStats(const ZWaveNodeEvent &)
+{
+}
+
+void LoggingCollector::onNotification(const ZWaveNotificationEvent &)
 {
 }
 #endif
