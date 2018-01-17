@@ -51,7 +51,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherListener.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
-	${PROJECT_SOURCE_DIR}/core/CommandRunner.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandSender.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Distributor.cpp
@@ -60,7 +59,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
-	${PROJECT_SOURCE_DIR}/core/PocoAnswerImpl.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
