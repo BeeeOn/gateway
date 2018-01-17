@@ -29,6 +29,15 @@ void CommandDispatcher::registerListener(CommandDispatcherListener::Ptr listener
 	m_eventSource.addListener(listener);
 }
 
+void CommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
+{
+	notifyDispatch(cmd);
+
+	logger().debug(cmd->toString(), __FILE__, __LINE__);
+
+	dispatchImpl(cmd, answer);
+}
+
 void CommandDispatcher::notifyDispatch(Command::Ptr cmd)
 {
 	m_eventSource.fireEvent(cmd, &CommandDispatcherListener::onDispatch);
