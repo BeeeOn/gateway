@@ -4,10 +4,11 @@
 #include <Poco/ThreadPool.h>
 
 #include "core/AnswerQueue.h"
-#include "core/PocoCommandDispatcher.h"
+#include "core/AsyncCommandDispatcher.h"
 #include "core/CommandSender.h"
 #include "core/Result.h"
 #include "model/DeviceID.h"
+#include "util/ParallelExecutor.h"
 
 namespace BeeeOn {
 
@@ -19,9 +20,16 @@ class CommandDispatcherTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
+	void setUp();
+	void tearDown();
+
 	void testSupportedCommand();
 	void testUnsupportedCommand();
 	void testCommandSender();
+
+private:
+	ParallelExecutor::Ptr m_executor;
+	Poco::Thread m_executorThread;
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CommandDispatcherTest);
@@ -167,6 +175,18 @@ private:
 	DeviceID m_deviceID;
 };
 
+void CommandDispatcherTest::setUp()
+{
+	m_executor = new ParallelExecutor;
+	m_executorThread.start(*m_executor);
+}
+
+void CommandDispatcherTest::tearDown()
+{
+	m_executor->stop();
+	m_executorThread.join();
+}
+
 /*
  * The waiting for the response to the supported command in the
  * FakeHandler1 and the FakeHandler2.
@@ -174,7 +194,8 @@ private:
 void CommandDispatcherTest::testSupportedCommand()
 {
 	DeviceID deviceID = DeviceID(0xfe01020304050607);
-	PocoCommandDispatcher dispatcher;
+	AsyncCommandDispatcher dispatcher;
+	dispatcher.setCommandsExecutor(m_executor);
 
 	AnswerQueue queue;
 	std::list<Answer::Ptr> answerList;
@@ -226,7 +247,8 @@ void CommandDispatcherTest::testSupportedCommand()
 void CommandDispatcherTest::testUnsupportedCommand()
 {
 	AnswerQueue queue;
-	PocoCommandDispatcher dispatcher;
+	AsyncCommandDispatcher dispatcher;
+	dispatcher.setCommandsExecutor(m_executor);
 
 	DeviceID deviceID = DeviceID(0xfe01020304050607);
 
@@ -258,7 +280,8 @@ void CommandDispatcherTest::testUnsupportedCommand()
 void CommandDispatcherTest::testCommandSender()
 {
 	AnswerQueue queue;
-	Poco::SharedPtr<CommandDispatcher> dispatcher(new PocoCommandDispatcher());
+	Poco::SharedPtr<AsyncCommandDispatcher> dispatcher(new AsyncCommandDispatcher());
+	dispatcher->setCommandsExecutor(m_executor);
 
 	DeviceID deviceID = DeviceID(0xfe01020304050607);
 
