@@ -1,6 +1,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <Poco/Event.h>
+#include <Poco/Thread.h>
 #include <Poco/Timer.h>
 #include <Poco/Timespan.h>
 
@@ -8,7 +9,8 @@
 
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
-#include "core/PocoCommandDispatcher.h"
+#include "core/AsyncCommandDispatcher.h"
+#include "util/ParallelExecutor.h"
 
 using namespace Poco;
 
@@ -28,6 +30,9 @@ class AnswerQueueTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
+	void setUp();
+	void tearDown();
+
 	void testListDirty();
 	void testWaitTimeout();
 	void testRemove();
@@ -37,6 +42,10 @@ public:
 	void testSetResultAfterLock();
 	void testCreateAnswerAfterLock();
 	void testDisposeUnusedAnswer();
+
+private:
+	ParallelExecutor::Ptr m_executor;
+	Poco::Thread m_executorThread;
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(AnswerQueueTest);
@@ -164,6 +173,18 @@ private:
 	Poco::Event m_eventSetResult;
 	Answer::Ptr m_answer;
 };
+
+void AnswerQueueTest::setUp()
+{
+	m_executor = new ParallelExecutor;
+	m_executorThread.start(*m_executor);
+}
+
+void AnswerQueueTest::tearDown()
+{
+	m_executor->stop();
+	m_executorThread.join();
+}
 
 /*
  * Test whether listDirty handles the isDirty() properly. Non-dirty
@@ -338,7 +359,8 @@ void AnswerQueueTest::testResultUpdated()
  */
 void AnswerQueueTest::testDisposePendingAnswerResult()
 {
-	PocoCommandDispatcher dispatcher;
+	AsyncCommandDispatcher dispatcher;
+	dispatcher.setCommandsExecutor(m_executor);
 	AnswerQueue queue;
 
 	TestableCommand::Ptr cmd = new TestableCommand();
@@ -369,7 +391,8 @@ void AnswerQueueTest::testDisposePendingAnswerResult()
  */
 void AnswerQueueTest::testDisposeAnswerWithoutResult()
 {
-	PocoCommandDispatcher dispatcher;
+	AsyncCommandDispatcher dispatcher;
+	dispatcher.setCommandsExecutor(m_executor);
 	AnswerQueue queue;
 
 	TestableCommand::Ptr cmd = new TestableCommand();
@@ -398,7 +421,8 @@ void AnswerQueueTest::testDisposeAnswerWithoutResult()
  */
 void AnswerQueueTest::testSetResultAfterLock()
 {
-	PocoCommandDispatcher dispatcher;
+	AsyncCommandDispatcher dispatcher;
+	dispatcher.setCommandsExecutor(m_executor);
 	AnswerQueue queue;
 
 	TestableCommand::Ptr cmd = new TestableCommand;
