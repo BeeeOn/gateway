@@ -28,7 +28,7 @@ public:
 	void dispatch(Command::Ptr cmd, Answer::Ptr answer);
 
 	void registerListener(CommandDispatcherListener::Ptr listener);
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+	void setEventsExecutor(AsyncExecutor::Ptr executor);
 
 protected:
 	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);

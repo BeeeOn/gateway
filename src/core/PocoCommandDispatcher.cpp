@@ -9,7 +9,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, PocoCommandDispatcher)
 BEEEON_OBJECT_CASTABLE(CommandDispatcher)
 BEEEON_OBJECT_REF("handlers", &PocoCommandDispatcher::registerHandler)
 BEEEON_OBJECT_REF("listeners", &PocoCommandDispatcher::registerListener)
-BEEEON_OBJECT_REF("executor", &PocoCommandDispatcher::setExecutor)
+BEEEON_OBJECT_REF("eventsExecutor", &PocoCommandDispatcher::setEventsExecutor)
 BEEEON_OBJECT_END(BeeeOn, PocoCommandDispatcher)
 
 using namespace BeeeOn;

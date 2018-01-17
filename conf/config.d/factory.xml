@@ -34,7 +34,7 @@
 		</instance>
 
 		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
-			<set name="executor" ref="asyncExecutor"/>
+			<set name="eventsExecutor" ref="asyncExecutor"/>
 			<add name="handlers" ref="gwServerConnector" if-yes="${gws.enable}"/>
 			<add name="handlers" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>

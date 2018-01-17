@@ -38,7 +38,7 @@ void CommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 	dispatchImpl(cmd, answer);
 }
 
-void CommandDispatcher::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
+void CommandDispatcher::setEventsExecutor(AsyncExecutor::Ptr executor)
 {
 	m_eventSource.setAsyncExecutor(executor);
 }
