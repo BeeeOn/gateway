@@ -46,6 +46,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/AbstractCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
+	${PROJECT_SOURCE_DIR}/core/AsyncCommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherListener.cpp
