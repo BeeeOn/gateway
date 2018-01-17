@@ -19,11 +19,6 @@ void CommandDispatcher::registerHandler(SharedPtr<CommandHandler> handler)
 	m_commandHandlers.push_back(handler);
 }
 
-void CommandDispatcher::injectImpl(Answer::Ptr answer, SharedPtr<AnswerImpl> impl)
-{
-	answer->installImpl(impl);
-}
-
 void CommandDispatcher::registerListener(CommandDispatcherListener::Ptr listener)
 {
 	m_eventSource.addListener(listener);

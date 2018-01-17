@@ -31,7 +31,6 @@ public:
 	void setEventsExecutor(AsyncExecutor::Ptr executor);
 
 protected:
-	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);
 	virtual void dispatchImpl(Command::Ptr cmd, Answer::Ptr answer) = 0;
 
 protected:
