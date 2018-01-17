@@ -34,12 +34,6 @@ protected:
 	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);
 	virtual void dispatchImpl(Command::Ptr cmd, Answer::Ptr answer) = 0;
 
-	/**
-	 * This operation is suppose to be called, when dispatch has occured to
-	 * notify all registered listeners about this event.
-	 */
-	void notifyDispatch(Command::Ptr);
-
 protected:
 	std::list<Poco::SharedPtr<CommandHandler>> m_commandHandlers;
 

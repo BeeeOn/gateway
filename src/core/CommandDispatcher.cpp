@@ -31,16 +31,11 @@ void CommandDispatcher::registerListener(CommandDispatcherListener::Ptr listener
 
 void CommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 {
-	notifyDispatch(cmd);
+	m_eventSource.fireEvent(cmd, &CommandDispatcherListener::onDispatch);
 
 	logger().debug(cmd->toString(), __FILE__, __LINE__);
 
 	dispatchImpl(cmd, answer);
-}
-
-void CommandDispatcher::notifyDispatch(Command::Ptr cmd)
-{
-	m_eventSource.fireEvent(cmd, &CommandDispatcherListener::onDispatch);
 }
 
 void CommandDispatcher::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
