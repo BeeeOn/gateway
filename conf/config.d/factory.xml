@@ -33,8 +33,12 @@
 		<instance name="asyncExecutor" class="BeeeOn::SequentialAsyncExecutor">
 		</instance>
 
-		<instance name="commandDispatcher" class="BeeeOn::PocoCommandDispatcher">
+		<instance name="commandsExecutor" class="BeeeOn::ParallelExecutor">
+		</instance>
+
+		<instance name="commandDispatcher" class="BeeeOn::AsyncCommandDispatcher">
 			<set name="eventsExecutor" ref="asyncExecutor"/>
+			<set name="commandsExecutor" ref="commandsExecutor"/>
 			<add name="handlers" ref="gwServerConnector" if-yes="${gws.enable}"/>
 			<add name="handlers" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
