@@ -9,16 +9,46 @@ namespace BeeeOn {
 
 class ZWaveClassRegistryTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(ZWaveClassRegistryTest);
+	CPPUNIT_TEST(testCompareZWaveCommandClassKey);
 	CPPUNIT_TEST(testCommonCommandClass);
 	CPPUNIT_TEST(testProductCommandClass);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
+	void testCompareZWaveCommandClassKey();
 	void testCommonCommandClass();
 	void testProductCommandClass();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ZWaveClassRegistryTest);
+
+void ZWaveClassRegistryTest::testCompareZWaveCommandClassKey()
+{
+	ZWaveCommandClassKey a{0, 0};
+	ZWaveCommandClassKey b{0, 1};
+	ZWaveCommandClassKey c{1, 0};
+	ZWaveCommandClassKey d{1, 1};
+
+	CPPUNIT_ASSERT(!(a < a));
+	CPPUNIT_ASSERT(a < b);
+	CPPUNIT_ASSERT(a < c);
+	CPPUNIT_ASSERT(a < d);
+
+	CPPUNIT_ASSERT(!(b < a));
+	CPPUNIT_ASSERT(!(b < b));
+	CPPUNIT_ASSERT(b < c);
+	CPPUNIT_ASSERT(b < d);
+
+	CPPUNIT_ASSERT(!(c < a));
+	CPPUNIT_ASSERT(!(c < b));
+	CPPUNIT_ASSERT(!(c < c));
+	CPPUNIT_ASSERT(c < d);
+
+	CPPUNIT_ASSERT(!(d < a));
+	CPPUNIT_ASSERT(!(d < b));
+	CPPUNIT_ASSERT(!(d < c));
+	CPPUNIT_ASSERT(!(d < d));
+}
 
 void ZWaveClassRegistryTest::testCommonCommandClass()
 {
@@ -37,6 +67,8 @@ void ZWaveClassRegistryTest::testCommonCommandClass()
 		zwaveRegistry->find(0, 0).type(),
 		InvalidArgumentException
 	);
+
+	CPPUNIT_ASSERT(zwaveRegistry->contains(128, 0));
 }
 
 void ZWaveClassRegistryTest::testProductCommandClass()
