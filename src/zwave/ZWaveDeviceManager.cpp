@@ -429,7 +429,7 @@ void ZWaveDeviceManager::valueChanged(const Notification *notification)
 	if (it == m_beeeonDevices.end() || !it->second.paired()) {
 		logger().debug(
 			"device: "
-			+ buildID(nodeID).toString()
+			+ ZWaveUtil::buildID(m_homeID, nodeID).toString()
 			+ " is not paired",
 			__FILE__, __LINE__);
 		return;
@@ -524,7 +524,7 @@ void ZWaveDeviceManager::doNewDeviceCommand()
 
 		dispatch(
 			new NewDeviceCommand(
-				buildID(nodeID.first),
+				ZWaveUtil::buildID(m_homeID, nodeID.first),
 				nodeID.second.vendorName(),
 				nodeID.second.productName(),
 				nodeID.second.moduleTypes()
@@ -645,7 +645,7 @@ void ZWaveDeviceManager::loadDeviceList()
 	}
 
 	for (auto &node : m_zwaveNodes) {
-		DeviceID deviceID = buildID(node.first);
+		DeviceID deviceID = ZWaveUtil::buildID(m_homeID, node.first);
 		bool paired = deviceIDs.find(deviceID) != deviceIDs.end();
 
 		try {
@@ -665,7 +665,7 @@ void ZWaveDeviceManager::createDevice(
 		bool paired)
 {
 	ZWaveNodeInfo device = ZWaveNodeInfo::build(m_homeID, nodeID);
-	device.setDeviceID(buildID(nodeID));
+	device.setDeviceID(ZWaveUtil::buildID(m_homeID, nodeID));
 	device.setPaired(paired);
 
 	ZWaveDeviceInfo::Ptr msg =
@@ -760,11 +760,6 @@ bool ZWaveDeviceManager::modifyValue(uint8_t nodeID,
 	}
 
 	return true;
-}
-
-DeviceID ZWaveDeviceManager::buildID(uint8_t nodeID) const
-{
-	return ZWaveUtil::buildID(m_homeID, nodeID);
 }
 
 void ZWaveDeviceManager::fireStatistics()

@@ -124,7 +124,6 @@ private:
 	 */
 	void nodeAdded(const OpenZWave::Notification *notification);
 
-	DeviceID buildID(uint8_t nodeID) const;
 	uint8_t nodeIDFromDeviceID(const DeviceID &deviceID) const;
 
 	/**
