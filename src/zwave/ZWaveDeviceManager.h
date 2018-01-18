@@ -164,6 +164,7 @@ private:
 			const std::list<OpenZWave::ValueID> &values,
 			bool paired);
 
+	void handleUnpairing(const OpenZWave::Notification *notification);
 	void handleListening(const OpenZWave::Notification *notification);
 
 	void configureDefaultUnit(OpenZWave::ValueID &valueID);

@@ -309,10 +309,6 @@ void ZWaveDeviceManager::doUnpairCommand(
 void ZWaveDeviceManager::stopCommand(Timer &)
 {
 	Manager::Get()->CancelControllerCommand(m_homeID);
-
-	if (m_state != LISTENING)
-		m_state = NODE_QUERIED;
-
 	logger().debug("command is done", __FILE__, __LINE__);
 }
 
@@ -536,6 +532,55 @@ void ZWaveDeviceManager::dispatchUnpairedDevices()
 	}
 }
 
+void ZWaveDeviceManager::handleUnpairing(const Notification *notification)
+{
+	switch (notification->GetEvent()) {
+	case OpenZWave::Driver::ControllerState_Starting:
+		logger().information("starting unpairing process",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Waiting:
+		logger().information("expecting user actions",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Sleeping:
+		logger().debug("sleeping while waiting to unpair",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_InProgress:
+		logger().debug("communicating with a device",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Cancel:
+		logger().information("cancelling unpairing process",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Completed:
+		logger().information("unpairing process completed",
+			__FILE__, __LINE__);
+
+		m_state = NODE_QUERIED;
+		break;
+
+	case OpenZWave::Driver::ControllerState_Error:
+	case OpenZWave::Driver::ControllerState_Failed:
+		logger().error("unpairing process has failed: "
+			+ to_string(notification->GetNotification()),
+			__FILE__, __LINE__);
+
+		m_state = NODE_QUERIED;
+		break; // ignore
+
+	default:
+		break;
+	}
+}
+
 void ZWaveDeviceManager::handleListening(const Notification *notification)
 {
 	switch (notification->GetEvent()) {
@@ -613,6 +658,8 @@ void ZWaveDeviceManager::onNotification(
 	case Notification::Type_ControllerCommand:
 		if (m_state == LISTENING)
 			handleListening(notification);
+		else if (m_state == UNPAIRING)
+			handleUnpairing(notification);
 				
 		break;
 	case Notification::Type_NodeQueriesComplete:
