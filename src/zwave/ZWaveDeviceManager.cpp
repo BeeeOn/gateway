@@ -55,7 +55,6 @@ using Poco::Timer;
 using Poco::Timespan;
 
 static const int NODE_ID_MASK = 0xff;
-static const int DEFAULT_UNPAIR_TIMEOUT_MS = 5000;
 
 static const int FAILS_TRESHOLD = 3;
 static const Poco::Timespan SLEEP_AFTER_FAILS = 10 * Poco::Timespan::SECONDS;
@@ -281,10 +280,7 @@ void ZWaveDeviceManager::doUnpairCommand(
 	m_state = UNPAIRING;
 	logger().debug(
 		"unpairing device "
-		+ cmd->deviceID().toString()
-		+ " with timeout "
-		+ to_string(DEFAULT_UNPAIR_TIMEOUT_MS / 1000)
-		+ " seconds",
+		+ cmd->deviceID().toString(),
 		__FILE__, __LINE__);
 
 	uint8_t nodeID = nodeIDFromDeviceID(cmd->deviceID());
@@ -300,10 +296,6 @@ void ZWaveDeviceManager::doUnpairCommand(
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
-
-	m_commandTimer.stop();
-	m_commandTimer.setStartInterval(DEFAULT_UNPAIR_TIMEOUT_MS);
-	m_commandTimer.start(m_commandCallback);
 }
 
 void ZWaveDeviceManager::stopCommand(Timer &)
