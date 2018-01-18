@@ -66,9 +66,6 @@ public:
 	bool contains(uint8_t commandClass, uint8_t index) override;
 
 	static ZWaveCommonClassRegistry& instance();
-
-private:
-	ZWaveGenericClassRegistry m_impl;
 };
 
 /**

@@ -19,8 +19,7 @@ ZWaveClassRegistry::~ZWaveClassRegistry()
 {
 }
 
-ZWaveCommonClassRegistry::ZWaveCommonClassRegistry() :
-	m_impl(COMMON_TYPES)
+ZWaveCommonClassRegistry::ZWaveCommonClassRegistry()
 {
 }
 
@@ -33,13 +32,19 @@ ZWaveCommonClassRegistry &ZWaveCommonClassRegistry::instance()
 ModuleType ZWaveCommonClassRegistry::find(
 	uint8_t commandClass, uint8_t index)
 {
-	return m_impl.find(commandClass, index);
+	auto it = COMMON_TYPES.find({commandClass, index});
+	if (it == COMMON_TYPES.end())
+		throw NotFoundException("no type for "
+			+ ZWaveUtil::commandClass(commandClass, index));
+
+	return it->second;
 }
 
 bool ZWaveCommonClassRegistry::contains(
 	uint8_t commandClass, uint8_t index)
 {
-	return m_impl.contains(commandClass, index);
+	return COMMON_TYPES.find({commandClass, index})
+		!= COMMON_TYPES.end();
 }
 
 ZWaveGenericClassRegistry::ZWaveGenericClassRegistry(
