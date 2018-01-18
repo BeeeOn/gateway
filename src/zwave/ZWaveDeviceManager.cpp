@@ -393,15 +393,6 @@ void ZWaveDeviceManager::doSetValueCommnad(
 
 void ZWaveDeviceManager::valueAdded(const Notification *notification)
 {
-	if (m_state != DONGLE_READY && m_state != LISTENING) {
-		logger().error(
-			"device manager does not have added driver or it is not in listening state",
-			__FILE__, __LINE__
-		);
-
-		return;
-	}
-
 	uint8_t nodeID = notification->GetNodeId();
 
 	auto it = m_zwaveNodes.find(nodeID);
@@ -477,15 +468,6 @@ void ZWaveDeviceManager::shipData(const ValueID &valueID, const ZWaveNodeInfo &n
 void ZWaveDeviceManager::nodeAdded(
 	const Notification *notification)
 {
-	if (m_state != DONGLE_READY && m_state != LISTENING) {
-		logger().error(
-			"device manager does not have added driver or it is not in listening state",
-			__FILE__, __LINE__
-		);
-
-		return;
-	}
-
 	uint8_t nodeID = notification->GetNodeId();
 	auto it = m_zwaveNodes.emplace(nodeID, list<OpenZWave::ValueID>());
 
