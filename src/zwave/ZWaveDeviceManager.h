@@ -124,15 +124,6 @@ private:
 	 */
 	void nodeAdded(const OpenZWave::Notification *notification);
 
-	/**
-	 * It builds DeviceID from homeID, nodeID and gatewayID.
-	 *
-	 * DeviceID contains:
-	 *  - 8b prefix
-	 *  - 16b empty
-	 *  - 32b homeID
-	 *  - 8b nodeID
-	 */
 	DeviceID buildID(uint8_t nodeID) const;
 	uint8_t nodeIDFromDeviceID(const DeviceID &deviceID) const;
 

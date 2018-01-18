@@ -764,13 +764,7 @@ bool ZWaveDeviceManager::modifyValue(uint8_t nodeID,
 
 DeviceID ZWaveDeviceManager::buildID(uint8_t nodeID) const
 {
-	uint64_t deviceID = 0;
-	uint64_t homeId64 = m_homeID;
-
-	deviceID |= homeId64 << 8;
-	deviceID |= nodeID;
-
-	return DeviceID(DevicePrefix::PREFIX_ZWAVE, deviceID);
+	return ZWaveUtil::buildID(m_homeID, nodeID);
 }
 
 void ZWaveDeviceManager::fireStatistics()
