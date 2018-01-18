@@ -674,7 +674,7 @@ void ZWaveDeviceManager::createDevice(
 		bool contains =
 			msg->registry()->contains(valueID.GetCommandClassId(), valueID.GetIndex());
 
-		logger().trace(
+		logger().information(
 			"node ID " + to_string(nodeID)
 			+ " has "
 			+ (contains ? "supported" : "unsupported")
