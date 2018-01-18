@@ -516,7 +516,7 @@ void ZWaveDeviceManager::dispatchUnpairedDevices()
 
 		if (nodeID.second.vendorName().empty() && nodeID.second.productName().empty()) {
 			logger().trace(
-				"no info about node id" + to_string(nodeID.first),
+				"no info about node id " + to_string(nodeID.first),
 				__FILE__, __LINE__
 			);
 			continue;
