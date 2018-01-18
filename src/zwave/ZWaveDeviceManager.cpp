@@ -648,20 +648,21 @@ void ZWaveDeviceManager::loadDeviceList()
 		bool paired = deviceIDs.find(deviceID) != deviceIDs.end();
 
 		try {
-			createDevice(node.first, paired);
+			createDevice(node.first, node.second, paired);
 		}
 		catch (const Poco::ExistsException &ex) {
 			logger().log(ex, __FILE__, __LINE__);
 		}
 	}
+
+	m_zwaveNodes.clear();
 }
 
-void ZWaveDeviceManager::createDevice(const uint8_t nodeID, bool paired)
+void ZWaveDeviceManager::createDevice(
+		const uint8_t nodeID,
+		const std::list<OpenZWave::ValueID> &values,
+		bool paired)
 {
-	auto it = m_zwaveNodes.find(nodeID);
-	if (it == m_zwaveNodes.end())
-		return;
-
 	ZWaveNodeInfo device = ZWaveNodeInfo::build(m_homeID, nodeID);
 	device.setDeviceID(buildID(nodeID));
 	device.setPaired(paired);
@@ -669,7 +670,7 @@ void ZWaveDeviceManager::createDevice(const uint8_t nodeID, bool paired)
 	ZWaveDeviceInfo::Ptr msg =
 		m_registry->find(device.vendorID(), device.productID());
 
-	for (auto &valueID : it->second) {
+	for (auto valueID : values) {
 		bool contains =
 			msg->registry()->contains(valueID.GetCommandClassId(), valueID.GetIndex());
 
@@ -696,7 +697,6 @@ void ZWaveDeviceManager::createDevice(const uint8_t nodeID, bool paired)
 	}
 
 	m_beeeonDevices.emplace(nodeID, device);
-	m_zwaveNodes.erase(it);
 }
 
 void ZWaveDeviceManager::configureDefaultUnit(OpenZWave::ValueID &valueID)
@@ -838,7 +838,12 @@ void ZWaveDeviceManager::stop()
 void ZWaveDeviceManager::createBeeeOnDevice(uint8_t nodeID)
 {
 	try {
-		createDevice(nodeID, false);
+		auto it = m_zwaveNodes.find(nodeID);
+		if (it == m_zwaveNodes.end())
+			return;
+
+		createDevice(nodeID, it->second, false);
+		m_zwaveNodes.erase(it);
 	}
 	catch (const Poco::ExistsException &ex) {
 		logger().log(ex, __FILE__, __LINE__);
