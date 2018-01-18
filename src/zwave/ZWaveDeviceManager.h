@@ -148,7 +148,7 @@ private:
 	 */
 	void createBeeeOnDevice(uint8_t nodeID);
 
-	void doNewDeviceCommand();
+	void dispatchUnpairedDevices();
 	void doListenCommand(
 		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
 	void doUnpairCommand(

@@ -500,7 +500,7 @@ void ZWaveDeviceManager::nodeAdded(
 	}
 }
 
-void ZWaveDeviceManager::doNewDeviceCommand()
+void ZWaveDeviceManager::dispatchUnpairedDevices()
 {
 	if (m_state != State::LISTENING) {
 		logger().warning(
@@ -556,7 +556,7 @@ void ZWaveDeviceManager::onNotification(
 	case Notification::Type_NodeQueriesComplete:
 		createBeeeOnDevice(notification->GetNodeId());
 
-		doNewDeviceCommand();
+		dispatchUnpairedDevices();
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
 	case Notification::Type_PollingDisabled: {
