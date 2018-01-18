@@ -24,6 +24,7 @@
 #include "zwave/ZWaveDeviceManager.h"
 #include "zwave/ZWaveNodeEvent.h"
 #include "zwave/ZWavePocoLoggerAdapter.h"
+#include "zwave/ZWaveUtil.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, ZWaveDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -457,9 +458,9 @@ void ZWaveDeviceManager::shipData(const ValueID &valueID, const ZWaveNodeInfo &n
 	if (!info->registry()->contains(valueID.GetCommandClassId(), valueID.GetIndex())) {
 		logger().trace(
 			"unsupported value with command class "
-			+ to_string(valueID.GetCommandClassId())
-			+ " and index "
-			+ to_string(valueID.GetIndex()),
+			+ ZWaveUtil::commandClass(
+				valueID.GetCommandClassId(),
+				valueID.GetIndex()),
 			__FILE__, __LINE__);
 		return;
 	}
@@ -679,9 +680,9 @@ void ZWaveDeviceManager::createDevice(
 			+ " has "
 			+ (contains ? "supported" : "unsupported")
 			+ " CommandClass: "
-			+ to_string(valueID.GetCommandClassId())
-			+ " and index: "
-			+ to_string(valueID.GetIndex()),
+			+ ZWaveUtil::commandClass(
+				valueID.GetCommandClassId(),
+				valueID.GetIndex()),
 			__FILE__, __LINE__
 		);
 
