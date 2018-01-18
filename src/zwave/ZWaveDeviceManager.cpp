@@ -309,7 +309,9 @@ void ZWaveDeviceManager::doUnpairCommand(
 void ZWaveDeviceManager::stopCommand(Timer &)
 {
 	Manager::Get()->CancelControllerCommand(m_homeID);
-	m_state = NODE_QUERIED;
+
+	if (m_state != LISTENING)
+		m_state = NODE_QUERIED;
 
 	logger().debug("command is done", __FILE__, __LINE__);
 }
@@ -557,10 +559,61 @@ void ZWaveDeviceManager::onNotification(
 	case Notification::Type_NodeRemoved:
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
+	case Notification::Type_ControllerCommand:
+		if (m_state != LISTENING)
+			break;
+
+		switch (notification->GetEvent()) {
+		case OpenZWave::Driver::ControllerState_Starting:
+			logger().information("starting discovery process",
+				__FILE__, __LINE__);
+			break;
+
+		case OpenZWave::Driver::ControllerState_Waiting:
+			logger().information("expecting user actions",
+				__FILE__, __LINE__);
+			break;
+
+		case OpenZWave::Driver::ControllerState_Sleeping:
+			logger().debug("sleeping while waiting for devices",
+				__FILE__, __LINE__);
+			break;
+
+		case OpenZWave::Driver::ControllerState_InProgress:
+			logger().debug("communicating with a device",
+				__FILE__, __LINE__);
+			break;
+
+		case OpenZWave::Driver::ControllerState_Cancel:
+			logger().information("cancelling discovery process",
+				__FILE__, __LINE__);
+			break;
+
+		case OpenZWave::Driver::ControllerState_Completed:
+			logger().information("discovery process completed",
+				__FILE__, __LINE__);
+
+			dispatchUnpairedDevices();
+			m_state = NODE_QUERIED;
+			break;
+
+		case OpenZWave::Driver::ControllerState_Error:
+		case OpenZWave::Driver::ControllerState_Failed:
+			logger().error("discovery process has failed: "
+				+ to_string(notification->GetNotification()),
+				__FILE__, __LINE__);
+
+			dispatchUnpairedDevices();
+			m_state = NODE_QUERIED;
+			break; // ignore
+
+		default:
+			break;
+		}
+
+		break;
 	case Notification::Type_NodeQueriesComplete:
 		createBeeeOnDevice(notification->GetNodeId());
-
-		dispatchUnpairedDevices();
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
 	case Notification::Type_PollingDisabled: {
