@@ -65,7 +65,7 @@ void ZWaveClassRegistryTest::testCommonCommandClass()
 
 	CPPUNIT_ASSERT_THROW(
 		zwaveRegistry->find(0, 0).type(),
-		InvalidArgumentException
+		NotFoundException
 	);
 
 	CPPUNIT_ASSERT(zwaveRegistry->contains(128, 0));

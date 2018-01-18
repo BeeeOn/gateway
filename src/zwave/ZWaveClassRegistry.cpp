@@ -55,7 +55,7 @@ ModuleType ZWaveGenericClassRegistry::find(
 		return it->second;
 	}
 
-	throw InvalidArgumentException("ModuleType is not registered");
+	throw NotFoundException("ModuleType is not registered");
 }
 
 bool ZWaveGenericClassRegistry::contains(
