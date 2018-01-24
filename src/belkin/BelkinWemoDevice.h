@@ -9,14 +9,11 @@
 #include <Poco/URI.h>
 #include <Poco/DOM/Node.h>
 #include <Poco/DOM/NodeIterator.h>
-#include <Poco/Net/HTTPRequest.h>
-#include <Poco/Net/SocketAddress.h>
 
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
 #include "model/SensorData.h"
-#include "net/HTTPEntireResponse.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -54,13 +51,6 @@ public:
 	 * and returns their values.
 	 */
 	static std::list<Poco::XML::Node*> findNodes(Poco::XML::NodeIterator& iterator, const std::string& name);
-
-	/**
-	 * @brief Sends the given message by HTTP request
-	 * to client defined by uri and returns the HTTP response.
-	 */
-	static HTTPEntireResponse sendHTTPRequest(Poco::Net::HTTPRequest& request, const std::string& msg,
-		const Poco::URI& uri, const Poco::Timespan& timeout);
 
 protected:
 	DeviceID m_deviceId;

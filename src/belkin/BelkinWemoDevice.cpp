@@ -1,11 +1,9 @@
 #include <Poco/Exception.h>
-#include <Poco/Net/HTTPClientSession.h>
 
 #include "belkin/BelkinWemoDevice.h"
 
 using namespace BeeeOn;
 using namespace Poco;
-using namespace Poco::Net;
 using namespace Poco::XML;
 using namespace std;
 
@@ -71,23 +69,4 @@ list<Node*> BelkinWemoDevice::findNodes(NodeIterator& iterator, const string& na
 	}
 
 	return list;
-}
-
-HTTPEntireResponse BelkinWemoDevice::sendHTTPRequest(HTTPRequest& request,
-	const string& msg, const URI& uri, const Timespan& timeout)
-{
-	HTTPClientSession http;
-	HTTPEntireResponse response;
-
-	http.setHost(uri.getHost());
-	http.setPort(uri.getPort());
-	http.setTimeout(timeout);
-
-	request.setURI(uri.toString());
-
-	http.sendRequest(request) << msg;
-	istream& input = http.receiveResponse(response);
-	response.readBody(input);
-
-	return response;
 }
