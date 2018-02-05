@@ -2,7 +2,13 @@
 
 #include <cstdint>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #include <Node.h>
+#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 
 namespace BeeeOn {
 

@@ -5,8 +5,14 @@
 #include <Poco/NumberParser.h>
 #include <Poco/RegularExpression.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #include <openzwave/Manager.h>
 #include <openzwave/Options.h>
+#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
