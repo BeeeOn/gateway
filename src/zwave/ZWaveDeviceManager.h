@@ -168,7 +168,9 @@ private:
 	void doSetValueCommnad(
 		const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer);
 
-	void createDevice(const DeviceID &deviceID, bool paired);
+	void createDevice(const uint8_t nodeID,
+			const std::list<OpenZWave::ValueID> &values,
+			bool paired);
 
 	void configureDefaultUnit(OpenZWave::ValueID &valueID);
 
