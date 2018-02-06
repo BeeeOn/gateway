@@ -26,6 +26,12 @@ public:
 	void up() const;
 
 	/**
+	 * Reset hci interface - turn down & up.
+	 * @throws IOException in case of a failure
+	 */
+	void reset() const;
+
+	/**
 	 * Check state of device with MACAddress.
 	 * @return true if the device was detected or false
 	 * @throws IOException when the detection fails for some reason

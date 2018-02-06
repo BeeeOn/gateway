@@ -122,6 +122,18 @@ void HciInterface::up() const
 	}
 }
 
+void HciInterface::reset() const
+{
+	FdAutoClose sock(hciSocket());
+	struct hci_dev_info info = findHciInfo(*sock, m_name);
+
+	logger().debug("resetting " + m_name, __FILE__, __LINE__);
+	if (::ioctl(*sock, HCIDEVRESET, info.dev_id) < 0) {
+		if (errno != EALREADY)
+			throwFromErrno(errno, "reset of " + m_name + " failed");
+	}
+}
+
 bool HciInterface::detect(const MACAddress &address) const
 {
 	logger().debug("trying to detect device " + address.toString(':'),

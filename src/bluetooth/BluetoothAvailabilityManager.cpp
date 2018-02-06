@@ -120,6 +120,15 @@ bool BluetoothAvailabilityManager::dongleMissing()
 void BluetoothAvailabilityManager::dongleFailed(const FailDetector &dongleStatus)
 {
 	m_statisticsRunner.stop();
+
+	try {
+		HciInterface hci(dongleName());
+		hci.reset();
+	}
+	catch (const Exception &e) {
+		logger().log(e, __FILE__, __LINE__);
+	}
+
 	DongleDeviceManager::dongleFailed(dongleStatus);
 }
 
