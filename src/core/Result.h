@@ -30,6 +30,7 @@ class Answer;
 class Result : public Poco::RefCountedObject, public Castable {
 public:
 	typedef Poco::AutoPtr<Result> Ptr;
+	typedef Poco::ScopedLock<Result> ScopedLock;
 
 	struct StatusEnum
 	{
@@ -45,32 +46,24 @@ public:
 
 	typedef Enum<StatusEnum> Status;
 
-	Result(Poco::AutoPtr<Answer> answer, bool locked = false);
-
-	void setStatus(const Status status);
+	Result(Poco::AutoPtr<Answer> answer);
 
 	/*
 	 * It internally calls the notifyUpdated().
 	 */
-	void setStatusUnlocked(const Status status);
-
+	void setStatus(const Status status);
 	Status status() const;
-	Status statusUnlocked() const;
 
 	/*
 	 * Notifies the waiting threads that this Result (and its Answer) were
-	 * changed. The call sets Answer::setDirtyUnlocked(true).
+	 * changed. The call sets Answer::setDirty(true).
 	 */
 	void notifyUpdated();
 
-	Poco::FastMutex &lock() const;
+	void lock();
+	void unlock();
 
 protected:
-	/*
-	 * The check if the operation is locked.
-	 */
-	void assureLocked() const;
-
 	~Result();
 
 private:

@@ -22,10 +22,7 @@ public:
 	ServerDeviceListResult(const Answer::Ptr answer);
 
 	void setDeviceList(const std::vector<DeviceID> &deviceList);
-	void setDeviceListUnlocked(const std::vector<DeviceID> &deviceList);
-
 	std::vector<DeviceID> deviceList() const;
-	std::vector<DeviceID> deviceListUnlocked() const;
 
 protected:
 	~ServerDeviceListResult();

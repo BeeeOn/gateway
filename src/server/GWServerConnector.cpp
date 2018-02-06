@@ -257,13 +257,13 @@ void GWServerConnector::enqueueFinishedAnswers()
 			continue;
 		}
 
-		FastMutex::ScopedLock guard(serverAnswer->lock());
+		ServerAnswer::ScopedLock guard(const_cast<ServerAnswer &>(*serverAnswer));
 
 		int failedResults = 0;
 
-		for (size_t i = 0; i < serverAnswer->resultsCountUnlocked(); i++) {
-			auto result = serverAnswer->atUnlocked(i);
-			if (result->statusUnlocked() != Result::Status::SUCCESS)
+		for (size_t i = 0; i < serverAnswer->resultsCount(); i++) {
+			auto result = serverAnswer->at(i);
+			if (result->status() != Result::Status::SUCCESS)
 				failedResults++;
 		}
 
@@ -271,7 +271,7 @@ void GWServerConnector::enqueueFinishedAnswers()
 		if (failedResults > 0) {
 			logger().warning(
 				to_string(failedResults)
-				+ "/" + to_string(serverAnswer->resultsCountUnlocked())
+				+ "/" + to_string(serverAnswer->resultsCount())
 				+ " results of answer "
 				+ serverAnswer->id().toString()
 				+ " has failed",
@@ -279,7 +279,7 @@ void GWServerConnector::enqueueFinishedAnswers()
 			);
 			status = GWResponse::Status::FAILED;
 		}
-		else if (serverAnswer->resultsCountUnlocked() == 0) {
+		else if (serverAnswer->resultsCount() == 0) {
 			logger().error("command was not accepted by anyone");
 			status = GWResponse::Status::FAILED;
 		}

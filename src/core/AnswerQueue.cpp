@@ -42,10 +42,10 @@ void AnswerQueue::listDirty(list<Answer::Ptr> &dirtyList) const
 	FastMutex::ScopedLock lock(m_mutex);
 
 	for (auto answer : m_answerList) {
-		FastMutex::ScopedLock guard(answer->lock());
-		if (answer->isDirtyUnlocked()) {
+		Answer::ScopedLock guard(*answer);
+		if (answer->isDirty()) {
 			dirtyList.push_back(answer);
-			answer->setDirtyUnlocked(false);
+			answer->setDirty(false);
 		}
 	}
 }
@@ -56,8 +56,8 @@ std::list<Answer::Ptr> AnswerQueue::finishedAnswers()
 	std::list<Answer::Ptr> result;
 
 	for (auto answer : m_answerList) {
-		FastMutex::ScopedLock guard(answer->lock());
-		if (!answer->isPendingUnlocked())
+		Answer::ScopedLock guard(*answer);
+		if (!answer->isPending())
 			result.push_back(answer);
 	}
 
@@ -114,10 +114,10 @@ void AnswerQueue::dispose()
 	FastMutex::ScopedLock guard(m_mutex);
 
 	for (auto &answer : m_answerList) {
-		FastMutex::ScopedLock guard(answer->lock());
+		Answer::ScopedLock guard(*answer);
 
-		int resultCount = answer->resultsCountUnlocked();
-		const int handlersCount = answer->handlersCountUnlocked();
+		int resultCount = answer->resultsCount();
+		const int handlersCount = answer->handlersCount();
 		const int missingCount = handlersCount - resultCount;
 
 		string answerAddr =
@@ -135,7 +135,7 @@ void AnswerQueue::dispose()
 		}
 
 		for (int i = 0; i < missingCount; ++i) {
-			new Result(answer, true);
+			new Result(answer);
 
 			logger().debug(
 				"created result for Answer "
@@ -148,10 +148,10 @@ void AnswerQueue::dispose()
 				__FILE__, __LINE__);
 		}
 
-		resultCount = answer->resultsCountUnlocked();
+		resultCount = answer->resultsCount();
 		for (int i = 0; i < resultCount; ++i) {
-			if (answer->atUnlocked(i)->statusUnlocked() == Result::Status::PENDING)
-				answer->atUnlocked(i)->setStatusUnlocked(Result::Status::FAILED);
+			if (answer->at(i)->status() == Result::Status::PENDING)
+				answer->at(i)->setStatus(Result::Status::FAILED);
 
 			logger().debug(
 				"result "
@@ -161,7 +161,7 @@ void AnswerQueue::dispose()
 				+ " for Answer "
 				+ answerAddr
 				+ " done: "
-				+ answer->atUnlocked(i)->statusUnlocked(),
+				+ answer->at(i)->status(),
 				__FILE__, __LINE__);
 		}
 	}

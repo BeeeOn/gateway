@@ -19,22 +19,13 @@ public:
 	ServerLastValueResult(const Answer::Ptr answer);
 
 	void setValue(double value);
-	void setValueUnlocked(double value);
-
 	double value() const;
-	double valueUnlocked() const;
 
 	void setDeviceID(const DeviceID &deviceID);
-	void setDeviceIDUnlocked(const DeviceID &deviceID);
-
 	DeviceID deviceID() const;
-	DeviceID deviceIDUnlocked() const;
 
 	void setModuleID(const ModuleID &moduleID);
-	void setModuleIDUnlocked(const ModuleID &moduleID);
-
 	ModuleID moduleID() const;
-	ModuleID moduleIDUnlocked() const;
 
 protected:
 	~ServerLastValueResult();

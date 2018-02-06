@@ -5,6 +5,7 @@
 #include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/RefCountedObject.h>
+#include <Poco/SynchronizedObject.h>
 #include <Poco/Task.h>
 #include <Poco/TaskManager.h>
 
@@ -28,7 +29,7 @@ class Result;
  * The Answer and the Result share the common mutex. The operations that
  * change the status in the Answer and in the Result MUST be locked.
  */
-class Answer : public Poco::RefCountedObject {
+class Answer : public Poco::RefCountedObject, public Poco::SynchronizedObject {
 	friend CommandDispatcher;
 public:
 	typedef Poco::AutoPtr<Answer> Ptr;
@@ -45,19 +46,14 @@ public:
 	 * The status that informs about the change of a Result.
 	 */
 	void setDirty(bool dirty);
-	void setDirtyUnlocked(bool dirty);
-
 	bool isDirty() const;
-	bool isDirtyUnlocked() const;
 
 	/*
 	 * The check if the Result are in the terminal state (SUCCESS/ERROR).
 	 */
 	bool isPending() const;
-	bool isPendingUnlocked() const;
 
 	Poco::Event &event();
-	Poco::FastMutex &lock() const;
 
 	/*
 	 * True if the list of commands is empty.
@@ -65,18 +61,15 @@ public:
 	bool isEmpty() const;
 
 	unsigned long resultsCount() const;
-	unsigned long resultsCountUnlocked() const;
 
 	int handlersCount() const;
-	int handlersCountUnlocked() const;
 	void setHandlersCount(unsigned long counter);
 
 	void addResult(Result *result);
-	void addResultUnlocked(Result *result);
 
 	/*
 	 * Notifies the waiting queue that this Answer isEmpty().
-	 * The call sets Answer::setDirtyUnlocked(true).
+	 * The call sets Answer::setDirty(true).
 	 */
 	void notifyUpdated();
 
@@ -91,23 +84,16 @@ public:
 	void waitNotPending(const Poco::Timespan &timeout);
 
 	Result::Ptr at(size_t position);
-	Result::Ptr atUnlocked(size_t position);
 
 	std::vector<Result::Ptr>::iterator begin();
 	std::vector<Result::Ptr>::iterator end();
 
 protected:
-	/*
-	 * The check if the operation is locked.
-	 */
-	void assureLocked() const;
-
 	void installImpl(Poco::SharedPtr<AnswerImpl> answerImpl);
 
 private:
 	AnswerQueue &m_answerQueue;
 	Poco::AtomicCounter m_dirty;
-	mutable Poco::FastMutex m_lock;
 	std::vector<Result::Ptr> m_resultList;
 	unsigned long m_handlers;
 	AnswerImpl::Ptr m_answerImpl;

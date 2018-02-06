@@ -14,25 +14,13 @@ ServerAnswer::ServerAnswer(AnswerQueue &answerQueue, const GlobalID &id):
 
 void ServerAnswer::setID(const GlobalID &id)
 {
-	FastMutex::ScopedLock guard(lock());
-	setIDUnlocked(id);
-}
-
-void ServerAnswer::setIDUnlocked(const GlobalID &id)
-{
-	assureLocked();
+	ScopedLock guard(*this);
 	m_id = id;
 }
 
 GlobalID ServerAnswer::id() const
 {
-	FastMutex::ScopedLock guard(lock());
-	return idUnlocked();
-}
-
-GlobalID ServerAnswer::idUnlocked() const
-{
-	assureLocked();
+	ScopedLock guard(const_cast<ServerAnswer &>(*this));
 	return m_id;
 }
 
@@ -41,7 +29,7 @@ GWResponseWithAckContext::Ptr ServerAnswer::toResponse(const GWResponse::Status 
 	GWResponseWithAckContext::Ptr context;
 
 	GWResponseWithAck::Ptr response = new GWResponseWithAck;
-	response->setID(idUnlocked());
+	response->setID(id());
 	response->setStatus(status);
 
 	context = new GWResponseWithAckContext(status);
