@@ -12,7 +12,13 @@ struct ZWaveCommandClassKey {
 
 	bool operator <(const ZWaveCommandClassKey &id) const
 	{
-		return commandClassID < id.commandClassID || index < id.index;
+		if (commandClassID < id.commandClassID)
+			return true;
+
+		if (commandClassID == id.commandClassID)
+			return index < id.index;
+
+		return false;
 	}
 };
 
