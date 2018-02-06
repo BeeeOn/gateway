@@ -83,6 +83,8 @@ private:
 
 	void fetchDeviceList();
 
+	bool enoughTimeForScan(const Poco::Timestamp &startTime);
+
 	void listen();
 
 	void addDevice(const DeviceID &id);
@@ -108,6 +110,7 @@ private:
 	Poco::FastMutex m_scanLock;
 	PeriodicRunner m_statisticsRunner;
 	EventSource<BluetoothListener> m_eventSource;
+	Poco::Timespan m_listenTime;
 };
 
 }
