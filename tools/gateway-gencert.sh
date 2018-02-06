@@ -202,7 +202,7 @@ fi
 
 csr="${gateway_cert}.csr"
 
-cert_request "${gateway_pair}" `cert_subj "${gateway_id}"` > "${csr}" \
+cert_request "${gateway_pair}" "`cert_subj "${gateway_id}"`" > "${csr}" \
 	|| die "failed to create gateway certificate signing request"
 
 cert_sign "${csr}" "${ca_pair}" ${CERT_DAYS} "${gateway_cert}" "${ca_cert}" \
