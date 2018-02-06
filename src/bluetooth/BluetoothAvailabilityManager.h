@@ -105,6 +105,7 @@ private:
 	std::map<DeviceID, BluetoothDevice> m_deviceList;
 	Poco::Event m_stopEvent;
 	Poco::FastMutex m_lock;
+	Poco::FastMutex m_scanLock;
 	PeriodicRunner m_statisticsRunner;
 	EventSource<BluetoothListener> m_eventSource;
 };

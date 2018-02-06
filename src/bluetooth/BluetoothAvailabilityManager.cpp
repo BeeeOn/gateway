@@ -155,6 +155,7 @@ void BluetoothAvailabilityManager::stop()
 
 Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
 {
+	FastMutex::ScopedLock lock(m_scanLock);
 	Timestamp startTime;
 	list<DeviceID> inactive;
 
@@ -307,6 +308,8 @@ void BluetoothAvailabilityManager::fetchDeviceList()
 void BluetoothAvailabilityManager::listen()
 {
 	logger().information("scaning bluetooth network", __FILE__, __LINE__);
+
+	FastMutex::ScopedLock lock(m_scanLock);
 
 	HciInterface hci(dongleName());
 	hci.up();
