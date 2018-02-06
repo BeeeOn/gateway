@@ -177,6 +177,7 @@ if(ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveUtil.cpp
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)

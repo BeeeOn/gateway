@@ -1,6 +1,7 @@
 #include <Poco/SingletonHolder.h>
 
 #include "zwave/ZWaveClassRegistry.h"
+#include "zwave/ZWaveUtil.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -55,7 +56,8 @@ ModuleType ZWaveGenericClassRegistry::find(
 		return it->second;
 	}
 
-	throw InvalidArgumentException("ModuleType is not registered");
+	throw NotFoundException("no type for "
+		+ ZWaveUtil::commandClass(commandClass, index));
 }
 
 bool ZWaveGenericClassRegistry::contains(
