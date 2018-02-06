@@ -28,11 +28,14 @@ HciInterface::HciInterface(const std::string &name) :
 
 /**
  * Convert the given errno value into the appropriate exception
- * and throw it.
+ * and throw it with own message prefix.
  */
-static void throwFromErrno(const int e)
+static void throwFromErrno(const int e, const string &prefix = "")
 {
-	throw IOException(::strerror(e));
+	if (prefix.empty())
+		throw IOException(::strerror(e));
+	else
+		throw IOException(prefix + ": " + ::strerror(e));
 }
 
 int HciInterface::hciSocket() const
