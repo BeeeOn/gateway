@@ -152,7 +152,7 @@ bool HciInterface::detect(const MACAddress &address) const
 	return true;
 }
 
-list<pair<string, MACAddress>> HciInterface::scan() const
+map<MACAddress, string> HciInterface::scan() const
 {
 	const int dev = findHci(m_name);
 
@@ -168,7 +168,7 @@ list<pair<string, MACAddress>> HciInterface::scan() const
 	logger().debug("received " + to_string(count) + " responses",
 			__FILE__, __LINE__);
 
-	list<pair<string, MACAddress>> devices;
+	map<MACAddress, string> devices;
 
 	if (count == 0)
 		return devices; // empty
@@ -189,9 +189,9 @@ list<pair<string, MACAddress>> HciInterface::scan() const
 		const int ret = ::hci_read_remote_name(
 			sock, &info[i].bdaddr, sizeof(name), name, 0);
 		if (ret < 0)
-			devices.push_back(make_pair(string("unknown"), address));
+			devices.emplace(address, string("unknown"));
 		else
-			devices.push_back(make_pair(string(name), address));
+			devices.emplace(address, string(name));
 
 		logger().debug("detected device "
 				+ address.toString(':')

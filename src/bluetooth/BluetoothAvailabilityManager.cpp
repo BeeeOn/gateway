@@ -325,9 +325,9 @@ void BluetoothAvailabilityManager::listen()
 
 	while (enoughTimeForScan(startTime)) {
 		for (const auto &scannedDevice : hci.scan()) {
-			DeviceID id = createDeviceID(scannedDevice.second);
+			DeviceID id = createDeviceID(scannedDevice.first);
 			if (!hasDevice(id))
-				sendNewDevice(id, scannedDevice.first);
+				sendNewDevice(id, scannedDevice.second);
 		}
 	}
 }

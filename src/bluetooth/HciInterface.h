@@ -1,7 +1,7 @@
 #ifndef BEEEON_HCI_INTERFACE_H
 #define BEEEON_HCI_INTERFACE_H
 
-#include <list>
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -35,9 +35,9 @@ public:
 	/**
 	 * Full scan of bluetooth network.
 	 * This can find only visible devices.
-	 * @return list of MAC addresses with names
+	 * @return map of MAC addresses with names
 	 */
-	std::list<std::pair<std::string, MACAddress>> scan() const;
+	std::map<MACAddress, std::string> scan() const;
 
 	/**
 	 * Read information about the iterface.
