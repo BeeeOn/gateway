@@ -16,6 +16,8 @@
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
 #include "net/UPnP.h"
+#include "philips/PhilipsHueBulbInfo.h"
+#include "philips/PhilipsHueBridgeInfo.h"
 #include "philips/PhilipsHueDeviceManager.h"
 #include "philips/PhilipsHueDimmableBulb.h"
 
@@ -31,6 +33,8 @@ BEEEON_OBJECT_TIME("httpTimeout", &PhilipsHueDeviceManager::setHTTPTimeout)
 BEEEON_OBJECT_TIME("refresh", &PhilipsHueDeviceManager::setRefresh)
 BEEEON_OBJECT_REF("credentialsStorage", &PhilipsHueDeviceManager::setCredentialsStorage)
 BEEEON_OBJECT_REF("cryptoConfig", &PhilipsHueDeviceManager::setCryptoConfig)
+BEEEON_OBJECT_REF("eventsExecutor", &PhilipsHueDeviceManager::setEventsExecutor)
+BEEEON_OBJECT_REF("listeners", &PhilipsHueDeviceManager::registerListener)
 BEEEON_OBJECT_END(BeeeOn, PhilipsHueDeviceManager)
 
 using namespace BeeeOn;
@@ -123,6 +127,16 @@ void PhilipsHueDeviceManager::setCredentialsStorage(
 void PhilipsHueDeviceManager::setCryptoConfig(SharedPtr<CryptoConfig> config)
 {
 	m_cryptoConfig = config;
+}
+
+void PhilipsHueDeviceManager::setEventsExecutor(AsyncExecutor::Ptr executor)
+{
+	m_eventSource.setAsyncExecutor(executor);
+}
+
+void PhilipsHueDeviceManager::registerListener(PhilipsHueListener::Ptr listener)
+{
+	m_eventSource.addListener(listener);
 }
 
 void PhilipsHueDeviceManager::refreshPairedDevices()
@@ -407,6 +421,8 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs()
 					__FILE__, __LINE__);
 				continue;
 			}
+
+			fireBridgeStatistics(bridge);
 		}
 
 		logger().notice("discovering Philips Hue Bulbs...", __FILE__, __LINE__);
@@ -507,6 +523,32 @@ void PhilipsHueDeviceManager::processNewDevice(PhilipsHueBulb::Ptr newDevice)
 			newDevice->name(),
 			types,
 			m_refresh));
+
+	fireBulbStatistics(newDevice);
+}
+
+void PhilipsHueDeviceManager::fireBridgeStatistics(PhilipsHueBridge::Ptr bridge)
+{
+	try {
+		PhilipsHueBridgeInfo info = bridge->info();
+		m_eventSource.fireEvent(info, &PhilipsHueListener::onBridgeStats);
+	}
+	catch (Exception& e) {
+		logger().debug("failed to obtain bridge info");
+		logger().log(e, __FILE__, __LINE__);
+	}
+}
+
+void PhilipsHueDeviceManager::fireBulbStatistics(PhilipsHueBulb::Ptr bulb)
+{
+	try {
+		PhilipsHueBulbInfo info = bulb->info();
+		m_eventSource.fireEvent(info, &PhilipsHueListener::onBulbStats);
+	}
+	catch (Exception& e) {
+		logger().debug("failed to obtain bulb info");
+		logger().log(e, __FILE__, __LINE__);
+	}
 }
 
 PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceManager& parent) :

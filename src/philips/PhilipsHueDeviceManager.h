@@ -18,7 +18,9 @@
 #include "net/MACAddress.h"
 #include "philips/PhilipsHueBridge.h"
 #include "philips/PhilipsHueBulb.h"
+#include "philips/PhilipsHueListener.h"
 #include "util/CryptoConfig.h"
+#include "util/EventSource.h"
 
 namespace BeeeOn {
 
@@ -60,6 +62,8 @@ public:
 	void setRefresh(const Poco::Timespan &refresh);
 	void setCredentialsStorage(Poco::SharedPtr<FileCredentialsStorage> storage);
 	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);
+	void setEventsExecutor(AsyncExecutor::Ptr executor);
+	void registerListener(PhilipsHueListener::Ptr listener);
 
 protected:
 	bool accept(const Command::Ptr cmd) override;
@@ -100,6 +104,9 @@ protected:
 
 	void processNewDevice(PhilipsHueBulb::Ptr newDevice);
 
+	void fireBridgeStatistics(PhilipsHueBridge::Ptr bridge);
+	void fireBulbStatistics(PhilipsHueBulb::Ptr bulb);
+
 private:
 	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_bridgesMutex;
@@ -117,6 +124,8 @@ private:
 
 	Poco::SharedPtr<FileCredentialsStorage> m_credentialsStorage;
 	Poco::SharedPtr<CryptoConfig> m_cryptoConfig;
+
+	EventSource<PhilipsHueListener> m_eventSource;
 };
 
 }
