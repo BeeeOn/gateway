@@ -74,6 +74,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
 	${PROJECT_SOURCE_DIR}/net/VPTHTTPScanner.cpp
+	${PROJECT_SOURCE_DIR}/philips/PhilipsHueListener.cpp
 	${PROJECT_SOURCE_DIR}/server/GWContextPoll.cpp
 	${PROJECT_SOURCE_DIR}/server/GWMessageContext.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSOutputQueue.cpp
