@@ -40,6 +40,11 @@ public:
 	/**
 	 * Empty implementation to be overrided if needed.
 	 */
+	void onNotification(const ZWaveNotificationEvent &event) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
 	void onHciStats(const HciInfo &info) override;
 
 	/**

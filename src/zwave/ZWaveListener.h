@@ -6,6 +6,7 @@ namespace BeeeOn {
 
 class ZWaveDriverEvent;
 class ZWaveNodeEvent;
+class ZWaveNotificationEvent;
 
 /**
  * Interface for reporting statistics from ZWaveDeviceManager.
@@ -28,6 +29,11 @@ public:
 	 * is sent from ZWaveDeviceManger.
 	 */
 	virtual void onNodeStats(const ZWaveNodeEvent &nodeEvent) = 0;
+
+	/**
+	 * This method is called for each low-level Z-Wave notification.
+	 */
+	virtual void onNotification(const ZWaveNotificationEvent &e) = 0;
 };
 
 }
