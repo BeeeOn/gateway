@@ -327,6 +327,15 @@ FastMutex& PhilipsHueBridge::lock()
 	return m_lock;
 }
 
+PhilipsHueBridgeInfo PhilipsHueBridge::info()
+{
+	URI uri("/api/beeeon/config");
+	HTTPRequest request(HTTPRequest::HTTP_GET, uri.toString(), "HTTP/1.1");
+
+	HTTPEntireResponse response = sendRequest(request, "", m_address, m_httpTimeout);
+	return PhilipsHueBridgeInfo::buildBridgeInfo(response.getBody());
+}
+
 /**
  * Example of response's body:
  * {
