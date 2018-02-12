@@ -18,6 +18,8 @@ public:
 	void onNodeStats(const ZWaveNodeEvent &event) override;
 	void onNotification(const ZWaveNotificationEvent &event) override;
 	void onHciStats(const HciInfo &info) override;
+	void onBulbStats(const PhilipsHueBulbInfo &info) override;
+	void onBridgeStats(const PhilipsHueBridgeInfo &info) override;
 	void onDispatch(const Command::Ptr cmd) override;
 
 private:

@@ -7,6 +7,8 @@
 #include "core/LoggingCollector.h"
 #include "di/Injectable.h"
 #include "model/SensorData.h"
+#include "philips/PhilipsHueBulbInfo.h"
+#include "philips/PhilipsHueBridgeInfo.h"
 #include "util/Occasionally.h"
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveNodeEvent.h"
@@ -16,6 +18,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
 BEEEON_OBJECT_CASTABLE(ZWaveListener)
 BEEEON_OBJECT_CASTABLE(BluetoothListener)
+BEEEON_OBJECT_CASTABLE(PhilipsHueListener)
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
 BEEEON_OBJECT_END(BeeeOn, LoggingCollector)
 
@@ -153,6 +156,61 @@ void LoggingCollector::onHciStats(const HciInfo &)
 }
 #endif
 
+#ifdef HAVE_PHILIPS_HUE
+void LoggingCollector::onBulbStats(const PhilipsHueBulbInfo &info)
+{
+	string modules;
+	for (auto module : info.modules())
+		modules += module.first + ":" + module.second + ",";
+	if (!modules.empty())
+		modules.pop_back();
+
+	logger().information("Philips Hue dimmable bulb: "
+			+ modules
+			+ "/"
+			+ to_string(info.reachable())
+			+ "/"
+			+ info.type()
+			+ "/"
+			+ info.name()
+			+ "/"
+			+ info.modelId()
+			+ "/"
+			+ info.manufacturerName()
+			+ "/"
+			+ info.uniqueId()
+			+ "/"
+			+ info.swVersion());
+}
+
+void LoggingCollector::onBridgeStats(const PhilipsHueBridgeInfo &info)
+{
+	logger().information("Philips Hue bridge: "
+			+ info.name()
+			+ "/"
+			+ info.dataStoreVersion()
+			+ "/"
+			+ info.swVersion()
+			+ "/"
+			+ info.apiVersion()
+			+ "/"
+			+ info.mac().toString()
+			+ "/"
+			+ info.bridgeId()
+			+ "/"
+			+ to_string(info.factoryNew())
+			+ "/"
+			+ info.modelId());
+}
+#else
+void LoggingCollector::onBulbStats(const PhilipsHueBulbInfo &)
+{
+}
+
+void LoggingCollector::onBridgeStats(const PhilipsHueBridgeInfo &)
+{
+}
+#endif
 
 void LoggingCollector::onDispatch(const Command::Ptr cmd)
 {

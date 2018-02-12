@@ -152,6 +152,7 @@ if(ENABLE_PHILIPS_HUE)
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDimmableBulb.cpp
 	)
 	list(APPEND SOURCES ${PHILIPS_SOURCES})
+	add_definitions(-DHAVE_PHILIPS_HUE=1)
 else()
 	message(STATUS "Philips Hue support is disabled")
 endif()
