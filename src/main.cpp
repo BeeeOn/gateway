@@ -1,3 +1,5 @@
+#include <Poco/Net/RemoteSyslogChannel.h>
+
 #include "core/GatewayInfo.h"
 #include "di/DIDaemon.h"
 #include "util/PosixSignal.h"
@@ -14,5 +16,6 @@ int main(int argc, char **argv)
 	about.version = GatewayInfo::version();
 	PosixSignal::handle("SIGUSR1", [](int) {});
 
+	Poco::Net::RemoteSyslogChannel::registerChannel();
 	DIDaemon::up(argc, argv, about);
 }
