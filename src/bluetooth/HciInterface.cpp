@@ -28,11 +28,14 @@ HciInterface::HciInterface(const std::string &name) :
 
 /**
  * Convert the given errno value into the appropriate exception
- * and throw it.
+ * and throw it with own message prefix.
  */
-static void throwFromErrno(const int e)
+static void throwFromErrno(const int e, const string &prefix = "")
 {
-	throw IOException(::strerror(e));
+	if (prefix.empty())
+		throw IOException(::strerror(e));
+	else
+		throw IOException(prefix + ": " + ::strerror(e));
 }
 
 int HciInterface::hciSocket() const
@@ -119,6 +122,18 @@ void HciInterface::up() const
 	}
 }
 
+void HciInterface::reset() const
+{
+	FdAutoClose sock(hciSocket());
+	struct hci_dev_info info = findHciInfo(*sock, m_name);
+
+	logger().debug("resetting " + m_name, __FILE__, __LINE__);
+	if (::ioctl(*sock, HCIDEVRESET, info.dev_id) < 0) {
+		if (errno != EALREADY)
+			throwFromErrno(errno, "reset of " + m_name + " failed");
+	}
+}
+
 bool HciInterface::detect(const MACAddress &address) const
 {
 	logger().debug("trying to detect device " + address.toString(':'),
@@ -152,7 +167,7 @@ bool HciInterface::detect(const MACAddress &address) const
 	return true;
 }
 
-list<pair<string, MACAddress>> HciInterface::scan() const
+map<MACAddress, string> HciInterface::scan() const
 {
 	const int dev = findHci(m_name);
 
@@ -168,7 +183,7 @@ list<pair<string, MACAddress>> HciInterface::scan() const
 	logger().debug("received " + to_string(count) + " responses",
 			__FILE__, __LINE__);
 
-	list<pair<string, MACAddress>> devices;
+	map<MACAddress, string> devices;
 
 	if (count == 0)
 		return devices; // empty
@@ -189,9 +204,9 @@ list<pair<string, MACAddress>> HciInterface::scan() const
 		const int ret = ::hci_read_remote_name(
 			sock, &info[i].bdaddr, sizeof(name), name, 0);
 		if (ret < 0)
-			devices.push_back(make_pair(string("unknown"), address));
+			devices.emplace(address, string("unknown"));
 		else
-			devices.push_back(make_pair(string(name), address));
+			devices.emplace(address, string(name));
 
 		logger().debug("detected device "
 				+ address.toString(':')

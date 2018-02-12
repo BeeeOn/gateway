@@ -45,7 +45,8 @@ static const Timespan MIN_WAKE_UP_TIME = 15 * Timespan::SECONDS;
 BluetoothAvailabilityManager::BluetoothAvailabilityManager() :
 	DongleDeviceManager(DevicePrefix::PREFIX_BLUETOOTH),
 	m_listenThread(*this, &BluetoothAvailabilityManager::listen),
-	m_wakeUpTime(MIN_WAKE_UP_TIME)
+	m_wakeUpTime(MIN_WAKE_UP_TIME),
+	m_listenTime(0)
 {
 }
 
@@ -119,6 +120,15 @@ bool BluetoothAvailabilityManager::dongleMissing()
 void BluetoothAvailabilityManager::dongleFailed(const FailDetector &dongleStatus)
 {
 	m_statisticsRunner.stop();
+
+	try {
+		HciInterface hci(dongleName());
+		hci.reset();
+	}
+	catch (const Exception &e) {
+		logger().log(e, __FILE__, __LINE__);
+	}
+
 	DongleDeviceManager::dongleFailed(dongleStatus);
 }
 
@@ -155,6 +165,7 @@ void BluetoothAvailabilityManager::stop()
 
 Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
 {
+	FastMutex::ScopedLock lock(m_scanLock);
 	Timestamp startTime;
 	list<DeviceID> inactive;
 
@@ -275,6 +286,8 @@ void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd, cons
 	Result::Ptr result = new Result(answer);
 
 	if (!m_thread.isRunning()) {
+		m_listenTime = cmdListen->duration();
+
 		try {
 			m_thread.start(m_listenThread);
 		}
@@ -304,17 +317,27 @@ void BluetoothAvailabilityManager::fetchDeviceList()
 		addDevice(id);
 }
 
+bool BluetoothAvailabilityManager::enoughTimeForScan(const Timestamp &startTime)
+{
+	return (SCAN_TIME + startTime.elapsed() < m_listenTime);
+}
+
 void BluetoothAvailabilityManager::listen()
 {
 	logger().information("scaning bluetooth network", __FILE__, __LINE__);
 
+	Timestamp startTime;
+	FastMutex::ScopedLock lock(m_scanLock);
+
 	HciInterface hci(dongleName());
 	hci.up();
 
-	for (const auto &scannedDevice : hci.scan()) {
-		DeviceID id = createDeviceID(scannedDevice.second);
-		if (!hasDevice(id))
-			sendNewDevice(id, scannedDevice.first);
+	while (enoughTimeForScan(startTime)) {
+		for (const auto &scannedDevice : hci.scan()) {
+			DeviceID id = createDeviceID(scannedDevice.first);
+			if (!hasDevice(id))
+				sendNewDevice(id, scannedDevice.second);
+		}
 	}
 }
 
