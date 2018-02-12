@@ -4,6 +4,7 @@
 #include "bluetooth/BluetoothListener.h"
 #include "core/CommandDispatcherListener.h"
 #include "core/DistributorListener.h"
+#include "philips/PhilipsHueListener.h"
 #include "zwave/ZWaveListener.h"
 
 namespace BeeeOn {
@@ -17,6 +18,7 @@ namespace BeeeOn {
 class AbstractCollector :
 	public BluetoothListener,
 	public DistributorListener,
+	public PhilipsHueListener,
 	public ZWaveListener,
 	public CommandDispatcherListener {
 public:
@@ -46,6 +48,16 @@ public:
 	 * Empty implementation to be overrided if needed.
 	 */
 	void onHciStats(const HciInfo &info) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
+	void onBulbStats(const PhilipsHueBulbInfo &info) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
+	void onBridgeStats(const PhilipsHueBridgeInfo &info) override;
 
 	/**
 	 * Empty implementation to be overrided if needed.

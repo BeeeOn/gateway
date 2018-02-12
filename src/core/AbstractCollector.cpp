@@ -26,6 +26,14 @@ void AbstractCollector::onHciStats(const HciInfo &)
 {
 }
 
+void AbstractCollector::onBulbStats(const PhilipsHueBulbInfo &)
+{
+}
+
+void AbstractCollector::onBridgeStats(const PhilipsHueBridgeInfo &)
+{
+}
+
 void AbstractCollector::onDispatch(const Command::Ptr)
 {
 }
