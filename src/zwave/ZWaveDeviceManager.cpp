@@ -429,7 +429,7 @@ void ZWaveDeviceManager::valueChanged(const Notification *notification)
 	if (it == m_beeeonDevices.end() || !it->second.paired()) {
 		logger().debug(
 			"device: "
-			+ buildID(nodeID).toString()
+			+ ZWaveUtil::buildID(m_homeID, nodeID).toString()
 			+ " is not paired",
 			__FILE__, __LINE__);
 		return;
@@ -500,7 +500,7 @@ void ZWaveDeviceManager::nodeAdded(
 	}
 }
 
-void ZWaveDeviceManager::doNewDeviceCommand()
+void ZWaveDeviceManager::dispatchUnpairedDevices()
 {
 	if (m_state != State::LISTENING) {
 		logger().warning(
@@ -516,7 +516,7 @@ void ZWaveDeviceManager::doNewDeviceCommand()
 
 		if (nodeID.second.vendorName().empty() && nodeID.second.productName().empty()) {
 			logger().trace(
-				"no info about node id" + to_string(nodeID.first),
+				"no info about node id " + to_string(nodeID.first),
 				__FILE__, __LINE__
 			);
 			continue;
@@ -524,7 +524,7 @@ void ZWaveDeviceManager::doNewDeviceCommand()
 
 		dispatch(
 			new NewDeviceCommand(
-				buildID(nodeID.first),
+				ZWaveUtil::buildID(m_homeID, nodeID.first),
 				nodeID.second.vendorName(),
 				nodeID.second.productName(),
 				nodeID.second.moduleTypes()
@@ -556,7 +556,7 @@ void ZWaveDeviceManager::onNotification(
 	case Notification::Type_NodeQueriesComplete:
 		createBeeeOnDevice(notification->GetNodeId());
 
-		doNewDeviceCommand();
+		dispatchUnpairedDevices();
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
 	case Notification::Type_PollingDisabled: {
@@ -645,7 +645,7 @@ void ZWaveDeviceManager::loadDeviceList()
 	}
 
 	for (auto &node : m_zwaveNodes) {
-		DeviceID deviceID = buildID(node.first);
+		DeviceID deviceID = ZWaveUtil::buildID(m_homeID, node.first);
 		bool paired = deviceIDs.find(deviceID) != deviceIDs.end();
 
 		try {
@@ -665,7 +665,7 @@ void ZWaveDeviceManager::createDevice(
 		bool paired)
 {
 	ZWaveNodeInfo device = ZWaveNodeInfo::build(m_homeID, nodeID);
-	device.setDeviceID(buildID(nodeID));
+	device.setDeviceID(ZWaveUtil::buildID(m_homeID, nodeID));
 	device.setPaired(paired);
 
 	ZWaveDeviceInfo::Ptr msg =
@@ -760,17 +760,6 @@ bool ZWaveDeviceManager::modifyValue(uint8_t nodeID,
 	}
 
 	return true;
-}
-
-DeviceID ZWaveDeviceManager::buildID(uint8_t nodeID) const
-{
-	uint64_t deviceID = 0;
-	uint64_t homeId64 = m_homeID;
-
-	deviceID |= homeId64 << 8;
-	deviceID |= nodeID;
-
-	return DeviceID(DevicePrefix::PREFIX_ZWAVE, deviceID);
 }
 
 void ZWaveDeviceManager::fireStatistics()
