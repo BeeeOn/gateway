@@ -22,6 +22,8 @@ public:
 		UNKNOWN
 	};
 
+	static const uint64_t DEVICE_ID_LE_MASK = 0x0001000000000000;
+
 	BluetoothDevice(const DeviceID &id);
 
 	MACAddress mac() const;
@@ -31,6 +33,16 @@ public:
 	Status status() const;
 
 	void updateStatus(const Status &status);
+
+	/**
+	 * @returns true if the instance represents a Bluetooth Classic device
+	 */
+	bool isClassic() const;
+
+	/**
+	 * @returns true if the instance represents a Bluetooth Low Energy device
+	 */
+	bool isLE() const;
 
 private:
 	const DeviceID m_deviceID;

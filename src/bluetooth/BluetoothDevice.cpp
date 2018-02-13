@@ -28,3 +28,13 @@ void BluetoothDevice::updateStatus(const Status &status)
 {
 	m_status = status;
 }
+
+bool BluetoothDevice::isClassic() const
+{
+	return !isLE();
+}
+
+bool BluetoothDevice::isLE() const
+{
+	return ((m_deviceID.ident() & DEVICE_ID_LE_MASK) == DEVICE_ID_LE_MASK);
+}
