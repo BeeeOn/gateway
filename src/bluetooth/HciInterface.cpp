@@ -3,11 +3,15 @@
 #include <cstring>
 
 #include <sys/ioctl.h>
+#include <sys/poll.h>
 #include <sys/socket.h>
+#include <unistd.h>
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
 
+#include <Poco/Clock.h>
+#include <Poco/Error.h>
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
 
@@ -16,6 +20,15 @@
 
 #define EIR_NAME_SHORT 0x08    // shortened local name
 #define EIR_NAME_COMPLETE 0x09  // complete local name
+#define LE_DISABLE 0x00
+#define LE_ENABLE 0x01
+#define LE_FILTER 0x00
+#define LE_FILTER_DUP 1
+#define LE_INTERVAL 0x0010
+#define LE_OWN_TYPE 0x00
+#define LE_TO 1000
+#define LE_TYPE 0x01
+#define LE_WINDOW 0x0010
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -23,6 +36,29 @@ using namespace std;
 
 static const int INQUIRY_LENGTH = 8; // ~10 seconds
 static const int MAX_RESPONSES = 255;
+
+namespace BeeeOn {
+
+struct HciClose {
+	void operator() (const int sock) const
+	{
+		if (sock >= 0)
+			::hci_close_dev(sock);
+	}
+};
+
+class HciAutoClose : public AutoClose<int, HciClose> {
+public:
+	HciAutoClose(const int sock) :
+		AutoClose<int, HciClose>(m_sock),
+		m_sock(sock)
+	{}
+
+private:
+	int m_sock;
+};
+
+}
 
 HciInterface::HciInterface(const std::string &name) :
 	m_name(name)
@@ -39,6 +75,17 @@ static void throwFromErrno(const int e, const string &prefix = "")
 		throw IOException(::strerror(e));
 	else
 		throw IOException(prefix + ": " + ::strerror(e));
+}
+
+static evt_le_meta_event* skipHciEventHdr(char *data, const unsigned &size)
+{
+	if (1 + HCI_EVENT_HDR_SIZE >= size) {
+		throw IllegalStateException(
+			"size of buffer is bigger than 1+HCI_EVENT_HDR_SIZE");
+	}
+
+	char *ptr = data + (1 + HCI_EVENT_HDR_SIZE);
+	return (evt_le_meta_event *) ptr;
 }
 
 int HciInterface::hciSocket() const
@@ -255,4 +302,145 @@ string HciInterface::parseLEName(uint8_t *eir, size_t length)
 	}
 
 	return "";
+}
+
+bool HciInterface::processNextEvent(const int &fd, map<MACAddress, string> &devices) const
+{
+	vector<char> buf(HCI_MAX_EVENT_SIZE);
+
+	ssize_t rlen = read(fd, buf.data(), buf.size());
+	if (rlen < 0 && errno == EAGAIN)
+		return true;
+
+	if (rlen < 0) {
+		if (devices.size() == 0) {
+			throwFromErrno(errno, "read failed");
+		}
+		else {
+			logger().error("read: " + Error::getMessage(errno));
+			return false;
+		}
+	}
+
+	if (rlen == 0)
+		return false;
+
+	if (logger().trace())
+		logger().trace("read " + to_string(rlen) + " bytes", __FILE__, __LINE__);
+
+	const evt_le_meta_event *meta = skipHciEventHdr(buf.data(), buf.size());
+
+	if (meta->subevent != EVT_LE_ADVERTISING_REPORT) {
+		logger().debug("meta->subevent != EVT_LE_ADVERTISING_REPORT (0x02)",
+			__FILE__, __LINE__);
+		return false;
+	}
+
+	le_advertising_info *info = (le_advertising_info *) (meta->data + 1);
+	if (info->length <= 0)
+		return true;
+
+	MACAddress address(info->bdaddr.b);
+	string name = parseLEName(info->data, info->length);
+
+	auto it = devices.emplace(address, name);
+	if (it.second) {
+		logger().debug("found BLE device: "
+			+ address.toString(':') + " " + name, __FILE__, __LINE__);
+	}
+	else if (devices[address].empty() && !name.empty()) {
+		devices[address] = name;
+		logger().debug("updated BLE device: "
+			+ address.toString(':') + " " + name, __FILE__, __LINE__);
+	}
+
+	return true;
+}
+
+map<MACAddress, string> HciInterface::listLE(const int sock, const Timespan &timeout) const
+{
+	if (timeout.totalSeconds() <= 0)
+		throw InvalidArgumentException("timeout for BLE scan must be at least 1 second");
+
+	struct hci_filter newFilter, oldFilter;
+	socklen_t oldFilterLen = sizeof(oldFilter);
+
+	if (getsockopt(sock, SOL_HCI, HCI_FILTER, &oldFilter, &oldFilterLen) < 0)
+		throwFromErrno(errno, "getsockopt(HCI_FILTER)");
+
+	hci_filter_clear(&newFilter);
+	hci_filter_set_ptype(HCI_EVENT_PKT, &newFilter);
+	hci_filter_set_event(EVT_LE_META_EVENT, &newFilter);
+
+	if (setsockopt(sock, SOL_HCI, HCI_FILTER, &newFilter, sizeof(newFilter)) < 0)
+		throwFromErrno(errno, "setsockopt(HCI_FILTER)");
+
+	struct pollfd pollst;
+	pollst.fd = sock;
+	pollst.events = POLLIN | POLLRDNORM;
+
+	Clock start;
+	map<MACAddress, string> devices;
+
+	while (1) {
+		const Timespan timeDiff = timeout - start.elapsed();
+		if (timeDiff <= 0) {
+			logger().debug("timeout occured while listing BLE", __FILE__, __LINE__);
+			break;
+		}
+
+		auto ret = ::poll(&pollst, 1, timeDiff.totalSeconds() * 1000);
+		if (ret < 0) {
+			if (devices.size() == 0) {
+				throwFromErrno(errno, "poll failed");
+			}
+			else {
+				logger().error("poll: " + Error::getMessage(errno));
+				break;
+			}
+		}
+		else if (ret == 0) {
+			logger().debug("BLE read timeout");
+			break;
+		}
+
+		if (!processNextEvent(pollst.fd, devices)) {
+			break;
+		}
+	}
+
+	setsockopt(sock, SOL_HCI, HCI_FILTER, &oldFilter, sizeof(oldFilter));
+	return devices;
+}
+
+
+map<MACAddress, string> HciInterface::lescan(const Timespan &seconds) const
+{
+	const auto dev = findHci(m_name);
+	HciAutoClose sock(::hci_open_dev(dev));
+
+	if (*sock < 0)
+		throwFromErrno(errno, "BLE hci_open_dev(" + m_name + ")");
+
+	if (::hci_le_set_scan_parameters(*sock, LE_TYPE, htobs(LE_INTERVAL),
+			 htobs(LE_WINDOW), LE_OWN_TYPE, LE_FILTER, LE_TO) < 0)
+		throwFromErrno(errno, "BLE cannot set parameters for scan");
+
+	if (::hci_le_set_scan_enable(*sock, LE_ENABLE, LE_FILTER_DUP, LE_TO) < 0)
+		throwFromErrno(errno, "BLE cannot enable scan");
+
+	map<MACAddress, string> devices;
+
+	logger().information("starting BLE scan for "
+		+ to_string(seconds.totalSeconds()) + " seconds", __FILE__, __LINE__);
+
+	devices = listLE(*sock, seconds);
+
+	if (::hci_le_set_scan_enable(*sock, LE_DISABLE, LE_FILTER_DUP, LE_TO) < 0)
+		throwFromErrno(errno, "failed disabling BLE scan parameters");
+
+	logger().information("BLE scan has finished, found "
+		+ to_string(devices.size()) + " devices", __FILE__, __LINE__);
+
+	return devices;
 }
