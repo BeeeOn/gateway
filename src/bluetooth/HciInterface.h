@@ -50,6 +50,13 @@ public:
 	 */
 	HciInfo info() const;
 
+protected:
+	/**
+	 * Find device name in le_advertising_info struct
+	 * @return name of found device or an empty string otherwise
+	 */
+	static std::string parseLEName(uint8_t *eir, size_t length);
+
 private:
 	/**
 	 * Open HCI socket to be able to ioctl() about HCI interfaces.

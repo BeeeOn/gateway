@@ -14,6 +14,9 @@
 #include "bluetooth/HciInterface.h"
 #include "io/AutoClose.h"
 
+#define EIR_NAME_SHORT 0x08    // shortened local name
+#define EIR_NAME_COMPLETE 0x09  // complete local name
+
 using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
@@ -225,4 +228,31 @@ HciInfo HciInterface::info() const
 {
 	FdAutoClose sock(hciSocket());
 	return HciInfo(findHciInfo(*sock, m_name));
+}
+
+string HciInterface::parseLEName(uint8_t *eir, size_t length)
+{
+	size_t offset = 0;
+
+	while (offset < length) {
+		uint8_t fieldLen = eir[0];
+
+		if (fieldLen == 0)
+			break;
+
+		if (offset + fieldLen > length)
+			break;
+
+		switch (eir[1]) {
+		case EIR_NAME_SHORT:
+		case EIR_NAME_COMPLETE:
+			size_t nameLen = fieldLen - 1;
+			return string((char*)&eir[2], nameLen);
+		}
+
+		offset += fieldLen + 1;
+		eir += fieldLen + 1;
+	}
+
+	return "";
 }
