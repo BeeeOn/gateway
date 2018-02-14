@@ -216,7 +216,7 @@ bool AbstractHTTPScanner::addressIncompatible(const NetworkInterface::AddressTup
 vector<NetworkInterface> AbstractHTTPScanner::listNetworkInterfaces()
 {
 	vector<NetworkInterface> list;
-	NetworkInterface::NetworkInterfaceList listOfNetworkInterfaces = NetworkInterface::list();
+	NetworkInterface::List listOfNetworkInterfaces = NetworkInterface::list();
 
 	for (auto &interface : listOfNetworkInterfaces) {
 		if (interface.isPointToPoint() || interface.isLoopback()) {
