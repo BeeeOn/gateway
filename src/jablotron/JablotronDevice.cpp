@@ -17,8 +17,8 @@ using namespace std;
 static const int LOW_BATTERY = 5;
 static const int FULL_BATTERY = 100;
 
-const Timespan JablotronDevice::REFRESH_TIME_SUPPORTED_BEACON = -1;
-const Timespan JablotronDevice::REFRESH_TIME_UNSUPPORTED_BEACON = 9 * Timespan::MINUTES;
+const Timespan JablotronDevice::REFRESH_TIME_SUPPORTED_BEACON = 9 * Timespan::MINUTES;
+const Timespan JablotronDevice::REFRESH_TIME_UNSUPPORTED_BEACON = -1;
 
 JablotronDevice::~JablotronDevice()
 {
