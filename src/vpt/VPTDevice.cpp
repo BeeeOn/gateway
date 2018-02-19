@@ -5,8 +5,6 @@
 #include <Poco/Event.h>
 #include <Poco/NumberFormatter.h>
 #include <Poco/Timestamp.h>
-#include <Poco/Net/HTTPClientSession.h>
-#include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/IPAddress.h>
 #include <Poco/Net/StreamSocket.h>
 #include <Poco/RegularExpression.h>
@@ -15,6 +13,7 @@
 #include <Poco/String.h>
 
 #include "model/DevicePrefix.h"
+#include "net/HTTPUtil.h"
 #include "util/JsonUtil.h"
 #include "vpt/VPTBoilerModuleType.h"
 #include "vpt/VPTDevice.h"
@@ -532,19 +531,12 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands()
 
 HTTPEntireResponse VPTDevice::sendRequest(HTTPRequest& request, const Timespan& timeout) const
 {
-	HTTPClientSession http;
 	HTTPEntireResponse response;
-
-	http.setHost(m_address.host().toString());
-	http.setPort(m_address.port());
-	http.setTimeout(timeout);
 
 	logger().information("request: " + m_address.toString() + request.getURI(), __FILE__, __LINE__);
 
-	http.sendRequest(request);
-
-	istream &input = http.receiveResponse(response);
-	response.readBody(input);
+	response = HTTPUtil::makeRequest(
+		request, m_address.host().toString(), m_address.port(), "", timeout);
 
 	const int status = response.getStatus();
 	if (status >= 400)

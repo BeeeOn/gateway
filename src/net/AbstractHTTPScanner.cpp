@@ -1,14 +1,13 @@
 #include <Poco/Exception.h>
 #include <Poco/Glob.h>
 #include <Poco/Logger.h>
-#include <Poco/Net/HTTPClientSession.h>
-#include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/StreamSocket.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
 
 #include "net/AbstractHTTPScanner.h"
+#include "net/HTTPUtil.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -178,26 +177,19 @@ void AbstractHTTPScanner::probeAddressRange(const IPAddressRange& range,
 
 HTTPEntireResponse AbstractHTTPScanner::sendRequest(const SocketAddress& socketAddress, const Int64 maxResponseLength)
 {
-	HTTPClientSession http;
 	HTTPEntireResponse response;
 	HTTPRequest request;
-
-	http.setHost(socketAddress.host().toString());
-	http.setPort(socketAddress.port());
-	http.setTimeout(m_httpTimeout);
 
 	prepareRequest(request);
 
 	logger().information("request: " + socketAddress.toString() + request.getURI(), __FILE__, __LINE__);
 
-	http.sendRequest(request);
-
-	istream &input = http.receiveResponse(response);
+	response = HTTPUtil::makeRequest(
+		request, socketAddress.host().toString(), socketAddress.port(), "", m_httpTimeout);
 
 	if (response.getContentLength64() > maxResponseLength)
 		throw RangeException("too long response");
 
-	response.readBody(input);
 	const int status = response.getStatus();
 	if (status >= 400)
 		logger().warning("response: " + to_string(status), __FILE__, __LINE__);

@@ -12,6 +12,7 @@
 #include "belkin/BelkinWemoDevice.h"
 #include "belkin/BelkinWemoLink.h"
 #include "net/HTTPEntireResponse.h"
+#include "net/HTTPUtil.h"
 #include "net/SOAPMessage.h"
 #include "util/SecureXmlParser.h"
 
@@ -67,8 +68,8 @@ void BelkinWemoLink::requestDeviceInfo()
 	msg.prepare(request);
 
 	URI uri("http://" + m_address.toString() + "/upnp/control/basicevent1");
-	HTTPEntireResponse response = BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), uri, m_httpTimeout);
+	HTTPEntireResponse response = HTTPUtil::makeRequest(
+		request, uri, msg.toString(), m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -131,8 +132,8 @@ std::list<BelkinWemoLink::BulbID> BelkinWemoLink::requestDeviceList()
 	msg.prepare(request);
 
 	URI uri("http://" + m_address.toString() + "/upnp/control/bridge1");
-	HTTPEntireResponse response = BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), uri, m_httpTimeout);
+	HTTPEntireResponse response = HTTPUtil::makeRequest(
+		request, uri, msg.toString(), m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -198,8 +199,8 @@ bool BelkinWemoLink::requestModifyState(const BelkinWemoLink::BulbID bulbID,
 	msg.prepare(request);
 
 	URI uri("http://" + m_address.toString() + "/upnp/control/bridge1");
-	HTTPEntireResponse response = BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), uri, m_httpTimeout);
+	HTTPEntireResponse response = HTTPUtil::makeRequest(
+		request, uri, msg.toString(), m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -252,8 +253,8 @@ string BelkinWemoLink::requestDeviceState(const BelkinWemoLink::BulbID bulbID)
 	msg.prepare(request);
 
 	URI uri("http://" + m_address.toString() + "/upnp/control/bridge1");
-	HTTPEntireResponse response = BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), uri, m_httpTimeout);
+	HTTPEntireResponse response = HTTPUtil::makeRequest(
+		request, uri, msg.toString(), m_httpTimeout);
 
 	return response.getBody();
 }

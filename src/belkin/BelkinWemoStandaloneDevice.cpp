@@ -8,9 +8,9 @@
 #include <Poco/SAX/AttributesImpl.h>
 #include <Poco/XML/XMLWriter.h>
 
-#include "belkin/BelkinWemoDevice.h"
 #include "belkin/BelkinWemoStandaloneDevice.h"
 #include "model/DevicePrefix.h"
+#include "net/HTTPUtil.h"
 #include "net/SOAPMessage.h"
 #include "util/SecureXmlParser.h"
 
@@ -54,8 +54,8 @@ MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
+	HTTPEntireResponse response = HTTPUtil::makeRequest(
+		request, m_uri, msg.toString(), m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -104,8 +104,8 @@ HTTPEntireResponse BelkinWemoStandaloneDevice::requestBinaryState() const
 
 	msg.prepare(request);
 
-	return BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
+	return HTTPUtil::makeRequest(
+		request, m_uri, msg.toString(), m_httpTimeout);
 }
 
 
@@ -149,8 +149,8 @@ bool BelkinWemoStandaloneDevice::requestModifyBinaryState(
 
 	msg.prepare(request);
 
-	HTTPEntireResponse response = BelkinWemoDevice::sendHTTPRequest(
-		request, msg.toString(), m_uri, m_httpTimeout);
+	HTTPEntireResponse response = HTTPUtil::makeRequest(
+		request, m_uri, msg.toString(), m_httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
