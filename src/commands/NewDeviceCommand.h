@@ -27,7 +27,7 @@ public:
 	std::string vendor() const;
 	std::string productName() const;
 	std::list<ModuleType> dataTypes() const;
-	bool supportRefreshTime() const;
+	bool supportsRefreshTime() const;
 	Poco::Timespan refreshTime() const;
 
 	std::string toString() const override;

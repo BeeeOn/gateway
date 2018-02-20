@@ -40,7 +40,7 @@ list<ModuleType> NewDeviceCommand::dataTypes() const
 	return m_dataTypes;
 }
 
-bool NewDeviceCommand::supportRefreshTime() const
+bool NewDeviceCommand::supportsRefreshTime() const
 {
 	return m_refreshTime.totalSeconds() < 0;
 }
