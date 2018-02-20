@@ -421,8 +421,12 @@ HTTPEntireResponse VPTDevice::sendSetRequest(HTTPRequest& request)
 		JsonUtil::parse(response.getBody());
 	}
 	catch (SyntaxException& e) {
+		const string nonce = VPTDevice::extractNonce(response.getBody());
+		if (nonce.empty())
+			throw NotFoundException("nonce was not found in response");
+
 		request.setURI(request.getURI() + "&__HOSTPWD=" +
-			VPTDevice::generateHashPassword(m_password, VPTDevice::extractNonce(response.getBody())));
+			VPTDevice::generateHashPassword(m_password, nonce));
 
 		try {
 			response = sendRequest(request, m_httpTimeout);
