@@ -7,12 +7,12 @@ using namespace std;
 using namespace Poco;
 
 NewDeviceCommand::NewDeviceCommand(const DeviceID &deviceID, const string &vendor,
-	const string &productName, const list<ModuleType> &dataTypes, Timespan refresh_time):
+	const string &productName, const list<ModuleType> &dataTypes, Timespan refreshTime):
 		m_deviceID(deviceID),
 		m_vendor(vendor),
 		m_productName(productName),
 		m_dataTypes(dataTypes),
-		m_refreshTime(refresh_time)
+		m_refreshTime(refreshTime)
 {
 }
 

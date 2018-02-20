@@ -21,7 +21,7 @@ public:
 
 	NewDeviceCommand(const DeviceID &deviceID, const std::string &vendor,
 		const std::string &productName, const std::list<ModuleType> &dataTypes,
-		Poco::Timespan refresh_time = -1);
+		Poco::Timespan refreshTime = -1);
 
 	DeviceID deviceID() const;
 	std::string vendor() const;
