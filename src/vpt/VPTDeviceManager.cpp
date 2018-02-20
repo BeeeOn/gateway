@@ -407,7 +407,7 @@ void VPTDeviceManager::processNewDevice(VPTDevice::Ptr newDevice)
 	logger().debug("found device " + newDevice->deviceID().toString() +
 		" at " + newDevice->address().toString(), __FILE__, __LINE__);
 
-	vector<NewDeviceCommand::Ptr> newDeviceCommands = newDevice->createNewDeviceCommands();
+	vector<NewDeviceCommand::Ptr> newDeviceCommands = newDevice->createNewDeviceCommands(m_refresh);
 	for (auto cmd : newDeviceCommands) {
 		auto pairedDevice = m_pairedDevices.find(cmd->deviceID());
 		if (pairedDevice == m_pairedDevices.end())

@@ -509,7 +509,7 @@ vector<SensorData> VPTDevice::requestValues()
 	return parser.parse(m_deviceId, response.getBody());
 }
 
-vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands()
+vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refresh)
 {
 	vector<NewDeviceCommand::Ptr> vector;
 
@@ -520,7 +520,8 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands()
 				VPTDevice::createSubdeviceID(i, m_deviceId),
 				VPT_VENDOR,
 				"Zone " + to_string(i),
-				zoneModules));
+				zoneModules,
+				refresh));
 	}
 
 	std::list<ModuleType> boilerModules = VPTDevice::BOILER_MODULE_TYPES;
@@ -529,7 +530,8 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands()
 			m_deviceId,
 			VPT_VENDOR,
 			"Boiler",
-			boilerModules));
+			boilerModules,
+			refresh));
 
 	return vector;
 }

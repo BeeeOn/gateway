@@ -108,7 +108,7 @@ public:
 	/**
 	 * @brief Returns list of new device commands of all subdevices.
 	 */
-	std::vector<NewDeviceCommand::Ptr> createNewDeviceCommands();
+	std::vector<NewDeviceCommand::Ptr> createNewDeviceCommands(Poco::Timespan& refresh);
 
 	/**
 	 * @brief Compares two VPTs based on DeviceID.
