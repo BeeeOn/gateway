@@ -45,7 +45,7 @@ bool NewDeviceCommand::supportRefreshTime() const
 	return m_refreshTime.totalSeconds() < 0;
 }
 
-Timespan NewDeviceCommand::refreshtime() const
+Timespan NewDeviceCommand::refreshTime() const
 {
 	return m_refreshTime;
 }

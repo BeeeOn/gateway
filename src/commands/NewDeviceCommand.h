@@ -28,7 +28,7 @@ public:
 	std::string productName() const;
 	std::list<ModuleType> dataTypes() const;
 	bool supportRefreshTime() const;
-	Poco::Timespan refreshtime() const;
+	Poco::Timespan refreshTime() const;
 
 	std::string toString() const override;
 
