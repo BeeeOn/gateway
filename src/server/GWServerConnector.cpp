@@ -562,7 +562,7 @@ void GWServerConnector::doNewDeviceCommand(NewDeviceCommand::Ptr cmd,
 	request->setDeviceID(cmd->deviceID());
 	request->setProductName(cmd->productName());
 	request->setVendor(cmd->vendor());
-	request->setRefreshTime(cmd->refreshtime());
+	request->setRefreshTime(cmd->refreshTime());
 	request->setModuleTypes(cmd->dataTypes());
 
 	m_outputQueue.enqueue(new GWRequestContext(request, result));
