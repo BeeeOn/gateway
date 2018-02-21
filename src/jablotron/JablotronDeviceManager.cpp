@@ -133,10 +133,10 @@ void JablotronDeviceManager::jablotronProcess()
 		Mutex::ScopedLock guard(m_lock);
 
 		auto it = m_devices.find(id);
-		if (!it->second.isNull() && it->second->paired()) {
+		if (it != m_devices.end() && !it->second.isNull() && it->second->paired()) {
 			shipMessage(message, it->second);
 		}
-		else if (m_isListen) {
+		else if (it != m_devices.end() && m_isListen) {
 			doNewDevice(id, it);
 		}
 		else {
