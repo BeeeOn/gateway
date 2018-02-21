@@ -55,7 +55,6 @@ using Poco::Timer;
 using Poco::Timespan;
 
 static const int NODE_ID_MASK = 0xff;
-static const int DEFAULT_UNPAIR_TIMEOUT_MS = 5000;
 
 static const int FAILS_TRESHOLD = 3;
 static const Poco::Timespan SLEEP_AFTER_FAILS = 10 * Poco::Timespan::SECONDS;
@@ -281,10 +280,7 @@ void ZWaveDeviceManager::doUnpairCommand(
 	m_state = UNPAIRING;
 	logger().debug(
 		"unpairing device "
-		+ cmd->deviceID().toString()
-		+ " with timeout "
-		+ to_string(DEFAULT_UNPAIR_TIMEOUT_MS / 1000)
-		+ " seconds",
+		+ cmd->deviceID().toString(),
 		__FILE__, __LINE__);
 
 	uint8_t nodeID = nodeIDFromDeviceID(cmd->deviceID());
@@ -300,17 +296,11 @@ void ZWaveDeviceManager::doUnpairCommand(
 		result->setStatus(Result::Status::SUCCESS);
 	else
 		result->setStatus(Result::Status::FAILED);
-
-	m_commandTimer.stop();
-	m_commandTimer.setStartInterval(DEFAULT_UNPAIR_TIMEOUT_MS);
-	m_commandTimer.start(m_commandCallback);
 }
 
 void ZWaveDeviceManager::stopCommand(Timer &)
 {
 	Manager::Get()->CancelControllerCommand(m_homeID);
-	m_state = NODE_QUERIED;
-
 	logger().debug("command is done", __FILE__, __LINE__);
 }
 
@@ -395,15 +385,6 @@ void ZWaveDeviceManager::doSetValueCommnad(
 
 void ZWaveDeviceManager::valueAdded(const Notification *notification)
 {
-	if (m_state != DONGLE_READY && m_state != LISTENING) {
-		logger().error(
-			"device manager does not have added driver or it is not in listening state",
-			__FILE__, __LINE__
-		);
-
-		return;
-	}
-
 	uint8_t nodeID = notification->GetNodeId();
 
 	auto it = m_zwaveNodes.find(nodeID);
@@ -479,15 +460,6 @@ void ZWaveDeviceManager::shipData(const ValueID &valueID, const ZWaveNodeInfo &n
 void ZWaveDeviceManager::nodeAdded(
 	const Notification *notification)
 {
-	if (m_state != DONGLE_READY && m_state != LISTENING) {
-		logger().error(
-			"device manager does not have added driver or it is not in listening state",
-			__FILE__, __LINE__
-		);
-
-		return;
-	}
-
 	uint8_t nodeID = notification->GetNodeId();
 	auto it = m_zwaveNodes.emplace(nodeID, list<OpenZWave::ValueID>());
 
@@ -534,6 +506,106 @@ void ZWaveDeviceManager::dispatchUnpairedDevices()
 	}
 }
 
+void ZWaveDeviceManager::handleUnpairing(const Notification *notification)
+{
+	switch (notification->GetEvent()) {
+	case OpenZWave::Driver::ControllerState_Starting:
+		logger().information("starting unpairing process",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Waiting:
+		logger().information("expecting user actions",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Sleeping:
+		logger().debug("sleeping while waiting to unpair",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_InProgress:
+		logger().debug("communicating with a device",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Cancel:
+		logger().information("cancelling unpairing process",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Completed:
+		logger().information("unpairing process completed",
+			__FILE__, __LINE__);
+
+		m_state = NODE_QUERIED;
+		break;
+
+	case OpenZWave::Driver::ControllerState_Error:
+	case OpenZWave::Driver::ControllerState_Failed:
+		logger().error("unpairing process has failed: "
+			+ to_string(notification->GetNotification()),
+			__FILE__, __LINE__);
+
+		m_state = NODE_QUERIED;
+		break; // ignore
+
+	default:
+		break;
+	}
+}
+
+void ZWaveDeviceManager::handleListening(const Notification *notification)
+{
+	switch (notification->GetEvent()) {
+	case OpenZWave::Driver::ControllerState_Starting:
+		logger().information("starting discovery process",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Waiting:
+		logger().information("expecting user actions",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Sleeping:
+		logger().debug("sleeping while waiting for devices",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_InProgress:
+		logger().debug("communicating with a device",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Cancel:
+		logger().information("cancelling discovery process",
+			__FILE__, __LINE__);
+		break;
+
+	case OpenZWave::Driver::ControllerState_Completed:
+		logger().information("discovery process completed",
+			__FILE__, __LINE__);
+
+		dispatchUnpairedDevices();
+		m_state = NODE_QUERIED;
+		break;
+
+	case OpenZWave::Driver::ControllerState_Error:
+	case OpenZWave::Driver::ControllerState_Failed:
+		logger().error("discovery process has failed: "
+			+ to_string(notification->GetNotification()),
+			__FILE__, __LINE__);
+
+		dispatchUnpairedDevices();
+		m_state = NODE_QUERIED;
+		break; // ignore
+
+	default:
+		break;
+	}
+}
+
 void ZWaveDeviceManager::onNotification(
 	const Notification *notification)
 {
@@ -557,10 +629,15 @@ void ZWaveDeviceManager::onNotification(
 	case Notification::Type_NodeRemoved:
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
+	case Notification::Type_ControllerCommand:
+		if (m_state == LISTENING)
+			handleListening(notification);
+		else if (m_state == UNPAIRING)
+			handleUnpairing(notification);
+				
+		break;
 	case Notification::Type_NodeQueriesComplete:
 		createBeeeOnDevice(notification->GetNodeId());
-
-		dispatchUnpairedDevices();
 		Manager::Get()->WriteConfig(m_homeID);
 		break;
 	case Notification::Type_PollingDisabled: {
