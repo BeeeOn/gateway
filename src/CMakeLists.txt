@@ -139,6 +139,18 @@ else()
 	message(STATUS "Jablotron support is disabled")
 endif()
 
+if(ENABLE_PHILIPS_HUE)
+	file(GLOB PHILIPS_SOURCES
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBulb.cpp
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBridge.cpp
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDimmableBulb.cpp
+	)
+	list(APPEND SOURCES ${PHILIPS_SOURCES})
+else()
+	message(STATUS "Philips Hue support is disabled")
+endif()
+
 if(ENABLE_VIRTUAL_DEVICES)
 	file(GLOB VIRTUAL_DEVICES_SOURCES
 		${PROJECT_SOURCE_DIR}/vdev/VirtualModule.cpp
