@@ -28,6 +28,10 @@ if(ENABLE_ZWAVE)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 endif()
 
+if(ENABLE_FITP)
+	find_library (FITP_LIB fitplib)
+endif()
+
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
@@ -63,6 +67,13 @@ if (ENABLE_QUEUING_DISTRIBUTOR)
 	list(APPEND TEST_SOURCES ${QUEUING_DISTRIBUTOR_TEST_SOURCES})
 endif()
 
+if(ENABLE_FITP)
+	file(GLOB FITP_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${FITP_TEST_SOURCES})
+endif()
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${PROJECT_SOURCE_DIR}/../base/src
@@ -89,6 +100,7 @@ set(LIBS
 	${PTHREAD}
 	${UDEV}
 	${OPENZWAVE_LIBRARY}
+	${FITP_LIB}
 )
 
 target_link_libraries(test-suite-gateway
