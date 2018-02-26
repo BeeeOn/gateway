@@ -267,6 +267,9 @@ void VPTDevice::requestModifyState(const DeviceID& id, const ModuleID module,
 	case VPTZoneModuleType::MOD_REQUESTED_WATER_TEMPERATURE_SET:
 		requestSetModWaterTemperature(zone, value, result);
 		break;
+	default:
+		throw InvalidArgumentException("attempt to set module "
+				+ module.toString() + " that is not controllable");
 	}
 }
 
