@@ -60,6 +60,9 @@ install(FILES conf/virtual-devices.ini
 	DESTINATION etc/beeeon/gateway)
 install(DIRECTORY conf/config.d
 	DESTINATION etc/beeeon/gateway)
+install(FILES conf/syslog-ng/udp-relay.conf
+	RENAME beeeon-udp-relay.conf.sample
+	DESTINATION etc/syslog-ng/conf.d)
 install(FILES systemd/beeeon-gateway.service
 	DESTINATION lib/systemd/system)
 install(DIRECTORY udev/rules.d
