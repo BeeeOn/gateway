@@ -169,8 +169,8 @@ private:
 	 */
 	void buildDeviceID();
 
-	void requestSetModBoilerOperationType(const int zone, const int value, Result::Ptr result);
-	void requestSetModBoilerOperationMode(const int zone, const int value, Result::Ptr result);
+	void requestSetModBoilerOperationType(const int zone, const double value, Result::Ptr result);
+	void requestSetModBoilerOperationMode(const int zone, const double value, Result::Ptr result);
 	void requestSetManualRoomTemperature(const int zone, const double value, Result::Ptr result);
 	void requestSetManualWaterTemperature(const int zone, const double value, Result::Ptr result);
 	void requestSetManualTUVTemperature(const int zone, const double value, Result::Ptr result);

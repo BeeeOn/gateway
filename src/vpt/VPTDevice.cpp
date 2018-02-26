@@ -273,13 +273,13 @@ void VPTDevice::requestModifyState(const DeviceID& id, const ModuleID module,
 	}
 }
 
-void VPTDevice::requestSetModBoilerOperationType(const int zone, const int value, Result::Ptr result)
+void VPTDevice::requestSetModBoilerOperationType(const int zone, const double value, Result::Ptr result)
 {
 	string registr = REG_BOILER_OPER_TYPE.at(zone - 1);
 
 	string strValue;
 	for (auto item : VPTValuesParser::BOILER_OPERATION_TYPE) {
-		if (item.second == value)
+		if (item.second == static_cast<int>(value))
 			strValue = item.first;
 	}
 
@@ -318,13 +318,13 @@ void VPTDevice::requestSetModBoilerOperationType(const int zone, const int value
 	result->setStatus(Result::Status::FAILED);
 }
 
-void VPTDevice::requestSetModBoilerOperationMode(const int zone, const int value, Result::Ptr result)
+void VPTDevice::requestSetModBoilerOperationMode(const int zone, const double value, Result::Ptr result)
 {
 	string registr = REG_BOILER_OPER_MODE.at(zone - 1);
 
 	string strValue;
 	for (auto item : VPTValuesParser::BOILER_OPERATION_MODE) {
-		if (item.second == value)
+		if (item.second == static_cast<int>(value))
 			strValue = item.first;
 	}
 
