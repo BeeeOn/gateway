@@ -320,12 +320,14 @@ void VPTDevice::requestSetModBoilerOperationMode(const int zone, const double va
 	string newValue = parseZoneAttrFromJson(response.getBody(), zone,
 			VPTZoneModuleType(VPTZoneModuleType::MOD_BOILER_OPERATION_MODE).toString());
 
-	if (strValue == newValue)
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-
 	stampVPT(Action::SET);
+
+	if (strValue != newValue) {
+		throw IllegalStateException(
+			"failed to set BOILER_OPERATION_MODE to " + to_string(value));
+	}
+
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VPTDevice::requestSetManualRoomTemperature(const int zone, const double value, Result::Ptr result)
@@ -339,12 +341,14 @@ void VPTDevice::requestSetManualRoomTemperature(const int zone, const double val
 	string newValue = parseZoneAttrFromJson(response.getBody(), zone,
 			VPTZoneModuleType(VPTZoneModuleType::MANUAL_REQUESTED_ROOM_TEMPERATURE).toString());
 
-	if (value == NumberParser::parseFloat(newValue, ',', '.'))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-
 	stampVPT(Action::SET);
+
+	if (value != NumberParser::parseFloat(newValue, ',', '.')) {
+		throw IllegalStateException(
+			"failed to set MANUAL_REQUESTED_ROOM_TEMPERATURE to " + to_string(value));
+	}
+
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VPTDevice::requestSetManualWaterTemperature(const int zone, const double value, Result::Ptr result)
@@ -357,12 +361,14 @@ void VPTDevice::requestSetManualWaterTemperature(const int zone, const double va
 	string newValue = parseZoneAttrFromJson(response.getBody(), zone,
 			VPTZoneModuleType(VPTZoneModuleType::MANUAL_REQUESTED_WATER_TEMPERATURE).toString());
 
-	if (value == NumberParser::parseFloat(newValue, ',', '.'))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-
 	stampVPT(Action::SET);
+
+	if (value != NumberParser::parseFloat(newValue, ',', '.')) {
+		throw IllegalStateException(
+			"failed to set MANUAL_REQUESTED_WATER_TEMPERATURE to " + to_string(value));
+	}
+
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VPTDevice::requestSetManualTUVTemperature(const int zone, const double value, Result::Ptr result)
@@ -375,12 +381,14 @@ void VPTDevice::requestSetManualTUVTemperature(const int zone, const double valu
 	string newValue = parseZoneAttrFromJson(response.getBody(), zone,
 			VPTZoneModuleType(VPTZoneModuleType::MANUAL_REQUESTED_TUV_TEMPERATURE).toString());
 
-	if (value == NumberParser::parseFloat(newValue, ',', '.'))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-
 	stampVPT(Action::SET);
+
+	if (value != NumberParser::parseFloat(newValue, ',', '.')) {
+		throw IllegalStateException(
+			"failed to set MANUAL_REQUESTED_TUV_TEMPERATURE to " + to_string(value));
+	}
+
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VPTDevice::requestSetModWaterTemperature(const int zone, const double value, Result::Ptr result)
@@ -393,12 +401,14 @@ void VPTDevice::requestSetModWaterTemperature(const int zone, const double value
 	string newValue = parseZoneAttrFromJson(response.getBody(), zone,
 			VPTZoneModuleType(VPTZoneModuleType::MOD_REQUESTED_WATER_TEMPERATURE_SET).toString());
 
-	if (value == NumberParser::parseFloat(newValue, ',', '.'))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-
 	stampVPT(Action::SET);
+
+	if (value != NumberParser::parseFloat(newValue, ',', '.')) {
+		throw IllegalStateException(
+			"failed to set MANUAL_REQUESTED_WATER_TEMPERATURE_SET to " + to_string(value));
+	}
+
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 HTTPEntireResponse VPTDevice::prepareAndSendRequest(const string& registr, const string& value)
