@@ -325,6 +325,12 @@ void VPTDevice::requestSetModBoilerOperationMode(const int zone, const int value
 			strValue = item.first;
 	}
 
+	if (strValue.empty()) {
+		throw InvalidArgumentException(
+			"value " + to_string(value)
+			+ " is invalid for BOILER_OPERATION_MODE");
+	}
+
 	HTTPEntireResponse response = prepareAndSendRequest(registr, strValue);
 
 	string newValue = parseZoneAttrFromJson(response.getBody(), zone,
