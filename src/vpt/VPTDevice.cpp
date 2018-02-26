@@ -225,8 +225,8 @@ void VPTDevice::requestModifyState(const DeviceID& id, const ModuleID module,
 {
 	const int zone = VPTDevice::extractSubdeviceFromDeviceID(id);
 	if (zone == 0) {
-		result->setStatus(Result::Status::FAILED);
-		return;
+		throw InvalidArgumentException(
+			"attempt to modify state of invalid zone 0");
 	}
 
 	switch (module.value()) {
