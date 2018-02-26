@@ -280,6 +280,12 @@ void VPTDevice::requestSetModBoilerOperationType(const int zone, const int value
 			strValue = item.first;
 	}
 
+	if (strValue.empty()) {
+		throw InvalidArgumentException(
+			"value " + to_string(value)
+			+ " is invalid for BOILER_OPERATION_TYPE");
+	}
+
 	prepareAndSendRequest(registr, strValue);
 
 	stampVPT(Action::SET);
