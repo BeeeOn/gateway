@@ -296,7 +296,8 @@ void VPTDevice::requestSetModBoilerOperationType(const int zone, const double va
 		}
 	}
 
-	result->setStatus(Result::Status::FAILED);
+	throw TimeoutException("tried " + to_string(MAX_ATTEMPTS)
+			+ " to set BOILER_OPERATION_TYPE");
 }
 
 void VPTDevice::requestSetModBoilerOperationMode(const int zone, const double value, Result::Ptr result)
