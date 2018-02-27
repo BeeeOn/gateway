@@ -123,8 +123,8 @@ void GWServerConnector::forwardOutputQueue()
 			if (!readyToSendEvent().tryWait(m_busySleep.totalMilliseconds()))
 				sendPing();
 		}
-			if (connectionSeemsBroken())
-				markDisconnected();
+		if (connectionSeemsBroken())
+			markDisconnected();
 	}
 	catch (const Exception &e) {
 		logger().log(e, __FILE__, __LINE__);
