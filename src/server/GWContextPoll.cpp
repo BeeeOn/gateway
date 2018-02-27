@@ -49,6 +49,13 @@ void GWContextPoll::clear()
 		GWTimedContext::Ptr timedContext = message.second.cast<GWTimedContext>();
 		if (!timedContext.isNull())
 			timedContext->missingResponseTask()->cancel();
+
+		GWRequestContext::Ptr requestContext = message.second.cast<GWRequestContext>();
+		if (!requestContext.isNull()) {
+			requestContext->result()->setStatus(Result::Status::FAILED);
+			poco_warning(logger(), "dropping request: " + requestContext->message()->type().toString()
+						+ " , with id: " + requestContext->id().toString());
+		}
 	}
 
 	m_messages.clear();
