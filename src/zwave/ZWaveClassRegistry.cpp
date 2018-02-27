@@ -7,7 +7,7 @@ using namespace BeeeOn;
 using namespace Poco;
 
 static const ZWaveCommandClassMap COMMON_TYPES = {
-	{{37, 0x00}, {ModuleType::Type::TYPE_ON_OFF}},
+	{{37, 0x00}, {ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}}},
 	{{49, 0x01}, {ModuleType::Type::TYPE_TEMPERATURE}},
 	{{49, 0x03}, {ModuleType::Type::TYPE_LUMINANCE}},
 	{{49, 0x05}, {ModuleType::Type::TYPE_HUMIDITY}},
