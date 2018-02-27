@@ -109,13 +109,11 @@ const int VPTDevice::COUNT_OF_ZONES = 4;
 
 
 VPTDevice::VPTDevice(const SocketAddress& address):
-	m_address(address),
-	m_executor(*this)
+	m_address(address)
 {
 }
 
-VPTDevice::VPTDevice():
-	m_executor(*this)
+VPTDevice::VPTDevice()
 {
 }
 
@@ -233,24 +231,7 @@ void VPTDevice::requestModifyState(const DeviceID& id, const ModuleID module,
 
 	switch (module.value()) {
 	case VPTZoneModuleType::MOD_BOILER_OPERATION_TYPE:
-		if (!m_executor.isRunning()) {
-			try {
-				m_executor.setZone(zone);
-				m_executor.setValue(value);
-				m_executor.setResult(result);
-				m_executor.start();
-			}
-			catch (const Exception &e) {
-				logger().log(e, __FILE__, __LINE__);
-				logger().critical("command executor thread failed to start", __FILE__, __LINE__);
-				result->setStatus(Result::Status::FAILED);
-			}
-		}
-		else {
-			logger().debug("command executor thread seems to be running already, dropping request to set",
-				__FILE__, __LINE__);
-			result->setStatus(Result::Status::FAILED);
-		}
+		requestSetModBoilerOperationType(zone, value, result);
 		break;
 	case VPTZoneModuleType::MOD_BOILER_OPERATION_MODE:
 		requestSetModBoilerOperationMode(zone, value, result);
@@ -570,46 +551,4 @@ HTTPEntireResponse VPTDevice::sendRequest(HTTPRequest& request, const Timespan& 
 		logger().information("response: " + to_string(status), __FILE__, __LINE__);
 
 	return response;
-}
-
-VPTDevice::VPTCommandExecutor::VPTCommandExecutor(VPTDevice& parent):
-	m_parent(parent),
-	m_activity(this, &VPTDevice::VPTCommandExecutor::executeCommand)
-{
-}
-
-VPTDevice::VPTCommandExecutor::~VPTCommandExecutor()
-{
-	m_activity.stop();
-	m_activity.wait(SETTING_DELAY_MS);
-}
-
-void VPTDevice::VPTCommandExecutor::setZone(const int zone)
-{
-	m_zone = zone;
-}
-
-void VPTDevice::VPTCommandExecutor::setValue(const double value)
-{
-	m_value = value;
-}
-
-void VPTDevice::VPTCommandExecutor::setResult(const Result::Ptr result)
-{
-	m_result = result;
-}
-
-void VPTDevice::VPTCommandExecutor::start()
-{
-	m_activity.start();
-}
-
-void VPTDevice::VPTCommandExecutor::executeCommand()
-{
-	m_parent.requestSetModBoilerOperationType(m_zone, m_value, m_result);
-}
-
-bool VPTDevice::VPTCommandExecutor::isRunning()
-{
-	return m_activity.isRunning();
 }

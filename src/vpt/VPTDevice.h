@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include <Poco/Activity.h>
 #include <Poco/JSON/Object.h>
 #include <Poco/Mutex.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -35,32 +34,6 @@ namespace BeeeOn {
  */
 class VPTDevice : protected Loggable {
 public:
-	/**
-	 * @brief Allows to execute a command in a separate thread.
-	 */
-	class VPTCommandExecutor {
-	public:
-		VPTCommandExecutor(VPTDevice& parent);
-		~VPTCommandExecutor();
-
-		void setZone(const int zone);
-		void setValue(const double value);
-		void setResult(const Result::Ptr result);
-
-		void start();
-		void executeCommand();
-		bool isRunning();
-
-	private:
-		VPTDevice& m_parent;
-
-		Poco::Activity<VPTCommandExecutor> m_activity;
-
-		int m_zone;
-		double m_value;
-		Result::Ptr m_result;
-	};
-
 	typedef Poco::SharedPtr<VPTDevice> Ptr;
 
 	static const std::vector<std::string> REG_BOILER_OPER_TYPE;
@@ -202,7 +175,6 @@ private:
 	Poco::Timespan m_httpTimeout;
 
 	GatewayID m_gatewayID;
-	VPTDevice::VPTCommandExecutor m_executor;
 	Poco::FastMutex m_lock;
 };
 
