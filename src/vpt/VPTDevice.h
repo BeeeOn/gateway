@@ -14,7 +14,6 @@
 #include <Poco/Timespan.h>
 
 #include "commands/NewDeviceCommand.h"
-#include "core/Result.h"
 #include "model/DeviceID.h"
 #include "model/GatewayID.h"
 #include "model/ModuleID.h"
@@ -95,11 +94,10 @@ public:
 	 * @param id Subdevice of VPT.
 	 * @param module Module of subdevice.
 	 * @param value Requested value.
-	 * @param result Will contains information about
 	 * the success of the request
 	 */
 	void requestModifyState(const DeviceID& id, const ModuleID module,
-		const double value, Result::Ptr result);
+		const double value);
 
 	/**
 	 * @brief Gathers data from all sensors of subdevices.
@@ -142,12 +140,12 @@ private:
 	 */
 	void buildDeviceID();
 
-	void requestSetModBoilerOperationType(const int zone, const double value, Result::Ptr result);
-	void requestSetModBoilerOperationMode(const int zone, const double value, Result::Ptr result);
-	void requestSetManualRoomTemperature(const int zone, const double value, Result::Ptr result);
-	void requestSetManualWaterTemperature(const int zone, const double value, Result::Ptr result);
-	void requestSetManualTUVTemperature(const int zone, const double value, Result::Ptr result);
-	void requestSetModWaterTemperature(const int zone, const double value, Result::Ptr result);
+	void requestSetModBoilerOperationType(const int zone, const double value);
+	void requestSetModBoilerOperationMode(const int zone, const double value);
+	void requestSetManualRoomTemperature(const int zone, const double value);
+	void requestSetManualWaterTemperature(const int zone, const double value);
+	void requestSetManualTUVTemperature(const int zone, const double value);
+	void requestSetModWaterTemperature(const int zone, const double value);
 
 	std::string parseZoneAttrFromJson(const std::string& json, const int zone, const std::string& key);
 

@@ -328,7 +328,8 @@ void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd, const A
 		}
 		else {
 			ScopedLock<FastMutex> guard(it->second->lock());
-			it->second->requestModifyState(cmd->deviceID(), cmd->moduleID(), cmd->value(), result);
+			it->second->requestModifyState(cmd->deviceID(), cmd->moduleID(), cmd->value());
+			result->setStatus(Result::Status::SUCCESS);
 			return;
 		}
 	}
