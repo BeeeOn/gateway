@@ -246,6 +246,7 @@ void GWServerConnector::markDisconnected()
 
 void GWServerConnector::enqueueFinishedAnswers()
 {
+	FastMutex::ScopedLock guard(m_dispatchLock);
 	list<Answer::Ptr> finishedAnswers = answerQueue().finishedAnswers();
 
 	for (auto answer : finishedAnswers) {
@@ -675,6 +676,7 @@ void GWServerConnector::dispatchServerCommand(
 		const GlobalID &id,
 		GWResponse::Ptr response)
 {
+	FastMutex::ScopedLock guard(m_dispatchLock);
 	response->setStatus(GWResponse::Status::ACCEPTED);
 	GWResponseContext::Ptr context = new GWResponseContext(response);
 	m_outputQueue.enqueue(context);

@@ -223,6 +223,8 @@ private:
 	Poco::FastMutex m_lastReceivedMutex;
 	int m_inactiveMultiplier;
 
+	Poco::FastMutex m_dispatchLock;
+
 	Poco::Buffer<char> m_receiveBuffer;
 	Poco::SharedPtr<Poco::Net::WebSocket> m_socket;
 	Poco::FastMutex m_receiveMutex;
