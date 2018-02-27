@@ -45,6 +45,14 @@ void GWSOutputQueue::clear()
 		GWMessageContext::Ptr context = m_queue.top();
 		poco_debug(logger(), "clearing context id: " + context->id().toString()
 				+ " type: " + context->message()->type().toString());
+
+		GWRequestContext::Ptr requestContext = context.cast<GWRequestContext>();
+		if (!requestContext.isNull()) {
+			poco_debug(logger(), "setting status FAILED for context id: " + context->id().toString()
+					+ " type: " + context->message()->type().toString());
+			requestContext->result()->setStatus(Result::Status::FAILED);
+		}
+
 		m_queue.pop();
 	}
 }
