@@ -330,6 +330,11 @@ void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd, const A
 			ScopedLock<FastMutex> guard(it->second->lock());
 			it->second->requestModifyState(cmd->deviceID(), cmd->moduleID(), cmd->value());
 			result->setStatus(Result::Status::SUCCESS);
+
+			SensorData data;
+			data.setDeviceID(cmd->deviceID());
+			data.insertValue({cmd->moduleID(), cmd->value()});
+			ship(data);
 			return;
 		}
 	}
