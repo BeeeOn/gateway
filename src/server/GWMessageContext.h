@@ -18,10 +18,10 @@ namespace BeeeOn {
  */
 enum GWMessagePriority {
 	DEFAULT_PRIO = 0,
-	REQUEST_PRIO = 10,
-	RESPONSE_PRIO = 20,
+	DATA_PRIO = 10,
+	REQUEST_PRIO = 20,
 	RESPONSEWITHACK_PRIO = 30,
-	DATA_PRIO = 40,
+	RESPONSE_PRIO = 40,
 };
 
 /**
