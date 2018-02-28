@@ -16,25 +16,13 @@ Answer::Answer(AnswerQueue &answerQueue):
 
 void Answer::setDirty(bool dirty)
 {
-	FastMutex::ScopedLock guard(lock());
-	setDirtyUnlocked(dirty);
-}
-
-void Answer::setDirtyUnlocked(bool dirty)
-{
-	assureLocked();
+	ScopedLock guard(*this);
 	m_dirty = dirty;
 }
 
 bool Answer::isDirty() const
 {
-	FastMutex::ScopedLock guard(lock());
-	return isDirtyUnlocked();
-}
-
-bool Answer::isDirtyUnlocked() const
-{
-	assureLocked();
+	ScopedLock guard(const_cast<Answer &>(*this));
 	return (bool) m_dirty;
 }
 
@@ -43,20 +31,9 @@ Event &Answer::event()
 	return m_answerQueue.event();
 }
 
-FastMutex &Answer::lock() const
-{
-	return m_lock;
-}
-
 bool Answer::isPending() const
 {
-	FastMutex::ScopedLock guard(m_lock);
-	return isPendingUnlocked();
-}
-
-bool Answer::isPendingUnlocked() const
-{
-	assureLocked();
+	ScopedLock guard(const_cast<Answer &>(*this));
 
 	if ((unsigned long) m_handlers != m_resultList.size())
 		return true;
@@ -65,7 +42,7 @@ bool Answer::isPendingUnlocked() const
 		return false;
 
 	for (auto &result : m_resultList) {
-		if (result->statusUnlocked() == Result::Status::PENDING)
+		if (result->status() == Result::Status::PENDING)
 			return true;
 	}
 
@@ -79,29 +56,18 @@ bool Answer::isEmpty() const
 
 unsigned long Answer::resultsCount() const
 {
-	FastMutex::ScopedLock guard(m_lock);
-	return resultsCountUnlocked();
-}
-
-unsigned long Answer::resultsCountUnlocked() const
-{
+	ScopedLock guard(const_cast<Answer &>(*this));
 	return m_resultList.size();
 }
 
 void Answer::addResult(Result *result)
 {
-	FastMutex::ScopedLock guard(m_lock);
-	addResultUnlocked(result);
-}
+	ScopedLock guard(*this);
 
-void Answer::addResultUnlocked(Result *result)
-{
 	if (m_answerQueue.isDisposed()) {
 		throw IllegalStateException(
 			"inserting result into a disposed AnswerQueue");
 	}
-
-	assureLocked();
 
 	if (m_resultList.size() >= m_handlers) {
 		// addResult is probably called too late
@@ -114,52 +80,33 @@ void Answer::addResultUnlocked(Result *result)
 
 int Answer::handlersCount() const
 {
-	FastMutex::ScopedLock guard(m_lock);
-	return handlersCountUnlocked();
-}
-
-int Answer::handlersCountUnlocked() const
-{
+	ScopedLock guard(const_cast<Answer &>(*this));
 	return m_handlers;
-}
-
-void Answer::assureLocked() const
-{
-	if (lock().tryLock()) {
-		lock().unlock();
-		throw IllegalStateException(
-			"modifying unlocked Answer");
-	}
 }
 
 void Answer::notifyUpdated()
 {
-	assureLocked();
-	setDirtyUnlocked(true);
+	ScopedLock guard(*this);
+
+	setDirty(true);
 	event().set();
 }
 
 Result::Ptr Answer::at(size_t position)
 {
-	FastMutex::ScopedLock guard(m_lock);
-	return atUnlocked(position);
-}
-
-Result::Ptr Answer::atUnlocked(size_t position)
-{
-	assureLocked();
+	ScopedLock guard(*this);
 	return m_resultList.at(position);
 }
 
 std::vector<Result::Ptr>::iterator Answer::begin()
 {
-	assureLocked();
+	ScopedLock guard(*this);
 	return m_resultList.begin();
 }
 
 std::vector<Result::Ptr>::iterator Answer::end()
 {
-	assureLocked();
+	ScopedLock guard(*this);
 	return m_resultList.end();
 }
 

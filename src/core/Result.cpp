@@ -5,14 +5,11 @@
 using namespace BeeeOn;
 using namespace Poco;
 
-Result::Result(Poco::AutoPtr<Answer> answer, bool locked):
+Result::Result(Poco::AutoPtr<Answer> answer):
 	m_status(Status::PENDING),
 	m_answer(*answer)
 {
-	if (locked)
-		m_answer.addResultUnlocked(this);
-	else
-		m_answer.addResult(this);
+	m_answer.addResult(this);
 }
 
 Result::~Result()
@@ -21,13 +18,7 @@ Result::~Result()
 
 void Result::setStatus(const Result::Status status)
 {
-	FastMutex::ScopedLock guard(lock());
-	setStatusUnlocked(status);
-}
-
-void Result::setStatusUnlocked(const Result::Status status)
-{
-	assureLocked();
+	ScopedLock guard(*this);
 
 	if (m_status == status)
 		return;
@@ -43,35 +34,26 @@ void Result::setStatusUnlocked(const Result::Status status)
 
 Result::Status Result::status() const
 {
-	FastMutex::ScopedLock guard(lock());
-	return statusUnlocked();
-}
-
-Result::Status Result::statusUnlocked() const
-{
-	assureLocked();
+	ScopedLock guard(const_cast<Result &>(*this));
 	return m_status;
 }
 
 void Result::notifyUpdated()
 {
-	assureLocked();
-	m_answer.setDirtyUnlocked(true);
+	ScopedLock guard(*this);
+
+	m_answer.setDirty(true);
 	m_answer.event().set();
 }
 
-FastMutex &Result::lock() const
+void Result::lock()
 {
-	return m_answer.lock();
+	m_answer.lock();
 }
 
-void Result::assureLocked() const
+void Result::unlock()
 {
-	if (lock().tryLock()) {
-		lock().unlock();
-		throw IllegalStateException(
-			"modifying unlocked Result");
-	}
+	m_answer.unlock();
 }
 
 EnumHelper<BeeeOn::Result::StatusEnum::Raw>::ValueMap &Result::StatusEnum::valueMap()

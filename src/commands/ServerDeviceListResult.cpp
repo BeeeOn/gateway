@@ -16,25 +16,12 @@ ServerDeviceListResult::~ServerDeviceListResult()
 void ServerDeviceListResult::setDeviceList(
 	const vector<DeviceID> &deviceList)
 {
-	Poco::FastMutex::ScopedLock guard(lock());
-	m_deviceList = deviceList;
-}
-
-void ServerDeviceListResult::setDeviceListUnlocked(
-	const vector<DeviceID> &deviceList)
-{
-	assureLocked();
+	ScopedLock guard(*this);
 	m_deviceList = deviceList;
 }
 
 vector<DeviceID> ServerDeviceListResult::deviceList() const
 {
-	Poco::FastMutex::ScopedLock guard(lock());
-	return deviceListUnlocked();
-}
-
-vector<DeviceID> ServerDeviceListResult::deviceListUnlocked() const
-{
-	assureLocked();
+	ScopedLock guard(const_cast<ServerDeviceListResult &>(*this));
 	return m_deviceList;
 }

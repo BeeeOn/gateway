@@ -43,18 +43,18 @@ static string identifyAnswer(const Answer::Ptr p)
 	return NumberFormatter::formatHex(reinterpret_cast<size_t>(p.get()), true);
 }
 
-static string reportAnswer(Answer::Ptr p, FastMutex::ScopedLock &)
+static string reportAnswer(Answer::Ptr p)
 {
 	string line(identifyAnswer(p));
 
-	line += p->isPendingUnlocked()? " PENDING " : " DONE ";
-	line += to_string(p->resultsCountUnlocked());
+	line += p->isPending()? " PENDING " : " DONE ";
+	line += to_string(p->resultsCount());
 	line += "/";
-	line += to_string(p->handlersCountUnlocked());
+	line += to_string(p->handlersCount());
 	line += " ";
 
-	for (size_t i = 0; i < p->resultsCountUnlocked(); ++i)
-		line +=  p->atUnlocked(i)->statusUnlocked().toString().at(0);
+	for (size_t i = 0; i < p->resultsCount(); ++i)
+		line +=  p->at(i)->status().toString().at(0);
 
 	return line;
 }
@@ -184,10 +184,10 @@ static void commandAction(TestingCenter::ActionContext &context)
 
 	context.sender.dispatch(command, answer);
 
-	FastMutex::ScopedLock guard(answer->lock());
-	console.print(reportAnswer(answer, guard));
+	Answer::ScopedLock guard(*answer);
+	console.print(reportAnswer(answer));
 
-	if (!answer->isPendingUnlocked())
+	if (!answer->isPending())
 		context.sender.answerQueue().remove(answer);
 }
 
@@ -209,11 +209,11 @@ static void waitQueueAction(TestingCenter::ActionContext &context)
 	context.sender.answerQueue().wait(timeout, dirtyList);
 
 	for (auto dirty : dirtyList) {
-		FastMutex::ScopedLock guard(dirty->lock());
+		Answer::ScopedLock guard(*dirty);
 
-		console.print(reportAnswer(dirty, guard));
+		console.print(reportAnswer(dirty));
 
-		if (!dirty->isPendingUnlocked())
+		if (!dirty->isPending())
 			context.sender.answerQueue().remove(dirty);
 	}
 }

@@ -23,7 +23,6 @@ public:
 	ServerAnswer(const ServerAnswer&) = delete;
 
 	void setID(const GlobalID &id);
-	void setIDUnlocked(const GlobalID &id);
 
 	/**
 	 * Convert Answer to appropriate GWResponseWithAckContext if possible.
@@ -31,7 +30,6 @@ public:
 	GWResponseWithAckContext::Ptr toResponse(const GWResponse::Status &status) const;
 
 	GlobalID id() const;
-	GlobalID idUnlocked() const;
 
 private:
 	GlobalID m_id;

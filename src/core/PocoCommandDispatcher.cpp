@@ -51,8 +51,8 @@ void PocoCommandDispatcher::dispatch(Command::Ptr cmd, Answer::Ptr answer)
 
 	answer->setHandlersCount(impl->tasks());
 
-	Poco::FastMutex::ScopedLock lock(answer->lock());
-	if (!answer->isPendingUnlocked()) {
+	Answer::ScopedLock lock(*answer);
+	if (!answer->isPending()) {
 		answer->notifyUpdated();
 		return;
 	}
