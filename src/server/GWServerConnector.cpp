@@ -160,6 +160,10 @@ void GWServerConnector::forwardContext(GWMessageContext::Ptr context)
 
 		try {
 			sendMessage(timedContext->message());
+		} catch (const NetException &e) {
+			m_contextPoll.remove(id);
+			m_outputQueue.enqueue(context);
+			e.rethrow();
 		} catch (const Exception &e) {
 			m_contextPoll.remove(id);
 			e.rethrow();
