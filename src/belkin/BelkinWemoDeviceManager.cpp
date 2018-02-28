@@ -207,6 +207,12 @@ void BelkinWemoDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 
 		if (modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
 			result->setStatus(Result::Status::SUCCESS);
+
+			SensorData data;
+			data.setDeviceID(cmdSet->deviceID());
+			data.insertValue({cmdSet->moduleID(), cmdSet->value()});
+			ship(data);
+
 			logger().debug("success to change state of device " + cmdSet->deviceID().toString(),
 				__FILE__, __LINE__);
 		}
