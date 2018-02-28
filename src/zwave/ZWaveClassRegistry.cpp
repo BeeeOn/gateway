@@ -6,8 +6,8 @@
 using namespace BeeeOn;
 using namespace Poco;
 
-static ZWaveCommandClassMap COMMON_TYPES = {
-	{{37, 0x00}, {ModuleType::Type::TYPE_ON_OFF}},
+static const ZWaveCommandClassMap COMMON_TYPES = {
+	{{37, 0x00}, {ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}}},
 	{{49, 0x01}, {ModuleType::Type::TYPE_TEMPERATURE}},
 	{{49, 0x03}, {ModuleType::Type::TYPE_LUMINANCE}},
 	{{49, 0x05}, {ModuleType::Type::TYPE_HUMIDITY}},
@@ -19,8 +19,7 @@ ZWaveClassRegistry::~ZWaveClassRegistry()
 {
 }
 
-ZWaveCommonClassRegistry::ZWaveCommonClassRegistry() :
-	m_impl(COMMON_TYPES)
+ZWaveCommonClassRegistry::ZWaveCommonClassRegistry()
 {
 }
 
@@ -33,13 +32,19 @@ ZWaveCommonClassRegistry &ZWaveCommonClassRegistry::instance()
 ModuleType ZWaveCommonClassRegistry::find(
 	uint8_t commandClass, uint8_t index)
 {
-	return m_impl.find(commandClass, index);
+	auto it = COMMON_TYPES.find({commandClass, index});
+	if (it == COMMON_TYPES.end())
+		throw NotFoundException("no type for "
+			+ ZWaveUtil::commandClass(commandClass, index));
+
+	return it->second;
 }
 
 bool ZWaveCommonClassRegistry::contains(
 	uint8_t commandClass, uint8_t index)
 {
-	return m_impl.contains(commandClass, index);
+	return COMMON_TYPES.find({commandClass, index})
+		!= COMMON_TYPES.end();
 }
 
 ZWaveGenericClassRegistry::ZWaveGenericClassRegistry(
