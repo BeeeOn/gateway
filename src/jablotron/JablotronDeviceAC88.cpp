@@ -8,7 +8,7 @@ using namespace std;
 
 static const ModuleID AC88_MODULE_ID_SENSOR_STATE = 0;
 static const list<ModuleType> MODULE_TYPES = {
-	ModuleType(ModuleType::Type::TYPE_ON_OFF),
+	ModuleType(ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}),
 };
 
 JablotronDeviceAC88::JablotronDeviceAC88(const DeviceID &deviceID):
