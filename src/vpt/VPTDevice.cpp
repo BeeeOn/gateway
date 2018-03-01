@@ -422,9 +422,10 @@ HTTPEntireResponse VPTDevice::sendSetRequest(HTTPRequest& request)
 
 		request.setURI(request.getURI() + "&__HOSTPWD=" +
 			VPTDevice::generateHashPassword(m_password, nonce));
+		response = sendRequest(request, m_httpTimeout);
 
 		try {
-			response = sendRequest(request, m_httpTimeout);
+			JsonUtil::parse(response.getBody());
 		}
 		catch (SyntaxException& e) {
 			throw InvalidAccessException("denied access due to bad password", e);
