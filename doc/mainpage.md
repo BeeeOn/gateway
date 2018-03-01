@@ -265,6 +265,8 @@ is available or unavailable, such event is distributed.
 
 * bluetooth.enable - enable the Bluetooth availability support
 
+* bluetooth.modes - list of bluetooth modes to enable (available: classic, le)
+
 * bluetooth.refresh - interval of scanning the network and reporting results
 
 ##### Jablotron

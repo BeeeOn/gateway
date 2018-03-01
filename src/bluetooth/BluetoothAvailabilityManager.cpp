@@ -24,6 +24,7 @@ BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_TIME("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
+BEEEON_OBJECT_LIST("modes", &BluetoothAvailabilityManager::setModes)
 BEEEON_OBJECT_REF("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_REF("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
 BEEEON_OBJECT_NUMBER("attemptsCount", &BluetoothAvailabilityManager::setAttemptsCount)
@@ -33,6 +34,9 @@ BEEEON_OBJECT_REF("executor", &BluetoothAvailabilityManager::setExecutor)
 BEEEON_OBJECT_REF("listeners", &BluetoothAvailabilityManager::registerListener)
 BEEEON_OBJECT_END(BeeeOn, BluetoothAvailabilityManager)
 
+#define MODE_CLASSIC 0x01
+#define MODE_LE 0x02
+
 using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
@@ -40,13 +44,15 @@ using namespace std;
 const int MODULE_ID = 0;
 const int NUM_OF_ATTEMPTS = 2;
 static const Timespan SCAN_TIME = 5 * Timespan::SECONDS;
+static const Timespan LE_SCAN_TIME = 5 * Timespan::SECONDS;
 static const Timespan MIN_WAKE_UP_TIME = 15 * Timespan::SECONDS;
 
 BluetoothAvailabilityManager::BluetoothAvailabilityManager() :
 	DongleDeviceManager(DevicePrefix::PREFIX_BLUETOOTH),
 	m_listenThread(*this, &BluetoothAvailabilityManager::listen),
 	m_wakeUpTime(MIN_WAKE_UP_TIME),
-	m_listenTime(0)
+	m_listenTime(0),
+	m_mode(MODE_CLASSIC)
 {
 }
 
@@ -58,6 +64,16 @@ void BluetoothAvailabilityManager::setWakeUpTime(const Timespan &time)
 	}
 
 	m_wakeUpTime = time;
+}
+
+void BluetoothAvailabilityManager::setModes(const list<string> &modes)
+{
+	m_mode = 0;
+
+	if (find(modes.begin(), modes.end(), "classic") != modes.end())
+		m_mode |= MODE_CLASSIC;
+	if (find(modes.begin(), modes.end(), "le") != modes.end())
+		m_mode |= MODE_LE;
 }
 
 void BluetoothAvailabilityManager::dongleAvailable()
@@ -105,6 +121,7 @@ void BluetoothAvailabilityManager::dongleAvailable()
 bool BluetoothAvailabilityManager::dongleMissing()
 {
 	m_statisticsRunner.stop();
+	m_leScanCache.clear();
 
 	if (!m_deviceList.empty()) {
 		for (auto &device : m_deviceList) {
@@ -120,6 +137,7 @@ bool BluetoothAvailabilityManager::dongleMissing()
 void BluetoothAvailabilityManager::dongleFailed(const FailDetector &dongleStatus)
 {
 	m_statisticsRunner.stop();
+	m_leScanCache.clear();
 
 	try {
 		HciInterface hci(dongleName());
@@ -163,18 +181,14 @@ void BluetoothAvailabilityManager::stop()
 	answerQueue().dispose();
 }
 
-Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
+list<DeviceID> BluetoothAvailabilityManager::detectClassic(const HciInterface &hci)
 {
-	FastMutex::ScopedLock lock(m_scanLock);
-	Timestamp startTime;
 	list<DeviceID> inactive;
 
-	/*
-	 * Scan for all paired devices. Any inactive device is
-	 * temporarily saved. Information about active devices
-	 * is immediatelly shipped.
-	 */
 	for (auto &device : m_deviceList) {
+		if (!device.second.isClassic())
+			continue;
+
 		if (hci.detect(device.second.mac())) {
 			device.second.updateStatus(BluetoothDevice::AVAILABLE);
 			shipStatusOf(device.second);
@@ -189,6 +203,40 @@ Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
 		if (m_stop)
 			break;
 	}
+	return inactive;
+}
+
+void BluetoothAvailabilityManager::detectLE(const HciInterface &hci)
+{
+	m_leScanCache.clear();
+	m_leScanCache = hci.lescan(LE_SCAN_TIME);
+
+	for (auto &device : m_deviceList) {
+		if (!device.second.isLE())
+			continue;
+
+		if (m_leScanCache.find(device.second.mac()) != m_leScanCache.end())
+			device.second.updateStatus(BluetoothDevice::AVAILABLE);
+		else
+			device.second.updateStatus(BluetoothDevice::UNAVAILABLE);
+
+		shipStatusOf(device.second);
+
+		if (m_stop)
+			break;
+	}
+}
+
+Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
+{
+	FastMutex::ScopedLock lock(m_scanLock);
+	Timestamp startTime;
+	list<DeviceID> inactive;
+
+	if (m_mode & MODE_CLASSIC)
+		inactive = detectClassic(hci);
+	if (m_mode & MODE_LE)
+		detectLE(hci);
 
 	/*
 	 * Now, scan only devices that seem to be inactive
@@ -319,7 +367,32 @@ void BluetoothAvailabilityManager::fetchDeviceList()
 
 bool BluetoothAvailabilityManager::enoughTimeForScan(const Timestamp &startTime)
 {
-	return (SCAN_TIME + startTime.elapsed() < m_listenTime);
+	Timespan base = 0;
+
+	if (m_mode & MODE_CLASSIC)
+		base += SCAN_TIME;
+	if (m_mode & MODE_LE)
+		base += LE_SCAN_TIME;
+
+	return (base + startTime.elapsed() < m_listenTime && !m_stop);
+}
+
+void BluetoothAvailabilityManager::reportFoundDevices(
+	const int mode, const map<MACAddress, string> &devices)
+{
+	for (const auto &scannedDevice : devices) {
+		DeviceID id;
+
+		if (mode == MODE_CLASSIC)
+			id = createDeviceID(scannedDevice.first);
+		else if (mode == MODE_LE)
+			id = createLEDeviceID(scannedDevice.first);
+		else
+			return;
+
+		if (!hasDevice(id))
+			sendNewDevice(id, scannedDevice.second);
+	}
 }
 
 void BluetoothAvailabilityManager::listen()
@@ -332,13 +405,17 @@ void BluetoothAvailabilityManager::listen()
 	HciInterface hci(dongleName());
 	hci.up();
 
+	if (m_mode & MODE_LE)
+		reportFoundDevices(MODE_LE, m_leScanCache);
+
 	while (enoughTimeForScan(startTime)) {
-		for (const auto &scannedDevice : hci.scan()) {
-			DeviceID id = createDeviceID(scannedDevice.first);
-			if (!hasDevice(id))
-				sendNewDevice(id, scannedDevice.second);
-		}
-	}
+		if (m_mode & MODE_CLASSIC)
+			reportFoundDevices(MODE_CLASSIC, hci.scan());
+		if (m_mode & MODE_LE)
+			reportFoundDevices(MODE_LE, hci.lescan(LE_SCAN_TIME));
+	};
+
+	logger().information("bluetooth listen has finished", __FILE__, __LINE__);
 }
 
 void BluetoothAvailabilityManager::addDevice(const DeviceID &id)
@@ -402,6 +479,12 @@ list<ModuleType> BluetoothAvailabilityManager::moduleTypes() const
 DeviceID BluetoothAvailabilityManager::createDeviceID(const MACAddress &numMac) const
 {
 	return DeviceID(DevicePrefix::PREFIX_BLUETOOTH, numMac.toNumber());
+}
+
+DeviceID BluetoothAvailabilityManager::createLEDeviceID(const MACAddress &numMac) const
+{
+	return DeviceID(DevicePrefix::PREFIX_BLUETOOTH, numMac.toNumber() |
+		BluetoothDevice::DEVICE_ID_LE_MASK);
 }
 
 void BluetoothAvailabilityManager::setStatisticsInterval(const Timespan &interval)

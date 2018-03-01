@@ -7,6 +7,7 @@
 #include <vector>
 
 #include <Poco/Mutex.h>
+#include <Poco/Timespan.h>
 
 #include "bluetooth/HciInfo.h"
 #include "net/MACAddress.h"
@@ -46,9 +47,24 @@ public:
 	std::map<MACAddress, std::string> scan() const;
 
 	/**
+	 * Full scan of low energy bluetooth network.
+	 * Sets parameters for low energy scan and open socket.
+	 * @return list of MAC addresses with names
+	 * @throws IOException when the detection fails for some reason
+	 */
+	std::map<MACAddress, std::string> lescan(const Poco::Timespan &seconds) const;
+
+	/**
 	 * Read information about the iterface.
 	 */
 	HciInfo info() const;
+
+protected:
+	/**
+	 * Find device name in le_advertising_info struct
+	 * @return name of found device or an empty string otherwise
+	 */
+	static std::string parseLEName(uint8_t *eir, size_t length);
 
 private:
 	/**
@@ -71,6 +87,24 @@ private:
 	 * @see HciInterface::hciSocket()
 	 */
 	int findHci(int sock, const std::string &name) const;
+
+	/**
+	 * Read data from socket about devices in BLE network
+	 * and get MACAddress and name of found devices when it's available.
+	 * @return false when no more events should be processed
+	 */
+	bool processNextEvent(const int &fd, std::map<MACAddress, std::string> &devices) const;
+
+	/**
+	 * Read available information about devices in bluetooth low energy
+	 * network. Sets the parameters of the socket for low energy and
+	 * after reading restores the original settings. Because of read()
+	 * there is used poll() for stop reading after defined time (timeout).
+	 * Found devices are stored to map devices.
+	 * @throws IOException when something wrong with socket
+	 */
+	std::map<MACAddress, std::string> listLE(
+		const int sock, const Poco::Timespan &seconds) const;
 
 private:
 	std::string m_name;

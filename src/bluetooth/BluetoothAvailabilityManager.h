@@ -1,6 +1,7 @@
 #ifndef BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H
 #define BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H
 
+#include <list>
 #include <map>
 #include <string>
 
@@ -48,6 +49,8 @@ public:
 	 */
 	void setWakeUpTime(const Poco::Timespan &time);
 
+	void setModes(const std::list<std::string> &modes);
+
 	bool accept(const Command::Ptr cmd) override;
 
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
@@ -79,11 +82,29 @@ protected:
 	void notifyDongleRemoved() override;
 
 private:
+	/*
+	 * Scan for all paired devices. Any inactive device is
+	 * temporarily saved. Information about active devices
+	 * is immediatelly shipped.
+	 * @return list of (potentially) inactive devices
+	 */
+	std::list<DeviceID> detectClassic(const HciInterface &hci);
+
+	/*
+	 * Scan for BLE devices.
+	 * There is no inactive list.
+	 * The last BLE scan result is stored in m_leScanCache.
+	 * m_leScanCache exists for fast result of listen command.
+	 */
+	void detectLE(const HciInterface &hci);
+
 	bool haveTimeForInactive(Poco::Timespan elapsedTime);
 
 	void fetchDeviceList();
 
 	bool enoughTimeForScan(const Poco::Timestamp &startTime);
+
+	void reportFoundDevices(const int mode, const std::map<MACAddress, std::string> &devices);
 
 	void listen();
 
@@ -101,6 +122,8 @@ private:
 
 	DeviceID createDeviceID(const MACAddress &numMac) const;
 
+	DeviceID createLEDeviceID(const MACAddress &numMac) const;
+
 	Poco::RunnableAdapter<BluetoothAvailabilityManager> m_listenThread;
 	Poco::Timespan m_wakeUpTime;
 	Poco::Thread m_thread;
@@ -111,6 +134,8 @@ private:
 	PeriodicRunner m_statisticsRunner;
 	EventSource<BluetoothListener> m_eventSource;
 	Poco::Timespan m_listenTime;
+	int m_mode;
+	std::map<MACAddress, std::string> m_leScanCache;
 };
 
 }
