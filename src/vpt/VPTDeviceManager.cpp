@@ -295,19 +295,15 @@ void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd,
 	 * The password is searched only when the first subdevice is accepted.
 	 */
 	if (noSubdevicePaired(VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()))) {
-		SharedPtr<Credentials> credential = m_credentialsStorage->find(
-			VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()));
+		try {
+			string password = findPassword(
+				VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()));
 
-		if (!credential.isNull()) {
-			CipherKey key = m_cryptoConfig->createKey(credential->params());
-			Cipher *cipher = CipherFactory::defaultFactory().createCipher(key);
-
-			if (!credential.cast<PasswordCredentials>().isNull()) {
-				ScopedLock<FastMutex> guard(it->second->lock());
-
-				SharedPtr<PasswordCredentials> password = credential.cast<PasswordCredentials>();
-				it->second->setPassword(password->password(cipher));
-			}
+			ScopedLock<FastMutex> guard(it->second->lock());
+			it->second->setPassword(password);
+		}
+		catch (NotFoundException& e) {
+			logger().log(e, __FILE__, __LINE__);
 		}
 	}
 
@@ -413,6 +409,23 @@ void VPTDeviceManager::processNewDevice(VPTDevice::Ptr newDevice)
 		if (pairedDevice == m_pairedDevices.end())
 			dispatch(cmd);
 	}
+}
+
+string VPTDeviceManager::findPassword(const DeviceID& id)
+{
+	SharedPtr<Credentials> credential = m_credentialsStorage->find(id);
+
+	if (!credential.isNull()) {
+		CipherKey key = m_cryptoConfig->createKey(credential->params());
+		Cipher *cipher = CipherFactory::defaultFactory().createCipher(key);
+
+		if (!credential.cast<PasswordCredentials>().isNull()) {
+			SharedPtr<PasswordCredentials> password = credential.cast<PasswordCredentials>();
+			return password->password(cipher);
+		}
+	}
+
+	throw NotFoundException("password not found for VPT " + id.toString());
 }
 
 VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):

@@ -133,6 +133,14 @@ protected:
 	 */
 	void processNewDevice(Poco::SharedPtr<VPTDevice> newDevice);
 
+	/**
+	 * @brief Tries to find password credential for VPT by the given DeviceID from
+	 * the credentials storage. If the password is not found the NotFoundException
+	 * is thrown.
+	 * @param id DeviceID of real VPT
+	 */
+	std::string findPassword(const DeviceID& id);
+
 private:
 	VPTDeviceManager::VPTSeeker m_seeker;
 	VPTHTTPScanner m_scanner;
