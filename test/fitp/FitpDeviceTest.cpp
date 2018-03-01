@@ -33,7 +33,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(FitpDeviceTest);
  * Temperature INNER: 30.00 °C
  * Temperature OUTER: 25.47 °C
  * Humidity: 44.53 %
- * Battery: 100 %
+ * Battery: 85 %
  */
 void FitpDeviceTest::testParseMessage()
 {
@@ -49,16 +49,16 @@ void FitpDeviceTest::testParseMessage()
 	CPPUNIT_ASSERT(now <= sensorData.timestamp());
 	CPPUNIT_ASSERT_EQUAL(4, sensorData.size());
 
-	CPPUNIT_ASSERT(sensorData.at(0).moduleID().value() == 1);      //BATTERY
-	CPPUNIT_ASSERT_EQUAL(sensorData.at(0).value(), 100);
+	CPPUNIT_ASSERT(sensorData.at(0).moduleID().value() == 0);      //BATTERY
+	CPPUNIT_ASSERT_EQUAL(sensorData.at(0).value(), 85);
 
-	CPPUNIT_ASSERT(sensorData.at(1).moduleID().value() == 2);      //TEMPERATURE INNER, SHT21
+	CPPUNIT_ASSERT(sensorData.at(1).moduleID().value() == 1);      //TEMPERATURE INNER, SHT21
 	CPPUNIT_ASSERT_EQUAL(sensorData.at(1).value(), 25.47);
 
-	CPPUNIT_ASSERT(sensorData.at(2).moduleID().value() == 3);       //TEMPERATURE OUTER, Ds18b20
+	CPPUNIT_ASSERT(sensorData.at(2).moduleID().value() == 2);       //TEMPERATURE OUTER, Ds18b20
 	CPPUNIT_ASSERT_EQUAL(sensorData.at(2).value(), 44);
 
-	CPPUNIT_ASSERT(sensorData.at(3).moduleID().value() == 4);      //HUMIDITY, SHT21
+	CPPUNIT_ASSERT(sensorData.at(3).moduleID().value() == 3);      //HUMIDITY, SHT21
 	CPPUNIT_ASSERT_EQUAL(sensorData.at(3).value(), 37);
 }
 
