@@ -6,6 +6,70 @@ using namespace std;
 using namespace Poco;
 using namespace BeeeOn;
 
+ZWaveNode::CommandClass::CommandClass(
+		uint8_t id,
+		uint8_t index,
+		uint8_t instance,
+		const string &name):
+	m_id(id),
+	m_index(index),
+	m_instance(instance),
+	m_name(name)
+{
+}
+
+uint8_t ZWaveNode::CommandClass::id() const
+{
+	return m_id;
+}
+
+uint8_t ZWaveNode::CommandClass::index() const
+{
+	return m_index;
+}
+
+uint8_t ZWaveNode::CommandClass::instance() const
+{
+	return m_instance;
+}
+
+string ZWaveNode::CommandClass::name() const
+{
+	return m_name;
+}
+
+string ZWaveNode::CommandClass::toString() const
+{
+	string repr;
+
+	repr = to_string(m_id) + ":" + to_string(m_index);
+
+	if (m_instance)
+		repr += "[" + to_string(m_instance) + "]";
+
+	if (m_name.empty())
+		repr += " (" + m_name + ")";
+
+	return repr;
+}
+
+bool ZWaveNode::CommandClass::operator <(const CommandClass &cc) const
+{
+	if (m_id < cc.m_id)
+		return true;
+
+	if (m_id > cc.m_id)
+		return false;
+
+	if (m_index < cc.m_index)
+		return true;
+
+	if (m_index > cc.m_index)
+		return false;
+
+	return m_instance < cc.m_instance;
+}
+
 ZWaveNode::Identity::Identity(const uint32_t home, const uint8_t node):
 	home(home),
 	node(node)
@@ -148,6 +212,16 @@ void ZWaveNode::setQueried(bool queried)
 bool ZWaveNode::queried() const
 {
 	return m_queried;
+}
+
+void ZWaveNode::add(const CommandClass &cc)
+{
+	m_commandClasses.emplace(cc);
+}
+
+const set<ZWaveNode::CommandClass> &ZWaveNode::commandClasses() const
+{
+	return m_commandClasses;
 }
 
 string ZWaveNode::toString() const

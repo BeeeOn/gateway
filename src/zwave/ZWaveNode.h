@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <string>
 
 namespace BeeeOn {
@@ -35,6 +36,60 @@ public:
 		bool operator <(const Identity &other) const;
 
 		std::string toString() const;
+	};
+
+	/**
+	 * @brief Command class representation of a Z-Wave value.
+	 * We support only a subset of command classes that are
+	 * relevant for using with the BeeeOn system.
+	 */
+	class CommandClass {
+	public:
+		enum {
+			BASIC         = 32,
+			SWITCH_BINARY = 37,
+			SENSOR_BINARY = 48,
+			SENSOR_MULTILEVEL = 49,
+			BATTERY       = 128,
+			WAKE_UP       = 132,
+			ALARM         = 113,
+		};
+
+		CommandClass(
+			uint8_t id,
+			uint8_t index,
+			uint8_t instance,
+			const std::string &name = "");
+
+		/**
+		 * @returns command class's ID (SWITCH_BINARY, BATTERY, ...)
+		 */
+		uint8_t id() const;
+
+		/**
+		 * @returns index of the specific value represented by the command class
+		 */
+		uint8_t index() const;
+
+		/**
+		 * @returns identifier for situations when certain command class is duplicated
+		 */
+		uint8_t instance() const;
+
+		/**
+		 * @returns command class's name, it can be empty if not initialized
+		 */
+		std::string name() const;
+
+		std::string toString() const;
+
+		bool operator <(const CommandClass &cc) const;
+
+	private:
+		uint8_t m_id;
+		uint8_t m_index;
+		uint8_t m_instance;
+		std::string m_name;
 	};
 
 	/**
@@ -142,6 +197,9 @@ public:
 	 */
 	bool queried() const;
 
+	void add(const CommandClass &cc);
+	const std::set<CommandClass> &commandClasses() const;
+
 	std::string toString() const;
 	std::string toInfoString() const;
 
@@ -157,6 +215,7 @@ private:
 	uint16_t m_vendorId;
 	std::string m_vendor;
 	uint16_t m_productType;
+	std::set<CommandClass> m_commandClasses;
 };
 
 }
