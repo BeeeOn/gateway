@@ -294,20 +294,10 @@ endif()
 
 if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	file(GLOB ZWAVE_SOURCES
-		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
-		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
-		${PROJECT_SOURCE_DIR}/zwave/GenericZWaveDeviceInfoRegistry.cpp
-		${PROJECT_SOURCE_DIR}/zwave/VendorZWaveDeviceInfoRegistry.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistry.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceInfo.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriver.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeInfo.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNotificationEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveUtil.cpp
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
