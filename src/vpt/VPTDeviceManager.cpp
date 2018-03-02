@@ -206,10 +206,23 @@ void VPTDeviceManager::searchPairedDevices()
 
 	ScopedLock<FastMutex> lock(m_pairedMutex);
 	for (auto device : devices) {
-		auto it = m_pairedDevices.find(device->deviceID());
-		if (it != m_pairedDevices.end())
-			m_devices.emplace(device->deviceID(), device);
+		if (isAnySubdevicePaired(device))
+			auto it = m_devices.emplace(device->deviceID(), device);
 	}
+}
+
+bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
+{
+	// 0 is boiler
+	for (int i = 0; i <= VPTDevice::COUNT_OF_ZONES; i++) {
+		DeviceID subDevID = VPTDevice::createSubdeviceID(i, device->deviceID());
+
+		auto itPaired = m_pairedDevices.find(subDevID);
+		if (itPaired != m_pairedDevices.end())
+			return true;
+	}
+
+	return false;
 }
 
 bool VPTDeviceManager::accept(const Command::Ptr cmd)

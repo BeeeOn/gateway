@@ -95,6 +95,12 @@ protected:
 	void searchPairedDevices();
 
 	/**
+	 * @brief Examines if any subdevice is paired for
+	 * the VPT given in the parametr.
+	 */
+	bool isAnySubdevicePaired(VPTDevice::Ptr device);
+
+	/**
 	 * @brief Processes the listen command.
 	 */
 	void doListenCommand(const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
