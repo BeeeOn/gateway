@@ -63,6 +63,7 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JournalTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
 )
 
 if(BLUETOOTH)
