@@ -206,8 +206,21 @@ void VPTDeviceManager::searchPairedDevices()
 
 	ScopedLock<FastMutex> lock(m_pairedMutex);
 	for (auto device : devices) {
-		if (isAnySubdevicePaired(device))
+		if (isAnySubdevicePaired(device)) {
 			auto it = m_devices.emplace(device->deviceID(), device);
+			if (!it.second)
+				continue;
+
+			try {
+				string password = findPassword(device->deviceID());
+
+				ScopedLock<FastMutex> guard(device->lock());
+				device->setPassword(password);
+			}
+			catch (NotFoundException& e) {
+				logger().log(e, __FILE__, __LINE__);
+			}
+		}
 	}
 }
 
