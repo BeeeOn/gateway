@@ -296,6 +296,7 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	file(GLOB ZWAVE_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/OZWNetwork.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveNetwork.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNode.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNotificationEvent.cpp
