@@ -3,6 +3,8 @@
 #include <set>
 #include <string>
 
+#include <Poco/Timespan.h>
+
 namespace BeeeOn {
 
 /**
@@ -90,6 +92,109 @@ public:
 		uint8_t m_index;
 		uint8_t m_instance;
 		std::string m_name;
+	};
+
+	/**
+	 * @brief Value coming from the Z-Wave network. It holds some
+	 * data (usually sensor data) and metadata to identify the
+	 * value semantics.
+	 */
+	class Value {
+	public:
+		Value(const ZWaveNode &node,
+		      const CommandClass &cc,
+		      const std::string &value,
+		      const std::string &unit = "");
+
+		Value(const Identity &node,
+			const CommandClass &cc,
+			const std::string &value,
+			const std::string &unit = "");
+
+		/**
+		 * @returns the associated node's identity
+		 */
+		const Identity &node() const;
+
+		/**
+		 * @returns command class that's value is represented
+		 */
+		const CommandClass &commandClass() const;
+
+		/**
+		 * @returns value in string format (raw)
+		 */
+		std::string value() const;
+
+		/**
+		 * @returns unit that the value is represented in
+		 */
+		std::string unit() const;
+
+		/**
+		 * Interpret the value as a boolean. If the value cannot be
+		 * represented as boolean, an exception is thrown.
+		 *
+		 * @throw Poco::SyntaxException
+		 */
+		bool asBool() const;
+
+		/**
+		 * Interpret the value as an unsigned 32-bit number stored
+		 * in the hexadecimal format. If the value cannot be parsed,
+		 * it throws an exception.
+		 */
+		uint32_t asHex32() const;
+
+		/**
+		 * Interpret the value as a double (real) number.
+		 * If the value cannot be parsed, it throws an exception.
+		 */
+		double asDouble() const;
+
+		/**
+		 * Interpret the value as signed int. If the underlying value
+		 * is real (double) and the argument floor is false then an
+		 * exception is thrown.
+		 *
+		 * @param floor if the underlying cannot be interpreted as int,
+		 * and floor is true, it would be interpreted as double and floored
+		 */
+		int asInt(bool floor = false) const;
+
+		/**
+		 * Interpret the underlying value as temperature. The supported
+		 * units are C and F (according to Z-Wave). If the value is represented
+		 * in F (Farenheit) a conversion is applied.
+		 */
+		double asCelsius() const;
+
+		/**
+		 * Interpret the underlying value as a value of luminance. The luminance
+		 * is returned in lux. If the underlying value is represented in percent,
+		 * a conversion is applied.
+		 */
+		double asLuminance() const;
+
+		/**
+		 * Interpret the underlying value as a value of PM 2.5. The expected and
+		 * only supported unit is ug/m3.
+		 */
+		double asPM25() const;
+
+		/**
+		 * Interpret the underlying value as a value of time. The expected and
+		 * only supported unit is seconds.
+		 */
+		Poco::Timespan asTime() const;
+
+		std::string toString() const;
+
+	private:
+		Identity m_node;
+		CommandClass m_commandClass;
+		std::string m_value;
+		std::string m_unit;
 	};
 
 	/**

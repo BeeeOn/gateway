@@ -1,4 +1,9 @@
+#include <cmath>
+
+#include <Poco/Exception.h>
 #include <Poco/NumberFormatter.h>
+#include <Poco/NumberParser.h>
+#include <Poco/String.h>
 
 #include "zwave/ZWaveNode.h"
 
@@ -68,6 +73,142 @@ bool ZWaveNode::CommandClass::operator <(const CommandClass &cc) const
 		return false;
 
 	return m_instance < cc.m_instance;
+}
+
+ZWaveNode::Value::Value(
+		const ZWaveNode &node,
+		const CommandClass &cc,
+		const string &value,
+		const string &unit):
+	Value(node.id(), cc, value, unit)
+{
+}
+
+ZWaveNode::Value::Value(
+		const Identity &node,
+		const ZWaveNode::CommandClass &cc,
+		const string &value,
+		const string &unit):
+	m_node(node),
+	m_commandClass(cc),
+	m_value(value),
+	m_unit(unit)
+{
+}
+
+const ZWaveNode::Identity &ZWaveNode::Value::node() const
+{
+	return m_node;
+}
+
+const ZWaveNode::CommandClass &ZWaveNode::Value::commandClass() const
+{
+	return m_commandClass;
+}
+
+string ZWaveNode::Value::value() const
+{
+	return m_value;
+}
+
+string ZWaveNode::Value::unit() const
+{
+	return m_unit;
+}
+
+bool ZWaveNode::Value::asBool() const
+{
+	return NumberParser::parseBool(m_value);
+}
+
+uint32_t ZWaveNode::Value::asHex32() const
+{
+	return NumberParser::parseHex(m_value);
+}
+
+double ZWaveNode::Value::asDouble() const
+{
+	return NumberParser::parseFloat(m_value);
+}
+
+int ZWaveNode::Value::asInt(bool floor) const
+{
+	if (!floor)
+		return NumberParser::parse(m_value);
+
+	int result;
+	if (NumberParser::tryParse(m_value, result))
+		return result;
+
+	return ::floor(NumberParser::parseFloat(m_value));
+}
+
+double ZWaveNode::Value::asCelsius() const
+{
+	double v = NumberParser::parseFloat(m_value);
+
+	if (m_unit == "F")
+		return (5.0 * (v - 32.0)) / 9.0;
+
+	if (m_unit == "C")
+		return v;
+
+
+	throw InvalidArgumentException(
+		"unrecognized temperature unit: " + m_unit);
+}
+
+double ZWaveNode::Value::asLuminance() const
+{
+	double v = NumberParser::parseFloat(m_value);
+
+	// convert percent to lux, consider 1000 lux as 100 %
+	// https://github.com/CZ-NIC/domoticz-turris-gadgets/blob/master/hardware/OpenZWave.cpp#L1641
+	if (m_unit == "%") {
+		if (v >= 100.0)
+			return 1000.0;
+
+		return 10.0 * v;
+	}
+	if (m_unit == "lux")
+		return v;
+
+	throw InvalidArgumentException(
+		"unrecognized luminance unit: " + m_unit);
+}
+
+double ZWaveNode::Value::asPM25() const
+{
+	if (!icompare(m_unit, "ug/m3"))
+		return asDouble();
+
+	throw InvalidArgumentException(
+		"unrecognized PM2.5 unit: " + m_unit);
+}
+
+Timespan ZWaveNode::Value::asTime() const
+{
+	unsigned long t = NumberParser::parse(m_value);
+
+	if (!icompare(m_unit, "seconds"))
+		return t * Timespan::SECONDS;
+	else
+		throw InvalidArgumentException(
+			"unrecognized time unit: " + m_unit);
+}
+
+string ZWaveNode::Value::toString() const
+{
+	return NumberFormatter::formatHex(m_node.home, 8)
+		+ ":" +
+		NumberFormatter::format(m_node.node)
+		+ " "
+		+ m_commandClass.toString()
+		+ " "
+		+ m_value
+		+ " ["
+		+ m_unit
+		+ "]";
 }
 
 ZWaveNode::Identity::Identity(const uint32_t home, const uint8_t node):
