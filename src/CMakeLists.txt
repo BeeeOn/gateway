@@ -298,6 +298,7 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWCommand.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWNetwork.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNetwork.cpp

@@ -11,6 +11,7 @@
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="runnables" ref="vptDeviceManager" if-yes="${vpt.enable}" />
 			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
+			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
@@ -131,5 +132,13 @@
 		</instance>
 
 		<instance name="genericZWaveMapperRegistry" class="BeeeOn::GenericZWaveMapperRegistry" />
+
+		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
+			<set name="network" ref="ozwNetwork" />
+			<set name="registry" ref="genericZWaveMapperRegistry" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="distributor" ref="distributor" />
+		</instance>
 	</factory>
 </system>
