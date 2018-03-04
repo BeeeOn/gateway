@@ -129,5 +129,7 @@
 			<set name="executor" ref="asyncExecutor" />
 			<add name="listeners" ref="loggingCollector" />
 		</instance>
+
+		<instance name="genericZWaveMapperRegistry" class="BeeeOn::GenericZWaveMapperRegistry" />
 	</factory>
 </system>

@@ -295,6 +295,7 @@ endif()
 if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	file(GLOB ZWAVE_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/AbstractZWaveNetwork.cpp
+		${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWCommand.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWNetwork.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
