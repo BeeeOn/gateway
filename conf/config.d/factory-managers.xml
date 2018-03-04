@@ -135,10 +135,14 @@
 			<set name="typesMapping" text="${zwave.generic.typesMapping.path}" />
 		</instance>
 
+		<instance name="zwaveMapperRegistry" class="BeeeOn::CompositeZWaveMapperRegistry">
+			<add name="registry" ref="genericZWaveMapperRegistry" />
+		</instance>
+
 		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="network" ref="ozwNetwork" />
-			<set name="registry" ref="genericZWaveMapperRegistry" />
+			<set name="registry" ref="zwaveMapperRegistry" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="distributor" ref="distributor" />
 		</instance>
