@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include <Poco/Activity.h>
 #include <Poco/JSON/Object.h>
 #include <Poco/Mutex.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -15,7 +14,6 @@
 #include <Poco/Timespan.h>
 
 #include "commands/NewDeviceCommand.h"
-#include "core/Result.h"
 #include "model/DeviceID.h"
 #include "model/GatewayID.h"
 #include "model/ModuleID.h"
@@ -35,32 +33,6 @@ namespace BeeeOn {
  */
 class VPTDevice : protected Loggable {
 public:
-	/**
-	 * @brief Allows to execute a command in a separate thread.
-	 */
-	class VPTCommandExecutor {
-	public:
-		VPTCommandExecutor(VPTDevice& parent);
-		~VPTCommandExecutor();
-
-		void setZone(const int zone);
-		void setValue(const double value);
-		void setResult(const Result::Ptr result);
-
-		void start();
-		void executeCommand();
-		bool isRunning();
-
-	private:
-		VPTDevice& m_parent;
-
-		Poco::Activity<VPTCommandExecutor> m_activity;
-
-		int m_zone;
-		double m_value;
-		Result::Ptr m_result;
-	};
-
 	typedef Poco::SharedPtr<VPTDevice> Ptr;
 
 	static const std::vector<std::string> REG_BOILER_OPER_TYPE;
@@ -122,11 +94,10 @@ public:
 	 * @param id Subdevice of VPT.
 	 * @param module Module of subdevice.
 	 * @param value Requested value.
-	 * @param result Will contains information about
 	 * the success of the request
 	 */
 	void requestModifyState(const DeviceID& id, const ModuleID module,
-		const double value, Result::Ptr result);
+		const double value);
 
 	/**
 	 * @brief Gathers data from all sensors of subdevices.
@@ -169,12 +140,12 @@ private:
 	 */
 	void buildDeviceID();
 
-	void requestSetModBoilerOperationType(const int zone, const int value, Result::Ptr result);
-	void requestSetModBoilerOperationMode(const int zone, const int value, Result::Ptr result);
-	void requestSetManualRoomTemperature(const int zone, const double value, Result::Ptr result);
-	void requestSetManualWaterTemperature(const int zone, const double value, Result::Ptr result);
-	void requestSetManualTUVTemperature(const int zone, const double value, Result::Ptr result);
-	void requestSetModWaterTemperature(const int zone, const double value, Result::Ptr result);
+	void requestSetModBoilerOperationType(const int zone, const double value);
+	void requestSetModBoilerOperationMode(const int zone, const double value);
+	void requestSetManualRoomTemperature(const int zone, const double value);
+	void requestSetManualWaterTemperature(const int zone, const double value);
+	void requestSetManualTUVTemperature(const int zone, const double value);
+	void requestSetModWaterTemperature(const int zone, const double value);
 
 	std::string parseZoneAttrFromJson(const std::string& json, const int zone, const std::string& key);
 
@@ -202,7 +173,6 @@ private:
 	Poco::Timespan m_httpTimeout;
 
 	GatewayID m_gatewayID;
-	VPTDevice::VPTCommandExecutor m_executor;
 	Poco::FastMutex m_lock;
 };
 
