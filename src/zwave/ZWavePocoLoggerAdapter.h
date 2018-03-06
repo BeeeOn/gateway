@@ -31,17 +31,6 @@ public:
 	void SetLogFileName(const std::string& filename) override;
 
 private:
-	/**
-	 * Converts nodeId identification to string with suffix.
-	 * If the nodeId is 0, it is driver nodeId and it is skipped.
-	 * For example:
-	 *   "NodeId: 0 "
-	 * @param nodeId identifier in the z-wave network
-	 * @return string with node id
-	 */
-	std::string nodeIdString(uint8 const nodeId);
-
-private:
 	Poco::Logger& logger;
 };
 

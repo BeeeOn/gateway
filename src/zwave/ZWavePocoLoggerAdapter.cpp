@@ -1,6 +1,6 @@
-#include "zwave/ZWavePocoLoggerAdapter.h"
+#include <Poco/String.h>
 
-const static int USB_DONGLE_NODE_ID = 0;
+#include "zwave/ZWavePocoLoggerAdapter.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -10,14 +10,6 @@ using namespace std;
 ZWavePocoLoggerAdapter::ZWavePocoLoggerAdapter(Poco::Logger& logger):
 	logger(logger)
 {
-}
-
-string ZWavePocoLoggerAdapter::nodeIdString(uint8 const nodeId)
-{
-	if (nodeId == USB_DONGLE_NODE_ID)
-		return "";
-
-	return "NodeId: " + to_string(nodeId) + " ";
 }
 
 void ZWavePocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
@@ -56,14 +48,13 @@ void ZWavePocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
 	}
 
 	msg.setSource(logger.name());
+	msg.set("node", to_string(nodeId));
 
 	char lineBuf[1024] = {0};
 	if (format != NULL && format[0] != '\0')
 		vsnprintf(lineBuf, sizeof(lineBuf), format, args);
 
-	string line;
-	line.append(nodeIdString(nodeId));
-	line.append(lineBuf);
+	string line(lineBuf);
 
 	trimRightInPlace(line);
 
