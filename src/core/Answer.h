@@ -9,7 +9,6 @@
 #include <Poco/Task.h>
 #include <Poco/TaskManager.h>
 
-#include "core/AnswerImpl.h"
 #include "core/Command.h"
 #include "core/Result.h"
 
@@ -30,7 +29,6 @@ class Result;
  * change the status in the Answer and in the Result MUST be locked.
  */
 class Answer : public Poco::RefCountedObject, public Poco::SynchronizedObject {
-	friend CommandDispatcher;
 public:
 	typedef Poco::AutoPtr<Answer> Ptr;
 
@@ -88,15 +86,11 @@ public:
 	std::vector<Result::Ptr>::iterator begin();
 	std::vector<Result::Ptr>::iterator end();
 
-protected:
-	void installImpl(Poco::SharedPtr<AnswerImpl> answerImpl);
-
 private:
 	AnswerQueue &m_answerQueue;
 	Poco::AtomicCounter m_dirty;
 	std::vector<Result::Ptr> m_resultList;
 	unsigned long m_handlers;
-	AnswerImpl::Ptr m_answerImpl;
 };
 
 }

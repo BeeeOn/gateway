@@ -25,19 +25,13 @@ public:
 	 * will be set to Result::SUCCESS or Result::ERROR after the execution of
 	 * CommandHandler::handle().
 	 */
-	virtual void dispatch(Command::Ptr cmd, Answer::Ptr answer) = 0;
+	void dispatch(Command::Ptr cmd, Answer::Ptr answer);
 
 	void registerListener(CommandDispatcherListener::Ptr listener);
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+	void setEventsExecutor(AsyncExecutor::Ptr executor);
 
 protected:
-	void injectImpl(Answer::Ptr answer, Poco::SharedPtr<AnswerImpl> impl);
-
-	/**
-	 * This operation is suppose to be called, when dispatch has occured to
-	 * notify all registered listeners about this event.
-	 */
-	void notifyDispatch(Command::Ptr);
+	virtual void dispatchImpl(Command::Ptr cmd, Answer::Ptr answer) = 0;
 
 protected:
 	std::list<Poco::SharedPtr<CommandHandler>> m_commandHandlers;

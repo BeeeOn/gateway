@@ -110,11 +110,6 @@ std::vector<Result::Ptr>::iterator Answer::end()
 	return m_resultList.end();
 }
 
-void Answer::installImpl(Poco::SharedPtr<AnswerImpl> answerImpl)
-{
-	m_answerImpl = answerImpl;
-}
-
 void Answer::setHandlersCount(unsigned long handlers)
 {
 	m_handlers = handlers;
