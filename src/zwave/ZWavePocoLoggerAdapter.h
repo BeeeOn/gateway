@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Poco/Logger.h>
+#include <Poco/Message.h>
 
 #include <openzwave/platform/unix/LogImpl.h>
 
@@ -39,14 +40,6 @@ private:
 	 * @return string with node id
 	 */
 	std::string nodeIdString(uint8 const nodeId);
-
-	/**
-	 * Method convert from OpenZWave log level to Poco log level and
-	 * write message to the Poco logger.
-	 * @param level log level
-	 * @param logMessage message which is written
-	 */
-	void writeLogImpl(OpenZWave::LogLevel level, std::string logMessage);
 
 private:
 	Poco::Logger& logger;

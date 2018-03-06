@@ -3,6 +3,7 @@
 const static int USB_DONGLE_NODE_ID = 0;
 
 using namespace BeeeOn;
+using namespace Poco;
 using namespace OpenZWave;
 using namespace std;
 
@@ -22,48 +23,56 @@ string ZWavePocoLoggerAdapter::nodeIdString(uint8 const nodeId)
 void ZWavePocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
 	char const* format, va_list args)
 {
-	string logMessage;
-	char lineBuf[1024] = {0};
+	Message msg;
 
-	if (format != NULL && format[0] != '\0')
-		vsnprintf(lineBuf, sizeof(lineBuf), format, args);
-
-	logMessage.append(nodeIdString(nodeId));
-	logMessage.append(lineBuf);
-
-	if (logMessage.length() > 0)
-		writeLogImpl(logLevel, logMessage);
-}
-
-void ZWavePocoLoggerAdapter::writeLogImpl(LogLevel level, string logMessage)
-{
-	switch(level) {
+	switch(logLevel) {
 	case LogLevel_Fatal:
-		logger.fatal(logMessage);
+		msg.setPriority(Message::PRIO_FATAL);
 		break;
 	case LogLevel_Error:
-		logger.error(logMessage);
+		msg.setPriority(Message::PRIO_ERROR);
 		break;
 	case LogLevel_Warning:
-		logger.warning(logMessage);
+		msg.setPriority(Message::PRIO_WARNING);
 		break;
 	case LogLevel_Alert:
-		logger.notice(logMessage);
+		msg.setPriority(Message::PRIO_NOTICE);
 		break;
 	case LogLevel_Always:
 	case LogLevel_Info:
-		logger.information(logMessage);
+		msg.setPriority(Message::PRIO_INFORMATION);
 		break;
 	case LogLevel_Detail:
 	case LogLevel_Debug:
-		logger.debug(logMessage);
+		msg.setPriority(Message::PRIO_DEBUG);
 		break;
 	case LogLevel_StreamDetail:
 	case LogLevel_Internal:
-		logger.trace(logMessage);
+		msg.setPriority(Message::PRIO_TRACE);
+		break;
 	default:
+		msg.setPriority(Message::PRIO_DEBUG);
 		break;
 	}
+
+	msg.setSource(logger.name());
+
+	char lineBuf[1024] = {0};
+	if (format != NULL && format[0] != '\0')
+		vsnprintf(lineBuf, sizeof(lineBuf), format, args);
+
+	string line;
+	line.append(nodeIdString(nodeId));
+	line.append(lineBuf);
+
+	trimRightInPlace(line);
+
+	if (line.empty())
+		return;
+
+	msg.setText(line);
+
+	logger.log(msg);
 }
 
 void ZWavePocoLoggerAdapter::QueueDump()
