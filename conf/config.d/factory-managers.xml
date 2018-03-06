@@ -155,9 +155,16 @@
 			</set>
 		</instance>
 
+		<instance name="aeotecZWaveMapperRegistry" class="BeeeOn::AeotecZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="0086:0064" text="zw100" />
+			</set>
+		</instance>
+
 		<instance name="zwaveMapperRegistry" class="BeeeOn::CompositeZWaveMapperRegistry">
 			<add name="registry" ref="st02l1ZWaveMapperRegistry" />
 			<add name="registry" ref="fibaroZWaveMapperRegistry" />
+			<add name="registry" ref="aeotecZWaveMapperRegistry" />
 			<add name="registry" ref="genericZWaveMapperRegistry" />
 		</instance>
 
