@@ -118,5 +118,12 @@
 			<set name="power" number="${fitp.power}"/>
 			<set name="txRetries" number="${fitp.tx.retries}"/>
 		</instance>
+
+		<instance name="ozwNetwork" class="BeeeOn::OZWNetwork">
+			<set name="userPath" text="${zwave.user.path}" />
+			<set name="configPath" text="${zwave.config.path}" />
+			<set name="pollInterval" time="${zwave.poll.interval}" />
+			<set name="executor" ref="asyncExecutor" />
+		</instance>
 	</factory>
 </system>
