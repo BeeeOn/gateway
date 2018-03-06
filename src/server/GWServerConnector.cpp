@@ -123,8 +123,8 @@ void GWServerConnector::forwardOutputQueue()
 			if (!readyToSendEvent().tryWait(m_busySleep.totalMilliseconds()))
 				sendPing();
 		}
-			if (connectionSeemsBroken())
-				markDisconnected();
+		if (connectionSeemsBroken())
+			markDisconnected();
 	}
 	catch (const Exception &e) {
 		logger().log(e, __FILE__, __LINE__);
@@ -160,6 +160,10 @@ void GWServerConnector::forwardContext(GWMessageContext::Ptr context)
 
 		try {
 			sendMessage(timedContext->message());
+		} catch (const NetException &e) {
+			m_contextPoll.remove(id);
+			m_outputQueue.enqueue(context);
+			e.rethrow();
 		} catch (const Exception &e) {
 			m_contextPoll.remove(id);
 			e.rethrow();
