@@ -28,6 +28,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, OZWNetwork)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
+BEEEON_OBJECT_CASTABLE(ZWaveNetwork)
 BEEEON_OBJECT_PROPERTY("configPath", &OZWNetwork::setConfigPath)
 BEEEON_OBJECT_PROPERTY("userPath", &OZWNetwork::setUserPath)
 BEEEON_OBJECT_PROPERTY("pollInterval", &OZWNetwork::setPollInterval)
@@ -61,7 +62,8 @@ OZWNetwork::OZWNetwork():
 	m_retryTimeout(OZW_DEFAULT_RETRY_TIMEOUT),
 	m_assumeAwake(OZW_DEFAULT_ASSUME_AWAKE),
 	m_driverMaxAttempts(OZW_DEFAULT_DRIVER_MAX_ATTEMPTS),
-	m_configured(false)
+	m_configured(false),
+	m_command(*this)
 {
 }
 
@@ -264,6 +266,15 @@ void OZWNetwork::cleanup()
 	FastMutex::ScopedLock guard1(m_managerLock);
 
 	Manager::Get()->RemoveWatcher(&ozwNotification, this);
+
+	try {
+		OZWCommand::ScopedLock guard(m_command);
+		m_command.cancelIf(m_command.type(), 200 * Timespan::MILLISECONDS);
+	}
+	catch (const IllegalStateException &e) {
+		logger().warning(e.displayText(), __FILE__, __LINE__);
+	}
+	BEEEON_CATCH_CHAIN(logger())
 
 	m_statisticsRunner.stop();
 	Manager::Destroy();
@@ -645,6 +656,8 @@ void OZWNetwork::nodeReady(const Notification *n)
 			+ Manager::Get()->GetLibraryVersion(n->GetHomeId()),
 			__FILE__, __LINE__);
 	}
+
+	notifyEvent(PollEvent::createNewNode(node));
 }
 
 void OZWNetwork::nodeRemoved(const Notification *n)
@@ -662,6 +675,8 @@ void OZWNetwork::nodeRemoved(const Notification *n)
 			"node " + it->second.toString() + " removed",
 			__FILE__, __LINE__);
 	}
+
+	notifyEvent(PollEvent::createRemoveNode(it->second));
 	home->second.erase(it);
 
 	FastMutex::ScopedLock guard(m_managerLock);
@@ -712,6 +727,13 @@ void OZWNetwork::valueChanged(const Notification *n)
 				+ it->second.toString(),
 				__FILE__, __LINE__);
 	}
+
+	notifyEvent(PollEvent::createValue({
+		it->second,
+		buildCommandClass(n->GetValueID()),
+		value,
+		unit
+	}));
 }
 
 void OZWNetwork::nodeQueried(const Notification *n)
@@ -725,6 +747,8 @@ void OZWNetwork::nodeQueried(const Notification *n)
 		return;
 
 	it->second.setQueried(true);
+
+	notifyEvent(PollEvent::createUpdateNode(it->second));
 
 	FastMutex::ScopedLock guard(m_managerLock);
 	Manager::Get()->WriteConfig(n->GetHomeId());
@@ -754,6 +778,7 @@ void OZWNetwork::awakeNodesQueried(const Notification *n)
 			if (Manager::Get()->IsNodeAwake(id.home, id.node)) {
 				if (!node.queried()) {
 					node.setQueried(true);
+					notifyEvent(PollEvent::createUpdateNode(node));
 				}
 			}
 			else {
@@ -784,6 +809,8 @@ void OZWNetwork::awakeNodesQueried(const Notification *n)
 				+ to_string(total) + ")",
 				__FILE__, __LINE__);
 	}
+
+	notifyEvent(PollEvent::createReady());
 }
 
 void OZWNetwork::allNodesQueried(const Notification *n)
@@ -806,6 +833,7 @@ void OZWNetwork::allNodesQueried(const Notification *n)
 		}
 		else if (!node.queried()) {
 			node.setQueried(true);
+			notifyEvent(PollEvent::createUpdateNode(node));
 		}
 
 		total += 1;
@@ -819,6 +847,8 @@ void OZWNetwork::allNodesQueried(const Notification *n)
 				+ to_string(total) + ")",
 				__FILE__, __LINE__);
 	}
+
+	notifyEvent(PollEvent::createReady());
 }
 
 string OZWNetwork::homeAsString(uint32_t home)
@@ -843,6 +873,84 @@ ZWaveNode::CommandClass OZWNetwork::buildCommandClass(
 		id.GetInstance(),
 		CommandClasses::GetName(cc)
 	};
+}
+
+void OZWNetwork::startInclusion()
+{
+	FastMutex::ScopedLock guard(m_managerLock);
+
+	for (const auto &home : m_homes) {
+		if (!Manager::Get()->IsPrimaryController(home.first))
+			continue;
+
+		m_command.request(OZWCommand::INCLUSION, home.first);
+		break;
+	}
+}
+
+void OZWNetwork::cancelInclusion()
+{
+	FastMutex::ScopedLock guard(m_managerLock);
+
+	if (m_command.cancelIf(OZWCommand::INCLUSION, 200 * Timespan::MILLISECONDS)) {
+		if (logger().debug()) {
+			logger().debug("command inclusion is being cancelled",
+				__FILE__, __LINE__);
+		}
+	}
+	else {
+		if (logger().warning()) {
+			logger().warning("command inclusion is not running,"
+					" cancel was ignored",
+				__FILE__, __LINE__);
+		}
+	}
+}
+
+void OZWNetwork::startRemoveNode()
+{
+	FastMutex::ScopedLock guard(m_managerLock);
+
+	for (const auto &home : m_homes) {
+		if (!Manager::Get()->IsPrimaryController(home.first))
+			continue;
+
+		m_command.request(OZWCommand::REMOVE_NODE, home.first);
+		break;
+	}
+}
+
+void OZWNetwork::cancelRemoveNode()
+{
+	FastMutex::ScopedLock guard(m_managerLock);
+
+	if (m_command.cancelIf(OZWCommand::REMOVE_NODE, 200 * Timespan::MILLISECONDS)) {
+		if (logger().debug()) {
+			logger().debug("command remove-node is being cancelled",
+				__FILE__, __LINE__);
+		}
+	}
+	else {
+		if (logger().warning()) {
+			logger().warning("command remove-node is not running,"
+					" cancel was ignored",
+				__FILE__, __LINE__);
+		}
+	}
+}
+
+void OZWNetwork::interrupt()
+{
+	try {
+		OZWCommand::ScopedLock guard(m_command);
+		m_command.cancelIf(m_command.type(), 200 * Timespan::MILLISECONDS);
+	}
+	catch (const IllegalStateException &e) {
+		logger().warning(e.displayText(), __FILE__, __LINE__);
+	}
+	BEEEON_CATCH_CHAIN(logger())
+
+	AbstractZWaveNetwork::interrupt();
 }
 
 void OZWNetwork::fireStatistics()

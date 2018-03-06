@@ -13,8 +13,9 @@
 #include "hotplug/HotplugListener.h"
 #include "loop/StoppableLoop.h"
 #include "util/EventSource.h"
-#include "util/Loggable.h"
 #include "util/PeriodicRunner.h"
+#include "zwave/AbstractZWaveNetwork.h"
+#include "zwave/OZWCommand.h"
 #include "zwave/ZWaveListener.h"
 #include "zwave/ZWaveNode.h"
 
@@ -29,7 +30,8 @@ namespace BeeeOn {
 
 class OZWNetwork :
 	public HotplugListener,
-	Loggable {
+	public AbstractZWaveNetwork {
+	friend class OZWCommand;
 public:
 	OZWNetwork();
 	~OZWNetwork();
@@ -278,6 +280,36 @@ protected:
 	static ZWaveNode::CommandClass buildCommandClass(
 			const OpenZWave::ValueID &id);
 
+	/**
+	 * @brief Start the inclusion mode on the primary controller(s).
+	 * @see OZWCommand::request()
+	 */
+	void startInclusion() override;
+
+	/**
+	 * @brief Cancel the inclusion mode if active.
+	 * @see OZWCommand::cancelIf()
+	 */
+	void cancelInclusion() override;
+
+	/**
+	 * @brief Start the removal mode on the primary controller(s).
+	 * @see OZWCommand::request()
+	 */
+	void startRemoveNode() override;
+
+	/**
+	 * @brief Cancel the removal mode if active.
+	 * @see OZWCommand::cancelIf()
+	 */
+	void cancelRemoveNode() override;
+
+	/**
+	 * @brief Cancel the current OZW command and interrupt an active
+	 * pollEvent() call.
+	 */
+	void interrupt() override;
+
 private:
 	Poco::Path m_configPath;
 	Poco::Path m_userPath;
@@ -292,6 +324,7 @@ private:
 	Poco::AtomicCounter m_configured;
 	mutable Poco::FastMutex m_managerLock;
 	mutable Poco::FastMutex m_lock;
+	OZWCommand m_command;
 	EventSource<ZWaveListener> m_eventSource;
 	AsyncExecutor::Ptr m_executor;
 	PeriodicRunner m_statisticsRunner;

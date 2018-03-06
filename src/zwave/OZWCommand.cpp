@@ -17,6 +17,8 @@ using namespace OpenZWave;
 using namespace Poco;
 using namespace BeeeOn;
 
+using PollEvent = ZWaveNetwork::PollEvent;
+
 static bool ozwBeginControllerCommand(
 	uint32_t home,
 	Driver::ControllerCommand cmd,
@@ -388,8 +390,10 @@ void OZWCommand::running()
 	if (!m_running) {
 		switch (m_type) {
 		case INCLUSION:
+			m_ozw.notifyEvent(PollEvent::createInclusionStart());
 			break;
 		case REMOVE_NODE:
+			m_ozw.notifyEvent(PollEvent::createRemoveNodeStart());
 			break;
 		default:
 			break;
@@ -413,8 +417,10 @@ void OZWCommand::terminated()
 	if (wasRunning) {
 		switch (type) {
 		case INCLUSION:
+			m_ozw.notifyEvent(PollEvent::createInclusionDone());
 			break;
 		case REMOVE_NODE:
+			m_ozw.notifyEvent(PollEvent::createRemoveNodeDone());
 			break;
 		default:
 			break;
