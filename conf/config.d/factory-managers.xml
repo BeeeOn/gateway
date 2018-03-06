@@ -135,7 +135,21 @@
 			<set name="typesMapping" text="${zwave.generic.typesMapping.path}" />
 		</instance>
 
+		<instance name="st02l1ZWaveMapperRegistry" class="BeeeOn::ST02L1ZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="013C:000C" text="4-in-1" />     <!-- PST02-1A -->
+				<pair key="013C:000D" text="3-in-1-pir" /> <!-- PST02-1B -->
+				<pair key="013C:000E" text="3-in-1" />     <!-- PST02-1C -->
+				<pair key="013C:0002" text="4-in-1" />     <!-- PSM02-1  -->
+				<pair key="0118:0002" text="4-in-1" />     <!-- TSM02    -->
+				<pair key="0108:000D" text="3-in-1-pir" /> <!-- DCH-Z120 -->
+				<pair key="0108:000E" text="3-in-1" />     <!-- DCH-Z110 -->
+				<pair key="0175:000E" text="3-in-1" />     <!-- MT02648  -->
+			</set>
+		</instance>
+
 		<instance name="zwaveMapperRegistry" class="BeeeOn::CompositeZWaveMapperRegistry">
+			<add name="registry" ref="st02l1ZWaveMapperRegistry" />
 			<add name="registry" ref="genericZWaveMapperRegistry" />
 		</instance>
 
