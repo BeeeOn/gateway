@@ -476,7 +476,8 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 			newDevice->deviceID(),
 			BELKIN_WEMO_VENDOR,
 			newDevice->name(),
-			types));
+			types,
+			m_refresh));
 }
 
 BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
