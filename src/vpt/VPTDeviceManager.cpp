@@ -186,7 +186,7 @@ void VPTDeviceManager::shipFromDevices()
 		}
 		catch (const Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
-			logger().warning("device " + device->deviceID().toString() + " did not answer",
+			logger().warning("device " + device->boilerID().toString() + " did not answer",
 				__FILE__, __LINE__);
 			continue;
 		}
@@ -207,12 +207,12 @@ void VPTDeviceManager::searchPairedDevices()
 	ScopedLock<FastMutex> lock(m_pairedMutex);
 	for (auto device : devices) {
 		if (isAnySubdevicePaired(device)) {
-			auto it = m_devices.emplace(device->deviceID(), device);
+			auto it = m_devices.emplace(device->boilerID(), device);
 			if (!it.second)
 				continue;
 
 			try {
-				string password = findPassword(device->deviceID());
+				string password = findPassword(device->boilerID());
 
 				ScopedLock<FastMutex> guard(device->lock());
 				device->setPassword(password);
@@ -228,7 +228,7 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 {
 	// 0 is boiler
 	for (int i = 0; i <= VPTDevice::COUNT_OF_ZONES; i++) {
-		DeviceID subDevID = VPTDevice::createSubdeviceID(i, device->deviceID());
+		DeviceID subDevID = VPTDevice::createSubdeviceID(i, device->boilerID());
 
 		auto itPaired = m_pairedDevices.find(subDevID);
 		if (itPaired != m_pairedDevices.end())
@@ -417,7 +417,7 @@ void VPTDeviceManager::processNewDevice(VPTDevice::Ptr newDevice)
 	 * If the device already exists but has different IP address
 	 * update the device.
 	 */
-	auto it = m_devices.emplace(newDevice->deviceID(), newDevice);
+	auto it = m_devices.emplace(newDevice->boilerID(), newDevice);
 	if (!it.second) {
 		auto existingDevice = it.first->second;
 		ScopedLock<FastMutex> guard(existingDevice->lock());
@@ -426,7 +426,7 @@ void VPTDeviceManager::processNewDevice(VPTDevice::Ptr newDevice)
 		return;
 	}
 
-	logger().debug("found device " + newDevice->deviceID().toString() +
+	logger().debug("found device " + newDevice->boilerID().toString() +
 		" at " + newDevice->address().toString(), __FILE__, __LINE__);
 
 	vector<NewDeviceCommand::Ptr> newDeviceCommands = newDevice->createNewDeviceCommands(m_refresh);

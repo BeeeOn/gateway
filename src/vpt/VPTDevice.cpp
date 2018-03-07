@@ -117,9 +117,9 @@ VPTDevice::VPTDevice()
 {
 }
 
-DeviceID VPTDevice::deviceID() const
+DeviceID VPTDevice::boilerID() const
 {
-	return m_deviceId;
+	return m_boilerId;
 }
 
 SocketAddress VPTDevice::address() const
@@ -192,7 +192,7 @@ void VPTDevice::stampVPT(const Action action)
 
 bool VPTDevice::operator==(const VPTDevice& other) const
 {
-	return other.deviceID() == m_deviceId;
+	return other.boilerID() == m_boilerId;
 }
 
 VPTDevice::Ptr VPTDevice::buildDevice(const SocketAddress& address,
@@ -215,7 +215,7 @@ void VPTDevice::buildDeviceID()
 
 	Object::Ptr object = JsonUtil::parse(response.getBody());
 	string mac = object->getValue<string>("id");
-	m_deviceId = DeviceID(DevicePrefix::PREFIX_VPT, NumberParser::parseHex64(mac));
+	m_boilerId = DeviceID(DevicePrefix::PREFIX_VPT, NumberParser::parseHex64(mac));
 
 	stampVPT(Action::PAIR);
 }
@@ -507,7 +507,7 @@ vector<SensorData> VPTDevice::requestValues()
 	stampVPT(Action::READ);
 
 	VPTValuesParser parser;
-	return parser.parse(m_deviceId, response.getBody());
+	return parser.parse(m_boilerId, response.getBody());
 }
 
 vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refresh)
@@ -518,7 +518,7 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refre
 	for (int i = 1; i <= COUNT_OF_ZONES; i++) {
 		vector.push_back(
 			new NewDeviceCommand(
-				VPTDevice::createSubdeviceID(i, m_deviceId),
+				VPTDevice::createSubdeviceID(i, m_boilerId),
 				VPT_VENDOR,
 				"Zone " + to_string(i),
 				zoneModules,
@@ -528,7 +528,7 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refre
 	std::list<ModuleType> boilerModules = VPTDevice::BOILER_MODULE_TYPES;
 	vector.push_back(
 		new NewDeviceCommand(
-			m_deviceId,
+			m_boilerId,
 			VPT_VENDOR,
 			"Boiler",
 			boilerModules,
