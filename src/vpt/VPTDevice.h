@@ -72,7 +72,7 @@ public:
 	static VPTDevice::Ptr buildDevice(const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& httpTimeout, const Poco::Timespan& pingTimeout, const GatewayID& id);
 
-	DeviceID deviceID() const;
+	DeviceID boilerID() const;
 	Poco::Net::SocketAddress address() const;
 	void setAddress(const Poco::Net::SocketAddress& address);
 	void setPassword(const std::string& pwd);
@@ -165,7 +165,7 @@ private:
 	 * DeviceIDs of subdevices are created by this DeviceID.
 	 * Also it is used to search a password to access in credentials storage.
 	 */
-	DeviceID m_deviceId;
+	DeviceID m_boilerId;
 	Poco::Net::SocketAddress m_address;
 	std::string m_password;
 

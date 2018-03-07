@@ -95,6 +95,12 @@ protected:
 	void searchPairedDevices();
 
 	/**
+	 * @brief Examines if any subdevice is paired for
+	 * the VPT given in the parametr.
+	 */
+	bool isAnySubdevicePaired(VPTDevice::Ptr device);
+
+	/**
 	 * @brief Processes the listen command.
 	 */
 	void doListenCommand(const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
@@ -132,6 +138,14 @@ protected:
 	 * and informing the server about it.
 	 */
 	void processNewDevice(Poco::SharedPtr<VPTDevice> newDevice);
+
+	/**
+	 * @brief Tries to find password credential for VPT by the given DeviceID from
+	 * the credentials storage. If the password is not found the NotFoundException
+	 * is thrown.
+	 * @param id DeviceID of real VPT
+	 */
+	std::string findPassword(const DeviceID& id);
 
 private:
 	VPTDeviceManager::VPTSeeker m_seeker;
