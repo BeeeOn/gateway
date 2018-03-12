@@ -68,4 +68,6 @@ install(FILES systemd/beeeon-gateway.service
 install(DIRECTORY udev/rules.d
 	DESTINATION etc/udev)
 install(DIRECTORY
+	DESTINATION var/run/beeeon/gateway)
+install(DIRECTORY
 	DESTINATION var/cache/beeeon/gateway)
