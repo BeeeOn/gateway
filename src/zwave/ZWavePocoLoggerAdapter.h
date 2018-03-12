@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Poco/Logger.h>
+#include <Poco/Message.h>
 
 #include <openzwave/platform/unix/LogImpl.h>
 
@@ -28,25 +29,6 @@ public:
 		OpenZWave::LogLevel dumpTrigger) override;
 
 	void SetLogFileName(const std::string& filename) override;
-
-private:
-	/**
-	 * Converts nodeId identification to string with suffix.
-	 * If the nodeId is 0, it is driver nodeId and it is skipped.
-	 * For example:
-	 *   "NodeId: 0 "
-	 * @param nodeId identifier in the z-wave network
-	 * @return string with node id
-	 */
-	std::string nodeIdString(uint8 const nodeId);
-
-	/**
-	 * Method convert from OpenZWave log level to Poco log level and
-	 * write message to the Poco logger.
-	 * @param level log level
-	 * @param logMessage message which is written
-	 */
-	void writeLogImpl(OpenZWave::LogLevel level, std::string logMessage);
 
 private:
 	Poco::Logger& logger;
