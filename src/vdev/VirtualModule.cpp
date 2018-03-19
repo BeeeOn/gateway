@@ -113,14 +113,14 @@ ModuleID VirtualModule::moduleID() const
 	return m_moduleID;
 }
 
-void VirtualModule::modifyValue(double value, Result::Ptr result)
+bool VirtualModule::modifyValue(double value)
 {
 	if (reaction() == REACTION_SUCCESS) {
 		m_value = value;
-		result->setStatus(Result::Status::SUCCESS);
+		return true;
 	}
 	else if (reaction() == REACTION_FAILURE) {
-		result->setStatus(Result::Status::FAILED);
+		return false;
 	}
 	else {
 		throw IllegalStateException(

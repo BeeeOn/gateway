@@ -42,8 +42,8 @@ public:
 	void setRefresh(Poco::Timespan refresh);
 	Poco::Timespan refresh() const;
 
-	void modifyValue(
-		const ModuleID &moduleID, double value, Result::Ptr result);
+	bool modifyValue(
+		const ModuleID &moduleID, double value);
 	SensorData generate();
 
 private:
