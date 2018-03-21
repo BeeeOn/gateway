@@ -59,6 +59,8 @@ void GatewayInfo::initialize()
 
 	if (!m_certPath.empty())
 		loadCertificate();
+
+	poco_notice(logger(), "gateway ID " + gatewayID().toString());
 }
 
 string GatewayInfo::version()
