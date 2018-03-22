@@ -218,5 +218,11 @@
 			<set name="power" number="${fitp.power}"/>
 			<set name="txRetries" number="${fitp.tx.retries}"/>
 		</instance>
+
+		<instance name="credentialsTool" class="BeeeOn::CredentialsTool">
+			<set name="cryptoConfig" ref="cryptoConfig" />
+			<set name="storage" ref="credentialsStorage" />
+			<set name="cmd" text="${tool.credentials.cmd}" />
+		</instance>
 	</factory>
 </system>
