@@ -1,3 +1,4 @@
+#include <Poco/AutoPtr.h>
 #include <Poco/Timestamp.h>
 #include <Poco/Crypto/Cipher.h>
 #include <Poco/Crypto/CipherFactory.h>
@@ -443,7 +444,7 @@ string VPTDeviceManager::findPassword(const DeviceID& id)
 
 	if (!credential.isNull()) {
 		CipherKey key = m_cryptoConfig->createKey(credential->params());
-		Cipher *cipher = CipherFactory::defaultFactory().createCipher(key);
+		AutoPtr<Cipher> cipher = CipherFactory::defaultFactory().createCipher(key);
 
 		if (!credential.cast<PasswordCredentials>().isNull()) {
 			SharedPtr<PasswordCredentials> password = credential.cast<PasswordCredentials>();
