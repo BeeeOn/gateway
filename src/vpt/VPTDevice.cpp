@@ -186,7 +186,9 @@ void VPTDevice::stampVPT(const Action action)
 		logger().debug("update register BEEE0 to " + stamp, __FILE__, __LINE__);
 	}
 	catch (const Exception& e) {
-		logger().warning("the BEEE0 register update failed due to network", __FILE__, __LINE__);
+		logger().log(e, __FILE__, __LINE__);
+		logger().warning("the BEEE0 register of VPT " + m_boilerId.toString() + " update failed",
+			__FILE__, __LINE__);
 	}
 }
 
