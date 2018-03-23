@@ -31,6 +31,14 @@ if(ENABLE_FITP)
 	find_library (FITP_LIB fitp)
 endif()
 
+if(ENABLE_UCLIBCXX_FIXES)
+
+add_definitions(-DNO_std_to_string)
+set(CMAKE_CXX_FLAGS "-I${PROJECT_SOURCE_DIR}/../base/src/uclibc++ ${CMAKE_CXX_FLAGS}")
+
+endif()
+
+
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
