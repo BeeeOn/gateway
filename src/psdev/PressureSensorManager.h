@@ -51,6 +51,12 @@ public:
 	void setPath(const std::string &path);
 	void setVendor(const std::string &vendor);
 
+	/**
+	 * @brief sets the expected unit, conversion of this unit
+	 * needs to be made before shipping measured value.
+	 */
+	void setUnit(const std::string &unit);
+
 private:
 	/**
 	 * @brief obtain list of paired devices from a server and
@@ -70,6 +76,12 @@ private:
 	 */
 	DeviceID buildID(const std::string &path);
 
+	/**
+	 * @brief convert the measured value to [hPa] for export of the data, based
+	 * on the set unit.
+	 */
+	double convertToHPA(const double value);
+
 	void handleListenCommand(const GatewayListenCommand &cmd, Answer::Ptr answer);
 	void handleAcceptCommand(const DeviceAcceptCommand &cmd, Answer::Ptr answer);
 	void handleUnpairCommand(const DeviceUnpairCommand &cmd, Answer::Ptr answer);
@@ -80,6 +92,7 @@ private:
 	std::string m_vendor;
 	std::string m_path;
 	Poco::Event m_event;
+	std::string m_unit;
 };
 
 }

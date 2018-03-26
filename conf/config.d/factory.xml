@@ -85,6 +85,7 @@
 			<set name="refresh" time="${psdev.refresh}" />
 			<set name="path" text="${psdev.path}" />
 			<set name="vendor" text="${psdev.vendor}" />
+			<set name="unit" text="${psdev.unit}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
