@@ -221,6 +221,8 @@ SensorData FitpDevice::parseMessage(const vector<uint8_t> &data, DeviceID device
 
 		try {
 			double value = moduleValue(id, {it + 1, it + count});
+			// round the value to single decimal point
+			value = round(value * 10.0) / 10.0;
 			sensorData.insertValue(SensorValue(moduleID, value));
 		}
 		catch (const Exception &ex) {
