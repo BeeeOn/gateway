@@ -44,6 +44,12 @@ PhilipsHueBridge::Ptr PhilipsHueBulb::bridge()
 	return m_bridge;
 }
 
+PhilipsHueBulbInfo PhilipsHueBulb::info()
+{
+	string response = m_bridge->requestDeviceState(m_ordinalNumber);
+	return PhilipsHueBulbInfo::buildBulbInfo(response);
+}
+
 int PhilipsHueBulb::dimToPercentage(const double value)
 {
 	if (value < 0 || value > MAX_DIM)

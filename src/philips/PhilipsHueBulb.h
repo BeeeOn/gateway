@@ -11,6 +11,7 @@
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
 #include "model/SensorData.h"
+#include "philips/PhilipsHueBulbInfo.h"
 #include "philips/PhilipsHueBridge.h"
 #include "util/Loggable.h"
 
@@ -41,6 +42,7 @@ public:
 	Poco::FastMutex& lock();
 
 	PhilipsHueBridge::Ptr bridge();
+	PhilipsHueBulbInfo info();
 
 protected:
 	int dimToPercentage(const double value);

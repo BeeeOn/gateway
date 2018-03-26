@@ -194,6 +194,8 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="credentialsStorage" ref="credentialsStorage" />
 			<set name="cryptoConfig" ref="cryptoConfig" />
+			<set name="eventsExecutor" ref="asyncExecutor"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
 		<instance name="fitpDeviceManager" class="BeeeOn::FitpDeviceManager">

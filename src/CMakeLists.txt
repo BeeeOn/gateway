@@ -74,6 +74,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
 	${PROJECT_SOURCE_DIR}/net/VPTHTTPScanner.cpp
+	${PROJECT_SOURCE_DIR}/philips/PhilipsHueListener.cpp
 	${PROJECT_SOURCE_DIR}/server/GWContextPoll.cpp
 	${PROJECT_SOURCE_DIR}/server/GWMessageContext.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSOutputQueue.cpp
@@ -144,11 +145,14 @@ endif()
 if(ENABLE_PHILIPS_HUE)
 	file(GLOB PHILIPS_SOURCES
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBulb.cpp
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBulbInfo.cpp
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBridge.cpp
+		${PROJECT_SOURCE_DIR}/philips/PhilipsHueBridgeInfo.cpp
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDimmableBulb.cpp
 	)
 	list(APPEND SOURCES ${PHILIPS_SOURCES})
+	add_definitions(-DHAVE_PHILIPS_HUE=1)
 else()
 	message(STATUS "Philips Hue support is disabled")
 endif()

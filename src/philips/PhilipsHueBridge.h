@@ -14,6 +14,7 @@
 #include "credentials/PasswordCredentials.h"
 #include "net/HTTPEntireResponse.h"
 #include "net/MACAddress.h"
+#include "philips/PhilipsHueBridgeInfo.h"
 #include "util/CryptoConfig.h"
 #include "util/Loggable.h"
 
@@ -98,6 +99,8 @@ public:
 
 	uint32_t countOfBulbs();
 	Poco::FastMutex& lock();
+
+	PhilipsHueBridgeInfo info();
 
 private:
 	void requestDeviceInfo();
