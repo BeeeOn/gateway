@@ -30,13 +30,13 @@ static const uint8_t FITP_COORD_RSSI_ID = 2;
 static const uint8_t COORD_PREFIX = 0xec;
 
 static const list<ModuleType> MODULES_COORD = {
-	{ModuleType::Type::TYPE_BATTERY, {ModuleType::Attribute::ATTR_INNER}},
+	{ModuleType::Type::TYPE_BATTERY},
 	{ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_INNER}},
 	{ModuleType::Type::TYPE_RSSI},
 };
 
 static const list<ModuleType> MODULES_ED = {
-	{ModuleType::Type::TYPE_BATTERY, {ModuleType::Attribute::ATTR_INNER}},
+	{ModuleType::Type::TYPE_BATTERY},
 	{ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_INNER}},
 	{ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_OUTER}},
 	{ModuleType::Type::TYPE_HUMIDITY, {ModuleType::Attribute::ATTR_INNER}},
