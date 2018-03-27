@@ -162,7 +162,7 @@ void BluetoothAvailabilityManager::notifyDongleRemoved()
 
 string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
 {
-	if (e.subsystem() == "bluetooth") {
+	if (e.subsystem() == "bluetooth" && e.type() == "host") {
 		if (e.name().empty()) {
 			logger().warning("missing bluetooth interface name, skipping",
 				__FILE__, __LINE__);
