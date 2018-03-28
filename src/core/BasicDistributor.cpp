@@ -13,9 +13,9 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BasicDistributor)
 BEEEON_OBJECT_CASTABLE(Distributor)
-BEEEON_OBJECT_REF("exporter", &BasicDistributor::registerExporter)
-BEEEON_OBJECT_REF("listener", &BasicDistributor::registerListener)
-BEEEON_OBJECT_REF("executor", &BasicDistributor::setExecutor)
+BEEEON_OBJECT_PROPERTY("exporter", &BasicDistributor::registerExporter)
+BEEEON_OBJECT_PROPERTY("listener", &BasicDistributor::registerListener)
+BEEEON_OBJECT_PROPERTY("executor", &BasicDistributor::setExecutor)
 BEEEON_OBJECT_END(BeeeOn, BasicDistributor)
 
 using namespace BeeeOn;

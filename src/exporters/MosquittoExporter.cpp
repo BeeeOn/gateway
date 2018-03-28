@@ -10,12 +10,12 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, MosquittoExporter)
 BEEEON_OBJECT_CASTABLE(Exporter)
-BEEEON_OBJECT_TEXT("host", &MosquittoExporter::setHost)
-BEEEON_OBJECT_NUMBER("port", &MosquittoExporter::setPort)
-BEEEON_OBJECT_TEXT("topic", &MosquittoExporter::setTopic)
-BEEEON_OBJECT_NUMBER("qos", &MosquittoExporter::setQos)
-BEEEON_OBJECT_TEXT("clientName", &MosquittoExporter::setClientName)
-BEEEON_OBJECT_REF("formatter", &MosquittoExporter::setFormatter)
+BEEEON_OBJECT_PROPERTY("host", &MosquittoExporter::setHost)
+BEEEON_OBJECT_PROPERTY("port", &MosquittoExporter::setPort)
+BEEEON_OBJECT_PROPERTY("topic", &MosquittoExporter::setTopic)
+BEEEON_OBJECT_PROPERTY("qos", &MosquittoExporter::setQos)
+BEEEON_OBJECT_PROPERTY("clientName", &MosquittoExporter::setClientName)
+BEEEON_OBJECT_PROPERTY("formatter", &MosquittoExporter::setFormatter)
 BEEEON_OBJECT_END(BeeeOn, MosquittoExporter)
 
 using namespace BeeeOn;

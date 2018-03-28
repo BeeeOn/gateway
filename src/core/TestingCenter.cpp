@@ -26,11 +26,11 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_REF("commandDispatcher", &TestingCenter::setCommandDispatcher)
-BEEEON_OBJECT_REF("console", &TestingCenter::setConsole)
-BEEEON_OBJECT_REF("credentialsStorage", &TestingCenter::setCredentialsStorage)
-BEEEON_OBJECT_REF("cryptoConfig", &TestingCenter::setCryptoConfig)
-BEEEON_OBJECT_LIST("pairedDevices", &TestingCenter::setPairedDevices)
+BEEEON_OBJECT_PROPERTY("commandDispatcher", &TestingCenter::setCommandDispatcher)
+BEEEON_OBJECT_PROPERTY("console", &TestingCenter::setConsole)
+BEEEON_OBJECT_PROPERTY("credentialsStorage", &TestingCenter::setCredentialsStorage)
+BEEEON_OBJECT_PROPERTY("cryptoConfig", &TestingCenter::setCryptoConfig)
+BEEEON_OBJECT_PROPERTY("pairedDevices", &TestingCenter::setPairedDevices)
 BEEEON_OBJECT_END(BeeeOn, TestingCenter)
 
 using namespace std;

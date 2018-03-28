@@ -16,8 +16,8 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, NamedPipeExporter)
 BEEEON_OBJECT_CASTABLE(Exporter)
-BEEEON_OBJECT_TEXT("filePath", &NamedPipeExporter::setFilePath)
-BEEEON_OBJECT_REF("formatter", &NamedPipeExporter::setFormatter)
+BEEEON_OBJECT_PROPERTY("filePath", &NamedPipeExporter::setFilePath)
+BEEEON_OBJECT_PROPERTY("formatter", &NamedPipeExporter::setFormatter)
 BEEEON_OBJECT_END(BeeeOn, NamedPipeExporter)
 
 using namespace BeeeOn;
