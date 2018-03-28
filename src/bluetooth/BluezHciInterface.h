@@ -1,5 +1,5 @@
-#ifndef BEEEON_HCI_INTERFACE_H
-#define BEEEON_HCI_INTERFACE_H
+#ifndef BEEEON_BLUEZ_HCI_INTERFACE_H
+#define BEEEON_BLUEZ_HCI_INTERFACE_H
 
 #include <map>
 #include <string>
@@ -15,9 +15,9 @@
 
 namespace BeeeOn {
 
-class HciInterface : Loggable {
+class BluezHciInterface : Loggable {
 public:
-	HciInterface(const std::string &name);
+	BluezHciInterface(const std::string &name);
 
 	/**
 	 * Try to set hci interface up.
@@ -112,4 +112,4 @@ private:
 
 }
 
-#endif // BEEEON_HCI_INTERFACE_H
+#endif // BEEEON_BLUEZ_HCI_INTERFACE_H

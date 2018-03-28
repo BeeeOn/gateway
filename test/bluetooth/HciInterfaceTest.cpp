@@ -1,6 +1,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "bluetooth/HciInterface.h"
+#include "bluetooth/BluezHciInterface.h"
 
 #define EIR_NAME_SHORT 0x08
 #define EIR_NAME_COMPLETE 0x09
@@ -26,13 +26,13 @@ public:
 
 CPPUNIT_TEST_SUITE_REGISTRATION(HciInterfaceTest);
 
-class TestableHciInterface : public HciInterface {
+class TestableHciInterface : public BluezHciInterface {
 public:
 	TestableHciInterface(const std::string &name):
-		HciInterface(name)
+		BluezHciInterface(name)
 	{
 	}
-	using HciInterface::parseLEName;
+	using BluezHciInterface::parseLEName;
 };
 
 void HciInterfaceTest::testParseLENameComplete()

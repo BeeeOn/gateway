@@ -14,7 +14,7 @@
 
 #include "bluetooth/BluetoothDevice.h"
 #include "bluetooth/BluetoothListener.h"
-#include "bluetooth/HciInterface.h"
+#include "bluetooth/BluezHciInterface.h"
 #include "core/Answer.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
@@ -42,7 +42,7 @@ public:
 
 	void stop() override;
 
-	Poco::Timespan detectAll(const HciInterface &hci);
+	Poco::Timespan detectAll(const BluezHciInterface &hci);
 
 	/**
 	 * How often will be scan of paired devices
@@ -88,7 +88,7 @@ private:
 	 * is immediatelly shipped.
 	 * @return list of (potentially) inactive devices
 	 */
-	std::list<DeviceID> detectClassic(const HciInterface &hci);
+	std::list<DeviceID> detectClassic(const BluezHciInterface &hci);
 
 	/*
 	 * Scan for BLE devices.
@@ -96,7 +96,7 @@ private:
 	 * The last BLE scan result is stored in m_leScanCache.
 	 * m_leScanCache exists for fast result of listen command.
 	 */
-	void detectLE(const HciInterface &hci);
+	void detectLE(const BluezHciInterface &hci);
 
 	bool haveTimeForInactive(Poco::Timespan elapsedTime);
 

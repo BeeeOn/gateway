@@ -116,8 +116,8 @@ if(ENABLE_BLUETOOTH_AVAILABILITY)
 	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInfo.cpp
-		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)
 	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
 	add_definitions(-DHAVE_HCI=1)

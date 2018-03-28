@@ -78,7 +78,7 @@ void BluetoothAvailabilityManager::setModes(const list<string> &modes)
 
 void BluetoothAvailabilityManager::dongleAvailable()
 {
-	HciInterface hci(dongleName());
+	BluezHciInterface hci(dongleName());
 
 	fetchDeviceList();
 
@@ -88,7 +88,7 @@ void BluetoothAvailabilityManager::dongleAvailable()
 	}
 	else {
 		m_statisticsRunner.start([&]() {
-			HciInterface hci(dongleName());
+			BluezHciInterface hci(dongleName());
 
 			const HciInfo &info = hci.info();
 			m_eventSource.fireEvent(info, &BluetoothListener::onHciStats);
@@ -140,7 +140,7 @@ void BluetoothAvailabilityManager::dongleFailed(const FailDetector &dongleStatus
 	m_leScanCache.clear();
 
 	try {
-		HciInterface hci(dongleName());
+		BluezHciInterface hci(dongleName());
 		hci.reset();
 	}
 	catch (const Exception &e) {
@@ -181,7 +181,7 @@ void BluetoothAvailabilityManager::stop()
 	answerQueue().dispose();
 }
 
-list<DeviceID> BluetoothAvailabilityManager::detectClassic(const HciInterface &hci)
+list<DeviceID> BluetoothAvailabilityManager::detectClassic(const BluezHciInterface &hci)
 {
 	list<DeviceID> inactive;
 
@@ -206,7 +206,7 @@ list<DeviceID> BluetoothAvailabilityManager::detectClassic(const HciInterface &h
 	return inactive;
 }
 
-void BluetoothAvailabilityManager::detectLE(const HciInterface &hci)
+void BluetoothAvailabilityManager::detectLE(const BluezHciInterface &hci)
 {
 	m_leScanCache.clear();
 	m_leScanCache = hci.lescan(LE_SCAN_TIME);
@@ -227,7 +227,7 @@ void BluetoothAvailabilityManager::detectLE(const HciInterface &hci)
 	}
 }
 
-Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
+Timespan BluetoothAvailabilityManager::detectAll(const BluezHciInterface &hci)
 {
 	FastMutex::ScopedLock lock(m_scanLock);
 	Timestamp startTime;
@@ -402,7 +402,7 @@ void BluetoothAvailabilityManager::listen()
 	Timestamp startTime;
 	FastMutex::ScopedLock lock(m_scanLock);
 
-	HciInterface hci(dongleName());
+	BluezHciInterface hci(dongleName());
 	hci.up();
 
 	if (m_mode & MODE_LE)

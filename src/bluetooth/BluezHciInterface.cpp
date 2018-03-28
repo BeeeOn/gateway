@@ -15,7 +15,7 @@
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
 
-#include "bluetooth/HciInterface.h"
+#include "bluetooth/BluezHciInterface.h"
 #include "io/AutoClose.h"
 
 #define EIR_NAME_SHORT 0x08    // shortened local name
@@ -60,7 +60,7 @@ private:
 
 }
 
-HciInterface::HciInterface(const std::string &name) :
+BluezHciInterface::BluezHciInterface(const std::string &name) :
 	m_name(name)
 {
 }
@@ -88,7 +88,7 @@ static evt_le_meta_event* skipHciEventHdr(char *data, const unsigned &size)
 	return (evt_le_meta_event *) ptr;
 }
 
-int HciInterface::hciSocket() const
+int BluezHciInterface::hciSocket() const
 {
 	int sock = ::socket(AF_BLUETOOTH, SOCK_RAW, BTPROTO_HCI);
 	if (sock < 0)
@@ -97,7 +97,7 @@ int HciInterface::hciSocket() const
 	return sock;
 }
 
-int HciInterface::findHci(const std::string &name) const
+int BluezHciInterface::findHci(const std::string &name) const
 {
 	FdAutoClose sock(hciSocket());
 	return findHci(*sock, name);
@@ -150,13 +150,13 @@ static struct hci_dev_info findHciInfo(int sock, const string name)
 	throw NotFoundException("no such HCI interface: " + name);
 }
 
-int HciInterface::findHci(int sock, const std::string &name) const
+int BluezHciInterface::findHci(int sock, const std::string &name) const
 {
 	struct hci_dev_info info = findHciInfo(sock, name);
 	return info.dev_id;
 }
 
-void HciInterface::up() const
+void BluezHciInterface::up() const
 {
 	FdAutoClose sock(hciSocket());
 	struct hci_dev_info info = findHciInfo(*sock, m_name);
@@ -172,7 +172,7 @@ void HciInterface::up() const
 	}
 }
 
-void HciInterface::reset() const
+void BluezHciInterface::reset() const
 {
 	FdAutoClose sock(hciSocket());
 	struct hci_dev_info info = findHciInfo(*sock, m_name);
@@ -184,7 +184,7 @@ void HciInterface::reset() const
 	}
 }
 
-bool HciInterface::detect(const MACAddress &address) const
+bool BluezHciInterface::detect(const MACAddress &address) const
 {
 	logger().debug("trying to detect device " + address.toString(':'),
 			__FILE__, __LINE__);
@@ -217,7 +217,7 @@ bool HciInterface::detect(const MACAddress &address) const
 	return true;
 }
 
-map<MACAddress, string> HciInterface::scan() const
+map<MACAddress, string> BluezHciInterface::scan() const
 {
 	const int dev = findHci(m_name);
 
@@ -271,13 +271,13 @@ map<MACAddress, string> HciInterface::scan() const
 	return devices;
 }
 
-HciInfo HciInterface::info() const
+HciInfo BluezHciInterface::info() const
 {
 	FdAutoClose sock(hciSocket());
 	return HciInfo(findHciInfo(*sock, m_name));
 }
 
-string HciInterface::parseLEName(uint8_t *eir, size_t length)
+string BluezHciInterface::parseLEName(uint8_t *eir, size_t length)
 {
 	size_t offset = 0;
 
@@ -304,7 +304,7 @@ string HciInterface::parseLEName(uint8_t *eir, size_t length)
 	return "";
 }
 
-bool HciInterface::processNextEvent(const int &fd, map<MACAddress, string> &devices) const
+bool BluezHciInterface::processNextEvent(const int &fd, map<MACAddress, string> &devices) const
 {
 	vector<char> buf(HCI_MAX_EVENT_SIZE);
 
@@ -357,7 +357,7 @@ bool HciInterface::processNextEvent(const int &fd, map<MACAddress, string> &devi
 	return true;
 }
 
-map<MACAddress, string> HciInterface::listLE(const int sock, const Timespan &timeout) const
+map<MACAddress, string> BluezHciInterface::listLE(const int sock, const Timespan &timeout) const
 {
 	if (timeout.totalSeconds() <= 0)
 		throw InvalidArgumentException("timeout for BLE scan must be at least 1 second");
@@ -414,7 +414,7 @@ map<MACAddress, string> HciInterface::listLE(const int sock, const Timespan &tim
 }
 
 
-map<MACAddress, string> HciInterface::lescan(const Timespan &seconds) const
+map<MACAddress, string> BluezHciInterface::lescan(const Timespan &seconds) const
 {
 	const auto dev = findHci(m_name);
 	HciAutoClose sock(::hci_open_dev(dev));
