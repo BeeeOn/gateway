@@ -5,3 +5,7 @@ using namespace BeeeOn;
 HciInterface::~HciInterface()
 {
 }
+
+HciInterfaceManager::~HciInterfaceManager()
+{
+}

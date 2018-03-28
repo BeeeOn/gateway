@@ -59,4 +59,13 @@ public:
 	virtual HciInfo info() const = 0;
 };
 
+class HciInterfaceManager {
+public:
+	typedef Poco::SharedPtr<HciInterfaceManager> Ptr;
+
+	virtual ~HciInterfaceManager();
+
+	virtual HciInterface::Ptr lookup(const std::string &name) = 0;
+};
+
 }
