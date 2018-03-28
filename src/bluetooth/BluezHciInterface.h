@@ -1,63 +1,27 @@
 #ifndef BEEEON_BLUEZ_HCI_INTERFACE_H
 #define BEEEON_BLUEZ_HCI_INTERFACE_H
 
-#include <map>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include <Poco/Mutex.h>
-#include <Poco/Timespan.h>
 
-#include "bluetooth/HciInfo.h"
-#include "net/MACAddress.h"
+#include "bluetooth/HciInterface.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
 
-class BluezHciInterface : Loggable {
+class BluezHciInterface : public HciInterface, Loggable {
 public:
 	BluezHciInterface(const std::string &name);
 
-	/**
-	 * Try to set hci interface up.
-	 * The root priviledges of the system might be required.
-	 * @throws IOException in case of a failure
-	 */
-	void up() const;
-
-	/**
-	 * Reset hci interface - turn down & up.
-	 * @throws IOException in case of a failure
-	 */
-	void reset() const;
-
-	/**
-	 * Check state of device with MACAddress.
-	 * @return true if the device was detected or false
-	 * @throws IOException when the detection fails for some reason
-	 */
-	bool detect(const MACAddress &address) const;
-
-	/**
-	 * Full scan of bluetooth network.
-	 * This can find only visible devices.
-	 * @return map of MAC addresses with names
-	 */
-	std::map<MACAddress, std::string> scan() const;
-
-	/**
-	 * Full scan of low energy bluetooth network.
-	 * Sets parameters for low energy scan and open socket.
-	 * @return list of MAC addresses with names
-	 * @throws IOException when the detection fails for some reason
-	 */
-	std::map<MACAddress, std::string> lescan(const Poco::Timespan &seconds) const;
-
-	/**
-	 * Read information about the iterface.
-	 */
-	HciInfo info() const;
+	void up() const override;
+	void reset() const override;
+	bool detect(const MACAddress &address) const override;
+	std::map<MACAddress, std::string> scan() const override;
+	std::map<MACAddress, std::string> lescan(
+			const Poco::Timespan &seconds) const override;
+	HciInfo info() const override;
 
 protected:
 	/**
