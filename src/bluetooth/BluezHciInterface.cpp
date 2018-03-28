@@ -15,8 +15,13 @@
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
 
+#include "di/Injectable.h"
 #include "bluetooth/BluezHciInterface.h"
 #include "io/AutoClose.h"
+
+BEEEON_OBJECT_BEGIN(BeeeOn, BluezHciInterfaceManager)
+BEEEON_OBJECT_CASTABLE(HciInterfaceManager)
+BEEEON_OBJECT_END(BeeeOn, BluezHciInterfaceManager)
 
 #define EIR_NAME_SHORT 0x08    // shortened local name
 #define EIR_NAME_COMPLETE 0x09  // complete local name
@@ -443,4 +448,9 @@ map<MACAddress, string> BluezHciInterface::lescan(const Timespan &seconds) const
 		+ to_string(devices.size()) + " devices", __FILE__, __LINE__);
 
 	return devices;
+}
+
+HciInterface::Ptr BluezHciInterfaceManager::lookup(const string &name)
+{
+	return new BluezHciInterface(name);
 }

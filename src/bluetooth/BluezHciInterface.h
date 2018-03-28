@@ -74,6 +74,11 @@ private:
 	std::string m_name;
 };
 
+class BluezHciInterfaceManager : public HciInterfaceManager {
+public:
+	HciInterface::Ptr lookup(const std::string &name) override;
+};
+
 }
 
 #endif // BEEEON_BLUEZ_HCI_INTERFACE_H
