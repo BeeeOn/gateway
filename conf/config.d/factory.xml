@@ -114,6 +114,7 @@
 			<set name="modes" list="${bluetooth.modes}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="hciManager" ref="hciManager" />
 			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />

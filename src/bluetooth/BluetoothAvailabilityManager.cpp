@@ -27,6 +27,7 @@ BEEEON_OBJECT_PROPERTY("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTim
 BEEEON_OBJECT_PROPERTY("modes", &BluetoothAvailabilityManager::setModes)
 BEEEON_OBJECT_PROPERTY("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
+BEEEON_OBJECT_PROPERTY("hciManager", &BluetoothAvailabilityManager::setHciManager)
 BEEEON_OBJECT_PROPERTY("attemptsCount", &BluetoothAvailabilityManager::setAttemptsCount)
 BEEEON_OBJECT_PROPERTY("retryTimeout", &BluetoothAvailabilityManager::setRetryTimeout)
 BEEEON_OBJECT_PROPERTY("statisticsInterval", &BluetoothAvailabilityManager::setStatisticsInterval)
@@ -78,7 +79,7 @@ void BluetoothAvailabilityManager::setModes(const list<string> &modes)
 
 void BluetoothAvailabilityManager::dongleAvailable()
 {
-	BluezHciInterface hci(dongleName());
+	HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
 
 	fetchDeviceList();
 
@@ -88,9 +89,9 @@ void BluetoothAvailabilityManager::dongleAvailable()
 	}
 	else {
 		m_statisticsRunner.start([&]() {
-			BluezHciInterface hci(dongleName());
+			HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
 
-			const HciInfo &info = hci.info();
+			const HciInfo &info = hci->info();
 			m_eventSource.fireEvent(info, &BluetoothListener::onHciStats);
 		});
 	}
@@ -107,9 +108,9 @@ void BluetoothAvailabilityManager::dongleAvailable()
 	 * "sleeping" period (wake up time).
 	 */
 	while (!m_stop) {
-		hci.up();
+		hci->up();
 
-		const Timespan &remaining = detectAll(hci);
+		const Timespan &remaining = detectAll(*hci);
 
 		if (remaining > 0 && !m_stop)
 			m_stopEvent.tryWait(remaining.totalMilliseconds());
@@ -140,8 +141,8 @@ void BluetoothAvailabilityManager::dongleFailed(const FailDetector &dongleStatus
 	m_leScanCache.clear();
 
 	try {
-		BluezHciInterface hci(dongleName());
-		hci.reset();
+		HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
+		hci->reset();
 	}
 	catch (const Exception &e) {
 		logger().log(e, __FILE__, __LINE__);
@@ -181,7 +182,7 @@ void BluetoothAvailabilityManager::stop()
 	answerQueue().dispose();
 }
 
-list<DeviceID> BluetoothAvailabilityManager::detectClassic(const BluezHciInterface &hci)
+list<DeviceID> BluetoothAvailabilityManager::detectClassic(const HciInterface &hci)
 {
 	list<DeviceID> inactive;
 
@@ -206,7 +207,7 @@ list<DeviceID> BluetoothAvailabilityManager::detectClassic(const BluezHciInterfa
 	return inactive;
 }
 
-void BluetoothAvailabilityManager::detectLE(const BluezHciInterface &hci)
+void BluetoothAvailabilityManager::detectLE(const HciInterface &hci)
 {
 	m_leScanCache.clear();
 	m_leScanCache = hci.lescan(LE_SCAN_TIME);
@@ -227,7 +228,7 @@ void BluetoothAvailabilityManager::detectLE(const BluezHciInterface &hci)
 	}
 }
 
-Timespan BluetoothAvailabilityManager::detectAll(const BluezHciInterface &hci)
+Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
 {
 	FastMutex::ScopedLock lock(m_scanLock);
 	Timestamp startTime;
@@ -402,17 +403,17 @@ void BluetoothAvailabilityManager::listen()
 	Timestamp startTime;
 	FastMutex::ScopedLock lock(m_scanLock);
 
-	BluezHciInterface hci(dongleName());
-	hci.up();
+	HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
+	hci->up();
 
 	if (m_mode & MODE_LE)
 		reportFoundDevices(MODE_LE, m_leScanCache);
 
 	while (enoughTimeForScan(startTime)) {
 		if (m_mode & MODE_CLASSIC)
-			reportFoundDevices(MODE_CLASSIC, hci.scan());
+			reportFoundDevices(MODE_CLASSIC, hci->scan());
 		if (m_mode & MODE_LE)
-			reportFoundDevices(MODE_LE, hci.lescan(LE_SCAN_TIME));
+			reportFoundDevices(MODE_LE, hci->lescan(LE_SCAN_TIME));
 	};
 
 	logger().information("bluetooth listen has finished", __FILE__, __LINE__);
@@ -493,6 +494,11 @@ void BluetoothAvailabilityManager::setStatisticsInterval(const Timespan &interva
 		throw InvalidArgumentException("statistics interval must be a positive number");
 
 	m_statisticsRunner.setInterval(interval);
+}
+
+void BluetoothAvailabilityManager::setHciManager(HciInterfaceManager::Ptr manager)
+{
+	m_hciManager = manager;
 }
 
 void BluetoothAvailabilityManager::setExecutor(SharedPtr<AsyncExecutor> executor)

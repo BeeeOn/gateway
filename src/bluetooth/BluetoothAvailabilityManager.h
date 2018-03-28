@@ -14,7 +14,7 @@
 
 #include "bluetooth/BluetoothDevice.h"
 #include "bluetooth/BluetoothListener.h"
-#include "bluetooth/BluezHciInterface.h"
+#include "bluetooth/HciInterface.h"
 #include "core/Answer.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
@@ -42,7 +42,7 @@ public:
 
 	void stop() override;
 
-	Poco::Timespan detectAll(const BluezHciInterface &hci);
+	Poco::Timespan detectAll(const HciInterface &hci);
 
 	/**
 	 * How often will be scan of paired devices
@@ -69,6 +69,11 @@ public:
 	void setStatisticsInterval(const Poco::Timespan &interval);
 
 	/**
+	 * Set HciInterfaceManager implementation.
+	 */
+	void setHciManager(HciInterfaceManager::Ptr manager);
+
+	/**
 	 * Set executor for delivering events.
 	 */
 	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
@@ -88,7 +93,7 @@ private:
 	 * is immediatelly shipped.
 	 * @return list of (potentially) inactive devices
 	 */
-	std::list<DeviceID> detectClassic(const BluezHciInterface &hci);
+	std::list<DeviceID> detectClassic(const HciInterface &hci);
 
 	/*
 	 * Scan for BLE devices.
@@ -96,7 +101,7 @@ private:
 	 * The last BLE scan result is stored in m_leScanCache.
 	 * m_leScanCache exists for fast result of listen command.
 	 */
-	void detectLE(const BluezHciInterface &hci);
+	void detectLE(const HciInterface &hci);
 
 	bool haveTimeForInactive(Poco::Timespan elapsedTime);
 
@@ -131,6 +136,7 @@ private:
 	Poco::Event m_stopEvent;
 	Poco::FastMutex m_lock;
 	Poco::FastMutex m_scanLock;
+	HciInterfaceManager::Ptr m_hciManager;
 	PeriodicRunner m_statisticsRunner;
 	EventSource<BluetoothListener> m_eventSource;
 	Poco::Timespan m_listenTime;
