@@ -53,7 +53,7 @@ void FitpDeviceTest::testParseMessage()
 	CPPUNIT_ASSERT_EQUAL(sensorData.at(0).value(), 85);
 
 	CPPUNIT_ASSERT(sensorData.at(1).moduleID().value() == 1);      //TEMPERATURE INNER, SHT21
-	CPPUNIT_ASSERT_EQUAL(sensorData.at(1).value(), 25.47);
+	CPPUNIT_ASSERT_EQUAL(sensorData.at(1).value(), 25.5); // the value is rounded
 
 	CPPUNIT_ASSERT(sensorData.at(2).moduleID().value() == 2);       //TEMPERATURE OUTER, Ds18b20
 	CPPUNIT_ASSERT_EQUAL(sensorData.at(2).value(), 44);
