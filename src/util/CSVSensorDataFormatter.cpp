@@ -9,7 +9,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, CSVSensorDataFormatter)
 BEEEON_OBJECT_CASTABLE(SensorDataFormatter)
-BEEEON_OBJECT_TEXT("separator", &CSVSensorDataFormatter::setSeparator)
+BEEEON_OBJECT_PROPERTY("separator", &CSVSensorDataFormatter::setSeparator)
 BEEEON_OBJECT_END(BeeeOn, CSVSensorDataFormatter)
 
 #define DEFAULT_SEPARATOR ";"

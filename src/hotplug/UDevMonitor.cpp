@@ -14,10 +14,10 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, UDevMonitor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_LIST("matches", &UDevMonitor::setMatches)
-BEEEON_OBJECT_TIME("pollTimeout", &UDevMonitor::setPollTimeout)
-BEEEON_OBJECT_NUMBER("includeParents", &UDevMonitor::setIncludeParents)
-BEEEON_OBJECT_REF("listeners", &UDevMonitor::registerListener)
+BEEEON_OBJECT_PROPERTY("matches", &UDevMonitor::setMatches)
+BEEEON_OBJECT_PROPERTY("pollTimeout", &UDevMonitor::setPollTimeout)
+BEEEON_OBJECT_PROPERTY("includeParents", &UDevMonitor::setIncludeParents)
+BEEEON_OBJECT_PROPERTY("listeners", &UDevMonitor::registerListener)
 BEEEON_OBJECT_HOOK("done", &UDevMonitor::initialScan)
 BEEEON_OBJECT_END(BeeeOn, UDevMonitor)
 

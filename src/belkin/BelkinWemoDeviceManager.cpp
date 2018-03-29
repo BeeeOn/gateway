@@ -19,11 +19,11 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, BelkinWemoDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
-BEEEON_OBJECT_REF("distributor", &BelkinWemoDeviceManager::setDistributor)
-BEEEON_OBJECT_REF("commandDispatcher", &BelkinWemoDeviceManager::setCommandDispatcher)
-BEEEON_OBJECT_TIME("upnpTimeout", &BelkinWemoDeviceManager::setUPnPTimeout)
-BEEEON_OBJECT_TIME("httpTimeout", &BelkinWemoDeviceManager::setHTTPTimeout)
-BEEEON_OBJECT_TIME("refresh", &BelkinWemoDeviceManager::setRefresh)
+BEEEON_OBJECT_PROPERTY("distributor", &BelkinWemoDeviceManager::setDistributor)
+BEEEON_OBJECT_PROPERTY("commandDispatcher", &BelkinWemoDeviceManager::setCommandDispatcher)
+BEEEON_OBJECT_PROPERTY("upnpTimeout", &BelkinWemoDeviceManager::setUPnPTimeout)
+BEEEON_OBJECT_PROPERTY("httpTimeout", &BelkinWemoDeviceManager::setHTTPTimeout)
+BEEEON_OBJECT_PROPERTY("refresh", &BelkinWemoDeviceManager::setRefresh)
 BEEEON_OBJECT_END(BeeeOn, BelkinWemoDeviceManager)
 
 using namespace BeeeOn;

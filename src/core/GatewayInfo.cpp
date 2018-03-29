@@ -10,9 +10,9 @@
 #include "model/GatewayID.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GatewayInfo)
-BEEEON_OBJECT_TEXT("certificatePath", &GatewayInfo::setCertPath)
-BEEEON_OBJECT_TEXT("keyPath", &GatewayInfo::setKeyPath)
-BEEEON_OBJECT_TEXT("gatewayID", &GatewayInfo::setGatewayID)
+BEEEON_OBJECT_PROPERTY("certificatePath", &GatewayInfo::setCertPath)
+BEEEON_OBJECT_PROPERTY("keyPath", &GatewayInfo::setKeyPath)
+BEEEON_OBJECT_PROPERTY("gatewayID", &GatewayInfo::setGatewayID)
 BEEEON_OBJECT_HOOK("done", &GatewayInfo::initialize)
 BEEEON_OBJECT_END(BeeeOn, GatewayInfo)
 

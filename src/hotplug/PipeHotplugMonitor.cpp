@@ -17,9 +17,9 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, PipeHotplugMonitor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_TEXT("pipePath", &PipeHotplugMonitor::setPipePath)
-BEEEON_OBJECT_TIME("pollTimeout", &PipeHotplugMonitor::setPollTimeout)
-BEEEON_OBJECT_REF("listeners", &PipeHotplugMonitor::registerListener)
+BEEEON_OBJECT_PROPERTY("pipePath", &PipeHotplugMonitor::setPipePath)
+BEEEON_OBJECT_PROPERTY("pollTimeout", &PipeHotplugMonitor::setPollTimeout)
+BEEEON_OBJECT_PROPERTY("listeners", &PipeHotplugMonitor::registerListener)
 BEEEON_OBJECT_END(BeeeOn, PipeHotplugMonitor)
 
 using namespace std;

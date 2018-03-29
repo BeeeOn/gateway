@@ -15,11 +15,11 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, PressureSensorManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_REF("distributor", &PressureSensorManager::setDistributor)
-BEEEON_OBJECT_REF("commandDispatcher", &PressureSensorManager::setCommandDispatcher)
-BEEEON_OBJECT_TIME("refresh", &PressureSensorManager::setRefresh)
-BEEEON_OBJECT_TEXT("path", &PressureSensorManager::setPath)
-BEEEON_OBJECT_TEXT("vendor", &PressureSensorManager::setVendor)
+BEEEON_OBJECT_PROPERTY("distributor", &PressureSensorManager::setDistributor)
+BEEEON_OBJECT_PROPERTY("commandDispatcher", &PressureSensorManager::setCommandDispatcher)
+BEEEON_OBJECT_PROPERTY("refresh", &PressureSensorManager::setRefresh)
+BEEEON_OBJECT_PROPERTY("path", &PressureSensorManager::setPath)
+BEEEON_OBJECT_PROPERTY("vendor", &PressureSensorManager::setVendor)
 BEEEON_OBJECT_END(BeeeOn, PressureSensorManager)
 
 using namespace BeeeOn;

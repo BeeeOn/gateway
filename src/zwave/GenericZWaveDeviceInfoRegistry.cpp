@@ -9,8 +9,8 @@ using namespace std;
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GenericZWaveDeviceInfoRegistry)
 BEEEON_OBJECT_CASTABLE(ZWaveDeviceInfoRegistry)
-BEEEON_OBJECT_REF("registers", &GenericZWaveDeviceInfoRegistry::registerVendor)
-BEEEON_OBJECT_REF("defaultRegistry", &GenericZWaveDeviceInfoRegistry::registerDefault)
+BEEEON_OBJECT_PROPERTY("registers", &GenericZWaveDeviceInfoRegistry::registerVendor)
+BEEEON_OBJECT_PROPERTY("defaultRegistry", &GenericZWaveDeviceInfoRegistry::registerDefault)
 BEEEON_OBJECT_END(BeeeOn, GenericZWaveDeviceInfoRegistry)
 
 ZWaveDeviceInfo::Ptr GenericZWaveDeviceInfoRegistry::find(

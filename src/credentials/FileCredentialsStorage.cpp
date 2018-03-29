@@ -9,9 +9,9 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, FileCredentialsStorage)
 BEEEON_OBJECT_CASTABLE(CredentialsStorage)
-BEEEON_OBJECT_TEXT("file", &FileCredentialsStorage::setFile)
-BEEEON_OBJECT_TEXT("configurationRoot", &FileCredentialsStorage::setConfigRoot)
-BEEEON_OBJECT_TIME("saveDelayTime", &FileCredentialsStorage::setSaveDelay)
+BEEEON_OBJECT_PROPERTY("file", &FileCredentialsStorage::setFile)
+BEEEON_OBJECT_PROPERTY("configurationRoot", &FileCredentialsStorage::setConfigRoot)
+BEEEON_OBJECT_PROPERTY("saveDelayTime", &FileCredentialsStorage::setSaveDelay)
 BEEEON_OBJECT_HOOK("done", &FileCredentialsStorage::load)
 BEEEON_OBJECT_END(BeeeOn, FileCredentialsStorage)
 
