@@ -26,6 +26,11 @@ DeviceManager::~DeviceManager()
 {
 }
 
+DevicePrefix DeviceManager::prefix() const
+{
+	return m_prefix;
+}
+
 void DeviceManager::stop()
 {
 	m_stop = true;
