@@ -5,6 +5,7 @@
 #include <typeindex>
 
 #include <Poco/AtomicCounter.h>
+#include <Poco/SharedPtr.h>
 
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
@@ -40,6 +41,8 @@ class DeviceManager:
 	protected Loggable,
 	public StoppableRunnable {
 public:
+	typedef Poco::SharedPtr<DeviceManager> Ptr;
+
 	DeviceManager(const DevicePrefix &prefix,
 		const std::initializer_list<std::type_index> &acceptable = {});
 	virtual ~DeviceManager();
