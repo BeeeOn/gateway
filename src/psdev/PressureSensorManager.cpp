@@ -20,6 +20,7 @@ BEEEON_OBJECT_PROPERTY("commandDispatcher", &PressureSensorManager::setCommandDi
 BEEEON_OBJECT_PROPERTY("refresh", &PressureSensorManager::setRefresh)
 BEEEON_OBJECT_PROPERTY("path", &PressureSensorManager::setPath)
 BEEEON_OBJECT_PROPERTY("vendor", &PressureSensorManager::setVendor)
+BEEEON_OBJECT_PROPERTY("unit", &PressureSensorManager::setUnit)
 BEEEON_OBJECT_END(BeeeOn, PressureSensorManager)
 
 using namespace BeeeOn;
@@ -37,7 +38,8 @@ PressureSensorManager::PressureSensorManager():
 	DeviceManager(DevicePrefix::PREFIX_PRESSURE_SENSOR),
 	m_paired(false),
 	m_refresh(15 * Timespan::SECONDS),
-	m_vendor("BeeeOn")
+	m_vendor("BeeeOn"),
+	m_unit("kPa")
 {
 }
 
@@ -191,6 +193,14 @@ void PressureSensorManager::setVendor(const string &vendor)
 	m_vendor = vendor;
 }
 
+void PressureSensorManager::setUnit(const string &unit)
+{
+	if (unit != "kPa" && unit != "Pa")
+		throw InvalidArgumentException("unknown unit specified");
+
+	m_unit = unit;
+}
+
 void PressureSensorManager::shipValue()
 {
 	SensorData data;
@@ -201,7 +211,7 @@ void PressureSensorManager::shipValue()
 		double value;
 		FileInputStream fStream(m_path);
 		fStream >> value;
-		value = value / 100.0; // convert to hPa
+		value = convertToHPA(value);
 		data.insertValue(SensorValue(ModuleID(0), value));
 		ship(data);
 	}
@@ -213,6 +223,18 @@ void PressureSensorManager::shipValue()
 DeviceID PressureSensorManager::pairedID()
 {
 	return buildID(m_path);
+}
+
+double PressureSensorManager::convertToHPA(const double value)
+{
+	if (m_unit == "kPa") {
+		return value * 10.0;
+	}
+	if (m_unit == "Pa") {
+		return value / 100.0;
+	}
+
+	throw IllegalStateException("unknown unit set");
 }
 
 DeviceID PressureSensorManager::buildID(const string &path)
