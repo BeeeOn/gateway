@@ -8,6 +8,7 @@
 			<add name="runnables" ref="mqttGWExporterClient" />
 			<add name="runnables" ref="distributor" />
 			<add name="loops" ref="managersRunner" />
+			<add name="runnables" ref="deviceStatusFetcher" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
@@ -52,6 +53,13 @@
 			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
+		</instance>
+
+		<instance name="deviceStatusFetcher" class="BeeeOn::DeviceStatusFetcher">
+			<set name="idleDuration" time="30 m" />
+			<set name="waitTimeout" time="1 s" />
+			<set name="repeatTimeout" time="5 m" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">

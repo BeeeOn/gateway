@@ -45,6 +45,7 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
+	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
 	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCacheTest.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCacheTest.cpp
