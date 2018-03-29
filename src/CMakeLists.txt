@@ -59,6 +59,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
+	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp

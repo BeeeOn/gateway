@@ -5,6 +5,7 @@ using namespace std;
 
 DeviceSetValueCommand::DeviceSetValueCommand(const DeviceID &deviceID, const ModuleID &moduleID, const double value,
 		const Poco::Timespan &timeout) :
+	PrefixCommand(deviceID.prefix()),
 	m_deviceID(deviceID),
 	m_moduleID(moduleID),
 	m_value(value),

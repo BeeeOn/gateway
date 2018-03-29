@@ -3,7 +3,7 @@
 
 #include <Poco/Timespan.h>
 
-#include "core/Command.h"
+#include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
 
@@ -22,7 +22,7 @@ namespace BeeeOn {
  * can get need to be reported on server.
  *
  */
-class DeviceSetValueCommand : public Command {
+class DeviceSetValueCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceSetValueCommand> Ptr;
 
