@@ -164,6 +164,16 @@ private:
 	mutable Poco::SharedPtr<Poco::FastMutex> m_statusMutex;
 };
 
+class DBusHciInterfaceManager : public HciInterfaceManager {
+public:
+	DBusHciInterfaceManager();
+
+	HciInterface::Ptr lookup(const std::string &name) override;
+
+private:
+	Poco::SharedPtr<Poco::FastMutex> m_statusMutex;
+};
+
 }
 
 #endif

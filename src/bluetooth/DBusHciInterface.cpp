@@ -5,6 +5,11 @@
 
 #include "bluetooth/BluezHciInterface.h"
 #include "bluetooth/DBusHciInterface.h"
+#include "di/Injectable.h"
+
+BEEEON_OBJECT_BEGIN(BeeeOn, DBusHciInterfaceManager)
+BEEEON_OBJECT_CASTABLE(HciInterfaceManager)
+BEEEON_OBJECT_END(BeeeOn, DBusHciInterfaceManager)
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -305,4 +310,15 @@ GlibPtr<OrgBluezDevice1> DBusHciInterface::retrieveBluezDevice(const string& pat
 
 	throwErrorIfAny(error);
 	return device;
+}
+
+
+DBusHciInterfaceManager::DBusHciInterfaceManager():
+	m_statusMutex(new FastMutex)
+{
+}
+
+HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
+{
+	return new DBusHciInterface(name, m_statusMutex);
 }

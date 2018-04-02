@@ -109,14 +109,15 @@
 		<instance name="bluezHciManager" class="BeeeOn::BluezHciInterfaceManager">
 		</instance>
 
-		<alias name="hciManager" ref="bluezHciManager" />
+		<instance name="dbusHciManager" class="BeeeOn::DBusHciInterfaceManager">
+		</instance>
 
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
 			<set name="wakeUpTime" time="${bluetooth.refresh}" />
 			<set name="modes" list="${bluetooth.modes}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="hciManager" ref="hciManager" />
+			<set name="hciManager" ref="${bluetooth.hci.impl}HciManager" />
 			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
