@@ -19,7 +19,7 @@ if(ENABLE_MOSQUITTO_EXPORTER)
 	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
-if(ENABLE_BLUETOOTH_AVAILABILITY)
+if(ENABLE_BLUETOOTH)
 	find_library (BLUETOOTH bluetooth)
 endif()
 

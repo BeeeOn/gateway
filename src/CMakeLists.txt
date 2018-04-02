@@ -14,7 +14,7 @@ if(ENABLE_UDEV)
 	find_library (UDEV udev)
 endif()
 
-if(ENABLE_BLUETOOTH_AVAILABILITY)
+if(ENABLE_BLUETOOTH)
 	find_library (BLUETOOTH bluetooth)
 endif()
 
@@ -115,16 +115,24 @@ else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH_AVAILABILITY)
-	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
-		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
-		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+if(ENABLE_BLUETOOTH)
+	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInfo.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)
-	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+	list(APPEND SOURCES ${BLUETOOTH_SOURCES})
 	add_definitions(-DHAVE_HCI=1)
+else()
+	message(STATUS "Bluetooth support is disabled")
+endif()
+
+if(ENABLE_BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
+	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+	)
+	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
