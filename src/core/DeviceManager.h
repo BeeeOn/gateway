@@ -9,6 +9,7 @@
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
+#include "core/DeviceCache.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
@@ -54,6 +55,7 @@ public:
 	*/
 	void stop() override;
 
+	void setDeviceCache(DeviceCache::Ptr cache);
 	void setDistributor(Poco::SharedPtr<Distributor> distributor);
 
 	/**
@@ -109,6 +111,11 @@ protected:
 	double lastValue(const DeviceID &deviceID, const ModuleID &moduleID,
 		const Poco::Timespan &waitTime = DEFAULT_REQUEST_TIMEOUT);
 
+	/**
+	 * @returns the underlying DeviceCache instance
+	 */
+	DeviceCache::Ptr deviceCache() const;
+
 private:
 	void requestDeviceList(Answer::Ptr answer);
 	std::set<DeviceID> responseDeviceList(
@@ -121,6 +128,7 @@ protected:
 
 private:
 	DevicePrefix m_prefix;
+	DeviceCache::Ptr m_deviceCache;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 };
