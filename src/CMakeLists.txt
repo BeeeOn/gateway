@@ -62,6 +62,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
+	${PROJECT_SOURCE_DIR}/credentials/CredentialsTool.cpp
 	${PROJECT_SOURCE_DIR}/credentials/FileCredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/PasswordCredentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp

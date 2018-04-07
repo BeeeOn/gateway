@@ -15,6 +15,8 @@ namespace BeeeOn {
 
 class CredentialsStorage : protected Loggable {
 public:
+	typedef Poco::SharedPtr<CredentialsStorage> Ptr;
+
 	/**
 	* Factory method to construct a Credentials instance from the
 	* AbstractConfiguration. The given configuration is a view into
