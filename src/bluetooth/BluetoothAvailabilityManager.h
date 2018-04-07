@@ -69,6 +69,11 @@ public:
 	void setStatisticsInterval(const Poco::Timespan &interval);
 
 	/**
+	 * Set HciInterfaceManager implementation.
+	 */
+	void setHciManager(HciInterfaceManager::Ptr manager);
+
+	/**
 	 * Set executor for delivering events.
 	 */
 	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
@@ -131,6 +136,7 @@ private:
 	Poco::Event m_stopEvent;
 	Poco::FastMutex m_lock;
 	Poco::FastMutex m_scanLock;
+	HciInterfaceManager::Ptr m_hciManager;
 	PeriodicRunner m_statisticsRunner;
 	EventSource<BluetoothListener> m_eventSource;
 	Poco::Timespan m_listenTime;
