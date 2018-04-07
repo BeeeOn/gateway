@@ -521,6 +521,9 @@ void GWServerConnector::setInactiveMultiplier(int multiplier)
 
 bool GWServerConnector::ship(const SensorData &data)
 {
+	if (!m_isConnected)
+		return false;
+
 	GWSensorDataExport::Ptr exportMessage = new GWSensorDataExport();
 	GWSensorDataExportContext::Ptr exportContext = new GWSensorDataExportContext();
 
