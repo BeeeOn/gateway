@@ -135,6 +135,8 @@ void QueuingDistributor::exportData(const SensorData &sensorData)
 	if (m_stop)
 		return;
 
+	notifyListeners(sensorData);
+
 	for (auto q : m_queues)
 		q->enqueue(sensorData);
 
