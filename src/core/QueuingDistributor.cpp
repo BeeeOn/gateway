@@ -7,12 +7,14 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, QueuingDistributor)
 BEEEON_OBJECT_CASTABLE(Distributor)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_PROPERTY("exporter", &QueuingDistributor::registerExporter)
+BEEEON_OBJECT_PROPERTY("exporters", &QueuingDistributor::registerExporter)
 BEEEON_OBJECT_PROPERTY("deadTimeout", &QueuingDistributor::setDeadTimeout)
 BEEEON_OBJECT_PROPERTY("idleTimeout", &QueuingDistributor::setIdleTimeout)
 BEEEON_OBJECT_PROPERTY("queueCapacity", &QueuingDistributor::setQueueCapacity)
 BEEEON_OBJECT_PROPERTY("batchSize", &QueuingDistributor::setQueueBatchSize)
 BEEEON_OBJECT_PROPERTY("treshold", &QueuingDistributor::setQueueTreshold)
+BEEEON_OBJECT_PROPERTY("eventsExecutor", &QueuingDistributor::setExecutor)
+BEEEON_OBJECT_PROPERTY("listeners", &QueuingDistributor::registerListener)
 BEEEON_OBJECT_END(BeeeOn, QueuingDistributor)
 
 using namespace BeeeOn;
