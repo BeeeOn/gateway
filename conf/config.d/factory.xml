@@ -15,6 +15,7 @@
 			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
 			<add name="runnables" ref="asyncExecutor" />
 			<add name="runnables" ref="mqttGWExporterClient" />
+			<add name="runnables" ref="distributor" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
@@ -23,7 +24,7 @@
 			<set name="gatewayID" text="${gateway.id}" if-yes="${gateway.id.enable}"/>
 		</instance>
 
-		<instance name="distributor" class="BeeeOn::BasicDistributor">
+		<instance name="distributor" class="BeeeOn::QueuingDistributor">
 			<add name="exporters" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
 			<add name="exporters" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
 			<add name="exporters" ref="gwServerConnector" if-yes="${gws.enable}" />
