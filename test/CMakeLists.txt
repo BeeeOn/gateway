@@ -55,6 +55,15 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 )
 
+if(ENABLE_BLUETOOTH)
+	if(HAS_DBUS_BLUEZ)
+		file(GLOB BLUETOOTH_SOURCES
+			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
+		)
+		list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
+	endif()
+endif()
+
 if(ENABLE_VPT)
 	file(GLOB VPT_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/vpt/VPTDeviceTest.cpp
