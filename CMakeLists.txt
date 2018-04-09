@@ -20,7 +20,8 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-add_definitions(-std=c++11 -Wall -pedantic -Wextra)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Wall -pedantic -Wextra")
 
 option(ENABLE_UDEV "Enable support of udev" ON)
 option(ENABLE_BELKIN_WEMO "Enable support of Belkin Wemo" ON)
