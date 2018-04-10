@@ -40,10 +40,7 @@ Result::Status Result::status() const
 
 void Result::notifyUpdated()
 {
-	ScopedLock guard(*this);
-
-	m_answer.setDirty(true);
-	m_answer.event().set();
+	m_answer.notifyUpdated();
 }
 
 void Result::lock()
