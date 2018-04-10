@@ -23,8 +23,6 @@ void CommandSender::dispatch(AutoPtr<Command> cmd)
 {
 	Answer::Ptr answer = new Answer(answerQueue(), true);
 	dispatch(cmd, answer);
-
-	answer->waitNotPending(-1);
 }
 
 AnswerQueue &CommandSender::answerQueue()
