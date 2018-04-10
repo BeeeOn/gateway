@@ -39,6 +39,7 @@ option(ENABLE_TESTING_CENTER "Enable support of Testing Center" ON)
 option(ENABLE_PRESSURE_SENSOR "Enable support of internal air pressure sensor" ON)
 option(ENABLE_FITP "Enable support of FITP" ON)
 option(ENABLE_MOSQUITTO_CLIENT "Enable support of Mosquitto Client" ON)
+option(ENABLE_IQRF "Enable support of IQRF" ON)
 
 add_subdirectory(src)
 add_subdirectory(base)
