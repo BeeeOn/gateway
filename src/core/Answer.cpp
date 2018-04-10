@@ -29,7 +29,7 @@ bool Answer::isDirty() const
 
 Event &Answer::event()
 {
-	return m_answerQueue.event();
+	return m_notifyEvent;
 }
 
 bool Answer::isPending() const
@@ -95,6 +95,7 @@ void Answer::notifyUpdated()
 
 	setDirty(true);
 	event().set();
+	m_answerQueue.notifyUpdated();
 }
 
 Result::Ptr Answer::at(size_t position)

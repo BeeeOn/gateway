@@ -49,6 +49,8 @@ public:
 	 */
 	void dispose();
 
+	void notifyUpdated();
+
 protected:
 	void add(Answer *answer);
 

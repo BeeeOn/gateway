@@ -27,6 +27,9 @@ class Result;
  *
  * The Answer and the Result share the common mutex. The operations that
  * change the status in the Answer and in the Result MUST be locked.
+ *
+ * Be aware, only a single thread is allowed to wait for notification (e.g.: via waitNotPending()).
+ * Otherwise, a race condition can occur.
  */
 class Answer : public Poco::RefCountedObject, public Poco::SynchronizedObject {
 public:
@@ -88,6 +91,7 @@ public:
 
 private:
 	AnswerQueue &m_answerQueue;
+	Poco::Event m_notifyEvent;
 	Poco::AtomicCounter m_dirty;
 	std::vector<Result::Ptr> m_resultList;
 	unsigned long m_handlers;
