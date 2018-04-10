@@ -358,6 +358,7 @@ if (ENABLE_IQRF)
 	file(GLOB IQRF_SOURCES
 		${PROJECT_SOURCE_DIR}/iqrf/DPAMessage.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
 	)
 	list(APPEND SOURCES ${IQRF_SOURCES})
 else()
