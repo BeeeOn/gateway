@@ -4,6 +4,7 @@
 #include "iqrf/DPARequest.h"
 #include "iqrf/request/DPACoordBondedNodesRequest.h"
 #include "iqrf/request/DPACoordBondNodeRequest.h"
+#include "iqrf/request/DPACoordDiscoveryRequest.h"
 #include "iqrf/request/DPACoordRemoveNodeRequest.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ class DPARequestTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testCreateDPABondedNodesRequest);
 	CPPUNIT_TEST(testCreateDPABondNodeRequest);
 	CPPUNIT_TEST(testCreateDPAUnbondNodeRequest);
+	CPPUNIT_TEST(testCreateDPADiscoveryRequest);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -24,6 +26,7 @@ public:
 	void testCreateDPABondedNodesRequest();
 	void testCreateDPABondNodeRequest();
 	void testCreateDPAUnbondNodeRequest();
+	void testCreateDPADiscoveryRequest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPARequestTest);
@@ -76,6 +79,14 @@ void DPARequestTest::testCreateDPAUnbondNodeRequest()
 {
 	const string rawDPA = "00.00.00.05.ff.ff.01";
 	const DPARequest::Ptr request = new DPACoordRemoveNodeRequest(1);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testCreateDPADiscoveryRequest()
+{
+	const string rawDPA = "00.00.00.07.ff.ff.07.00";
+	const DPARequest::Ptr request = new DPACoordDiscoveryRequest;
 
 	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
 }
