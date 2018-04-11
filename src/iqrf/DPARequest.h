@@ -17,6 +17,8 @@ class DPARequest : public DPAMessage {
 public:
 	typedef Poco::SharedPtr <DPARequest> Ptr;
 
+	static const uint8_t DPA_COORD_PNUM;
+
 	DPARequest();
 
 	/**
