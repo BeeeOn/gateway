@@ -4,6 +4,7 @@
 #include "iqrf/DPAResponse.h"
 #include "iqrf/response/DPACoordBondNodeResponse.h"
 #include "iqrf/response/DPACoordBondedNodesResponse.h"
+#include "iqrf/response/DPACoordRemoveNodeResponse.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -91,6 +92,10 @@ DPAResponse::Ptr DPAResponse::fromRaw(const string &data)
 
 	case BOND_NODE:
 		response = new DPACoordBondNodeResponse;
+		break;
+
+	case REMOVE_NODE:
+		response = new DPACoordRemoveNodeResponse;
 		break;
 
 	default:

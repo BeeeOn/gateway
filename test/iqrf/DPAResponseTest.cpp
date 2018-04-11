@@ -4,6 +4,7 @@
 #include "iqrf/DPAResponse.h"
 #include "iqrf/response/DPACoordBondNodeResponse.h"
 #include "iqrf/response/DPACoordBondedNodesResponse.h"
+#include "iqrf/response/DPACoordRemoveNodeResponse.h"
 
 using namespace std;
 using namespace Poco;
@@ -15,12 +16,14 @@ class DPAResponseTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testCreateDPAResponseFromRaw);
 	CPPUNIT_TEST(testParseBondedNodesResponse);
 	CPPUNIT_TEST(testParseBondNodeResponse);
+	CPPUNIT_TEST(testParseRemoveNode);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
 	void testCreateDPAResponseFromRaw();
 	void testParseBondedNodesResponse();
 	void testParseBondNodeResponse();
+	void testParseRemoveNode();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPAResponseTest);
@@ -79,6 +82,15 @@ void DPAResponseTest::testParseBondNodeResponse()
 
 	CPPUNIT_ASSERT_EQUAL(3, response.cast<DPACoordBondNodeResponse>()->count());
 	CPPUNIT_ASSERT_EQUAL(9, response.cast<DPACoordBondNodeResponse>()->bondedNetworkAddress());
+}
+
+void DPAResponseTest::testParseRemoveNode()
+{
+	const DPAMessage::Ptr response = DPAResponse::fromRaw(
+		"00.00.00.85.ff.ff.00.00." // dpa response header
+		"07");
+
+	CPPUNIT_ASSERT_EQUAL(7, response.cast<DPACoordRemoveNodeResponse>()->count());
 }
 
 }
