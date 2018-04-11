@@ -3,6 +3,7 @@
 #include "cppunit/BetterAssert.h"
 #include "iqrf/DPARequest.h"
 #include "iqrf/request/DPACoordBondedNodesRequest.h"
+#include "iqrf/request/DPACoordBondNodeRequest.h"
 
 using namespace std;
 using namespace Poco;
@@ -13,11 +14,13 @@ class DPARequestTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(DPARequestTest);
 	CPPUNIT_TEST(testCreateDPARequest);
 	CPPUNIT_TEST(testCreateDPABondedNodesRequest);
+	CPPUNIT_TEST(testCreateDPABondNodeRequest);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
 	void testCreateDPARequest();
 	void testCreateDPABondedNodesRequest();
+	void testCreateDPABondNodeRequest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPARequestTest);
@@ -54,6 +57,14 @@ void DPARequestTest::testCreateDPABondedNodesRequest()
 {
 	const string rawDPA = "00.00.00.02.ff.ff";
 	const DPARequest::Ptr request = new DPACoordBondedNodesRequest;
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testCreateDPABondNodeRequest()
+{
+	const string rawDPA = "00.00.00.04.ff.ff.00.00";
+	const DPARequest::Ptr request = new DPACoordBondNodeRequest;
 
 	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
 }
