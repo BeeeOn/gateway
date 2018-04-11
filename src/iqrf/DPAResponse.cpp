@@ -2,6 +2,7 @@
 #include <Poco/StringTokenizer.h>
 
 #include "iqrf/DPAResponse.h"
+#include "iqrf/response/DPACoordBondedNodesResponse.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -83,6 +84,10 @@ DPAResponse::Ptr DPAResponse::fromRaw(const string &data)
 	DPAResponse::Ptr response;
 
 	switch (cmd) {
+	case BONDED_NODES:
+		response = new DPACoordBondedNodesResponse;
+		break;
+
 	default:
 		response = new DPAResponse;
 	}

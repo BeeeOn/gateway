@@ -360,6 +360,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondedNodesResponse.cpp
 	)
 	list(APPEND SOURCES ${IQRF_SOURCES})
 else()

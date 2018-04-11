@@ -21,6 +21,10 @@ class DPAResponse : public DPAMessage {
 public:
 	typedef Poco::SharedPtr<DPAResponse> Ptr;
 
+	enum Type {
+		BONDED_NODES = 0x82,
+	};
+
 	/**
 	 * @see https://github.com/iqrfsdk/iqrf-daemon/wiki/JsonStructureDpa-v1#response--status-codes
 	 * @see https://github.com/iqrfsdk/clibdpa/blob/master/Dpa/DPA.h
