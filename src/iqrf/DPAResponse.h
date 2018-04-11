@@ -23,6 +23,7 @@ public:
 
 	enum Type {
 		BONDED_NODES = 0x82,
+		BOND_NODE = 0x84,
 	};
 
 	/**

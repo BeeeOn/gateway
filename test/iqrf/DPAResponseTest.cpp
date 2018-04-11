@@ -2,6 +2,7 @@
 
 #include "cppunit/BetterAssert.h"
 #include "iqrf/DPAResponse.h"
+#include "iqrf/response/DPACoordBondNodeResponse.h"
 #include "iqrf/response/DPACoordBondedNodesResponse.h"
 
 using namespace std;
@@ -13,11 +14,13 @@ class DPAResponseTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(DPAResponseTest);
 	CPPUNIT_TEST(testCreateDPAResponseFromRaw);
 	CPPUNIT_TEST(testParseBondedNodesResponse);
+	CPPUNIT_TEST(testParseBondNodeResponse);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
 	void testCreateDPAResponseFromRaw();
 	void testParseBondedNodesResponse();
+	void testParseBondNodeResponse();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPAResponseTest);
@@ -66,6 +69,16 @@ void DPAResponseTest::testParseBondedNodesResponse()
 	CPPUNIT_ASSERT_EQUAL(3, nodes.size());
 
 	CPPUNIT_ASSERT(bondedNodes == nodes);
+}
+
+void DPAResponseTest::testParseBondNodeResponse()
+{
+	const DPAMessage::Ptr response = DPAResponse::fromRaw(
+		"00.00.00.84.ff.ff.00.00." // dpa response header
+		"03.09");
+
+	CPPUNIT_ASSERT_EQUAL(3, response.cast<DPACoordBondNodeResponse>()->count());
+	CPPUNIT_ASSERT_EQUAL(9, response.cast<DPACoordBondNodeResponse>()->bondedNetworkAddress());
 }
 
 }
