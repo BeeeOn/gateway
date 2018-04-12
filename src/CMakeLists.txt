@@ -31,6 +31,10 @@ if(ENABLE_FITP)
 	find_library (FITP_LIB fitp)
 endif()
 
+if (ENABLE_MOSQUITTO_CLIENT)
+	find_library (MOSQUITTO_CPP mosquittopp)
+endif()
+
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
@@ -261,6 +265,15 @@ if(ENABLE_FITP)
 	list(APPEND SOURCES ${FITP_SOURCES})
 else()
 	message(STATUS "Fitp support is disabled")
+endif()
+
+if (ENABLE_MOSQUITTO_CLIENT)
+	file(GLOB MOSQUITTO_CLIENT_SOURCES
+		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
+	)
+	list(APPEND SOURCES ${MOSQUITTO_CLIENT_SOURCES})
+else()
+	message(STATUS "Mosquitto Client support is disabled")
 endif()
 
 configure_file(core/Version.cpp.in ${PROJECT_BINARY_DIR}/core/Version.cpp)
