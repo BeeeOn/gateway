@@ -1,6 +1,7 @@
  #include <Poco/NumberParser.h>
 
 #include "iqrf/IQRFJsonMessage.h"
+#include "iqrf/IQRFJsonRequest.h"
 #include "util/JsonUtil.h"
 
 using namespace BeeeOn;
@@ -39,6 +40,14 @@ IQRFJsonMessage::Ptr IQRFJsonMessage::parse(const string &data)
 	timeout = NumberParser::parseUnsigned(
 		json->getValue<string>("timeout")) * Timespan::MILLISECONDS;
 	request = json->getValue<string>("request");
+
+	IQRFJsonRequest::Ptr jsonRequest = new IQRFJsonRequest;
+
+	jsonRequest->setMessageID(id);
+	jsonRequest->setTimeout(timeout);
+	jsonRequest->setRequest(request);
+
+	return jsonRequest;
 }
 
 void IQRFJsonMessage::setTimeout(const Timespan &timeout)

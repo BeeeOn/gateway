@@ -120,6 +120,7 @@ if (ENABLE_IQRF)
 	file(GLOB IQRF_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponseTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessageTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${IQRF_TEST_SOURCES})
 endif()
