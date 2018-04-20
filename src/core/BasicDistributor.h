@@ -13,7 +13,7 @@ public:
 	/*
 	 * Export data to all registered exporters.
 	 */
-	void exportData(const SensorData &sensorData);
+	void exportData(const SensorData &sensorData) override;
 private:
 	Poco::FastMutex m_exportMutex;
 };
