@@ -22,11 +22,6 @@ public:
 	*/
 	virtual void registerExporter(Poco::SharedPtr<Exporter> exporter);
 
-	/*
-	 * Export data to all registered exporters.
-	 */
-	virtual void exportData(const SensorData &sensorData) = 0;
-
 	void registerListener(DistributorListener::Ptr listener);
 
 	/*
