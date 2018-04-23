@@ -6,12 +6,17 @@
 		</instance>
 
 		<instance name="mosquittoExporter" class="BeeeOn::MosquittoExporter">
-			<set name="host" text="${exporter.mqtt.host}" />
-			<set name="port" number="${exporter.mqtt.port}" />
+			<set name="mqttClient" ref="mqttGWExporterClient" />
 			<set name="topic" text="${exporter.mqtt.topic}" />
 			<set name="qos" number="${exporter.mqtt.qos}" />
-			<set name="clientName" text="${exporter.mqtt.clientName}" />
 			<set name="formatter" ref="${exporter.mqtt.format}SensorDataFormatter" />
+		</instance>
+
+		<instance name="mqttGWExporterClient" class="BeeeOn::GatewayMosquittoClient">
+			<set name="host" text="${exporter.mqtt.host}" />
+			<set name="port" number="${exporter.mqtt.port}" />
+			<set name="clientID" text="${exporter.mqtt.clientID}" />
+			<set name="gatewayInfo" ref="gatewayInfo" />
 		</instance>
 
 		<instance name="CSVSensorDataFormatter" class="BeeeOn::CSVSensorDataFormatter">

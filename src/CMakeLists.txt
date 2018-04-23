@@ -14,10 +14,6 @@ if(ENABLE_UDEV)
 	find_library (UDEV udev)
 endif()
 
-if(ENABLE_MOSQUITTO_EXPORTER)
-	find_library (MOSQUITTO_CPP mosquittopp)
-endif()
-
 if(ENABLE_BLUETOOTH_AVAILABILITY)
 	find_library (BLUETOOTH bluetooth)
 endif()
@@ -29,6 +25,10 @@ endif()
 
 if(ENABLE_FITP)
 	find_library (FITP_LIB fitp)
+endif()
+
+if (ENABLE_MOSQUITTO_CLIENT)
+	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
 file(GLOB SOURCES
@@ -72,6 +72,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/PipeHotplugMonitor.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
+	${PROJECT_SOURCE_DIR}/net/MqttMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp
 	${PROJECT_SOURCE_DIR}/net/VPTHTTPScanner.cpp
@@ -206,7 +207,7 @@ else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
 
-if(ENABLE_MOSQUITTO_EXPORTER)
+if((ENABLE_MOSQUITTO_EXPORTER) AND (ENABLE_MOSQUITTO_CLIENT))
 	file(GLOB MOSQUITTO_EXPORTER_SOURCES
 		${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
 	)
@@ -260,6 +261,16 @@ if(ENABLE_FITP)
 	list(APPEND SOURCES ${FITP_SOURCES})
 else()
 	message(STATUS "Fitp support is disabled")
+endif()
+
+if (ENABLE_MOSQUITTO_CLIENT)
+	file(GLOB MOSQUITTO_CLIENT_SOURCES
+		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
+		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
+	)
+	list(APPEND SOURCES ${MOSQUITTO_CLIENT_SOURCES})
+else()
+	message(STATUS "Mosquitto Client support is disabled")
 endif()
 
 configure_file(core/Version.cpp.in ${PROJECT_BINARY_DIR}/core/Version.cpp)
