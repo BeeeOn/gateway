@@ -93,6 +93,11 @@ protected:
 	void doDeviceAcceptCommand(const Command::Ptr cmd, const Answer::Ptr answer);
 
 	/**
+	 * @brief Processes the set value command.
+	 */
+	void doSetValueCommand(const Command::Ptr cmd, const Answer::Ptr answer);
+
+	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @return If the setting was successfull or not.
 	 */

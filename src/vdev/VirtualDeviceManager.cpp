@@ -340,7 +340,11 @@ void VirtualDeviceManager::doSetValueCommand(
 		}
 	}
 
-	it->second->modifyValue(cmd->moduleID(), cmd->value(), result);
+	if (it->second->modifyValue(cmd->moduleID(), cmd->value()))
+		result->setStatus(Result::Status::SUCCESS);
+	else
+		result->setStatus(Result::Status::FAILED);
+
 	logger().debug(
 		"module "
 		+ cmd->moduleID().toString()

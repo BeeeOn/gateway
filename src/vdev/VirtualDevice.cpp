@@ -60,15 +60,16 @@ SensorData VirtualDevice::generate()
 	return data;
 }
 
-void VirtualDevice::modifyValue(
-	const ModuleID &moduleID, double value, Result::Ptr result)
+bool VirtualDevice::modifyValue(
+	const ModuleID &moduleID, double value)
 {
 	for (auto &item : m_modules) {
 		if (item->moduleID() == moduleID) {
-			item->modifyValue(value, result);
-			break;
+			return item->modifyValue(value);
 		}
 	}
+
+	return false;
 }
 
 Timespan VirtualDevice::refresh() const

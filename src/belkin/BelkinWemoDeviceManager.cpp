@@ -201,26 +201,7 @@ void BelkinWemoDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 		doListenCommand(cmd, answer);
 	}
 	else if (cmd->is<DeviceSetValueCommand>()) {
-		DeviceSetValueCommand::Ptr cmdSet = cmd.cast<DeviceSetValueCommand>();
-
-		Result::Ptr result = new Result(answer);
-
-		if (modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
-			result->setStatus(Result::Status::SUCCESS);
-
-			SensorData data;
-			data.setDeviceID(cmdSet->deviceID());
-			data.insertValue({cmdSet->moduleID(), cmdSet->value()});
-			ship(data);
-
-			logger().debug("success to change state of device " + cmdSet->deviceID().toString(),
-				__FILE__, __LINE__);
-		}
-		else {
-			result->setStatus(Result::Status::FAILED);
-			logger().debug("failed to change state of device " + cmdSet->deviceID().toString(),
-				__FILE__, __LINE__);
-		}
+		doSetValueCommand(cmd, answer);
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		doUnpairCommand(cmd, answer);
@@ -296,6 +277,30 @@ void BelkinWemoDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd, cons
 	m_pairedDevices.insert(cmdAccept->deviceID());
 
 	result->setStatus(Result::Status::SUCCESS);
+}
+
+void BelkinWemoDeviceManager::doSetValueCommand(const Command::Ptr cmd, const Answer::Ptr answer)
+{
+	DeviceSetValueCommand::Ptr cmdSet = cmd.cast<DeviceSetValueCommand>();
+
+	Result::Ptr result = new Result(answer);
+
+	if (modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
+		result->setStatus(Result::Status::SUCCESS);
+
+		SensorData data;
+		data.setDeviceID(cmdSet->deviceID());
+		data.insertValue({cmdSet->moduleID(), cmdSet->value()});
+		ship(data);
+
+		logger().debug("success to change state of device " + cmdSet->deviceID().toString(),
+			__FILE__, __LINE__);
+	}
+	else {
+		result->setStatus(Result::Status::FAILED);
+		logger().debug("failed to change state of device " + cmdSet->deviceID().toString(),
+			__FILE__, __LINE__);
+	}
 }
 
 bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
