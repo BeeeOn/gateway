@@ -32,7 +32,7 @@ class Answer : public Poco::RefCountedObject, public Poco::SynchronizedObject {
 public:
 	typedef Poco::AutoPtr<Answer> Ptr;
 
-	Answer(AnswerQueue &answerQueue);
+	Answer(AnswerQueue &answerQueue, const bool autoDispose = false);
 
 	/*
 	 * All reference counted objects should have a protected destructor,
@@ -91,6 +91,7 @@ private:
 	Poco::AtomicCounter m_dirty;
 	std::vector<Result::Ptr> m_resultList;
 	unsigned long m_handlers;
+	const bool m_autoDispose;
 };
 
 }
