@@ -195,14 +195,13 @@ public:
 	void processJoinMsg(const std::vector<uint8_t> &data);
 
 protected:
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 	/**
 	 * Reacts to ListenCommand. It sends NewDeviceCommand if
 	 * device is not paired or is not available.
 	 */
-	void doListenCommand(const GatewayListenCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doListenCommand(const GatewayListenCommand::Ptr cmd);
 
 	/**
 	 * Reacts to AcceptCommand. Device has to be stored in map
@@ -210,15 +209,13 @@ protected:
 	 * If these conditions are fulfilled, method inserts device into a map of devices,
 	 * and it sets device as paired.
 	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	/**
 	* Reacts to UnpairCommand. Device has to be in map of
 	* devices, it has to be paired and available.
 	*/
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
 
 	/**
 	 * Ensures sending of NewDeviceCommand to CommandDispatcher.
