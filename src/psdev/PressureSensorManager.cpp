@@ -97,22 +97,20 @@ void PressureSensorManager::initialize()
 		m_paired = true;
 }
 
-void PressureSensorManager::handle(const Command::Ptr cmd, Answer::Ptr answer)
+void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<GatewayListenCommand>())
-		handleListenCommand(cmd->cast<GatewayListenCommand>(), answer);
+		handleListenCommand(cmd->cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceAcceptCommand>())
-		handleAcceptCommand(cmd->cast<DeviceAcceptCommand>(), answer);
+		handleAcceptCommand(cmd->cast<DeviceAcceptCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
-		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>(), answer);
+		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>());
 	else
-		throw IllegalStateException("received unaccepted command");
+		throw NotImplementedException(cmd->toString());
 }
 
-void PressureSensorManager::handleListenCommand(const GatewayListenCommand &, Answer::Ptr answer)
+void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
 {
-	Result::Ptr result = new Result(answer);
-
 	if (!m_paired) {
 		dispatch(new NewDeviceCommand(
 			pairedID(),
@@ -121,19 +119,12 @@ void PressureSensorManager::handleListenCommand(const GatewayListenCommand &, An
 			TYPES,
 			m_refresh));
 	}
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd, Answer::Ptr answer)
+void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
 {
-	Result::Ptr result = new Result(answer);
-
-	if (cmd.deviceID() != pairedID()) {
-		poco_warning(logger(), "not accepting device with unknown id: "
-			+ cmd.deviceID().toString());
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	if (cmd.deviceID() != pairedID())
+		throw NotFoundException("accept: " + cmd.deviceID().toString());
 
 	if (!m_paired) {
 		m_paired = true;
@@ -142,18 +133,13 @@ void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd, 
 	else {
 		poco_warning(logger(), "ignoring accept of already paired device");
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd, Answer::Ptr answer)
+void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	if (cmd.deviceID() != pairedID()) {
 		poco_warning(logger(), "not unpairing device with unknown id: "
 			+ cmd.deviceID().toString());
-		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
@@ -163,8 +149,6 @@ void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd, 
 	else {
 		poco_warning(logger(), "ignoring unpair of not paired device");
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void PressureSensorManager::setRefresh(const Timespan &refresh)
