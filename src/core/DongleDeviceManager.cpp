@@ -9,8 +9,9 @@ using namespace std;
 using namespace Poco;
 using namespace BeeeOn;
 
-DongleDeviceManager::DongleDeviceManager(const DevicePrefix &prefix):
-	DeviceManager(prefix),
+DongleDeviceManager::DongleDeviceManager(const DevicePrefix &prefix,
+		const initializer_list<type_index> &acceptable):
+	DeviceManager(prefix, acceptable),
 	m_attemptsCount(3),
 	m_retryTimeout(10 * Timespan::SECONDS)
 {
