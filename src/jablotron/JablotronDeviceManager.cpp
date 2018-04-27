@@ -155,8 +155,7 @@ bool JablotronDeviceManager::accept(const Command::Ptr cmd)
 	else if (cmd->is<GatewayListenCommand>())
 		return true;
 	else if (cmd->is<DeviceUnpairCommand>()) {
-		auto it = m_devices.find(cmd->cast<DeviceUnpairCommand>().deviceID());
-		return it != m_devices.end();
+		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == m_prefix;
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
 		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == m_prefix;
