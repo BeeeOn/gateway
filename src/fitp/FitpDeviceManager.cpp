@@ -179,7 +179,7 @@ void FitpDeviceManager::doUnpairCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::Status::FAILED);
+		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
