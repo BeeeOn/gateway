@@ -47,12 +47,13 @@ class JablotronDeviceManager : public DongleDeviceManager {
 public:
 	JablotronDeviceManager();
 
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
-
 	std::string dongleMatch(const HotplugEvent &e) override;
 	void dongleAvailable() override;
 
 	void stop() override;
+
+protected:
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 private:
 	enum MessageType {
@@ -115,15 +116,12 @@ private:
 	 */
 	bool modifyValue(const DeviceID &deviceID, int value, bool autoResult = true);
 
-	void doSetValue(DeviceSetValueCommand::Ptr cmd, Answer::Ptr answer);
-	void doListenCommand(
-		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
+	void doSetValue(DeviceSetValueCommand::Ptr cmd);
+	void doListenCommand(const GatewayListenCommand::Ptr cmd);
 	void doNewDevice(const DeviceID &deviceID,
 		std::map<DeviceID, JablotronDevice::Ptr>::iterator &it);
-	void doUnpairCommand(
-		const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer);
-	void doDeviceAcceptCommand(
-		const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer);
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	bool getResponse();
 	bool isResponse(MessageType type);

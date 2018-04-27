@@ -153,44 +153,35 @@ void JablotronDeviceManager::jablotronProcess()
 	}
 }
 
-void JablotronDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<DeviceSetValueCommand>())
-		doSetValue(cmd.cast<DeviceSetValueCommand>(), answer);
+		doSetValue(cmd.cast<DeviceSetValueCommand>());
 	else if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
+		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw IllegalStateException("received unaccepted command");
+		throw NotImplementedException(cmd->toString());
 }
 
 void JablotronDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
+	const DeviceAcceptCommand::Ptr cmd)
 {
 	Mutex::ScopedLock guard(m_lock);
-	Result::Ptr result = new Result(answer);
 
 	auto it = m_devices.find(cmd->deviceID());
-	if (it == m_devices.end()) {
-		logger().error(
-			"unknown " + cmd->deviceID().toString()
-			+ " device", __FILE__, __LINE__);
+	if (it == m_devices.end())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-		result->setStatus(Result::Status::FAILED);
-	} else {
-		it->second->setPaired(true);
-		result->setStatus(Result::Status::SUCCESS);
-	}
+	it->second->setPaired(true);
 }
 
 void JablotronDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+	const DeviceUnpairCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	Mutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(cmd->deviceID());
 
@@ -202,18 +193,14 @@ void JablotronDeviceManager::doUnpairCommand(
 			"attempt to unpair unknown device: "
 			+ cmd->deviceID().toString());
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void JablotronDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
+	const GatewayListenCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::Status::SUCCESS);
-
-	if (m_isListen)
+	if (m_isListen) {
 		return;
+	}
 
 	m_isListen = true;
 
@@ -549,21 +536,10 @@ void JablotronDeviceManager::obtainLastValue()
 	}
 }
 
-void JablotronDeviceManager::doSetValue(
-	DeviceSetValueCommand::Ptr cmd, Answer::Ptr answer)
+void JablotronDeviceManager::doSetValue(DeviceSetValueCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-	bool ret = false;
-
-	try {
-		ret = modifyValue(cmd->deviceID(), cmd->value());
+	if (!modifyValue(cmd->deviceID(), cmd->value())) {
+		throw IllegalStateException(
+			"failed set-value: " + cmd->deviceID().toString());
 	}
-	catch (const Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-	}
-
-	if (ret)
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
 }
