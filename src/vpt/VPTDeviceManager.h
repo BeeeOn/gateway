@@ -17,7 +17,6 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "commands/NewDeviceCommand.h"
-#include "core/Answer.h"
 #include "core/DeviceManager.h"
 #include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
@@ -79,7 +78,7 @@ public:
 	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);
 
 protected:
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 	/**
 	 * @brief Gathers SensorData from devices and
@@ -102,24 +101,24 @@ protected:
 	/**
 	 * @brief Processes the listen command.
 	 */
-	void doListenCommand(const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
+	void doListenCommand(const GatewayListenCommand::Ptr cmd);
 
 	/**
 	 * @brief Processes the unpair command.
 	 */
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer);
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
 
 	/**
 	 * @brief Processes the device accept command.
 	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer);
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @param result Will contains information about
 	 * the success of the request
 	 */
-	void modifyValue(const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer);
+	void modifyValue(const DeviceSetValueCommand::Ptr cmd);
 
 	/**
 	 * @brief Returns true if any subdevice is paired.

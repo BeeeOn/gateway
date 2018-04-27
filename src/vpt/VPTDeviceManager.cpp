@@ -244,33 +244,32 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 	return false;
 }
 
-void VPTDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<GatewayListenCommand>()) {
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+		doListenCommand(cmd.cast<GatewayListenCommand>());
 	}
 	else if (cmd->is<DeviceSetValueCommand>()) {
-		modifyValue(cmd.cast<DeviceSetValueCommand>(), answer);
+		modifyValue(cmd.cast<DeviceSetValueCommand>());
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
+		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
+	}
+	else {
+		throw NotImplementedException(cmd->toString());
 	}
 }
 
-void VPTDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
+void VPTDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
-	if (m_seeker.startSeeking(cmd->duration()))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
+	if (!m_seeker.startSeeking(cmd->duration()))
+		throw IllegalStateException("seeking has failed");
 }
 
-void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
@@ -286,24 +285,15 @@ void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd, const
 		if (noSubdevicePaired(tmpID))
 			m_devices.erase(tmpID);
 	}
-
-	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
+void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	Result::Ptr result = new Result(answer);
-
 	auto it = m_devices.find(VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()));
-	if (it == m_devices.end()) {
-		logger().warning("not accepting device that is not found: " + cmd->deviceID().toString(),
-			__FILE__, __LINE__);
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	if (it == m_devices.end())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	/*
 	 * The password is searched only when the first subdevice is accepted.
@@ -322,42 +312,27 @@ void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd,
 	}
 
 	m_pairedDevices.insert(cmd->deviceID());
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer)
+void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	Result::Ptr result = new Result(answer);
+	auto it = m_devices.find(VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()));
+	if (it == m_devices.end())
+		throw NotFoundException("set-value: " + cmd->deviceID().toString());
+
+	ScopedLock<FastMutex> guard(it->second->lock());
+	it->second->requestModifyState(cmd->deviceID(), cmd->moduleID(), cmd->value());
+
 	try {
-		auto it = m_devices.find(VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()));
-		if (it == m_devices.end()) {
-			logger().warning("no such device: " + cmd->deviceID().toString(), __FILE__, __LINE__);
-		}
-		else {
-			ScopedLock<FastMutex> guard(it->second->lock());
-			it->second->requestModifyState(cmd->deviceID(), cmd->moduleID(), cmd->value());
-			result->setStatus(Result::Status::SUCCESS);
+		SensorData data;
+		data.setDeviceID(cmd->deviceID());
+		data.insertValue({cmd->moduleID(), cmd->value()});
 
-			SensorData data;
-			data.setDeviceID(cmd->deviceID());
-			data.insertValue({cmd->moduleID(), cmd->value()});
-			ship(data);
-			return;
-		}
+		ship(data);
 	}
-	catch (const Exception& e) {
-		logger().log(e, __FILE__, __LINE__);
-		logger().warning("failed to change state of device " + cmd->deviceID().toString(),
-			__FILE__, __LINE__);
-	}
-	catch (...) {
-		logger().critical("unexpected exception", __FILE__, __LINE__);
-	}
-
-	result->setStatus(Result::Status::FAILED);
+	BEEEON_CATCH_CHAIN(logger())
 }
 
 bool VPTDeviceManager::noSubdevicePaired(const DeviceID& id) const
