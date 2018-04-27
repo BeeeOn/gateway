@@ -42,7 +42,12 @@ static const DeviceID DEFAULT_DEVICE_ID(DevicePrefix::PREFIX_JABLOTRON, 0);
 
 
 JablotronDeviceManager::JablotronDeviceManager():
-	DongleDeviceManager(DevicePrefix::PREFIX_JABLOTRON),
+	DongleDeviceManager(DevicePrefix::PREFIX_JABLOTRON, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	}),
 	m_lastResponse(NONE),
 	m_isListen(false),
 	m_pgx(DEFAULT_DEVICE_ID, DEFAULT_PG_VALUE),
@@ -146,22 +151,6 @@ void JablotronDeviceManager::jablotronProcess()
 				__FILE__, __LINE__);
 		}
 	}
-}
-
-bool JablotronDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<DeviceSetValueCommand>())
-		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == m_prefix;
-	else if (cmd->is<GatewayListenCommand>())
-		return true;
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == m_prefix;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == m_prefix;
-	}
-
-	return false;
 }
 
 void JablotronDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)

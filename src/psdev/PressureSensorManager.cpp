@@ -35,7 +35,11 @@ static const list<ModuleType> TYPES =
 	};
 
 PressureSensorManager::PressureSensorManager():
-	DeviceManager(DevicePrefix::PREFIX_PRESSURE_SENSOR),
+	DeviceManager(DevicePrefix::PREFIX_PRESSURE_SENSOR, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+	}),
 	m_paired(false),
 	m_refresh(15 * Timespan::SECONDS),
 	m_vendor("BeeeOn"),
@@ -91,18 +95,6 @@ void PressureSensorManager::initialize()
 
 	if (devices.find(pairedID()) != devices.end())
 		m_paired = true;
-}
-
-bool PressureSensorManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>())
-		return true;
-	if (cmd->is<DeviceAcceptCommand>())
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_PRESSURE_SENSOR;
-	if (cmd->is<DeviceUnpairCommand>())
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_PRESSURE_SENSOR;
-
-	return false;
 }
 
 void PressureSensorManager::handle(const Command::Ptr cmd, Answer::Ptr answer)

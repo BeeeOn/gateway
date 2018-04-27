@@ -49,7 +49,11 @@ static const Timespan LE_SCAN_TIME = 5 * Timespan::SECONDS;
 static const Timespan MIN_WAKE_UP_TIME = 15 * Timespan::SECONDS;
 
 BluetoothAvailabilityManager::BluetoothAvailabilityManager() :
-	DongleDeviceManager(DevicePrefix::PREFIX_BLUETOOTH),
+	DongleDeviceManager(DevicePrefix::PREFIX_BLUETOOTH, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceAcceptCommand),
+	}),
 	m_listenThread(*this, &BluetoothAvailabilityManager::listen),
 	m_wakeUpTime(MIN_WAKE_UP_TIME),
 	m_listenTime(0),
@@ -284,17 +288,6 @@ bool BluetoothAvailabilityManager::haveTimeForInactive(Timespan elapsedTime)
 	Timespan tryTime = m_wakeUpTime - elapsedTime - SCAN_TIME;
 
 	return tryTime > 0;
-}
-
-bool BluetoothAvailabilityManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>())
-		return true;
-	else if (cmd->is<DeviceUnpairCommand>())
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BLUETOOTH;
-	else if (cmd->is<DeviceAcceptCommand>())
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BLUETOOTH;
-	return false;
 }
 
 void BluetoothAvailabilityManager::handle(Command::Ptr cmd, Answer::Ptr answer)
