@@ -58,7 +58,24 @@ public:
 	 */
 	bool accept(const Command::Ptr cmd) override;
 
+	/**
+	 * Generic implementation of the CommandHandler::handle() method.
+	 * It works with respect to the accept() method and handles
+	 * commands generically if possible. It also catches all exceptions
+	 * and fails such command executions properly.
+	 *
+	 * To override handle, please use handleGeneric() instead.
+	 */
+	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+
 protected:
+	/**
+	 * Generic implementation of the handle(). If any device manager
+	 * needs to override the handle() method, it is more desirable to
+	 * override handleGeneric().
+	 */
+	virtual void handleGeneric(const Command::Ptr cmd, Result::Ptr result);
+
 	/**
 	* Ship data received from a physical device into a collection point.
 	*/

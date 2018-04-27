@@ -1,3 +1,5 @@
+#include <Poco/Exception.h>
+
 #include "commands/ServerDeviceListCommand.h"
 #include "commands/ServerDeviceListResult.h"
 #include "commands/ServerLastValueCommand.h"
@@ -45,6 +47,24 @@ bool DeviceManager::accept(const Command::Ptr cmd)
 	}
 
 	return true;
+}
+
+void DeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+{
+	Result::Ptr result = cmd->deriveResult(answer);
+
+	try {
+		handleGeneric(cmd, result);
+		result->setStatus(Result::Status::SUCCESS);
+	}
+	BEEEON_CATCH_CHAIN_ACTION(logger(),
+		result->setStatus(Result::Status::FAILED)
+	)
+}
+
+void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+{
+	throw NotImplementedException(cmd->toString());
 }
 
 void DeviceManager::ship(const SensorData &sensorData)
