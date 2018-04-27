@@ -256,7 +256,7 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::Status::SUCCESS);
+		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
