@@ -212,37 +212,22 @@ void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)
 }
 
 void VirtualDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr, const Answer::Ptr answer)
+	const GatewayListenCommand::Ptr)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : m_virtualDevicesMap) {
 		if (!item.second->paired())
 			dispatchNewDevice(item.second);
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
+		const DeviceAcceptCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_virtualDevicesMap.find(cmd->deviceID());
-	if (it == m_virtualDevicesMap.end()) {
-		logger().warning(
-			"no such device "
-			+ cmd->deviceID().toString()
-			+ " to accept",
-			__FILE__, __LINE__
-		);
-
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	if (it == m_virtualDevicesMap.end())
+		throw NotFoundException("accept " + cmd->deviceID().toString());
 
 	if (it->second->paired()) {
 		logger().warning(
@@ -255,15 +240,11 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 	const VirtualDeviceEntry entry(it->second);
 	entry.device()->setPaired(true);
 	scheduleEntryUnlocked(entry);
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+		const DeviceUnpairCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_virtualDevicesMap.find(cmd->deviceID());
 	if (it == m_virtualDevicesMap.end()) {
@@ -273,7 +254,6 @@ void VirtualDeviceManager::doUnpairCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
@@ -286,46 +266,29 @@ void VirtualDeviceManager::doUnpairCommand(
 	}
 
 	it->second->setPaired(false);
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doSetValueCommand(
-	const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer)
+	const DeviceSetValueCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_virtualDevicesMap.find(cmd->deviceID());
-	if (it == m_virtualDevicesMap.end()) {
-		logger().warning(
-			"failed to set value for non-existing device "
-			+ cmd->deviceID().toString(),
-			__FILE__, __LINE__
-		);
-
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	if (it == m_virtualDevicesMap.end())
+		throw NotFoundException("set-value: " + cmd->deviceID().toString());
 
 	for (auto &item : it->second->modules()) {
 		if (item->moduleID() == cmd->moduleID()) {
 			if (item->reaction() == VirtualModule::REACTION_NONE) {
-				logger().warning(
-					"value of module "
-					+ item->moduleType().type().toString()
-					+ " cannot be set");
-
-				result->setStatus(Result::Status::FAILED);
-				return;
+				throw InvalidAccessException(
+					"cannot set-value: " + cmd->deviceID().toString());
 			}
 		}
 	}
 
-	if (it->second->modifyValue(cmd->moduleID(), cmd->value()))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
+	if (!it->second->modifyValue(cmd->moduleID(), cmd->value())) {
+		throw IllegalStateException(
+			"set-value: " + cmd->deviceID().toString());
+	}
 
 	logger().debug(
 		"module "
@@ -336,16 +299,16 @@ void VirtualDeviceManager::doSetValueCommand(
 	);
 }
 
-void VirtualDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void VirtualDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceSetValueCommand>())
-		doSetValueCommand(cmd.cast<DeviceSetValueCommand>(), answer);
+		doSetValueCommand(cmd.cast<DeviceSetValueCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
+		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
 		throw IllegalStateException("received unaccepted command");
 }

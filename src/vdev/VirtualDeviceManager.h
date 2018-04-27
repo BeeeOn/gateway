@@ -158,14 +158,13 @@ public:
 	void logDeviceParsed(VirtualDevice::Ptr device);
 
 protected:
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 	/**
 	 * Reacts to GatewayListenCommand. It sends NewDeviceCommand if
 	 * device is not paired.
 	 */
-	void doListenCommand(const GatewayListenCommand::Ptr,
-		const Answer::Ptr answer);
+	void doListenCommand(const GatewayListenCommand::Ptr);
 
 	/**
 	 * Reacts to DeviceAcceptCommand. Device has to be stored in map
@@ -173,23 +172,20 @@ protected:
 	 * are fulfilled, method inserts device into a calendar, it sets device
 	 * as paired and it plans next activation (data generation) of this device.
 	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	/**
 	* Reacts to DeviceSetValueCommand. Device has to be in map of
 	* virtual devices, it has to be sensor and reaction has to be
 	* set to success.
 	*/
-	void doSetValueCommand(const DeviceSetValueCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doSetValueCommand(const DeviceSetValueCommand::Ptr cmd);
 
 	/**
 	* Reacts to DeviceUnpairCommand. Device has to be in map of
 	* virtual devices and it has to be paired.
 	*/
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
 
 private:
 	std::map<DeviceID, VirtualDevice::Ptr> m_virtualDevicesMap;
