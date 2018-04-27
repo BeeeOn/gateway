@@ -161,18 +161,18 @@ void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd, 
 	if (cmd.deviceID() != pairedID()) {
 		poco_warning(logger(), "not unpairing device with unknown id: "
 			+ cmd.deviceID().toString());
-		result->setStatus(Result::Status::FAILED);
+		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
 	if (m_paired) {
 		m_paired = false;
-		result->setStatus(Result::Status::SUCCESS);
 	}
 	else {
 		poco_warning(logger(), "ignoring unpair of not paired device");
-		result->setStatus(Result::Status::FAILED);
 	}
+
+	result->setStatus(Result::Status::SUCCESS);
 }
 
 void PressureSensorManager::setRefresh(const Timespan &refresh)
