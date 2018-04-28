@@ -47,7 +47,7 @@ public:
 		 */
 		~VPTSeeker();
 
-		bool startSeeking(const Poco::Timespan& duration);
+		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;

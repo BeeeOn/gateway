@@ -265,8 +265,7 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 
 void VPTDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd)
 {
-	if (!m_seeker.startSeeking(cmd->duration()))
-		throw IllegalStateException("seeking has failed");
+	m_seeker.startSeeking(cmd->duration());
 }
 
 void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
@@ -431,25 +430,16 @@ VPTDeviceManager::VPTSeeker::~VPTSeeker()
 	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
 }
 
-bool VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
+void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
 {
 	m_duration = duration;
 
 	if (!m_seekerThread.isRunning()) {
-		try {
-			m_seekerThread.start(*this);
-		}
-		catch (const Exception &e) {
-			m_parent.logger().log(e, __FILE__, __LINE__);
-			m_parent.logger().error("listening thread failed to start", __FILE__, __LINE__);
-			return false;
-		}
+		m_seekerThread.start(*this);
 	}
 	else {
 		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
 	}
-
-	return true;
 }
 
 void VPTDeviceManager::VPTSeeker::run()
