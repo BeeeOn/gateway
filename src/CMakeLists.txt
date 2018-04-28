@@ -99,6 +99,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
+	${PROJECT_SOURCE_DIR}/core/QueuingExporter.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTool.cpp
