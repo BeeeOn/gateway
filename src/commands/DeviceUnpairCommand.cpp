@@ -1,4 +1,5 @@
 #include "commands/DeviceUnpairCommand.h"
+#include "commands/DeviceUnpairResult.h"
 
 using namespace BeeeOn;
 using namespace std;
@@ -21,4 +22,9 @@ DeviceID DeviceUnpairCommand::deviceID() const
 string DeviceUnpairCommand::toString() const
 {
 	return name() + " " + m_deviceID.toString();
+}
+
+Result::Ptr DeviceUnpairCommand::deriveResult(Answer::Ptr answer) const
+{
+	return new DeviceUnpairResult(answer);
 }

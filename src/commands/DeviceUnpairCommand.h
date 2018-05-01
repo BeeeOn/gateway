@@ -24,6 +24,8 @@ public:
 
 	std::string toString() const override;
 
+	Result::Ptr deriveResult(Answer::Ptr answer) const override;
+
 protected:
 	~DeviceUnpairCommand();
 
