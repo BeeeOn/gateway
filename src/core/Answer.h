@@ -16,7 +16,6 @@ namespace BeeeOn {
 class AnswerQueue;
 class CommandDispatcher;
 class CommandHandler;
-class Result;
 
 /*
  * During the Answer creation the queue is set. The queue is notified using
