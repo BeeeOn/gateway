@@ -33,3 +33,8 @@ string Command::toString() const
 {
 	return name();
 }
+
+Result::Ptr Command::deriveResult(Answer::Ptr answer) const
+{
+	return new Result(answer);
+}
