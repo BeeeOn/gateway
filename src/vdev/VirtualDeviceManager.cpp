@@ -200,14 +200,12 @@ bool VirtualDeviceManager::accept(const Command::Ptr cmd)
 		return true;
 	}
 	else if (cmd->is<DeviceSetValueCommand>()) {
-		auto it = m_virtualDevicesMap.find(
-			cmd->cast<DeviceSetValueCommand>().deviceID());
-		return it != m_virtualDevicesMap.end();
+		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix()
+			== DevicePrefix::PREFIX_VIRTUAL_DEVICE;
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
-		auto it = m_virtualDevicesMap.find(
-			cmd->cast<DeviceUnpairCommand>().deviceID());
-		return it != m_virtualDevicesMap.end();
+		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix()
+			== DevicePrefix::PREFIX_VIRTUAL_DEVICE;
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
 		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix()
@@ -258,7 +256,7 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::Status::SUCCESS);
+		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
@@ -291,7 +289,7 @@ void VirtualDeviceManager::doUnpairCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::Status::FAILED);
+		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 

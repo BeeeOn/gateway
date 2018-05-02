@@ -291,7 +291,7 @@ bool BluetoothAvailabilityManager::accept(const Command::Ptr cmd)
 	if (cmd->is<GatewayListenCommand>())
 		return true;
 	else if (cmd->is<DeviceUnpairCommand>())
-		return hasDevice(cmd->cast<DeviceUnpairCommand>().deviceID());
+		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BLUETOOTH;
 	else if (cmd->is<DeviceAcceptCommand>())
 		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BLUETOOTH;
 	return false;
