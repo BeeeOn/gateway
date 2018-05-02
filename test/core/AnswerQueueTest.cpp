@@ -117,7 +117,7 @@ public:
 	void fireImpl() override
 	{
 		m_answer->setDirty(m_dirty);
-		m_answer->event().set();
+		m_answer->notifyUpdated();
 	}
 
 private:

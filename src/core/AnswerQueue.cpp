@@ -21,6 +21,11 @@ Answer::Ptr AnswerQueue::newAnswer()
 	return new Answer(*this);
 }
 
+void AnswerQueue::notifyUpdated()
+{
+	event().set();
+}
+
 bool AnswerQueue::wait(const Timespan &timeout, list<Answer::Ptr> &dirtyList)
 {
 	do {

@@ -72,16 +72,17 @@ FitpDeviceManager::~FitpDeviceManager()
 void FitpDeviceManager::doListenCommand(
 	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
 {
+	Result::Ptr result = new Result(answer);
+
 	if (m_listening) {
 		logger().debug(
 			"listening is already in progress",
 			__FILE__, __LINE__
 		);
+		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 	m_listening = true;
-
-	Result::Ptr result = new Result(answer);
 
 	if (cmd->duration().totalSeconds() < 1) {
 		logger().error(
