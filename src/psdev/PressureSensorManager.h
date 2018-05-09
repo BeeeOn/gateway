@@ -55,6 +55,7 @@ public:
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 
 private:
 	/**
@@ -81,7 +82,6 @@ private:
 	 */
 	double convertToHPA(const double value);
 
-	void handleListenCommand(const GatewayListenCommand &cmd);
 	void handleUnpairCommand(const DeviceUnpairCommand &cmd);
 
 private:

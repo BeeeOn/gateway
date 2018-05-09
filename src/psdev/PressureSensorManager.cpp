@@ -10,6 +10,7 @@
 #include "model/SensorData.h"
 #include "model/SensorValue.h"
 #include "psdev/PressureSensorManager.h"
+#include "util/BlockingAsyncWork.h"
 #include "util/IncompleteTimestamp.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, PressureSensorManager)
@@ -99,15 +100,13 @@ void PressureSensorManager::initialize()
 
 void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
-	if (cmd->is<GatewayListenCommand>())
-		handleListenCommand(cmd->cast<GatewayListenCommand>());
-	else if (cmd->is<DeviceUnpairCommand>())
+	if (cmd->is<DeviceUnpairCommand>())
 		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>());
 	else
 		DeviceManager::handleGeneric(cmd, result);
 }
 
-void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
+AsyncWork<>::Ptr PressureSensorManager::startDiscovery(const Timespan &)
 {
 	if (!deviceCache()->paired(pairedID())) {
 		dispatch(new NewDeviceCommand(
@@ -117,6 +116,8 @@ void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
 			TYPES,
 			m_refresh));
 	}
+
+	return BlockingAsyncWork<>::instance();
 }
 
 void PressureSensorManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
