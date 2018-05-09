@@ -9,7 +9,7 @@
 #include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
 #include "hotplug/HotplugEvent.h"
-#include "util/LambdaTimerTask.h"
+#include "util/DelayedAsyncWork.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -158,8 +158,6 @@ void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<DeviceSetValueCommand>())
 		doSetValue(cmd.cast<DeviceSetValueCommand>());
-	else if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
 		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else
@@ -193,17 +191,11 @@ void JablotronDeviceManager::doUnpairCommand(
 	}
 }
 
-void JablotronDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd)
+AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	if (m_isListen) {
-		return;
-	}
-
 	m_isListen = true;
 
-	LambdaTimerTask::Ptr task(new LambdaTimerTask([=]()
-	{
+	auto finish = [&]() {
 		logger().debug("listen is done", __FILE__, __LINE__);
 		m_isListen = false;
 
@@ -215,11 +207,9 @@ void JablotronDeviceManager::doListenCommand(
 			if (!deviceCache()->paired(device.second->deviceID()))
 				device.second = nullptr;
 		}
-	}));
+	};
 
-	m_listenTimer.schedule(
-		task,
-		Timestamp() + cmd->duration());
+	return new DelayedAsyncWork<>(finish, finish, timeout);
 }
 
 void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,

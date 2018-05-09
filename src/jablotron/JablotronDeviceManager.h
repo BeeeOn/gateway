@@ -55,6 +55,7 @@ public:
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 
 private:
 	enum MessageType {
@@ -118,7 +119,6 @@ private:
 	bool modifyValue(const DeviceID &deviceID, int value, bool autoResult = true);
 
 	void doSetValue(DeviceSetValueCommand::Ptr cmd);
-	void doListenCommand(const GatewayListenCommand::Ptr cmd);
 	void doNewDevice(const DeviceID &deviceID,
 		std::map<DeviceID, JablotronDevice::Ptr>::iterator &it);
 	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
