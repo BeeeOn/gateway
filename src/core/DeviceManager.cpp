@@ -1,3 +1,4 @@
+#include <Poco/Clock.h>
 #include <Poco/Exception.h>
 
 #include "commands/ServerDeviceListCommand.h"
@@ -83,6 +84,8 @@ void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<DeviceAcceptCommand>())
 		handleAccept(cmd.cast<DeviceAcceptCommand>());
+	else if (cmd->is<GatewayListenCommand>())
+		handleListen(cmd.cast<GatewayListenCommand>());
 	else
 		throw NotImplementedException(cmd->toString());
 }
@@ -95,6 +98,49 @@ void DeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 		throw AssertionViolationException("incompatible prefix: " + id.prefix().toString());
 
 	m_deviceCache->markPaired(id);
+}
+
+AsyncWork<>::Ptr DeviceManager::startDiscovery(const Timespan &)
+{
+	throw NotImplementedException("generic discovery is not supported");
+}
+
+void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
+{
+	const Clock started;
+	const Timespan &duration = cmd->duration();
+
+	if (duration < 1 * Timespan::SECONDS) {
+		throw InvalidArgumentException(
+			"listen duration is too short: "
+			+ to_string(duration.totalMicroseconds()) + " us");
+	}
+
+	ScopedLock<FastMutex> guard(m_listenLock, duration.totalMilliseconds());
+
+	if (started.elapsed() > 1 * Timespan::SECONDS) {
+		logger().warning("discovery has been significantly delayed: "
+			+ to_string(started.elapsed()) + " us",
+			__FILE__, __LINE__);
+	}
+
+	Timespan timeout = duration - started.elapsed();
+	if (timeout < 1 * Timespan::SECONDS)
+		timeout = 1 * Timespan::SECONDS;
+
+	logger().information("starting discovery", __FILE__, __LINE__);
+
+	auto discovery = startDiscovery(timeout);
+
+	if (discovery->tryJoin(timeout)) {
+		logger().information("discovery has finished", __FILE__, __LINE__);
+		return;
+	}
+
+	logger().information("cancelling discovery", __FILE__, __LINE__);
+	discovery->cancel();
+
+	logger().information("discovery has been cancelled", __FILE__, __LINE__);
 }
 
 void DeviceManager::ship(const SensorData &sensorData)
