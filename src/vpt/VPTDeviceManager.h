@@ -20,6 +20,7 @@
 #include "loop/StoppableRunnable.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "vpt/VPTDevice.h"
 
@@ -36,14 +37,18 @@ public:
 	 * @brief Provides searching vpt devices on network in own thread.
 	 * Also takes care of thread where is the listen command performed.
 	 */
-	class VPTSeeker : public StoppableRunnable {
+	class VPTSeeker : public StoppableRunnable, public AsyncWork<> {
 	public:
+		typedef Poco::SharedPtr<VPTSeeker> Ptr;
+
 		VPTSeeker(VPTDeviceManager& parent);
 
 		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
+		bool tryJoin(const Poco::Timespan &timeout) override;
+		void cancel() override;
 
 	private:
 		VPTDeviceManager& m_parent;
@@ -73,6 +78,7 @@ public:
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 
 	/**
 	 * @brief Gathers SensorData from devices and
@@ -91,11 +97,6 @@ protected:
 	 * the VPT given in the parametr.
 	 */
 	bool isAnySubdevicePaired(VPTDevice::Ptr device);
-
-	/**
-	 * @brief Processes the listen command.
-	 */
-	void doListenCommand(const GatewayListenCommand::Ptr cmd);
 
 	/**
 	 * @brief Processes the unpair command.
@@ -135,7 +136,7 @@ protected:
 	std::string findPassword(const DeviceID& id);
 
 private:
-	VPTDeviceManager::VPTSeeker m_seeker;
+	VPTDeviceManager::VPTSeeker::Ptr m_seeker;
 	VPTHTTPScanner m_scanner;
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;

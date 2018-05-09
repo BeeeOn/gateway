@@ -44,7 +44,7 @@ VPTDeviceManager::VPTDeviceManager():
 		typeid(DeviceUnpairCommand),
 		typeid(DeviceSetValueCommand),
 	}),
-	m_seeker(*this),
+	m_seeker(new VPTSeeker(*this)),
 	m_maxMsgSize(10000),
 	m_refresh(5 * Timespan::SECONDS),
 	m_httpTimeout(3 * Timespan::SECONDS),
@@ -93,7 +93,7 @@ void VPTDeviceManager::stop()
 {
 	DeviceManager::stop();
 	m_scanner.cancel();
-	m_seeker.stop();
+	m_seeker->stop();
 	answerQueue().dispose();
 }
 
@@ -251,10 +251,7 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 
 void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
-	if (cmd->is<GatewayListenCommand>()) {
-		doListenCommand(cmd.cast<GatewayListenCommand>());
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
+	if (cmd->is<DeviceSetValueCommand>()) {
 		modifyValue(cmd.cast<DeviceSetValueCommand>());
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
@@ -265,9 +262,10 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 	}
 }
 
-void VPTDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd)
+AsyncWork<>::Ptr VPTDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	m_seeker.startSeeking(cmd->duration());
+	m_seeker->startSeeking(timeout);
+	return m_seeker;
 }
 
 void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
@@ -457,4 +455,14 @@ void VPTDeviceManager::VPTSeeker::stop()
 	 * Scanning of device can be in progress, it should take up to httpTimeout.
 	 */
 	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
+}
+
+bool VPTDeviceManager::VPTSeeker::tryJoin(const Timespan &timeout)
+{
+	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+}
+
+void VPTDeviceManager::VPTSeeker::cancel()
+{
+	stop();
 }
