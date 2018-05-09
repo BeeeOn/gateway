@@ -52,8 +52,6 @@ public:
 
 	void doUnpairCommand(const Command::Ptr &cmd);
 
-	void doListenCommand(const Command::Ptr &cmd);
-
 	/**
 	 * Set interval of periodic bluetooth statistics generation.
 	 */
@@ -77,6 +75,7 @@ public:
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 	void notifyDongleRemoved() override;
 
 private:

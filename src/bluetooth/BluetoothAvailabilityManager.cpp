@@ -18,6 +18,7 @@
 #include "model/DevicePrefix.h"
 #include "hotplug/HotplugEvent.h"
 #include "util/PosixSignal.h"
+#include "util/ThreadWrapperAsyncWork.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -286,9 +287,7 @@ bool BluetoothAvailabilityManager::haveTimeForInactive(Timespan elapsedTime)
 
 void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
-	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd);
-	else if (cmd->is<DeviceUnpairCommand>())
+	if (cmd->is<DeviceUnpairCommand>())
 		doUnpairCommand(cmd);
 	else
 		DeviceManager::handleGeneric(cmd, result);
@@ -309,18 +308,12 @@ void BluetoothAvailabilityManager::doUnpairCommand(
 	removeDevice(cmd->cast<DeviceUnpairCommand>().deviceID());
 }
 
-void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd)
+AsyncWork<>::Ptr BluetoothAvailabilityManager::startDiscovery(const Timespan &timeout)
 {
-	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
+	m_listenTime = timeout;
+	m_thread.start(m_listenThread);
 
-	if (!m_thread.isRunning()) {
-		m_listenTime = cmdListen->duration();
-		m_thread.start(m_listenThread);
-	}
-	else {
-		logger().debug("listen already running, dropping listen command",
-			__FILE__, __LINE__);
-	}
+	return new ThreadWrapperAsyncWork<>(m_thread);
 }
 
 void BluetoothAvailabilityManager::fetchDeviceList()
