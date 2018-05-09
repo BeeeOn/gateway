@@ -87,18 +87,12 @@ void BluetoothAvailabilityManager::dongleAvailable()
 
 	fetchDeviceList();
 
-	if (m_eventSource.asyncExecutor().isNull()) {
-		logger().critical("no executor to generate statistics",
-				__FILE__, __LINE__);
-	}
-	else {
-		m_statisticsRunner.start([&]() {
-			HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
+	m_statisticsRunner.start([&]() {
+		HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
 
-			const HciInfo &info = hci->info();
-			m_eventSource.fireEvent(info, &BluetoothListener::onHciStats);
-		});
-	}
+		const HciInfo &info = hci->info();
+		m_eventSource.fireEvent(info, &BluetoothListener::onHciStats);
+	});
 
 	/*
 	 * Scanning of a single device.
