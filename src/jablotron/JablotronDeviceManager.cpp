@@ -9,6 +9,7 @@
 #include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
 #include "hotplug/HotplugEvent.h"
+#include "util/BlockingAsyncWork.h"
 #include "util/DelayedAsyncWork.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
@@ -158,8 +159,6 @@ void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<DeviceSetValueCommand>())
 		doSetValue(cmd.cast<DeviceSetValueCommand>());
-	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else
 		DeviceManager::handleGeneric(cmd, result);
 }
@@ -173,22 +172,6 @@ void JablotronDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	DeviceManager::handleAccept(cmd);
-}
-
-void JablotronDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd)
-{
-	Mutex::ScopedLock guard(m_lock);
-	auto it = m_devices.find(cmd->deviceID());
-
-	if (it != m_devices.end()) {
-		it->second = nullptr;
-	}
-	else {
-		logger().warning(
-			"attempt to unpair unknown device: "
-			+ cmd->deviceID().toString());
-	}
 }
 
 AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
@@ -210,6 +193,30 @@ AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 	};
 
 	return new DelayedAsyncWork<>(finish, finish, timeout);
+}
+
+AsyncWork<set<DeviceID>>::Ptr JablotronDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
+{
+	set<DeviceID> result;
+
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
+	Mutex::ScopedLock guard(m_lock);
+	auto it = m_devices.find(id);
+
+	if (it != m_devices.end()) {
+		it->second = nullptr;
+		work->setResult({id});
+	}
+	else {
+		logger().warning(
+			"attempt to unpair unknown device: "
+			+ id.toString());
+	}
+
+	return work;
 }
 
 void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
