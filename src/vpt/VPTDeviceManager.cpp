@@ -10,6 +10,7 @@
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
 #include "net/VPTHTTPScanner.h"
+#include "util/BlockingAsyncWork.h"
 #include "vpt/VPTDeviceManager.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, VPTDeviceManager)
@@ -254,9 +255,6 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 	if (cmd->is<DeviceSetValueCommand>()) {
 		modifyValue(cmd.cast<DeviceSetValueCommand>());
 	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
-	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
@@ -268,21 +266,29 @@ AsyncWork<>::Ptr VPTDeviceManager::startDiscovery(const Timespan &timeout)
 	return m_seeker;
 }
 
-void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
+AsyncWork<set<DeviceID>>::Ptr VPTDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	if (!deviceCache()->paired(cmd->deviceID())) {
-		logger().warning("unpairing device that is not paired: " + cmd->deviceID().toString(),
+	if (!deviceCache()->paired(id)) {
+		logger().warning("unpairing device that is not paired: " + id.toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		deviceCache()->markUnpaired(cmd->deviceID());
+		deviceCache()->markUnpaired(id);
 
-		DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID());
+		DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(id);
 		if (noSubdevicePaired(tmpID))
 			m_devices.erase(tmpID);
+
+		work->setResult({id});
 	}
+
+	return work;
 }
 
 void VPTDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)

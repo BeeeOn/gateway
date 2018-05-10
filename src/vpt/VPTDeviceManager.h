@@ -79,6 +79,9 @@ protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 
 	/**
 	 * @brief Gathers SensorData from devices and
@@ -97,11 +100,6 @@ protected:
 	 * the VPT given in the parametr.
 	 */
 	bool isAnySubdevicePaired(VPTDevice::Ptr device);
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
 
 	/**
 	 * @brief Sets the proper device's module to given value.
