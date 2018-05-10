@@ -98,14 +98,6 @@ void PressureSensorManager::initialize()
 		deviceCache()->markPaired(pairedID());
 }
 
-void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
-{
-	if (cmd->is<DeviceUnpairCommand>())
-		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>());
-	else
-		DeviceManager::handleGeneric(cmd, result);
-}
-
 AsyncWork<>::Ptr PressureSensorManager::startDiscovery(const Timespan &)
 {
 	if (!deviceCache()->paired(pairedID())) {
@@ -136,20 +128,28 @@ void PressureSensorManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 	DeviceManager::handleAccept(cmd);
 }
 
-void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd)
+AsyncWork<set<DeviceID>>::Ptr PressureSensorManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
-	if (cmd.deviceID() != pairedID()) {
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
+	if (id != pairedID()) {
 		poco_warning(logger(), "not unpairing device with unknown id: "
-			+ cmd.deviceID().toString());
-		return;
+			+ id.toString());
+
+		return work;
 	}
 
 	if (deviceCache()->paired(pairedID())) {
 		deviceCache()->markUnpaired(pairedID());
+		work->setResult({id});
 	}
 	else {
 		poco_warning(logger(), "ignoring unpair of not paired device");
 	}
+
+	return work;
 }
 
 void PressureSensorManager::setRefresh(const Timespan &refresh)

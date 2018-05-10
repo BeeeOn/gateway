@@ -53,9 +53,11 @@ public:
 	void setUnit(const std::string &unit);
 
 protected:
-	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 
 private:
 	/**
@@ -81,8 +83,6 @@ private:
 	 * on the set unit.
 	 */
 	double convertToHPA(const double value);
-
-	void handleUnpairCommand(const DeviceUnpairCommand &cmd);
 
 private:
 	Poco::Timespan m_refresh;
