@@ -50,8 +50,6 @@ public:
 
 	void setModes(const std::list<std::string> &modes);
 
-	void doUnpairCommand(const Command::Ptr &cmd);
-
 	/**
 	 * Set interval of periodic bluetooth statistics generation.
 	 */
@@ -73,9 +71,11 @@ public:
 	void registerListener(BluetoothListener::Ptr listener);
 
 protected:
-	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 	void notifyDongleRemoved() override;
 
 private:
