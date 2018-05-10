@@ -1,6 +1,7 @@
 #include <Poco/Clock.h>
 #include <Poco/Exception.h>
 
+#include "commands/DeviceUnpairResult.h"
 #include "commands/ServerDeviceListCommand.h"
 #include "commands/ServerDeviceListResult.h"
 #include "commands/ServerLastValueCommand.h"
@@ -80,12 +81,19 @@ void DeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 	)
 }
 
-void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<DeviceAcceptCommand>())
 		handleAccept(cmd.cast<DeviceAcceptCommand>());
 	else if (cmd->is<GatewayListenCommand>())
 		handleListen(cmd.cast<GatewayListenCommand>());
+	else if (cmd->is<DeviceUnpairCommand>()) {
+		DeviceUnpairResult::Ptr unpair = result.cast<DeviceUnpairResult>();
+		poco_assert(!unpair.isNull());
+
+		const auto &result = handleUnpair(cmd.cast<DeviceUnpairCommand>());
+		unpair->setUnpaired(result);
+	}
 	else
 		throw NotImplementedException(cmd->toString());
 }
@@ -141,6 +149,68 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 	discovery->cancel();
 
 	logger().information("discovery has been cancelled", __FILE__, __LINE__);
+}
+
+AsyncWork<set<DeviceID>>::Ptr DeviceManager::startUnpair(
+		const DeviceID &,
+		const Timespan &)
+{
+	throw NotImplementedException("generic unpair is not supported");
+}
+
+set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
+{
+	const Clock started;
+	const Timespan &duration = cmd->timeout();
+
+	ScopedLock<FastMutex> guard(m_unpairLock, duration.totalMilliseconds());
+
+	if (started.elapsed() > 1 * Timespan::SECONDS) {
+		logger().warning("unpair has been significantly delayed: "
+			+ to_string(started.elapsed()) + " us",
+			__FILE__, __LINE__);
+	}
+
+	Timespan timeout = duration - started.elapsed();
+	if (timeout < 1 * Timespan::SECONDS)
+		timeout = 1 * Timespan::SECONDS;
+
+	logger().information("starting unpair", __FILE__, __LINE__);
+
+	auto unpair = startUnpair(cmd->deviceID(), timeout);
+
+	if (!unpair->tryJoin(timeout)) {
+		logger().information("cancelling unpair", __FILE__, __LINE__);
+		unpair->cancel();
+
+		logger().information("unpair has been cancelled", __FILE__, __LINE__);
+	}
+
+	if (unpair->result().isNull())
+		return {};
+
+	const set<DeviceID> &result = unpair->result();
+
+	if (result.find(cmd->deviceID()) != result.end() && result.size() == 1) {
+		logger().information("unpair was successful", __FILE__, __LINE__);
+	}
+	else if (result.empty()) {
+		logger().warning("unpair seems to be unsuccessful", __FILE__, __LINE__);
+	}
+	else {
+		string ids;
+
+		for (const auto &id : result) {
+			if (!ids.empty())
+				ids += ", ";
+
+			ids += id.toString();
+		}
+
+		logger().notice("unpaired devices: " + ids, __FILE__, __LINE__);
+	}
+
+	return result;
 }
 
 void DeviceManager::ship(const SensorData &sensorData)

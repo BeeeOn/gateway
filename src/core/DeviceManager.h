@@ -9,6 +9,7 @@
 #include <Poco/SharedPtr.h>
 
 #include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
@@ -124,6 +125,29 @@ protected:
 	void handleListen(const GatewayListenCommand::Ptr cmd);
 
 	/**
+	 * @brief Starts device unpair process in a technology-specific way.
+	 * This method is always called inside a critical section and so its
+	 * implementation does not have to be thread-safe nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The unpairing process might be a non-blocking operation. The unpaired
+	 * devices are provided via the result of the returned AsyncWork instance.
+	 */
+	virtual AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Implements handling of the unpair command in a generic way. The method
+	 * ensures that only 1 thread can execute the unpair process at a time.
+	 *
+	 * It uses the method startUnpair() to initialize and start the unpairing process.
+	 * The method startUnpair() is always called exactly once at a time and until it
+	 * finishes, no other unpair is started.
+	 */
+	std::set<DeviceID> handleUnpair(const DeviceUnpairCommand::Ptr cmd);
+
+	/**
 	* Ship data received from a physical device into a collection point.
 	*/
 	void ship(const SensorData &sensorData);
@@ -170,6 +194,7 @@ private:
 	DevicePrefix m_prefix;
 	DeviceCache::Ptr m_deviceCache;
 	Poco::FastMutex m_listenLock;
+	Poco::FastMutex m_unpairLock;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 };
