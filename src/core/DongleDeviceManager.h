@@ -14,7 +14,8 @@ class FailDetector;
 
 class DongleDeviceManager : public DeviceManager, public HotplugListener {
 public:
-	DongleDeviceManager(const DevicePrefix &prefix);
+	DongleDeviceManager(const DevicePrefix &prefix,
+		const std::initializer_list<std::type_index> &acceptable = {});
 
 	void run() override;
 	void stop() override;

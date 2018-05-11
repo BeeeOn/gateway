@@ -158,7 +158,6 @@ public:
 	void logDeviceParsed(VirtualDevice::Ptr device);
 
 protected:
-	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	/**

@@ -1,7 +1,7 @@
 #ifndef BEEEON_DEVICE_UNPAIR_COMMAND_H
 #define BEEEON_DEVICE_UNPAIR_COMMAND_H
 
-#include "core/Command.h"
+#include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
 
 namespace BeeeOn {
@@ -14,7 +14,7 @@ namespace BeeeOn {
  *  of the unpaired to which the command can get need
  *  to be reported on server.
  */
-class DeviceUnpairCommand : public Command {
+class DeviceUnpairCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceUnpairCommand> Ptr;
 

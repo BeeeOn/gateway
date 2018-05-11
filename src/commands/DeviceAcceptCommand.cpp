@@ -4,6 +4,7 @@ using namespace BeeeOn;
 using namespace std;
 
 DeviceAcceptCommand::DeviceAcceptCommand(const DeviceID &deviceID):
+	PrefixCommand(deviceID.prefix()),
 	m_deviceID(deviceID)
 {
 }

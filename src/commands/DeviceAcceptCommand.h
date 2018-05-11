@@ -1,7 +1,7 @@
 #ifndef BEEEON_DEVICE_ACCEPTED_COMMAND_H
 #define BEEEON_DEVICE_ACCEPTED_COMMAND_H
 
-#include "core/Command.h"
+#include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
 
 namespace BeeeOn {
@@ -10,7 +10,7 @@ namespace BeeeOn {
  * The server informs gateway about accepting of a new
  * device from user.
  */
-class DeviceAcceptCommand : public Command {
+class DeviceAcceptCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceAcceptCommand> Ptr;
 

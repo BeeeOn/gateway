@@ -38,7 +38,6 @@ public:
 	void run() override;
 	void stop() override;
 
-	bool accept(const Command::Ptr cmd) override;
 	void handle(const Command::Ptr cmd, Answer::Ptr answer) override;
 
 	void setRefresh(const Poco::Timespan &refresh);

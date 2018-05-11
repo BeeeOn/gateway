@@ -66,7 +66,6 @@ public:
 	void registerListener(PhilipsHueListener::Ptr listener);
 
 protected:
-	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	void refreshPairedDevices();

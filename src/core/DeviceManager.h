@@ -2,6 +2,7 @@
 #define BEEEON_DEVICE_MANAGER_H
 
 #include <set>
+#include <typeindex>
 
 #include <Poco/AtomicCounter.h>
 
@@ -38,7 +39,8 @@ class DeviceManager:
 	protected Loggable,
 	public StoppableRunnable {
 public:
-	DeviceManager(const DevicePrefix &prefix);
+	DeviceManager(const DevicePrefix &prefix,
+		const std::initializer_list<std::type_index> &acceptable = {});
 	virtual ~DeviceManager();
 
 	/**
@@ -48,6 +50,13 @@ public:
 	void stop() override;
 
 	void setDistributor(Poco::SharedPtr<Distributor> distributor);
+
+	/**
+	 * Generic implementation of the CommandHandler::accept() method.
+	 * If the m_acceptable set is initialized appropriately, this
+	 * generic implementation can be used directly.
+	 */
+	bool accept(const Command::Ptr cmd) override;
 
 protected:
 	/**
@@ -91,6 +100,7 @@ protected:
 
 private:
 	Poco::SharedPtr<Distributor> m_distributor;
+	std::set<std::type_index> m_acceptable;
 };
 
 }

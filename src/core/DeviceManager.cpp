@@ -3,6 +3,7 @@
 #include "commands/ServerLastValueCommand.h"
 #include "commands/ServerLastValueResult.h"
 #include "core/DeviceManager.h"
+#include "core/PrefixCommand.h"
 #include "util/ClassInfo.h"
 
 using namespace BeeeOn;
@@ -11,9 +12,11 @@ using namespace std;
 
 const Timespan DeviceManager::DEFAULT_REQUEST_TIMEOUT(5 * Timespan::SECONDS);
 
-DeviceManager::DeviceManager(const DevicePrefix &prefix):
+DeviceManager::DeviceManager(const DevicePrefix &prefix,
+		const initializer_list<type_index> &acceptable):
 	m_stop(false),
-	m_prefix(prefix)
+	m_prefix(prefix),
+	m_acceptable(acceptable)
 {
 }
 
@@ -29,6 +32,19 @@ void DeviceManager::stop()
 void DeviceManager::setDistributor(Poco::SharedPtr<Distributor> distributor)
 {
 	m_distributor = distributor;
+}
+
+bool DeviceManager::accept(const Command::Ptr cmd)
+{
+	if (m_acceptable.find(typeid(*cmd)) == m_acceptable.end())
+		return false;
+
+	if (cmd->is<PrefixCommand>()) {
+		const auto pcmd = cmd.cast<PrefixCommand>();
+		return pcmd->prefix() == m_prefix;
+	}
+
+	return true;
 }
 
 void DeviceManager::ship(const SensorData &sensorData)

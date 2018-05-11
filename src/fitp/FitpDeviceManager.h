@@ -195,7 +195,6 @@ public:
 	void processJoinMsg(const std::vector<uint8_t> &data);
 
 protected:
-	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	/**

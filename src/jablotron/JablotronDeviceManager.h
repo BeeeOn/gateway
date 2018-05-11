@@ -47,7 +47,6 @@ class JablotronDeviceManager : public DongleDeviceManager {
 public:
 	JablotronDeviceManager();
 
-	bool accept(const Command::Ptr cmd) override;
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
 
 	std::string dongleMatch(const HotplugEvent &e) override;

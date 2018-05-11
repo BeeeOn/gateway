@@ -46,7 +46,12 @@ using namespace std;
 const Poco::Timespan PhilipsHueDeviceManager::SEARCH_DELAY = 45 * Timespan::SECONDS;
 
 PhilipsHueDeviceManager::PhilipsHueDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_PHILIPS_HUE),
+	DeviceManager(DevicePrefix::PREFIX_PHILIPS_HUE, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	}),
 	m_refresh(5 * Timespan::SECONDS),
 	m_seeker(*this),
 	m_httpTimeout(3 * Timespan::SECONDS),
@@ -210,27 +215,6 @@ void PhilipsHueDeviceManager::eraseUnusedBridges()
 		// It can last several tens of seconds.
 		return;
 	}
-}
-
-bool PhilipsHueDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
-		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() ==
-			DevicePrefix::PREFIX_PHILIPS_HUE;
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() ==
-			DevicePrefix::PREFIX_PHILIPS_HUE;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() ==
-			DevicePrefix::PREFIX_PHILIPS_HUE;
-	}
-
-	return false;
 }
 
 void PhilipsHueDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)

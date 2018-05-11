@@ -37,7 +37,12 @@ using namespace Poco::Net;
 using namespace std;
 
 VPTDeviceManager::VPTDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_VPT),
+	DeviceManager(DevicePrefix::PREFIX_VPT, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	}),
 	m_seeker(*this),
 	m_maxMsgSize(10000),
 	m_refresh(5 * Timespan::SECONDS),
@@ -234,24 +239,6 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 		auto itPaired = m_pairedDevices.find(subDevID);
 		if (itPaired != m_pairedDevices.end())
 			return true;
-	}
-
-	return false;
-}
-
-bool VPTDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
-		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == DevicePrefix::PREFIX_VPT;
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_VPT;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_VPT;
 	}
 
 	return false;

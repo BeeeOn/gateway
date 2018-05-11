@@ -32,7 +32,12 @@ using namespace std;
 const static unsigned int DEFAULT_REFRESH_SECS = 30;
 
 VirtualDeviceManager::VirtualDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_VIRTUAL_DEVICE)
+	DeviceManager(DevicePrefix::PREFIX_VIRTUAL_DEVICE, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	})
 {
 }
 
@@ -192,27 +197,6 @@ void VirtualDeviceManager::installVirtualDevices()
 		+ " virtual devices",
 		__FILE__, __LINE__
 	);
-}
-
-bool VirtualDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
-		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix()
-			== DevicePrefix::PREFIX_VIRTUAL_DEVICE;
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix()
-			== DevicePrefix::PREFIX_VIRTUAL_DEVICE;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix()
-			== DevicePrefix::PREFIX_VIRTUAL_DEVICE;
-	}
-
-	return false;
 }
 
 void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)

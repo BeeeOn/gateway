@@ -32,7 +32,12 @@ using namespace Poco::Net;
 using namespace std;
 
 BelkinWemoDeviceManager::BelkinWemoDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_BELKIN_WEMO),
+	DeviceManager(DevicePrefix::PREFIX_BELKIN_WEMO, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	}),
 	m_refresh(5 * Timespan::SECONDS),
 	m_seeker(*this),
 	m_httpTimeout(3 * Timespan::SECONDS),
@@ -175,24 +180,6 @@ void BelkinWemoDeviceManager::eraseUnusedLinks()
 
 		m_links.erase(link->macAddress());
 	}
-}
-
-bool BelkinWemoDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
-		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_BELKIN_WEMO;
-	}
-
-	return false;
 }
 
 void BelkinWemoDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)

@@ -56,7 +56,11 @@ using namespace std;
 #define FITP_CONFIG_PATH    "/var/cache/beeeon/gateway/fitp.devices"
 
 FitpDeviceManager::FitpDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_FITPROTOCOL),
+	DeviceManager(DevicePrefix::PREFIX_FITPROTOCOL, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceAcceptCommand),
+	}),
 	m_configFile(FITP_CONFIG_PATH),
 	m_listening(false),
 	m_listenCallback(*this, &FitpDeviceManager::stopListen),
@@ -204,23 +208,6 @@ void FitpDeviceManager::doUnpairCommand(
 	m_devices.erase(cmd->deviceID());
 
 	result->setStatus(Result::Status::SUCCESS);
-}
-
-bool FitpDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix()
-			   == DevicePrefix::PREFIX_FITPROTOCOL;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix()
-			   == DevicePrefix::PREFIX_FITPROTOCOL;
-	}
-
-	return false;
 }
 
 void FitpDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
