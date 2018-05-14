@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-44-gbcd6238</span>
+   &#160;<span id="projectnumber">v2018.02.1-48-g85b5877</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -84,18 +84,17 @@ Inheritance diagram for BeeeOn::DeviceManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abf57c4777403c4b8567a2cef1ac4530f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf57c4777403c4b8567a2cef1ac4530f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix)</td></tr>
-<tr class="separator:abf57c4777403c4b8567a2cef1ac4530f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+<tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac26f2187e2ed239017ceb3a530a8e9dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">stop</a> () override</td></tr>
 <tr class="separator:ac26f2187e2ed239017ceb3a530a8e9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a834fa16d05b841aee857033e96bb47d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
 <tr class="separator:a834fa16d05b841aee857033e96bb47d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d23d839a37a8654bee7e85073274c7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">accept</a> (const Command::Ptr cmd) override</td></tr>
+<tr class="separator:a7d23d839a37a8654bee7e85073274c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1CommandHandler"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1CommandHandler')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a></td></tr>
-<tr class="memitem:a3449103aeaab66c7221088cdd5f413f5 inherit pub_methods_classBeeeOn_1_1CommandHandler"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3449103aeaab66c7221088cdd5f413f5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (const Command::Ptr cmd)=0</td></tr>
-<tr class="separator:a3449103aeaab66c7221088cdd5f413f5 inherit pub_methods_classBeeeOn_1_1CommandHandler"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf2faa237772f0c935556c61f6e2eb70 inherit pub_methods_classBeeeOn_1_1CommandHandler"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf2faa237772f0c935556c61f6e2eb70"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> (Command::Ptr cmd, Answer::Ptr answer)=0</td></tr>
 <tr class="separator:abf2faa237772f0c935556c61f6e2eb70 inherit pub_methods_classBeeeOn_1_1CommandHandler"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,6 +170,35 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>There is usually a main thread that performs communication with the physical devices and translates the specific device communication protocol into the <a class="el" href="classBeeeOn_1_1Command.html">Command</a> &amp; <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> interface or into <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> interface.</p>
 <p>Communication in the direction to physical devices is served via the <a class="el" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a> interface. By accepting Commands asking for specific tasks, the physical devices can be queried as expected by the server. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a7d23d839a37a8654bee7e85073274c7c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DeviceManager::accept </td>
+          <td>(</td>
+          <td class="paramtype">const Command::Ptr&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generic implementation of the CommandHandler::accept() method. If the m_acceptable set is initialized appropriately, this generic implementation can be used directly. </p>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">BeeeOn::ZWaveDeviceManager</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a972d84056330e3cac75c4f932dc69160"></a>
 <div class="memitem">
 <div class="memproto">

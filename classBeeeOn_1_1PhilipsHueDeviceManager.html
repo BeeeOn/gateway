@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-44-gbcd6238</span>
+   &#160;<span id="projectnumber">v2018.02.1-48-g85b5877</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -113,12 +113,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setEventsExecutor</b>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>registerListener</b> (PhilipsHueListener::Ptr listener)</td></tr>
 <tr class="separator:a44d6b34bd6d6f416677b3dcc7ad4ff98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
-<tr class="memitem:abf57c4777403c4b8567a2cef1ac4530f inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf57c4777403c4b8567a2cef1ac4530f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix)</td></tr>
-<tr class="separator:abf57c4777403c4b8567a2cef1ac4530f inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+<tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
 <tr class="separator:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d23d839a37a8654bee7e85073274c7c inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">accept</a> (const Command::Ptr cmd) override</td></tr>
+<tr class="separator:a7d23d839a37a8654bee7e85073274c7c inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1CommandSender"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1CommandSender')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></td></tr>
 <tr class="memitem:a253245ba6a7af4fb671b3182beaccf6a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#a253245ba6a7af4fb671b3182beaccf6a">setCommandDispatcher</a> (<a class="el" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a> *dispatcher)</td></tr>
 <tr class="separator:a253245ba6a7af4fb671b3182beaccf6a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,9 +139,6 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:aaa18046d290cce65b30bc21093ffc32c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa18046d290cce65b30bc21093ffc32c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (const Command::Ptr cmd) override</td></tr>
-<tr class="separator:aaa18046d290cce65b30bc21093ffc32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c642923e64c02f825ad6729b0ffe2ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c642923e64c02f825ad6729b0ffe2ba"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
 <tr class="separator:a7c642923e64c02f825ad6729b0ffe2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>

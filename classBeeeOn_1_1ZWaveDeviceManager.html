@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-44-gbcd6238</span>
+   &#160;<span id="projectnumber">v2018.02.1-48-g85b5877</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -86,8 +86,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>onAdd</b> (const <a c
 <tr class="memitem:ac6367baba7d8c6c7a4d1a146158600d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6367baba7d8c6c7a4d1a146158600d7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>onRemove</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
 <tr class="separator:ac6367baba7d8c6c7a4d1a146158600d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded060ce7a7822e25d608dac274bbf65"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aded060ce7a7822e25d608dac274bbf65"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (Command::Ptr cmd) override</td></tr>
+<tr class="memitem:aded060ce7a7822e25d608dac274bbf65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">accept</a> (Command::Ptr cmd) override</td></tr>
 <tr class="separator:aded060ce7a7822e25d608dac274bbf65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a1e2c940898861a868b1b59922537a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a1e2c940898861a868b1b59922537a9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
@@ -114,9 +113,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>installConfiguration<
 void&#160;</td><td class="memItemRight" valign="bottom"><b>registerListener</b> (ZWaveListener::Ptr listener)</td></tr>
 <tr class="separator:a8d3a11803014d8a30e02e50222eeb1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
-<tr class="memitem:abf57c4777403c4b8567a2cef1ac4530f inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf57c4777403c4b8567a2cef1ac4530f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix)</td></tr>
-<tr class="separator:abf57c4777403c4b8567a2cef1ac4530f inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+<tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
 <tr class="separator:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,6 +195,33 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <div class="textblock"><p>In OpenZWave, all feedback from the Z-Wave network is sent to the application via callbacks. This class allows the application to add a notification callback handler. All notifications will be reported to it.</p>
 <p>After a supported Z-Wave driver is connected, the onAdd event ensures its setup and initialization via the OpenZWave library. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aded060ce7a7822e25d608dac274bbf65"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ZWaveDeviceManager::accept </td>
+          <td>(</td>
+          <td class="paramtype">Command::Ptr&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generic implementation of the CommandHandler::accept() method. If the m_acceptable set is initialized appropriately, this generic implementation can be used directly. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ab99889752be021cad52b90d8e61fbc7f"></a>
 <div class="memitem">
 <div class="memproto">
