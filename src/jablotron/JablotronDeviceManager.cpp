@@ -138,7 +138,7 @@ void JablotronDeviceManager::jablotronProcess()
 		Mutex::ScopedLock guard(m_lock);
 
 		auto it = m_devices.find(id);
-		if (it != m_devices.end() && !it->second.isNull() && it->second->paired()) {
+		if (it != m_devices.end() && !it->second.isNull() && deviceCache()->paired(id)) {
 			shipMessage(message, it->second);
 		}
 		else if (it != m_devices.end() && m_isListen) {
@@ -176,7 +176,7 @@ void JablotronDeviceManager::doDeviceAcceptCommand(
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	it->second->setPaired(true);
+	deviceCache()->markPaired(cmd->deviceID());
 }
 
 void JablotronDeviceManager::doUnpairCommand(
@@ -214,7 +214,7 @@ void JablotronDeviceManager::doListenCommand(
 			if (device.second.isNull())
 				continue;
 
-			if (!device.second->paired())
+			if (!deviceCache()->paired(device.second->deviceID()))
 				device.second = nullptr;
 		}
 	}));
@@ -236,7 +236,7 @@ void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
 			return;
 		}
 
-		it->second->setPaired(false);
+		deviceCache()->markUnpaired(deviceID);
 	}
 
 	NewDeviceCommand::Ptr cmd =
@@ -268,7 +268,7 @@ void JablotronDeviceManager::loadDeviceList()
 				continue;
 			}
 
-			it->second->setPaired(true);
+			deviceCache()->markPaired(id);
 		}
 	}
 
@@ -492,7 +492,7 @@ bool JablotronDeviceManager::modifyValue(
 			+ " is not Jablotron AC-88");
 	}
 
-	if (!it->second->paired()) {
+	if (!deviceCache()->paired(deviceID)) {
 		InvalidArgumentException(
 			"device " + it->first.toString()
 			+ " is not paired");
@@ -516,7 +516,7 @@ void JablotronDeviceManager::obtainLastValue()
 		if (device.second.cast<JablotronDeviceAC88>().isNull())
 			continue;
 
-		if (!device.second->paired())
+		if (!deviceCache()->paired(device.second->deviceID()))
 			continue;
 
 		try {
