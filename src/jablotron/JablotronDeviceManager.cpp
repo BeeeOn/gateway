@@ -162,14 +162,11 @@ void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
 		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
 		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
-	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
 		DeviceManager::handleGeneric(cmd, result);
 }
 
-void JablotronDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd)
+void JablotronDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	Mutex::ScopedLock guard(m_lock);
 
@@ -177,7 +174,7 @@ void JablotronDeviceManager::doDeviceAcceptCommand(
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	deviceCache()->markPaired(cmd->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
 void JablotronDeviceManager::doUnpairCommand(

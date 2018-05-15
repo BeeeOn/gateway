@@ -54,6 +54,7 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 
 private:
 	enum MessageType {
@@ -121,7 +122,6 @@ private:
 	void doNewDevice(const DeviceID &deviceID,
 		std::map<DeviceID, JablotronDevice::Ptr>::iterator &it);
 	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	bool getResponse();
 	bool isResponse(MessageType type);
