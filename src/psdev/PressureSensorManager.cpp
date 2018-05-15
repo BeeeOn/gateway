@@ -40,7 +40,6 @@ PressureSensorManager::PressureSensorManager():
 		typeid(DeviceAcceptCommand),
 		typeid(DeviceUnpairCommand),
 	}),
-	m_paired(false),
 	m_refresh(15 * Timespan::SECONDS),
 	m_vendor("BeeeOn"),
 	m_unit("kPa")
@@ -58,7 +57,7 @@ void PressureSensorManager::run()
 	initialize();
 
 	while(!m_stop) {
-		if (!m_paired) {
+		if (!deviceCache()->paired(pairedID())) {
 			m_event.wait();
 			continue;
 		}
@@ -94,7 +93,7 @@ void PressureSensorManager::initialize()
 	}
 
 	if (devices.find(pairedID()) != devices.end())
-		m_paired = true;
+		deviceCache()->markPaired(pairedID());
 }
 
 void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
@@ -111,7 +110,7 @@ void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr re
 
 void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
 {
-	if (!m_paired) {
+	if (!deviceCache()->paired(pairedID())) {
 		dispatch(new NewDeviceCommand(
 			pairedID(),
 			m_vendor,
@@ -126,8 +125,8 @@ void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
 	if (cmd.deviceID() != pairedID())
 		throw NotFoundException("accept: " + cmd.deviceID().toString());
 
-	if (!m_paired) {
-		m_paired = true;
+	if (!deviceCache()->paired(pairedID())) {
+		deviceCache()->markPaired(pairedID());
 		m_event.set();
 	}
 	else {
@@ -143,8 +142,8 @@ void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd)
 		return;
 	}
 
-	if (m_paired) {
-		m_paired = false;
+	if (deviceCache()->paired(pairedID())) {
+		deviceCache()->markUnpaired(pairedID());
 	}
 	else {
 		poco_warning(logger(), "ignoring unpair of not paired device");

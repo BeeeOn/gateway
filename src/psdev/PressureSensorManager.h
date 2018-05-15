@@ -3,7 +3,6 @@
 #include <list>
 #include <string>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Event.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
@@ -87,7 +86,6 @@ private:
 	void handleUnpairCommand(const DeviceUnpairCommand &cmd);
 
 private:
-	Poco::AtomicCounter m_paired;
 	Poco::Timespan m_refresh;
 	std::string m_vendor;
 	std::string m_path;
