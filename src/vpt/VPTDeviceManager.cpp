@@ -55,13 +55,19 @@ void VPTDeviceManager::run()
 {
 	logger().information("starting VPT device manager");
 
+	set<DeviceID> paired;
+
 	try {
-		m_pairedDevices = deviceList(-1);
+		paired = deviceList(-1);
 	}
 	catch (Exception& e) {
 		logger().log(e, __FILE__, __LINE__);
 	}
-	if (m_pairedDevices.size() > 0)
+
+	for (const auto &id : paired)
+		deviceCache()->markPaired(id);
+
+	if (paired.size() > 0)
 		searchPairedDevices();
 
 	while (!m_stop) {
@@ -169,7 +175,7 @@ void VPTDeviceManager::shipFromDevices()
 	set<VPTDevice::Ptr> devices;
 
 	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
-	for (auto &id : m_pairedDevices) {
+	for (auto &id : deviceCache()->paired(prefix())) {
 		DeviceID realVPTId = VPTDevice::omitSubdeviceFromDeviceID(id);
 		auto itDevice = m_devices.find(realVPTId);
 
@@ -199,8 +205,7 @@ void VPTDeviceManager::shipFromDevices()
 
 		ScopedLock<FastMutex> guard(m_pairedMutex);
 		for (auto &one : data) {
-			auto it = m_pairedDevices.find(one.deviceID());
-			if (it != m_pairedDevices.end())
+			if (deviceCache()->paired(one.deviceID()))
 				ship(one);
 		}
 	}
@@ -236,8 +241,7 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 	for (int i = 0; i <= VPTDevice::COUNT_OF_ZONES; i++) {
 		DeviceID subDevID = VPTDevice::createSubdeviceID(i, device->boilerID());
 
-		auto itPaired = m_pairedDevices.find(subDevID);
-		if (itPaired != m_pairedDevices.end())
+		if (deviceCache()->paired(subDevID))
 			return true;
 	}
 
@@ -272,13 +276,12 @@ void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	auto it = m_pairedDevices.find(cmd->deviceID());
-	if (it == m_pairedDevices.end()) {
+	if (!deviceCache()->paired(cmd->deviceID())) {
 		logger().warning("unpairing device that is not paired: " + cmd->deviceID().toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		m_pairedDevices.erase(it);
+		deviceCache()->markUnpaired(cmd->deviceID());
 
 		DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID());
 		if (noSubdevicePaired(tmpID))
@@ -310,7 +313,7 @@ void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
 		}
 	}
 
-	m_pairedDevices.insert(cmd->deviceID());
+	deviceCache()->markPaired(cmd->deviceID());
 }
 
 void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd)
@@ -337,8 +340,7 @@ void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd)
 bool VPTDeviceManager::noSubdevicePaired(const DeviceID& id) const
 {
 	for (int i = 0; i <= VPTDevice::COUNT_OF_ZONES; i++) {
-		auto it = m_pairedDevices.find(VPTDevice::createSubdeviceID(i, id));
-		if (it != m_pairedDevices.end())
+		if (deviceCache()->paired(VPTDevice::createSubdeviceID(i, id)))
 			return false;
 	}
 
@@ -393,8 +395,7 @@ void VPTDeviceManager::processNewDevice(VPTDevice::Ptr newDevice)
 
 	vector<NewDeviceCommand::Ptr> newDeviceCommands = newDevice->createNewDeviceCommands(m_refresh);
 	for (auto cmd : newDeviceCommands) {
-		auto pairedDevice = m_pairedDevices.find(cmd->deviceID());
-		if (pairedDevice == m_pairedDevices.end())
+		if (!deviceCache()->paired(cmd->deviceID()))
 			dispatch(cmd);
 	}
 }
