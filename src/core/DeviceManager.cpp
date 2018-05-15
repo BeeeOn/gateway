@@ -81,7 +81,20 @@ void DeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
 
 void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
-	throw NotImplementedException(cmd->toString());
+	if (cmd->is<DeviceAcceptCommand>())
+		handleAccept(cmd.cast<DeviceAcceptCommand>());
+	else
+		throw NotImplementedException(cmd->toString());
+}
+
+void DeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
+{
+	const auto &id = cmd->deviceID();
+
+	if (id.prefix() != m_prefix)
+		throw AssertionViolationException("incompatible prefix: " + id.prefix().toString());
+
+	m_deviceCache->markPaired(id);
 }
 
 void DeviceManager::ship(const SensorData &sensorData)

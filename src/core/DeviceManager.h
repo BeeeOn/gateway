@@ -7,6 +7,7 @@
 #include <Poco/AtomicCounter.h>
 #include <Poco/SharedPtr.h>
 
+#include "commands/DeviceAcceptCommand.h"
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
@@ -85,6 +86,14 @@ protected:
 	 * override handleGeneric().
 	 */
 	virtual void handleGeneric(const Command::Ptr cmd, Result::Ptr result);
+
+	/**
+	 * @brief Generic handler of the DeviceAcceptCommand. It might be helpful to
+	 * override this method in case we need to make some technology-specific check
+	 * of the device to be accepted. The default implementation simply marks the
+	 * given device as paired.
+	 */
+	virtual void handleAccept(const DeviceAcceptCommand::Ptr);
 
 	/**
 	* Ship data received from a physical device into a collection point.
