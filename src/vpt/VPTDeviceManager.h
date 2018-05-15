@@ -77,6 +77,7 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 
 	/**
 	 * @brief Gathers SensorData from devices and
@@ -105,11 +106,6 @@ protected:
 	 * @brief Processes the unpair command.
 	 */
 	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	/**
 	 * @brief Sets the proper device's module to given value.

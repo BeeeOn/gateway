@@ -260,9 +260,6 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
-	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
@@ -290,7 +287,7 @@ void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 	}
 }
 
-void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
+void VPTDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
@@ -314,7 +311,7 @@ void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
 		}
 	}
 
-	deviceCache()->markPaired(cmd->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
 void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd)
