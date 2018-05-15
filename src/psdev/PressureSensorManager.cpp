@@ -101,8 +101,6 @@ void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr re
 {
 	if (cmd->is<GatewayListenCommand>())
 		handleListenCommand(cmd->cast<GatewayListenCommand>());
-	else if (cmd->is<DeviceAcceptCommand>())
-		handleAcceptCommand(cmd->cast<DeviceAcceptCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
 		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>());
 	else
@@ -121,10 +119,10 @@ void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
 	}
 }
 
-void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
+void PressureSensorManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
-	if (cmd.deviceID() != pairedID())
-		throw NotFoundException("accept: " + cmd.deviceID().toString());
+	if (cmd->deviceID() != pairedID())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	if (!deviceCache()->paired(pairedID())) {
 		deviceCache()->markPaired(pairedID());
@@ -132,7 +130,9 @@ void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
 	}
 	else {
 		poco_warning(logger(), "ignoring accept of already paired device");
+		return;
 	}
+	DeviceManager::handleAccept(cmd);
 }
 
 void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd)

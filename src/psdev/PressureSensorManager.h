@@ -54,6 +54,7 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 
 private:
 	/**
@@ -81,7 +82,6 @@ private:
 	double convertToHPA(const double value);
 
 	void handleListenCommand(const GatewayListenCommand &cmd);
-	void handleAcceptCommand(const DeviceAcceptCommand &cmd);
 	void handleUnpairCommand(const DeviceUnpairCommand &cmd);
 
 private:
