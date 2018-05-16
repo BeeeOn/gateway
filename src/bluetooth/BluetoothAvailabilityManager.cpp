@@ -330,6 +330,8 @@ void BluetoothAvailabilityManager::fetchDeviceList()
 {
 	set<DeviceID> idList;
 	idList = deviceList();
+
+	deviceCache()->markPaired(prefix(), {});
 	m_deviceList.clear();
 
 	FastMutex::ScopedLock lock(m_lock);
@@ -363,7 +365,7 @@ void BluetoothAvailabilityManager::reportFoundDevices(
 		else
 			return;
 
-		if (!hasDevice(id))
+		if (!deviceCache()->paired(id))
 			sendNewDevice(id, scannedDevice.second);
 	}
 }
@@ -394,11 +396,7 @@ void BluetoothAvailabilityManager::listen()
 void BluetoothAvailabilityManager::addDevice(const DeviceID &id)
 {
 	m_deviceList.emplace(id, BluetoothDevice(id));
-}
-
-bool BluetoothAvailabilityManager::hasDevice(const DeviceID &id)
-{
-	return m_deviceList.find(id) != m_deviceList.end();
+	deviceCache()->markPaired(id);
 }
 
 void BluetoothAvailabilityManager::removeDevice(const DeviceID &id)
@@ -407,6 +405,8 @@ void BluetoothAvailabilityManager::removeDevice(const DeviceID &id)
 
 	if (it != m_deviceList.end())
 		m_deviceList.erase(it);
+
+	deviceCache()->markUnpaired(id);
 }
 
 void BluetoothAvailabilityManager::shipStatusOf(const BluetoothDevice &device)
