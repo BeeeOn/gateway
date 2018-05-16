@@ -32,9 +32,6 @@ public:
 	void setProductName(const std::string &productName);
 	std::string productName() const;
 
-	void setPaired(bool paired);
-	bool paired() const;
-
 	std::list<VirtualModule::Ptr> modules() const;
 	void addModule(const VirtualModule::Ptr virtualModule);
 	std::list<ModuleType> moduleTypes() const;
@@ -48,7 +45,6 @@ public:
 
 private:
 	Poco::Timespan m_refresh;
-	bool m_paired;
 	std::string m_vendorName;
 	std::string m_productName;
 	std::list<VirtualModule::Ptr> m_modules;

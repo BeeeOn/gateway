@@ -70,7 +70,7 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 		+ ", modules: "
 		+ to_string(device->modules().size())
 		+ ", paired: "
-		+ (device->paired() ? "yes" : "no")
+		+ (deviceCache()->paired(device->deviceID()) ? "yes" : "no")
 		+ ", refresh: "
 		+ to_string(device->refresh().totalSeconds())
 		+ ", vendor: "
@@ -116,7 +116,11 @@ VirtualDevice::Ptr VirtualDeviceManager::parseDevice(
 	unsigned int refresh = cfg->getUInt("refresh", DEFAULT_REFRESH_SECS);
 	device->setRefresh(refresh * Timespan::SECONDS);
 
-	device->setPaired(cfg->getBool("paired", false));
+	if (cfg->getBool("paired", false))
+		deviceCache()->markPaired(id);
+	else
+		deviceCache()->markUnpaired(id);
+
 	device->setVendorName(cfg->getString("vendor"));
 	device->setProductName(cfg->getString("product"));
 
@@ -216,7 +220,7 @@ void VirtualDeviceManager::doListenCommand(
 {
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : m_virtualDevicesMap) {
-		if (!item.second->paired())
+		if (!deviceCache()->paired(item.first))
 			dispatchNewDevice(item.second);
 	}
 }
@@ -229,7 +233,7 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 	if (it == m_virtualDevicesMap.end())
 		throw NotFoundException("accept " + cmd->deviceID().toString());
 
-	if (it->second->paired()) {
+	if (deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"ignoring accept for paired device "
 			+ cmd->deviceID().toString(),
@@ -238,7 +242,7 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 	}
 
 	const VirtualDeviceEntry entry(it->second);
-	entry.device()->setPaired(true);
+	deviceCache()->markPaired(cmd->deviceID());
 	scheduleEntryUnlocked(entry);
 }
 
@@ -257,7 +261,7 @@ void VirtualDeviceManager::doUnpairCommand(
 		return;
 	}
 
-	if (!it->second->paired()) {
+	if (!deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"unpairing device that is not paired: "
 			+ cmd->deviceID().toString(),
@@ -265,7 +269,7 @@ void VirtualDeviceManager::doUnpairCommand(
 		);
 	}
 
-	it->second->setPaired(false);
+	deviceCache()->markUnpaired(cmd->deviceID());
 }
 
 void VirtualDeviceManager::doSetValueCommand(
@@ -323,7 +327,7 @@ void VirtualDeviceManager::setPairedDevices()
 			if (deviceIDs.find(pair.first) != deviceIDs.end())
 				continue;
 
-			pair.second->setPaired(true);
+			deviceCache()->markPaired(pair.first);
 		}
 	}
 	else {
@@ -335,7 +339,7 @@ void VirtualDeviceManager::scheduleAllEntries()
 {
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : m_virtualDevicesMap) {
-		if (item.second->paired()) {
+		if (deviceCache()->paired(item.first)) {
 			const VirtualDeviceEntry entry(item.second);
 			scheduleEntryUnlocked(VirtualDeviceEntry(item.second));
 		}
@@ -365,7 +369,7 @@ void VirtualDeviceManager::run()
 		ScopedLockWithUnlock<FastMutex> guard(m_lock);
 		const VirtualDeviceEntry entry = m_virtualDeviceQueue.top();
 
-		if (!entry.device()->paired()) {
+		if (!deviceCache()->paired(entry.device()->deviceID())) {
 			logger().debug(
 				"unpaired device "
 				+ entry.device()->deviceID().toString()
