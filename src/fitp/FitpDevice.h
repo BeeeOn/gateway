@@ -12,7 +12,6 @@ namespace BeeeOn {
 
 /**
  * Keeps information about devices that are paired within the BeeeOn system.
- * If device has set paired flag to true, it is paired in the BeeeOn system.
  */
 class FitpDevice : public Loggable {
 public:
@@ -24,7 +23,7 @@ public:
 	};
 	typedef Poco::SharedPtr<FitpDevice> Ptr;
 
-	FitpDevice(DeviceID id, bool paired = false);
+	FitpDevice(DeviceID id);
 	virtual ~FitpDevice();
 
 	DeviceID deviceID() const;
@@ -76,12 +75,9 @@ public:
 	 */
 	static ModuleID deriveCOORDModuleID(const uint8_t id);
 
-	void setPaired(bool paired);
-	bool paired();
 private:
 	DeviceID m_deviceID;
 	DeviceType m_type;
-	bool m_paired;
 };
 
 }

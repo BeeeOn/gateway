@@ -123,7 +123,7 @@ void FitpDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	if (it->second->paired()) {
+	if (deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"ignoring accept for paired device "
 			+ cmd->deviceID().toString(),
@@ -137,7 +137,7 @@ void FitpDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd
 		__FILE__, __LINE__
 	);
 
-	it->second->setPaired(true);
+	deviceCache()->markPaired(cmd->deviceID());
 
 	logger().notice(
 		"device "
@@ -151,7 +151,7 @@ void FitpDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(cmd->deviceID());
-	if (it == m_devices.end() || !it->second->paired()) {
+	if (it == m_devices.end() || !deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"unpairing device that is not registered: "
 			+ cmd->deviceID().toString(),
@@ -174,6 +174,8 @@ void FitpDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 		+ " was successfully unpaired"
 			__FILE__, __LINE__
 	);
+
+	deviceCache()->markUnpaired(cmd->deviceID());
 	m_devices.erase(cmd->deviceID());
 }
 
@@ -335,8 +337,9 @@ void FitpDeviceManager::loadDeviceList()
 
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : deviceIDs) {
-		FitpDevice::Ptr device = new FitpDevice(item, true);
+		FitpDevice::Ptr device = new FitpDevice(item);
 		m_devices.emplace(item, device);
+		deviceCache()->markPaired(item);
 	}
 }
 
@@ -377,7 +380,7 @@ void FitpDeviceManager::processDataMsg(const vector<uint8_t> &data)
 
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(deviceID);
-	if (it != m_devices.end() && it->second->paired()) {
+	if (it != m_devices.end() && deviceCache()->paired(deviceID)) {
 		try {
 			const vector<uint8_t> &values = {data.begin() + FITP_DATA_OFFSET, data.end()};
 			SensorData sensorData = it->second->parseMessage(values, deviceID);
@@ -426,7 +429,7 @@ void FitpDeviceManager::processJoinMsg(const vector<uint8_t> &data)
 
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(deviceID);
-	if (it == m_devices.end() || !it->second->paired()) {
+	if (it == m_devices.end() || !deviceCache()->paired(deviceID)) {
 		FitpDevice::Ptr device;
 
 		switch (data[1]) {
