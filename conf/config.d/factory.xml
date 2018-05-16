@@ -28,6 +28,7 @@
 			<add name="exporter" ref="gwServerConnector" if-yes="${gws.enable}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listener" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+                        <add name="listener" ref="collector"/>
 		</instance>
 
 		<instance name="asyncExecutor" class="BeeeOn::SequentialAsyncExecutor">
@@ -112,6 +113,7 @@
 			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+                        <add name="listeners" ref="collector"/>
 		</instance>
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
@@ -176,6 +178,7 @@
 			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+                        <add name="listeners" ref="collector"/>
 		</instance>
 
 		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
@@ -212,5 +215,13 @@
 			<set name="power" number="${fitp.power}"/>
 			<set name="txRetries" number="${fitp.tx.retries}"/>
 		</instance>
+
+                <instance name="collector" class="BeeeOn::NemeaCollector">
+                    <set name="onExportInterface" text="u:event-onExport"/>
+                    <set name="onHCIStatsInterface" text="u:event-onHCIStats"/>
+                    <set name="onNodeStatsInterface" text="u:event-onNodeStats"/>
+                    <set name="onDriverStatsInterface" text="u:event-onDriverStats"/>
+                </instance>
+
 	</factory>
 </system>

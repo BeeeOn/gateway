@@ -9,6 +9,9 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
+find_library (LIBTRAP trap)
+find_library (UNIREC unirec)
+find_library (PCAP pcap)
 
 if(ENABLE_UDEV)
 	find_library (UDEV udev)
@@ -57,8 +60,10 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
+        ${PROJECT_SOURCE_DIR}/core/fields.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
+        ${PROJECT_SOURCE_DIR}/core/NemeaCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
@@ -286,6 +291,9 @@ set(LIBS
 	${UDEV}
 	${OPENZWAVE_LIBRARY}
 	${FITP_LIB}
+        ${PCAP}
+        ${UNIREC}
+        ${LIBTRAP}
 )
 
 target_link_libraries(beeeon-gateway

@@ -10,6 +10,9 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
+find_library (LIBTRAP trap)
+find_library (UNIREC unirec)
+find_library (PCAP pcap)
 
 if(ENABLE_UDEV)
 	find_library (UDEV udev)
@@ -102,6 +105,9 @@ set(LIBS
 	${UDEV}
 	${OPENZWAVE_LIBRARY}
 	${FITP_LIB}
+        ${PCAP}
+        ${UNIREC}
+        ${LIBTRAP}
 )
 
 target_link_libraries(test-suite-gateway
