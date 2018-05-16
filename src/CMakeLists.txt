@@ -86,6 +86,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherListener.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandSender.cpp
+	${PROJECT_SOURCE_DIR}/core/DeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Distributor.cpp
 	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
