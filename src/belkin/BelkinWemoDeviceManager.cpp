@@ -48,8 +48,13 @@ void BelkinWemoDeviceManager::run()
 {
 	logger().information("starting Belkin WeMo device manager", __FILE__, __LINE__);
 
-	m_pairedDevices = deviceList(-1);
-	if (m_pairedDevices.size() > 0)
+	set<DeviceID> paired;
+	paired = deviceList(-1);
+
+	for (const auto &id : paired)
+		deviceCache()->markPaired(id);
+
+	if (paired.size() > 0)
 		searchPairedDevices();
 
 	while (!m_stop) {
@@ -107,7 +112,7 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 	vector<BelkinWemoDevice::Ptr> devices;
 
 	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
-	for (auto &id : m_pairedDevices) {
+	for (auto &id : deviceCache()->paired(prefix())) {
 		auto it = m_devices.find(id);
 		if (it == m_devices.end()) {
 			logger().warning("no such device: " + id.toString(), __FILE__, __LINE__);
@@ -137,8 +142,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 
 	ScopedLockWithUnlock<FastMutex> lockSwitch(m_pairedMutex);
 	for (auto device : switches) {
-		auto it = m_pairedDevices.find(device->deviceID());
-		if (it != m_pairedDevices.end())
+		if (deviceCache()->paired(device->deviceID()))
 			m_devices.emplace(device->deviceID(), device);
 	}
 	lockSwitch.unlock();
@@ -147,8 +151,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
-		auto it = m_pairedDevices.find(device->deviceID());
-		if (it != m_pairedDevices.end())
+		if (deviceCache()->paired(device->deviceID()))
 			m_devices.emplace(device->deviceID(), device);
 	}
 	lockBulb.unlock();
@@ -157,8 +160,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 
 	ScopedLockWithUnlock<FastMutex> lockDimmer(m_pairedMutex);
 	for (auto device : dimmers) {
-		auto it = m_pairedDevices.find(device->deviceID());
-		if (it != m_pairedDevices.end())
+		if (deviceCache()->paired(device->deviceID()))
 			m_devices.emplace(device->deviceID(), device);
 	}
 	lockDimmer.unlock();
@@ -219,13 +221,12 @@ void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd)
 
 	DeviceUnpairCommand::Ptr cmdUnpair = cmd.cast<DeviceUnpairCommand>();
 
-	auto it = m_pairedDevices.find(cmdUnpair->deviceID());
-	if (it == m_pairedDevices.end()) {
+	if (!deviceCache()->paired(cmdUnpair->deviceID())) {
 		logger().warning("unpairing device that is not paired: " + cmdUnpair->deviceID().toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		m_pairedDevices.erase(it);
+		deviceCache()->markUnpaired(cmdUnpair->deviceID());
 
 		auto itDevice = m_devices.find(cmdUnpair->deviceID());
 		if (itDevice != m_devices.end())
@@ -243,7 +244,7 @@ void BelkinWemoDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd)
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmdAccept->deviceID().toString());
 
-	m_pairedDevices.insert(cmdAccept->deviceID());
+	deviceCache()->markPaired(cmdAccept->deviceID());
 }
 
 void BelkinWemoDeviceManager::doSetValueCommand(const Command::Ptr cmd)
