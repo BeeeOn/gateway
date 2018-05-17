@@ -18,6 +18,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, FitpDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &FitpDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &FitpDeviceManager::setConfigPath)
 BEEEON_OBJECT_PROPERTY("noiseMin", &FitpDeviceManager::setNoiseMin)
 BEEEON_OBJECT_PROPERTY("noiseMax", &FitpDeviceManager::setNoiseMax)

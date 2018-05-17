@@ -15,6 +15,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, VPTDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &VPTDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &VPTDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &VPTDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("refresh", &VPTDeviceManager::setRefresh)

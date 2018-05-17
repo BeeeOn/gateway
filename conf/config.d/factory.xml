@@ -84,6 +84,7 @@
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="refresh" time="${psdev.refresh}" />
 			<set name="path" text="${psdev.path}" />
 			<set name="vendor" text="${psdev.vendor}" />
@@ -93,6 +94,7 @@
 		</instance>
 
 		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="httpTimeout" time="${belkinwemo.http.timeout}" />
 			<set name="upnpTimeout" time="${belkinwemo.upnp.timeout}" />
 			<set name="refresh" time="${belkinwemo.refresh}" />
@@ -101,6 +103,7 @@
 		</instance>
 
 		<instance name="virtualDeviceManager" class="BeeeOn::VirtualDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="distributor" ref="distributor"/>
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 			<set name="file" text="${vdev.ini}"/>
@@ -113,6 +116,7 @@
 		</instance>
 
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="wakeUpTime" time="${bluetooth.refresh}" />
 			<set name="modes" list="${bluetooth.modes}" />
 			<set name="distributor" ref="distributor" />
@@ -155,11 +159,13 @@
 		</instance>
 
 		<instance name="jablotronDeviceManager" class="BeeeOn::JablotronDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
 		<instance name="vptDeviceManager" class="BeeeOn::VPTDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="httpTimeout" time="${vpt.http.timeout}" />
 			<set name="pingTimeout" time="${vpt.ping.timeout}" />
 			<set name="refresh" time="${vpt.refresh}" />
@@ -197,6 +203,7 @@
 		<instance name="loggingCollector" class="BeeeOn::LoggingCollector" />
 
 		<instance name="philipsHueDeviceManager" class="BeeeOn::PhilipsHueDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="httpTimeout" time="${philipshue.http.timeout}" />
 			<set name="upnpTimeout" time="${philipshue.upnp.timeout}" />
 			<set name="refresh" time="${philipshue.refresh}" />
@@ -209,6 +216,7 @@
 		</instance>
 
 		<instance name="fitpDeviceManager" class="BeeeOn::FitpDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="distributor" ref="distributor"/>
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 			<set name="gatewayInfo" ref="gatewayInfo"/>
@@ -235,6 +243,8 @@
 		<instance name="fsDeviceCache" class="BeeeOn::FilesystemDeviceCache">
 			<set name="cacheDir" text="${cache.devices.dir}" />
 		</instance>
+
+		<alias name="deviceCache" ref="${cache.devices.impl}DeviceCache" />
 
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
 			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />

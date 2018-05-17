@@ -18,6 +18,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, VirtualDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &VirtualDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &VirtualDeviceManager::setConfigFile)
 BEEEON_OBJECT_PROPERTY("distributor", &VirtualDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &VirtualDeviceManager::setCommandDispatcher)

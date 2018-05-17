@@ -15,6 +15,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, PressureSensorManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
+BEEEON_OBJECT_PROPERTY("deviceCache", &PressureSensorManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &PressureSensorManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &PressureSensorManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("refresh", &PressureSensorManager::setRefresh)
