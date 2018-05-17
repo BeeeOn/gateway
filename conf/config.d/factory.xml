@@ -227,5 +227,9 @@
 			<set name="storage" ref="credentialsStorage" />
 			<set name="cmd" text="${tool.credentials.cmd}" />
 		</instance>
+
+		<instance name="ramDeviceCache" class="BeeeOn::MemoryDeviceCache">
+			<set name="prepaired" list="" />
+		</instance>
 	</factory>
 </system>
