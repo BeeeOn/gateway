@@ -48,7 +48,7 @@ list<SocketAddress> UPnP::discover(const Timespan& timeout, const string& device
 		try {
 			sizeOfResponse = socket.receiveFrom(buffer, sizeof(buffer), device);
 		}
-		catch (const TimeoutException e) {
+		catch (const TimeoutException& e) {
 			break;
 		}
 
