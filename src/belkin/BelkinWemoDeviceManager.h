@@ -55,7 +55,7 @@ public:
 	void setRefresh(const Poco::Timespan &refresh);
 
 protected:
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -68,22 +68,22 @@ protected:
 	/**
 	 * @brief Processes the listen command.
 	 */
-	void doListenCommand(const Command::Ptr cmd, const Answer::Ptr answer);
+	void doListenCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the unpair command.
 	 */
-	void doUnpairCommand(const Command::Ptr cmd, const Answer::Ptr answer);
+	void doUnpairCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the device accept command.
 	 */
-	void doDeviceAcceptCommand(const Command::Ptr cmd, const Answer::Ptr answer);
+	void doDeviceAcceptCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the device set value command.
 	 */
-	void doSetValueCommand(const Command::Ptr cmd, const Answer::Ptr answer);
+	void doSetValueCommand(const Command::Ptr cmd);
 	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @return If the setting was successfull or not.

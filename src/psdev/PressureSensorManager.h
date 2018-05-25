@@ -38,8 +38,6 @@ public:
 	void run() override;
 	void stop() override;
 
-	void handle(const Command::Ptr cmd, Answer::Ptr answer) override;
-
 	void setRefresh(const Poco::Timespan &refresh);
 
 	/**
@@ -55,6 +53,9 @@ public:
 	 * needs to be made before shipping measured value.
 	 */
 	void setUnit(const std::string &unit);
+
+protected:
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 private:
 	/**
@@ -81,9 +82,9 @@ private:
 	 */
 	double convertToHPA(const double value);
 
-	void handleListenCommand(const GatewayListenCommand &cmd, Answer::Ptr answer);
-	void handleAcceptCommand(const DeviceAcceptCommand &cmd, Answer::Ptr answer);
-	void handleUnpairCommand(const DeviceUnpairCommand &cmd, Answer::Ptr answer);
+	void handleListenCommand(const GatewayListenCommand &cmd);
+	void handleAcceptCommand(const DeviceAcceptCommand &cmd);
+	void handleUnpairCommand(const DeviceUnpairCommand &cmd);
 
 private:
 	Poco::AtomicCounter m_paired;

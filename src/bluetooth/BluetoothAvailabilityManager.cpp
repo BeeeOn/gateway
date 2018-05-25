@@ -290,61 +290,46 @@ bool BluetoothAvailabilityManager::haveTimeForInactive(Timespan elapsedTime)
 	return tryTime > 0;
 }
 
-void BluetoothAvailabilityManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd, answer);
+		doListenCommand(cmd);
 	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd, answer);
+		doUnpairCommand(cmd);
 	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd, answer);
+		doDeviceAcceptCommand(cmd);
+	else
+		throw NotImplementedException(cmd->toString());
 }
 
 void BluetoothAvailabilityManager::doDeviceAcceptCommand(
-	const Command::Ptr &cmd, const Answer::Ptr &answer)
+	const Command::Ptr &cmd)
 {
 	FastMutex::ScopedLock lock(m_lock);
 
 	addDevice(cmd.cast<DeviceAcceptCommand>()->deviceID());
-
-	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BluetoothAvailabilityManager::doUnpairCommand(
-	const Command::Ptr &cmd, const Answer::Ptr &answer)
+	const Command::Ptr &cmd)
 {
 	FastMutex::ScopedLock lock(m_lock);
 
 	removeDevice(cmd->cast<DeviceUnpairCommand>().deviceID());
-
-	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd, const Answer::Ptr &answer)
+void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd)
 {
 	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
-	Result::Ptr result = new Result(answer);
 
 	if (!m_thread.isRunning()) {
 		m_listenTime = cmdListen->duration();
-
-		try {
-			m_thread.start(m_listenThread);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-			result->setStatus(Result::Status::FAILED);
-			return;
-		}
+		m_thread.start(m_listenThread);
 	}
 	else {
 		logger().debug("listen already running, dropping listen command",
 			__FILE__, __LINE__);
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void BluetoothAvailabilityManager::fetchDeviceList()

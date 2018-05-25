@@ -2,6 +2,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <Poco/Exception.h>
+
 #include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
@@ -73,30 +75,21 @@ FitpDeviceManager::~FitpDeviceManager()
 	fitp_deinit();
 }
 
-void FitpDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
+void FitpDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	if (m_listening) {
 		logger().debug(
 			"listening is already in progress",
 			__FILE__, __LINE__
 		);
-		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 	m_listening = true;
 
 	if (cmd->duration().totalSeconds() < 1) {
-		logger().error(
-			"listening duration is too short: "
-			+ to_string(cmd->duration().totalMilliseconds())
-			+ " ms"
-			__FILE__, __LINE__
-		);
-		result->setStatus(Result::Status::FAILED);
-		return;
+		throw InvalidArgumentException(
+			to_string(cmd->duration().totalMilliseconds())
+			+ " ms");
 	}
 
 	logger().debug(
@@ -109,8 +102,6 @@ void FitpDeviceManager::doListenCommand(
 	m_listenTimer.stop();
 	m_listenTimer.setStartInterval(cmd->duration().totalMilliseconds());
 	m_listenTimer.start(m_listenCallback);
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void FitpDeviceManager::stopListen(Timer &)
@@ -124,24 +115,13 @@ void FitpDeviceManager::stopListen(Timer &)
 	);
 }
 
-void FitpDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
+void FitpDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
-	auto it = m_devices.find(cmd->deviceID());
-	if (it == m_devices.end()) {
-		logger().warning(
-			"no such device "
-			+ cmd->deviceID().toString()
-			+ " to accept",
-			__FILE__, __LINE__
-		);
 
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	auto it = m_devices.find(cmd->deviceID());
+	if (it == m_devices.end())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	if (it->second->paired()) {
 		logger().warning(
@@ -149,7 +129,6 @@ void FitpDeviceManager::doDeviceAcceptCommand(
 			+ cmd->deviceID().toString(),
 			__FILE__, __LINE__
 		);
-		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
@@ -158,7 +137,6 @@ void FitpDeviceManager::doDeviceAcceptCommand(
 		__FILE__, __LINE__
 	);
 
-	result->setStatus(Result::Status::SUCCESS);
 	it->second->setPaired(true);
 
 	logger().notice(
@@ -169,11 +147,8 @@ void FitpDeviceManager::doDeviceAcceptCommand(
 	);
 }
 
-void FitpDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+void FitpDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(cmd->deviceID());
 	if (it == m_devices.end() || !it->second->paired()) {
@@ -182,21 +157,15 @@ void FitpDeviceManager::doUnpairCommand(
 			+ cmd->deviceID().toString(),
 			__FILE__, __LINE__
 		);
-
-		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
 	FitpDeviceManager::EDID edid  = deriveEDID(cmd->deviceID());
 
 	if (!fitp_unpair(edid)) {
-		logger().error(
+		throw IllegalStateException(
 			"failed to unpair device "
-			+ cmd->deviceID().toString(),
-			__FILE__, __LINE__
-		);
-		result->setStatus(Result::Status::FAILED);
-		return;
+			+ cmd->deviceID().toString());
 	}
 
 	logger().notice(
@@ -206,20 +175,18 @@ void FitpDeviceManager::doUnpairCommand(
 			__FILE__, __LINE__
 	);
 	m_devices.erase(cmd->deviceID());
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void FitpDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void FitpDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
+		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw IllegalStateException("received unaccepted command: " + cmd->toString());
+		throw NotImplementedException(cmd->toString());
 }
 
 void FitpDeviceManager::dispatchNewDevice(FitpDevice::Ptr device)

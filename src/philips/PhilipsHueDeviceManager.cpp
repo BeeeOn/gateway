@@ -10,7 +10,6 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "commands/NewDeviceCommand.h"
-#include "core/Answer.h"
 #include "core/CommandDispatcher.h"
 #include "credentials/PasswordCredentials.h"
 #include "di/Injectable.h"
@@ -217,48 +216,39 @@ void PhilipsHueDeviceManager::eraseUnusedBridges()
 	}
 }
 
-void PhilipsHueDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 {
 	if (cmd->is<GatewayListenCommand>()) {
-		doListenCommand(cmd, answer);
+		doListenCommand(cmd);
 	}
 	else if (cmd->is<DeviceSetValueCommand>()) {
-		doSetValueCommand(cmd, answer);
+		doSetValueCommand(cmd);
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
-		doUnpairCommand(cmd, answer);
+		doUnpairCommand(cmd);
 	}
 	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd, answer);
+		doDeviceAcceptCommand(cmd);
+	}
+	else {
+		throw NotImplementedException(cmd->toString());
 	}
 }
 
-void PhilipsHueDeviceManager::doListenCommand(const Command::Ptr cmd, const Answer::Ptr answer)
+void PhilipsHueDeviceManager::doListenCommand(const Command::Ptr cmd)
 {
 	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
 
-	Result::Ptr result = new Result(answer);
-
 	if (!m_seekerThread.isRunning()) {
-		try {
-			m_seeker.setDuration(cmdListen->duration());
-			m_seekerThread.start(m_seeker);
-		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-			logger().error("listening thread failed to start", __FILE__, __LINE__);
-			result->setStatus(Result::Status::FAILED);
-			return;
-		}
+		m_seeker.setDuration(cmdListen->duration());
+		m_seekerThread.start(m_seeker);
 	}
 	else {
 		logger().warning("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd, const Answer::Ptr answer)
+void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
@@ -276,53 +266,40 @@ void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd, const Answ
 		if (itDevice != m_devices.end())
 			m_devices.erase(cmdUnpair->deviceID());
 	}
-
-	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void PhilipsHueDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd, const Answer::Ptr answer)
+void PhilipsHueDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
 	DeviceAcceptCommand::Ptr cmdAccept = cmd.cast<DeviceAcceptCommand>();
-	Result::Ptr result = new Result(answer);
 
 	auto it = m_devices.find(cmdAccept->deviceID());
-	if (it == m_devices.end()) {
-		logger().warning("not accepting device that is not found: " + cmdAccept->deviceID().toString(),
-			__FILE__, __LINE__);
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	if (it == m_devices.end())
+		throw NotFoundException("accept: " + cmdAccept->deviceID().toString());
 
 	m_pairedDevices.insert(cmdAccept->deviceID());
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-void PhilipsHueDeviceManager::doSetValueCommand(const Command::Ptr cmd, const Answer::Ptr answer)
+void PhilipsHueDeviceManager::doSetValueCommand(const Command::Ptr cmd)
 {
 	DeviceSetValueCommand::Ptr cmdSet = cmd.cast<DeviceSetValueCommand>();
 
-	Result::Ptr result = new Result(answer);
+	if (!modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
+		throw IllegalStateException(
+			"set-value: " + cmdSet->deviceID().toString());
+	}
 
-	if (modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
-		result->setStatus(Result::Status::SUCCESS);
+	logger().debug("success to change state of device " + cmdSet->deviceID().toString(),
+		__FILE__, __LINE__);
 
+	try {
 		SensorData data;
 		data.setDeviceID(cmdSet->deviceID());
 		data.insertValue({cmdSet->moduleID(), cmdSet->value()});
 		ship(data);
-
-		logger().debug("success to change state of device " + cmdSet->deviceID().toString(),
-			__FILE__, __LINE__);
 	}
-	else {
-		result->setStatus(Result::Status::FAILED);
-		logger().debug("failed to change state of device " + cmdSet->deviceID().toString(),
-			__FILE__, __LINE__);
-	}
+	BEEEON_CATCH_CHAIN(logger())
 }
 
 bool PhilipsHueDeviceManager::modifyValue(const DeviceID& deviceID,
