@@ -7,6 +7,8 @@
 #include <Poco/RefCountedObject.h>
 #include <Poco/SharedPtr.h>
 
+#include "core/Answer.h"
+#include "core/Result.h"
 #include "util/Castable.h"
 
 namespace BeeeOn {
@@ -43,6 +45,17 @@ public:
 	 * Converts Command to human readable format.
 	 */
 	virtual std::string toString() const;
+
+	/**
+	 * Derive result appropriate for the Command instance.
+	 * The result is always created in the PENDING state.
+	 *
+	 * The default implementation returns an instance of class
+	 * Result as it is suitable for most commands. Specific
+	 * command would override this method to derive another
+	 * Result (sub)class.
+	 */
+	virtual Result::Ptr deriveResult(Answer::Ptr answer) const;
 
 protected:
 	void setSendingHandler(CommandHandler *sender);

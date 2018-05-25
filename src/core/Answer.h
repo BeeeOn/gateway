@@ -9,16 +9,13 @@
 #include <Poco/Task.h>
 #include <Poco/TaskManager.h>
 
-#include "core/Command.h"
 #include "core/Result.h"
 
 namespace BeeeOn {
 
 class AnswerQueue;
-class Command;
 class CommandDispatcher;
 class CommandHandler;
-class Result;
 
 /*
  * During the Answer creation the queue is set. The queue is notified using
