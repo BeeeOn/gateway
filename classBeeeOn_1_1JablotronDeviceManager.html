@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-48-g85b5877</span>
+   &#160;<span id="projectnumber">v2018.02.1-53-g2eb8280</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -76,8 +76,7 @@ Inheritance diagram for BeeeOn::JablotronDeviceManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac24172c0617b969b4b1d6a6960cdf118"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac24172c0617b969b4b1d6a6960cdf118"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
+<tr class="memitem:ac24172c0617b969b4b1d6a6960cdf118"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#ac24172c0617b969b4b1d6a6960cdf118">handle</a> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
 <tr class="separator:ac24172c0617b969b4b1d6a6960cdf118"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08b9ad0aa392756f071edcd59a0fcdf5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a08b9ad0aa392756f071edcd59a0fcdf5">dongleMatch</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;e) override</td></tr>
 <tr class="separator:a08b9ad0aa392756f071edcd59a0fcdf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,6 +146,8 @@ typedef Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1HotplugListener.h
 <tr class="memitem:a97d5f633032052f934cee6b10dd7233a inherit pro_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memItemLeft" align="right" valign="top">Poco::Event &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a97d5f633032052f934cee6b10dd7233a">event</a> ()</td></tr>
 <tr class="separator:a97d5f633032052f934cee6b10dd7233a inherit pro_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
+<tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
+<tr class="separator:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94e2b5abe52d5db31a0c4b28bcc52f80 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a94e2b5abe52d5db31a0c4b28bcc52f80">ship</a> (const <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> &amp;sensorData)</td></tr>
 <tr class="separator:a94e2b5abe52d5db31a0c4b28bcc52f80 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d84056330e3cac75c4f932dc69160 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList</a> (const Poco::Timespan &amp;timeout=DEFAULT_REQUEST_TIMEOUT)</td></tr>
@@ -253,6 +254,44 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>If the event represents an inappropriate device, it returns an empty string. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#aa1f1ff1cb3c58d4e839d9a6015e3766e">BeeeOn::DongleDeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac24172c0617b969b4b1d6a6960cdf118"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void JablotronDeviceManager::handle </td>
+          <td>(</td>
+          <td class="paramtype">Command::Ptr&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Answer::Ptr&#160;</td>
+          <td class="paramname"><em>answer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generic implementation of the CommandHandler::handle() method. It works with respect to the <a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">accept()</a> method and handles commands generically if possible. It also catches all exceptions and fails such command executions properly.</p>
+<p>To override handle, please use <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric()</a> instead. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">BeeeOn::DeviceManager</a>.</p>
 
 </div>
 </div>

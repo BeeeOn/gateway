@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-48-g85b5877</span>
+   &#160;<span id="projectnumber">v2018.02.1-53-g2eb8280</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -92,6 +92,8 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () co
 <tr class="separator:a0368b9c7b5a268f61d2c69caeabca840"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38f9f75618fbee0bbd48f7e3e66fc6bf"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Command.html#a38f9f75618fbee0bbd48f7e3e66fc6bf">toString</a> () const </td></tr>
 <tr class="separator:a38f9f75618fbee0bbd48f7e3e66fc6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87e8c5e7dbbeb593b6e3d4e1533d2c7d"><td class="memItemLeft" align="right" valign="top">virtual Result::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Command.html#a87e8c5e7dbbeb593b6e3d4e1533d2c7d">deriveResult</a> (Answer::Ptr answer) const </td></tr>
+<tr class="separator:a87e8c5e7dbbeb593b6e3d4e1533d2c7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1Castable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1Castable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1Castable.html">BeeeOn::Castable</a></td></tr>
 <tr class="memitem:add7555249ab16173951ab5f0548d5ab9 inherit pub_methods_classBeeeOn_1_1Castable"><td class="memTemplParams" colspan="2"><a class="anchor" id="add7555249ab16173951ab5f0548d5ab9"></a>
 template&lt;typename T &gt; </td></tr>
@@ -123,6 +125,32 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:aa32475bf468092a985f48f23caa57551"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a87e8c5e7dbbeb593b6e3d4e1533d2c7d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Result::Ptr Command::deriveResult </td>
+          <td>(</td>
+          <td class="paramtype">Answer::Ptr&#160;</td>
+          <td class="paramname"><em>answer</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Derive result appropriate for the <a class="el" href="classBeeeOn_1_1Command.html">Command</a> instance. The result is always created in the PENDING state.</p>
+<p>The default implementation returns an instance of class <a class="el" href="classBeeeOn_1_1Result.html">Result</a> as it is suitable for most commands. Specific command would override this method to derive another <a class="el" href="classBeeeOn_1_1Result.html">Result</a> (sub)class. </p>
+
+</div>
+</div>
 <a class="anchor" id="a0368b9c7b5a268f61d2c69caeabca840"></a>
 <div class="memitem">
 <div class="memproto">

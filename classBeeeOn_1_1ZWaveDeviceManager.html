@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-48-g85b5877</span>
+   &#160;<span id="projectnumber">v2018.02.1-53-g2eb8280</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -88,8 +88,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>onRemove</b> (const <
 <tr class="separator:ac6367baba7d8c6c7a4d1a146158600d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aded060ce7a7822e25d608dac274bbf65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">accept</a> (Command::Ptr cmd) override</td></tr>
 <tr class="separator:aded060ce7a7822e25d608dac274bbf65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a1e2c940898861a868b1b59922537a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a1e2c940898861a868b1b59922537a9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
+<tr class="memitem:a7a1e2c940898861a868b1b59922537a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7a1e2c940898861a868b1b59922537a9">handle</a> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
 <tr class="separator:a7a1e2c940898861a868b1b59922537a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a929c6fa6cbc6a2129148d4455d41fa07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a929c6fa6cbc6a2129148d4455d41fa07">setUserPath</a> (const std::string &amp;userPath)</td></tr>
 <tr class="separator:a929c6fa6cbc6a2129148d4455d41fa07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +142,8 @@ Additional Inherited Members</h2></td></tr>
 typedef Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1HotplugListener.html">HotplugListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a4e12884cd6154da6264181014898a3a1 inherit pub_types_classBeeeOn_1_1HotplugListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
+<tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
+<tr class="separator:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94e2b5abe52d5db31a0c4b28bcc52f80 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a94e2b5abe52d5db31a0c4b28bcc52f80">ship</a> (const <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> &amp;sensorData)</td></tr>
 <tr class="separator:a94e2b5abe52d5db31a0c4b28bcc52f80 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d84056330e3cac75c4f932dc69160 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList</a> (const Poco::Timespan &amp;timeout=DEFAULT_REQUEST_TIMEOUT)</td></tr>
@@ -219,6 +220,44 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>Generic implementation of the CommandHandler::accept() method. If the m_acceptable set is initialized appropriately, this generic implementation can be used directly. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a1e2c940898861a868b1b59922537a9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ZWaveDeviceManager::handle </td>
+          <td>(</td>
+          <td class="paramtype">Command::Ptr&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Answer::Ptr&#160;</td>
+          <td class="paramname"><em>answer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generic implementation of the CommandHandler::handle() method. It works with respect to the <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">accept()</a> method and handles commands generically if possible. It also catches all exceptions and fails such command executions properly.</p>
+<p>To override handle, please use <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric()</a> instead. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">BeeeOn::DeviceManager</a>.</p>
 
 </div>
 </div>
