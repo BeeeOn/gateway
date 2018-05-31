@@ -235,5 +235,15 @@
 		<instance name="fsDeviceCache" class="BeeeOn::FilesystemDeviceCache">
 			<set name="cacheDir" text="${cache.devices.dir}" />
 		</instance>
+
+		<instance name="journalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
+			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />
+			<set name="disableGC" text="${exporter.gws.tmpStorage.disableGC}" />
+			<set name="neverDropOldest" text="${exporter.gws.tmpStorage.neverDropOldest}" />
+			<set name="bytesLimit" text="${exporter.gws.tmpStorage.sizeLimit}" />
+			<set name="ignoreIndexErrors" text="${exporter.gws.tmpStorage.ignoreIndexErrors}" />
+		</instance>
+
+		<alias name="gwsQueuingStrategy" ref="journalQueuingStrategy0" />
 	</factory>
 </system>
