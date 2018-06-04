@@ -107,6 +107,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/exporters/JournalQueuingStrategy.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/QueuingStrategy.cpp
+	${PROJECT_SOURCE_DIR}/exporters/RecoverableJournalQueuingStrategy.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/AbstractHotplugMonitor.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugEvent.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
