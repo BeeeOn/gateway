@@ -5,6 +5,7 @@
 #include "iqrf/response/DPACoordBondNodeResponse.h"
 #include "iqrf/response/DPACoordBondedNodesResponse.h"
 #include "iqrf/response/DPACoordRemoveNodeResponse.h"
+#include "iqrf/response/DPAOSPeripheralInfoResponse.h"
 
 using namespace std;
 using namespace Poco;
@@ -17,6 +18,7 @@ class DPAResponseTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testParseBondedNodesResponse);
 	CPPUNIT_TEST(testParseBondNodeResponse);
 	CPPUNIT_TEST(testParseRemoveNode);
+	CPPUNIT_TEST(testParsePeripheralInfoResponse);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -24,6 +26,7 @@ public:
 	void testParseBondedNodesResponse();
 	void testParseBondNodeResponse();
 	void testParseRemoveNode();
+	void testParsePeripheralInfoResponse();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPAResponseTest);
@@ -91,6 +94,51 @@ void DPAResponseTest::testParseRemoveNode()
 		"07");
 
 	CPPUNIT_ASSERT_EQUAL(7, response.cast<DPACoordRemoveNodeResponse>()->count());
+}
+
+void DPAResponseTest::testParsePeripheralInfoResponse()
+{
+	const DPAMessage::Ptr response = DPAResponse::fromRaw(
+		"00.00.02.80.ff.ff.00.00." // dpa response header
+		"E4.57.00.81.42.B4.B8.08.5C.1F.00.85");
+
+	// response with minimal valid values (rssi and supply voltage)
+	const DPAMessage::Ptr resMin = DPAResponse::fromRaw(
+		"00.00.02.80.ff.ff.00.00." // dpa response header
+		"E4.57.00.81.42.B4.B8.08.0C.00.00.85");
+
+	// response with maximal valid values (rssi and supply voltage)
+	const DPAMessage::Ptr resMax = DPAResponse::fromRaw(
+		"00.00.02.80.ff.ff.00.00." // dpa response header
+		"E4.57.00.81.42.B4.B8.08.8D.3B.00.85");
+
+	// invalid value of rssi and supply voltage
+	const DPAMessage::Ptr resInvalid = DPAResponse::fromRaw(
+		"00.00.02.80.ff.ff.00.00." // dpa response header
+		"E4.57.00.81.42.B4.B8.08.00.FF.00.85");
+
+	const auto peripheralInfo = response.cast<DPAOSPeripheralInfoResponse>();
+	const auto peripheralInfoMin = resMin.cast<DPAOSPeripheralInfoResponse>();
+	const auto peripheralInfoMax = resMax.cast<DPAOSPeripheralInfoResponse>();
+	const auto peripheralInfoInvalid = resInvalid.cast<DPAOSPeripheralInfoResponse>();
+
+	CPPUNIT_ASSERT_EQUAL(0x810057E4, peripheralInfo->mid());
+
+	CPPUNIT_ASSERT_EQUAL(int8_t(-38), peripheralInfo->rssi());
+	CPPUNIT_ASSERT_EQUAL(int8_t(-118), peripheralInfoMin->rssi());
+	CPPUNIT_ASSERT_EQUAL(int8_t(11), peripheralInfoMax->rssi());
+
+	CPPUNIT_ASSERT_EQUAL(2.72, peripheralInfo->supplyVoltage());
+	CPPUNIT_ASSERT_EQUAL(2.06, round(peripheralInfoMin->supplyVoltage() * 100.0) / 100.0);
+	CPPUNIT_ASSERT_EQUAL(3.84, round(peripheralInfoMax->supplyVoltage() * 100.0) / 100.0);
+
+	CPPUNIT_ASSERT_EQUAL(52.54, round(peripheralInfo->percentageSupplyVoltage() * 100.0) / 100.0);
+	CPPUNIT_ASSERT_EQUAL(0, peripheralInfoMin->percentageSupplyVoltage());
+	CPPUNIT_ASSERT_EQUAL(100, peripheralInfoMax->percentageSupplyVoltage());
+
+	CPPUNIT_ASSERT_THROW(peripheralInfoInvalid->rssi(), RangeException);
+	CPPUNIT_ASSERT_THROW(peripheralInfoInvalid->supplyVoltage(), RangeException);
+	CPPUNIT_ASSERT_THROW(peripheralInfoInvalid->percentageSupplyVoltage(), RangeException);
 }
 
 }

@@ -379,6 +379,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondNodeResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondedNodesResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordRemoveNodeResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/response/DPAOSPeripheralInfoResponse.cpp
 	)
 	list(APPEND SOURCES ${IQRF_SOURCES})
 else()
