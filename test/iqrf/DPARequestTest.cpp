@@ -8,6 +8,7 @@
 #include "iqrf/request/DPACoordDiscoveryRequest.h"
 #include "iqrf/request/DPACoordRemoveNodeRequest.h"
 #include "iqrf/request/DPANodeRemoveBondRequest.h"
+#include "iqrf/request/DPAOSPeripheralInfoRequest.h"
 
 using namespace std;
 using namespace Poco;
@@ -23,6 +24,7 @@ class DPARequestTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testCreateDPADiscoveryRequest);
 	CPPUNIT_TEST(testClearAllBondsRequest);
 	CPPUNIT_TEST(testRemoveBondRequest);
+	CPPUNIT_TEST(testPeripheralInfoRequest);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -33,6 +35,7 @@ public:
 	void testCreateDPADiscoveryRequest();
 	void testClearAllBondsRequest();
 	void testRemoveBondRequest();
+	void testPeripheralInfoRequest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPARequestTest);
@@ -109,6 +112,14 @@ void DPARequestTest::testRemoveBondRequest()
 {
 	const string rawDPA = "12.00.01.01.ff.ff";
 	const DPARequest::Ptr request = new DPANodeRemoveBondRequest(0x12);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testPeripheralInfoRequest()
+{
+	const string rawDPA = "12.00.02.00.ff.ff";
+	const DPARequest::Ptr request = new DPAOSPeripheralInfoRequest(0x12);
 
 	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
 }
