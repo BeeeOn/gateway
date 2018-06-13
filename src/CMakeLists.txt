@@ -374,6 +374,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordClearAllBondsRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordDiscoveryRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordRemoveNodeRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPANodeRemoveBondRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondNodeResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondedNodesResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordRemoveNodeResponse.cpp

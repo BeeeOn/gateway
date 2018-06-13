@@ -7,6 +7,7 @@
 #include "iqrf/request/DPACoordClearAllBondsRequest.h"
 #include "iqrf/request/DPACoordDiscoveryRequest.h"
 #include "iqrf/request/DPACoordRemoveNodeRequest.h"
+#include "iqrf/request/DPANodeRemoveBondRequest.h"
 
 using namespace std;
 using namespace Poco;
@@ -21,6 +22,7 @@ class DPARequestTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testCreateDPAUnbondNodeRequest);
 	CPPUNIT_TEST(testCreateDPADiscoveryRequest);
 	CPPUNIT_TEST(testClearAllBondsRequest);
+	CPPUNIT_TEST(testRemoveBondRequest);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -30,6 +32,7 @@ public:
 	void testCreateDPAUnbondNodeRequest();
 	void testCreateDPADiscoveryRequest();
 	void testClearAllBondsRequest();
+	void testRemoveBondRequest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPARequestTest);
@@ -98,6 +101,14 @@ void DPARequestTest::testClearAllBondsRequest()
 {
 	const string rawDPA = "00.00.00.03.ff.ff";
 	const DPARequest::Ptr request = new DPACoordClearAllBondsRequest;
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testRemoveBondRequest()
+{
+	const string rawDPA = "12.00.01.01.ff.ff";
+	const DPARequest::Ptr request = new DPANodeRemoveBondRequest(0x12);
 
 	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
 }
