@@ -10,6 +10,7 @@
 #include "iqrf/request/DPANodeRemoveBondRequest.h"
 #include "iqrf/request/DPAOSPeripheralInfoRequest.h"
 #include "iqrf/request/DPAOSRestartRequest.h"
+#include "iqrf/request/DPAOSBatchRequest.h"
 
 using namespace std;
 using namespace Poco;
@@ -27,6 +28,7 @@ class DPARequestTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testRemoveBondRequest);
 	CPPUNIT_TEST(testPeripheralInfoRequest);
 	CPPUNIT_TEST(testRestartRequest);
+	CPPUNIT_TEST(testBatchRequest);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -39,6 +41,7 @@ public:
 	void testRemoveBondRequest();
 	void testPeripheralInfoRequest();
 	void testRestartRequest();
+	void testBatchRequest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPARequestTest);
@@ -131,6 +134,20 @@ void DPARequestTest::testRestartRequest()
 {
 	const string rawDPA = "12.00.02.08.ff.ff";
 	const DPARequest::Ptr request = new DPAOSRestartRequest(0x12);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testBatchRequest()
+{
+	const string rawDPA =
+		"12.00.02.05.ff.ff."  // DPA request header
+		"05.01.01.ff.ff."     // DPANodeRemoveBondRequest
+		"05.02.08.ff.ff";     // DPAOSRestartRequest
+
+	DPABatchRequest::Ptr request = new DPABatchRequest(0x12);
+	request->append(new DPANodeRemoveBondRequest(0x12));
+	request->append(new DPAOSRestartRequest(0x12));
 
 	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
 }
