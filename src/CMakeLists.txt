@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8.11)
-project (gateway-core CXX)
+project (gateway-core CXX C)
 
 find_library (POCO_FOUNDATION PocoFoundation)
 find_library (POCO_SSL PocoNetSSL)
@@ -9,13 +9,47 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
+find_package (PkgConfig REQUIRED)
+pkg_search_module (GLIB REQUIRED glib-2.0)
+pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
+pkg_search_module (BLUEZ REQUIRED bluez)
+find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
+
+if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
+	include_directories(${GIO_UNIX_INCLUDE_DIRS})
+	include_directories(${GLIB_INCLUDE_DIRS})
+	set(HAS_DBUS_BLUEZ YES)
+endif()
 
 if(ENABLE_UDEV)
 	find_library (UDEV udev)
 endif()
 
-if(ENABLE_BLUETOOTH_AVAILABILITY)
+if(ENABLE_BLUETOOTH)
 	find_library (BLUETOOTH bluetooth)
+
+	if(HAS_DBUS_BLUEZ)
+		file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bluetooth)
+		add_custom_command(
+			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
+			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Adapter1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
+			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
+			COMMENT "Generate DBus 'org.bluez.Adapter1.xml'"
+		)
+		add_custom_command(
+			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
+			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Device1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
+			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
+			COMMENT "Generate DBus 'org.bluez.Device1.xml'"
+		)
+		add_custom_command(
+			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
+			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.GattCharacteristic1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
+			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
+			COMMENT "Generate DBus 'org.bluez.GattCharacteristic1.xml'"
+		)
+		include_directories(${PROJECT_BINARY_DIR})
+	endif()
 endif()
 
 if(ENABLE_ZWAVE)
@@ -115,16 +149,32 @@ else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH_AVAILABILITY)
-	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
-		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
-		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+if(ENABLE_BLUETOOTH)
+	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/DBusHciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInfo.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)
-	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+	list(APPEND SOURCES ${BLUETOOTH_SOURCES})
+	if(HAS_DBUS_BLUEZ)
+		list(APPEND SOURCES
+			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
+			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
+			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
+		)
+	endif()
 	add_definitions(-DHAVE_HCI=1)
+else()
+	message(STATUS "Bluetooth support is disabled")
+endif()
+
+if(ENABLE_BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
+	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
+	)
+	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
@@ -300,6 +350,8 @@ set(LIBS
 	${UDEV}
 	${OPENZWAVE_LIBRARY}
 	${FITP_LIB}
+	${GLIB_LDFLAGS}
+	${GIO_UNIX_LDFLAGS}
 )
 
 target_link_libraries(beeeon-gateway

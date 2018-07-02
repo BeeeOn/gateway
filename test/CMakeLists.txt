@@ -10,6 +10,15 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
+find_package (PkgConfig REQUIRED)
+pkg_search_module (GLIB REQUIRED glib-2.0)
+pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
+
+if(GLIB_FOUND AND GIO_UNIX_FOUND)
+	include_directories(${GIO_UNIX_INCLUDE_DIRS})
+	include_directories(${GLIB_INCLUDE_DIRS})
+	set(HAS_DBUS_BLUEZ YES)
+endif()
 
 if(ENABLE_UDEV)
 	find_library (UDEV udev)
@@ -19,7 +28,7 @@ if(ENABLE_MOSQUITTO_EXPORTER)
 	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
-if(ENABLE_BLUETOOTH_AVAILABILITY)
+if(ENABLE_BLUETOOTH)
 	find_library (BLUETOOTH bluetooth)
 endif()
 
@@ -45,6 +54,15 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 )
+
+if(ENABLE_BLUETOOTH)
+	if(HAS_DBUS_BLUEZ)
+		file(GLOB BLUETOOTH_SOURCES
+			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
+		)
+		list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
+	endif()
+endif()
 
 if(ENABLE_VPT)
 	file(GLOB VPT_TEST_SOURCES
@@ -102,6 +120,8 @@ set(LIBS
 	${UDEV}
 	${OPENZWAVE_LIBRARY}
 	${FITP_LIB}
+	${GLIB_LDFLAGS}
+	${GIO_UNIX_LDFLAGS}
 )
 
 target_link_libraries(test-suite-gateway
