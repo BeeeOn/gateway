@@ -284,7 +284,7 @@ bool BluetoothAvailabilityManager::haveTimeForInactive(Timespan elapsedTime)
 	return tryTime > 0;
 }
 
-void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>())
 		doListenCommand(cmd);
@@ -293,7 +293,7 @@ void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result:
 	else if (cmd->is<DeviceAcceptCommand>())
 		doDeviceAcceptCommand(cmd);
 	else
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 }
 
 void BluetoothAvailabilityManager::doDeviceAcceptCommand(

@@ -181,7 +181,7 @@ void BelkinWemoDeviceManager::eraseUnusedLinks()
 	}
 }
 
-void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>()) {
 		doListenCommand(cmd);
@@ -196,7 +196,7 @@ void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 		doDeviceAcceptCommand(cmd);
 	}
 	else {
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 	}
 }
 

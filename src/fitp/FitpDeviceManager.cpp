@@ -177,7 +177,7 @@ void FitpDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 	m_devices.erase(cmd->deviceID());
 }
 
-void FitpDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void FitpDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>())
 		doListenCommand(cmd.cast<GatewayListenCommand>());
@@ -186,7 +186,7 @@ void FitpDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 	else if (cmd->is<DeviceAcceptCommand>())
 		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 }
 
 void FitpDeviceManager::dispatchNewDevice(FitpDevice::Ptr device)

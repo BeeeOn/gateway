@@ -244,7 +244,7 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 	return false;
 }
 
-void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>()) {
 		doListenCommand(cmd.cast<GatewayListenCommand>());
@@ -259,7 +259,7 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	}
 	else {
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 	}
 }
 

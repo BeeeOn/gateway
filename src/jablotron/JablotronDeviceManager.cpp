@@ -153,7 +153,7 @@ void JablotronDeviceManager::jablotronProcess()
 	}
 }
 
-void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr)
+void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<DeviceSetValueCommand>())
 		doSetValue(cmd.cast<DeviceSetValueCommand>());
@@ -164,7 +164,7 @@ void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr)
 	else if (cmd->is<DeviceAcceptCommand>())
 		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 }
 
 void JablotronDeviceManager::doDeviceAcceptCommand(

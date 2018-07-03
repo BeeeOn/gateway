@@ -299,7 +299,7 @@ void VirtualDeviceManager::doSetValueCommand(
 	);
 }
 
-void VirtualDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void VirtualDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>())
 		doListenCommand(cmd.cast<GatewayListenCommand>());
@@ -310,7 +310,7 @@ void VirtualDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 	else if (cmd->is<DeviceAcceptCommand>())
 		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw IllegalStateException("received unaccepted command");
+		DeviceManager::handleGeneric(cmd, result);
 }
 
 void VirtualDeviceManager::setPairedDevices()

@@ -97,7 +97,7 @@ void PressureSensorManager::initialize()
 		m_paired = true;
 }
 
-void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>())
 		handleListenCommand(cmd->cast<GatewayListenCommand>());
@@ -106,7 +106,7 @@ void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 	else if (cmd->is<DeviceUnpairCommand>())
 		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>());
 	else
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 }
 
 void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)

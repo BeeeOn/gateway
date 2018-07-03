@@ -216,7 +216,7 @@ void PhilipsHueDeviceManager::eraseUnusedBridges()
 	}
 }
 
-void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
+void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>()) {
 		doListenCommand(cmd);
@@ -231,7 +231,7 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr)
 		doDeviceAcceptCommand(cmd);
 	}
 	else {
-		throw NotImplementedException(cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 	}
 }
 
