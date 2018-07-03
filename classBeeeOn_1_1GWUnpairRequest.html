@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -53,7 +53,8 @@
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::GWUnpairRequest Class Reference</div>  </div>
 </div><!--header-->
@@ -130,15 +131,11 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memdesc:a96727e57e350fe23dd3f70143d909ff1 inherit pub_methods_classBeeeOn_1_1GWMessage"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the string representation of the message. <br/></td></tr>
 <tr class="separator:a96727e57e350fe23dd3f70143d909ff1 inherit pub_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_static_methods_classBeeeOn_1_1GWMessage"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classBeeeOn_1_1GWMessage')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1GWMessage.html">BeeeOn::GWMessage</a></td></tr>
-<tr class="memitem:ad23423fc331cecc0e203edc6d970fa22 inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memItemLeft" align="right" valign="top">static GWMessage::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GWMessage.html#ad23423fc331cecc0e203edc6d970fa22">fromJSON</a> (const std::string &amp;json)</td></tr>
-<tr class="memdesc:ad23423fc331cecc0e203edc6d970fa22 inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method for creating subclasses of the <a class="el" href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent...">GWMessage</a> from the json string.  <a href="#ad23423fc331cecc0e203edc6d970fa22">More...</a><br/></td></tr>
-<tr class="separator:ad23423fc331cecc0e203edc6d970fa22 inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ff32c072b9e321a74cf08ab05ab222c inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memItemLeft" align="right" valign="top">static GWMessage::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GWMessage.html#a7ff32c072b9e321a74cf08ab05ab222c">fromJSON</a> (Poco::JSON::Object::Ptr object)</td></tr>
-<tr class="memdesc:a7ff32c072b9e321a74cf08ab05ab222c inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method for creating subclasses of the <a class="el" href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent...">GWMessage</a> from the JSON::Object.  <a href="#a7ff32c072b9e321a74cf08ab05ab222c">More...</a><br/></td></tr>
-<tr class="separator:a7ff32c072b9e321a74cf08ab05ab222c inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7aaf5f2beb848dfbde5732796ef84b65"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7aaf5f2beb848dfbde5732796ef84b65"></a>
+GWResponse::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>deriveResponse</b> () const override</td></tr>
+<tr class="separator:a7aaf5f2beb848dfbde5732796ef84b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1GWRequest"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1GWRequest')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1GWRequest.html">BeeeOn::GWRequest</a></td></tr>
 <tr class="memitem:a1ce824cee4526cc8a42dd7d40bcd417a inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ce824cee4526cc8a42dd7d40bcd417a"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GWRequest</b> (const GWMessageType::Raw &amp;<a class="el" href="classBeeeOn_1_1GWMessage.html#a04716b2a051596a13ab3936937b2cb1e">type</a>)</td></tr>
@@ -146,9 +143,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a44b4c665e7862b0cf817dcbf72e63fce inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44b4c665e7862b0cf817dcbf72e63fce"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GWRequest</b> (const Poco::JSON::Object::Ptr object)</td></tr>
 <tr class="separator:a44b4c665e7862b0cf817dcbf72e63fce inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5343baa23a66a726de72bea0daaec34 inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5343baa23a66a726de72bea0daaec34"></a>
-virtual GWResponse::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>deriveResponse</b> () const </td></tr>
-<tr class="separator:af5343baa23a66a726de72bea0daaec34 inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb01e27b17892aced7531471a6898f70 inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb01e27b17892aced7531471a6898f70"></a>
 GWResponse::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>deriveGenericResponse</b> (GWResponse::Ptr response) const </td></tr>
 <tr class="separator:acb01e27b17892aced7531471a6898f70 inherit pro_methods_classBeeeOn_1_1GWRequest"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,6 +157,16 @@ GWResponse::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>deriveGene
 <tr class="memitem:ae326ca726a9ed7a0c97afa6e7054ccce inherit pro_methods_classBeeeOn_1_1GWMessage"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae326ca726a9ed7a0c97afa6e7054ccce"></a>
 Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>json</b> () const </td></tr>
 <tr class="separator:ae326ca726a9ed7a0c97afa6e7054ccce inherit pro_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_static_methods_classBeeeOn_1_1GWMessage"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classBeeeOn_1_1GWMessage')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1GWMessage.html">BeeeOn::GWMessage</a></td></tr>
+<tr class="memitem:ad23423fc331cecc0e203edc6d970fa22 inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memItemLeft" align="right" valign="top">static GWMessage::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GWMessage.html#ad23423fc331cecc0e203edc6d970fa22">fromJSON</a> (const std::string &amp;json)</td></tr>
+<tr class="memdesc:ad23423fc331cecc0e203edc6d970fa22 inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method for creating subclasses of the <a class="el" href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent...">GWMessage</a> from the json string.  <a href="#ad23423fc331cecc0e203edc6d970fa22">More...</a><br/></td></tr>
+<tr class="separator:ad23423fc331cecc0e203edc6d970fa22 inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ff32c072b9e321a74cf08ab05ab222c inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memItemLeft" align="right" valign="top">static GWMessage::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GWMessage.html#a7ff32c072b9e321a74cf08ab05ab222c">fromJSON</a> (Poco::JSON::Object::Ptr object)</td></tr>
+<tr class="memdesc:a7ff32c072b9e321a74cf08ab05ab222c inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method for creating subclasses of the <a class="el" href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent...">GWMessage</a> from the JSON::Object.  <a href="#a7ff32c072b9e321a74cf08ab05ab222c">More...</a><br/></td></tr>
+<tr class="separator:a7ff32c072b9e321a74cf08ab05ab222c inherit pub_static_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a message sent by the server to the gateway, intended to unpair a paired device from the gateway. </p>

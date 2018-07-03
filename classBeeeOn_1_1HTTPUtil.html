@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -74,18 +74,18 @@ Static Public Member Functions</h2></td></tr>
 static <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1HTTPUtil.html#af1698042a6497cf14028605ef6d5902f">makeRequest</a> (Poco::Net::HTTPRequest &amp;request, const Poco::URI &amp;uri, const std::string &amp;msg, const Poco::Timespan &amp;timeout=-1)</td></tr>
 <tr class="memdesc:af1698042a6497cf14028605ef6d5902f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends HTTP request to target defined by URI. It also sets URI path to the request. If the timeout is negative, it is not set. <br/></td></tr>
 <tr class="separator:af1698042a6497cf14028605ef6d5902f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec531f68e86f776e647eecf0c8f96802"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aec531f68e86f776e647eecf0c8f96802"></a>
-static <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1HTTPUtil.html#aec531f68e86f776e647eecf0c8f96802">makeRequest</a> (Poco::Net::HTTPRequest &amp;request, const Poco::URI &amp;uri, const std::string &amp;msg, Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1SSLClient.html">SSLClient</a> &gt; sslConfig, const Poco::Timespan &amp;timeout=-1)</td></tr>
-<tr class="memdesc:aec531f68e86f776e647eecf0c8f96802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends HTTP request over SSL to target defined by URI. It also sets URI path to the request. If the timeout is negative, it is not set. <br/></td></tr>
-<tr class="separator:aec531f68e86f776e647eecf0c8f96802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83ff5f903c76b6708443e4d9488da793"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83ff5f903c76b6708443e4d9488da793"></a>
+static <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1HTTPUtil.html#a83ff5f903c76b6708443e4d9488da793">makeRequest</a> (Poco::Net::HTTPRequest &amp;request, const Poco::URI &amp;uri, const std::string &amp;msg, SSLClient::Ptr sslConfig, const Poco::Timespan &amp;timeout=-1)</td></tr>
+<tr class="memdesc:a83ff5f903c76b6708443e4d9488da793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends HTTP request over SSL to target defined by URI. It also sets URI path to the request. If the timeout is negative, it is not set. <br/></td></tr>
+<tr class="separator:a83ff5f903c76b6708443e4d9488da793"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dd25e93fa842fbc968200d5f85b7bc0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4dd25e93fa842fbc968200d5f85b7bc0"></a>
 static <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1HTTPUtil.html#a4dd25e93fa842fbc968200d5f85b7bc0">makeRequest</a> (Poco::Net::HTTPRequest &amp;request, const std::string &amp;host, const uint16_t port, const std::string &amp;msg, const Poco::Timespan &amp;timeout=-1)</td></tr>
 <tr class="memdesc:a4dd25e93fa842fbc968200d5f85b7bc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends HTTP request to target defined by host and port. If the timeout is negative, it is not set. <br/></td></tr>
 <tr class="separator:a4dd25e93fa842fbc968200d5f85b7bc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2b292ebbce399c6cbc2864926fa6a0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab2b292ebbce399c6cbc2864926fa6a0c"></a>
-static <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1HTTPUtil.html#ab2b292ebbce399c6cbc2864926fa6a0c">makeRequest</a> (Poco::Net::HTTPRequest &amp;request, const std::string &amp;host, const uint16_t port, const std::string &amp;msg, Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1SSLClient.html">SSLClient</a> &gt; sslConfig, const Poco::Timespan &amp;timeout=-1)</td></tr>
-<tr class="memdesc:ab2b292ebbce399c6cbc2864926fa6a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends HTTP request over SSL to target defined by host and port. If the timeout is negative, it is not set. <br/></td></tr>
-<tr class="separator:ab2b292ebbce399c6cbc2864926fa6a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bf64415976e925087d3340816e51ece"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0bf64415976e925087d3340816e51ece"></a>
+static <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1HTTPUtil.html#a0bf64415976e925087d3340816e51ece">makeRequest</a> (Poco::Net::HTTPRequest &amp;request, const std::string &amp;host, const uint16_t port, const std::string &amp;msg, SSLClient::Ptr sslConfig, const Poco::Timespan &amp;timeout=-1)</td></tr>
+<tr class="memdesc:a0bf64415976e925087d3340816e51ece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends HTTP request over SSL to target defined by host and port. If the timeout is negative, it is not set. <br/></td></tr>
+<tr class="separator:a0bf64415976e925087d3340816e51ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/net/<a class="el" href="HTTPUtil_8h_source.html">HTTPUtil.h</a></li>

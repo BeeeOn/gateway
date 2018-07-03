@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -86,10 +86,15 @@ Inheritance diagram for BeeeOn::DeviceManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a589fce0b22769e332292495338ed7ad7">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
 <tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589fce0b22769e332292495338ed7ad7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a589fce0b22769e332292495338ed7ad7">prefix</a> () const </td></tr>
+<tr class="separator:a589fce0b22769e332292495338ed7ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac26f2187e2ed239017ceb3a530a8e9dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">stop</a> () override</td></tr>
 <tr class="separator:ac26f2187e2ed239017ceb3a530a8e9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7268426252429a979e64d77881bcbbd8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7268426252429a979e64d77881bcbbd8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceCache</b> (DeviceCache::Ptr cache)</td></tr>
+<tr class="separator:a7268426252429a979e64d77881bcbbd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a834fa16d05b841aee857033e96bb47d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
 <tr class="separator:a834fa16d05b841aee857033e96bb47d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,6 +122,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a972d84056330e3cac75c4f932dc69160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b16d5d76cbed4eace98430fb950ca66"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a8b16d5d76cbed4eace98430fb950ca66">lastValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const Poco::Timespan &amp;waitTime=DEFAULT_REQUEST_TIMEOUT)</td></tr>
 <tr class="separator:a8b16d5d76cbed4eace98430fb950ca66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39d625a519fb488eaddc38ad42b0791e"><td class="memItemLeft" align="right" valign="top">DeviceCache::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a39d625a519fb488eaddc38ad42b0791e">deviceCache</a> () const </td></tr>
+<tr class="separator:a39d625a519fb488eaddc38ad42b0791e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:af89c60789e75cb07103e46d40a3ebb32 inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af89c60789e75cb07103e46d40a3ebb32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setupLogger</b> (Poco::Logger *logger=0) const </td></tr>
@@ -136,9 +143,6 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:aa9641e2d67c36cf12232975ae4bab444"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9641e2d67c36cf12232975ae4bab444"></a>
 Poco::AtomicCounter&#160;</td><td class="memItemRight" valign="bottom"><b>m_stop</b></td></tr>
 <tr class="separator:aa9641e2d67c36cf12232975ae4bab444"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa99a34eb59fac8c29566dfb691d721a0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa99a34eb59fac8c29566dfb691d721a0"></a>
-<a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_prefix</b></td></tr>
-<tr class="separator:aa99a34eb59fac8c29566dfb691d721a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
@@ -197,6 +201,30 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Implements <a class="el" href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a>.</p>
 
 <p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">BeeeOn::ZWaveDeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a39d625a519fb488eaddc38ad42b0791e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DeviceCache::Ptr DeviceManager::deviceCache </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>the underlying <a class="el" href="classBeeeOn_1_1DeviceCache.html" title="DeviceCache manages pairing status devices which allows to choose different caching strategies like: ...">DeviceCache</a> instance </dd></dl>
 
 </div>
 </div>
@@ -341,6 +369,22 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 </div><div class="memdoc">
 <p>Obtain <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with Results which contains last measured value from server, method is blocking/non-blocking. Type of blocking is divided on the basis of timeout. Blocking waiting returns <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with last measured value result from server and non-blocking waiting returns <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with last measured value result from server or TimeoutException.</p>
 <p>If <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> contains several Results, the first <a class="el" href="classBeeeOn_1_1Result.html">Result</a> SUCCESS will be selected. </p>
+
+</div>
+</div>
+<a class="anchor" id="a589fce0b22769e332292495338ed7ad7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> DeviceManager::prefix </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>prefix managed by this device manager </dd></dl>
 
 </div>
 </div>

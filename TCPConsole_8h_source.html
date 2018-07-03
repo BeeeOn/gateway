@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -117,7 +117,7 @@
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordtype">void</span> setRecvTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">void</span> setPollTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">void</span> setBacklog(<span class="keywordtype">int</span> backlog);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">void</span> setSSLConfig(Poco::SharedPtr&lt;SSLServer&gt; config);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">void</span> setSSLConfig(SSLServer::Ptr config);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">void</span> startListen();</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">void</span> close() <span class="keyword">override</span>;</div>
@@ -134,7 +134,7 @@
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        Poco::Timespan m_pollTimeout;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> m_backlog;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        Poco::SharedPtr&lt;Poco::Net::ServerSocket&gt; m_serverSocket;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        Poco::SharedPtr&lt;SSLServer&gt; m_sslConfig;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        SSLServer::Ptr m_sslConfig;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        Poco::FastMutex m_lock;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        Poco::AtomicCounter m_close;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>

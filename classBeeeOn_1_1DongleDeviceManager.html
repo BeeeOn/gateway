@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -78,7 +78,7 @@ Inheritance diagram for BeeeOn::DongleDeviceManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac4f4c9369ac83af968be4383c308555f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4f4c9369ac83af968be4383c308555f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DongleDeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DongleDeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a589fce0b22769e332292495338ed7ad7">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
 <tr class="separator:ac4f4c9369ac83af968be4383c308555f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae578cb2e5bcd59a6ab82d2f24959110d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae578cb2e5bcd59a6ab82d2f24959110d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</td></tr>
@@ -97,8 +97,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>onRemove</b> (const <
 <tr class="separator:aa4b30cd499d6828a93fca178f864340a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;prefix, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a589fce0b22769e332292495338ed7ad7">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
 <tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589fce0b22769e332292495338ed7ad7 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a589fce0b22769e332292495338ed7ad7">prefix</a> () const </td></tr>
+<tr class="separator:a589fce0b22769e332292495338ed7ad7 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7268426252429a979e64d77881bcbbd8 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7268426252429a979e64d77881bcbbd8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceCache</b> (DeviceCache::Ptr cache)</td></tr>
+<tr class="separator:a7268426252429a979e64d77881bcbbd8 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
 <tr class="separator:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,6 +154,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a972d84056330e3cac75c4f932dc69160 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b16d5d76cbed4eace98430fb950ca66 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a8b16d5d76cbed4eace98430fb950ca66">lastValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const Poco::Timespan &amp;waitTime=DEFAULT_REQUEST_TIMEOUT)</td></tr>
 <tr class="separator:a8b16d5d76cbed4eace98430fb950ca66 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39d625a519fb488eaddc38ad42b0791e inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">DeviceCache::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a39d625a519fb488eaddc38ad42b0791e">deviceCache</a> () const </td></tr>
+<tr class="separator:a39d625a519fb488eaddc38ad42b0791e inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:af89c60789e75cb07103e46d40a3ebb32 inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af89c60789e75cb07103e46d40a3ebb32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setupLogger</b> (Poco::Logger *logger=0) const </td></tr>
@@ -191,9 +198,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <tr class="memitem:aa9641e2d67c36cf12232975ae4bab444 inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9641e2d67c36cf12232975ae4bab444"></a>
 Poco::AtomicCounter&#160;</td><td class="memItemRight" valign="bottom"><b>m_stop</b></td></tr>
 <tr class="separator:aa9641e2d67c36cf12232975ae4bab444 inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa99a34eb59fac8c29566dfb691d721a0 inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa99a34eb59fac8c29566dfb691d721a0"></a>
-<a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_prefix</b></td></tr>
-<tr class="separator:aa99a34eb59fac8c29566dfb691d721a0 inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_attribs_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:ac384766c0418d4e3b896b6de39e3ab18 inherit pro_static_attribs_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac384766c0418d4e3b896b6de39e3ab18"></a>
 static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_REQUEST_TIMEOUT</b></td></tr>

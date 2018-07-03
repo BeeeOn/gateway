@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -53,7 +53,8 @@
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::SequentialAsyncExecutor Class Reference</div>  </div>
 </div><!--header-->
@@ -84,6 +85,9 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a498deb26d403e28af7e33cb2f4b76553"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a498deb26d403e28af7e33cb2f4b76553"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setStopTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="separator:a498deb26d403e28af7e33cb2f4b76553"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae131deeae961b410f477da009d29d284"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1SequentialAsyncExecutor.html#ae131deeae961b410f477da009d29d284">invoke</a> (std::function&lt; void()&gt; f) override</td></tr>
 <tr class="separator:ae131deeae961b410f477da009d29d284"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29db286a830b39b3d66e139cc670d14f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29db286a830b39b3d66e139cc670d14f"></a>
@@ -91,6 +95,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <tr class="separator:a29db286a830b39b3d66e139cc670d14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a25b7aef42be1de5f3b316cbde2330c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1SequentialAsyncExecutor.html#a7a25b7aef42be1de5f3b316cbde2330c">stop</a> () override</td></tr>
 <tr class="separator:a7a25b7aef42be1de5f3b316cbde2330c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a109984fa50fffb960c299a799b503ca2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a109984fa50fffb960c299a799b503ca2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>finalize</b> ()</td></tr>
+<tr class="separator:a109984fa50fffb960c299a799b503ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ae131deeae961b410f477da009d29d284"></a>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.02.1-73-gc458efb</span>
+   &#160;<span id="projectnumber">v2018.02.1-79-gdd2a45e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -79,20 +79,29 @@
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                PREFIX_IQRF = 0xa9,</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                PREFIX_LEDS = 0xaa,</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                PREFIX_PHILIPS_HUE = 0xab,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                PREFIX_BEEWI = 0xac,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                PREFIX_BLE_SMART = 0xac,</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        };</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">static</span> <a class="code" href="structBeeeOn_1_1EnumHelper.html#af2681d06a439d4b56222a8ab77c76b4f">EnumHelper&lt;Raw&gt;::ValueMap</a> &amp;valueMap();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;};</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classBeeeOn_1_1Enum.html">Enum&lt;DevicePrefixEnum&gt;</a> <a class="code" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1DevicePrefixNamesInitializer.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBeeeOn_1_1DevicePrefixNamesInitializer.html">DevicePrefixNamesInitializer</a> : <span class="keyword">public</span> <a class="code" href="structBeeeOn_1_1EnumNamesInitializer.html">EnumNamesInitializer</a>&lt;DevicePrefixEnum::Raw&gt; {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="structBeeeOn_1_1DevicePrefixNamesInitializer.html">DevicePrefixNamesInitializer</a>(<span class="keyword">const</span> ValueMap &amp;map);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1Enum_html"><div class="ttname"><a href="classBeeeOn_1_1Enum.html">BeeeOn::Enum&lt; DevicePrefixEnum &gt;</a></div></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">static</span> NamesMap customNamesMap(<span class="keyword">const</span> ValueMap &amp;map);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classBeeeOn_1_1Enum.html">Enum</a>&lt;<a class="code" href="classBeeeOn_1_1DevicePrefixEnum.html">DevicePrefixEnum</a>, DevicePrefixEnum::Raw,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="structBeeeOn_1_1DevicePrefixNamesInitializer.html">DevicePrefixNamesInitializer</a>&gt; <a class="code" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classBeeeOn_1_1Enum_html"><div class="ttname"><a href="classBeeeOn_1_1Enum.html">BeeeOn::Enum</a></div><div class="ttdef"><b>Definition:</b> Enum.h:107</div></div>
 <div class="ttc" id="classBeeeOn_1_1DevicePrefixEnum_html"><div class="ttname"><a href="classBeeeOn_1_1DevicePrefixEnum.html">BeeeOn::DevicePrefixEnum</a></div><div class="ttdef"><b>Definition:</b> DevicePrefix.h:12</div></div>
+<div class="ttc" id="structBeeeOn_1_1DevicePrefixNamesInitializer_html"><div class="ttname"><a href="structBeeeOn_1_1DevicePrefixNamesInitializer.html">BeeeOn::DevicePrefixNamesInitializer</a></div><div class="ttdef"><b>Definition:</b> DevicePrefix.h:34</div></div>
 <div class="ttc" id="structBeeeOn_1_1EnumHelper_html_af2681d06a439d4b56222a8ab77c76b4f"><div class="ttname"><a href="structBeeeOn_1_1EnumHelper.html#af2681d06a439d4b56222a8ab77c76b4f">BeeeOn::EnumHelper::ValueMap</a></div><div class="ttdeci">std::map&lt; Raw, std::string &gt; ValueMap</div><div class="ttdef"><b>Definition:</b> Enum.h:21</div></div>
+<div class="ttc" id="structBeeeOn_1_1EnumNamesInitializer_html"><div class="ttname"><a href="structBeeeOn_1_1EnumNamesInitializer.html">BeeeOn::EnumNamesInitializer</a></div><div class="ttdef"><b>Definition:</b> Enum.h:52</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
