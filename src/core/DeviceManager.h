@@ -9,6 +9,7 @@
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
+#include "core/DeviceCache.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
@@ -44,11 +45,17 @@ public:
 	virtual ~DeviceManager();
 
 	/**
+	 * @returns prefix managed by this device manager
+	 */
+	DevicePrefix prefix() const;
+
+	/**
 	* A generic stop implementation to be used by most DeviceManager
 	* implementations. It just atomically sets the m_stop variable.
 	*/
 	void stop() override;
 
+	void setDeviceCache(DeviceCache::Ptr cache);
 	void setDistributor(Poco::SharedPtr<Distributor> distributor);
 
 	/**
@@ -104,6 +111,11 @@ protected:
 	double lastValue(const DeviceID &deviceID, const ModuleID &moduleID,
 		const Poco::Timespan &waitTime = DEFAULT_REQUEST_TIMEOUT);
 
+	/**
+	 * @returns the underlying DeviceCache instance
+	 */
+	DeviceCache::Ptr deviceCache() const;
+
 private:
 	void requestDeviceList(Answer::Ptr answer);
 	std::set<DeviceID> responseDeviceList(
@@ -113,9 +125,10 @@ protected:
 	static const Poco::Timespan DEFAULT_REQUEST_TIMEOUT;
 
 	Poco::AtomicCounter m_stop;
-	DevicePrefix m_prefix;
 
 private:
+	DevicePrefix m_prefix;
+	DeviceCache::Ptr m_deviceCache;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 };

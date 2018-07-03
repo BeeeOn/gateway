@@ -46,6 +46,8 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
+	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCacheTest.cpp
+	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCacheTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatterTest.cpp

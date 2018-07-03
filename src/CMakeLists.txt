@@ -86,13 +86,16 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherListener.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandSender.cpp
+	${PROJECT_SOURCE_DIR}/core/DeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Distributor.cpp
 	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
+	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
+	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp

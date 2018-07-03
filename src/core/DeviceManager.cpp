@@ -5,6 +5,7 @@
 #include "commands/ServerLastValueCommand.h"
 #include "commands/ServerLastValueResult.h"
 #include "core/DeviceManager.h"
+#include "core/MemoryDeviceCache.h"
 #include "core/PrefixCommand.h"
 #include "util/ClassInfo.h"
 
@@ -18,6 +19,7 @@ DeviceManager::DeviceManager(const DevicePrefix &prefix,
 		const initializer_list<type_index> &acceptable):
 	m_stop(false),
 	m_prefix(prefix),
+	m_deviceCache(new MemoryDeviceCache),
 	m_acceptable(acceptable)
 {
 }
@@ -26,9 +28,24 @@ DeviceManager::~DeviceManager()
 {
 }
 
+DevicePrefix DeviceManager::prefix() const
+{
+	return m_prefix;
+}
+
 void DeviceManager::stop()
 {
 	m_stop = true;
+}
+
+void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)
+{
+	m_deviceCache = cache;
+}
+
+DeviceCache::Ptr DeviceManager::deviceCache() const
+{
+	return m_deviceCache;
 }
 
 void DeviceManager::setDistributor(Poco::SharedPtr<Distributor> distributor)
