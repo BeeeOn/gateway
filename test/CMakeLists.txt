@@ -50,9 +50,12 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCacheTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
+	${PROJECT_SOURCE_DIR}/exporters/JournalQueuingStrategyTest.cpp
+	${PROJECT_SOURCE_DIR}/exporters/RecoverableJournalQueuingStrategyTest.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/DataWriterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/DataReaderTest.cpp
+	${PROJECT_SOURCE_DIR}/util/JournalTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 )
