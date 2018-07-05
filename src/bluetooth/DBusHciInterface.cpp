@@ -22,7 +22,7 @@ DBusHciInterface::DBusHciInterface(const string& name):
 	m_name(name),
 	m_loopThread(*this, &DBusHciInterface::runLoop)
 {
-	m_adapter = retrieveBluezAdapter(createAdapterPath());
+	m_adapter = retrieveBluezAdapter(createAdapterPath(m_name));
 	m_thread.start(m_loopThread);
 }
 
@@ -55,7 +55,7 @@ void DBusHciInterface::up() const
 
 	ScopedLock<FastMutex> guard(m_statusMutex);
 
-	const string path = createAdapterPath();
+	const string path = createAdapterPath(m_name);
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 
 	startDiscovery(m_adapter, "le");
@@ -76,7 +76,7 @@ void DBusHciInterface::down() const
 
 	m_waitCondition.broadcast();
 
-	const string path = createAdapterPath();
+	const string path = createAdapterPath(m_name);
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 
 	if (!::org_bluez_adapter1_get_powered(adapter.raw()))
@@ -126,7 +126,7 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 
 	map<MACAddress, string> foundDevices;
 	for (auto one : allDevices) {
-		GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(one.first));
+		GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, one.first));
 		int16_t rssi = ::org_bluez_device1_get_rssi(device.raw());
 		if (rssi != 0) {
 			foundDevices.emplace(one.first, one.second);
@@ -235,7 +235,7 @@ void DBusHciInterface::runLoop()
 vector<string> DBusHciInterface::retrievePathsOfBluezObjects(
 		GlibPtr<GDBusObjectManager> objectManager,
 		PathFilter pathFilter,
-		const std::string& objectFilter) const
+		const std::string& objectFilter)
 {
 	vector<string> paths;
 	GlibPtr<GList> objects = ::g_dbus_object_manager_get_objects(objectManager.raw());
@@ -290,14 +290,14 @@ void DBusHciInterface::onDBusObjectAdded(
 	foundDevices.emplace(mac, name);
 }
 
-const string DBusHciInterface::createAdapterPath() const
+const string DBusHciInterface::createAdapterPath(const string& name)
 {
-	return "/org/bluez/" + m_name;
+	return "/org/bluez/" + name;
 }
 
-const string DBusHciInterface::createDevicePath(const MACAddress& address) const
+const string DBusHciInterface::createDevicePath(const string& name, const MACAddress& address)
 {
-	return "/org/bluez/" + m_name + "/dev_" + address.toString('_');
+	return "/org/bluez/" + name + "/dev_" + address.toString('_');
 }
 
 GlibPtr<GDBusObjectManager> DBusHciInterface::createBluezObjectManager()

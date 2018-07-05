@@ -146,20 +146,22 @@ private:
 	 * @brief Retrieves and returns all object paths from the given DBus object manager
 	 * that match the pathFilter and the objectFilter.
 	 */
-	std::vector<std::string> retrievePathsOfBluezObjects(
+	static std::vector<std::string> retrievePathsOfBluezObjects(
 		GlibPtr<GDBusObjectManager> objectManager,
 		PathFilter pathFilter,
-		const std::string& objectFilter) const;
+		const std::string& objectFilter);
 
 	/**
 	 * @brief Creates object path for the hci stored in m_name attribute.
 	 */
-	const std::string createAdapterPath() const;
+	static const std::string createAdapterPath(const std::string& name);
 
 	/**
 	 * @brief Creates object path for the device defined by it's MAC address.
 	 */
-	const std::string createDevicePath(const MACAddress& address) const;
+	static const std::string createDevicePath(
+		const std::string& name,
+		const MACAddress& address);
 
 	/**
 	 * @brief Creates object manager for the Bluez DBus server that
