@@ -43,6 +43,8 @@ namespace BeeeOn {
  */
 class DBusHciInterface : public HciInterface, Loggable {
 public:
+	friend class DBusHciConnection;
+
 	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
 
