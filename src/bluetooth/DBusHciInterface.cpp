@@ -4,6 +4,7 @@
 #include <Poco/String.h>
 
 #include "bluetooth/BluezHciInterface.h"
+#include "bluetooth/DBusHciConnection.h"
 #include "bluetooth/DBusHciInterface.h"
 #include "di/Injectable.h"
 
@@ -147,6 +148,27 @@ HciInfo DBusHciInterface::info() const
 {
 	BluezHciInterface bluezHci(m_name);
 	return bluezHci.info();
+}
+
+HciConnection::Ptr DBusHciInterface::connect(
+		const MACAddress& address,
+		const Timespan& timeout) const
+{
+	if (logger().debug())
+		logger().debug("connecting to device " + address.toString(':'), __FILE__, __LINE__);
+
+	const string path = createDevicePath(m_name, address);
+	GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(path);
+
+	if (!::org_bluez_device1_get_connected(device.raw())) {
+		GlibPtr<GError> error;
+		::g_dbus_proxy_set_default_timeout(G_DBUS_PROXY(device.raw()), timeout.totalMilliseconds());
+		::org_bluez_device1_call_connect_sync(device.raw(), nullptr, &error);
+
+		throwErrorIfAny(error);
+	}
+
+	return new DBusHciConnection(m_name, device, timeout);
 }
 
 void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool powered) const

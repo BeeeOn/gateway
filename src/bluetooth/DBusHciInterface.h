@@ -91,6 +91,10 @@ public:
 	 */
 	HciInfo info() const override;
 
+	HciConnection::Ptr connect(
+		const MACAddress& address,
+		const Poco::Timespan& timeout) const;
+
 protected:
 	/**
 	 * @brief Callback handling the timeout event which stops
