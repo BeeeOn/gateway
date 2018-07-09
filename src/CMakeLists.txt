@@ -170,6 +170,12 @@ if(ENABLE_BLUETOOTH)
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
 		)
+		set_source_files_properties(
+			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
+			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
+			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
+			PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter -Wno-pedantic"
+		)
 	endif()
 	add_definitions(-DHAVE_HCI=1)
 else()
