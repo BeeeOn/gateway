@@ -290,14 +290,11 @@ void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result:
 		doListenCommand(cmd);
 	else if (cmd->is<DeviceUnpairCommand>())
 		doUnpairCommand(cmd);
-	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd);
 	else
 		DeviceManager::handleGeneric(cmd, result);
 }
 
-void BluetoothAvailabilityManager::doDeviceAcceptCommand(
-	const Command::Ptr &cmd)
+void BluetoothAvailabilityManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_lock);
 
