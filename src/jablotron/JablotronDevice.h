@@ -18,9 +18,6 @@ public:
 
 	virtual ~JablotronDevice();
 
-	void setPaired(bool paired);
-	bool paired() const;
-
 	DeviceID deviceID() const;
 
 	static DeviceID buildID(uint32_t serialNumber);
@@ -76,7 +73,6 @@ protected:
 
 private:
 	DeviceID m_deviceID;
-	bool m_paired;
 	std::string m_name;
 };
 

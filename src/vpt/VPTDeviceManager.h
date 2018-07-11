@@ -2,7 +2,6 @@
 #define GATEWAY_VPT_H
 
 #include <map>
-#include <set>
 #include <vector>
 
 #include <Poco/AtomicCounter.h>
@@ -156,10 +155,6 @@ private:
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_pingTimeout;
 
-	/**
-	 * The set contains DeviceID of paired devices.
-	 */
-	std::set<DeviceID> m_pairedDevices;
 	/**
 	 * The map maps only DeviceIDs of real VPT
 	 * devices to VPTDevices.

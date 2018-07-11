@@ -109,8 +109,6 @@ private:
 
 	void addDevice(const DeviceID &id);
 
-	bool hasDevice(const DeviceID &id);
-
 	void removeDevice(const DeviceID &id);
 
 	void shipStatusOf(const BluetoothDevice &device);

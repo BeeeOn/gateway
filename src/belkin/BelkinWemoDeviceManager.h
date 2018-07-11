@@ -2,7 +2,6 @@
 #define GATEWAY_BELKINWEMO_H
 
 #include <map>
-#include <set>
 #include <vector>
 
 #include <Poco/AtomicCounter.h>
@@ -103,7 +102,6 @@ private:
 
 	std::map<MACAddress, BelkinWemoLink::Ptr> m_links;
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
-	std::set<DeviceID> m_pairedDevices;
 
 	Poco::Timespan m_refresh;
 	BelkinWemoDeviceManager::BelkinWemoSeeker m_seeker;

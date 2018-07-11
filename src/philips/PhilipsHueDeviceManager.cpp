@@ -25,6 +25,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, PhilipsHueDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &PhilipsHueDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &PhilipsHueDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &PhilipsHueDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("upnpTimeout", &PhilipsHueDeviceManager::setUPnPTimeout)
@@ -62,14 +63,19 @@ void PhilipsHueDeviceManager::run()
 {
 	logger().information("starting Philips Hue device manager", __FILE__, __LINE__);
 
+	set<DeviceID> paired;
+
 	try {
-		m_pairedDevices = deviceList(-1);
+		paired = deviceList(-1);
 	}
 	catch (Exception& e) {
 		logger().log(e, __FILE__, __LINE__);
 	}
 
-	if (m_pairedDevices.size() > 0)
+	for (const auto &id : paired)
+		deviceCache()->markPaired(id);
+
+	if (paired.size() > 0)
 		searchPairedDevices();
 
 	while (!m_stop) {
@@ -148,7 +154,7 @@ void PhilipsHueDeviceManager::refreshPairedDevices()
 	vector<PhilipsHueBulb::Ptr> devices;
 
 	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
-	for (auto &id : m_pairedDevices) {
+	for (auto &id : deviceCache()->paired(prefix())) {
 		auto it = m_devices.find(id);
 		if (it == m_devices.end()) {
 			logger().warning("no such device: " + id.toString(),
@@ -179,8 +185,7 @@ void PhilipsHueDeviceManager::searchPairedDevices()
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
-		auto it = m_pairedDevices.find(device->deviceID());
-		if (it != m_pairedDevices.end())
+		if (deviceCache()->paired(device->deviceID()))
 			m_devices.emplace(device->deviceID(), device);
 	}
 	lockBulb.unlock();
@@ -254,13 +259,12 @@ void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd)
 
 	DeviceUnpairCommand::Ptr cmdUnpair = cmd.cast<DeviceUnpairCommand>();
 
-	auto it = m_pairedDevices.find(cmdUnpair->deviceID());
-	if (it == m_pairedDevices.end()) {
+	if (!deviceCache()->paired(cmdUnpair->deviceID())) {
 		logger().warning("unpairing device that is not paired: " + cmdUnpair->deviceID().toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		m_pairedDevices.erase(it);
+		deviceCache()->markUnpaired(cmdUnpair->deviceID());
 
 		auto itDevice = m_devices.find(cmdUnpair->deviceID());
 		if (itDevice != m_devices.end())
@@ -278,7 +282,7 @@ void PhilipsHueDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd)
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmdAccept->deviceID().toString());
 
-	m_pairedDevices.insert(cmdAccept->deviceID());
+	deviceCache()->markPaired(cmdAccept->deviceID());
 }
 
 void PhilipsHueDeviceManager::doSetValueCommand(const Command::Ptr cmd)

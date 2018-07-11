@@ -2,7 +2,6 @@
 #define GATEWAY_PHILIPS_H
 
 #include <map>
-#include <set>
 #include <vector>
 
 #include <Poco/AtomicCounter.h>
@@ -118,7 +117,6 @@ private:
 
 	std::map<MACAddress, PhilipsHueBridge::Ptr> m_bridges;
 	std::map<DeviceID, PhilipsHueBulb::Ptr> m_devices;
-	std::set<DeviceID> m_pairedDevices;
 
 	Poco::Timespan m_refresh;
 	PhilipsHueDeviceManager::PhilipsHueSeeker m_seeker;

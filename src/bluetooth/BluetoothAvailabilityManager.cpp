@@ -23,6 +23,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
+BEEEON_OBJECT_PROPERTY("deviceCache", &BluetoothAvailabilityManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_PROPERTY("modes", &BluetoothAvailabilityManager::setModes)
 BEEEON_OBJECT_PROPERTY("distributor", &BluetoothAvailabilityManager::setDistributor)
@@ -330,6 +331,8 @@ void BluetoothAvailabilityManager::fetchDeviceList()
 {
 	set<DeviceID> idList;
 	idList = deviceList();
+
+	deviceCache()->markPaired(prefix(), {});
 	m_deviceList.clear();
 
 	FastMutex::ScopedLock lock(m_lock);
@@ -363,7 +366,7 @@ void BluetoothAvailabilityManager::reportFoundDevices(
 		else
 			return;
 
-		if (!hasDevice(id))
+		if (!deviceCache()->paired(id))
 			sendNewDevice(id, scannedDevice.second);
 	}
 }
@@ -394,11 +397,7 @@ void BluetoothAvailabilityManager::listen()
 void BluetoothAvailabilityManager::addDevice(const DeviceID &id)
 {
 	m_deviceList.emplace(id, BluetoothDevice(id));
-}
-
-bool BluetoothAvailabilityManager::hasDevice(const DeviceID &id)
-{
-	return m_deviceList.find(id) != m_deviceList.end();
+	deviceCache()->markPaired(id);
 }
 
 void BluetoothAvailabilityManager::removeDevice(const DeviceID &id)
@@ -407,6 +406,8 @@ void BluetoothAvailabilityManager::removeDevice(const DeviceID &id)
 
 	if (it != m_deviceList.end())
 		m_deviceList.erase(it);
+
+	deviceCache()->markUnpaired(id);
 }
 
 void BluetoothAvailabilityManager::shipStatusOf(const BluetoothDevice &device)

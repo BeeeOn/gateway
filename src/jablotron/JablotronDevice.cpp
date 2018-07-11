@@ -69,16 +69,6 @@ int JablotronDevice::parseValue(const string &msg) const
 	return NumberParser::parse(token[1]);
 }
 
-void JablotronDevice::setPaired(bool paired)
-{
-	m_paired = paired;
-}
-
-bool JablotronDevice::paired() const
-{
-	return m_paired;
-}
-
 DeviceID JablotronDevice::buildID(uint32_t serialNumber)
 {
 	return DeviceID(DevicePrefix::PREFIX_JABLOTRON, serialNumber);
