@@ -5,8 +5,12 @@
 #include <typeindex>
 
 #include <Poco/AtomicCounter.h>
+#include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 
+#include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceUnpairCommand.h"
+#include "commands/GatewayListenCommand.h"
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
@@ -16,6 +20,7 @@
 #include "model/DeviceID.h"
 #include "model/DevicePrefix.h"
 #include "model/ModuleID.h"
+#include "util/AsyncWork.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -87,6 +92,62 @@ protected:
 	virtual void handleGeneric(const Command::Ptr cmd, Result::Ptr result);
 
 	/**
+	 * @brief Generic handler of the DeviceAcceptCommand. It might be helpful to
+	 * override this method in case we need to make some technology-specific check
+	 * of the device to be accepted. The default implementation simply marks the
+	 * given device as paired.
+	 */
+	virtual void handleAccept(const DeviceAcceptCommand::Ptr);
+
+	/**
+	 * @brief Starts device discovery process in a technology-specific way.
+	 * This method is always called inside a critical section and so
+	 * its implementation does not have to be thread-safe nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The purpose of this call is to initialize and start the discovery
+	 * process which might be a non-blocking operation. The caller uses
+	 * the provided AsyncWork<> instance to wait until it finishes or to
+	 * cancel it earlier if needed.
+	 */
+	virtual AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Implements handling of the listen command in a generic way. The method
+	 * ensures that only 1 thread can execute the discovery process at a time.
+	 *
+	 * It uses the method startDiscovery() to initialize and start a new discovery
+	 * process. It is guaranteed that the startDiscovery() method is always called
+	 * exactly once at a time and until it finishes, no other discovery is started.
+	 * The minimal timeout for the discovery is at least 1 second which is enforced
+	 * by the implementation.
+	 */
+	void handleListen(const GatewayListenCommand::Ptr cmd);
+
+	/**
+	 * @brief Starts device unpair process in a technology-specific way.
+	 * This method is always called inside a critical section and so its
+	 * implementation does not have to be thread-safe nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The unpairing process might be a non-blocking operation. The unpaired
+	 * devices are provided via the result of the returned AsyncWork instance.
+	 */
+	virtual AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Implements handling of the unpair command in a generic way. The method
+	 * ensures that only 1 thread can execute the unpair process at a time.
+	 *
+	 * It uses the method startUnpair() to initialize and start the unpairing process.
+	 * The method startUnpair() is always called exactly once at a time and until it
+	 * finishes, no other unpair is started.
+	 */
+	std::set<DeviceID> handleUnpair(const DeviceUnpairCommand::Ptr cmd);
+
+	/**
 	* Ship data received from a physical device into a collection point.
 	*/
 	void ship(const SensorData &sensorData);
@@ -132,6 +193,8 @@ protected:
 private:
 	DevicePrefix m_prefix;
 	DeviceCache::Ptr m_deviceCache;
+	Poco::FastMutex m_listenLock;
+	Poco::FastMutex m_unpairLock;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 };

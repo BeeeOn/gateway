@@ -1,6 +1,8 @@
 #ifndef BEEEON_DEVICE_UNPAIR_COMMAND_H
 #define BEEEON_DEVICE_UNPAIR_COMMAND_H
 
+#include <Poco/Timespan.h>
+
 #include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
 
@@ -18,17 +20,24 @@ class DeviceUnpairCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceUnpairCommand> Ptr;
 
-	DeviceUnpairCommand(const DeviceID &deviceID);
+	DeviceUnpairCommand(
+		const DeviceID &deviceID,
+		const Poco::Timespan &timeout = 10 * Poco::Timespan::SECONDS);
 
 	DeviceID deviceID() const;
 
+	Poco::Timespan timeout() const;
+
 	std::string toString() const override;
+
+	Result::Ptr deriveResult(Answer::Ptr answer) const override;
 
 protected:
 	~DeviceUnpairCommand();
 
 private:
 	DeviceID m_deviceID;
+	Poco::Timespan m_timeout;
 };
 
 }
