@@ -18,6 +18,7 @@
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
+#include "util/AsyncWork.h"
 
 
 namespace BeeeOn {
@@ -28,20 +29,23 @@ public:
 	 * @brief Provides searching belkin wemo devices on network
 	 * in own thread.
 	 */
-	class BelkinWemoSeeker : public StoppableRunnable {
+	class BelkinWemoSeeker : public StoppableRunnable, public AsyncWork<> {
 	public:
+		typedef Poco::SharedPtr<BelkinWemoSeeker> Ptr;
+
 		BelkinWemoSeeker(BelkinWemoDeviceManager& parent);
 
 		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
+		bool tryJoin(const Poco::Timespan &timeout) override;
+		void cancel() override;
 
 	private:
 		BelkinWemoDeviceManager& m_parent;
 		Poco::Timespan m_duration;
 		StopControl m_stopControl;
-		Poco::FastMutex m_seekerMutex;
 		Poco::Thread m_seekerThread;
 	};
 
@@ -57,6 +61,7 @@ public:
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -65,11 +70,6 @@ protected:
 	 * @brief Erases the links which don't care any bulb.
 	 */
 	void eraseUnusedLinks();
-
-	/**
-	 * @brief Processes the listen command.
-	 */
-	void doListenCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the unpair command.
@@ -100,7 +100,7 @@ private:
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 
 	Poco::Timespan m_refresh;
-	BelkinWemoDeviceManager::BelkinWemoSeeker m_seeker;
+	BelkinWemoDeviceManager::BelkinWemoSeeker::Ptr m_seeker;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 };
