@@ -58,6 +58,8 @@ install(FILES conf/gateway-startup.ini
 	DESTINATION etc/beeeon/gateway)
 install(FILES conf/virtual-devices.ini
 	DESTINATION etc/beeeon/gateway)
+install(FILES conf/gateway-testing.ini
+	DESTINATION etc/beeeon/gateway)
 install(DIRECTORY conf/config.d
 	DESTINATION etc/beeeon/gateway)
 install(FILES conf/syslog-ng/udp-relay.conf
@@ -71,3 +73,5 @@ install(DIRECTORY
 	DESTINATION var/run/beeeon/gateway)
 install(DIRECTORY
 	DESTINATION var/cache/beeeon/gateway)
+install(DIRECTORY hotplug.d/
+	DESTINATION etc/hotplug.d/usb)

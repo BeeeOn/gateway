@@ -1,0 +1,85 @@
+#! /bin/sh
+
+FIFO_PATH="/var/run/beeeon-gateway.hotplug"
+
+if [ ! -p "${FIFO_PATH}" ]; then
+        mkfifo "${FIFO_PATH}" || exit -1
+fi
+
+if [ "$ACTION" = "add" ]; then
+        logger -s "New USB device connected!"
+        FULL_DEVICE_INFO="/uevent"
+        FULL_DEVICE_INFO="/sys$DEVPATH$FULL_DEVICE_INFO"
+        DEVICE_DRIVER=$(grep "DRIVER" $FULL_DEVICE_INFO | cut -c 8-)
+        SERIAL_PATH="/sys$DEVPATH/serial"
+        DEVICE_SERIAL=$(cat $SERIAL_PATH)
+        logger -s "$DEVICE_PATH"
+        OUTPUT_DATA=""
+        if [ -n "$DEVNAME" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.DEVNAME=/dev/$DEVNAME
+$SUBSYSTEM.NODE=/dev/$DEVNAME"
+        fi
+        if [ -n "$MAJOR" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.MAJOR=$MAJOR
+$SUBSYSTEM.MINOR=$MINOR"
+        fi
+        if [ -n "$DEVICE_DRIVER" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.DRIVER=$DEVICE_DRIVER"
+        fi
+        if [ -n "$DEVICE_SERIAL" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.ID_SERIAL=$DEVICE_SERIAL"
+        fi
+        cat <<__EOF >"${FIFO_PATH}"
+$SUBSYSTEM.ACTION=add
+$SUBSYSTEM.SUBSYSTEM=$SUBSYSTEM
+$SUBSYSTEM.NAME=$DEVICENAME
+$SUBSYSTEM.DEVPATH=$DEVPATH
+$SUBSYSTEM.DEVTYPE=$DEVTYPE
+$SUBSYSTEM.TYPE=$TYPE
+$SUBSYSTEM.PRODUCT=$PRODUCT$OUTPUT_DATA
+
+__EOF
+fi
+if [ "$ACTION" = "remove" ]; then
+        logger -s "USB device has been removed!"
+        FULL_DEVICE_INFO="/uevent"
+        FULL_DEVICE_INFO="/sys$DEVPATH$FULL_DEVICE_INFO"
+        DEVICE_PATH=$(grep "DEVNAME" $FULL_DEVICE_INFO | cut -c 9-)
+        DEVICE_PATH="/dev/$DEVICE_PATH"
+        DEVICE_DRIVER=$(grep "DRIVER" $FULL_DEVICE_INFO | cut -c 8-)
+        SERIAL_PATH="/sys$DEVPATH/serial"
+        DEVICE_SERIAL=$(cat $SERIAL_PATH)
+	OUTPUT_DATA=""
+        if [ -n "$DEVNAME" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.DEVNAME=/dev/$DEVNAME
+$SUBSYSTEM.NODE=/dev/$DEVNAME"
+        fi
+        if [ -n "$MAJOR" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.MAJOR=$MAJOR
+$SUBSYSTEM.MINOR=$MINOR"
+        fi
+        if [ -n "$DEVICE_DRIVER" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.DRIVER=$DEVICE_DRIVER"
+        fi
+        if [ -n "$DEVICE_SERIAL" ]; then
+                OUTPUT_DATA="$OUTPUT_DATA
+$SUBSYSTEM.ID_SERIAL=$DEVICE_SERIAL"
+        fi
+        cat <<__EOF >"${FIFO_PATH}"
+$SUBSYSTEM.ACTION=remove
+$SUBSYSTEM.SUBSYSTEM=$SUBSYSTEM
+$SUBSYSTEM.NAME=$DEVICENAME
+$SUBSYSTEM.DEVPATH=$DEVPATH
+$SUBSYSTEM.DEVTYPE=$DEVTYPE
+$SUBSYSTEM.TYPE=$TYPE
+$SUBSYSTEM.PRODUCT=$PRODUCT$OUTPUT_DATA
+
+__EOF
+fi
