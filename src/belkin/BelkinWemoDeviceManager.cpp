@@ -195,9 +195,6 @@ void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		doUnpairCommand(cmd);
 	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd);
-	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
@@ -235,17 +232,15 @@ void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd)
 	}
 }
 
-void BelkinWemoDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd)
+void BelkinWemoDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	DeviceAcceptCommand::Ptr cmdAccept = cmd.cast<DeviceAcceptCommand>();
-
-	auto it = m_devices.find(cmdAccept->deviceID());
+	auto it = m_devices.find(cmd->deviceID());
 	if (it == m_devices.end())
-		throw NotFoundException("accept: " + cmdAccept->deviceID().toString());
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	deviceCache()->markPaired(cmdAccept->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
 void BelkinWemoDeviceManager::doSetValueCommand(const Command::Ptr cmd)

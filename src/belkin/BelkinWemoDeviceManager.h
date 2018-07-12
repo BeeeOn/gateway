@@ -54,6 +54,7 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -72,11 +73,6 @@ protected:
 	 * @brief Processes the unpair command.
 	 */
 	void doUnpairCommand(const Command::Ptr cmd);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the device set value command.
