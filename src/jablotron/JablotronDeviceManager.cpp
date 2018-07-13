@@ -119,7 +119,7 @@ void JablotronDeviceManager::jablotronProcess()
 	setupDongleDevices();
 	loadDeviceList();
 
-	while (!m_stop) {
+	while (!m_stopControl.shouldStop()) {
 		MessageType response = nextMessage(message);
 
 		if (isResponse(response)) {
@@ -283,12 +283,12 @@ JablotronDeviceManager::MessageType JablotronDeviceManager::nextMessage(
 	// message example: \nAC-88 RELAY:1\n
 	const RegularExpression re("(?!\\n)[^\\n]*(?=\\n)");
 
-	while (!re.extract(m_buffer, message) && !m_stop) {
+	while (!re.extract(m_buffer, message) && !m_stopControl.shouldStop()) {
 		try {
 			m_buffer += m_serial.read(READ_TIMEOUT);
 		}
 		catch (const TimeoutException &ex) {
-			// avoid frozen state, allow to test m_stop time after time
+			// avoid frozen state, allow to test shouldStop() time after time
 			continue;
 		}
 	}
