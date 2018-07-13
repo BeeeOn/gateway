@@ -37,7 +37,7 @@ public:
 	public:
 		PhilipsHueSeeker(PhilipsHueDeviceManager& parent);
 
-		void setDuration(const Poco::Timespan& duration);
+		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
@@ -46,6 +46,8 @@ public:
 		PhilipsHueDeviceManager& m_parent;
 		Poco::Timespan m_duration;
 		Poco::AtomicCounter m_stop;
+		Poco::FastMutex m_seekerMutex;
+		Poco::Thread m_seekerThread;
 	};
 
 	static const Poco::Timespan SEARCH_DELAY;
@@ -106,8 +108,6 @@ protected:
 	void fireBulbStatistics(PhilipsHueBulb::Ptr bulb);
 
 private:
-	Poco::FastMutex m_seekerMutex;
-	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_bridgesMutex;
 	Poco::FastMutex m_pairedMutex;
 

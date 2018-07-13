@@ -93,8 +93,6 @@ void PhilipsHueDeviceManager::run()
 	}
 
 	logger().information("stopping Philips Hue device manager", __FILE__, __LINE__);
-
-	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
 }
 
 void PhilipsHueDeviceManager::stop()
@@ -241,15 +239,7 @@ void PhilipsHueDeviceManager::doListenCommand(const Command::Ptr cmd)
 {
 	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
 
-	ScopedLock<FastMutex> guard(m_seekerMutex);
-
-	if (!m_seekerThread.isRunning()) {
-		m_seeker.setDuration(cmdListen->duration());
-		m_seekerThread.start(m_seeker);
-	}
-	else {
-		logger().warning("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
-	}
+	m_seeker.startSeeking(cmdListen->duration());
 }
 
 void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd)
@@ -524,8 +514,17 @@ PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceMana
 {
 }
 
-void PhilipsHueDeviceManager::PhilipsHueSeeker::setDuration(const Poco::Timespan& duration)
+void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking(const Timespan& duration)
 {
+	ScopedLock<FastMutex> guard(m_seekerMutex);
+
+	if (!m_seekerThread.isRunning()) {
+		m_seekerThread.start(*this);
+	}
+	else {
+		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
+	}
+
 	m_duration = duration;
 }
 
@@ -551,4 +550,5 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::run()
 void PhilipsHueDeviceManager::PhilipsHueSeeker::stop()
 {
 	m_stop = true;
+	m_seekerThread.join(m_parent.SEARCH_DELAY.totalMilliseconds());
 }
