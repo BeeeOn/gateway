@@ -45,6 +45,10 @@ class JablotronDeviceManager : public DongleDeviceManager {
 public:
 	JablotronDeviceManager();
 
+	/**
+	 * @brief Recognizes compatible dongle by testing HotplugEvent property
+	 * as <code>tty.BEEEON_DONGLE == jablotron</code>.
+	 */
 	std::string dongleMatch(const HotplugEvent &e) override;
 	void dongleAvailable() override;
 
