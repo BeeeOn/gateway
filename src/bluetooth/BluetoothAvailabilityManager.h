@@ -5,7 +5,6 @@
 #include <map>
 #include <string>
 
-#include <Poco/Event.h>
 #include <Poco/Logger.h>
 #include <Poco/Mutex.h>
 #include <Poco/RunnableAdapter.h>
@@ -125,7 +124,6 @@ private:
 	Poco::Timespan m_wakeUpTime;
 	Poco::Thread m_thread;
 	std::map<DeviceID, BluetoothDevice> m_deviceList;
-	Poco::Event m_stopEvent;
 	Poco::FastMutex m_lock;
 	Poco::FastMutex m_scanLock;
 	HciInterfaceManager::Ptr m_hciManager;

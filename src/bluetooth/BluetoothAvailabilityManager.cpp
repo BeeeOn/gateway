@@ -106,13 +106,13 @@ void BluetoothAvailabilityManager::dongleAvailable()
 	 * unavailable devices more often but only while we fit into the
 	 * "sleeping" period (wake up time).
 	 */
-	while (!m_stop) {
+	while (!m_stopControl.shouldStop()) {
 		hci->up();
 
 		const Timespan &remaining = detectAll(*hci);
 
-		if (remaining > 0 && !m_stop)
-			m_stopEvent.tryWait(remaining.totalMilliseconds());
+		if (remaining > 0 && !m_stopControl.shouldStop())
+			m_stopControl.waitStoppable(remaining);
 	}
 
 	m_statisticsRunner.stop();
@@ -158,7 +158,7 @@ void BluetoothAvailabilityManager::notifyDongleRemoved()
 		PosixSignal::send(m_thread, "SIGUSR1");
 	}
 
-	m_stopEvent.set();
+	m_stopControl.requestWakeup();
 }
 
 string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
@@ -176,7 +176,6 @@ string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
 
 void BluetoothAvailabilityManager::stop()
 {
-	m_stopEvent.set();
 	DongleDeviceManager::stop();
 	answerQueue().dispose();
 }
@@ -200,7 +199,7 @@ list<DeviceID> BluetoothAvailabilityManager::detectClassic(const HciInterface &h
 				inactive.push_back(device.first);
 		}
 
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 	}
 	return inactive;
@@ -222,7 +221,7 @@ void BluetoothAvailabilityManager::detectLE(const HciInterface &hci)
 
 		shipStatusOf(device.second);
 
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 	}
 }
@@ -246,7 +245,7 @@ Timespan BluetoothAvailabilityManager::detectAll(const HciInterface &hci)
 	 * When a device is detected again, ship the information
 	 * immediately.
 	 */
-	while (!inactive.empty() && !m_stop) {
+	while (!inactive.empty() && !m_stopControl.shouldStop()) {
 		if (!haveTimeForInactive(startTime.elapsed()))
 			break;
 
@@ -350,7 +349,7 @@ bool BluetoothAvailabilityManager::enoughTimeForScan(const Timestamp &startTime)
 	if (m_mode & MODE_LE)
 		base += LE_SCAN_TIME;
 
-	return (base + startTime.elapsed() < m_listenTime && !m_stop);
+	return (base + startTime.elapsed() < m_listenTime && !m_stopControl.shouldStop());
 }
 
 void BluetoothAvailabilityManager::reportFoundDevices(
