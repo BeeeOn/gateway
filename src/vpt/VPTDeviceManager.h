@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <Poco/AtomicCounter.h>
-#include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Thread.h>
@@ -149,7 +148,6 @@ private:
 	VPTHTTPScanner m_scanner;
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;
-	Poco::Event m_event;
 
 	Poco::Timespan m_refresh;
 	Poco::Timespan m_httpTimeout;
