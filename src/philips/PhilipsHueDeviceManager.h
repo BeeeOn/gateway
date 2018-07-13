@@ -73,6 +73,9 @@ protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -81,11 +84,6 @@ protected:
 	 * @brief Erases the bridges which don't care any bulb.
 	 */
 	void eraseUnusedBridges();
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the set value command.

@@ -19,6 +19,7 @@
 #include "philips/PhilipsHueBridgeInfo.h"
 #include "philips/PhilipsHueDeviceManager.h"
 #include "philips/PhilipsHueDimmableBulb.h"
+#include "util/BlockingAsyncWork.h"
 
 #define PHILIPS_HUE_VENDOR "Philips Hue"
 
@@ -224,9 +225,6 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 	if (cmd->is<DeviceSetValueCommand>()) {
 		doSetValueCommand(cmd);
 	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		doUnpairCommand(cmd);
-	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
@@ -239,23 +237,29 @@ AsyncWork<>::Ptr PhilipsHueDeviceManager::startDiscovery(const Timespan &timeout
 	return m_seeker;
 }
 
-void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd)
+AsyncWork<set<DeviceID>>::Ptr PhilipsHueDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	DeviceUnpairCommand::Ptr cmdUnpair = cmd.cast<DeviceUnpairCommand>();
-
-	if (!deviceCache()->paired(cmdUnpair->deviceID())) {
-		logger().warning("unpairing device that is not paired: " + cmdUnpair->deviceID().toString(),
+	if (!deviceCache()->paired(id)) {
+		logger().warning("unpairing device that is not paired: " + id.toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		deviceCache()->markUnpaired(cmdUnpair->deviceID());
+		deviceCache()->markUnpaired(id);
 
-		auto itDevice = m_devices.find(cmdUnpair->deviceID());
+		auto itDevice = m_devices.find(id);
 		if (itDevice != m_devices.end())
-			m_devices.erase(cmdUnpair->deviceID());
+			m_devices.erase(id);
+
+		work->setResult({id});
 	}
+
+	return work;
 }
 
 void PhilipsHueDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
