@@ -232,9 +232,6 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		doUnpairCommand(cmd);
 	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd);
-	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
@@ -272,17 +269,15 @@ void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd)
 	}
 }
 
-void PhilipsHueDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd)
+void PhilipsHueDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	DeviceAcceptCommand::Ptr cmdAccept = cmd.cast<DeviceAcceptCommand>();
-
-	auto it = m_devices.find(cmdAccept->deviceID());
+	auto it = m_devices.find(cmd->deviceID());
 	if (it == m_devices.end())
-		throw NotFoundException("accept: " + cmdAccept->deviceID().toString());
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	deviceCache()->markPaired(cmdAccept->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
 void PhilipsHueDeviceManager::doSetValueCommand(const Command::Ptr cmd)
