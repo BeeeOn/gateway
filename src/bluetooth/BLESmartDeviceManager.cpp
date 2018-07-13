@@ -126,15 +126,15 @@ void BLESmartDeviceManager::notifyDongleRemoved()
 
 string BLESmartDeviceManager::dongleMatch(const HotplugEvent &e)
 {
-	if (e.subsystem() == "bluetooth" && e.type() == "host") {
-		if (e.name().empty()) {
-			logger().warning("missing bluetooth interface name, skipping",
-				__FILE__, __LINE__);
-		}
-		return e.name();
-	}
+	if (!e.properties()->has("bluetooth.BEEEON_DONGLE"))
+		return "";
 
-	return "";
+	const auto &dongle = e.properties()->getString("bluetooth.BEEEON_DONGLE");
+
+	if (dongle != "bluetooth")
+		return "";
+
+	return e.name();
 }
 
 void BLESmartDeviceManager::dongleFailed(const FailDetector &dongleStatus)
