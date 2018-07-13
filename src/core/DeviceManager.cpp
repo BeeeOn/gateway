@@ -189,7 +189,7 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	if (unpair->result().isNull())
 		return {};
 
-	const set<DeviceID> &result = unpair->result();
+	const set<DeviceID> result = unpair->result();
 
 	if (result.find(cmd->deviceID()) != result.end() && result.size() == 1) {
 		logger().information("unpair was successful", __FILE__, __LINE__);
