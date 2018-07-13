@@ -53,7 +53,7 @@ PhilipsHueDeviceManager::PhilipsHueDeviceManager():
 		typeid(DeviceSetValueCommand),
 	}),
 	m_refresh(5 * Timespan::SECONDS),
-	m_seeker(*this),
+	m_seeker(new PhilipsHueSeeker(*this)),
 	m_httpTimeout(3 * Timespan::SECONDS),
 	m_upnpTimeout(5 * Timespan::SECONDS)
 {
@@ -98,7 +98,7 @@ void PhilipsHueDeviceManager::run()
 void PhilipsHueDeviceManager::stop()
 {
 	DeviceManager::stop();
-	m_seeker.stop();
+	m_seeker->stop();
 	answerQueue().dispose();
 }
 
@@ -221,10 +221,7 @@ void PhilipsHueDeviceManager::eraseUnusedBridges()
 
 void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
-	if (cmd->is<GatewayListenCommand>()) {
-		doListenCommand(cmd);
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
+	if (cmd->is<DeviceSetValueCommand>()) {
 		doSetValueCommand(cmd);
 	}
 	else if (cmd->is<DeviceUnpairCommand>()) {
@@ -235,11 +232,11 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 	}
 }
 
-void PhilipsHueDeviceManager::doListenCommand(const Command::Ptr cmd)
+AsyncWork<>::Ptr PhilipsHueDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
+	m_seeker->startSeeking(timeout);
 
-	m_seeker.startSeeking(cmdListen->duration());
+	return m_seeker;
 }
 
 void PhilipsHueDeviceManager::doUnpairCommand(const Command::Ptr cmd)
@@ -515,8 +512,6 @@ PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceMana
 
 void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking(const Timespan& duration)
 {
-	ScopedLock<FastMutex> guard(m_seekerMutex);
-
 	if (!m_seekerThread.isRunning()) {
 		m_seekerThread.start(*this);
 	}
@@ -549,4 +544,14 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::stop()
 {
 	m_stopControl.requestStop();
 	m_seekerThread.join(m_parent.SEARCH_DELAY.totalMilliseconds());
+}
+
+bool PhilipsHueDeviceManager::PhilipsHueSeeker::tryJoin(const Timespan &timeout)
+{
+	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+}
+
+void PhilipsHueDeviceManager::PhilipsHueSeeker::cancel()
+{
+	stop();
 }
