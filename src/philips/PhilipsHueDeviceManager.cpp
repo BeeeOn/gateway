@@ -78,7 +78,9 @@ void PhilipsHueDeviceManager::run()
 	if (paired.size() > 0)
 		searchPairedDevices();
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		Timestamp now;
 
 		eraseUnusedBridges();
@@ -87,19 +89,17 @@ void PhilipsHueDeviceManager::run()
 
 		Timespan sleepTime = m_refresh - now.elapsed();
 		if (sleepTime > 0)
-			m_event.tryWait(sleepTime.totalMilliseconds());
+			run.waitStoppable(sleepTime);
 	}
 
 	logger().information("stopping Philips Hue device manager", __FILE__, __LINE__);
 
 	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
-	m_stop = false;
 }
 
 void PhilipsHueDeviceManager::stop()
 {
-	m_stop = true;
-	m_event.set();
+	DeviceManager::stop();
 	m_seeker.stop();
 	answerQueue().dispose();
 }
@@ -342,7 +342,7 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:schemas-upnp-org:device:basic:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 
 		logger().debug("discovered a device at " + address.toString(),  __FILE__, __LINE__);
