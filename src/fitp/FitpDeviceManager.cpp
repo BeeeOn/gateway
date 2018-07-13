@@ -492,7 +492,9 @@ void FitpDeviceManager::run()
 
 	fitp_set_nid((uint32_t) m_gatewayInfo->gatewayID().data());
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		vector<uint8_t> data;
 
 		fitp_received_data(data);
@@ -515,7 +517,7 @@ void FitpDeviceManager::stop()
 		fitp_joining_disable();
 		m_listening = false;
 	}
-	m_stop = true;
-	m_event.set();
+
+	DeviceManager::stop();
 }
 
