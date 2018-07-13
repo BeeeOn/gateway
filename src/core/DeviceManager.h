@@ -17,6 +17,7 @@
 #include "core/DeviceCache.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "model/DevicePrefix.h"
 #include "model/ModuleID.h"
@@ -189,6 +190,7 @@ protected:
 	static const Poco::Timespan DEFAULT_REQUEST_TIMEOUT;
 
 	Poco::AtomicCounter m_stop;
+	StopControl m_stopControl;
 
 private:
 	DevicePrefix m_prefix;

@@ -38,6 +38,7 @@ DevicePrefix DeviceManager::prefix() const
 void DeviceManager::stop()
 {
 	m_stop = true;
+	m_stopControl.requestStop();
 }
 
 void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)
