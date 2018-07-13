@@ -73,8 +73,6 @@ void BelkinWemoDeviceManager::run()
 	}
 
 	logger().information("stopping Belkin WeMo device manager", __FILE__, __LINE__);
-
-	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
 }
 
 void BelkinWemoDeviceManager::stop()
@@ -204,15 +202,7 @@ void BelkinWemoDeviceManager::doListenCommand(const Command::Ptr cmd)
 {
 	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
 
-	ScopedLock<FastMutex> guard(m_seekerMutex);
-
-	if (!m_seekerThread.isRunning()) {
-		m_seeker.setDuration(cmdListen->duration());
-		m_seekerThread.start(m_seeker);
-	}
-	else {
-		logger().warning("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
-	}
+	m_seeker.startSeeking(cmdListen->duration());
 }
 
 void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd)
@@ -454,8 +444,17 @@ BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceMana
 {
 }
 
-void BelkinWemoDeviceManager::BelkinWemoSeeker::setDuration(const Poco::Timespan& duration)
+void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking(const Timespan& duration)
 {
+	ScopedLock<FastMutex> guard(m_seekerMutex);
+
+	if (!m_seekerThread.isRunning()) {
+		m_seekerThread.start(*this);
+	}
+	else {
+		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
+	}
+
 	m_duration = duration;
 }
 
@@ -501,4 +500,5 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 void BelkinWemoDeviceManager::BelkinWemoSeeker::stop()
 {
 	m_stop = true;
+	m_seekerThread.join(m_parent.m_upnpTimeout.totalMilliseconds());
 }
