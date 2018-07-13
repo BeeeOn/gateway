@@ -193,7 +193,6 @@ private:
 	std::priority_queue<VirtualDeviceEntry,
 		std::vector<VirtualDeviceEntry>,
 		VirtualDeviceEntryComparator> m_virtualDeviceQueue;
-	Poco::Event m_event;
 	bool m_requestDeviceList;
 	Poco::FastMutex m_lock;
 };

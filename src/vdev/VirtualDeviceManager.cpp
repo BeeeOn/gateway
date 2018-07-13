@@ -358,12 +358,14 @@ void VirtualDeviceManager::run()
 	setPairedDevices();
 	scheduleAllEntries();
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		if (isEmptyQueue()) {
 			logger().debug(
 				"empty queue of devices",
 				__FILE__, __LINE__);
-			m_event.wait();
+			run.waitStoppable(-1);
 			continue;
 		}
 
@@ -392,7 +394,7 @@ void VirtualDeviceManager::run()
 				+ to_string(sleepTime.totalMilliseconds())
 				+ " milliseconds",
 				__FILE__, __LINE__);
-			m_event.tryWait(sleepTime.totalMilliseconds());
+			run.waitStoppable(sleepTime);
 			continue;
 		}
 
@@ -413,14 +415,12 @@ void VirtualDeviceManager::run()
 		}
 
 		scheduleEntryUnlocked(entry);
-		m_event.reset();
 	}
 }
 
 void VirtualDeviceManager::stop()
 {
-	m_stop = true;
-	m_event.set();
+	DeviceManager::stop();
 	answerQueue().dispose();
 }
 
@@ -428,7 +428,7 @@ void VirtualDeviceManager::scheduleEntryUnlocked(VirtualDeviceEntry entry)
 {
 	entry.setInserted(Timestamp());
 	m_virtualDeviceQueue.push(entry);
-	m_event.set();
+	m_stopControl.requestWakeup();
 }
 
 bool VirtualDeviceEntryComparator::lessThan(
