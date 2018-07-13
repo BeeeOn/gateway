@@ -71,3 +71,5 @@ install(DIRECTORY
 	DESTINATION var/run/beeeon/gateway)
 install(DIRECTORY
 	DESTINATION var/cache/beeeon/gateway)
+install(DIRECTORY lede/hotplug.d
+	 DESTINATION etc/hotplug.d/usb)
