@@ -220,7 +220,6 @@ private:
 	State m_state;
 	ZWaveDeviceInfoRegistry::Ptr m_registry;
 	std::map<uint8_t, std::list<OpenZWave::ValueID>> m_zwaveNodes;
-	Poco::Event m_stopEvent;
 
 	Poco::TimerCallback<ZWaveDeviceManager> m_commandCallback;
 	Poco::Timer m_commandTimer;
