@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-1-g4a782ff</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -59,106 +59,104 @@
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/AtomicCounter.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Event.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/Mutex.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Poco/Thread.h&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;credentials/FileCredentialsStorage.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;loop/StoppableRunnable.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;net/MACAddress.h&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueBridge.h&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueBulb.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueListener.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;util/CryptoConfig.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;util/EventSource.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">   37</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueSeeker</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1StoppableRunnable.html">StoppableRunnable</a> {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueSeeker</a>(<a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a>&amp; parent);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordtype">void</span> setDuration(<span class="keyword">const</span> Poco::Timespan&amp; duration);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#a8cce1a81f7ae57389f01e9bf969d821d">stop</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a>&amp; m_parent;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                Poco::Timespan m_duration;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                Poco::AtomicCounter m_stop;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        };</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> Poco::Timespan SEARCH_DELAY;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a>();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">stop</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> setUPnPTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> setHTTPTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">void</span> setRefresh(<span class="keyword">const</span> Poco::Timespan &amp;refresh);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordtype">void</span> setCredentialsStorage(Poco::SharedPtr&lt;FileCredentialsStorage&gt; storage);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> setCryptoConfig(Poco::SharedPtr&lt;CryptoConfig&gt; config);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> setEventsExecutor(AsyncExecutor::Ptr executor);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">void</span> registerListener(PhilipsHueListener::Ptr listener);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">void</span> refreshPairedDevices();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">void</span> searchPairedDevices();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a7ddaf94f71dcf269535019db5a2b351a">eraseUnusedBridges</a>();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#af74953ddbff5b6d282d0f78e4b8b113a">doListenCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#ae8780333da2a69bc6ff304af12432c48">doUnpairCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a483fa13576531ea4ca8516ef57aabc27">doDeviceAcceptCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a60f3af0d5d538a27d85063311d971181">doSetValueCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a00620c9bc86452f6ea7c3e9aaca90046">modifyValue</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&amp; deviceID, <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        std::vector&lt;PhilipsHueBulb::Ptr&gt; seekBulbs();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">void</span> authorizationOfBridge(PhilipsHueBridge::Ptr bridge);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordtype">void</span> processNewDevice(PhilipsHueBulb::Ptr newDevice);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">void</span> fireBridgeStatistics(PhilipsHueBridge::Ptr bridge);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordtype">void</span> fireBulbStatistics(PhilipsHueBulb::Ptr bulb);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        Poco::Thread m_seekerThread;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        Poco::FastMutex m_bridgesMutex;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        Poco::FastMutex m_pairedMutex;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        std::map&lt;MACAddress, PhilipsHueBridge::Ptr&gt; m_bridges;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        std::map&lt;DeviceID, PhilipsHueBulb::Ptr&gt; m_devices;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        Poco::Timespan m_refresh;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueDeviceManager::PhilipsHueSeeker</a> m_seeker;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        Poco::Timespan m_httpTimeout;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        Poco::Timespan m_upnpTimeout;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        Poco::Event m_event;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        Poco::SharedPtr&lt;FileCredentialsStorage&gt; m_credentialsStorage;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        Poco::SharedPtr&lt;CryptoConfig&gt; m_cryptoConfig;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <a class="code" href="classBeeeOn_1_1EventSource.html">EventSource&lt;PhilipsHueListener&gt;</a> m_eventSource;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;};</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Mutex.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/Thread.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;credentials/FileCredentialsStorage.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;loop/StoppableRunnable.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;net/MACAddress.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueBridge.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueBulb.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueListener.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;util/CryptoConfig.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;util/EventSource.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">   36</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueSeeker</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1StoppableRunnable.html">StoppableRunnable</a> {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueSeeker</a>(<a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a>&amp; parent);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordtype">void</span> setDuration(<span class="keyword">const</span> Poco::Timespan&amp; duration);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#a8cce1a81f7ae57389f01e9bf969d821d">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a>&amp; m_parent;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                Poco::Timespan m_duration;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                Poco::AtomicCounter m_stop;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        };</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> Poco::Timespan SEARCH_DELAY;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">void</span> setUPnPTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> setHTTPTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> setRefresh(<span class="keyword">const</span> Poco::Timespan &amp;refresh);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">void</span> setCredentialsStorage(Poco::SharedPtr&lt;FileCredentialsStorage&gt; storage);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordtype">void</span> setCryptoConfig(Poco::SharedPtr&lt;CryptoConfig&gt; config);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> setEventsExecutor(AsyncExecutor::Ptr executor);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> registerListener(PhilipsHueListener::Ptr listener);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">void</span> refreshPairedDevices();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">void</span> searchPairedDevices();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a7ddaf94f71dcf269535019db5a2b351a">eraseUnusedBridges</a>();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#af74953ddbff5b6d282d0f78e4b8b113a">doListenCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#ae8780333da2a69bc6ff304af12432c48">doUnpairCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a483fa13576531ea4ca8516ef57aabc27">doDeviceAcceptCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a60f3af0d5d538a27d85063311d971181">doSetValueCommand</a>(<span class="keyword">const</span> Command::Ptr cmd);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a00620c9bc86452f6ea7c3e9aaca90046">modifyValue</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&amp; deviceID, <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        std::vector&lt;PhilipsHueBulb::Ptr&gt; seekBulbs();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordtype">void</span> authorizationOfBridge(PhilipsHueBridge::Ptr bridge);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordtype">void</span> processNewDevice(PhilipsHueBulb::Ptr newDevice);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">void</span> fireBridgeStatistics(PhilipsHueBridge::Ptr bridge);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">void</span> fireBulbStatistics(PhilipsHueBulb::Ptr bulb);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        Poco::Thread m_seekerThread;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        Poco::FastMutex m_bridgesMutex;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        Poco::FastMutex m_pairedMutex;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        std::map&lt;MACAddress, PhilipsHueBridge::Ptr&gt; m_bridges;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        std::map&lt;DeviceID, PhilipsHueBulb::Ptr&gt; m_devices;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        Poco::Timespan m_refresh;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueDeviceManager::PhilipsHueSeeker</a> m_seeker;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        Poco::Timespan m_httpTimeout;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        Poco::Timespan m_upnpTimeout;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        Poco::SharedPtr&lt;FileCredentialsStorage&gt; m_credentialsStorage;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        Poco::SharedPtr&lt;CryptoConfig&gt; m_cryptoConfig;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <a class="code" href="classBeeeOn_1_1EventSource.html">EventSource&lt;PhilipsHueListener&gt;</a> m_eventSource;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;};</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_af74953ddbff5b6d282d0f78e4b8b113a"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#af74953ddbff5b6d282d0f78e4b8b113a">BeeeOn::PhilipsHueDeviceManager::doListenCommand</a></div><div class="ttdeci">void doListenCommand(const Command::Ptr cmd)</div><div class="ttdoc">Processes the listen command. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:243</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a483fa13576531ea4ca8516ef57aabc27"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a483fa13576531ea4ca8516ef57aabc27">BeeeOn::PhilipsHueDeviceManager::doDeviceAcceptCommand</a></div><div class="ttdeci">void doDeviceAcceptCommand(const Command::Ptr cmd)</div><div class="ttdoc">Processes the device accept command. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:275</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a60f3af0d5d538a27d85063311d971181"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a60f3af0d5d538a27d85063311d971181">BeeeOn::PhilipsHueDeviceManager::doSetValueCommand</a></div><div class="ttdeci">void doSetValueCommand(const Command::Ptr cmd)</div><div class="ttdoc">Processes the set value command. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:288</div></div>
@@ -166,13 +164,13 @@
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_ae8780333da2a69bc6ff304af12432c48"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#ae8780333da2a69bc6ff304af12432c48">BeeeOn::PhilipsHueDeviceManager::doUnpairCommand</a></div><div class="ttdeci">void doUnpairCommand(const Command::Ptr cmd)</div><div class="ttdoc">Processes the unpair command. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:256</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:13</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a00620c9bc86452f6ea7c3e9aaca90046"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a00620c9bc86452f6ea7c3e9aaca90046">BeeeOn::PhilipsHueDeviceManager::modifyValue</a></div><div class="ttdeci">bool modifyValue(const DeviceID &amp;deviceID, const ModuleID &amp;moduleID, const double value)</div><div class="ttdoc">Sets the proper device&amp;#39;s module to given value. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:309</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html">BeeeOn::PhilipsHueDeviceManager</a></div><div class="ttdoc">The class implements the work with Philips Hue bulbs. Allows us to process and execute the commands f...</div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.h:31</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html">BeeeOn::PhilipsHueDeviceManager</a></div><div class="ttdoc">The class implements the work with Philips Hue bulbs. Allows us to process and execute the commands f...</div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.h:30</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></div><div class="ttdef"><b>Definition:</b> DeviceManager.h:43</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker</a></div><div class="ttdoc">Provides searching philips devices on network in own thread. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.h:37</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker</a></div><div class="ttdoc">Provides searching philips devices on network in own thread. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.h:36</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a7ddaf94f71dcf269535019db5a2b351a"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a7ddaf94f71dcf269535019db5a2b351a">BeeeOn::PhilipsHueDeviceManager::eraseUnusedBridges</a></div><div class="ttdeci">void eraseUnusedBridges()</div><div class="ttdoc">Erases the bridges which don&amp;#39;t care any bulb. </div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:194</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a19641de3e889b059f04f649c99c7ccaa"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">BeeeOn::PhilipsHueDeviceManager::handleGeneric</a></div><div class="ttdeci">void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override</div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:224</div></div>
 <div class="ttc" id="classBeeeOn_1_1StoppableRunnable_html"><div class="ttname"><a href="classBeeeOn_1_1StoppableRunnable.html">BeeeOn::StoppableRunnable</a></div><div class="ttdef"><b>Definition:</b> StoppableRunnable.h:8</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a733173bef96753cffbc4058833e575a6"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:99</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_html_a733173bef96753cffbc4058833e575a6"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:100</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:18</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker_html_a8cce1a81f7ae57389f01e9bf969d821d"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#a8cce1a81f7ae57389f01e9bf969d821d">BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> PhilipsHueDeviceManager.cpp:554</div></div>
 </div><!-- fragment --></div><!-- contents -->

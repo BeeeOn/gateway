@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-1-g4a782ff</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -57,64 +57,62 @@
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;list&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/Event.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;commands/DeviceAcceptCommand.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;commands/DeviceUnpairCommand.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;commands/GatewayListenCommand.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/ModuleType.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PressureSensorManager.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PressureSensorManager.html">PressureSensorManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="classBeeeOn_1_1PressureSensorManager.html">PressureSensorManager</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        ~<a class="code" href="classBeeeOn_1_1PressureSensorManager.html">PressureSensorManager</a>();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">stop</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">void</span> setRefresh(<span class="keyword">const</span> Poco::Timespan &amp;refresh);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a30f3bf9768cce0e791a060f65719cc53">setPath</a>(<span class="keyword">const</span> std::string &amp;path);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">void</span> setVendor(<span class="keyword">const</span> std::string &amp;vendor);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a1487cff617b895cf330ccf8666dbe9c9">setUnit</a>(<span class="keyword">const</span> std::string &amp;unit);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a43d94efb8bee6cb3683bb2b61fe752a3">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> initialize();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">void</span> shipValue();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> pairedID();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> buildID(<span class="keyword">const</span> std::string &amp;path);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">double</span> convertToHPA(<span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">void</span> handleListenCommand(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1GatewayListenCommand.html">GatewayListenCommand</a> &amp;cmd);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> handleAcceptCommand(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a> &amp;cmd);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">void</span> handleUnpairCommand(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceUnpairCommand.html">DeviceUnpairCommand</a> &amp;cmd);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        Poco::Timespan m_refresh;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        std::string m_vendor;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        std::string m_path;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        Poco::Event m_event;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        std::string m_unit;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1PressureSensorManager_html"><div class="ttname"><a href="classBeeeOn_1_1PressureSensorManager.html">BeeeOn::PressureSensorManager</a></div><div class="ttdef"><b>Definition:</b> PressureSensorManager.h:31</div></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;commands/DeviceAcceptCommand.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;commands/DeviceUnpairCommand.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;commands/GatewayListenCommand.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;model/ModuleType.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PressureSensorManager.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PressureSensorManager.html">PressureSensorManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="classBeeeOn_1_1PressureSensorManager.html">PressureSensorManager</a>();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        ~<a class="code" href="classBeeeOn_1_1PressureSensorManager.html">PressureSensorManager</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">void</span> setRefresh(<span class="keyword">const</span> Poco::Timespan &amp;refresh);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a30f3bf9768cce0e791a060f65719cc53">setPath</a>(<span class="keyword">const</span> std::string &amp;path);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">void</span> setVendor(<span class="keyword">const</span> std::string &amp;vendor);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a1487cff617b895cf330ccf8666dbe9c9">setUnit</a>(<span class="keyword">const</span> std::string &amp;unit);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PressureSensorManager.html#a43d94efb8bee6cb3683bb2b61fe752a3">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> initialize();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">void</span> shipValue();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> pairedID();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> buildID(<span class="keyword">const</span> std::string &amp;path);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">double</span> convertToHPA(<span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">void</span> handleListenCommand(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1GatewayListenCommand.html">GatewayListenCommand</a> &amp;cmd);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">void</span> handleAcceptCommand(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a> &amp;cmd);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> handleUnpairCommand(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceUnpairCommand.html">DeviceUnpairCommand</a> &amp;cmd);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        Poco::Timespan m_refresh;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        std::string m_vendor;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        std::string m_path;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        std::string m_unit;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;};</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1PressureSensorManager_html"><div class="ttname"><a href="classBeeeOn_1_1PressureSensorManager.html">BeeeOn::PressureSensorManager</a></div><div class="ttdef"><b>Definition:</b> PressureSensorManager.h:30</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceAcceptCommand_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceAcceptCommand.html">BeeeOn::DeviceAcceptCommand</a></div><div class="ttdef"><b>Definition:</b> DeviceAcceptCommand.h:13</div></div>
-<div class="ttc" id="classBeeeOn_1_1PressureSensorManager_html_a0c44ee6aa33b0a3210e8c612d94dfd50"><div class="ttname"><a href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> PressureSensorManager.cpp:74</div></div>
+<div class="ttc" id="classBeeeOn_1_1PressureSensorManager_html_a0c44ee6aa33b0a3210e8c612d94dfd50"><div class="ttname"><a href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> PressureSensorManager.cpp:75</div></div>
 <div class="ttc" id="classBeeeOn_1_1GatewayListenCommand_html"><div class="ttname"><a href="classBeeeOn_1_1GatewayListenCommand.html">BeeeOn::GatewayListenCommand</a></div><div class="ttdef"><b>Definition:</b> GatewayListenCommand.h:16</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceUnpairCommand_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceUnpairCommand.html">BeeeOn::DeviceUnpairCommand</a></div><div class="ttdef"><b>Definition:</b> DeviceUnpairCommand.h:19</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></div><div class="ttdef"><b>Definition:</b> DeviceManager.h:43</div></div>

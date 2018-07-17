@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-1-g4a782ff</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -181,34 +181,33 @@
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        State m_state;</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        ZWaveDeviceInfoRegistry::Ptr m_registry;</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        std::map&lt;uint8_t, std::list&lt;OpenZWave::ValueID&gt;&gt; m_zwaveNodes;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        Poco::Event m_stopEvent;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        Poco::TimerCallback&lt;ZWaveDeviceManager&gt; m_commandCallback;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        Poco::Timer m_commandTimer;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <a class="code" href="classBeeeOn_1_1PeriodicRunner.html">PeriodicRunner</a> m_statisticsRunner;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <a class="code" href="classBeeeOn_1_1EventSource.html">EventSource&lt;ZWaveListener&gt;</a> m_eventSource;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;};</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_acdcc7e4f113426e56bb01e056e5968b4"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#acdcc7e4f113426e56bb01e056e5968b4">BeeeOn::ZWaveDeviceManager::setExecutor</a></div><div class="ttdeci">void setExecutor(Poco::SharedPtr&lt; AsyncExecutor &gt; executor)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:939</div></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        Poco::TimerCallback&lt;ZWaveDeviceManager&gt; m_commandCallback;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        Poco::Timer m_commandTimer;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <a class="code" href="classBeeeOn_1_1PeriodicRunner.html">PeriodicRunner</a> m_statisticsRunner;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <a class="code" href="classBeeeOn_1_1EventSource.html">EventSource&lt;ZWaveListener&gt;</a> m_eventSource;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;};</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_acdcc7e4f113426e56bb01e056e5968b4"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#acdcc7e4f113426e56bb01e056e5968b4">BeeeOn::ZWaveDeviceManager::setExecutor</a></div><div class="ttdeci">void setExecutor(Poco::SharedPtr&lt; AsyncExecutor &gt; executor)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:940</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDriver_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDriver.html">BeeeOn::ZWaveDriver</a></div><div class="ttdef"><b>Definition:</b> ZWaveDriver.h:9</div></div>
 <div class="ttc" id="classBeeeOn_1_1HotplugListener_html"><div class="ttname"><a href="classBeeeOn_1_1HotplugListener.html">BeeeOn::HotplugListener</a></div><div class="ttdef"><b>Definition:</b> HotplugListener.h:10</div></div>
 <div class="ttc" id="classBeeeOn_1_1PeriodicRunner_html"><div class="ttname"><a href="classBeeeOn_1_1PeriodicRunner.html">BeeeOn::PeriodicRunner</a></div><div class="ttdoc">Executes some function periodacally based on the given interval. </div><div class="ttdef"><b>Definition:</b> PeriodicRunner.h:19</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_aded060ce7a7822e25d608dac274bbf65"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">BeeeOn::ZWaveDeviceManager::accept</a></div><div class="ttdeci">bool accept(Command::Ptr cmd) override</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:199</div></div>
 <div class="ttc" id="classBeeeOn_1_1EventSource_html"><div class="ttname"><a href="classBeeeOn_1_1EventSource.html">BeeeOn::EventSource</a></div><div class="ttdoc">EventSource implements common logic for firing events to listeners. </div><div class="ttdef"><b>Definition:</b> EventSource.h:25</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a686902fbb3bb309efedaa44da2d24a82"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a686902fbb3bb309efedaa44da2d24a82">BeeeOn::ZWaveDeviceManager::setStatisticsInterval</a></div><div class="ttdeci">void setStatisticsInterval(const Poco::Timespan &amp;interval)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:924</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a686902fbb3bb309efedaa44da2d24a82"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a686902fbb3bb309efedaa44da2d24a82">BeeeOn::ZWaveDeviceManager::setStatisticsInterval</a></div><div class="ttdeci">void setStatisticsInterval(const Poco::Timespan &amp;interval)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:925</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:13</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_ab99889752be021cad52b90d8e61fbc7f"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#ab99889752be021cad52b90d8e61fbc7f">BeeeOn::ZWaveDeviceManager::onNotification</a></div><div class="ttdeci">void onNotification(const OpenZWave::Notification *notification)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:609</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></div><div class="ttdef"><b>Definition:</b> DeviceManager.h:43</div></div>
 <div class="ttc" id="classBeeeOn_1_1HotplugEvent_html"><div class="ttname"><a href="classBeeeOn_1_1HotplugEvent.html">BeeeOn::HotplugEvent</a></div><div class="ttdef"><b>Definition:</b> HotplugEvent.h:11</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a929c6fa6cbc6a2129148d4455d41fa07"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a929c6fa6cbc6a2129148d4455d41fa07">BeeeOn::ZWaveDeviceManager::setUserPath</a></div><div class="ttdeci">void setUserPath(const std::string &amp;userPath)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:878</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a40ccd61a4a3c1a0dfcae94e0e92a1df5"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a40ccd61a4a3c1a0dfcae94e0e92a1df5">BeeeOn::ZWaveDeviceManager::setPollInterval</a></div><div class="ttdeci">void setPollInterval(const Poco::Timespan &amp;pollInterval)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:888</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a929c6fa6cbc6a2129148d4455d41fa07"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a929c6fa6cbc6a2129148d4455d41fa07">BeeeOn::ZWaveDeviceManager::setUserPath</a></div><div class="ttdeci">void setUserPath(const std::string &amp;userPath)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:880</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a40ccd61a4a3c1a0dfcae94e0e92a1df5"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a40ccd61a4a3c1a0dfcae94e0e92a1df5">BeeeOn::ZWaveDeviceManager::setPollInterval</a></div><div class="ttdeci">void setPollInterval(const Poco::Timespan &amp;pollInterval)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:890</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html">BeeeOn::ZWaveDeviceManager</a></div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.h:38</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a7a1e2c940898861a868b1b59922537a9"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a7a1e2c940898861a868b1b59922537a9">BeeeOn::ZWaveDeviceManager::handle</a></div><div class="ttdeci">void handle(Command::Ptr cmd, Answer::Ptr answer) override</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:220</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveNodeInfo_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeInfo.html">BeeeOn::ZWaveNodeInfo</a></div><div class="ttdef"><b>Definition:</b> ZWaveNodeInfo.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_ab0827462ce12a93fde8d47715a26a23e"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:902</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a27c499603d7f96d6fce2ccb79574eab8"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a27c499603d7f96d6fce2ccb79574eab8">BeeeOn::ZWaveDeviceManager::setConfigPath</a></div><div class="ttdeci">void setConfigPath(const std::string &amp;configPath)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:883</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_ab0827462ce12a93fde8d47715a26a23e"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:904</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a27c499603d7f96d6fce2ccb79574eab8"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a27c499603d7f96d6fce2ccb79574eab8">BeeeOn::ZWaveDeviceManager::setConfigPath</a></div><div class="ttdeci">void setConfigPath(const std::string &amp;configPath)</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:885</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

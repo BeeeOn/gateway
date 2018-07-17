@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-1-g4a782ff</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -212,9 +212,9 @@ template&lt;typename T &gt; </td></tr>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimple</b> (Poco::Logger &amp;logger, const std::string &amp;level)</td></tr>
 <tr class="separator:a5c03d407c8269d8fc9f71f0161ae17ae inherit pro_static_methods_classBeeeOn_1_1Loggable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
-<tr class="memitem:aa9641e2d67c36cf12232975ae4bab444 inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9641e2d67c36cf12232975ae4bab444"></a>
-Poco::AtomicCounter&#160;</td><td class="memItemRight" valign="bottom"><b>m_stop</b></td></tr>
-<tr class="separator:aa9641e2d67c36cf12232975ae4bab444 inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"></a>
+<a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_stopControl</b></td></tr>
+<tr class="separator:a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e inherit pro_attribs_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_attribs_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:ac384766c0418d4e3b896b6de39e3ab18 inherit pro_static_attribs_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac384766c0418d4e3b896b6de39e3ab18"></a>
 static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_REQUEST_TIMEOUT</b></td></tr>
@@ -417,7 +417,7 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
   </tr>
 </table>
 </div><div class="memdoc">
-<p>A generic stop implementation to be used by most <a class="el" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> implementations. It just atomically sets the m_stop variable. </p>
+<p>A generic stop implementation to be used by most <a class="el" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> implementations. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">BeeeOn::DeviceManager</a>.</p>
 

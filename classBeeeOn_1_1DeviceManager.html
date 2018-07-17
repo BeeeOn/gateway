@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-1-g4a782ff</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -165,9 +165,9 @@ Poco::Logger &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>logger<
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa9641e2d67c36cf12232975ae4bab444"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9641e2d67c36cf12232975ae4bab444"></a>
-Poco::AtomicCounter&#160;</td><td class="memItemRight" valign="bottom"><b>m_stop</b></td></tr>
-<tr class="separator:aa9641e2d67c36cf12232975ae4bab444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"></a>
+<a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_stopControl</b></td></tr>
+<tr class="separator:a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
@@ -351,7 +351,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 </div><div class="memdoc">
 <p>Generic implementation of the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a>. If any device manager needs to override the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a> method, it is more desirable to override <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric()</a>. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a7c08d69eb9748fa9be0ade5adcf0ce2d">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">BeeeOn::VirtualDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a7675508305fedb035e0552b352e30c92">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a40f7e75703a0e72df31bf6600dc595c3">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a87c359cfbc177a35ab43cb2b10779f2e">BeeeOn::BelkinWemoDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a43d94efb8bee6cb3683bb2b61fe752a3">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#aff018b1617fbc58ca02a6fdcc27b28cc">BeeeOn::JablotronDeviceManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a7c08d69eb9748fa9be0ade5adcf0ce2d">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">BeeeOn::VirtualDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a7675508305fedb035e0552b352e30c92">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a40f7e75703a0e72df31bf6600dc595c3">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a87c359cfbc177a35ab43cb2b10779f2e">BeeeOn::BelkinWemoDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#aff018b1617fbc58ca02a6fdcc27b28cc">BeeeOn::JablotronDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a43d94efb8bee6cb3683bb2b61fe752a3">BeeeOn::PressureSensorManager</a>.</p>
 
 </div>
 </div>
@@ -576,7 +576,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
   </tr>
 </table>
 </div><div class="memdoc">
-<p>A generic stop implementation to be used by most <a class="el" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> implementations. It just atomically sets the m_stop variable. </p>
+<p>A generic stop implementation to be used by most <a class="el" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> implementations. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>.</p>
 

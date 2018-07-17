@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-1-g4a782ff</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -145,14 +145,13 @@
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        std::priority_queue&lt;<a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a>,</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                std::vector&lt;VirtualDeviceEntry&gt;,</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                <a class="code" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html">VirtualDeviceEntryComparator</a>&gt; m_virtualDeviceQueue;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        Poco::Event m_event;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordtype">bool</span> m_requestDeviceList;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        Poco::FastMutex m_lock;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;};</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordtype">bool</span> m_requestDeviceList;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        Poco::FastMutex m_lock;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;};</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a7fd571abbfed6e3f91f1b9471f0ac15a"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a7fd571abbfed6e3f91f1b9471f0ac15a">BeeeOn::VirtualDeviceManager::scheduleAllEntries</a></div><div class="ttdeci">void scheduleAllEntries()</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a972541ddd1470a46bf2865655dc17b72"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a972541ddd1470a46bf2865655dc17b72">BeeeOn::VirtualDeviceManager::doDeviceAcceptCommand</a></div><div class="ttdeci">void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_ad3e2696f84da0fa7985dbbcbf651e534"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#ad3e2696f84da0fa7985dbbcbf651e534">BeeeOn::VirtualDeviceManager::scheduleEntryUnlocked</a></div><div class="ttdeci">void scheduleEntryUnlocked(VirtualDeviceEntry entry)</div></div>
