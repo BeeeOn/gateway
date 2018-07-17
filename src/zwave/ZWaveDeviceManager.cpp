@@ -106,7 +106,7 @@ void ZWaveDeviceManager::installConfiguration()
 
 void ZWaveDeviceManager::run()
 {
-	m_stopEvent.wait();
+	m_stopControl.waitStoppable(-1);
 }
 
 string ZWaveDeviceManager::dongleMatch(const HotplugEvent &e)
@@ -706,8 +706,10 @@ void ZWaveDeviceManager::loadDeviceList()
 {
 	set<DeviceID> deviceIDs;
 
+	StopControl::Run run(m_stopControl);
+
 	int fails = 0;
-	while (!m_stop) {
+	while (run) {
 		try {
 			deviceIDs = deviceList(-1);
 			break;
@@ -902,7 +904,6 @@ void ZWaveDeviceManager::setDeviceInfoRegistry(
 void ZWaveDeviceManager::stop()
 {
 	DeviceManager::stop();
-	m_stopEvent.set();
 	answerQueue().dispose();
 }
 

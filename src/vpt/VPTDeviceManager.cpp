@@ -71,7 +71,9 @@ void VPTDeviceManager::run()
 	if (paired.size() > 0)
 		searchPairedDevices();
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		Timestamp now;
 
 		shipFromDevices();
@@ -80,20 +82,18 @@ void VPTDeviceManager::run()
 		if (sleepTime > 0) {
 			logger().debug("sleeping for " + to_string(sleepTime.totalMilliseconds()) + " ms",
 				__FILE__, __LINE__);
-			m_event.tryWait(sleepTime.totalMilliseconds());
+			run.waitStoppable(sleepTime);
 		}
 	}
 
 	logger().information("stopping VPT device manager");
-	m_stop = false;
 }
 
 void VPTDeviceManager::stop()
 {
-	m_stop = true;
+	DeviceManager::stop();
 	m_scanner.cancel();
 	m_seeker.stop();
-	m_event.set();
 	answerQueue().dispose();
 }
 
@@ -354,7 +354,7 @@ vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices()
 	vector<SocketAddress> list = m_scanner.scan(m_maxMsgSize);
 
 	for (auto& address : list) {
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 
 		VPTDevice::Ptr newDevice;

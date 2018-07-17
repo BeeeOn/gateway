@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <Poco/AtomicCounter.h>
-#include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
@@ -122,7 +121,6 @@ private:
 	PhilipsHueDeviceManager::PhilipsHueSeeker m_seeker;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
-	Poco::Event m_event;
 
 	Poco::SharedPtr<FileCredentialsStorage> m_credentialsStorage;
 	Poco::SharedPtr<CryptoConfig> m_cryptoConfig;

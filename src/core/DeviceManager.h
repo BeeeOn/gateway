@@ -4,7 +4,6 @@
 #include <set>
 #include <typeindex>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 
@@ -17,6 +16,7 @@
 #include "core/DeviceCache.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "model/DevicePrefix.h"
 #include "model/ModuleID.h"
@@ -59,7 +59,7 @@ public:
 
 	/**
 	* A generic stop implementation to be used by most DeviceManager
-	* implementations. It just atomically sets the m_stop variable.
+	* implementations.
 	*/
 	void stop() override;
 
@@ -188,7 +188,7 @@ private:
 protected:
 	static const Poco::Timespan DEFAULT_REQUEST_TIMEOUT;
 
-	Poco::AtomicCounter m_stop;
+	StopControl m_stopControl;
 
 private:
 	DevicePrefix m_prefix;

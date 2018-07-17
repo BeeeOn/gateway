@@ -1,7 +1,6 @@
 #ifndef BEEEON_FITPROTOCOL_DEVICE_MANAGER_H
 #define BEEEON_FITPROTOCOL_DEVICE_MANAGER_H
 
-#include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timer.h>
@@ -234,7 +233,6 @@ private:
 	bool m_listening;
 	Poco::TimerCallback<FitpDeviceManager> m_listenCallback;
 	Poco::Timer m_listenTimer;
-	Poco::Event m_event;
 	Poco::FastMutex m_lock;
 	Poco::SharedPtr<GatewayInfo> m_gatewayInfo;
 };

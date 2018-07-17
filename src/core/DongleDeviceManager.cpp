@@ -127,9 +127,10 @@ void DongleDeviceManager::run()
 			     __FILE__, __LINE__);
 
 	FailDetector dongleStatus(m_attemptsCount);
+	StopControl::Run run(m_stopControl);
 
-	while (!m_stop) {
-		while (!m_stop && dongleName(false).empty()) {
+	while (run) {
+		while (run && dongleName(false).empty()) {
 			logger().information("no appropriate dongle is available",
 					     __FILE__, __LINE__);
 
@@ -139,7 +140,7 @@ void DongleDeviceManager::run()
 			dongleStatus.success();
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 
 		try {
@@ -170,8 +171,6 @@ void DongleDeviceManager::run()
 
 	logger().information("device manager has finished",
 			     __FILE__, __LINE__);
-
-	m_stop = false;
 }
 
 void DongleDeviceManager::stop()

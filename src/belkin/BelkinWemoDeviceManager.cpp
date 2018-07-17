@@ -58,7 +58,9 @@ void BelkinWemoDeviceManager::run()
 	if (paired.size() > 0)
 		searchPairedDevices();
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		Timestamp now;
 
 		eraseUnusedLinks();
@@ -67,19 +69,17 @@ void BelkinWemoDeviceManager::run()
 
 		Timespan sleepTime = m_refresh - now.elapsed();
 		if (sleepTime > 0)
-			m_event.tryWait(sleepTime.totalMilliseconds());
+			run.waitStoppable(sleepTime);
 	}
 
 	logger().information("stopping Belkin WeMo device manager", __FILE__, __LINE__);
 
 	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
-	m_stop = false;
 }
 
 void BelkinWemoDeviceManager::stop()
 {
-	m_stop = true;
-	m_event.set();
+	DeviceManager::stop();
 	m_seeker.stop();
 	answerQueue().dispose();
 }
@@ -305,7 +305,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 
 		BelkinWemoSwitch::Ptr newDevice;
@@ -331,7 +331,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:bridge:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 
 		logger().debug("discovered a device at " + address.toString(),  __FILE__, __LINE__);
@@ -392,7 +392,7 @@ vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:dimmer:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stop)
+		if (m_stopControl.shouldStop())
 			break;
 
 		BelkinWemoDimmer::Ptr newDevice;

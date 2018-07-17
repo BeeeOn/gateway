@@ -19,7 +19,6 @@ const Timespan DeviceManager::DEFAULT_REQUEST_TIMEOUT(5 * Timespan::SECONDS);
 
 DeviceManager::DeviceManager(const DevicePrefix &prefix,
 		const initializer_list<type_index> &acceptable):
-	m_stop(false),
 	m_prefix(prefix),
 	m_deviceCache(new MemoryDeviceCache),
 	m_acceptable(acceptable)
@@ -37,7 +36,7 @@ DevicePrefix DeviceManager::prefix() const
 
 void DeviceManager::stop()
 {
-	m_stop = true;
+	m_stopControl.requestStop();
 }
 
 void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)

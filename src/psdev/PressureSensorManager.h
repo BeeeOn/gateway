@@ -3,7 +3,6 @@
 #include <list>
 #include <string>
 
-#include <Poco/Event.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 
@@ -89,7 +88,6 @@ private:
 	Poco::Timespan m_refresh;
 	std::string m_vendor;
 	std::string m_path;
-	Poco::Event m_event;
 	std::string m_unit;
 };
 

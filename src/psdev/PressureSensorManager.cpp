@@ -57,24 +57,24 @@ void PressureSensorManager::run()
 
 	initialize();
 
-	while(!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while(run) {
 		if (!deviceCache()->paired(pairedID())) {
-			m_event.wait();
+			run.waitStoppable(-1);
 			continue;
 		}
 
 		shipValue();
-		m_event.tryWait(m_refresh.totalMilliseconds());
+		run.waitStoppable(m_refresh);
 	}
 
 	poco_information(logger(), "pressure sensor finished");
-	m_stop = false;
 }
 
 void PressureSensorManager::stop()
 {
-	m_stop = true;
-	m_event.set();
+	DeviceManager::stop();
 }
 
 void PressureSensorManager::initialize()
@@ -128,7 +128,7 @@ void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
 
 	if (!deviceCache()->paired(pairedID())) {
 		deviceCache()->markPaired(pairedID());
-		m_event.set();
+		m_stopControl.requestWakeup();
 	}
 	else {
 		poco_warning(logger(), "ignoring accept of already paired device");
