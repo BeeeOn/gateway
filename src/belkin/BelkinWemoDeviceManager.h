@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
@@ -16,6 +15,7 @@
 #include "belkin/BelkinWemoSwitch.h"
 #include "core/DeviceManager.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
 
@@ -40,7 +40,7 @@ public:
 	private:
 		BelkinWemoDeviceManager& m_parent;
 		Poco::Timespan m_duration;
-		Poco::AtomicCounter m_stop;
+		StopControl m_stopControl;
 		Poco::FastMutex m_seekerMutex;
 		Poco::Thread m_seekerThread;
 	};

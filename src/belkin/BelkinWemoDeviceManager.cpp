@@ -439,8 +439,7 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 }
 
 BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
-	m_parent(parent),
-	m_stop(false)
+	m_parent(parent)
 {
 }
 
@@ -461,44 +460,43 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking(const Timespan& dur
 void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 {
 	Timestamp now;
+	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
 		for (auto device : m_parent.seekSwitches()) {
-			if (m_stop)
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 
 		for (auto device : m_parent.seekBulbs()) {
-			if (m_stop)
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 
 		for (auto device : m_parent.seekDimmers()) {
-			if (m_stop)
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 	}
-
-	m_stop = false;
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::stop()
 {
-	m_stop = true;
+	m_stopControl.requestStop();
 	m_seekerThread.join(m_parent.m_upnpTimeout.totalMilliseconds());
 }
