@@ -2,6 +2,7 @@
 
 #include "bluetooth/BLESmartDeviceManager.h"
 #include "bluetooth/BeeWiSmartClim.h"
+#include "bluetooth/BeeWiSmartMotion.h"
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
@@ -49,6 +50,7 @@ BLESmartDeviceManager::BLESmartDeviceManager():
 	m_matchedNames = {
 		"unknown",
 		BeeWiSmartClim::NAME,
+		BeeWiSmartMotion::NAME,
 	};
 }
 
@@ -396,6 +398,8 @@ BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& addres
 	string modelID = {modelIDRaw.begin(), modelIDRaw.end()};
 	if (BeeWiSmartClim::match(modelID))
 		newDevice = new BeeWiSmartClim(address, m_deviceTimeout);
+	else if (BeeWiSmartMotion::match(modelID))
+		newDevice = new BeeWiSmartMotion(address, m_deviceTimeout, conn);
 	else
 		throw NotFoundException("device " + modelID + "not supported");
 

@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "bluetooth/BeeWiSmartClim.h"
+#include "bluetooth/BeeWiSmartMotion.h"
 #include "model/SensorData.h"
 #include "net/MACAddress.h"
 
@@ -15,14 +16,28 @@ class BLESmartDeviceTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testBeeWiSmartClimParseValidData);
 	CPPUNIT_TEST(testBeeWiSmartClimParseTooLongMessage);
 	CPPUNIT_TEST(testBeeWiSmartClimParseTooShortMessage);
+	CPPUNIT_TEST(testBeeWiSmartMotionParseValidData);
+	CPPUNIT_TEST(testBeeWiSmartMotionParseTooLongMessage);
+	CPPUNIT_TEST(testBeeWiSmartMotionParseTooShortMessage);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testBeeWiSmartClimParseValidData();
 	void testBeeWiSmartClimParseTooLongMessage();
 	void testBeeWiSmartClimParseTooShortMessage();
+	void testBeeWiSmartMotionParseValidData();
+	void testBeeWiSmartMotionParseTooLongMessage();
+	void testBeeWiSmartMotionParseTooShortMessage();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(BLESmartDeviceTest);
+
+class TestableBeeWiSmartMotion: public BeeWiSmartMotion {
+public:
+	TestableBeeWiSmartMotion(const MACAddress& address, const Timespan& timeout):
+		BeeWiSmartMotion(address, timeout)
+	{
+	}
+};
 
 /**
  * @brief Test of parsing valid values from BeeWi SmartClim sensor.
@@ -78,6 +93,55 @@ void BLESmartDeviceTest::testBeeWiSmartClimParseTooShortMessage()
 	vector<unsigned char> values = {0x00, 0x00};
 	CPPUNIT_ASSERT_THROW_MESSAGE(
 		"expected 11 B, received 2 B",
+		sensor.parseAdvertisingData(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing valid values from BeeWi Smart Motion sesnor.
+ */
+void BLESmartDeviceTest::testBeeWiSmartMotionParseValidData()
+{
+	TestableBeeWiSmartMotion sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values1 =
+		{0x06, 0x08, 0x01, 0x00, 0x64};
+	SensorData data1 = sensor.parseAdvertisingData(values1);
+	CPPUNIT_ASSERT_EQUAL(int(data1[0].value()), 1);
+	CPPUNIT_ASSERT_EQUAL(int(data1[1].value()), 100);
+
+	vector<unsigned char> values2 =
+		{0x06, 0x08, 0x00, 0x00, 0x05};
+	SensorData data2 = sensor.parseAdvertisingData(values2);
+	CPPUNIT_ASSERT_EQUAL(int(data2[0].value()), 0);
+	CPPUNIT_ASSERT_EQUAL(int(data2[1].value()), 5);
+}
+
+/**
+ * @brief Test of parsing too long message from BeeWi Smart Motion sensor.
+ */
+void BLESmartDeviceTest::testBeeWiSmartMotionParseTooLongMessage()
+{
+	TestableBeeWiSmartMotion sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x06, 0x08, 0x00, 0x00, 0x64, 0x00};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 5 B, received 6 B",
+		sensor.parseAdvertisingData(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing too short message from BeeWi Smart Motion sensor.
+ */
+void BLESmartDeviceTest::testBeeWiSmartMotionParseTooShortMessage()
+{
+	TestableBeeWiSmartMotion sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values = {0x00, 0x00};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 5 B, received 2 B",
 		sensor.parseAdvertisingData(values),
 		ProtocolException);
 }
