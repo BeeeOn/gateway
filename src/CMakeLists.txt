@@ -209,6 +209,15 @@ else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
 
+if(ENABLE_BLUETOOTH AND ENABLE_BLE_SMART)
+	file(GLOB BLE_SMART_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDevice.cpp
+	)
+	list(APPEND SOURCES ${BLE_SMART_SOURCES})
+else()
+	message(STATUS "Bluetooth Low Energy Smart support is disabled")
+endif()
+
 if(ENABLE_JABLOTRON)
 	file(GLOB JABLOTRON_SOURCES
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
