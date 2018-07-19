@@ -6,6 +6,7 @@
 #include "bluetooth/BeeWiSmartLite.h"
 #include "bluetooth/BeeWiSmartMotion.h"
 #include "bluetooth/BeeWiSmartWatt.h"
+#include "bluetooth/TabuLumenSmartLite.h"
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
@@ -57,6 +58,7 @@ BLESmartDeviceManager::BLESmartDeviceManager():
 		BeeWiSmartDoor::NAME,
 		BeeWiSmartWatt::NAME,
 		BeeWiSmartLite::NAME,
+		TabuLumenSmartLite::NAME,
 	};
 }
 
@@ -412,6 +414,8 @@ BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& addres
 		newDevice = new BeeWiSmartWatt(address, m_deviceTimeout, conn);
 	else if (BeeWiSmartLite::match(modelID))
 		newDevice = new BeeWiSmartLite(address, m_deviceTimeout);
+	else if (TabuLumenSmartLite::match(modelID))
+		newDevice = new TabuLumenSmartLite(address, m_deviceTimeout);
 	else
 		throw NotFoundException("device " + modelID + "not supported");
 
