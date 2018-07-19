@@ -3,6 +3,7 @@
 
 #include "bluetooth/BeeWiSmartClim.h"
 #include "bluetooth/BeeWiSmartDoor.h"
+#include "bluetooth/BeeWiSmartLite.h"
 #include "bluetooth/BeeWiSmartMotion.h"
 #include "bluetooth/BeeWiSmartWatt.h"
 #include "model/SensorData.h"
@@ -27,6 +28,11 @@ class BLESmartDeviceTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testBeeWiSmartWattParseValidData);
 	CPPUNIT_TEST(testBeeWiSmartWattParseTooLongMessage);
 	CPPUNIT_TEST(testBeeWiSmartWattParseTooShortMessage);
+	CPPUNIT_TEST(testBeeWiSmartLiteParseValidData);
+	CPPUNIT_TEST(testBeeWiSmartLiteParseTooLongMessage);
+	CPPUNIT_TEST(testBeeWiSmartLiteParseTooShortMessage);
+	CPPUNIT_TEST(testConvertBrigthnessBeeWiSmartLite);
+	CPPUNIT_TEST(testConvertColorTemptBeeWiSmartLite);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testBeeWiSmartClimParseValidData();
@@ -41,6 +47,11 @@ public:
 	void testBeeWiSmartWattParseValidData();
 	void testBeeWiSmartWattParseTooLongMessage();
 	void testBeeWiSmartWattParseTooShortMessage();
+	void testBeeWiSmartLiteParseValidData();
+	void testBeeWiSmartLiteParseTooLongMessage();
+	void testBeeWiSmartLiteParseTooShortMessage();
+	void testConvertBrigthnessBeeWiSmartLite();
+	void testConvertColorTemptBeeWiSmartLite();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(BLESmartDeviceTest);
@@ -68,6 +79,18 @@ public:
 	{
 	}
 	using BeeWiSmartWatt::parseValues;
+};
+
+class TestableBeeWiSmartLite : public BeeWiSmartLite {
+public:
+	TestableBeeWiSmartLite(const MACAddress& address, const Timespan& timeout):
+		BeeWiSmartLite(address, timeout)
+	{
+	}
+	using BeeWiSmartLite::brightnessToPercentages;
+	using BeeWiSmartLite::brightnessFromPercentages;
+	using BeeWiSmartLite::colorTempToKelvins;
+	using BeeWiSmartLite::colorTempFromKelvins;
 };
 
 /**
@@ -304,6 +327,145 @@ void BLESmartDeviceTest::testBeeWiSmartWattParseTooShortMessage()
 		"expected 13 B, received 2 B",
 		sensor.parseAdvertisingData(values2),
 		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing valid values from BeeWi SmartLite bulb.
+ */
+void BLESmartDeviceTest::testBeeWiSmartLiteParseValidData()
+{
+	BeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values1 =
+		{0x06, 0x03, 0x01, 0x08, 0x22, 0x00, 0x00, 0xff};
+	SensorData data1 = light.parseAdvertisingData(values1);
+	CPPUNIT_ASSERT_EQUAL(int(data1[0].value()), 1);
+	CPPUNIT_ASSERT_EQUAL(int(data1[1].value()), 0);
+	CPPUNIT_ASSERT_EQUAL(int(data1[2].value()), 3000);
+	CPPUNIT_ASSERT_EQUAL(int(data1[3].value()), 255);
+
+	vector<unsigned char> values2 =
+		{0x06, 0x03, 0x00, 0x08, 0xbb, 0xff, 0xff, 0x00};
+	SensorData data2 = light.parseAdvertisingData(values2);
+	CPPUNIT_ASSERT_EQUAL(int(data2[0].value()), 0);
+	CPPUNIT_ASSERT_EQUAL(int(data2[1].value()), 100);
+	CPPUNIT_ASSERT_EQUAL(int(data2[2].value()), 6000);
+	CPPUNIT_ASSERT_EQUAL(int(data2[3].value()), 16776960);
+}
+
+/**
+ * @brief Test of parsing too long message from BeeWi Smart Lite.
+ */
+void BLESmartDeviceTest::testBeeWiSmartLiteParseTooLongMessage()
+{
+	BeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x06, 0x03, 0x00, 0x08, 0xbb, 0xff, 0xff, 0x00, 0x00};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 8 B, received 9 B",
+		light.parseAdvertisingData(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing too short message from BeeWi Smart Lite.
+ */
+void BLESmartDeviceTest::testBeeWiSmartLiteParseTooShortMessage()
+{
+	BeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x00, 0xbb};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 8 B, received 2 B",
+		light.parseAdvertisingData(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of converting brigthness value from BeeWi values to
+ * BeeeOn values and back.
+ */
+void BLESmartDeviceTest::testConvertBrigthnessBeeWiSmartLite()
+{
+	TestableBeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	CPPUNIT_ASSERT_EQUAL(int(light.brightnessFromPercentages(100)), 11);
+	CPPUNIT_ASSERT_EQUAL(int(light.brightnessFromPercentages(80)), 9);
+	CPPUNIT_ASSERT_EQUAL(int(light.brightnessFromPercentages(65)), 8);
+	CPPUNIT_ASSERT_EQUAL(int(light.brightnessFromPercentages(60)), 7);
+	CPPUNIT_ASSERT_EQUAL(int(light.brightnessFromPercentages(20)), 4);
+	CPPUNIT_ASSERT_EQUAL(int(light.brightnessFromPercentages(0)), 2);
+
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"percents are out of range",
+		light.brightnessFromPercentages(120),
+		IllegalStateException);
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"percents are out of range",
+		light.brightnessFromPercentages(-20),
+		IllegalStateException);
+
+	CPPUNIT_ASSERT_EQUAL(light.brightnessToPercentages(11), 100U);
+	CPPUNIT_ASSERT_EQUAL(light.brightnessToPercentages(9), 78U);
+	CPPUNIT_ASSERT_EQUAL(light.brightnessToPercentages(8), 67U);
+	CPPUNIT_ASSERT_EQUAL(light.brightnessToPercentages(7), 56U);
+	CPPUNIT_ASSERT_EQUAL(light.brightnessToPercentages(4), 22U);
+	CPPUNIT_ASSERT_EQUAL(light.brightnessToPercentages(2), 0U);
+
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"value is out of range",
+		light.brightnessToPercentages(12),
+		IllegalStateException);
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"value is out of range",
+		light.brightnessToPercentages(1),
+		IllegalStateException);
+}
+
+/**
+ * @brief Test of converting color temperature value from BeeWi values to
+ * BeeeOn values and back.
+ */
+void BLESmartDeviceTest::testConvertColorTemptBeeWiSmartLite()
+{
+	TestableBeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(25000)), 11);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(6000)), 11);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(5400)), 9);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(4950)), 8);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(4800)), 7);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(3600)), 4);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(3000)), 2);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(2000)), 2);
+
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"color temperature is out of range",
+		light.colorTempFromKelvins(28000),
+		IllegalStateException);
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"color temperature is out of range",
+		light.colorTempFromKelvins(1000),
+		IllegalStateException);
+
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(11), 6000U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(9), 5333U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(8), 5000U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(7), 4667U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(4), 3667U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(2), 3000U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(0), 0U);
+
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"value is out of range",
+		light.colorTempToKelvins(12),
+		IllegalStateException);
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"value is out of range",
+		light.colorTempToKelvins(1),
+		IllegalStateException);
 }
 
 }

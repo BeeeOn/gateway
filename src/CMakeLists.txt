@@ -214,6 +214,7 @@ if(ENABLE_BLUETOOTH AND ENABLE_BLE_SMART)
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiDevice.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartClim.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartDoor.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartLite.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartMotion.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartWatt.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDevice.cpp
