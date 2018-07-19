@@ -101,6 +101,13 @@ if(ENABLE_FITP)
 	list(APPEND TEST_SOURCES ${FITP_TEST_SOURCES})
 endif()
 
+if(ENABLE_BLE_SMART)
+	file(GLOB BLE_SMART_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDeviceTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${BLE_SMART_TEST_SOURCES})
+endif()
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${PROJECT_SOURCE_DIR}/../base/src

@@ -1,6 +1,7 @@
 #include <Poco/ScopedLock.h>
 
 #include "bluetooth/BLESmartDeviceManager.h"
+#include "bluetooth/BeeWiSmartClim.h"
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
@@ -47,6 +48,7 @@ BLESmartDeviceManager::BLESmartDeviceManager():
 
 	m_matchedNames = {
 		"unknown",
+		BeeWiSmartClim::NAME,
 	};
 }
 
@@ -392,7 +394,12 @@ BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& addres
 	}
 
 	string modelID = {modelIDRaw.begin(), modelIDRaw.end()};
-	throw NotFoundException("device " + modelID + "not supported");
+	if (BeeWiSmartClim::match(modelID))
+		newDevice = new BeeWiSmartClim(address, m_deviceTimeout);
+	else
+		throw NotFoundException("device " + modelID + "not supported");
+
+	return newDevice;
 }
 
 void BLESmartDeviceManager::processNewDevice(BLESmartDevice::Ptr newDevice)
