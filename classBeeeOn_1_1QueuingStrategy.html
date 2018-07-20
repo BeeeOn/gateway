@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-22-gd8395ee</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-28-gc42ffd2</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -66,8 +66,9 @@ Inheritance diagram for BeeeOn::QueuingStrategy:</div>
  <div class="center">
   <img src="classBeeeOn_1_1QueuingStrategy.png" usemap="#BeeeOn::QueuingStrategy_map" alt=""/>
   <map id="BeeeOn::QueuingStrategy_map" name="BeeeOn::QueuingStrategy_map">
-<area href="classBeeeOn_1_1JournalQueuingStrategy.html" title="JournalQueuingStrategy implements persistent temporary storing of SensorData into a filesystem struct..." alt="BeeeOn::JournalQueuingStrategy" shape="rect" coords="0,56,274,80"/>
-<area href="classBeeeOn_1_1RecoverableJournalQueuingStrategy.html" title="RecoverableJournalQueuingStrategy works the same way as the JournalQueuingStrategy but it extends its..." alt="BeeeOn::RecoverableJournalQueuingStrategy" shape="rect" coords="0,112,274,136"/>
+<area href="classBeeeOn_1_1InMemoryQueuingStrategy.html" title="Basic implementation of the QueuingStrategy interface. " alt="BeeeOn::InMemoryQueuingStrategy" shape="rect" coords="0,56,274,80"/>
+<area href="classBeeeOn_1_1JournalQueuingStrategy.html" title="JournalQueuingStrategy implements persistent temporary storing of SensorData into a filesystem struct..." alt="BeeeOn::JournalQueuingStrategy" shape="rect" coords="284,56,558,80"/>
+<area href="classBeeeOn_1_1RecoverableJournalQueuingStrategy.html" title="RecoverableJournalQueuingStrategy works the same way as the JournalQueuingStrategy but it extends its..." alt="BeeeOn::RecoverableJournalQueuingStrategy" shape="rect" coords="284,112,558,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -117,7 +118,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>True if no data are being held on the strategy. </dd></dl>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a4a4e22b72f46626a9abef0980bf8b52e">BeeeOn::JournalQueuingStrategy</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a4a4e22b72f46626a9abef0980bf8b52e">BeeeOn::JournalQueuingStrategy</a>, and <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a34af8ecd453b6fb73f2f8589921bb6ff">BeeeOn::InMemoryQueuingStrategy</a>.</p>
 
 </div>
 </div>
@@ -163,7 +164,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The real count of the peeked data. This should match with the required count, if enough data are available, or less, if there are less data available then required. </dd></dl>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a3d63d53ba2b2b3beda1a3c4e4a690d6d">BeeeOn::JournalQueuingStrategy</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a3d63d53ba2b2b3beda1a3c4e4a690d6d">BeeeOn::JournalQueuingStrategy</a>, and <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#aa9fef4bd212e039699e8289edc4a314a">BeeeOn::InMemoryQueuingStrategy</a>.</p>
 
 </div>
 </div>
@@ -198,7 +199,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a307b2cd8561111fb1b6c9df04ca3e183">BeeeOn::JournalQueuingStrategy</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a307b2cd8561111fb1b6c9df04ca3e183">BeeeOn::JournalQueuingStrategy</a>, and <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a1f15643ac34c0e8ff9cdaecf9c2caf3d">BeeeOn::InMemoryQueuingStrategy</a>.</p>
 
 </div>
 </div>
@@ -232,7 +233,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#abe8b64d8ab42742c1ffe0c82f61717b7">BeeeOn::JournalQueuingStrategy</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#abe8b64d8ab42742c1ffe0c82f61717b7">BeeeOn::JournalQueuingStrategy</a>, and <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a5326fa9fb873e857a017db30e76cdf88">BeeeOn::InMemoryQueuingStrategy</a>.</p>
 
 </div>
 </div>
