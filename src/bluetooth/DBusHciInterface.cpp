@@ -171,6 +171,49 @@ HciConnection::Ptr DBusHciInterface::connect(
 	return new DBusHciConnection(m_name, device, timeout);
 }
 
+void DBusHciInterface::watch(
+		const MACAddress& address,
+		SharedPtr<WatchCallback> callBack)
+{
+	ScopedLock<FastMutex> lock(m_watchMutex);
+
+	auto it = m_watchedDevices.find(address);
+	if (it != m_watchedDevices.end())
+		return;
+
+	if (logger().debug())
+		logger().debug("watch the device " + address.toString(':'), __FILE__, __LINE__);
+
+	GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, address));
+
+	uint64_t handle = ::g_signal_connect(
+		device.raw(),
+		"g-properties-changed",
+		G_CALLBACK(onDeviceManufacturerDataRecieved),
+		callBack.get());
+
+	if (handle == 0)
+		throw IOException("failed to watch device " + address.toString());
+
+	WatchedDevice watchedDevice(device, handle, callBack);
+	m_watchedDevices.emplace(address, watchedDevice);
+}
+
+void DBusHciInterface::unwatch(const MACAddress& address)
+{
+	ScopedLock<FastMutex> lock(m_watchMutex);
+
+	auto it = m_watchedDevices.find(address);
+	if (it == m_watchedDevices.end())
+		return;
+
+	if (logger().debug())
+		logger().debug("unwatch the device " + address.toString(':'), __FILE__, __LINE__);
+
+	::g_signal_handler_disconnect(it->second.device().raw(), it->second.signalHandle());
+	m_watchedDevices.erase(address);
+}
+
 void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool powered) const
 {
 	for (int i = 0; i < CHANGE_POWER_ATTEMPTS; ++i) {
@@ -312,6 +355,53 @@ void DBusHciInterface::onDBusObjectAdded(
 	foundDevices.emplace(mac, name);
 }
 
+gboolean DBusHciInterface::onDeviceManufacturerDataRecieved(
+		OrgBluezDevice1* device,
+		GVariant* properties,
+		const gchar* const*,
+		gpointer userData)
+{
+	if (::g_variant_n_children(properties) == 0)
+		return true;
+
+	GVariantIter* iter;
+	const char* property;
+	GVariant* value;
+
+	::g_variant_get(properties, "a{sv}", &iter);
+	while (::g_variant_iter_loop(iter, "{&sv}", &property, &value)) {
+		if (string(property) == "ManufacturerData") {
+			processManufacturerData(device, value, userData);
+
+			break;
+		}
+	}
+
+	return true;
+}
+
+void DBusHciInterface::processManufacturerData(
+		OrgBluezDevice1* device,
+		GVariant* value,
+		gpointer userData)
+{
+	GVariantIter* iter;
+	GVariant* data;
+	size_t size;
+
+	::g_variant_get(value, "a{qv}", &iter);
+	while (::g_variant_iter_loop(iter, "{qv}", nullptr, &data)) {
+		const unsigned char* tmpData = reinterpret_cast<const unsigned char*>(
+			::g_variant_get_fixed_array(data, &size, sizeof(unsigned char)));
+
+		vector<unsigned char> result(tmpData, tmpData + size);
+		const auto mac = MACAddress::parse(::org_bluez_device1_get_address(device), ':');
+
+		WatchCallback &func = *(reinterpret_cast<WatchCallback*>(userData));
+		func(mac, result);
+	}
+}
+
 const string DBusHciInterface::createAdapterPath(const string& name)
 {
 	return "/org/bluez/" + name;
@@ -368,6 +458,16 @@ GlibPtr<OrgBluezDevice1> DBusHciInterface::retrieveBluezDevice(const string& pat
 
 	throwErrorIfAny(error);
 	return device;
+}
+
+DBusHciInterface::WatchedDevice::WatchedDevice(
+		const GlibPtr<OrgBluezDevice1> device,
+		const uint64_t signalHandle,
+		const Poco::SharedPtr<WatchCallback> callBack):
+	m_device(device),
+	m_signalHandle(signalHandle),
+	m_callBack(callBack)
+{
 }
 
 

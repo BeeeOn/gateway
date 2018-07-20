@@ -47,6 +47,40 @@ public:
 
 	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
+	typedef std::function<void(const MACAddress&, std::vector<unsigned char>&)> WatchCallback;
+
+	/**
+	 * @brief The class is used to store necessary data about device, from
+	 * which the advertising data is processed, such as instance of device,
+	 * handle of signal and pointer to callback.
+	 */
+	class WatchedDevice {
+	public:
+		WatchedDevice(
+			const GlibPtr<OrgBluezDevice1> device,
+			const uint64_t signalHandle,
+			const Poco::SharedPtr<WatchCallback> callBack);
+
+		GlibPtr<OrgBluezDevice1> device() const
+		{
+			return m_device;
+		}
+
+		uint64_t signalHandle() const
+		{
+			return m_signalHandle;
+		}
+
+		Poco::SharedPtr<WatchCallback> callBack() const
+		{
+			return m_callBack;
+		}
+
+	private:
+		GlibPtr<OrgBluezDevice1> m_device;
+		uint64_t m_signalHandle;
+		Poco::SharedPtr<WatchCallback> m_callBack;
+	};
 
 	/**
 	 * @param name name of hci
@@ -95,6 +129,11 @@ public:
 		const MACAddress& address,
 		const Poco::Timespan& timeout) const override;
 
+	void watch(
+		const MACAddress& address,
+		Poco::SharedPtr<WatchCallback> callBack);
+	void unwatch(const MACAddress& address);
+
 protected:
 	/**
 	 * @brief Callback handling the timeout event which stops
@@ -109,6 +148,24 @@ protected:
 	static void onDBusObjectAdded(
 		GDBusObjectManager* objectManager,
 		GDBusObject* object,
+		gpointer userData);
+
+	/**
+	 * @brief Callback handling the event of receiving advertising data.
+	 */
+	static gboolean onDeviceManufacturerDataRecieved(
+		OrgBluezDevice1* device,
+		GVariant* properties,
+		const gchar* const* invalidatedProperties,
+		gpointer userData);
+
+	/**
+	 * @brief Process the single advertising data and call callback
+	 * stored in userData.
+	 */
+	static void processManufacturerData(
+		OrgBluezDevice1* device,
+		GVariant* value,
 		gpointer userData);
 
 private:
@@ -204,11 +261,13 @@ private:
 	GlibPtr<GMainLoop> m_loop;
 	Poco::RunnableAdapter<DBusHciInterface> m_loopThread;
 	Poco::Thread m_thread;
+	std::map<MACAddress, WatchedDevice> m_watchedDevices;
 	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
 
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
 	mutable Poco::FastMutex m_discoveringMutex;
+	Poco::FastMutex m_watchMutex;
 };
 
 class DBusHciInterfaceManager : public HciInterfaceManager {
