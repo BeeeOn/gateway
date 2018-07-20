@@ -47,7 +47,6 @@ public:
 
 	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
-	typedef std::function<void(const MACAddress&, std::vector<unsigned char>&)> WatchCallback;
 
 	/**
 	 * @brief The class is used to store necessary data about device, from
@@ -131,8 +130,8 @@ public:
 
 	void watch(
 		const MACAddress& address,
-		Poco::SharedPtr<WatchCallback> callBack);
-	void unwatch(const MACAddress& address);
+		Poco::SharedPtr<WatchCallback> callBack) override;
+	void unwatch(const MACAddress& address) override;
 
 protected:
 	/**

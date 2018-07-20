@@ -25,6 +25,10 @@ public:
 	HciConnection::Ptr connect(
 		const MACAddress& address,
 		const Poco::Timespan& timeout) const override;
+	void watch(
+		const MACAddress& address,
+		Poco::SharedPtr<WatchCallback> callBack) override;
+	void unwatch(const MACAddress& address) override;
 
 protected:
 	/**
