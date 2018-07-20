@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-22-gd8395ee</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,6 +52,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker Class Reference</div>  </div>
@@ -69,22 +70,46 @@ Inheritance diagram for BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker:</div>
   <img src="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.png" usemap="#BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker_map" alt=""/>
   <map id="BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker_map" name="BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker_map">
 <area href="classBeeeOn_1_1StoppableRunnable.html" alt="BeeeOn::StoppableRunnable" shape="rect" coords="0,56,337,80"/>
+<area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt;&gt;" shape="rect" coords="347,56,684,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a4db73d741eb50d75398d702589a3b332"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4db73d741eb50d75398d702589a3b332"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.html">BelkinWemoSeeker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a4db73d741eb50d75398d702589a3b332"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
+<tr class="memitem:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4807d15581e65639fccc53b67b3b6cd8"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a056ac8b99132c0a9f76c6afefc9e61f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a056ac8b99132c0a9f76c6afefc9e61f0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoSeeker</b> (<a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html">BelkinWemoDeviceManager</a> &amp;parent)</td></tr>
 <tr class="separator:a056ac8b99132c0a9f76c6afefc9e61f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c771abb1a6482467d130e1f464e460b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c771abb1a6482467d130e1f464e460b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDuration</b> (const Poco::Timespan &amp;duration)</td></tr>
-<tr class="separator:a7c771abb1a6482467d130e1f464e460b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab98f2a5658699cc5ab872a98bb03c42d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab98f2a5658699cc5ab872a98bb03c42d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>startSeeking</b> (const Poco::Timespan &amp;duration)</td></tr>
+<tr class="separator:ab98f2a5658699cc5ab872a98bb03c42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1543494ce8306f47db270526377e9377"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1543494ce8306f47db270526377e9377"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</td></tr>
 <tr class="separator:a1543494ce8306f47db270526377e9377"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0caa4b256e9e7dc47592dc1f5b0dabbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.html#a0caa4b256e9e7dc47592dc1f5b0dabbc">stop</a> () override</td></tr>
 <tr class="separator:a0caa4b256e9e7dc47592dc1f5b0dabbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d98d81beba1a87bf99dfc96da5f641"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.html#a80d98d81beba1a87bf99dfc96da5f641">tryJoin</a> (const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="separator:a80d98d81beba1a87bf99dfc96da5f641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1078ebd513f3e9d16e11da4d6bb4ca44"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1078ebd513f3e9d16e11da4d6bb4ca44"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.html#a1078ebd513f3e9d16e11da4d6bb4ca44">cancel</a> () override</td></tr>
+<tr class="memdesc:a1078ebd513f3e9d16e11da4d6bb4ca44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the discovery process. It should exit immediatelly. <br/></td></tr>
+<tr class="separator:a1078ebd513f3e9d16e11da4d6bb4ca44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
+<tr class="memitem:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top">virtual Poco::Nullable<br class="typebreak"/>
+&lt; Poco::Void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">result</a> () const</td></tr>
+<tr class="memdesc:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the asynchronous operation provides a result, this method gives access to it. Until the operation finishes, the result would be null. AsyncWork implementations with no result returns always null.  <a href="#a70a242415ad349f213fe259f0ca1ff23">More...</a><br/></td></tr>
+<tr class="separator:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides searching belkin wemo devices on network in own thread. </p>
@@ -112,6 +137,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <p>Stop the runnable. The call should not block. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a80d98d81beba1a87bf99dfc96da5f641"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BelkinWemoDeviceManager::BelkinWemoSeeker::tryJoin </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>true when the time discovery process finishes, false when the timeout has exceeded </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1AsyncWork.html#a96105defd298b14d1c891ae060a54551">BeeeOn::AsyncWork&lt;&gt;</a>.</p>
 
 </div>
 </div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-14-gbe1e281</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-22-gd8395ee</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -127,6 +127,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (P
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a87c359cfbc177a35ab43cb2b10779f2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a87c359cfbc177a35ab43cb2b10779f2e">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result) override</td></tr>
 <tr class="separator:a87c359cfbc177a35ab43cb2b10779f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a748933d5559d292872abe3280d6cad91"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a748933d5559d292872abe3280d6cad91"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a748933d5559d292872abe3280d6cad91">handleAccept</a> (const DeviceAcceptCommand::Ptr cmd) override</td></tr>
+<tr class="memdesc:a748933d5559d292872abe3280d6cad91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic handler of the <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a>. It might be helpful to override this method in case we need to make some technology-specific check of the device to be accepted. The default implementation simply marks the given device as paired. <br/></td></tr>
+<tr class="separator:a748933d5559d292872abe3280d6cad91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975040389d845e376664997aff1ad06b"><td class="memItemLeft" align="right" valign="top">AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">startDiscovery</a> (const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="memdesc:a975040389d845e376664997aff1ad06b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a975040389d845e376664997aff1ad06b">More...</a><br/></td></tr>
+<tr class="separator:a975040389d845e376664997aff1ad06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21eb2106e4a7376c4cf15179e5af9a10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;<br class="typebreak"/>
+ &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="memdesc:a21eb2106e4a7376c4cf15179e5af9a10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a21eb2106e4a7376c4cf15179e5af9a10">More...</a><br/></td></tr>
+<tr class="separator:a21eb2106e4a7376c4cf15179e5af9a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fcbdf51aa5318797f41bc741d0f3d9b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fcbdf51aa5318797f41bc741d0f3d9b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>refreshPairedDevices</b> ()</td></tr>
 <tr class="separator:a6fcbdf51aa5318797f41bc741d0f3d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,18 +148,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>searchPairedDevices</
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#aa4c370c5d4a23deef50e5547b7aa0cd6">eraseUnusedLinks</a> ()</td></tr>
 <tr class="memdesc:aa4c370c5d4a23deef50e5547b7aa0cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the links which don't care any bulb. <br/></td></tr>
 <tr class="separator:aa4c370c5d4a23deef50e5547b7aa0cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c8ff19f18bcb7f75b7801514850985d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c8ff19f18bcb7f75b7801514850985d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a0c8ff19f18bcb7f75b7801514850985d">doListenCommand</a> (const Command::Ptr cmd)</td></tr>
-<tr class="memdesc:a0c8ff19f18bcb7f75b7801514850985d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the listen command. <br/></td></tr>
-<tr class="separator:a0c8ff19f18bcb7f75b7801514850985d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83e5ee4af2ced926918d2540b6c4c0cc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83e5ee4af2ced926918d2540b6c4c0cc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a83e5ee4af2ced926918d2540b6c4c0cc">doUnpairCommand</a> (const Command::Ptr cmd)</td></tr>
-<tr class="memdesc:a83e5ee4af2ced926918d2540b6c4c0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the unpair command. <br/></td></tr>
-<tr class="separator:a83e5ee4af2ced926918d2540b6c4c0cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7199aeba2be6e53ef6482a351a6a0a80"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7199aeba2be6e53ef6482a351a6a0a80"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a7199aeba2be6e53ef6482a351a6a0a80">doDeviceAcceptCommand</a> (const Command::Ptr cmd)</td></tr>
-<tr class="memdesc:a7199aeba2be6e53ef6482a351a6a0a80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the device accept command. <br/></td></tr>
-<tr class="separator:a7199aeba2be6e53ef6482a351a6a0a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b8f64bd044ec1ec6af25a3c6a252017"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b8f64bd044ec1ec6af25a3c6a252017"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a5b8f64bd044ec1ec6af25a3c6a252017">doSetValueCommand</a> (const Command::Ptr cmd)</td></tr>
 <tr class="memdesc:a5b8f64bd044ec1ec6af25a3c6a252017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the device set value command. <br/></td></tr>
@@ -156,35 +155,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ad7e734e7c21a16e70404632a0b84c60e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#ad7e734e7c21a16e70404632a0b84c60e">modifyValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value)</td></tr>
 <tr class="memdesc:ad7e734e7c21a16e70404632a0b84c60e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the proper device's module to given value.  <a href="#ad7e734e7c21a16e70404632a0b84c60e">More...</a><br/></td></tr>
 <tr class="separator:ad7e734e7c21a16e70404632a0b84c60e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa360611c81ab06659389570d8b3b4992"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa360611c81ab06659389570d8b3b4992"></a>
+<tr class="memitem:a4d477028295bfce3f9595dc7b8e965cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d477028295bfce3f9595dc7b8e965cb"></a>
 std::vector<br class="typebreak"/>
-&lt; BelkinWemoSwitch::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekSwitches</b> ()</td></tr>
-<tr class="separator:aa360611c81ab06659389570d8b3b4992"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fa3bdac9034f74e57ebb1251948db73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fa3bdac9034f74e57ebb1251948db73"></a>
-std::vector&lt; BelkinWemoBulb::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekBulbs</b> ()</td></tr>
-<tr class="separator:a6fa3bdac9034f74e57ebb1251948db73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10672dbe46e2ccae3be0b7437d8e5169"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a10672dbe46e2ccae3be0b7437d8e5169"></a>
+&lt; BelkinWemoSwitch::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekSwitches</b> (const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a8c944e7f63b4b72483a6efe4e62a7792">stop</a>)</td></tr>
+<tr class="separator:a4d477028295bfce3f9595dc7b8e965cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05d455ee35c6cffd5108580d7b638a3f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a05d455ee35c6cffd5108580d7b638a3f"></a>
+std::vector&lt; BelkinWemoBulb::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekBulbs</b> (const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a8c944e7f63b4b72483a6efe4e62a7792">stop</a>)</td></tr>
+<tr class="separator:a05d455ee35c6cffd5108580d7b638a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab98dada512cc988f9c5cd58b399dd6de"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab98dada512cc988f9c5cd58b399dd6de"></a>
 std::vector<br class="typebreak"/>
-&lt; BelkinWemoDimmer::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekDimmers</b> ()</td></tr>
-<tr class="separator:a10672dbe46e2ccae3be0b7437d8e5169"><td class="memSeparator" colspan="2">&#160;</td></tr>
+&lt; BelkinWemoDimmer::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekDimmers</b> (const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a8c944e7f63b4b72483a6efe4e62a7792">stop</a>)</td></tr>
+<tr class="separator:ab98dada512cc988f9c5cd58b399dd6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1de6a72cedd92c04e8d43a1ca627347d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1de6a72cedd92c04e8d43a1ca627347d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>processNewDevice</b> (BelkinWemoDevice::Ptr newDevice)</td></tr>
 <tr class="separator:a1de6a72cedd92c04e8d43a1ca627347d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
-<tr class="memitem:ab6d93d732c2fd1816cb952d2a469c70f inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6d93d732c2fd1816cb952d2a469c70f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ab6d93d732c2fd1816cb952d2a469c70f">handleAccept</a> (const DeviceAcceptCommand::Ptr)</td></tr>
-<tr class="memdesc:ab6d93d732c2fd1816cb952d2a469c70f inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic handler of the <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a>. It might be helpful to override this method in case we need to make some technology-specific check of the device to be accepted. The default implementation simply marks the given device as paired. <br/></td></tr>
-<tr class="separator:ab6d93d732c2fd1816cb952d2a469c70f inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56f32abaac4ec4840bcd0e150e7cf3f7 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">startDiscovery</a> (const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a56f32abaac4ec4840bcd0e150e7cf3f7 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a56f32abaac4ec4840bcd0e150e7cf3f7">More...</a><br/></td></tr>
-<tr class="separator:a56f32abaac4ec4840bcd0e150e7cf3f7 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0239fe377b5928e3bbf5986f15017916">handleListen</a> (const GatewayListenCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the listen command in a generic way. The method ensures that only 1 thread can execute the discovery process at a time.  <a href="#a0239fe377b5928e3bbf5986f15017916">More...</a><br/></td></tr>
 <tr class="separator:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0304177883d9b37b4a49f93d74a5c313 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; std::set<br class="typebreak"/>
-&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a0304177883d9b37b4a49f93d74a5c313 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a0304177883d9b37b4a49f93d74a5c313">More...</a><br/></td></tr>
-<tr class="separator:a0304177883d9b37b4a49f93d74a5c313 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd80dc1d719797f57e7c854426855beb">handleUnpair</a> (const DeviceUnpairCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time.  <a href="#abd80dc1d719797f57e7c854426855beb">More...</a><br/></td></tr>
 <tr class="separator:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -321,6 +309,74 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 
 <p>Sets the proper device's module to given value. </p>
 <dl class="section return"><dt>Returns</dt><dd>If the setting was successfull or not. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a975040389d845e376664997aff1ad06b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">AsyncWork::Ptr BelkinWemoDeviceManager::startDiscovery </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a21eb2106e4a7376c4cf15179e5af9a10"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &gt;::Ptr BelkinWemoDeviceManager::startUnpair </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The unpairing process might be a non-blocking operation. The unpaired devices are provided via the result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313">BeeeOn::DeviceManager</a>.</p>
 
 </div>
 </div>
