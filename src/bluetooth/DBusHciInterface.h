@@ -40,15 +40,13 @@ namespace BeeeOn {
  */
 class DBusHciInterface : public HciInterface, Loggable {
 public:
+	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
 
 	/**
 	 * @param name name of hci
-	 * @param statusMutex lock ensures exclusive access to state of hci
 	 */
-	DBusHciInterface(
-		const std::string& name,
-		Poco::SharedPtr<Poco::FastMutex> statusMutex);
+	DBusHciInterface(const std::string& name);
 
 	/**
 	 * @brief Sets hci interface down.
@@ -161,7 +159,7 @@ private:
 private:
 	std::string m_name;
 	mutable Poco::Condition m_condition;
-	mutable Poco::SharedPtr<Poco::FastMutex> m_statusMutex;
+	mutable Poco::FastMutex m_statusMutex;
 };
 
 class DBusHciInterfaceManager : public HciInterfaceManager {
@@ -171,7 +169,7 @@ public:
 	HciInterface::Ptr lookup(const std::string &name) override;
 
 private:
-	Poco::SharedPtr<Poco::FastMutex> m_statusMutex;
+	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
 };
 
 }

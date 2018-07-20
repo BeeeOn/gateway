@@ -18,11 +18,8 @@ using namespace std;
 static int CHANGE_POWER_ATTEMPTS = 5;
 static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
 
-DBusHciInterface::DBusHciInterface(
-		const string& name,
-		SharedPtr<FastMutex> statusMutex):
-	m_name(name),
-	m_statusMutex(statusMutex)
+DBusHciInterface::DBusHciInterface(const string& name):
+	m_name(name)
 {
 }
 
@@ -40,7 +37,7 @@ void DBusHciInterface::up() const
 	if (logger().debug())
 		logger().debug("bringing up " + m_name, __FILE__, __LINE__);
 
-	ScopedLock<FastMutex> guard(*m_statusMutex);
+	ScopedLock<FastMutex> guard(m_statusMutex);
 
 	const string path = createAdapterPath();
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
@@ -57,7 +54,7 @@ void DBusHciInterface::down() const
 	if (logger().debug())
 		logger().debug("switching down " + m_name, __FILE__, __LINE__);
 
-	ScopedLock<FastMutex> guard(*m_statusMutex);
+	ScopedLock<FastMutex> guard(m_statusMutex);
 
 	const string path = createAdapterPath();
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
@@ -149,7 +146,7 @@ void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool pow
 		if (::org_bluez_adapter1_get_powered(adapter.raw()) == powered)
 			return;
 
-		m_condition.tryWait(*m_statusMutex, CHANGE_POWER_DELAY.totalMilliseconds());
+		m_condition.tryWait(m_statusMutex, CHANGE_POWER_DELAY.totalMilliseconds());
 	}
 
 	throw TimeoutException("failed to change power of interface" + m_name);
@@ -313,12 +310,17 @@ GlibPtr<OrgBluezDevice1> DBusHciInterface::retrieveBluezDevice(const string& pat
 }
 
 
-DBusHciInterfaceManager::DBusHciInterfaceManager():
-	m_statusMutex(new FastMutex)
+DBusHciInterfaceManager::DBusHciInterfaceManager()
 {
 }
 
 HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 {
-	return new DBusHciInterface(name, m_statusMutex);
+	auto it = m_interfaces.find(name);
+	if (it != m_interfaces.end())
+		return it->second;
+
+	DBusHciInterface::Ptr newHci = new DBusHciInterface(name);
+	m_interfaces.emplace(name, newHci);
+	return newHci;
 }
