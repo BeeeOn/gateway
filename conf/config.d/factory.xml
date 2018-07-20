@@ -262,6 +262,9 @@
 			<set name="ignoreIndexErrors" text="${exporter.gws.tmpStorage.ignoreIndexErrors}" />
 		</instance>
 
-		<alias name="gwsQueuingStrategy" ref="${gws.tmpStorage.impl}JournalQueuingStrategy0" />
+		<instance name="inMemoryQueuingStrategy0" class="BeeeOn::InMemoryQueuingStrategy">
+		</instance>
+
+		<alias name="gwsQueuingStrategy" ref="${gws.tmpStorage.impl}QueuingStrategy0" />
 	</factory>
 </system>
