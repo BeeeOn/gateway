@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
@@ -16,8 +15,10 @@
 #include "belkin/BelkinWemoSwitch.h"
 #include "core/DeviceManager.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
+#include "util/AsyncWork.h"
 
 
 namespace BeeeOn {
@@ -28,19 +29,24 @@ public:
 	 * @brief Provides searching belkin wemo devices on network
 	 * in own thread.
 	 */
-	class BelkinWemoSeeker : public StoppableRunnable {
+	class BelkinWemoSeeker : public StoppableRunnable, public AsyncWork<> {
 	public:
+		typedef Poco::SharedPtr<BelkinWemoSeeker> Ptr;
+
 		BelkinWemoSeeker(BelkinWemoDeviceManager& parent);
 
-		void setDuration(const Poco::Timespan& duration);
+		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
+		bool tryJoin(const Poco::Timespan &timeout) override;
+		void cancel() override;
 
 	private:
 		BelkinWemoDeviceManager& m_parent;
 		Poco::Timespan m_duration;
-		Poco::AtomicCounter m_stop;
+		StopControl m_stopControl;
+		Poco::Thread m_seekerThread;
 	};
 
 	BelkinWemoDeviceManager();
@@ -54,6 +60,11 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -62,21 +73,6 @@ protected:
 	 * @brief Erases the links which don't care any bulb.
 	 */
 	void eraseUnusedLinks();
-
-	/**
-	 * @brief Processes the listen command.
-	 */
-	void doListenCommand(const Command::Ptr cmd);
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const Command::Ptr cmd);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the device set value command.
@@ -88,14 +84,13 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
-	std::vector<BelkinWemoBulb::Ptr> seekBulbs();
-	std::vector<BelkinWemoDimmer::Ptr> seekDimmers();
+	std::vector<BelkinWemoSwitch::Ptr> seekSwitches(const StopControl& stop);
+	std::vector<BelkinWemoBulb::Ptr> seekBulbs(const StopControl& stop);
+	std::vector<BelkinWemoDimmer::Ptr> seekDimmers(const StopControl& stop);
 
 	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
 private:
-	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_linksMutex;
 	Poco::FastMutex m_pairedMutex;
 
@@ -103,7 +98,7 @@ private:
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 
 	Poco::Timespan m_refresh;
-	BelkinWemoDeviceManager::BelkinWemoSeeker m_seeker;
+	BelkinWemoDeviceManager::BelkinWemoSeeker::Ptr m_seeker;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 };

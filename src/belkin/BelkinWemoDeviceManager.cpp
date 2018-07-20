@@ -12,6 +12,7 @@
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
 #include "net/UPnP.h"
+#include "util/BlockingAsyncWork.h"
 
 #define BELKIN_WEMO_VENDOR "Belkin WeMo"
 
@@ -39,7 +40,7 @@ BelkinWemoDeviceManager::BelkinWemoDeviceManager():
 		typeid(DeviceSetValueCommand),
 	}),
 	m_refresh(5 * Timespan::SECONDS),
-	m_seeker(*this),
+	m_seeker(new BelkinWemoSeeker(*this)),
 	m_httpTimeout(3 * Timespan::SECONDS),
 	m_upnpTimeout(5 * Timespan::SECONDS)
 {
@@ -73,14 +74,12 @@ void BelkinWemoDeviceManager::run()
 	}
 
 	logger().information("stopping Belkin WeMo device manager", __FILE__, __LINE__);
-
-	m_seekerThread.join(m_upnpTimeout.totalMilliseconds());
 }
 
 void BelkinWemoDeviceManager::stop()
 {
 	DeviceManager::stop();
-	m_seeker.stop();
+	m_seeker->stop();
 	answerQueue().dispose();
 }
 
@@ -139,7 +138,7 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 
 void BelkinWemoDeviceManager::searchPairedDevices()
 {
-	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches();
+	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockSwitch(m_pairedMutex);
 	for (auto device : switches) {
@@ -148,7 +147,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 	}
 	lockSwitch.unlock();
 
-	vector<BelkinWemoBulb::Ptr> bulbs = seekBulbs();
+	vector<BelkinWemoBulb::Ptr> bulbs = seekBulbs(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
@@ -157,7 +156,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 	}
 	lockBulb.unlock();
 
-	vector<BelkinWemoDimmer::Ptr> dimmers = seekDimmers();
+	vector<BelkinWemoDimmer::Ptr> dimmers = seekDimmers(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockDimmer(m_pairedMutex);
 	for (auto device : dimmers) {
@@ -186,66 +185,55 @@ void BelkinWemoDeviceManager::eraseUnusedLinks()
 
 void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
-	if (cmd->is<GatewayListenCommand>()) {
-		doListenCommand(cmd);
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
+	if (cmd->is<DeviceSetValueCommand>()) {
 		doSetValueCommand(cmd);
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		doUnpairCommand(cmd);
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd);
 	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
 }
 
-void BelkinWemoDeviceManager::doListenCommand(const Command::Ptr cmd)
+AsyncWork<>::Ptr BelkinWemoDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
+	m_seeker->startSeeking(timeout);
 
-	if (!m_seekerThread.isRunning()) {
-		m_seeker.setDuration(cmdListen->duration());
-		m_seekerThread.start(m_seeker);
-	}
-	else {
-		logger().warning("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
-	}
+	return m_seeker;
 }
 
-void BelkinWemoDeviceManager::doUnpairCommand(const Command::Ptr cmd)
+AsyncWork<set<DeviceID>>::Ptr BelkinWemoDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	DeviceUnpairCommand::Ptr cmdUnpair = cmd.cast<DeviceUnpairCommand>();
-
-	if (!deviceCache()->paired(cmdUnpair->deviceID())) {
-		logger().warning("unpairing device that is not paired: " + cmdUnpair->deviceID().toString(),
+	if (!deviceCache()->paired(id)) {
+		logger().warning("unpairing device that is not paired: " + id.toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		deviceCache()->markUnpaired(cmdUnpair->deviceID());
+		deviceCache()->markUnpaired(id);
 
-		auto itDevice = m_devices.find(cmdUnpair->deviceID());
+		auto itDevice = m_devices.find(id);
 		if (itDevice != m_devices.end())
-			m_devices.erase(cmdUnpair->deviceID());
+			m_devices.erase(id);
+
+		work->setResult({id});
 	}
+
+	return work;
 }
 
-void BelkinWemoDeviceManager::doDeviceAcceptCommand(const Command::Ptr cmd)
+void BelkinWemoDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	DeviceAcceptCommand::Ptr cmdAccept = cmd.cast<DeviceAcceptCommand>();
-
-	auto it = m_devices.find(cmdAccept->deviceID());
+	auto it = m_devices.find(cmd->deviceID());
 	if (it == m_devices.end())
-		throw NotFoundException("accept: " + cmdAccept->deviceID().toString());
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	deviceCache()->markPaired(cmdAccept->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
 void BelkinWemoDeviceManager::doSetValueCommand(const Command::Ptr cmd)
@@ -297,7 +285,7 @@ bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
 	return false;
 }
 
-vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
+vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -305,7 +293,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		BelkinWemoSwitch::Ptr newDevice;
@@ -323,7 +311,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 	return devices;
 }
 
-vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
+vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -331,7 +319,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:bridge:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		logger().debug("discovered a device at " + address.toString(),  __FILE__, __LINE__);
@@ -384,7 +372,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 	return devices;
 }
 
-vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers()
+vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -392,7 +380,7 @@ vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:dimmer:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		BelkinWemoDimmer::Ptr newDevice;
@@ -452,56 +440,72 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 }
 
 BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
-	m_parent(parent),
-	m_stop(false)
+	m_parent(parent)
 {
 }
 
-void BelkinWemoDeviceManager::BelkinWemoSeeker::setDuration(const Poco::Timespan& duration)
+void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking(const Timespan& duration)
 {
+	if (!m_seekerThread.isRunning()) {
+		m_seekerThread.start(*this);
+	}
+	else {
+		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
+	}
+
 	m_duration = duration;
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 {
 	Timestamp now;
+	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekSwitches()) {
-			if (m_stop)
+		for (auto device : m_parent.seekSwitches(m_stopControl)) {
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 
-		for (auto device : m_parent.seekBulbs()) {
-			if (m_stop)
+		for (auto device : m_parent.seekBulbs(m_stopControl)) {
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 
-		for (auto device : m_parent.seekDimmers()) {
-			if (m_stop)
+		for (auto device : m_parent.seekDimmers(m_stopControl)) {
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 	}
-
-	m_stop = false;
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::stop()
 {
-	m_stop = true;
+	m_stopControl.requestStop();
+	m_seekerThread.join(m_parent.m_upnpTimeout.totalMilliseconds());
+}
+
+bool BelkinWemoDeviceManager::BelkinWemoSeeker::tryJoin(const Timespan &timeout)
+{
+	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+}
+
+void BelkinWemoDeviceManager::BelkinWemoSeeker::cancel()
+{
+	stop();
 }
