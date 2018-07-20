@@ -137,7 +137,7 @@ void BelkinWemoDeviceManager::refreshPairedDevices()
 
 void BelkinWemoDeviceManager::searchPairedDevices()
 {
-	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches();
+	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockSwitch(m_pairedMutex);
 	for (auto device : switches) {
@@ -146,7 +146,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 	}
 	lockSwitch.unlock();
 
-	vector<BelkinWemoBulb::Ptr> bulbs = seekBulbs();
+	vector<BelkinWemoBulb::Ptr> bulbs = seekBulbs(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
@@ -155,7 +155,7 @@ void BelkinWemoDeviceManager::searchPairedDevices()
 	}
 	lockBulb.unlock();
 
-	vector<BelkinWemoDimmer::Ptr> dimmers = seekDimmers();
+	vector<BelkinWemoDimmer::Ptr> dimmers = seekDimmers(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockDimmer(m_pairedMutex);
 	for (auto device : dimmers) {
@@ -284,7 +284,7 @@ bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
 	return false;
 }
 
-vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
+vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -292,7 +292,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:controllee:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		BelkinWemoSwitch::Ptr newDevice;
@@ -310,7 +310,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches()
 	return devices;
 }
 
-vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
+vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -318,7 +318,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:bridge:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		logger().debug("discovered a device at " + address.toString(),  __FILE__, __LINE__);
@@ -371,7 +371,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs()
 	return devices;
 }
 
-vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers()
+vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -379,7 +379,7 @@ vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:Belkin:device:dimmer:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		BelkinWemoDimmer::Ptr newDevice;
@@ -463,7 +463,7 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekSwitches()) {
+		for (auto device : m_parent.seekSwitches(m_stopControl)) {
 			if (!run)
 				break;
 
@@ -473,7 +473,7 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 		if (!run)
 			break;
 
-		for (auto device : m_parent.seekBulbs()) {
+		for (auto device : m_parent.seekBulbs(m_stopControl)) {
 			if (!run)
 				break;
 
@@ -483,7 +483,7 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 		if (!run)
 			break;
 
-		for (auto device : m_parent.seekDimmers()) {
+		for (auto device : m_parent.seekDimmers(m_stopControl)) {
 			if (!run)
 				break;
 

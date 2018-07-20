@@ -86,9 +86,9 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
-	std::vector<BelkinWemoBulb::Ptr> seekBulbs();
-	std::vector<BelkinWemoDimmer::Ptr> seekDimmers();
+	std::vector<BelkinWemoSwitch::Ptr> seekSwitches(const StopControl& stop);
+	std::vector<BelkinWemoBulb::Ptr> seekBulbs(const StopControl& stop);
+	std::vector<BelkinWemoDimmer::Ptr> seekDimmers(const StopControl& stop);
 
 	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
