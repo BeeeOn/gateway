@@ -19,8 +19,24 @@ static int CHANGE_POWER_ATTEMPTS = 5;
 static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
 
 DBusHciInterface::DBusHciInterface(const string& name):
-	m_name(name)
+	m_name(name),
+	m_loopThread(*this, &DBusHciInterface::runLoop)
 {
+	m_adapter = retrieveBluezAdapter(createAdapterPath());
+	m_thread.start(m_loopThread);
+}
+
+DBusHciInterface::~DBusHciInterface()
+{
+	stopDiscovery(m_adapter);
+
+	if (::g_main_loop_is_running(m_loop.raw()))
+		::g_main_loop_quit(m_loop.raw());
+
+	try {
+		m_thread.join();
+	}
+	BEEEON_CATCH_CHAIN(logger())
 }
 
 /**
@@ -42,6 +58,8 @@ void DBusHciInterface::up() const
 	const string path = createAdapterPath();
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 
+	startDiscovery(m_adapter, "le");
+
 	if (::org_bluez_adapter1_get_powered(adapter.raw()))
 		return;
 
@@ -55,6 +73,8 @@ void DBusHciInterface::down() const
 		logger().debug("switching down " + m_name, __FILE__, __LINE__);
 
 	ScopedLock<FastMutex> guard(m_statusMutex);
+
+	m_waitCondition.broadcast();
 
 	const string path = createAdapterPath();
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
@@ -89,9 +109,6 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 	logger().information("starting BLE scan for " +
 		to_string(timeout.totalSeconds()) + " seconds", __FILE__, __LINE__);
 
-	const string path = createAdapterPath();
-
-	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 	GlibPtr<GDBusObjectManager> objectManager = createBluezObjectManager();
 
 	map<MACAddress, string> allDevices;
@@ -103,11 +120,9 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 		G_CALLBACK(onDBusObjectAdded),
 		&allDevices);
 
-	startDiscovery(adapter, "le");
+	startDiscovery(m_adapter, "le");
 
-	GlibPtr<GMainLoop> loop = ::g_main_loop_new(nullptr, false);
-	::g_timeout_add_seconds(timeout.seconds(), onStopLoop, loop.raw());
-	::g_main_loop_run(loop.raw());
+	m_waitCondition.tryWait(timeout);
 
 	map<MACAddress, string> foundDevices;
 	for (auto one : allDevices) {
@@ -124,8 +139,6 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 
 	logger().information("BLE scan has finished, found " +
 		to_string(foundDevices.size()) + " device(s)", __FILE__, __LINE__);
-
-	stopDiscovery(adapter);
 
 	return foundDevices;
 }
@@ -155,6 +168,9 @@ void DBusHciInterface::startDiscovery(
 {
 	ScopedLock<FastMutex> guard(m_discoveringMutex);
 
+	if (::org_bluez_adapter1_get_discovering(adapter.raw()))
+		return;
+
 	initDiscoveryFilter(adapter, trasport);
 	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, nullptr);
 }
@@ -162,6 +178,9 @@ void DBusHciInterface::startDiscovery(
 void DBusHciInterface::stopDiscovery(GlibPtr<OrgBluezAdapter1> adapter) const
 {
 	ScopedLock<FastMutex> guard(m_discoveringMutex);
+
+	if (!::org_bluez_adapter1_get_discovering(adapter.raw()))
+		return;
 
 	::org_bluez_adapter1_call_stop_discovery_sync(adapter.raw(), nullptr, nullptr);
 }
@@ -205,6 +224,12 @@ void DBusHciInterface::processKnownDevices(
 		const string name = charName == nullptr ? "unknown" : charName;
 		devices.emplace(mac, name);
 	}
+}
+
+void DBusHciInterface::runLoop()
+{
+	m_loop = ::g_main_loop_new(nullptr, false);
+	::g_main_loop_run(m_loop.raw());
 }
 
 vector<string> DBusHciInterface::retrievePathsOfBluezObjects(

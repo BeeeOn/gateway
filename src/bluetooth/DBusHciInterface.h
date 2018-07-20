@@ -11,7 +11,9 @@
 
 #include <Poco/Condition.h>
 #include <Poco/Mutex.h>
+#include <Poco/RunnableAdapter.h>
 #include <Poco/SharedPtr.h>
+#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 #include <Poco/Timestamp.h>
 
@@ -23,6 +25,7 @@
 #include "bluetooth/org-bluez-gattcharacteristic1.h"
 #include "net/MACAddress.h"
 #include "util/Loggable.h"
+#include "util/WaitCondition.h"
 
 namespace BeeeOn {
 
@@ -47,6 +50,7 @@ public:
 	 * @param name name of hci
 	 */
 	DBusHciInterface(const std::string& name);
+	~DBusHciInterface();
 
 	/**
 	 * @brief Sets hci interface down.
@@ -133,6 +137,12 @@ private:
 		std::map<MACAddress, std::string>& devices) const;
 
 	/**
+	 * @brief The purpose of the method is to run GMainLoop that handles
+	 * asynchronous events such as add new device during lescan() in separated thread.
+	 */
+	void runLoop();
+
+	/**
 	 * @brief Retrieves and returns all object paths from the given DBus object manager
 	 * that match the pathFilter and the objectFilter.
 	 */
@@ -172,6 +182,13 @@ private:
 
 private:
 	std::string m_name;
+	mutable WaitCondition m_waitCondition;
+
+	GlibPtr<GMainLoop> m_loop;
+	Poco::RunnableAdapter<DBusHciInterface> m_loopThread;
+	Poco::Thread m_thread;
+	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
+
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
 	mutable Poco::FastMutex m_discoveringMutex;
