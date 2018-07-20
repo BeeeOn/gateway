@@ -91,6 +91,7 @@ protected:
 	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
 private:
+	Poco::FastMutex m_seekerMutex;
 	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_linksMutex;
 	Poco::FastMutex m_pairedMutex;
