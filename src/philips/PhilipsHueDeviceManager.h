@@ -98,7 +98,7 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<PhilipsHueBulb::Ptr> seekBulbs();
+	std::vector<PhilipsHueBulb::Ptr> seekBulbs(const StopControl& stop);
 
 	void authorizationOfBridge(PhilipsHueBridge::Ptr bridge);
 

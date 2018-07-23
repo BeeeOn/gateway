@@ -179,7 +179,7 @@ void PhilipsHueDeviceManager::refreshPairedDevices()
 
 void PhilipsHueDeviceManager::searchPairedDevices()
 {
-	vector<PhilipsHueBulb::Ptr> bulbs = seekBulbs();
+	vector<PhilipsHueBulb::Ptr> bulbs = seekBulbs(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
@@ -321,7 +321,7 @@ bool PhilipsHueDeviceManager::modifyValue(const DeviceID& deviceID,
 	return false;
 }
 
-vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs()
+vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs(const StopControl& stop)
 {
 	UPnP upnp;
 	list<SocketAddress> listOfDevices;
@@ -329,7 +329,7 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs()
 
 	listOfDevices = upnp.discover(m_upnpTimeout, "urn:schemas-upnp-org:device:basic:1");
 	for (const auto &address : listOfDevices) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		logger().debug("discovered a device at " + address.toString(),  __FILE__, __LINE__);
@@ -533,7 +533,7 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::run()
 	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekBulbs()) {
+		for (auto device : m_parent.seekBulbs(m_stopControl)) {
 			if (!run)
 				break;
 
