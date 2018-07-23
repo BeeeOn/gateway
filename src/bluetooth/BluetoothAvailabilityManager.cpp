@@ -18,6 +18,8 @@
 #include "model/DevicePrefix.h"
 #include "hotplug/HotplugEvent.h"
 #include "util/PosixSignal.h"
+#include "util/BlockingAsyncWork.h"
+#include "util/ThreadWrapperAsyncWork.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -284,46 +286,33 @@ bool BluetoothAvailabilityManager::haveTimeForInactive(Timespan elapsedTime)
 	return tryTime > 0;
 }
 
-void BluetoothAvailabilityManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
-{
-	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd);
-	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd);
-	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd);
-	else
-		DeviceManager::handleGeneric(cmd, result);
-}
-
-void BluetoothAvailabilityManager::doDeviceAcceptCommand(
-	const Command::Ptr &cmd)
+void BluetoothAvailabilityManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_lock);
 
 	addDevice(cmd.cast<DeviceAcceptCommand>()->deviceID());
 }
 
-void BluetoothAvailabilityManager::doUnpairCommand(
-	const Command::Ptr &cmd)
+AsyncWork<>::Ptr BluetoothAvailabilityManager::startDiscovery(const Timespan &timeout)
+{
+	m_listenTime = timeout;
+	m_thread.start(m_listenThread);
+
+	return new ThreadWrapperAsyncWork<>(m_thread);
+}
+
+AsyncWork<set<DeviceID>>::Ptr BluetoothAvailabilityManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
 	FastMutex::ScopedLock lock(m_lock);
 
-	removeDevice(cmd->cast<DeviceUnpairCommand>().deviceID());
-}
+	removeDevice(id);
 
-void BluetoothAvailabilityManager::doListenCommand(const Command::Ptr &cmd)
-{
-	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+	work->setResult({id});
 
-	if (!m_thread.isRunning()) {
-		m_listenTime = cmdListen->duration();
-		m_thread.start(m_listenThread);
-	}
-	else {
-		logger().debug("listen already running, dropping listen command",
-			__FILE__, __LINE__);
-	}
+	return work;
 }
 
 void BluetoothAvailabilityManager::fetchDeviceList()

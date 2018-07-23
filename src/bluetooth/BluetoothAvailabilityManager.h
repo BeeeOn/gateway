@@ -14,6 +14,7 @@
 #include "bluetooth/BluetoothDevice.h"
 #include "bluetooth/BluetoothListener.h"
 #include "bluetooth/HciInterface.h"
+#include "commands/DeviceAcceptCommand.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
 #include "model/SensorData.h"
@@ -49,12 +50,6 @@ public:
 
 	void setModes(const std::list<std::string> &modes);
 
-	void doDeviceAcceptCommand(const Command::Ptr &cmd);
-
-	void doUnpairCommand(const Command::Ptr &cmd);
-
-	void doListenCommand(const Command::Ptr &cmd);
-
 	/**
 	 * Set interval of periodic bluetooth statistics generation.
 	 */
@@ -76,7 +71,11 @@ public:
 	void registerListener(BluetoothListener::Ptr listener);
 
 protected:
-	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 	void notifyDongleRemoved() override;
 
 private:
