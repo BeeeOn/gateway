@@ -214,7 +214,7 @@ void VPTDeviceManager::shipFromDevices()
 
 void VPTDeviceManager::searchPairedDevices()
 {
-	vector<VPTDevice::Ptr> devices = seekDevices();
+	vector<VPTDevice::Ptr> devices = seekDevices(m_stopControl);
 
 	ScopedLock<FastMutex> lock(m_pairedMutex);
 	for (auto device : devices) {
@@ -345,13 +345,13 @@ bool VPTDeviceManager::noSubdevicePaired(const DeviceID& id) const
 	return true;
 }
 
-vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices()
+vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices(const StopControl& stop)
 {
 	vector<VPTDevice::Ptr> devices;
 	vector<SocketAddress> list = m_scanner.scan(m_maxMsgSize);
 
 	for (auto& address : list) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		VPTDevice::Ptr newDevice;
@@ -416,8 +416,7 @@ string VPTDeviceManager::findPassword(const DeviceID& id)
 }
 
 VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):
-	m_parent(parent),
-	m_stop(false)
+	m_parent(parent)
 {
 }
 
@@ -444,23 +443,22 @@ void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
 void VPTDeviceManager::VPTSeeker::run()
 {
 	Timestamp now;
+	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekDevices()) {
-			if (m_stop)
+		for (auto device : m_parent.seekDevices(m_stopControl)) {
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 	}
-
-	m_stop = false;
 }
 
 void VPTDeviceManager::VPTSeeker::stop()
 {
-	m_stop = true;
+	m_stopControl.requestStop();
 }

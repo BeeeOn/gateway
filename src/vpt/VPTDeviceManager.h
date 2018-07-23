@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Thread.h>
@@ -19,6 +18,7 @@
 #include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "util/CryptoConfig.h"
 #include "vpt/VPTDevice.h"
@@ -55,7 +55,7 @@ public:
 
 		Poco::Timespan m_duration;
 		Poco::Thread m_seekerThread;
-		Poco::AtomicCounter m_stop;
+		StopControl m_stopControl;
 	};
 
 	VPTDeviceManager();
@@ -123,7 +123,7 @@ protected:
 	/**
 	 * @brief Searchs the devices on the network.
 	 */
-	std::vector<VPTDevice::Ptr> seekDevices();
+	std::vector<VPTDevice::Ptr> seekDevices(const StopControl& stop);
 
 	/**
 	 * @brief Processes a new device. It means saving the new device
