@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-32-g8b3cd8b</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-40-g78e3fcf</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,6 +52,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker Class Reference</div>  </div>
@@ -69,22 +70,46 @@ Inheritance diagram for BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker:</div>
   <img src="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.png" usemap="#BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker_map" alt=""/>
   <map id="BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker_map" name="BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker_map">
 <area href="classBeeeOn_1_1StoppableRunnable.html" alt="BeeeOn::StoppableRunnable" shape="rect" coords="0,56,321,80"/>
+<area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt;&gt;" shape="rect" coords="331,56,652,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ab6224176b40f8fa753d6a53c131da776"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6224176b40f8fa753d6a53c131da776"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html">PhilipsHueSeeker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:ab6224176b40f8fa753d6a53c131da776"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
+<tr class="memitem:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4807d15581e65639fccc53b67b3b6cd8"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afc7a8e24ce08eb7fb3f69196885fe691"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc7a8e24ce08eb7fb3f69196885fe691"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>PhilipsHueSeeker</b> (<a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html">PhilipsHueDeviceManager</a> &amp;parent)</td></tr>
 <tr class="separator:afc7a8e24ce08eb7fb3f69196885fe691"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cea3ddbfe7782a57d8e7007c06f13bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6cea3ddbfe7782a57d8e7007c06f13bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDuration</b> (const Poco::Timespan &amp;duration)</td></tr>
-<tr class="separator:a6cea3ddbfe7782a57d8e7007c06f13bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d28785616ae179bd128e924768961c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d28785616ae179bd128e924768961c1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>startSeeking</b> (const Poco::Timespan &amp;duration)</td></tr>
+<tr class="separator:a8d28785616ae179bd128e924768961c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14c8413fd3dce1dd18751d52c10bab95"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14c8413fd3dce1dd18751d52c10bab95"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</td></tr>
 <tr class="separator:a14c8413fd3dce1dd18751d52c10bab95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cce1a81f7ae57389f01e9bf969d821d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#a8cce1a81f7ae57389f01e9bf969d821d">stop</a> () override</td></tr>
 <tr class="separator:a8cce1a81f7ae57389f01e9bf969d821d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac00b7d64b692b7e2be0564cfd8f99c89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#ac00b7d64b692b7e2be0564cfd8f99c89">tryJoin</a> (const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="separator:ac00b7d64b692b7e2be0564cfd8f99c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a780f990a7d2692a9bab9e4124deb7a67"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a780f990a7d2692a9bab9e4124deb7a67"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#a780f990a7d2692a9bab9e4124deb7a67">cancel</a> () override</td></tr>
+<tr class="memdesc:a780f990a7d2692a9bab9e4124deb7a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the discovery process. It should exit immediatelly. <br/></td></tr>
+<tr class="separator:a780f990a7d2692a9bab9e4124deb7a67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
+<tr class="memitem:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top">virtual Poco::Nullable<br class="typebreak"/>
+&lt; Poco::Void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">result</a> () const</td></tr>
+<tr class="memdesc:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the asynchronous operation provides a result, this method gives access to it. Until the operation finishes, the result would be null. AsyncWork implementations with no result returns always null.  <a href="#a70a242415ad349f213fe259f0ca1ff23">More...</a><br/></td></tr>
+<tr class="separator:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides searching philips devices on network in own thread. </p>
@@ -112,6 +137,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <p>Stop the runnable. The call should not block. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac00b7d64b692b7e2be0564cfd8f99c89"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PhilipsHueDeviceManager::PhilipsHueSeeker::tryJoin </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>true when the time discovery process finishes, false when the timeout has exceeded </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1AsyncWork.html#a96105defd298b14d1c891ae060a54551">BeeeOn::AsyncWork&lt;&gt;</a>.</p>
 
 </div>
 </div>
