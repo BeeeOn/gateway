@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
@@ -12,11 +11,13 @@
 #include "core/DeviceManager.h"
 #include "credentials/FileCredentialsStorage.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
 #include "philips/PhilipsHueBridge.h"
 #include "philips/PhilipsHueBulb.h"
 #include "philips/PhilipsHueListener.h"
+#include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "util/EventSource.h"
 
@@ -33,19 +34,24 @@ public:
 	 * @brief Provides searching philips devices on network
 	 * in own thread.
 	 */
-	class PhilipsHueSeeker : public StoppableRunnable {
+	class PhilipsHueSeeker : public StoppableRunnable, public AsyncWork<> {
 	public:
+		typedef Poco::SharedPtr<PhilipsHueSeeker> Ptr;
+
 		PhilipsHueSeeker(PhilipsHueDeviceManager& parent);
 
-		void setDuration(const Poco::Timespan& duration);
+		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
+		bool tryJoin(const Poco::Timespan &timeout) override;
+		void cancel() override;
 
 	private:
 		PhilipsHueDeviceManager& m_parent;
 		Poco::Timespan m_duration;
-		Poco::AtomicCounter m_stop;
+		StopControl m_stopControl;
+		Poco::Thread m_seekerThread;
 	};
 
 	static const Poco::Timespan SEARCH_DELAY;
@@ -65,6 +71,11 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -73,21 +84,6 @@ protected:
 	 * @brief Erases the bridges which don't care any bulb.
 	 */
 	void eraseUnusedBridges();
-
-	/**
-	 * @brief Processes the listen command.
-	 */
-	void doListenCommand(const Command::Ptr cmd);
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const Command::Ptr cmd);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const Command::Ptr cmd);
 
 	/**
 	 * @brief Processes the set value command.
@@ -100,7 +96,7 @@ protected:
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<PhilipsHueBulb::Ptr> seekBulbs();
+	std::vector<PhilipsHueBulb::Ptr> seekBulbs(const StopControl& stop);
 
 	void authorizationOfBridge(PhilipsHueBridge::Ptr bridge);
 
@@ -110,7 +106,6 @@ protected:
 	void fireBulbStatistics(PhilipsHueBulb::Ptr bulb);
 
 private:
-	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_bridgesMutex;
 	Poco::FastMutex m_pairedMutex;
 
@@ -118,7 +113,7 @@ private:
 	std::map<DeviceID, PhilipsHueBulb::Ptr> m_devices;
 
 	Poco::Timespan m_refresh;
-	PhilipsHueDeviceManager::PhilipsHueSeeker m_seeker;
+	PhilipsHueDeviceManager::PhilipsHueSeeker::Ptr m_seeker;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 
