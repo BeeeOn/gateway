@@ -241,6 +241,8 @@ void PhilipsHueDeviceManager::doListenCommand(const Command::Ptr cmd)
 {
 	GatewayListenCommand::Ptr cmdListen = cmd.cast<GatewayListenCommand>();
 
+	ScopedLock<FastMutex> guard(m_seekerMutex);
+
 	if (!m_seekerThread.isRunning()) {
 		m_seeker.setDuration(cmdListen->duration());
 		m_seekerThread.start(m_seeker);

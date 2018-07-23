@@ -106,6 +106,7 @@ protected:
 	void fireBulbStatistics(PhilipsHueBulb::Ptr bulb);
 
 private:
+	Poco::FastMutex m_seekerMutex;
 	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_bridgesMutex;
 	Poco::FastMutex m_pairedMutex;
