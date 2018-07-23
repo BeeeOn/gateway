@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/Thread.h>
 #include <Poco/Timespan.h>
@@ -12,6 +11,7 @@
 #include "core/DeviceManager.h"
 #include "credentials/FileCredentialsStorage.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
 #include "philips/PhilipsHueBridge.h"
@@ -45,7 +45,7 @@ public:
 	private:
 		PhilipsHueDeviceManager& m_parent;
 		Poco::Timespan m_duration;
-		Poco::AtomicCounter m_stop;
+		StopControl m_stopControl;
 		Poco::FastMutex m_seekerMutex;
 		Poco::Thread m_seekerThread;
 	};

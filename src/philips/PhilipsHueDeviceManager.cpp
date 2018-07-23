@@ -509,8 +509,7 @@ void PhilipsHueDeviceManager::fireBulbStatistics(PhilipsHueBulb::Ptr bulb)
 }
 
 PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceManager& parent) :
-	m_parent(parent),
-	m_stop(false)
+	m_parent(parent)
 {
 }
 
@@ -531,24 +530,23 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking(const Timespan& dur
 void PhilipsHueDeviceManager::PhilipsHueSeeker::run()
 {
 	Timestamp now;
+	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
 		for (auto device : m_parent.seekBulbs()) {
-			if (m_stop)
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 	}
-
-	m_stop = false;
 }
 
 void PhilipsHueDeviceManager::PhilipsHueSeeker::stop()
 {
-	m_stop = true;
+	m_stopControl.requestStop();
 	m_seekerThread.join(m_parent.SEARCH_DELAY.totalMilliseconds());
 }
