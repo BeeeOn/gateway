@@ -40,11 +40,6 @@ public:
 	public:
 		VPTSeeker(VPTDeviceManager& parent);
 
-		/**
-		 * @brief Waits for thread to finish
-		 */
-		~VPTSeeker();
-
 		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;

@@ -420,14 +420,6 @@ VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):
 {
 }
 
-VPTDeviceManager::VPTSeeker::~VPTSeeker()
-{
-	/*
-	 * Scanning of device can be in progress, it should take up to httpTimeout.
-	 */
-	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
-}
-
 void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
 {
 	m_duration = duration;
@@ -461,4 +453,8 @@ void VPTDeviceManager::VPTSeeker::run()
 void VPTDeviceManager::VPTSeeker::stop()
 {
 	m_stopControl.requestStop();
+	/*
+	 * Scanning of device can be in progress, it should take up to httpTimeout.
+	 */
+	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
 }
