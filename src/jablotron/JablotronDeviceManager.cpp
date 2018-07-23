@@ -9,7 +9,8 @@
 #include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
 #include "hotplug/HotplugEvent.h"
-#include "util/LambdaTimerTask.h"
+#include "util/BlockingAsyncWork.h"
+#include "util/DelayedAsyncWork.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
@@ -158,18 +159,11 @@ void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<DeviceSetValueCommand>())
 		doSetValue(cmd.cast<DeviceSetValueCommand>());
-	else if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>());
-	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
-	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
 		DeviceManager::handleGeneric(cmd, result);
 }
 
-void JablotronDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd)
+void JablotronDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	Mutex::ScopedLock guard(m_lock);
 
@@ -177,36 +171,14 @@ void JablotronDeviceManager::doDeviceAcceptCommand(
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	deviceCache()->markPaired(cmd->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
-void JablotronDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd)
+AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	Mutex::ScopedLock guard(m_lock);
-	auto it = m_devices.find(cmd->deviceID());
-
-	if (it != m_devices.end()) {
-		it->second = nullptr;
-	}
-	else {
-		logger().warning(
-			"attempt to unpair unknown device: "
-			+ cmd->deviceID().toString());
-	}
-}
-
-void JablotronDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd)
-{
-	if (m_isListen) {
-		return;
-	}
-
 	m_isListen = true;
 
-	LambdaTimerTask::Ptr task(new LambdaTimerTask([=]()
-	{
+	auto finish = [&]() {
 		logger().debug("listen is done", __FILE__, __LINE__);
 		m_isListen = false;
 
@@ -218,11 +190,33 @@ void JablotronDeviceManager::doListenCommand(
 			if (!deviceCache()->paired(device.second->deviceID()))
 				device.second = nullptr;
 		}
-	}));
+	};
 
-	m_listenTimer.schedule(
-		task,
-		Timestamp() + cmd->duration());
+	return new DelayedAsyncWork<>(finish, finish, timeout);
+}
+
+AsyncWork<set<DeviceID>>::Ptr JablotronDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
+{
+	set<DeviceID> result;
+
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
+	Mutex::ScopedLock guard(m_lock);
+	auto it = m_devices.find(id);
+
+	if (it != m_devices.end()) {
+		it->second = nullptr;
+		work->setResult({id});
+	}
+	else {
+		logger().warning(
+			"attempt to unpair unknown device: "
+			+ id.toString());
+	}
+
+	return work;
 }
 
 void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
