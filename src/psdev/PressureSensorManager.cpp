@@ -10,6 +10,7 @@
 #include "model/SensorData.h"
 #include "model/SensorValue.h"
 #include "psdev/PressureSensorManager.h"
+#include "util/BlockingAsyncWork.h"
 #include "util/IncompleteTimestamp.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, PressureSensorManager)
@@ -97,19 +98,7 @@ void PressureSensorManager::initialize()
 		deviceCache()->markPaired(pairedID());
 }
 
-void PressureSensorManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
-{
-	if (cmd->is<GatewayListenCommand>())
-		handleListenCommand(cmd->cast<GatewayListenCommand>());
-	else if (cmd->is<DeviceAcceptCommand>())
-		handleAcceptCommand(cmd->cast<DeviceAcceptCommand>());
-	else if (cmd->is<DeviceUnpairCommand>())
-		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>());
-	else
-		DeviceManager::handleGeneric(cmd, result);
-}
-
-void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
+AsyncWork<>::Ptr PressureSensorManager::startDiscovery(const Timespan &)
 {
 	if (!deviceCache()->paired(pairedID())) {
 		dispatch(new NewDeviceCommand(
@@ -119,12 +108,14 @@ void PressureSensorManager::handleListenCommand(const GatewayListenCommand &)
 			TYPES,
 			m_refresh));
 	}
+
+	return BlockingAsyncWork<>::instance();
 }
 
-void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
+void PressureSensorManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
-	if (cmd.deviceID() != pairedID())
-		throw NotFoundException("accept: " + cmd.deviceID().toString());
+	if (cmd->deviceID() != pairedID())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	if (!deviceCache()->paired(pairedID())) {
 		deviceCache()->markPaired(pairedID());
@@ -132,23 +123,33 @@ void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd)
 	}
 	else {
 		poco_warning(logger(), "ignoring accept of already paired device");
+		return;
 	}
+	DeviceManager::handleAccept(cmd);
 }
 
-void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd)
+AsyncWork<set<DeviceID>>::Ptr PressureSensorManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
-	if (cmd.deviceID() != pairedID()) {
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
+	if (id != pairedID()) {
 		poco_warning(logger(), "not unpairing device with unknown id: "
-			+ cmd.deviceID().toString());
-		return;
+			+ id.toString());
+
+		return work;
 	}
 
 	if (deviceCache()->paired(pairedID())) {
 		deviceCache()->markUnpaired(pairedID());
+		work->setResult({id});
 	}
 	else {
 		poco_warning(logger(), "ignoring unpair of not paired device");
 	}
+
+	return work;
 }
 
 void PressureSensorManager::setRefresh(const Timespan &refresh)
