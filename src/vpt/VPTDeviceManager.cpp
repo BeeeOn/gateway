@@ -10,6 +10,7 @@
 #include "di/Injectable.h"
 #include "model/DevicePrefix.h"
 #include "net/VPTHTTPScanner.h"
+#include "util/BlockingAsyncWork.h"
 #include "vpt/VPTDeviceManager.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, VPTDeviceManager)
@@ -44,7 +45,7 @@ VPTDeviceManager::VPTDeviceManager():
 		typeid(DeviceUnpairCommand),
 		typeid(DeviceSetValueCommand),
 	}),
-	m_seeker(*this),
+	m_seeker(new VPTSeeker(*this)),
 	m_maxMsgSize(10000),
 	m_refresh(5 * Timespan::SECONDS),
 	m_httpTimeout(3 * Timespan::SECONDS),
@@ -93,7 +94,7 @@ void VPTDeviceManager::stop()
 {
 	DeviceManager::stop();
 	m_scanner.cancel();
-	m_seeker.stop();
+	m_seeker->stop();
 	answerQueue().dispose();
 }
 
@@ -214,7 +215,7 @@ void VPTDeviceManager::shipFromDevices()
 
 void VPTDeviceManager::searchPairedDevices()
 {
-	vector<VPTDevice::Ptr> devices = seekDevices();
+	vector<VPTDevice::Ptr> devices = seekDevices(m_stopControl);
 
 	ScopedLock<FastMutex> lock(m_pairedMutex);
 	for (auto device : devices) {
@@ -251,46 +252,46 @@ bool VPTDeviceManager::isAnySubdevicePaired(VPTDevice::Ptr device)
 
 void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
-	if (cmd->is<GatewayListenCommand>()) {
-		doListenCommand(cmd.cast<GatewayListenCommand>());
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
+	if (cmd->is<DeviceSetValueCommand>()) {
 		modifyValue(cmd.cast<DeviceSetValueCommand>());
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	}
 	else {
 		DeviceManager::handleGeneric(cmd, result);
 	}
 }
 
-void VPTDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd)
+AsyncWork<>::Ptr VPTDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	m_seeker.startSeeking(cmd->duration());
+	m_seeker->startSeeking(timeout);
+	return m_seeker;
 }
 
-void VPTDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
+AsyncWork<set<DeviceID>>::Ptr VPTDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
 {
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
-	if (!deviceCache()->paired(cmd->deviceID())) {
-		logger().warning("unpairing device that is not paired: " + cmd->deviceID().toString(),
+	if (!deviceCache()->paired(id)) {
+		logger().warning("unpairing device that is not paired: " + id.toString(),
 			__FILE__, __LINE__);
 	}
 	else {
-		deviceCache()->markUnpaired(cmd->deviceID());
+		deviceCache()->markUnpaired(id);
 
-		DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID());
+		DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(id);
 		if (noSubdevicePaired(tmpID))
 			m_devices.erase(tmpID);
+
+		work->setResult({id});
 	}
+
+	return work;
 }
 
-void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
+void VPTDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	FastMutex::ScopedLock lock(m_pairedMutex);
 
@@ -314,7 +315,7 @@ void VPTDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
 		}
 	}
 
-	deviceCache()->markPaired(cmd->deviceID());
+	DeviceManager::handleAccept(cmd);
 }
 
 void VPTDeviceManager::modifyValue(const DeviceSetValueCommand::Ptr cmd)
@@ -348,13 +349,13 @@ bool VPTDeviceManager::noSubdevicePaired(const DeviceID& id) const
 	return true;
 }
 
-vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices()
+vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices(const StopControl& stop)
 {
 	vector<VPTDevice::Ptr> devices;
 	vector<SocketAddress> list = m_scanner.scan(m_maxMsgSize);
 
 	for (auto& address : list) {
-		if (m_stopControl.shouldStop())
+		if (stop.shouldStop())
 			break;
 
 		VPTDevice::Ptr newDevice;
@@ -419,17 +420,8 @@ string VPTDeviceManager::findPassword(const DeviceID& id)
 }
 
 VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):
-	m_parent(parent),
-	m_stop(false)
+	m_parent(parent)
 {
-}
-
-VPTDeviceManager::VPTSeeker::~VPTSeeker()
-{
-	/*
-	 * Scanning of device can be in progress, it should take up to httpTimeout.
-	 */
-	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
 }
 
 void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
@@ -447,23 +439,36 @@ void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
 void VPTDeviceManager::VPTSeeker::run()
 {
 	Timestamp now;
+	StopControl::Run run(m_stopControl);
 
 	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekDevices()) {
-			if (m_stop)
+		for (auto device : m_parent.seekDevices(m_stopControl)) {
+			if (!run)
 				break;
 
 			m_parent.processNewDevice(device);
 		}
 
-		if (m_stop)
+		if (!run)
 			break;
 	}
-
-	m_stop = false;
 }
 
 void VPTDeviceManager::VPTSeeker::stop()
 {
-	m_stop = true;
+	m_stopControl.requestStop();
+	/*
+	 * Scanning of device can be in progress, it should take up to httpTimeout.
+	 */
+	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
+}
+
+bool VPTDeviceManager::VPTSeeker::tryJoin(const Timespan &timeout)
+{
+	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+}
+
+void VPTDeviceManager::VPTSeeker::cancel()
+{
+	stop();
 }

@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Thread.h>
@@ -19,7 +18,9 @@
 #include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
 #include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "vpt/VPTDevice.h"
 
@@ -36,26 +37,25 @@ public:
 	 * @brief Provides searching vpt devices on network in own thread.
 	 * Also takes care of thread where is the listen command performed.
 	 */
-	class VPTSeeker : public StoppableRunnable {
+	class VPTSeeker : public StoppableRunnable, public AsyncWork<> {
 	public:
-		VPTSeeker(VPTDeviceManager& parent);
+		typedef Poco::SharedPtr<VPTSeeker> Ptr;
 
-		/**
-		 * @brief Waits for thread to finish
-		 */
-		~VPTSeeker();
+		VPTSeeker(VPTDeviceManager& parent);
 
 		void startSeeking(const Poco::Timespan& duration);
 
 		void run() override;
 		void stop() override;
+		bool tryJoin(const Poco::Timespan &timeout) override;
+		void cancel() override;
 
 	private:
 		VPTDeviceManager& m_parent;
 
 		Poco::Timespan m_duration;
 		Poco::Thread m_seekerThread;
-		Poco::AtomicCounter m_stop;
+		StopControl m_stopControl;
 	};
 
 	VPTDeviceManager();
@@ -77,6 +77,11 @@ public:
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 
 	/**
 	 * @brief Gathers SensorData from devices and
@@ -97,21 +102,6 @@ protected:
 	bool isAnySubdevicePaired(VPTDevice::Ptr device);
 
 	/**
-	 * @brief Processes the listen command.
-	 */
-	void doListenCommand(const GatewayListenCommand::Ptr cmd);
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
-
-	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @param result Will contains information about
 	 * the success of the request
@@ -127,7 +117,7 @@ protected:
 	/**
 	 * @brief Searchs the devices on the network.
 	 */
-	std::vector<VPTDevice::Ptr> seekDevices();
+	std::vector<VPTDevice::Ptr> seekDevices(const StopControl& stop);
 
 	/**
 	 * @brief Processes a new device. It means saving the new device
@@ -144,7 +134,7 @@ protected:
 	std::string findPassword(const DeviceID& id);
 
 private:
-	VPTDeviceManager::VPTSeeker m_seeker;
+	VPTDeviceManager::VPTSeeker::Ptr m_seeker;
 	VPTHTTPScanner m_scanner;
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;
