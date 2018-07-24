@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-52-g28cf673</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-58-g0efe591</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,6 +52,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::VPTDeviceManager::VPTSeeker Class Reference</div>  </div>
@@ -69,18 +70,27 @@ Inheritance diagram for BeeeOn::VPTDeviceManager::VPTSeeker:</div>
   <img src="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.png" usemap="#BeeeOn::VPTDeviceManager::VPTSeeker_map" alt=""/>
   <map id="BeeeOn::VPTDeviceManager::VPTSeeker_map" name="BeeeOn::VPTDeviceManager::VPTSeeker_map">
 <area href="classBeeeOn_1_1StoppableRunnable.html" alt="BeeeOn::StoppableRunnable" shape="rect" coords="0,56,249,80"/>
+<area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt;&gt;" shape="rect" coords="259,56,508,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a6c3dd95794872780cb247f4e2a291ab8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c3dd95794872780cb247f4e2a291ab8"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html">VPTSeeker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a6c3dd95794872780cb247f4e2a291ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
+<tr class="memitem:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4807d15581e65639fccc53b67b3b6cd8"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a388e72667152ebd0b3d75cc8ba0f045a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a388e72667152ebd0b3d75cc8ba0f045a"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>VPTSeeker</b> (<a class="el" href="classBeeeOn_1_1VPTDeviceManager.html">VPTDeviceManager</a> &amp;parent)</td></tr>
 <tr class="separator:a388e72667152ebd0b3d75cc8ba0f045a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae98de2c01bfe4bf9d4ea7b7c309836b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae98de2c01bfe4bf9d4ea7b7c309836b7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html#ae98de2c01bfe4bf9d4ea7b7c309836b7">~VPTSeeker</a> ()</td></tr>
-<tr class="memdesc:ae98de2c01bfe4bf9d4ea7b7c309836b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for thread to finish. <br/></td></tr>
-<tr class="separator:ae98de2c01bfe4bf9d4ea7b7c309836b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bf8f9da2dd970e9b91b28948483ec47"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3bf8f9da2dd970e9b91b28948483ec47"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>startSeeking</b> (const Poco::Timespan &amp;duration)</td></tr>
 <tr class="separator:a3bf8f9da2dd970e9b91b28948483ec47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -89,6 +99,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <tr class="separator:a49c38e9088773a5e7a6ee36075793d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1e755a7ebbb623eb051fa1b59c1e1ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html#ab1e755a7ebbb623eb051fa1b59c1e1ed">stop</a> () override</td></tr>
 <tr class="separator:ab1e755a7ebbb623eb051fa1b59c1e1ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e86f689deceaf7d6c1ca74df714f752"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html#a7e86f689deceaf7d6c1ca74df714f752">tryJoin</a> (const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="separator:a7e86f689deceaf7d6c1ca74df714f752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa23bc22c5fe82ecc233e0775c109ad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9fa23bc22c5fe82ecc233e0775c109ad"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html#a9fa23bc22c5fe82ecc233e0775c109ad">cancel</a> () override</td></tr>
+<tr class="memdesc:a9fa23bc22c5fe82ecc233e0775c109ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the discovery process. It should exit immediatelly. <br/></td></tr>
+<tr class="separator:a9fa23bc22c5fe82ecc233e0775c109ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
+<tr class="memitem:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top">virtual Poco::Nullable<br class="typebreak"/>
+&lt; Poco::Void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">result</a> () const</td></tr>
+<tr class="memdesc:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the asynchronous operation provides a result, this method gives access to it. Until the operation finishes, the result would be null. AsyncWork implementations with no result returns always null.  <a href="#a70a242415ad349f213fe259f0ca1ff23">More...</a><br/></td></tr>
+<tr class="separator:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides searching vpt devices on network in own thread. Also takes care of thread where is the listen command performed. </p>
@@ -116,6 +137,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <p>Stop the runnable. The call should not block. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7e86f689deceaf7d6c1ca74df714f752"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool VPTDeviceManager::VPTSeeker::tryJoin </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>true when the time discovery process finishes, false when the timeout has exceeded </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1AsyncWork.html#a96105defd298b14d1c891ae060a54551">BeeeOn::AsyncWork&lt;&gt;</a>.</p>
 
 </div>
 </div>

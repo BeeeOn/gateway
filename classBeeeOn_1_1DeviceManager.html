@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-52-g28cf673</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-58-g0efe591</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -517,7 +517,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a6d1f261358207f6ab7857c03a2d59baf">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>.</p>
 
 </div>
 </div>
@@ -556,7 +556,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
 <p>The unpairing process might be a non-blocking operation. The unpaired devices are provided via the result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ac1f8e64164ce4cde36b32a9731cdad3e">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">BeeeOn::BelkinWemoDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a9d565bb5022533350b47b22da4ab2395">BeeeOn::PressureSensorManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a36af3e994b74cb545025df2380309e9b">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ac1f8e64164ce4cde36b32a9731cdad3e">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">BeeeOn::BelkinWemoDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a9d565bb5022533350b47b22da4ab2395">BeeeOn::PressureSensorManager</a>.</p>
 
 </div>
 </div>
