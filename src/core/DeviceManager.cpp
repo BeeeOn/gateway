@@ -135,7 +135,7 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 	if (timeout < 1 * Timespan::SECONDS)
 		timeout = 1 * Timespan::SECONDS;
 
-	logger().information("starting discovery", __FILE__, __LINE__);
+	logger().information("starting discovery (" + to_string(timeout.totalSeconds()) + " s)", __FILE__, __LINE__);
 
 	auto discovery = startDiscovery(timeout);
 
