@@ -131,6 +131,9 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 			__FILE__, __LINE__);
 	}
 
+	if (m_stopControl.shouldStop())
+		throw IllegalStateException("discovery skipped due to shutdown request");
+
 	Timespan timeout = duration - started.elapsed();
 	if (timeout < 1 * Timespan::SECONDS)
 		timeout = 1 * Timespan::SECONDS;
@@ -173,6 +176,9 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	Timespan timeout = duration - started.elapsed();
 	if (timeout < 1 * Timespan::SECONDS)
 		timeout = 1 * Timespan::SECONDS;
+
+	if (m_stopControl.shouldStop())
+		throw IllegalStateException("unpair skipped due to shutdown request");
 
 	logger().information("starting unpair", __FILE__, __LINE__);
 
