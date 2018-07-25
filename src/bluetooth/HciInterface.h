@@ -6,6 +6,7 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 
+#include "bluetooth/HciConnection.h"
 #include "bluetooth/HciInfo.h"
 #include "net/MACAddress.h"
 
@@ -57,6 +58,14 @@ public:
 	 * Read information about the iterface.
 	 */
 	virtual HciInfo info() const = 0;
+
+	/**
+	 * Connects to device defined by MAC address and loads it's services.
+	 * @throws IOException in case of a failure
+	 */
+	virtual HciConnection::Ptr connect(
+		const MACAddress& address,
+		const Poco::Timespan& timeout) const = 0;
 };
 
 class HciInterfaceManager {

@@ -22,6 +22,9 @@ public:
 	std::map<MACAddress, std::string> lescan(
 			const Poco::Timespan &seconds) const override;
 	HciInfo info() const override;
+	HciConnection::Ptr connect(
+		const MACAddress& address,
+		const Poco::Timespan& timeout) const override;
 
 protected:
 	/**

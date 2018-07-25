@@ -93,7 +93,7 @@ public:
 
 	HciConnection::Ptr connect(
 		const MACAddress& address,
-		const Poco::Timespan& timeout) const;
+		const Poco::Timespan& timeout) const override;
 
 protected:
 	/**
