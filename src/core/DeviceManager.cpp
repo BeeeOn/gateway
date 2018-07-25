@@ -37,6 +37,7 @@ DevicePrefix DeviceManager::prefix() const
 void DeviceManager::stop()
 {
 	m_stopControl.requestStop();
+	m_cancellable.cancel();
 }
 
 void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)
@@ -47,6 +48,11 @@ void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)
 DeviceCache::Ptr DeviceManager::deviceCache() const
 {
 	return m_deviceCache;
+}
+
+CancellableSet &DeviceManager::cancellable()
+{
+	return m_cancellable;
 }
 
 void DeviceManager::setDistributor(Poco::SharedPtr<Distributor> distributor)

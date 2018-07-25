@@ -21,6 +21,7 @@
 #include "model/DevicePrefix.h"
 #include "model/ModuleID.h"
 #include "util/AsyncWork.h"
+#include "util/CancellableSet.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -180,6 +181,13 @@ protected:
 	 */
 	DeviceCache::Ptr deviceCache() const;
 
+	/**
+	 * @returns reference to the CancellableSet instance that is cancelled
+	 * on stop(). This allows to manage asynchronous jobs and cancel them
+	 * when required.
+	 */
+	CancellableSet &cancellable();
+
 private:
 	void requestDeviceList(Answer::Ptr answer);
 	std::set<DeviceID> responseDeviceList(
@@ -197,6 +205,7 @@ private:
 	Poco::FastMutex m_unpairLock;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
+	CancellableSet m_cancellable;
 };
 
 }
