@@ -13,12 +13,14 @@ class GlibPtrTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testGMainLoop);
 	CPPUNIT_TEST(testGError);
 	CPPUNIT_TEST(testGList);
+	CPPUNIT_TEST(testGVariant);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testGObject();
 	void testGMainLoop();
 	void testGError();
 	void testGList();
+	void testGVariant();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(GlibPtrTest);
@@ -151,6 +153,48 @@ void GlibPtrTest::testGList()
 	CPPUNIT_ASSERT_NO_THROW(*list3);
 	CPPUNIT_ASSERT_NO_THROW(list3.raw());
 	CPPUNIT_ASSERT_EQUAL(static_cast<int>(::g_list_length(list3.raw())), 2);
+}
+
+void GlibPtrTest::testGVariant()
+{
+	GlibPtr<GVariant> variant1;
+	CPPUNIT_ASSERT_EQUAL(variant1.isNull(), true);
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"GlibPtr operator *",
+		*variant1,
+		NullPointerException);
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"GlibPtr method get",
+		variant1.raw(),
+		NullPointerException);
+	CPPUNIT_ASSERT_NO_THROW(&variant1);
+
+	variant1 = ::g_variant_new("u", 40);
+	CPPUNIT_ASSERT_EQUAL(variant1.isNull(), false);
+	CPPUNIT_ASSERT_NO_THROW(*variant1);
+	CPPUNIT_ASSERT_NO_THROW(variant1.raw());
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"cannot dereference non-const non-null GlibPtr",
+		&variant1,
+		IllegalStateException);
+
+	GlibPtr<GVariant> variant2 = variant1;
+	CPPUNIT_ASSERT_EQUAL(variant2.isNull(), false);
+	CPPUNIT_ASSERT_NO_THROW(*variant2);
+	CPPUNIT_ASSERT_NO_THROW(variant2.raw());
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"cannot dereference non-const non-null GlibPtr",
+		&variant2,
+		IllegalStateException);
+
+	GlibPtr<GVariant> variant3 = GlibPtr<GVariant>(::g_variant_new("u", 40));
+	CPPUNIT_ASSERT_EQUAL(variant3.isNull(), false);
+	CPPUNIT_ASSERT_NO_THROW(*variant3);
+	CPPUNIT_ASSERT_NO_THROW(variant3.raw());
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"cannot dereference non-const non-null GlibPtr",
+		&variant3,
+		IllegalStateException);
 }
 
 }
