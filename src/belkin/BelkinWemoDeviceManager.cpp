@@ -40,7 +40,6 @@ BelkinWemoDeviceManager::BelkinWemoDeviceManager():
 		typeid(DeviceSetValueCommand),
 	}),
 	m_refresh(5 * Timespan::SECONDS),
-	m_seeker(new BelkinWemoSeeker(*this)),
 	m_httpTimeout(3 * Timespan::SECONDS),
 	m_upnpTimeout(5 * Timespan::SECONDS)
 {
@@ -79,7 +78,6 @@ void BelkinWemoDeviceManager::run()
 void BelkinWemoDeviceManager::stop()
 {
 	DeviceManager::stop();
-	m_seeker->stop();
 	answerQueue().dispose();
 }
 
@@ -195,9 +193,9 @@ void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 
 AsyncWork<>::Ptr BelkinWemoDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	m_seeker->startSeeking(timeout);
-
-	return m_seeker;
+	BelkinWemoSeeker::Ptr seeker = new BelkinWemoSeeker(*this);
+	seeker->startSeeking(timeout);
+	return seeker;
 }
 
 AsyncWork<set<DeviceID>>::Ptr BelkinWemoDeviceManager::startUnpair(
@@ -440,7 +438,8 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 }
 
 BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
-	m_parent(parent)
+	m_parent(parent),
+	m_joiner(m_seekerThread)
 {
 }
 
@@ -497,12 +496,12 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 void BelkinWemoDeviceManager::BelkinWemoSeeker::stop()
 {
 	m_stopControl.requestStop();
-	m_seekerThread.join(m_parent.m_upnpTimeout.totalMilliseconds());
+	m_joiner.join();
 }
 
 bool BelkinWemoDeviceManager::BelkinWemoSeeker::tryJoin(const Timespan &timeout)
 {
-	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+	return m_joiner.tryJoin(timeout.totalMilliseconds());
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::cancel()

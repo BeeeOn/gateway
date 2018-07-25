@@ -45,7 +45,6 @@ VPTDeviceManager::VPTDeviceManager():
 		typeid(DeviceUnpairCommand),
 		typeid(DeviceSetValueCommand),
 	}),
-	m_seeker(new VPTSeeker(*this)),
 	m_maxMsgSize(10000),
 	m_refresh(5 * Timespan::SECONDS),
 	m_httpTimeout(3 * Timespan::SECONDS),
@@ -92,9 +91,8 @@ void VPTDeviceManager::run()
 
 void VPTDeviceManager::stop()
 {
-	DeviceManager::stop();
 	m_scanner.cancel();
-	m_seeker->stop();
+	DeviceManager::stop();
 	answerQueue().dispose();
 }
 
@@ -262,8 +260,9 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 
 AsyncWork<>::Ptr VPTDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	m_seeker->startSeeking(timeout);
-	return m_seeker;
+	VPTSeeker::Ptr seeker = new VPTSeeker(*this);
+	seeker->startSeeking(timeout);
+	return seeker;
 }
 
 AsyncWork<set<DeviceID>>::Ptr VPTDeviceManager::startUnpair(
@@ -420,7 +419,8 @@ string VPTDeviceManager::findPassword(const DeviceID& id)
 }
 
 VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):
-	m_parent(parent)
+	m_parent(parent),
+	m_joiner(m_seekerThread)
 {
 }
 
@@ -457,15 +457,12 @@ void VPTDeviceManager::VPTSeeker::run()
 void VPTDeviceManager::VPTSeeker::stop()
 {
 	m_stopControl.requestStop();
-	/*
-	 * Scanning of device can be in progress, it should take up to httpTimeout.
-	 */
-	m_seekerThread.join(m_parent.m_httpTimeout.totalMilliseconds());
+	m_joiner.join();
 }
 
 bool VPTDeviceManager::VPTSeeker::tryJoin(const Timespan &timeout)
 {
-	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+	return m_joiner.tryJoin(timeout.totalMilliseconds());
 }
 
 void VPTDeviceManager::VPTSeeker::cancel()

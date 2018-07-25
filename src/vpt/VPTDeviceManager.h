@@ -22,6 +22,7 @@
 #include "model/DeviceID.h"
 #include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
+#include "util/Joiner.h"
 #include "vpt/VPTDevice.h"
 
 namespace BeeeOn {
@@ -55,6 +56,7 @@ public:
 
 		Poco::Timespan m_duration;
 		Poco::Thread m_seekerThread;
+		Joiner m_joiner;
 		StopControl m_stopControl;
 	};
 
@@ -134,7 +136,6 @@ protected:
 	std::string findPassword(const DeviceID& id);
 
 private:
-	VPTDeviceManager::VPTSeeker::Ptr m_seeker;
 	VPTHTTPScanner m_scanner;
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;
