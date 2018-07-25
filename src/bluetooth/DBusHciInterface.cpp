@@ -103,10 +103,7 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 		G_CALLBACK(onDBusObjectAdded),
 		&allDevices);
 
-	initDiscoveryFilter(adapter, "le");
-
-	GlibPtr<GError> error;
-	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, &error);
+	startDiscovery(adapter, "le");
 
 	GlibPtr<GMainLoop> loop = ::g_main_loop_new(nullptr, false);
 	::g_timeout_add_seconds(timeout.seconds(), onStopLoop, loop.raw());
@@ -128,7 +125,7 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 	logger().information("BLE scan has finished, found " +
 		to_string(foundDevices.size()) + " device(s)", __FILE__, __LINE__);
 
-	::org_bluez_adapter1_call_stop_discovery_sync(adapter.raw(), nullptr, nullptr);
+	stopDiscovery(adapter);
 
 	return foundDevices;
 }
@@ -150,6 +147,23 @@ void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool pow
 	}
 
 	throw TimeoutException("failed to change power of interface" + m_name);
+}
+
+void DBusHciInterface::startDiscovery(
+		GlibPtr<OrgBluezAdapter1> adapter,
+		const std::string& trasport) const
+{
+	ScopedLock<FastMutex> guard(m_discoveringMutex);
+
+	initDiscoveryFilter(adapter, trasport);
+	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, nullptr);
+}
+
+void DBusHciInterface::stopDiscovery(GlibPtr<OrgBluezAdapter1> adapter) const
+{
+	ScopedLock<FastMutex> guard(m_discoveringMutex);
+
+	::org_bluez_adapter1_call_stop_discovery_sync(adapter.raw(), nullptr, nullptr);
 }
 
 void DBusHciInterface::initDiscoveryFilter(

@@ -102,6 +102,20 @@ private:
 	void waitUntilPoweredChange(const std::string& path, const bool powered) const;
 
 	/**
+	 * @brief Switch on the discovery on the adapter.
+	 * @param trasnport type of device to be searched for (auto, bredr, le)
+	 * @throws IOException in case of failure
+	 */
+	void startDiscovery(
+		GlibPtr<OrgBluezAdapter1> adapter,
+		const std::string& trasport) const;
+
+	/**
+	 * @brief Switch off the discovery on the adapter
+	 */
+	void stopDiscovery(GlibPtr<OrgBluezAdapter1> adapter) const;
+
+	/**
 	 * @brief Sets discovery to search given type of bluetooth devices.
 	 * Possible types of devices are auto, bredr (classic) and le.
 	 * @throws IOException in case of a failure
@@ -160,6 +174,7 @@ private:
 	std::string m_name;
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
+	mutable Poco::FastMutex m_discoveringMutex;
 };
 
 class DBusHciInterfaceManager : public HciInterfaceManager {
