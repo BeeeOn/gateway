@@ -230,8 +230,6 @@ void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
 			logger().log(ex, __FILE__, __LINE__);
 			return;
 		}
-
-		deviceCache()->markUnpaired(deviceID);
 	}
 
 	NewDeviceCommand::Ptr cmd =
