@@ -53,6 +53,7 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
 	${PROJECT_SOURCE_DIR}/exporters/JournalQueuingStrategyTest.cpp
 	${PROJECT_SOURCE_DIR}/exporters/RecoverableJournalQueuingStrategyTest.cpp
+	${PROJECT_SOURCE_DIR}/util/ColorBrightnessTest.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/DataWriterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/DataReaderTest.cpp
