@@ -211,6 +211,7 @@ endif()
 
 if(ENABLE_BLUETOOTH AND ENABLE_BLE_SMART)
 	file(GLOB BLE_SMART_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiDevice.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDevice.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDeviceManager.cpp
 	)
