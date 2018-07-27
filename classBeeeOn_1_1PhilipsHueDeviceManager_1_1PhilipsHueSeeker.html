@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,6 +71,7 @@ Inheritance diagram for BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker:</div>
   <map id="BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker_map" name="BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker_map">
 <area href="classBeeeOn_1_1StoppableRunnable.html" alt="BeeeOn::StoppableRunnable" shape="rect" coords="0,56,321,80"/>
 <area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt;&gt;" shape="rect" coords="331,56,652,80"/>
+<area href="classBeeeOn_1_1Cancellable.html" title="Any class that can be cancelled should inherit from this interface. This allows to maintain a set of ..." alt="BeeeOn::Cancellable" shape="rect" coords="331,0,652,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -85,6 +86,11 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1Cancellable"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1Cancellable')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1Cancellable.html">BeeeOn::Cancellable</a></td></tr>
+<tr class="memitem:a14ecc4f99abaec7eb430b5c6eb8f4a55 inherit pub_types_classBeeeOn_1_1Cancellable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14ecc4f99abaec7eb430b5c6eb8f4a55"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1Cancellable.html">Cancellable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a14ecc4f99abaec7eb430b5c6eb8f4a55 inherit pub_types_classBeeeOn_1_1Cancellable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -103,7 +109,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <tr class="separator:ac00b7d64b692b7e2be0564cfd8f99c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a780f990a7d2692a9bab9e4124deb7a67"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a780f990a7d2692a9bab9e4124deb7a67"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html#a780f990a7d2692a9bab9e4124deb7a67">cancel</a> () override</td></tr>
-<tr class="memdesc:a780f990a7d2692a9bab9e4124deb7a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the discovery process. It should exit immediatelly. <br/></td></tr>
+<tr class="memdesc:a780f990a7d2692a9bab9e4124deb7a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the operation this object represents. It should exit immediatelly or at least as soon as possible. <br/></td></tr>
 <tr class="separator:a780f990a7d2692a9bab9e4124deb7a67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt;&gt;</a></td></tr>
 <tr class="memitem:a70a242415ad349f213fe259f0ca1ff23 inherit pub_methods_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top">virtual Poco::Nullable<br class="typebreak"/>

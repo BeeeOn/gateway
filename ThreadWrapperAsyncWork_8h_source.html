@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -65,47 +65,49 @@
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result = Poco::Vo<span class="keywordtype">id</span>&gt;</div>
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1AbstractAsyncWork.html">AbstractAsyncWork</a>&lt;Result&gt; {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork</a>(Poco::Thread &amp;thread);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;ThreadWrapperAsyncWork&lt;Result&gt;&gt; Ptr;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">tryJoin</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">cancel</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        Poco::Thread &amp;thread();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork</a>(Poco::Thread &amp;thread);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">tryJoin</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">cancel</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        Poco::Thread &amp;m_thread;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;};</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork&lt;Result&gt;::ThreadWrapperAsyncWork</a>(</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                Poco::Thread &amp;thread):</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        m_thread(thread)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">   38</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">ThreadWrapperAsyncWork&lt;Result&gt;::tryJoin</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">return</span> m_thread.tryJoin(timeout.totalMilliseconds());</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">   44</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">ThreadWrapperAsyncWork&lt;Result&gt;::cancel</a>()</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        m_thread.join();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;Poco::Thread &amp;<a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork&lt;Result&gt;::thread</a>()</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> m_thread;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        Poco::Thread &amp;thread();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        Poco::Thread &amp;m_thread;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork&lt;Result&gt;::ThreadWrapperAsyncWork</a>(</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                Poco::Thread &amp;thread):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        m_thread(thread)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">   40</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">ThreadWrapperAsyncWork&lt;Result&gt;::tryJoin</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> m_thread.tryJoin(timeout.totalMilliseconds());</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">   46</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">ThreadWrapperAsyncWork&lt;Result&gt;::cancel</a>()</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        m_thread.join();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;Poco::Thread &amp;<a class="code" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork&lt;Result&gt;::thread</a>()</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> m_thread;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1ThreadWrapperAsyncWork_html_aeef11320594993b8c772d07f593e7163"><div class="ttname"><a href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">BeeeOn::ThreadWrapperAsyncWork::tryJoin</a></div><div class="ttdeci">bool tryJoin(const Poco::Timespan &amp;timeout) override</div><div class="ttdef"><b>Definition:</b> ThreadWrapperAsyncWork.h:38</div></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1ThreadWrapperAsyncWork_html_aeef11320594993b8c772d07f593e7163"><div class="ttname"><a href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">BeeeOn::ThreadWrapperAsyncWork::tryJoin</a></div><div class="ttdeci">bool tryJoin(const Poco::Timespan &amp;timeout) override</div><div class="ttdef"><b>Definition:</b> ThreadWrapperAsyncWork.h:40</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractAsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1AbstractAsyncWork.html">BeeeOn::AbstractAsyncWork</a></div><div class="ttdoc">AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set...</div><div class="ttdef"><b>Definition:</b> AbstractAsyncWork.h:17</div></div>
 <div class="ttc" id="classBeeeOn_1_1ThreadWrapperAsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">BeeeOn::ThreadWrapperAsyncWork</a></div><div class="ttdoc">Adapter of Poco::Thread to AsyncWork interface. The Thread has no general way how to be stopped and t...</div><div class="ttdef"><b>Definition:</b> ThreadWrapperAsyncWork.h:17</div></div>
-<div class="ttc" id="classBeeeOn_1_1ThreadWrapperAsyncWork_html_a921a47b6f996bda44f908f6dfcbae682"><div class="ttname"><a href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">BeeeOn::ThreadWrapperAsyncWork::cancel</a></div><div class="ttdeci">void cancel() override</div><div class="ttdoc">Cancel the discovery process. It should exit immediatelly. </div><div class="ttdef"><b>Definition:</b> ThreadWrapperAsyncWork.h:44</div></div>
+<div class="ttc" id="classBeeeOn_1_1ThreadWrapperAsyncWork_html_a921a47b6f996bda44f908f6dfcbae682"><div class="ttname"><a href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">BeeeOn::ThreadWrapperAsyncWork::cancel</a></div><div class="ttdeci">void cancel() override</div><div class="ttdoc">Cancel the operation this object represents. It should exit immediatelly or at least as soon as possi...</div><div class="ttdef"><b>Definition:</b> ThreadWrapperAsyncWork.h:46</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,6 +52,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
@@ -69,6 +70,12 @@ Inheritance diagram for BeeeOn::LoopRunner:</div>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoopRunner_1_1Stopper.html">Stopper</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper around <a class="el" href="classBeeeOn_1_1StoppableLoop.html">StoppableLoop</a> that allows to stop it from inside a thread.  <a href="classBeeeOn_1_1LoopRunner_1_1Stopper.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa6353a3d066586e5f5723b8c34ffeb0f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6353a3d066586e5f5723b8c34ffeb0f"></a>
@@ -80,6 +87,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addLoop</b> (Poco::Sh
 <tr class="memitem:a8ec4e20a8d6d7c789c5bd33bb5e834fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ec4e20a8d6d7c789c5bd33bb5e834fa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setAutoStart</b> (bool enable)</td></tr>
 <tr class="separator:a8ec4e20a8d6d7c789c5bd33bb5e834fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b5999fe5733816d94ef22b2eef6346"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6b5999fe5733816d94ef22b2eef6346"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoopRunner.html#ac6b5999fe5733816d94ef22b2eef6346">setStopParallel</a> (bool parallel)</td></tr>
+<tr class="memdesc:ac6b5999fe5733816d94ef22b2eef6346"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set whether <a class="el" href="classBeeeOn_1_1LoopRunner.html#ad36687d84af52b9d2f6d316910915d73" title="Stop all loop in reverse order. If the property stopParallel is true then the loops are stopped in pa...">stopAll()</a> should run in parallel. <br/></td></tr>
+<tr class="separator:ac6b5999fe5733816d94ef22b2eef6346"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af682ba23ee20a70cd3fef20194b68150"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoopRunner.html#af682ba23ee20a70cd3fef20194b68150">start</a> () override</td></tr>
 <tr class="separator:af682ba23ee20a70cd3fef20194b68150"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a043260f45bcd457b68ecc76af5c9a8c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoopRunner.html#a043260f45bcd457b68ecc76af5c9a8c2">stop</a> () override</td></tr>
@@ -97,9 +108,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>autoStart</b> ()</td>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a4b2a50bb95728cf2cb9548be1ab8bffd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b2a50bb95728cf2cb9548be1ab8bffd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>stopAll</b> (std::list&lt; Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1StoppableLoop.html">StoppableLoop</a> &gt;&gt; &amp;list)</td></tr>
-<tr class="separator:a4b2a50bb95728cf2cb9548be1ab8bffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad36687d84af52b9d2f6d316910915d73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoopRunner.html#ad36687d84af52b9d2f6d316910915d73">stopAll</a> (std::list&lt; <a class="el" href="classBeeeOn_1_1LoopRunner_1_1Stopper.html">Stopper</a> &gt; &amp;list)</td></tr>
+<tr class="memdesc:ad36687d84af52b9d2f6d316910915d73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop all loop in reverse order. If the property stopParallel is true then the loops are stopped in parallel (multiple threads).  <a href="#ad36687d84af52b9d2f6d316910915d73">More...</a><br/></td></tr>
+<tr class="separator:ad36687d84af52b9d2f6d316910915d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08cbaf97465c3bba56dad8dce06fad7e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08cbaf97465c3bba56dad8dce06fad7e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoopRunner.html#a08cbaf97465c3bba56dad8dce06fad7e">stopParallel</a> (std::list&lt; <a class="el" href="classBeeeOn_1_1LoopRunner_1_1Stopper.html">Stopper</a> &gt; &amp;list)</td></tr>
+<tr class="memdesc:a08cbaf97465c3bba56dad8dce06fad7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the given list of loops in parallel. Loops that have been stopped are removed from the list. <br/></td></tr>
+<tr class="separator:a08cbaf97465c3bba56dad8dce06fad7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:af89c60789e75cb07103e46d40a3ebb32 inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af89c60789e75cb07103e46d40a3ebb32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setupLogger</b> (Poco::Logger *logger=0) const </td></tr>
@@ -178,6 +193,33 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Stop the loop and wait until finished. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableLoop.html#a50e52efb08f8d789d4a6b2815931b047">BeeeOn::StoppableLoop</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad36687d84af52b9d2f6d316910915d73"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LoopRunner::stopAll </td>
+          <td>(</td>
+          <td class="paramtype">std::list&lt; <a class="el" href="classBeeeOn_1_1LoopRunner_1_1Stopper.html">Stopper</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stop all loop in reverse order. If the property stopParallel is true then the loops are stopped in parallel (multiple threads). </p>
+<p>If there is an issue with starting threads, the loops that were not stopped in parallel are stopped sequentially as a fallback. </p>
 
 </div>
 </div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -59,7 +59,7 @@
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling <a class="el" href="classBeeeOn_1_1AsyncWork.html#a051b7dd9ffb90851f0066ee6eaa426ee" title="Cancel the discovery process. It should exit immediatelly. ">cancel()</a>.  
+<p><a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling <a class="el" href="classBeeeOn_1_1Cancellable.html#a6e9ea1463250fe27dc762e22b812a4fc" title="Cancel the operation this object represents. It should exit immediatelly or at least as soon as possi...">cancel()</a>.  
  <a href="classBeeeOn_1_1AsyncWork.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="AsyncWork_8h_source.html">AsyncWork.h</a>&gt;</code></p>
@@ -69,10 +69,11 @@ Inheritance diagram for BeeeOn::AsyncWork&lt; Result &gt;:</div>
  <div class="center">
   <img src="classBeeeOn_1_1AsyncWork.png" usemap="#BeeeOn::AsyncWork&lt; Result &gt;_map" alt=""/>
   <map id="BeeeOn::AsyncWork&lt; Result &gt;_map" name="BeeeOn::AsyncWork&lt; Result &gt;_map">
-<area href="classBeeeOn_1_1AbstractAsyncWork.html" title="AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set..." alt="BeeeOn::AbstractAsyncWork&lt; Result &gt;" shape="rect" coords="286,56,562,80"/>
-<area href="classBeeeOn_1_1BlockingAsyncWork.html" title="BlockingAsyncWork is an adapter of non-asynchronous operations to the AsyncWork interface. It implements a time barrier that just waits until the underlying operation finishes. " alt="BeeeOn::BlockingAsyncWork&lt; Result &gt;" shape="rect" coords="0,112,276,136"/>
-<area href="classBeeeOn_1_1DelayedAsyncWork.html" title="Implementation of the AsyncWork interface that executes a given function once after the the given del..." alt="BeeeOn::DelayedAsyncWork&lt; Result &gt;" shape="rect" coords="286,112,562,136"/>
-<area href="classBeeeOn_1_1ThreadWrapperAsyncWork.html" title="Adapter of Poco::Thread to AsyncWork interface. The Thread has no general way how to be stopped and t..." alt="BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;" shape="rect" coords="572,112,848,136"/>
+<area href="classBeeeOn_1_1Cancellable.html" title="Any class that can be cancelled should inherit from this interface. This allows to maintain a set of ..." alt="BeeeOn::Cancellable" shape="rect" coords="286,0,562,24"/>
+<area href="classBeeeOn_1_1AbstractAsyncWork.html" title="AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set..." alt="BeeeOn::AbstractAsyncWork&lt; Result &gt;" shape="rect" coords="286,112,562,136"/>
+<area href="classBeeeOn_1_1BlockingAsyncWork.html" title="BlockingAsyncWork is an adapter of non-asynchronous operations to the AsyncWork interface. It implements a time barrier that just waits until the underlying operation finishes. " alt="BeeeOn::BlockingAsyncWork&lt; Result &gt;" shape="rect" coords="0,168,276,192"/>
+<area href="classBeeeOn_1_1DelayedAsyncWork.html" title="Implementation of the AsyncWork interface that executes a given function once after the the given del..." alt="BeeeOn::DelayedAsyncWork&lt; Result &gt;" shape="rect" coords="286,168,562,192"/>
+<area href="classBeeeOn_1_1ThreadWrapperAsyncWork.html" title="Adapter of Poco::Thread to AsyncWork interface. The Thread has no general way how to be stopped and t..." alt="BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;" shape="rect" coords="572,168,848,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -82,24 +83,30 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a4807d15581e65639fccc53b67b3b6cd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1Cancellable"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1Cancellable')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1Cancellable.html">BeeeOn::Cancellable</a></td></tr>
+<tr class="memitem:a14ecc4f99abaec7eb430b5c6eb8f4a55 inherit pub_types_classBeeeOn_1_1Cancellable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14ecc4f99abaec7eb430b5c6eb8f4a55"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1Cancellable.html">Cancellable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a14ecc4f99abaec7eb430b5c6eb8f4a55 inherit pub_types_classBeeeOn_1_1Cancellable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a96105defd298b14d1c891ae060a54551"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AsyncWork.html#a96105defd298b14d1c891ae060a54551">tryJoin</a> (const Poco::Timespan &amp;timeout)=0</td></tr>
 <tr class="separator:a96105defd298b14d1c891ae060a54551"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a051b7dd9ffb90851f0066ee6eaa426ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a051b7dd9ffb90851f0066ee6eaa426ee"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AsyncWork.html#a051b7dd9ffb90851f0066ee6eaa426ee">cancel</a> ()=0</td></tr>
-<tr class="memdesc:a051b7dd9ffb90851f0066ee6eaa426ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the discovery process. It should exit immediatelly. <br/></td></tr>
-<tr class="separator:a051b7dd9ffb90851f0066ee6eaa426ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70a242415ad349f213fe259f0ca1ff23"><td class="memItemLeft" align="right" valign="top">virtual Poco::Nullable&lt; <a class="el" href="classBeeeOn_1_1Result.html">Result</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">result</a> () const </td></tr>
 <tr class="memdesc:a70a242415ad349f213fe259f0ca1ff23"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the asynchronous operation provides a result, this method gives access to it. Until the operation finishes, the result would be null. <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> implementations with no result returns always null.  <a href="#a70a242415ad349f213fe259f0ca1ff23">More...</a><br/></td></tr>
 <tr class="separator:a70a242415ad349f213fe259f0ca1ff23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1Cancellable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1Cancellable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1Cancellable.html">BeeeOn::Cancellable</a></td></tr>
+<tr class="memitem:a6e9ea1463250fe27dc762e22b812a4fc inherit pub_methods_classBeeeOn_1_1Cancellable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e9ea1463250fe27dc762e22b812a4fc"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Cancellable.html#a6e9ea1463250fe27dc762e22b812a4fc">cancel</a> ()=0</td></tr>
+<tr class="memdesc:a6e9ea1463250fe27dc762e22b812a4fc inherit pub_methods_classBeeeOn_1_1Cancellable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the operation this object represents. It should exit immediatelly or at least as soon as possible. <br/></td></tr>
+<tr class="separator:a6e9ea1463250fe27dc762e22b812a4fc inherit pub_methods_classBeeeOn_1_1Cancellable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Result = Poco::Void&gt;<br/>
 class BeeeOn::AsyncWork&lt; Result &gt;</h3>
 
-<p><a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling <a class="el" href="classBeeeOn_1_1AsyncWork.html#a051b7dd9ffb90851f0066ee6eaa426ee" title="Cancel the discovery process. It should exit immediatelly. ">cancel()</a>. </p>
+<p><a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling <a class="el" href="classBeeeOn_1_1Cancellable.html#a6e9ea1463250fe27dc762e22b812a4fc" title="Cancel the operation this object represents. It should exit immediatelly or at least as soon as possi...">cancel()</a>. </p>
 <p>The <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> can be parametrized to return a result. Access to the result MUST be protected for safe parallel access. The type of the result is based on the template parameter. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a70a242415ad349f213fe259f0ca1ff23"></a>

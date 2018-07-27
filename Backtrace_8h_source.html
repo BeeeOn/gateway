@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -57,7 +57,7 @@
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifdef __GLIBC__</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#if defined(__GLIBC__) &amp;&amp; !defined(__UCLIBC__)</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_BACKTRACE_GLIBC(name, size) \</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">        void *name[16];                    \</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">        unsigned int size;</span></div>
@@ -70,7 +70,7 @@
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1Backtrace.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1Backtrace.html">Backtrace</a> {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#ifdef __GLIBC__</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#if defined(__GLIBC__) &amp;&amp; !defined(__UCLIBC__)</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span>        supported = 1</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span>        supported = 0</div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -90,23 +90,25 @@
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">void</span> setStopTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> doStop();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        Poco::Timespan m_stopTimeout;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        Poco::SharedPtr&lt;StoppableRunnable&gt; m_runnable;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        Poco::Thread *m_thread;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        Poco::SharedPtr&lt;StoppableRunnable&gt; runnable() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">void</span> doStop();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        Poco::Timespan m_stopTimeout;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        Poco::SharedPtr&lt;StoppableRunnable&gt; m_runnable;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        Poco::Thread *m_thread;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classBeeeOn_1_1StoppableLoop_html"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoop.html">BeeeOn::StoppableLoop</a></div><div class="ttdef"><b>Definition:</b> StoppableLoop.h:18</div></div>
-<div class="ttc" id="classBeeeOn_1_1StoppableLoopAdapter_html_a54008b6ebd5ca6af24b409a2aee9ce4d"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoopAdapter.html#a54008b6ebd5ca6af24b409a2aee9ce4d">BeeeOn::StoppableLoopAdapter::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> StoppableLoop.cpp:49</div></div>
+<div class="ttc" id="classBeeeOn_1_1StoppableLoopAdapter_html_a54008b6ebd5ca6af24b409a2aee9ce4d"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoopAdapter.html#a54008b6ebd5ca6af24b409a2aee9ce4d">BeeeOn::StoppableLoopAdapter::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> StoppableLoop.cpp:55</div></div>
 <div class="ttc" id="classBeeeOn_1_1StoppableLoop_html_a50e52efb08f8d789d4a6b2815931b047"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoop.html#a50e52efb08f8d789d4a6b2815931b047">BeeeOn::StoppableLoop::stop</a></div><div class="ttdeci">virtual void stop()=0</div></div>
 <div class="ttc" id="classBeeeOn_1_1StoppableLoop_html_a8e0c261b4723084d6d9cf0e854ac3f4f"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoop.html#a8e0c261b4723084d6d9cf0e854ac3f4f">BeeeOn::StoppableLoop::start</a></div><div class="ttdeci">virtual void start()=0</div></div>
-<div class="ttc" id="classBeeeOn_1_1StoppableLoopAdapter_html_aa9f5f7b26ff0f783347e9e4c7c838fbb"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoopAdapter.html#aa9f5f7b26ff0f783347e9e4c7c838fbb">BeeeOn::StoppableLoopAdapter::start</a></div><div class="ttdeci">void start() override</div><div class="ttdef"><b>Definition:</b> StoppableLoop.cpp:37</div></div>
+<div class="ttc" id="classBeeeOn_1_1StoppableLoopAdapter_html_aa9f5f7b26ff0f783347e9e4c7c838fbb"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoopAdapter.html#aa9f5f7b26ff0f783347e9e4c7c838fbb">BeeeOn::StoppableLoopAdapter::start</a></div><div class="ttdeci">void start() override</div><div class="ttdef"><b>Definition:</b> StoppableLoop.cpp:43</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:17</div></div>
 <div class="ttc" id="classBeeeOn_1_1StoppableLoopAdapter_html"><div class="ttname"><a href="classBeeeOn_1_1StoppableLoopAdapter.html">BeeeOn::StoppableLoopAdapter</a></div><div class="ttdef"><b>Definition:</b> StoppableLoop.h:33</div></div>
 </div><!-- fragment --></div><!-- contents -->

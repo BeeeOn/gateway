@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -90,7 +90,11 @@ Public Types</h2></td></tr>
 &#160;&#160;<a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07a274e30485e5fe19e42eb6876b3eaf021">TYPE_ULTRAVIOLET</a> = 20, 
 <a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07a9ec92f9b42635eebf1557debe5eb2393">TYPE_POWER</a> = 21, 
 <a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07aef62f2e103aa2070353092d2acb51232">TYPE_VOLTAGE</a> = 22, 
-<a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07a4829bb3ba093b1b5c609c8091810a54c">TYPE_CURRENT</a> = 23
+<a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07a4829bb3ba093b1b5c609c8091810a54c">TYPE_CURRENT</a> = 23, 
+<br/>
+&#160;&#160;<a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07a0a54f1d0966edeef037c98bc357dc867">TYPE_FREQUENCY</a> = 24, 
+<a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07a8d02e3dda9fb7f984f403347ed067e02">TYPE_COLOR_TEMPERATURE</a> = 25, 
+<a class="el" href="structBeeeOn_1_1ModuleType_1_1TypeEnum.html#a5bc8f51061c2e87ab1b23ad36ac90a07ac526f386221a3a22870df97001fc626b">TYPE_COLOR</a> = 26
 <br/>
  }</td></tr>
 <tr class="separator:a5bc8f51061c2e87ab1b23ad36ac90a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,6 +188,15 @@ static <a class="el" href="structBeeeOn_1_1EnumHelper.html">EnumHelper</a>&lt; <
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a5bc8f51061c2e87ab1b23ad36ac90a07a4829bb3ba093b1b5c609c8091810a54c"></a>TYPE_CURRENT</em>&nbsp;</td><td class="fielddoc">
 <p>Current. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a5bc8f51061c2e87ab1b23ad36ac90a07a0a54f1d0966edeef037c98bc357dc867"></a>TYPE_FREQUENCY</em>&nbsp;</td><td class="fielddoc">
+<p>Frequency. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a5bc8f51061c2e87ab1b23ad36ac90a07a8d02e3dda9fb7f984f403347ed067e02"></a>TYPE_COLOR_TEMPERATURE</em>&nbsp;</td><td class="fielddoc">
+<p>Temperature of color in Kelvin. Range: 1700..27000. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a5bc8f51061c2e87ab1b23ad36ac90a07ac526f386221a3a22870df97001fc626b"></a>TYPE_COLOR</em>&nbsp;</td><td class="fielddoc">
+<p>Color expressed by RGB. Each component is in one Byte. The format of color is 0x00RRGGBB in the little-endian. Range: 0..16777215. </p>
 </td></tr>
 </table>
 

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,13 +52,14 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Adapter of Poco::Thread to <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> interface. The Thread has no general way how to be stopped and thus the <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682" title="Cancel the discovery process. It should exit immediatelly. ">cancel()</a> method is implemented as a blocking join().  
+<p>Adapter of Poco::Thread to <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> interface. The Thread has no general way how to be stopped and thus the <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682" title="Cancel the operation this object represents. It should exit immediatelly or at least as soon as possi...">cancel()</a> method is implemented as a blocking join().  
  <a href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ThreadWrapperAsyncWork_8h_source.html">ThreadWrapperAsyncWork.h</a>&gt;</code></p>
@@ -68,11 +69,35 @@ Inheritance diagram for BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;:</div>
  <div class="center">
   <img src="classBeeeOn_1_1ThreadWrapperAsyncWork.png" usemap="#BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;_map" alt=""/>
   <map id="BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;_map" name="BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;_map">
-<area href="classBeeeOn_1_1AbstractAsyncWork.html" title="AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set..." alt="BeeeOn::AbstractAsyncWork&lt; Result &gt;" shape="rect" coords="0,56,276,80"/>
-<area href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). " alt="BeeeOn::AsyncWork&lt; Result &gt;" shape="rect" coords="0,0,276,24"/>
+<area href="classBeeeOn_1_1AbstractAsyncWork.html" title="AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set..." alt="BeeeOn::AbstractAsyncWork&lt; Result &gt;" shape="rect" coords="0,112,276,136"/>
+<area href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). " alt="BeeeOn::AsyncWork&lt; Result &gt;" shape="rect" coords="0,56,276,80"/>
+<area href="classBeeeOn_1_1Cancellable.html" title="Any class that can be cancelled should inherit from this interface. This allows to maintain a set of ..." alt="BeeeOn::Cancellable" shape="rect" coords="0,0,276,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:adab3d4cb106345fe7564b59f57a832ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adab3d4cb106345fe7564b59f57a832ef"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html">ThreadWrapperAsyncWork</a><br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1Result.html">Result</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:adab3d4cb106345fe7564b59f57a832ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1AbstractAsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AbstractAsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AbstractAsyncWork.html">BeeeOn::AbstractAsyncWork&lt; Result &gt;</a></td></tr>
+<tr class="memitem:a5e608629e0090a3b748901bdac6151e5 inherit pub_types_classBeeeOn_1_1AbstractAsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e608629e0090a3b748901bdac6151e5"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1AbstractAsyncWork.html">AbstractAsyncWork</a>&lt; <a class="el" href="classBeeeOn_1_1Result.html">Result</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a5e608629e0090a3b748901bdac6151e5 inherit pub_types_classBeeeOn_1_1AbstractAsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt; Result &gt;</a></td></tr>
+<tr class="memitem:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4807d15581e65639fccc53b67b3b6cd8"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1Cancellable"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1Cancellable')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1Cancellable.html">BeeeOn::Cancellable</a></td></tr>
+<tr class="memitem:a14ecc4f99abaec7eb430b5c6eb8f4a55 inherit pub_types_classBeeeOn_1_1Cancellable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14ecc4f99abaec7eb430b5c6eb8f4a55"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1Cancellable.html">Cancellable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a14ecc4f99abaec7eb430b5c6eb8f4a55 inherit pub_types_classBeeeOn_1_1Cancellable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae7d2fd38316183bb96c71ad10b893f7f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7d2fd38316183bb96c71ad10b893f7f"></a>
@@ -82,7 +107,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aeef11320594993b8c772d07f593e7163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a921a47b6f996bda44f908f6dfcbae682"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a921a47b6f996bda44f908f6dfcbae682"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">cancel</a> () override</td></tr>
-<tr class="memdesc:a921a47b6f996bda44f908f6dfcbae682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the discovery process. It should exit immediatelly. <br/></td></tr>
+<tr class="memdesc:a921a47b6f996bda44f908f6dfcbae682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the operation this object represents. It should exit immediatelly or at least as soon as possible. <br/></td></tr>
 <tr class="separator:a921a47b6f996bda44f908f6dfcbae682"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b14ca1df04a8896544eb578f22273c4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b14ca1df04a8896544eb578f22273c4"></a>
 Poco::Thread &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>thread</b> ()</td></tr>
@@ -102,20 +127,12 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:a27f460f96c593d61ea04be3090524efd inherit pub_methods_classBeeeOn_1_1AbstractAsyncWork"><td class="memTemplItemLeft" align="right" valign="top">Poco::Nullable&lt; Poco::Void &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractAsyncWork.html#a27f460f96c593d61ea04be3090524efd">result</a> () const</td></tr>
 <tr class="memdesc:a27f460f96c593d61ea04be3090524efd inherit pub_methods_classBeeeOn_1_1AbstractAsyncWork"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the asynchronous operation provides a result, this method gives access to it. Until the operation finishes, the result would be null. <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> implementations with no result returns always null.  <a href="#a27f460f96c593d61ea04be3090524efd">More...</a><br/></td></tr>
 <tr class="separator:a27f460f96c593d61ea04be3090524efd inherit pub_methods_classBeeeOn_1_1AbstractAsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classBeeeOn_1_1AsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork&lt; Result &gt;</a></td></tr>
-<tr class="memitem:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4807d15581e65639fccc53b67b3b6cd8"></a>
-typedef Poco::SharedPtr<br class="typebreak"/>
-&lt; <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
-<tr class="separator:a4807d15581e65639fccc53b67b3b6cd8 inherit pub_types_classBeeeOn_1_1AsyncWork"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Result = Poco::Void&gt;<br/>
 class BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</h3>
 
-<p>Adapter of Poco::Thread to <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> interface. The Thread has no general way how to be stopped and thus the <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682" title="Cancel the discovery process. It should exit immediatelly. ">cancel()</a> method is implemented as a blocking join(). </p>
+<p>Adapter of Poco::Thread to <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> interface. The Thread has no general way how to be stopped and thus the <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682" title="Cancel the operation this object represents. It should exit immediatelly or at least as soon as possi...">cancel()</a> method is implemented as a blocking join(). </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aeef11320594993b8c772d07f593e7163"></a>
 <div class="memitem">

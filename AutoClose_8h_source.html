@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-62-gbc34a64</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -70,81 +70,80 @@
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;};</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Closable, <span class="keyword">typename</span> Close = DefaultClose&lt;Closable&gt;&gt;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AutoClose.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AutoClose.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a> : <span class="keyword">protected</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>(Closable &amp;c):</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                m_closable(c),</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                m_logger(Loggable::forInstance(&amp;c))</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a> &amp;c) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        ~<a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>()</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                        <span class="keyword">const</span> Close close;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                        close(m_closable);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        <span class="keywordflow">if</span> (m_logger.debug()) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                m_logger.debug(</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                        <span class="stringliteral">&quot;auto-close successful&quot;</span>,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                        __FILE__, __LINE__</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                );</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        m_logger.fatal(</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                <span class="stringliteral">&quot;auto-close has failed&quot;</span>,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                __FILE__, __LINE__</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        );</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        Closable *operator -&gt;()</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordflow">return</span> &amp;m_closable;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> Closable *operator -&gt;()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">        </span>{</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">return</span> &amp;m_closable;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        Closable &amp;operator *()</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="keywordflow">return</span> m_closable;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">const</span> Closable &amp;operator *()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">        </span>{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">return</span> m_closable;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        Closable &amp;m_closable;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        Poco::Logger &amp;m_logger;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;};</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1FdClose.html">   79</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBeeeOn_1_1FdClose.html">FdClose</a> {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordtype">void</span> operator() (<span class="keyword">const</span> <span class="keywordtype">int</span> fd) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;};</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1FdAutoClose.html">   83</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1FdAutoClose.html">FdAutoClose</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>&lt;int, FdClose&gt; {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="classBeeeOn_1_1FdAutoClose.html">FdAutoClose</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> fd);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">int</span> m_fd;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                m_closable(c)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a> &amp;c) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        ~<a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>()</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                        <span class="keyword">const</span> Close close;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                        close(m_closable);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keywordflow">if</span> (logger().debug()) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                                logger().debug(</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                        <span class="stringliteral">&quot;auto-close successful&quot;</span>,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                        __FILE__, __LINE__</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                );</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        logger().fatal(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                <span class="stringliteral">&quot;auto-close has failed&quot;</span>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                __FILE__, __LINE__</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        );</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        Closable *operator -&gt;()</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">return</span> &amp;m_closable;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> Closable *operator -&gt;()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">        </span>{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordflow">return</span> &amp;m_closable;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        Closable &amp;operator *()</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">return</span> m_closable;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">const</span> Closable &amp;operator *()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">        </span>{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">return</span> m_closable;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        Closable &amp;m_closable;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1FdClose.html">   77</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBeeeOn_1_1FdClose.html">FdClose</a> {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">void</span> operator() (<span class="keyword">const</span> <span class="keywordtype">int</span> fd) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1FdAutoClose.html">   81</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1FdAutoClose.html">FdAutoClose</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1AutoClose.html">AutoClose</a>&lt;int, FdClose&gt; {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="classBeeeOn_1_1FdAutoClose.html">FdAutoClose</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> fd);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">int</span> m_fd;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classBeeeOn_1_1AutoClose_html"><div class="ttname"><a href="classBeeeOn_1_1AutoClose.html">BeeeOn::AutoClose</a></div><div class="ttdef"><b>Definition:</b> AutoClose.h:19</div></div>
-<div class="ttc" id="structBeeeOn_1_1FdClose_html"><div class="ttname"><a href="structBeeeOn_1_1FdClose.html">BeeeOn::FdClose</a></div><div class="ttdef"><b>Definition:</b> AutoClose.h:79</div></div>
+<div class="ttc" id="structBeeeOn_1_1FdClose_html"><div class="ttname"><a href="structBeeeOn_1_1FdClose.html">BeeeOn::FdClose</a></div><div class="ttdef"><b>Definition:</b> AutoClose.h:77</div></div>
 <div class="ttc" id="structBeeeOn_1_1DefaultClose_html"><div class="ttname"><a href="structBeeeOn_1_1DefaultClose.html">BeeeOn::DefaultClose</a></div><div class="ttdef"><b>Definition:</b> AutoClose.h:11</div></div>
-<div class="ttc" id="classBeeeOn_1_1FdAutoClose_html"><div class="ttname"><a href="classBeeeOn_1_1FdAutoClose.html">BeeeOn::FdAutoClose</a></div><div class="ttdef"><b>Definition:</b> AutoClose.h:83</div></div>
+<div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:17</div></div>
+<div class="ttc" id="classBeeeOn_1_1FdAutoClose_html"><div class="ttname"><a href="classBeeeOn_1_1FdAutoClose.html">BeeeOn::FdAutoClose</a></div><div class="ttdef"><b>Definition:</b> AutoClose.h:81</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
