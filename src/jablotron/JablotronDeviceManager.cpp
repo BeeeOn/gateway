@@ -109,7 +109,6 @@ void JablotronDeviceManager::dongleAvailable()
 void JablotronDeviceManager::stop()
 {
 	DongleDeviceManager::stop();
-	m_listenTimer.cancel(true);
 	answerQueue().dispose();
 }
 

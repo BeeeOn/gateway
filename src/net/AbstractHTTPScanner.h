@@ -3,13 +3,13 @@
 
 #include <set>
 
-#include <Poco/AtomicCounter.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/IPAddress.h>
 #include <Poco/Net/NetworkInterface.h>
 #include <Poco/Net/SocketAddress.h>
 #include <Poco/Timespan.h>
 
+#include "loop/StopControl.h"
 #include "net/HTTPEntireResponse.h"
 #include "net/IPAddressRange.h"
 #include "util/Loggable.h"
@@ -69,7 +69,9 @@ protected:
 	 * @param maxResponseLength Defines maximal length of response message which
 	 * will be process.
 	 */
-	void probeInterface(const Poco::Net::NetworkInterface& interface,
+	void probeInterface(
+		StopControl::Run &run,
+		const Poco::Net::NetworkInterface& interface,
 		std::vector<Poco::Net::SocketAddress>& devices,
 		const Poco::Int64 maxResponseLength);
 
@@ -80,7 +82,9 @@ protected:
 	 * @param maxResponseLength Defines maximal length of response message which
 	 * will be process.
 	 */
-	void probeAddressRange(const IPAddressRange& range,
+	void probeAddressRange(
+		StopControl::Run &run,	
+		const IPAddressRange& range,
 		std::vector<Poco::Net::SocketAddress>& devices,
 		const Poco::Int64 maxResponseLength);
 
@@ -108,7 +112,7 @@ private:
 	Poco::Timespan m_pingTimeout;
 	Poco::Timespan m_httpTimeout;
 	std::set<std::string> m_blackList;
-	Poco::AtomicCounter m_cancel;
+	StopControl m_stopControl;
 };
 
 }

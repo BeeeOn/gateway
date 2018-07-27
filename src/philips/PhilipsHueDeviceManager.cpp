@@ -54,7 +54,6 @@ PhilipsHueDeviceManager::PhilipsHueDeviceManager():
 		typeid(DeviceSetValueCommand),
 	}),
 	m_refresh(5 * Timespan::SECONDS),
-	m_seeker(new PhilipsHueSeeker(*this)),
 	m_httpTimeout(3 * Timespan::SECONDS),
 	m_upnpTimeout(5 * Timespan::SECONDS)
 {
@@ -99,7 +98,6 @@ void PhilipsHueDeviceManager::run()
 void PhilipsHueDeviceManager::stop()
 {
 	DeviceManager::stop();
-	m_seeker->stop();
 	answerQueue().dispose();
 }
 
@@ -232,9 +230,10 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 
 AsyncWork<>::Ptr PhilipsHueDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	m_seeker->startSeeking(timeout);
+	PhilipsHueSeeker::Ptr seeker = new PhilipsHueSeeker(*this);
+	seeker->startSeeking(timeout);
 
-	return m_seeker;
+	return seeker;
 }
 
 AsyncWork<set<DeviceID>>::Ptr PhilipsHueDeviceManager::startUnpair(
@@ -510,7 +509,8 @@ void PhilipsHueDeviceManager::fireBulbStatistics(PhilipsHueBulb::Ptr bulb)
 }
 
 PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceManager& parent) :
-	m_parent(parent)
+	m_parent(parent),
+	m_joiner(m_seekerThread)
 {
 }
 
@@ -547,12 +547,12 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::run()
 void PhilipsHueDeviceManager::PhilipsHueSeeker::stop()
 {
 	m_stopControl.requestStop();
-	m_seekerThread.join(m_parent.SEARCH_DELAY.totalMilliseconds());
+	m_joiner.join();
 }
 
 bool PhilipsHueDeviceManager::PhilipsHueSeeker::tryJoin(const Timespan &timeout)
 {
-	return m_seekerThread.tryJoin(timeout.totalMilliseconds());
+	return m_joiner.tryJoin(timeout.totalMilliseconds());
 }
 
 void PhilipsHueDeviceManager::PhilipsHueSeeker::cancel()

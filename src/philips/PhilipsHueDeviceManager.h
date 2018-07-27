@@ -20,6 +20,7 @@
 #include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "util/EventSource.h"
+#include "util/Joiner.h"
 
 namespace BeeeOn {
 
@@ -52,6 +53,7 @@ public:
 		Poco::Timespan m_duration;
 		StopControl m_stopControl;
 		Poco::Thread m_seekerThread;
+		Joiner m_joiner;
 	};
 
 	static const Poco::Timespan SEARCH_DELAY;
@@ -113,7 +115,6 @@ private:
 	std::map<DeviceID, PhilipsHueBulb::Ptr> m_devices;
 
 	Poco::Timespan m_refresh;
-	PhilipsHueDeviceManager::PhilipsHueSeeker::Ptr m_seeker;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 

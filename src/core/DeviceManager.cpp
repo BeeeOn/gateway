@@ -37,6 +37,7 @@ DevicePrefix DeviceManager::prefix() const
 void DeviceManager::stop()
 {
 	m_stopControl.requestStop();
+	m_cancellable.cancel();
 }
 
 void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)
@@ -47,6 +48,11 @@ void DeviceManager::setDeviceCache(DeviceCache::Ptr cache)
 DeviceCache::Ptr DeviceManager::deviceCache() const
 {
 	return m_deviceCache;
+}
+
+CancellableSet &DeviceManager::cancellable()
+{
+	return m_cancellable;
 }
 
 void DeviceManager::setDistributor(Poco::SharedPtr<Distributor> distributor)
@@ -141,14 +147,18 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 	logger().information("starting discovery (" + to_string(timeout.totalSeconds()) + " s)", __FILE__, __LINE__);
 
 	auto discovery = startDiscovery(timeout);
+	cancellable().manage(discovery);
 
 	if (discovery->tryJoin(timeout)) {
+		cancellable().unmanage(discovery);
 		logger().information("discovery has finished", __FILE__, __LINE__);
 		return;
 	}
 
-	logger().information("cancelling discovery", __FILE__, __LINE__);
-	discovery->cancel();
+	if (cancellable().unmanage(discovery)) {
+		logger().information("cancelling discovery", __FILE__, __LINE__);
+		discovery->cancel();
+	}
 
 	logger().information("discovery has been cancelled", __FILE__, __LINE__);
 }
@@ -183,12 +193,18 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	logger().information("starting unpair", __FILE__, __LINE__);
 
 	auto unpair = startUnpair(cmd->deviceID(), timeout);
+	cancellable().manage(unpair);
 
 	if (!unpair->tryJoin(timeout)) {
-		logger().information("cancelling unpair", __FILE__, __LINE__);
-		unpair->cancel();
+		if (cancellable().unmanage(unpair)) {
+			logger().information("cancelling unpair", __FILE__, __LINE__);
+			unpair->cancel();
+		}
 
 		logger().information("unpair has been cancelled", __FILE__, __LINE__);
+	}
+	else {
+		cancellable().unmanage(unpair);
 	}
 
 	if (unpair->result().isNull())
