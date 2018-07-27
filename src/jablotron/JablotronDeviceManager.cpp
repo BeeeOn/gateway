@@ -207,6 +207,7 @@ AsyncWork<set<DeviceID>>::Ptr JablotronDeviceManager::startUnpair(
 
 	if (it != m_devices.end()) {
 		it->second = nullptr;
+		deviceCache()->markUnpaired(id);
 		work->setResult({id});
 	}
 	else {
@@ -229,8 +230,6 @@ void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
 			logger().log(ex, __FILE__, __LINE__);
 			return;
 		}
-
-		deviceCache()->markUnpaired(deviceID);
 	}
 
 	NewDeviceCommand::Ptr cmd =
