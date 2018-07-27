@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-65-g11a11de</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-71-gc9a69a6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -57,13 +57,13 @@
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/AtomicCounter.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/HTTPRequest.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/IPAddress.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/NetworkInterface.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/SocketAddress.h&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/HTTPRequest.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/IPAddress.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/NetworkInterface.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/SocketAddress.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;loop/StopControl.h&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;net/HTTPEntireResponse.h&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;net/IPAddressRange.h&quot;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
@@ -94,43 +94,49 @@
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> prepareRequest(Poco::Net::HTTPRequest&amp; request) = 0;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#adc117026268a8f70657b92599f2c8b7d">isValidResponse</a>(<span class="keyword">const</span> std::string&amp; response) = 0;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a29f2f2f58ecb0d43d926860130da98ac">probeInterface</a>(<span class="keyword">const</span> Poco::Net::NetworkInterface&amp; interface,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                std::vector&lt;Poco::Net::SocketAddress&gt;&amp; devices,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keyword">const</span> Poco::Int64 maxResponseLength);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a6451a9de0aace3f690257b30beab4a00">probeAddressRange</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1IPAddressRange.html">IPAddressRange</a>&amp; range,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                std::vector&lt;Poco::Net::SocketAddress&gt;&amp; devices,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keyword">const</span> Poco::Int64 maxResponseLength);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a391ce2d0c72a0a0e756685fb4bc76010">sendRequest</a>(<span class="keyword">const</span> Poco::Net::SocketAddress&amp; socketAddress,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keyword">const</span> Poco::Int64 maxResponseLength);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordtype">bool</span> addressIncompatible(<span class="keyword">const</span> Poco::Net::NetworkInterface::AddressTuple&amp; addressTuple) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        std::vector&lt;Poco::Net::NetworkInterface&gt; <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a445b7004fad2691d80d5c1e983eababa">listNetworkInterfaces</a>();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        std::string m_path;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        uint16_t m_port;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        Poco::Net::IPAddress m_minNetMask;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        Poco::Timespan m_pingTimeout;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        Poco::Timespan m_httpTimeout;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        std::set&lt;std::string&gt; m_blackList;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        Poco::AtomicCounter m_cancel;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;};</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a391ce2d0c72a0a0e756685fb4bc76010"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a391ce2d0c72a0a0e756685fb4bc76010">BeeeOn::AbstractHTTPScanner::sendRequest</a></div><div class="ttdeci">HTTPEntireResponse sendRequest(const Poco::Net::SocketAddress &amp;socketAddress, const Poco::Int64 maxResponseLength)</div><div class="ttdoc">It sends HTTP request. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:178</div></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a70d576fb34911bde8adf779e4cb2d741">probeInterface</a>(</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <a class="code" href="classBeeeOn_1_1StopControl_1_1Run.html">StopControl::Run</a> &amp;run,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keyword">const</span> Poco::Net::NetworkInterface&amp; interface,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                std::vector&lt;Poco::Net::SocketAddress&gt;&amp; devices,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keyword">const</span> Poco::Int64 maxResponseLength);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a9f1f3619c2f7cafe51f2048d64f3049c">probeAddressRange</a>(</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <a class="code" href="classBeeeOn_1_1StopControl_1_1Run.html">StopControl::Run</a> &amp;run,  </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1IPAddressRange.html">IPAddressRange</a>&amp; range,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                std::vector&lt;Poco::Net::SocketAddress&gt;&amp; devices,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keyword">const</span> Poco::Int64 maxResponseLength);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <a class="code" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a391ce2d0c72a0a0e756685fb4bc76010">sendRequest</a>(<span class="keyword">const</span> Poco::Net::SocketAddress&amp; socketAddress,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keyword">const</span> Poco::Int64 maxResponseLength);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordtype">bool</span> addressIncompatible(<span class="keyword">const</span> Poco::Net::NetworkInterface::AddressTuple&amp; addressTuple) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        std::vector&lt;Poco::Net::NetworkInterface&gt; <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html#a445b7004fad2691d80d5c1e983eababa">listNetworkInterfaces</a>();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        std::string m_path;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        uint16_t m_port;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        Poco::Net::IPAddress m_minNetMask;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        Poco::Timespan m_pingTimeout;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        Poco::Timespan m_httpTimeout;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        std::set&lt;std::string&gt; m_blackList;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <a class="code" href="classBeeeOn_1_1StopControl.html">StopControl</a> m_stopControl;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;};</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a391ce2d0c72a0a0e756685fb4bc76010"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a391ce2d0c72a0a0e756685fb4bc76010">BeeeOn::AbstractHTTPScanner::sendRequest</a></div><div class="ttdeci">HTTPEntireResponse sendRequest(const Poco::Net::SocketAddress &amp;socketAddress, const Poco::Int64 maxResponseLength)</div><div class="ttdoc">It sends HTTP request. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:177</div></div>
+<div class="ttc" id="classBeeeOn_1_1StopControl_1_1Run_html"><div class="ttname"><a href="classBeeeOn_1_1StopControl_1_1Run.html">BeeeOn::StopControl::Run</a></div><div class="ttdoc">Helper class for managing a common stoppable loop situation: </div><div class="ttdef"><b>Definition:</b> StopControl.h:35</div></div>
 <div class="ttc" id="classBeeeOn_1_1IPAddressRange_html"><div class="ttname"><a href="classBeeeOn_1_1IPAddressRange.html">BeeeOn::IPAddressRange</a></div><div class="ttdef"><b>Definition:</b> IPAddressRange.h:19</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a5d1a559e07623734568f9b12a7fdb8ce"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a5d1a559e07623734568f9b12a7fdb8ce">BeeeOn::AbstractHTTPScanner::scan</a></div><div class="ttdeci">std::vector&lt; Poco::Net::SocketAddress &gt; scan(const uint32_t maxResponseLength)</div><div class="ttdoc">It executes the scan of proper network interfaces. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:76</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a5d1a559e07623734568f9b12a7fdb8ce"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a5d1a559e07623734568f9b12a7fdb8ce">BeeeOn::AbstractHTTPScanner::scan</a></div><div class="ttdeci">std::vector&lt; Poco::Net::SocketAddress &gt; scan(const uint32_t maxResponseLength)</div><div class="ttdoc">It executes the scan of proper network interfaces. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:74</div></div>
 <div class="ttc" id="classBeeeOn_1_1HTTPEntireResponse_html"><div class="ttname"><a href="classBeeeOn_1_1HTTPEntireResponse.html">BeeeOn::HTTPEntireResponse</a></div><div class="ttdef"><b>Definition:</b> HTTPEntireResponse.h:14</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a445b7004fad2691d80d5c1e983eababa"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a445b7004fad2691d80d5c1e983eababa">BeeeOn::AbstractHTTPScanner::listNetworkInterfaces</a></div><div class="ttdeci">std::vector&lt; Poco::Net::NetworkInterface &gt; listNetworkInterfaces()</div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:208</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a445b7004fad2691d80d5c1e983eababa"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a445b7004fad2691d80d5c1e983eababa">BeeeOn::AbstractHTTPScanner::listNetworkInterfaces</a></div><div class="ttdeci">std::vector&lt; Poco::Net::NetworkInterface &gt; listNetworkInterfaces()</div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:207</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a9f1f3619c2f7cafe51f2048d64f3049c"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a9f1f3619c2f7cafe51f2048d64f3049c">BeeeOn::AbstractHTTPScanner::probeAddressRange</a></div><div class="ttdeci">void probeAddressRange(StopControl::Run &amp;run, const IPAddressRange &amp;range, std::vector&lt; Poco::Net::SocketAddress &gt; &amp;devices, const Poco::Int64 maxResponseLength)</div><div class="ttdoc">It explores IP address range. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:125</div></div>
+<div class="ttc" id="classBeeeOn_1_1StopControl_html"><div class="ttname"><a href="classBeeeOn_1_1StopControl.html">BeeeOn::StopControl</a></div><div class="ttdoc">StopControl implements the stop mechanism generically. </div><div class="ttdef"><b>Definition:</b> StopControl.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_adc117026268a8f70657b92599f2c8b7d"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#adc117026268a8f70657b92599f2c8b7d">BeeeOn::AbstractHTTPScanner::isValidResponse</a></div><div class="ttdeci">virtual bool isValidResponse(const std::string &amp;response)=0</div><div class="ttdoc">It defines if the response is valid or not. </div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a70d576fb34911bde8adf779e4cb2d741"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a70d576fb34911bde8adf779e4cb2d741">BeeeOn::AbstractHTTPScanner::probeInterface</a></div><div class="ttdeci">void probeInterface(StopControl::Run &amp;run, const Poco::Net::NetworkInterface &amp;interface, std::vector&lt; Poco::Net::SocketAddress &gt; &amp;devices, const Poco::Int64 maxResponseLength)</div><div class="ttdoc">It explores network interface. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:95</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:17</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a29f2f2f58ecb0d43d926860130da98ac"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a29f2f2f58ecb0d43d926860130da98ac">BeeeOn::AbstractHTTPScanner::probeInterface</a></div><div class="ttdeci">void probeInterface(const Poco::Net::NetworkInterface &amp;interface, std::vector&lt; Poco::Net::SocketAddress &gt; &amp;devices, const Poco::Int64 maxResponseLength)</div><div class="ttdoc">It explores network interface. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:100</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html_a6451a9de0aace3f690257b30beab4a00"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html#a6451a9de0aace3f690257b30beab4a00">BeeeOn::AbstractHTTPScanner::probeAddressRange</a></div><div class="ttdeci">void probeAddressRange(const IPAddressRange &amp;range, std::vector&lt; Poco::Net::SocketAddress &gt; &amp;devices, const Poco::Int64 maxResponseLength)</div><div class="ttdoc">It explores IP address range. </div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.cpp:131</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html">BeeeOn::AbstractHTTPScanner</a></div><div class="ttdoc">The abstract class contains core of HTTP scanning of network. Derivated classes will have to implemen...</div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.h:25</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
