@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc1-79-g00f41dd</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc1-92-gc7b5f67</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,9 +52,11 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-static-methods">Static Protected Member Functions</a>  </div>
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
+<a href="#friends">Friends</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::DBusHciInterface Class Reference</div>  </div>
 </div><!--header-->
@@ -75,8 +77,18 @@ Inheritance diagram for BeeeOn::DBusHciInterface:</div>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface_1_1WatchedDevice.html">WatchedDevice</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The class is used to store necessary data about device, from which the advertising data is processed, such as instance of device, handle of signal and pointer to callback.  <a href="classBeeeOn_1_1DBusHciInterface_1_1WatchedDevice.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a4508e0b7bbeb7aa836c273684c1a641e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4508e0b7bbeb7aa836c273684c1a641e"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1DBusHciInterface.html">DBusHciInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a4508e0b7bbeb7aa836c273684c1a641e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a138503c29a7ff54b688f490a64b11a6c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a138503c29a7ff54b688f490a64b11a6c"></a>
 typedef std::function&lt; bool(const <br class="typebreak"/>
 std::string &amp;path)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>PathFilter</b></td></tr>
@@ -86,11 +98,16 @@ std::string &amp;path)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1HciInterface.html">HciInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a5126bf1be08f148fb95cf50b92feb825 inherit pub_types_classBeeeOn_1_1HciInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f148a91cd9995d59dc86b7644aed204 inherit pub_types_classBeeeOn_1_1HciInterface"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f148a91cd9995d59dc86b7644aed204"></a>
+typedef std::function&lt; void(const <br class="typebreak"/>
+<a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;, std::vector<br class="typebreak"/>
+&lt; unsigned char &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>WatchCallback</b></td></tr>
+<tr class="separator:a4f148a91cd9995d59dc86b7644aed204 inherit pub_types_classBeeeOn_1_1HciInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af54d1dd4487c066484d83671978bae68"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#af54d1dd4487c066484d83671978bae68">DBusHciInterface</a> (const std::string &amp;name, Poco::SharedPtr&lt; Poco::FastMutex &gt; statusMutex)</td></tr>
-<tr class="separator:af54d1dd4487c066484d83671978bae68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aade1298255b9e2c10f94338fa8701b70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#aade1298255b9e2c10f94338fa8701b70">DBusHciInterface</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:aade1298255b9e2c10f94338fa8701b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70688dfe4f2812148ff1f14f51af45e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a70688dfe4f2812148ff1f14f51af45e5">down</a> () const </td></tr>
 <tr class="memdesc:a70688dfe4f2812148ff1f14f51af45e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets hci interface down.  <a href="#a70688dfe4f2812148ff1f14f51af45e5">More...</a><br/></td></tr>
 <tr class="separator:a70688dfe4f2812148ff1f14f51af45e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,21 +131,43 @@ std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>,
 <a class="el" href="classBeeeOn_1_1HciInfo.html">HciInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#af7c75c936abb81d75f2c5faba1e354cb">info</a> () const override</td></tr>
 <tr class="memdesc:af7c75c936abb81d75f2c5faba1e354cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uses <a class="el" href="classBeeeOn_1_1BluezHciInterface.html">BluezHciInterface</a> to retrieve hci info. <br/></td></tr>
 <tr class="separator:af7c75c936abb81d75f2c5faba1e354cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74181de2f63312036e595202b797f2f"><td class="memItemLeft" align="right" valign="top">HciConnection::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#ad74181de2f63312036e595202b797f2f">connect</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, const Poco::Timespan &amp;timeout) const override</td></tr>
+<tr class="separator:ad74181de2f63312036e595202b797f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed13777f3b5757e5684448e7271e515a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#aed13777f3b5757e5684448e7271e515a">watch</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, Poco::SharedPtr&lt; WatchCallback &gt; callBack) override</td></tr>
+<tr class="separator:aed13777f3b5757e5684448e7271e515a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f8757bb77d05ed4126c130fde8dc2da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a5f8757bb77d05ed4126c130fde8dc2da">unwatch</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address) override</td></tr>
+<tr class="separator:a5f8757bb77d05ed4126c130fde8dc2da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
 <tr class="memitem:a9d137382c0077a80df3fe17ae920eb71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d137382c0077a80df3fe17ae920eb71"></a>
-static gboolean&#160;</td><td class="memItemRight" valign="bottom"><b>onStopLoop</b> (gpointer loop)</td></tr>
+static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a9d137382c0077a80df3fe17ae920eb71">onStopLoop</a> (gpointer loop)</td></tr>
+<tr class="memdesc:a9d137382c0077a80df3fe17ae920eb71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the timeout event which stops the given GMainLoop. <br/></td></tr>
 <tr class="separator:a9d137382c0077a80df3fe17ae920eb71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a255b1a00a2e5c0647f6042c241bc515b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a255b1a00a2e5c0647f6042c241bc515b"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>onDBusObjectAdded</b> (GDBusObjectManager *objectManager, GDBusObject *object, gpointer userData)</td></tr>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a255b1a00a2e5c0647f6042c241bc515b">onDBusObjectAdded</a> (GDBusObjectManager *objectManager, GDBusObject *object, gpointer userData)</td></tr>
+<tr class="memdesc:a255b1a00a2e5c0647f6042c241bc515b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of creating new device. This is used during discovery of new devices. <br/></td></tr>
 <tr class="separator:a255b1a00a2e5c0647f6042c241bc515b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f3485158c2918d1a3201fe88951ceff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f3485158c2918d1a3201fe88951ceff"></a>
+static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a2f3485158c2918d1a3201fe88951ceff">onDeviceManufacturerDataRecieved</a> (OrgBluezDevice1 *device, GVariant *properties, const gchar *const *invalidatedProperties, gpointer userData)</td></tr>
+<tr class="memdesc:a2f3485158c2918d1a3201fe88951ceff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of receiving advertising data. <br/></td></tr>
+<tr class="separator:a2f3485158c2918d1a3201fe88951ceff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc95960434e783311bd3ad11c8c32996"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc95960434e783311bd3ad11c8c32996"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#adc95960434e783311bd3ad11c8c32996">processManufacturerData</a> (OrgBluezDevice1 *device, GVariant *value, gpointer userData)</td></tr>
+<tr class="memdesc:adc95960434e783311bd3ad11c8c32996"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process the single advertising data and call callback stored in userData. <br/></td></tr>
+<tr class="separator:adc95960434e783311bd3ad11c8c32996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:aa26a58b5dd8049020e4516501075e8c6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa26a58b5dd8049020e4516501075e8c6"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>DBusHciConnection</b></td></tr>
+<tr class="separator:aa26a58b5dd8049020e4516501075e8c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class realizes communication with BlueZ deamon using D-Bus. It allows to find new BLE and Bluetooth Classic devices and send read/write requests. </p>
 <p>The class uses <a class="el" href="classBeeeOn_1_1BluezHciInterface.html">BluezHciInterface</a> to work with Bluetooth Classic devices and to retrieve hci info. It requires a running instance of the D-Bus service "org.bluez" to work wth BLE devices. Firstly it is needed to find BLE devices in a bluetooth network to create D-Bus device objects. Accessing the BLE devices is possible via D-Bus device objects (defined by path "/org/bluez/hci0/dev_FF_FF_FF_FF_FF_FF"). The D-Bus device objects provide methods to perform actions as connect, read, write and disconnect. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af54d1dd4487c066484d83671978bae68"></a>
+<a class="anchor" id="aade1298255b9e2c10f94338fa8701b70"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -136,25 +175,14 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>onDBusObjectAd
           <td class="memname">DBusHciInterface::DBusHciInterface </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>name</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">Poco::SharedPtr&lt; Poco::FastMutex &gt;&#160;</td>
-          <td class="paramname"><em>statusMutex</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>name of hci </td></tr>
-    <tr><td class="paramname">statusMutex</td><td>lock ensures exclusive access to state of hci </td></tr>
   </table>
   </dd>
 </dl>
@@ -162,6 +190,49 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>onDBusObjectAd
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ad74181de2f63312036e595202b797f2f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HciConnection::Ptr DBusHciInterface::connect </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Connects to device defined by MAC address and loads it's services. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IOException</td><td>in case of a failure </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1HciInterface.html#abbd16076099d0ac206c10df8e6a4aba1">BeeeOn::HciInterface</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a70688dfe4f2812148ff1f14f51af45e5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -217,6 +288,33 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>onDBusObjectAd
 
 </div>
 </div>
+<a class="anchor" id="a5f8757bb77d05ed4126c130fde8dc2da"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DBusHciInterface::unwatch </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;&#160;</td>
+          <td class="paramname"><em>address</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Unregister device to process advertising data. </p>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1HciInterface.html#aef830958d16a45ea99834560d9b68856">BeeeOn::HciInterface</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a65e5d9836625201d8d93f7bd06d5caee"></a>
 <div class="memitem">
 <div class="memproto">
@@ -246,6 +344,49 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>onDBusObjectAd
 </dl>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1HciInterface.html#ae44d72ca116d0f9f19c6200785cd9631">BeeeOn::HciInterface</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aed13777f3b5757e5684448e7271e515a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DBusHciInterface::watch </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Poco::SharedPtr&lt; WatchCallback &gt;&#160;</td>
+          <td class="paramname"><em>callBack</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Register device to process advertising data. After recieving advertising data, the callBack is called. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IOException</td><td>in case of a failure </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1HciInterface.html#af1313ccc0e3e35b06bb012d341702c33">BeeeOn::HciInterface</a>.</p>
 
 </div>
 </div>
