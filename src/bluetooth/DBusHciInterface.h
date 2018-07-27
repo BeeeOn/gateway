@@ -90,7 +90,16 @@ public:
 	HciInfo info() const override;
 
 protected:
+	/**
+	 * @brief Callback handling the timeout event which stops
+	 * the given GMainLoop.
+	 */
 	static gboolean onStopLoop(gpointer loop);
+
+	/**
+	 * @brief Callback handling the event of creating new device.
+	 * This is used during discovery of new devices.
+	 */
 	static void onDBusObjectAdded(
 		GDBusObjectManager* objectManager,
 		GDBusObject* object,
