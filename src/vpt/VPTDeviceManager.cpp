@@ -260,8 +260,8 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 
 AsyncWork<>::Ptr VPTDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	VPTSeeker::Ptr seeker = new VPTSeeker(*this);
-	seeker->startSeeking(timeout);
+	VPTSeeker::Ptr seeker = new VPTSeeker(*this, timeout);
+	seeker->startSeeking();
 	return seeker;
 }
 
@@ -418,16 +418,15 @@ string VPTDeviceManager::findPassword(const DeviceID& id)
 	throw NotFoundException("password not found for VPT " + id.toString());
 }
 
-VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):
+VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent, const Timespan& duration):
 	m_parent(parent),
+	m_duration(duration),
 	m_joiner(m_seekerThread)
 {
 }
 
-void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
+void VPTDeviceManager::VPTSeeker::startSeeking()
 {
-	m_duration = duration;
-
 	if (!m_seekerThread.isRunning()) {
 		m_seekerThread.start(*this);
 	}

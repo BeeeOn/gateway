@@ -42,9 +42,9 @@ public:
 	public:
 		typedef Poco::SharedPtr<VPTSeeker> Ptr;
 
-		VPTSeeker(VPTDeviceManager& parent);
+		VPTSeeker(VPTDeviceManager& parent, const Poco::Timespan& duration);
 
-		void startSeeking(const Poco::Timespan& duration);
+		void startSeeking();
 
 		void run() override;
 		void stop() override;
