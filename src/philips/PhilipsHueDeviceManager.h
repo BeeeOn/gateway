@@ -5,12 +5,11 @@
 #include <vector>
 
 #include <Poco/Mutex.h>
-#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
+#include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
 #include "credentials/FileCredentialsStorage.h"
-#include "loop/StoppableRunnable.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
@@ -20,7 +19,6 @@
 #include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "util/EventSource.h"
-#include "util/Joiner.h"
 
 namespace BeeeOn {
 
@@ -35,25 +33,17 @@ public:
 	 * @brief Provides searching philips devices on network
 	 * in own thread.
 	 */
-	class PhilipsHueSeeker : public StoppableRunnable, public AsyncWork<> {
+	class PhilipsHueSeeker : public AbstractSeeker {
 	public:
 		typedef Poco::SharedPtr<PhilipsHueSeeker> Ptr;
 
-		PhilipsHueSeeker(PhilipsHueDeviceManager& parent);
+		PhilipsHueSeeker(PhilipsHueDeviceManager& parent, const Poco::Timespan& duration);
 
-		void startSeeking(const Poco::Timespan& duration);
-
-		void run() override;
-		void stop() override;
-		bool tryJoin(const Poco::Timespan &timeout) override;
-		void cancel() override;
+	protected:
+		void seekLoop(StopControl &control) override;
 
 	private:
 		PhilipsHueDeviceManager& m_parent;
-		Poco::Timespan m_duration;
-		StopControl m_stopControl;
-		Poco::Thread m_seekerThread;
-		Joiner m_joiner;
 	};
 
 	static const Poco::Timespan SEARCH_DELAY;

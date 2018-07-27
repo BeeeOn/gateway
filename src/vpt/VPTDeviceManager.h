@@ -6,7 +6,6 @@
 
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
-#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
 #include "commands/DeviceAcceptCommand.h"
@@ -14,15 +13,14 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "commands/NewDeviceCommand.h"
+#include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
 #include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
-#include "loop/StoppableRunnable.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
-#include "util/Joiner.h"
 #include "vpt/VPTDevice.h"
 
 namespace BeeeOn {
@@ -38,26 +36,17 @@ public:
 	 * @brief Provides searching vpt devices on network in own thread.
 	 * Also takes care of thread where is the listen command performed.
 	 */
-	class VPTSeeker : public StoppableRunnable, public AsyncWork<> {
+	class VPTSeeker : public AbstractSeeker {
 	public:
 		typedef Poco::SharedPtr<VPTSeeker> Ptr;
 
-		VPTSeeker(VPTDeviceManager& parent);
+		VPTSeeker(VPTDeviceManager& parent, const Poco::Timespan& duration);
 
-		void startSeeking(const Poco::Timespan& duration);
-
-		void run() override;
-		void stop() override;
-		bool tryJoin(const Poco::Timespan &timeout) override;
-		void cancel() override;
+	protected:
+		void seekLoop(StopControl &control) override;
 
 	private:
 		VPTDeviceManager& m_parent;
-
-		Poco::Timespan m_duration;
-		Poco::Thread m_seekerThread;
-		Joiner m_joiner;
-		StopControl m_stopControl;
 	};
 
 	VPTDeviceManager();

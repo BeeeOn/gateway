@@ -260,8 +260,8 @@ void VPTDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 
 AsyncWork<>::Ptr VPTDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	VPTSeeker::Ptr seeker = new VPTSeeker(*this);
-	seeker->startSeeking(timeout);
+	VPTSeeker::Ptr seeker = new VPTSeeker(*this, timeout);
+	seeker->start();
 	return seeker;
 }
 
@@ -418,31 +418,18 @@ string VPTDeviceManager::findPassword(const DeviceID& id)
 	throw NotFoundException("password not found for VPT " + id.toString());
 }
 
-VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent):
-	m_parent(parent),
-	m_joiner(m_seekerThread)
+VPTDeviceManager::VPTSeeker::VPTSeeker(VPTDeviceManager& parent, const Timespan& duration):
+	AbstractSeeker(duration),
+	m_parent(parent)
 {
 }
 
-void VPTDeviceManager::VPTSeeker::startSeeking(const Timespan& duration)
+void VPTDeviceManager::VPTSeeker::seekLoop(StopControl &control)
 {
-	m_duration = duration;
+	StopControl::Run run(control);
 
-	if (!m_seekerThread.isRunning()) {
-		m_seekerThread.start(*this);
-	}
-	else {
-		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
-	}
-}
-
-void VPTDeviceManager::VPTSeeker::run()
-{
-	Timestamp now;
-	StopControl::Run run(m_stopControl);
-
-	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekDevices(m_stopControl)) {
+	while (remaining() > 0) {
+		for (auto device : m_parent.seekDevices(control)) {
 			if (!run)
 				break;
 
@@ -452,20 +439,4 @@ void VPTDeviceManager::VPTSeeker::run()
 		if (!run)
 			break;
 	}
-}
-
-void VPTDeviceManager::VPTSeeker::stop()
-{
-	m_stopControl.requestStop();
-	m_joiner.join();
-}
-
-bool VPTDeviceManager::VPTSeeker::tryJoin(const Timespan &timeout)
-{
-	return m_joiner.tryJoin(timeout.totalMilliseconds());
-}
-
-void VPTDeviceManager::VPTSeeker::cancel()
-{
-	stop();
 }
