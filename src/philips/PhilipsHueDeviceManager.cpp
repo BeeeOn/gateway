@@ -231,7 +231,7 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 AsyncWork<>::Ptr PhilipsHueDeviceManager::startDiscovery(const Timespan &timeout)
 {
 	PhilipsHueSeeker::Ptr seeker = new PhilipsHueSeeker(*this, timeout);
-	seeker->startSeeking();
+	seeker->start();
 
 	return seeker;
 }
@@ -509,29 +509,18 @@ void PhilipsHueDeviceManager::fireBulbStatistics(PhilipsHueBulb::Ptr bulb)
 }
 
 PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceManager& parent, const Timespan &duration) :
-	m_parent(parent),
-	m_duration(duration),
-	m_joiner(m_seekerThread)
+	AbstractSeeker(duration),
+	m_parent(parent)
 {
 }
 
-void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking()
-{
-	if (!m_seekerThread.isRunning()) {
-		m_seekerThread.start(*this);
-	}
-	else {
-		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
-	}
-}
-
-void PhilipsHueDeviceManager::PhilipsHueSeeker::run()
+void PhilipsHueDeviceManager::PhilipsHueSeeker::seekLoop(StopControl &control)
 {
 	Timestamp now;
-	StopControl::Run run(m_stopControl);
+	StopControl::Run run(control);
 
-	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekBulbs(m_stopControl)) {
+	while (remaining() > 0) {
+		for (auto device : m_parent.seekBulbs(control)) {
 			if (!run)
 				break;
 
@@ -541,20 +530,4 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::run()
 		if (!run)
 			break;
 	}
-}
-
-void PhilipsHueDeviceManager::PhilipsHueSeeker::stop()
-{
-	m_stopControl.requestStop();
-	m_joiner.join();
-}
-
-bool PhilipsHueDeviceManager::PhilipsHueSeeker::tryJoin(const Timespan &timeout)
-{
-	return m_joiner.tryJoin(timeout.totalMilliseconds());
-}
-
-void PhilipsHueDeviceManager::PhilipsHueSeeker::cancel()
-{
-	stop();
 }
