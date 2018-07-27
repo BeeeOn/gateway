@@ -194,7 +194,7 @@ void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 AsyncWork<>::Ptr BelkinWemoDeviceManager::startDiscovery(const Timespan &timeout)
 {
 	BelkinWemoSeeker::Ptr seeker = new BelkinWemoSeeker(*this, timeout);
-	seeker->startSeeking();
+	seeker->start();
 	return seeker;
 }
 
@@ -438,29 +438,18 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 }
 
 BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Timespan& duration) :
-	m_parent(parent),
-	m_duration(duration),
-	m_joiner(m_seekerThread)
+	AbstractSeeker(duration),
+	m_parent(parent)
 {
 }
 
-void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking()
-{
-	if (!m_seekerThread.isRunning()) {
-		m_seekerThread.start(*this);
-	}
-	else {
-		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
-	}
-}
-
-void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
+void BelkinWemoDeviceManager::BelkinWemoSeeker::seekLoop(StopControl &control)
 {
 	Timestamp now;
-	StopControl::Run run(m_stopControl);
+	StopControl::Run run(control);
 
-	while (now.elapsed() < m_duration.totalMicroseconds()) {
-		for (auto device : m_parent.seekSwitches(m_stopControl)) {
+	while (remaining() > 0) {
+		for (auto device : m_parent.seekSwitches(control)) {
 			if (!run)
 				break;
 
@@ -470,7 +459,7 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 		if (!run)
 			break;
 
-		for (auto device : m_parent.seekBulbs(m_stopControl)) {
+		for (auto device : m_parent.seekBulbs(control)) {
 			if (!run)
 				break;
 
@@ -480,7 +469,7 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 		if (!run)
 			break;
 
-		for (auto device : m_parent.seekDimmers(m_stopControl)) {
+		for (auto device : m_parent.seekDimmers(control)) {
 			if (!run)
 				break;
 
@@ -490,20 +479,4 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
 		if (!run)
 			break;
 	}
-}
-
-void BelkinWemoDeviceManager::BelkinWemoSeeker::stop()
-{
-	m_stopControl.requestStop();
-	m_joiner.join();
-}
-
-bool BelkinWemoDeviceManager::BelkinWemoSeeker::tryJoin(const Timespan &timeout)
-{
-	return m_joiner.tryJoin(timeout.totalMilliseconds());
-}
-
-void BelkinWemoDeviceManager::BelkinWemoSeeker::cancel()
-{
-	stop();
 }

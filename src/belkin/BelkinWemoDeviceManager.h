@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <Poco/Mutex.h>
-#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
 #include "belkin/BelkinWemoBulb.h"
@@ -13,13 +12,12 @@
 #include "belkin/BelkinWemoDimmer.h"
 #include "belkin/BelkinWemoLink.h"
 #include "belkin/BelkinWemoSwitch.h"
+#include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
-#include "loop/StoppableRunnable.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
 #include "util/AsyncWork.h"
-#include "util/Joiner.h"
 
 namespace BeeeOn {
 
@@ -29,25 +27,17 @@ public:
 	 * @brief Provides searching belkin wemo devices on network
 	 * in own thread.
 	 */
-	class BelkinWemoSeeker : public StoppableRunnable, public AsyncWork<> {
+	class BelkinWemoSeeker : public AbstractSeeker {
 	public:
 		typedef Poco::SharedPtr<BelkinWemoSeeker> Ptr;
 
 		BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Poco::Timespan& duration);
 
-		void startSeeking();
-
-		void run() override;
-		void stop() override;
-		bool tryJoin(const Poco::Timespan &timeout) override;
-		void cancel() override;
+	protected:
+		void seekLoop(StopControl &control) override;
 
 	private:
 		BelkinWemoDeviceManager& m_parent;
-		Poco::Timespan m_duration;
-		StopControl m_stopControl;
-		Poco::Thread m_seekerThread;
-		Joiner m_joiner;
 	};
 
 	BelkinWemoDeviceManager();
