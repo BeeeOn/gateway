@@ -131,18 +131,7 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 
 	ScopedLock<FastMutex> guard(m_listenLock, duration.totalMilliseconds());
 
-	if (started.elapsed() > 1 * Timespan::SECONDS) {
-		logger().warning("discovery has been significantly delayed: "
-			+ to_string(started.elapsed()) + " us",
-			__FILE__, __LINE__);
-	}
-
-	if (m_stopControl.shouldStop())
-		throw IllegalStateException("discovery skipped due to shutdown request");
-
-	Timespan timeout = duration - started.elapsed();
-	if (timeout < 1 * Timespan::SECONDS)
-		timeout = 1 * Timespan::SECONDS;
+	const Timespan &timeout = checkDelayedOperation("discovery", started, duration);
 
 	logger().information("starting discovery (" + to_string(timeout.totalSeconds()) + " s)", __FILE__, __LINE__);
 
@@ -177,18 +166,7 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 
 	ScopedLock<FastMutex> guard(m_unpairLock, duration.totalMilliseconds());
 
-	if (started.elapsed() > 1 * Timespan::SECONDS) {
-		logger().warning("unpair has been significantly delayed: "
-			+ to_string(started.elapsed()) + " us",
-			__FILE__, __LINE__);
-	}
-
-	Timespan timeout = duration - started.elapsed();
-	if (timeout < 1 * Timespan::SECONDS)
-		timeout = 1 * Timespan::SECONDS;
-
-	if (m_stopControl.shouldStop())
-		throw IllegalStateException("unpair skipped due to shutdown request");
+	const Timespan &timeout = checkDelayedOperation("unpair", started, duration);
 
 	logger().information("starting unpair", __FILE__, __LINE__);
 
@@ -237,6 +215,27 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 void DeviceManager::ship(const SensorData &sensorData)
 {
 	m_distributor->exportData(sensorData);
+}
+
+Timespan DeviceManager::checkDelayedOperation(
+		const string &opname,
+		const Clock &started,
+		const Timespan &duration) const
+{
+	if (started.elapsed() > 1 * Timespan::SECONDS) {
+		logger().warning(opname + " has been significantly delayed: "
+			+ to_string(started.elapsed()) + " us",
+			__FILE__, __LINE__);
+	}
+
+	if (m_stopControl.shouldStop())
+		throw IllegalStateException(opname + " skipped due to shutdown request");
+
+	Timespan timeout = duration - started.elapsed();
+	if (timeout < 1 * Timespan::SECONDS)
+		timeout = 1 * Timespan::SECONDS;
+
+	return timeout;
 }
 
 set<DeviceID> DeviceManager::deviceList(const Poco::Timespan &timeout)

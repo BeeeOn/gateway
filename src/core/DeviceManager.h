@@ -4,6 +4,7 @@
 #include <set>
 #include <typeindex>
 
+#include <Poco/Clock.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 
@@ -187,6 +188,21 @@ protected:
 	 * when required.
 	 */
 	CancellableSet &cancellable();
+
+	/**
+	 * @brief When starting an asynchronous operation, it might happen we
+	 * sleep too long on a lock because the previous operation did not
+	 * finished yet. This method performs such checks and also tests
+	 * for global stop request. If everything is in order it just fixes
+	 * the duration by the time elapsed by waiting. Otherwise, it throws
+	 * an exception.
+	 *
+	 * @throws IllegalStateException when stop has been requested
+	 */
+	Poco::Timespan checkDelayedOperation(
+		const std::string &opname,
+		const Poco::Clock &started,
+		const Poco::Timespan &duration) const;
 
 private:
 	void requestDeviceList(Answer::Ptr answer);
