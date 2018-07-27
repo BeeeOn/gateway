@@ -9,6 +9,7 @@
 #include <Poco/SharedPtr.h>
 
 #include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/AnswerQueue.h"
@@ -150,6 +151,33 @@ protected:
 	std::set<DeviceID> handleUnpair(const DeviceUnpairCommand::Ptr cmd);
 
 	/**
+	 * @brief Starts set-value operation in a technology specific way.
+	 * The method is always called inside a critical section and so its
+	 * implementation does not have to be thread-save nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The set-value process might a be a non-blocking operation. The value
+	 * set by the set-value is expected as a result of the returned AsyncWork
+	 * instance.
+	 */
+	virtual AsyncWork<double>::Ptr startSetValue(
+			const DeviceID &id,
+			const ModuleID &module,
+			const double value,
+			const Poco::Timespan &timespan);
+
+	/**
+	 * @brief Implements handling of the set-value command in a generic way.
+	 * The method ensures that only 1 thread can execute set-value process
+	 * at a time. If the set-value operation succeeds, it ships the set value.
+	 *
+	 * It uses the method startSetValue() to initialize and start the set-value
+	 * process. The method startSetValue() is always called exactly once at a
+	 * time and until it finishes, no the set-value is started.
+	 */
+	void handleSetValue(const DeviceSetValueCommand::Ptr cmd);
+
+	/**
 	* Ship data received from a physical device into a collection point.
 	*/
 	void ship(const SensorData &sensorData);
@@ -230,6 +258,7 @@ private:
 	DeviceCache::Ptr m_deviceCache;
 	Poco::FastMutex m_listenLock;
 	Poco::FastMutex m_unpairLock;
+	Poco::FastMutex m_setValueLock;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 	CancellableSet m_cancellable;

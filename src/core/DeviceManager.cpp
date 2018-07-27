@@ -9,6 +9,7 @@
 #include "core/DeviceManager.h"
 #include "core/MemoryDeviceCache.h"
 #include "core/PrefixCommand.h"
+#include "model/SensorData.h"
 #include "util/ClassInfo.h"
 
 using namespace BeeeOn;
@@ -99,6 +100,9 @@ void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 		const auto &result = handleUnpair(cmd.cast<DeviceUnpairCommand>());
 		unpair->setUnpaired(result);
 	}
+	else if (cmd->is<DeviceSetValueCommand>()) {
+		handleSetValue(cmd.cast<DeviceSetValueCommand>());
+	}
 	else
 		throw NotImplementedException(cmd->toString());
 }
@@ -185,6 +189,55 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	}
 
 	return result;
+}
+
+AsyncWork<double>::Ptr DeviceManager::startSetValue(
+		const DeviceID &,
+		const ModuleID &,
+		const double,
+		const Timespan &)
+{
+	throw NotImplementedException("generic set-value is not supported");
+}
+
+void DeviceManager::handleSetValue(const DeviceSetValueCommand::Ptr cmd)
+{
+	const Clock started;
+	const Timespan &duration = cmd->timeout();
+
+	ScopedLock<FastMutex> guard(m_setValueLock, duration.totalMilliseconds());
+
+	const Timespan &timeout = checkDelayedOperation("set-value", started, duration);
+
+	logger().information("starting set-value", __FILE__, __LINE__);
+
+	auto operation = startSetValue(
+		cmd->deviceID(),
+		cmd->moduleID(),
+		cmd->value(),
+		timeout);
+	manageUntilFinished("set-value", operation, timeout);
+
+	if (operation->result().isNull())
+		throw IllegalStateException("result of set-value was not provided");
+
+	const auto value = operation->result().value();
+
+	try {
+		if (logger().debug()) {
+			logger().debug(
+				"shipping value " + to_string(value)
+				+ " that has just been set",
+				__FILE__, __LINE__);
+		}
+
+		ship({
+			cmd->deviceID(),
+			Timestamp{},
+			{{cmd->moduleID(), value}}
+		});
+	}
+	BEEEON_CATCH_CHAIN(logger())
 }
 
 void DeviceManager::ship(const SensorData &sensorData)
