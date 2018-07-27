@@ -1,11 +1,13 @@
 #pragma once
 
+#include <functional>
 #include <map>
 #include <string>
 
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 
+#include "bluetooth/HciConnection.h"
 #include "bluetooth/HciInfo.h"
 #include "net/MACAddress.h"
 
@@ -14,6 +16,7 @@ namespace BeeeOn {
 class HciInterface {
 public:
 	typedef Poco::SharedPtr<HciInterface> Ptr;
+	typedef std::function<void(const MACAddress&, std::vector<unsigned char>&)> WatchCallback;
 
 	virtual ~HciInterface();
 
@@ -57,6 +60,28 @@ public:
 	 * Read information about the iterface.
 	 */
 	virtual HciInfo info() const = 0;
+
+	/**
+	 * Connects to device defined by MAC address and loads it's services.
+	 * @throws IOException in case of a failure
+	 */
+	virtual HciConnection::Ptr connect(
+		const MACAddress& address,
+		const Poco::Timespan& timeout) const = 0;
+
+	/**
+	 * Register device to process advertising data. After recieving
+	 * advertising data, the callBack is called.
+	 * @throws IOException in case of a failure
+	 */
+	virtual void watch(
+		const MACAddress& address,
+		Poco::SharedPtr<WatchCallback> callBack) = 0;
+
+	/**
+	 * Unregister device to process advertising data.
+	 */
+	virtual void unwatch(const MACAddress& address) = 0;
 };
 
 class HciInterfaceManager {

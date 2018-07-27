@@ -11,7 +11,9 @@
 
 #include <Poco/Condition.h>
 #include <Poco/Mutex.h>
+#include <Poco/RunnableAdapter.h>
 #include <Poco/SharedPtr.h>
+#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 #include <Poco/Timestamp.h>
 
@@ -23,6 +25,7 @@
 #include "bluetooth/org-bluez-gattcharacteristic1.h"
 #include "net/MACAddress.h"
 #include "util/Loggable.h"
+#include "util/WaitCondition.h"
 
 namespace BeeeOn {
 
@@ -40,15 +43,49 @@ namespace BeeeOn {
  */
 class DBusHciInterface : public HciInterface, Loggable {
 public:
+	friend class DBusHciConnection;
+
+	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
 
 	/**
-	 * @param name name of hci
-	 * @param statusMutex lock ensures exclusive access to state of hci
+	 * @brief The class is used to store necessary data about device, from
+	 * which the advertising data is processed, such as instance of device,
+	 * handle of signal and pointer to callback.
 	 */
-	DBusHciInterface(
-		const std::string& name,
-		Poco::SharedPtr<Poco::FastMutex> statusMutex);
+	class WatchedDevice {
+	public:
+		WatchedDevice(
+			const GlibPtr<OrgBluezDevice1> device,
+			const uint64_t signalHandle,
+			const Poco::SharedPtr<WatchCallback> callBack);
+
+		GlibPtr<OrgBluezDevice1> device() const
+		{
+			return m_device;
+		}
+
+		uint64_t signalHandle() const
+		{
+			return m_signalHandle;
+		}
+
+		Poco::SharedPtr<WatchCallback> callBack() const
+		{
+			return m_callBack;
+		}
+
+	private:
+		GlibPtr<OrgBluezDevice1> m_device;
+		uint64_t m_signalHandle;
+		Poco::SharedPtr<WatchCallback> m_callBack;
+	};
+
+	/**
+	 * @param name name of hci
+	 */
+	DBusHciInterface(const std::string& name);
+	~DBusHciInterface();
 
 	/**
 	 * @brief Sets hci interface down.
@@ -87,11 +124,47 @@ public:
 	 */
 	HciInfo info() const override;
 
+	HciConnection::Ptr connect(
+		const MACAddress& address,
+		const Poco::Timespan& timeout) const override;
+
+	void watch(
+		const MACAddress& address,
+		Poco::SharedPtr<WatchCallback> callBack) override;
+	void unwatch(const MACAddress& address) override;
+
 protected:
+	/**
+	 * @brief Callback handling the timeout event which stops
+	 * the given GMainLoop.
+	 */
 	static gboolean onStopLoop(gpointer loop);
+
+	/**
+	 * @brief Callback handling the event of creating new device.
+	 * This is used during discovery of new devices.
+	 */
 	static void onDBusObjectAdded(
 		GDBusObjectManager* objectManager,
 		GDBusObject* object,
+		gpointer userData);
+
+	/**
+	 * @brief Callback handling the event of receiving advertising data.
+	 */
+	static gboolean onDeviceManufacturerDataRecieved(
+		OrgBluezDevice1* device,
+		GVariant* properties,
+		const gchar* const* invalidatedProperties,
+		gpointer userData);
+
+	/**
+	 * @brief Process the single advertising data and call callback
+	 * stored in userData.
+	 */
+	static void processManufacturerData(
+		OrgBluezDevice1* device,
+		GVariant* value,
 		gpointer userData);
 
 private:
@@ -102,6 +175,20 @@ private:
 	 * after the timeout expired.
 	 */
 	void waitUntilPoweredChange(const std::string& path, const bool powered) const;
+
+	/**
+	 * @brief Switch on the discovery on the adapter.
+	 * @param trasnport type of device to be searched for (auto, bredr, le)
+	 * @throws IOException in case of failure
+	 */
+	void startDiscovery(
+		GlibPtr<OrgBluezAdapter1> adapter,
+		const std::string& trasport) const;
+
+	/**
+	 * @brief Switch off the discovery on the adapter
+	 */
+	void stopDiscovery(GlibPtr<OrgBluezAdapter1> adapter) const;
 
 	/**
 	 * @brief Sets discovery to search given type of bluetooth devices.
@@ -121,23 +208,31 @@ private:
 		std::map<MACAddress, std::string>& devices) const;
 
 	/**
+	 * @brief The purpose of the method is to run GMainLoop that handles
+	 * asynchronous events such as add new device during lescan() in separated thread.
+	 */
+	void runLoop();
+
+	/**
 	 * @brief Retrieves and returns all object paths from the given DBus object manager
 	 * that match the pathFilter and the objectFilter.
 	 */
-	std::vector<std::string> retrievePathsOfBluezObjects(
+	static std::vector<std::string> retrievePathsOfBluezObjects(
 		GlibPtr<GDBusObjectManager> objectManager,
 		PathFilter pathFilter,
-		const std::string& objectFilter) const;
+		const std::string& objectFilter);
 
 	/**
 	 * @brief Creates object path for the hci stored in m_name attribute.
 	 */
-	const std::string createAdapterPath() const;
+	static const std::string createAdapterPath(const std::string& name);
 
 	/**
 	 * @brief Creates object path for the device defined by it's MAC address.
 	 */
-	const std::string createDevicePath(const MACAddress& address) const;
+	static const std::string createDevicePath(
+		const std::string& name,
+		const MACAddress& address);
 
 	/**
 	 * @brief Creates object manager for the Bluez DBus server that
@@ -160,8 +255,18 @@ private:
 
 private:
 	std::string m_name;
+	mutable WaitCondition m_waitCondition;
+
+	GlibPtr<GMainLoop> m_loop;
+	Poco::RunnableAdapter<DBusHciInterface> m_loopThread;
+	Poco::Thread m_thread;
+	std::map<MACAddress, WatchedDevice> m_watchedDevices;
+	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
+
 	mutable Poco::Condition m_condition;
-	mutable Poco::SharedPtr<Poco::FastMutex> m_statusMutex;
+	mutable Poco::FastMutex m_statusMutex;
+	mutable Poco::FastMutex m_discoveringMutex;
+	Poco::FastMutex m_watchMutex;
 };
 
 class DBusHciInterfaceManager : public HciInterfaceManager {
@@ -171,7 +276,7 @@ public:
 	HciInterface::Ptr lookup(const std::string &name) override;
 
 private:
-	Poco::SharedPtr<Poco::FastMutex> m_statusMutex;
+	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
 };
 
 }

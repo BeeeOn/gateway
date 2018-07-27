@@ -262,5 +262,22 @@ inline void GlibPtr<GList>::assign(GList* ptr)
 		m_ptr = ::g_list_copy_deep(ptr, GCopyFunc(g_object_ref), nullptr);
 }
 
+template <>
+inline void GlibPtr<GVariant>::release()
+{
+	if (!isNull()) {
+		::g_variant_unref(m_ptr);
+		m_ptr = nullptr;
+	}
+}
+
+template <>
+inline void GlibPtr<GVariant>::assign(GVariant* ptr)
+{
+	release();
+	if (ptr != nullptr)
+		m_ptr = ::g_variant_ref(ptr);
+}
+
 
 }

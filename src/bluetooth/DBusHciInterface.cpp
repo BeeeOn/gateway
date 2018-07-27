@@ -4,6 +4,7 @@
 #include <Poco/String.h>
 
 #include "bluetooth/BluezHciInterface.h"
+#include "bluetooth/DBusHciConnection.h"
 #include "bluetooth/DBusHciInterface.h"
 #include "di/Injectable.h"
 
@@ -18,12 +19,25 @@ using namespace std;
 static int CHANGE_POWER_ATTEMPTS = 5;
 static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
 
-DBusHciInterface::DBusHciInterface(
-		const string& name,
-		SharedPtr<FastMutex> statusMutex):
+DBusHciInterface::DBusHciInterface(const string& name):
 	m_name(name),
-	m_statusMutex(statusMutex)
+	m_loopThread(*this, &DBusHciInterface::runLoop)
 {
+	m_adapter = retrieveBluezAdapter(createAdapterPath(m_name));
+	m_thread.start(m_loopThread);
+}
+
+DBusHciInterface::~DBusHciInterface()
+{
+	stopDiscovery(m_adapter);
+
+	if (::g_main_loop_is_running(m_loop.raw()))
+		::g_main_loop_quit(m_loop.raw());
+
+	try {
+		m_thread.join();
+	}
+	BEEEON_CATCH_CHAIN(logger())
 }
 
 /**
@@ -40,10 +54,12 @@ void DBusHciInterface::up() const
 	if (logger().debug())
 		logger().debug("bringing up " + m_name, __FILE__, __LINE__);
 
-	ScopedLock<FastMutex> guard(*m_statusMutex);
+	ScopedLock<FastMutex> guard(m_statusMutex);
 
-	const string path = createAdapterPath();
+	const string path = createAdapterPath(m_name);
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
+
+	startDiscovery(m_adapter, "le");
 
 	if (::org_bluez_adapter1_get_powered(adapter.raw()))
 		return;
@@ -57,9 +73,11 @@ void DBusHciInterface::down() const
 	if (logger().debug())
 		logger().debug("switching down " + m_name, __FILE__, __LINE__);
 
-	ScopedLock<FastMutex> guard(*m_statusMutex);
+	ScopedLock<FastMutex> guard(m_statusMutex);
 
-	const string path = createAdapterPath();
+	m_waitCondition.broadcast();
+
+	const string path = createAdapterPath(m_name);
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 
 	if (!::org_bluez_adapter1_get_powered(adapter.raw()))
@@ -92,9 +110,6 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 	logger().information("starting BLE scan for " +
 		to_string(timeout.totalSeconds()) + " seconds", __FILE__, __LINE__);
 
-	const string path = createAdapterPath();
-
-	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 	GlibPtr<GDBusObjectManager> objectManager = createBluezObjectManager();
 
 	map<MACAddress, string> allDevices;
@@ -106,18 +121,13 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 		G_CALLBACK(onDBusObjectAdded),
 		&allDevices);
 
-	initDiscoveryFilter(adapter, "le");
+	startDiscovery(m_adapter, "le");
 
-	GlibPtr<GError> error;
-	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, &error);
-
-	GlibPtr<GMainLoop> loop = ::g_main_loop_new(nullptr, false);
-	::g_timeout_add_seconds(timeout.seconds(), onStopLoop, loop.raw());
-	::g_main_loop_run(loop.raw());
+	m_waitCondition.tryWait(timeout);
 
 	map<MACAddress, string> foundDevices;
 	for (auto one : allDevices) {
-		GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(one.first));
+		GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, one.first));
 		int16_t rssi = ::org_bluez_device1_get_rssi(device.raw());
 		if (rssi != 0) {
 			foundDevices.emplace(one.first, one.second);
@@ -131,8 +141,6 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 	logger().information("BLE scan has finished, found " +
 		to_string(foundDevices.size()) + " device(s)", __FILE__, __LINE__);
 
-	::org_bluez_adapter1_call_stop_discovery_sync(adapter.raw(), nullptr, nullptr);
-
 	return foundDevices;
 }
 
@@ -142,6 +150,70 @@ HciInfo DBusHciInterface::info() const
 	return bluezHci.info();
 }
 
+HciConnection::Ptr DBusHciInterface::connect(
+		const MACAddress& address,
+		const Timespan& timeout) const
+{
+	if (logger().debug())
+		logger().debug("connecting to device " + address.toString(':'), __FILE__, __LINE__);
+
+	const string path = createDevicePath(m_name, address);
+	GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(path);
+
+	if (!::org_bluez_device1_get_connected(device.raw())) {
+		GlibPtr<GError> error;
+		::g_dbus_proxy_set_default_timeout(G_DBUS_PROXY(device.raw()), timeout.totalMilliseconds());
+		::org_bluez_device1_call_connect_sync(device.raw(), nullptr, &error);
+
+		throwErrorIfAny(error);
+	}
+
+	return new DBusHciConnection(m_name, device, timeout);
+}
+
+void DBusHciInterface::watch(
+		const MACAddress& address,
+		SharedPtr<WatchCallback> callBack)
+{
+	ScopedLock<FastMutex> lock(m_watchMutex);
+
+	auto it = m_watchedDevices.find(address);
+	if (it != m_watchedDevices.end())
+		return;
+
+	if (logger().debug())
+		logger().debug("watch the device " + address.toString(':'), __FILE__, __LINE__);
+
+	GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, address));
+
+	uint64_t handle = ::g_signal_connect(
+		device.raw(),
+		"g-properties-changed",
+		G_CALLBACK(onDeviceManufacturerDataRecieved),
+		callBack.get());
+
+	if (handle == 0)
+		throw IOException("failed to watch device " + address.toString());
+
+	WatchedDevice watchedDevice(device, handle, callBack);
+	m_watchedDevices.emplace(address, watchedDevice);
+}
+
+void DBusHciInterface::unwatch(const MACAddress& address)
+{
+	ScopedLock<FastMutex> lock(m_watchMutex);
+
+	auto it = m_watchedDevices.find(address);
+	if (it == m_watchedDevices.end())
+		return;
+
+	if (logger().debug())
+		logger().debug("unwatch the device " + address.toString(':'), __FILE__, __LINE__);
+
+	::g_signal_handler_disconnect(it->second.device().raw(), it->second.signalHandle());
+	m_watchedDevices.erase(address);
+}
+
 void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool powered) const
 {
 	for (int i = 0; i < CHANGE_POWER_ATTEMPTS; ++i) {
@@ -149,10 +221,33 @@ void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool pow
 		if (::org_bluez_adapter1_get_powered(adapter.raw()) == powered)
 			return;
 
-		m_condition.tryWait(*m_statusMutex, CHANGE_POWER_DELAY.totalMilliseconds());
+		m_condition.tryWait(m_statusMutex, CHANGE_POWER_DELAY.totalMilliseconds());
 	}
 
 	throw TimeoutException("failed to change power of interface" + m_name);
+}
+
+void DBusHciInterface::startDiscovery(
+		GlibPtr<OrgBluezAdapter1> adapter,
+		const std::string& trasport) const
+{
+	ScopedLock<FastMutex> guard(m_discoveringMutex);
+
+	if (::org_bluez_adapter1_get_discovering(adapter.raw()))
+		return;
+
+	initDiscoveryFilter(adapter, trasport);
+	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, nullptr);
+}
+
+void DBusHciInterface::stopDiscovery(GlibPtr<OrgBluezAdapter1> adapter) const
+{
+	ScopedLock<FastMutex> guard(m_discoveringMutex);
+
+	if (!::org_bluez_adapter1_get_discovering(adapter.raw()))
+		return;
+
+	::org_bluez_adapter1_call_stop_discovery_sync(adapter.raw(), nullptr, nullptr);
 }
 
 void DBusHciInterface::initDiscoveryFilter(
@@ -196,10 +291,16 @@ void DBusHciInterface::processKnownDevices(
 	}
 }
 
+void DBusHciInterface::runLoop()
+{
+	m_loop = ::g_main_loop_new(nullptr, false);
+	::g_main_loop_run(m_loop.raw());
+}
+
 vector<string> DBusHciInterface::retrievePathsOfBluezObjects(
 		GlibPtr<GDBusObjectManager> objectManager,
 		PathFilter pathFilter,
-		const std::string& objectFilter) const
+		const std::string& objectFilter)
 {
 	vector<string> paths;
 	GlibPtr<GList> objects = ::g_dbus_object_manager_get_objects(objectManager.raw());
@@ -254,14 +355,61 @@ void DBusHciInterface::onDBusObjectAdded(
 	foundDevices.emplace(mac, name);
 }
 
-const string DBusHciInterface::createAdapterPath() const
+gboolean DBusHciInterface::onDeviceManufacturerDataRecieved(
+		OrgBluezDevice1* device,
+		GVariant* properties,
+		const gchar* const*,
+		gpointer userData)
 {
-	return "/org/bluez/" + m_name;
+	if (::g_variant_n_children(properties) == 0)
+		return true;
+
+	GVariantIter* iter;
+	const char* property;
+	GVariant* value;
+
+	::g_variant_get(properties, "a{sv}", &iter);
+	while (::g_variant_iter_loop(iter, "{&sv}", &property, &value)) {
+		if (string(property) == "ManufacturerData") {
+			processManufacturerData(device, value, userData);
+
+			break;
+		}
+	}
+
+	return true;
 }
 
-const string DBusHciInterface::createDevicePath(const MACAddress& address) const
+void DBusHciInterface::processManufacturerData(
+		OrgBluezDevice1* device,
+		GVariant* value,
+		gpointer userData)
 {
-	return "/org/bluez/" + m_name + "/dev_" + address.toString('_');
+	GVariantIter* iter;
+	GVariant* data;
+	size_t size;
+
+	::g_variant_get(value, "a{qv}", &iter);
+	while (::g_variant_iter_loop(iter, "{qv}", nullptr, &data)) {
+		const unsigned char* tmpData = reinterpret_cast<const unsigned char*>(
+			::g_variant_get_fixed_array(data, &size, sizeof(unsigned char)));
+
+		vector<unsigned char> result(tmpData, tmpData + size);
+		const auto mac = MACAddress::parse(::org_bluez_device1_get_address(device), ':');
+
+		WatchCallback &func = *(reinterpret_cast<WatchCallback*>(userData));
+		func(mac, result);
+	}
+}
+
+const string DBusHciInterface::createAdapterPath(const string& name)
+{
+	return "/org/bluez/" + name;
+}
+
+const string DBusHciInterface::createDevicePath(const string& name, const MACAddress& address)
+{
+	return "/org/bluez/" + name + "/dev_" + address.toString('_');
 }
 
 GlibPtr<GDBusObjectManager> DBusHciInterface::createBluezObjectManager()
@@ -312,13 +460,28 @@ GlibPtr<OrgBluezDevice1> DBusHciInterface::retrieveBluezDevice(const string& pat
 	return device;
 }
 
+DBusHciInterface::WatchedDevice::WatchedDevice(
+		const GlibPtr<OrgBluezDevice1> device,
+		const uint64_t signalHandle,
+		const Poco::SharedPtr<WatchCallback> callBack):
+	m_device(device),
+	m_signalHandle(signalHandle),
+	m_callBack(callBack)
+{
+}
 
-DBusHciInterfaceManager::DBusHciInterfaceManager():
-	m_statusMutex(new FastMutex)
+
+DBusHciInterfaceManager::DBusHciInterfaceManager()
 {
 }
 
 HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 {
-	return new DBusHciInterface(name, m_statusMutex);
+	auto it = m_interfaces.find(name);
+	if (it != m_interfaces.end())
+		return it->second;
+
+	DBusHciInterface::Ptr newHci = new DBusHciInterface(name);
+	m_interfaces.emplace(name, newHci);
+	return newHci;
 }

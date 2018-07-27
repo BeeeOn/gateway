@@ -171,7 +171,9 @@ endif()
 if(ENABLE_BLUETOOTH)
 	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/DBusHciConnection.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/DBusHciInterface.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/HciConnection.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInfo.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 	)

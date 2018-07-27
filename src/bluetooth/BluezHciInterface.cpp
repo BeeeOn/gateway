@@ -282,6 +282,25 @@ HciInfo BluezHciInterface::info() const
 	return HciInfo(findHciInfo(*sock, m_name));
 }
 
+HciConnection::Ptr BluezHciInterface::connect(
+		const MACAddress&,
+		const Poco::Timespan&) const
+{
+	throw NotImplementedException(__func__);
+}
+
+void BluezHciInterface::watch(
+		const MACAddress&,
+		SharedPtr<WatchCallback>)
+{
+	throw NotImplementedException(__func__);
+}
+
+void BluezHciInterface::unwatch(const MACAddress&)
+{
+	throw NotImplementedException(__func__);
+}
+
 string BluezHciInterface::parseLEName(uint8_t *eir, size_t length)
 {
 	size_t offset = 0;
