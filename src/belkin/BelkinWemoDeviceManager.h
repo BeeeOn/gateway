@@ -33,9 +33,9 @@ public:
 	public:
 		typedef Poco::SharedPtr<BelkinWemoSeeker> Ptr;
 
-		BelkinWemoSeeker(BelkinWemoDeviceManager& parent);
+		BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Poco::Timespan& duration);
 
-		void startSeeking(const Poco::Timespan& duration);
+		void startSeeking();
 
 		void run() override;
 		void stop() override;

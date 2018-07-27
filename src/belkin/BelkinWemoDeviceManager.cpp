@@ -193,8 +193,8 @@ void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 
 AsyncWork<>::Ptr BelkinWemoDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	BelkinWemoSeeker::Ptr seeker = new BelkinWemoSeeker(*this);
-	seeker->startSeeking(timeout);
+	BelkinWemoSeeker::Ptr seeker = new BelkinWemoSeeker(*this, timeout);
+	seeker->startSeeking();
 	return seeker;
 }
 
@@ -437,13 +437,14 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 			m_refresh));
 }
 
-BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent) :
+BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Timespan& duration) :
 	m_parent(parent),
+	m_duration(duration),
 	m_joiner(m_seekerThread)
 {
 }
 
-void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking(const Timespan& duration)
+void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking()
 {
 	if (!m_seekerThread.isRunning()) {
 		m_seekerThread.start(*this);
@@ -451,8 +452,6 @@ void BelkinWemoDeviceManager::BelkinWemoSeeker::startSeeking(const Timespan& dur
 	else {
 		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
 	}
-
-	m_duration = duration;
 }
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::run()
