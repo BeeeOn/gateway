@@ -230,8 +230,8 @@ void PhilipsHueDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr 
 
 AsyncWork<>::Ptr PhilipsHueDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	PhilipsHueSeeker::Ptr seeker = new PhilipsHueSeeker(*this);
-	seeker->startSeeking(timeout);
+	PhilipsHueSeeker::Ptr seeker = new PhilipsHueSeeker(*this, timeout);
+	seeker->startSeeking();
 
 	return seeker;
 }
@@ -508,13 +508,14 @@ void PhilipsHueDeviceManager::fireBulbStatistics(PhilipsHueBulb::Ptr bulb)
 	}
 }
 
-PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceManager& parent) :
+PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceManager& parent, const Timespan &duration) :
 	m_parent(parent),
+	m_duration(duration),
 	m_joiner(m_seekerThread)
 {
 }
 
-void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking(const Timespan& duration)
+void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking()
 {
 	if (!m_seekerThread.isRunning()) {
 		m_seekerThread.start(*this);
@@ -522,8 +523,6 @@ void PhilipsHueDeviceManager::PhilipsHueSeeker::startSeeking(const Timespan& dur
 	else {
 		m_parent.logger().debug("listen seems to be running already, dropping listen command", __FILE__, __LINE__);
 	}
-
-	m_duration = duration;
 }
 
 void PhilipsHueDeviceManager::PhilipsHueSeeker::run()

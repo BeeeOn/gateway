@@ -39,9 +39,9 @@ public:
 	public:
 		typedef Poco::SharedPtr<PhilipsHueSeeker> Ptr;
 
-		PhilipsHueSeeker(PhilipsHueDeviceManager& parent);
+		PhilipsHueSeeker(PhilipsHueDeviceManager& parent, const Poco::Timespan& duration);
 
-		void startSeeking(const Poco::Timespan& duration);
+		void startSeeking();
 
 		void run() override;
 		void stop() override;
