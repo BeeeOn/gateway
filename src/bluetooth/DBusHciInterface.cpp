@@ -59,13 +59,12 @@ void DBusHciInterface::up() const
 	const string path = createAdapterPath(m_name);
 	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 
+	if (!::org_bluez_adapter1_get_powered(adapter.raw())) {
+		::org_bluez_adapter1_set_powered(adapter.raw(), true);
+		waitUntilPoweredChange(path, true);
+	}
+
 	startDiscovery(m_adapter, "le");
-
-	if (::org_bluez_adapter1_get_powered(adapter.raw()))
-		return;
-
-	::org_bluez_adapter1_set_powered(adapter.raw(), true);
-	waitUntilPoweredChange(path, true);
 }
 
 void DBusHciInterface::down() const
