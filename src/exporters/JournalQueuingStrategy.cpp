@@ -17,6 +17,7 @@
 #include "di/Injectable.h"
 #include "exporters/JournalQueuingStrategy.h"
 #include "io/SafeWriter.h"
+#include "util/ChecksumSensorDataFormatter.h"
 #include "util/JSONSensorDataFormatter.h"
 #include "util/JSONSensorDataParser.h"
 
@@ -852,19 +853,12 @@ void JournalQueuingStrategy::FileBuffer::inspectAndVerify(
 string JournalQueuingStrategy::FileBuffer::formatEntries(
 	const vector<SensorData> &data)
 {
-	static JSONSensorDataFormatter formatter;
+	static ChecksumSensorDataFormatter formatter(new JSONSensorDataFormatter);
 
 	string buffer;
 
 	for (const auto &one : data) {
-		Checksum csum(Checksum::TYPE_CRC32);
-
-		const auto &content = formatter.format(one);
-		csum.update(content);
-
-		buffer += NumberFormatter::formatHex(csum.checksum(), 8);
-		buffer += "\t";
-		buffer += content;
+		buffer += formatter.format(one);
 		buffer += "\n";
 	}
 
