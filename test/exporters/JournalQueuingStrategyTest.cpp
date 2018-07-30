@@ -15,10 +15,6 @@ using namespace std;
 
 namespace BeeeOn {
 
-static const string raw_7f23d5a =
-	"D4EC89F4\t{\"device_id\":\"0x4100000001020304\",\"timestamp\":1527660187000000,\"data\":["
-	"{\"module_id\":0,\"value\":5},{\"module_id\":1,\"value\":14.5},{\"module_id\":2,\"value\":-15}]}\n";
-
 static const vector<SensorData> data_1e90a60 = {
 	{
 		DeviceID::parse("0x4100000001020304"),
