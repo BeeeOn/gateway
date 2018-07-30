@@ -204,6 +204,17 @@ protected:
 		const Poco::Clock &started,
 		const Poco::Timespan &duration) const;
 
+	/**
+	 * @brief Manage an AsyncWork after it is started. If it does not finish
+	 * in the given timeout, it is cancelled explicitly.
+	 *
+	 * @return false when cancellled (timeout)
+	 */
+	bool manageUntilFinished(
+		const std::string &opname,
+		AnyAsyncWork::Ptr work,
+		const Poco::Timespan &timeout);
+
 private:
 	void requestDeviceList(Answer::Ptr answer);
 	std::set<DeviceID> responseDeviceList(

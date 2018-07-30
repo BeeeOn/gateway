@@ -136,20 +136,7 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 	logger().information("starting discovery (" + to_string(timeout.totalSeconds()) + " s)", __FILE__, __LINE__);
 
 	auto discovery = startDiscovery(timeout);
-	cancellable().manage(discovery);
-
-	if (discovery->tryJoin(timeout)) {
-		cancellable().unmanage(discovery);
-		logger().information("discovery has finished", __FILE__, __LINE__);
-		return;
-	}
-
-	if (cancellable().unmanage(discovery)) {
-		logger().information("cancelling discovery", __FILE__, __LINE__);
-		discovery->cancel();
-	}
-
-	logger().information("discovery has been cancelled", __FILE__, __LINE__);
+	manageUntilFinished("discovery", discovery, timeout);
 }
 
 AsyncWork<set<DeviceID>>::Ptr DeviceManager::startUnpair(
@@ -171,19 +158,7 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	logger().information("starting unpair", __FILE__, __LINE__);
 
 	auto unpair = startUnpair(cmd->deviceID(), timeout);
-	cancellable().manage(unpair);
-
-	if (!unpair->tryJoin(timeout)) {
-		if (cancellable().unmanage(unpair)) {
-			logger().information("cancelling unpair", __FILE__, __LINE__);
-			unpair->cancel();
-		}
-
-		logger().information("unpair has been cancelled", __FILE__, __LINE__);
-	}
-	else {
-		cancellable().unmanage(unpair);
-	}
+	manageUntilFinished("unpair", unpair, timeout);
 
 	if (unpair->result().isNull())
 		return {};
@@ -236,6 +211,28 @@ Timespan DeviceManager::checkDelayedOperation(
 		timeout = 1 * Timespan::SECONDS;
 
 	return timeout;
+}
+
+bool DeviceManager::manageUntilFinished(
+		const string &opname,
+		AnyAsyncWork::Ptr work,
+		const Timespan &timeout)
+{
+	cancellable().manage(work);
+
+	if (!work->tryJoin(timeout)) {
+		if (cancellable().unmanage(work)) {
+			logger().information("cancelling " + opname, __FILE__, __LINE__);
+			work->cancel();
+		}
+
+		logger().information(opname + " has been cancelled", __FILE__, __LINE__);
+		return false;
+	}
+	else {
+		cancellable().unmanage(work);
+		return true;
+	}
 }
 
 set<DeviceID> DeviceManager::deviceList(const Poco::Timespan &timeout)
