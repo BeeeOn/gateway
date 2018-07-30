@@ -113,7 +113,8 @@ uint8_t ColorBrightness::brightnessFromColor(const uint8_t component) const
 
 uint8_t ColorBrightness::omitBrightness(const uint8_t component) const
 {
-	return round(component / (m_brightness / 100.0));
+	uint32_t result = round(component / (m_brightness / 100.0));
+	return result > m_maxColorElement ? m_maxColorElement : result;
 }
 
 uint8_t ColorBrightness::applyBrightness(const uint8_t component) const
