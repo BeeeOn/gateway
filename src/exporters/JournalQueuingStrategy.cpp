@@ -1,4 +1,3 @@
-#include <Poco/Checksum.h>
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/DigestStream.h>
@@ -18,6 +17,7 @@
 #include "exporters/JournalQueuingStrategy.h"
 #include "io/SafeWriter.h"
 #include "util/ChecksumSensorDataFormatter.h"
+#include "util/ChecksumSensorDataParser.h"
 #include "util/JSONSensorDataFormatter.h"
 #include "util/JSONSensorDataParser.h"
 
@@ -865,34 +865,6 @@ string JournalQueuingStrategy::FileBuffer::formatEntries(
 	return buffer;
 }
 
-SensorData JournalQueuingStrategy::FileBuffer::parseData(const string &line) const
-{
-	static JSONSensorDataParser parser;
-
-	const auto sep = line.find('\t');
-	if (sep == string::npos)
-		throw SyntaxException("missing checksum prefix");
-
-	const auto &prefix = line.substr(0, sep);
-	const auto &content = line.substr(sep + 1);
-	const auto checksum = NumberParser::parseHex(prefix);
-
-	Checksum csum(Checksum::TYPE_CRC32);
-	csum.update(content);
-
-	const auto &computed = csum.checksum();
-
-	if (checksum != computed) {
-		throw IllegalStateException(
-			"checksum is invalid: "
-			+ NumberFormatter::formatHex(checksum, 8)
-			+ " != "
-			+ NumberFormatter::formatHex(computed, 8));
-	}
-
-	return parser.parse(content);
-}
-
 size_t JournalQueuingStrategy::FileBuffer::scanEntries(
 		size_t offset,
 		function<void(const Entry &entry)> proc,
@@ -923,6 +895,8 @@ size_t JournalQueuingStrategy::FileBuffer::scanEntries(
 		size_t &bytes,
 		const size_t count) const
 {
+	static ChecksumSensorDataParser parser(new JSONSensorDataParser);
+
 	string line;
 	size_t total = 0;
 
@@ -937,7 +911,7 @@ size_t JournalQueuingStrategy::FileBuffer::scanEntries(
 
 		try {
 			proc({
-				parseData(line),
+				parser.parse(line),
 				name(),
 				m_offset + bytes
 			});

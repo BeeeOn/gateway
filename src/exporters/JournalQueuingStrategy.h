@@ -330,11 +330,6 @@ protected:
 
 	protected:
 		/**
-		 * @returns parsed data from the given line.
-		 */
-		SensorData parseData(const std::string &line) const;
-
-		/**
 		 * @brief Scan for up to count entries from the current
 		 * offset. The parameter bytes is updated continuously
 		 * while reading any bytes and it would up to date even

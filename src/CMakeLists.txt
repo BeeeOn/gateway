@@ -137,6 +137,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/server/GWServerConnector.cpp
 	${PROJECT_SOURCE_DIR}/server/ServerAnswer.cpp
 	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataFormatter.cpp
+	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataParser.cpp
 	${PROJECT_SOURCE_DIR}/util/ColorBrightness.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/DataReader.cpp
