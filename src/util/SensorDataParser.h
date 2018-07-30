@@ -8,6 +8,7 @@ namespace BeeeOn {
 
 class SensorDataParser {
 public:
+	virtual ~SensorDataParser();
 
 	/**
 	 * Convert string representation of SensorData to SensorData object.
