@@ -11,6 +11,11 @@
 
 namespace BeeeOn {
 
+static inline gpointer g_object_ref_copy(gconstpointer src, gpointer)
+{
+	return ::g_object_ref(const_cast<gpointer>(src));
+}
+
 /**
  * @brief The class is used to store the references to objects from the GLib library.
  * It is also responsible for automatically freeing of memory.
@@ -259,7 +264,7 @@ inline void GlibPtr<GList>::assign(GList* ptr)
 {
 	release();
 	if (ptr != nullptr)
-		m_ptr = ::g_list_copy_deep(ptr, GCopyFunc(g_object_ref), nullptr);
+		m_ptr = ::g_list_copy_deep(ptr, g_object_ref_copy, nullptr);
 }
 
 template <>

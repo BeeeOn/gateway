@@ -56,16 +56,12 @@ void DBusHciInterface::up() const
 
 	ScopedLock<FastMutex> guard(m_statusMutex);
 
-	const string path = createAdapterPath(m_name);
-	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
+	if (!::org_bluez_adapter1_get_powered(m_adapter.raw())) {
+		::org_bluez_adapter1_set_powered(m_adapter.raw(), true);
+		waitUntilPoweredChange(m_adapter, true);
+	}
 
 	startDiscovery(m_adapter, "le");
-
-	if (::org_bluez_adapter1_get_powered(adapter.raw()))
-		return;
-
-	::org_bluez_adapter1_set_powered(adapter.raw(), true);
-	waitUntilPoweredChange(path, true);
 }
 
 void DBusHciInterface::down() const
@@ -77,14 +73,11 @@ void DBusHciInterface::down() const
 
 	m_waitCondition.broadcast();
 
-	const string path = createAdapterPath(m_name);
-	GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
-
-	if (!::org_bluez_adapter1_get_powered(adapter.raw()))
+	if (!::org_bluez_adapter1_get_powered(m_adapter.raw()))
 		return;
 
-	::org_bluez_adapter1_set_powered(adapter.raw(), false);
-	waitUntilPoweredChange(path, false);
+	::org_bluez_adapter1_set_powered(m_adapter.raw(), false);
+	waitUntilPoweredChange(m_adapter, false);
 }
 
 void DBusHciInterface::reset() const
@@ -214,10 +207,9 @@ void DBusHciInterface::unwatch(const MACAddress& address)
 	m_watchedDevices.erase(address);
 }
 
-void DBusHciInterface::waitUntilPoweredChange(const string& path, const bool powered) const
+void DBusHciInterface::waitUntilPoweredChange(GlibPtr<OrgBluezAdapter1> adapter, const bool powered) const
 {
 	for (int i = 0; i < CHANGE_POWER_ATTEMPTS; ++i) {
-		GlibPtr<OrgBluezAdapter1> adapter = retrieveBluezAdapter(path);
 		if (::org_bluez_adapter1_get_powered(adapter.raw()) == powered)
 			return;
 

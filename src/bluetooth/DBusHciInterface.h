@@ -174,7 +174,7 @@ private:
 	 * @throws TimeoutException in case of the hci is not in required status
 	 * after the timeout expired.
 	 */
-	void waitUntilPoweredChange(const std::string& path, const bool powered) const;
+	void waitUntilPoweredChange(GlibPtr<OrgBluezAdapter1> adapter, const bool powered) const;
 
 	/**
 	 * @brief Switch on the discovery on the adapter.
