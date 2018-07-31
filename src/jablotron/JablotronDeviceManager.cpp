@@ -154,14 +154,6 @@ void JablotronDeviceManager::jablotronProcess()
 	}
 }
 
-void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
-{
-	if (cmd->is<DeviceSetValueCommand>())
-		doSetValue(cmd.cast<DeviceSetValueCommand>());
-	else
-		DeviceManager::handleGeneric(cmd, result);
-}
-
 void JablotronDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	Mutex::ScopedLock guard(m_lock);
@@ -529,12 +521,20 @@ void JablotronDeviceManager::obtainLastValue()
 	}
 }
 
-void JablotronDeviceManager::doSetValue(DeviceSetValueCommand::Ptr cmd)
+AsyncWork<double>::Ptr JablotronDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &,
+		const double value,
+		const Timespan &timeout)
 {
-	Mutex::ScopedLock guard(m_lock);
+	Mutex::ScopedLock guard(m_lock, timeout.totalMilliseconds());
 
-	if (!modifyValue(cmd->deviceID(), cmd->value())) {
+	if (!modifyValue(id, value)) {
 		throw IllegalStateException(
-			"failed set-value: " + cmd->deviceID().toString());
+			"failed set-value: " + id.toString());
 	}
+
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(value);
+	return work;
 }
