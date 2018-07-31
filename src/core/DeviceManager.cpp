@@ -9,6 +9,7 @@
 #include "core/DeviceManager.h"
 #include "core/MemoryDeviceCache.h"
 #include "core/PrefixCommand.h"
+#include "model/SensorData.h"
 #include "util/ClassInfo.h"
 
 using namespace BeeeOn;
@@ -99,6 +100,9 @@ void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 		const auto &result = handleUnpair(cmd.cast<DeviceUnpairCommand>());
 		unpair->setUnpaired(result);
 	}
+	else if (cmd->is<DeviceSetValueCommand>()) {
+		handleSetValue(cmd.cast<DeviceSetValueCommand>());
+	}
 	else
 		throw NotImplementedException(cmd->toString());
 }
@@ -131,36 +135,12 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 
 	ScopedLock<FastMutex> guard(m_listenLock, duration.totalMilliseconds());
 
-	if (started.elapsed() > 1 * Timespan::SECONDS) {
-		logger().warning("discovery has been significantly delayed: "
-			+ to_string(started.elapsed()) + " us",
-			__FILE__, __LINE__);
-	}
-
-	if (m_stopControl.shouldStop())
-		throw IllegalStateException("discovery skipped due to shutdown request");
-
-	Timespan timeout = duration - started.elapsed();
-	if (timeout < 1 * Timespan::SECONDS)
-		timeout = 1 * Timespan::SECONDS;
+	const Timespan &timeout = checkDelayedOperation("discovery", started, duration);
 
 	logger().information("starting discovery (" + to_string(timeout.totalSeconds()) + " s)", __FILE__, __LINE__);
 
 	auto discovery = startDiscovery(timeout);
-	cancellable().manage(discovery);
-
-	if (discovery->tryJoin(timeout)) {
-		cancellable().unmanage(discovery);
-		logger().information("discovery has finished", __FILE__, __LINE__);
-		return;
-	}
-
-	if (cancellable().unmanage(discovery)) {
-		logger().information("cancelling discovery", __FILE__, __LINE__);
-		discovery->cancel();
-	}
-
-	logger().information("discovery has been cancelled", __FILE__, __LINE__);
+	manageUntilFinished("discovery", discovery, timeout);
 }
 
 AsyncWork<set<DeviceID>>::Ptr DeviceManager::startUnpair(
@@ -177,35 +157,12 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 
 	ScopedLock<FastMutex> guard(m_unpairLock, duration.totalMilliseconds());
 
-	if (started.elapsed() > 1 * Timespan::SECONDS) {
-		logger().warning("unpair has been significantly delayed: "
-			+ to_string(started.elapsed()) + " us",
-			__FILE__, __LINE__);
-	}
-
-	Timespan timeout = duration - started.elapsed();
-	if (timeout < 1 * Timespan::SECONDS)
-		timeout = 1 * Timespan::SECONDS;
-
-	if (m_stopControl.shouldStop())
-		throw IllegalStateException("unpair skipped due to shutdown request");
+	const Timespan &timeout = checkDelayedOperation("unpair", started, duration);
 
 	logger().information("starting unpair", __FILE__, __LINE__);
 
 	auto unpair = startUnpair(cmd->deviceID(), timeout);
-	cancellable().manage(unpair);
-
-	if (!unpair->tryJoin(timeout)) {
-		if (cancellable().unmanage(unpair)) {
-			logger().information("cancelling unpair", __FILE__, __LINE__);
-			unpair->cancel();
-		}
-
-		logger().information("unpair has been cancelled", __FILE__, __LINE__);
-	}
-	else {
-		cancellable().unmanage(unpair);
-	}
+	manageUntilFinished("unpair", unpair, timeout);
 
 	if (unpair->result().isNull())
 		return {};
@@ -234,9 +191,101 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	return result;
 }
 
+AsyncWork<double>::Ptr DeviceManager::startSetValue(
+		const DeviceID &,
+		const ModuleID &,
+		const double,
+		const Timespan &)
+{
+	throw NotImplementedException("generic set-value is not supported");
+}
+
+void DeviceManager::handleSetValue(const DeviceSetValueCommand::Ptr cmd)
+{
+	const Clock started;
+	const Timespan &duration = cmd->timeout();
+
+	ScopedLock<FastMutex> guard(m_setValueLock, duration.totalMilliseconds());
+
+	const Timespan &timeout = checkDelayedOperation("set-value", started, duration);
+
+	logger().information("starting set-value", __FILE__, __LINE__);
+
+	auto operation = startSetValue(
+		cmd->deviceID(),
+		cmd->moduleID(),
+		cmd->value(),
+		timeout);
+	manageUntilFinished("set-value", operation, timeout);
+
+	if (operation->result().isNull())
+		throw IllegalStateException("result of set-value was not provided");
+
+	const auto value = operation->result().value();
+
+	try {
+		if (logger().debug()) {
+			logger().debug(
+				"shipping value " + to_string(value)
+				+ " that has just been set",
+				__FILE__, __LINE__);
+		}
+
+		ship({
+			cmd->deviceID(),
+			Timestamp{},
+			{{cmd->moduleID(), value}}
+		});
+	}
+	BEEEON_CATCH_CHAIN(logger())
+}
+
 void DeviceManager::ship(const SensorData &sensorData)
 {
 	m_distributor->exportData(sensorData);
+}
+
+Timespan DeviceManager::checkDelayedOperation(
+		const string &opname,
+		const Clock &started,
+		const Timespan &duration) const
+{
+	if (started.elapsed() > 1 * Timespan::SECONDS) {
+		logger().warning(opname + " has been significantly delayed: "
+			+ to_string(started.elapsed()) + " us",
+			__FILE__, __LINE__);
+	}
+
+	if (m_stopControl.shouldStop())
+		throw IllegalStateException(opname + " skipped due to shutdown request");
+
+	Timespan timeout = duration - started.elapsed();
+	if (timeout < 1 * Timespan::SECONDS)
+		timeout = 1 * Timespan::SECONDS;
+
+	return timeout;
+}
+
+bool DeviceManager::manageUntilFinished(
+		const string &opname,
+		AnyAsyncWork::Ptr work,
+		const Timespan &timeout)
+{
+	cancellable().manage(work);
+
+	if (!work->tryJoin(timeout)) {
+		if (cancellable().unmanage(work)) {
+			logger().information("cancelling " + opname, __FILE__, __LINE__);
+			work->cancel();
+		}
+
+		logger().information(opname + " has been cancelled", __FILE__, __LINE__);
+		return false;
+	}
+	else {
+		cancellable().unmanage(work);
+		return true;
+	}
 }
 
 set<DeviceID> DeviceManager::deviceList(const Poco::Timespan &timeout)

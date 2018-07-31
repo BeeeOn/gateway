@@ -4,10 +4,12 @@
 #include <set>
 #include <typeindex>
 
+#include <Poco/Clock.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 
 #include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/AnswerQueue.h"
@@ -149,6 +151,33 @@ protected:
 	std::set<DeviceID> handleUnpair(const DeviceUnpairCommand::Ptr cmd);
 
 	/**
+	 * @brief Starts set-value operation in a technology specific way.
+	 * The method is always called inside a critical section and so its
+	 * implementation does not have to be thread-save nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The set-value process might a be a non-blocking operation. The value
+	 * set by the set-value is expected as a result of the returned AsyncWork
+	 * instance.
+	 */
+	virtual AsyncWork<double>::Ptr startSetValue(
+			const DeviceID &id,
+			const ModuleID &module,
+			const double value,
+			const Poco::Timespan &timespan);
+
+	/**
+	 * @brief Implements handling of the set-value command in a generic way.
+	 * The method ensures that only 1 thread can execute set-value process
+	 * at a time. If the set-value operation succeeds, it ships the set value.
+	 *
+	 * It uses the method startSetValue() to initialize and start the set-value
+	 * process. The method startSetValue() is always called exactly once at a
+	 * time and until it finishes, no the set-value is started.
+	 */
+	void handleSetValue(const DeviceSetValueCommand::Ptr cmd);
+
+	/**
 	* Ship data received from a physical device into a collection point.
 	*/
 	void ship(const SensorData &sensorData);
@@ -188,6 +217,32 @@ protected:
 	 */
 	CancellableSet &cancellable();
 
+	/**
+	 * @brief When starting an asynchronous operation, it might happen we
+	 * sleep too long on a lock because the previous operation did not
+	 * finished yet. This method performs such checks and also tests
+	 * for global stop request. If everything is in order it just fixes
+	 * the duration by the time elapsed by waiting. Otherwise, it throws
+	 * an exception.
+	 *
+	 * @throws IllegalStateException when stop has been requested
+	 */
+	Poco::Timespan checkDelayedOperation(
+		const std::string &opname,
+		const Poco::Clock &started,
+		const Poco::Timespan &duration) const;
+
+	/**
+	 * @brief Manage an AsyncWork after it is started. If it does not finish
+	 * in the given timeout, it is cancelled explicitly.
+	 *
+	 * @return false when cancellled (timeout)
+	 */
+	bool manageUntilFinished(
+		const std::string &opname,
+		AnyAsyncWork::Ptr work,
+		const Poco::Timespan &timeout);
+
 private:
 	void requestDeviceList(Answer::Ptr answer);
 	std::set<DeviceID> responseDeviceList(
@@ -203,6 +258,7 @@ private:
 	DeviceCache::Ptr m_deviceCache;
 	Poco::FastMutex m_listenLock;
 	Poco::FastMutex m_unpairLock;
+	Poco::FastMutex m_setValueLock;
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 	CancellableSet m_cancellable;
