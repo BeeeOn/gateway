@@ -3,12 +3,16 @@
 
 #include <string>
 
+#include <Poco/SharedPtr.h>
+
 namespace BeeeOn {
 
 class SensorData;
 
 class SensorDataFormatter {
 public:
+	typedef Poco::SharedPtr<SensorDataFormatter> Ptr;
+
 	SensorDataFormatter();
 	virtual ~SensorDataFormatter();
 
