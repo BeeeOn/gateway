@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-5-g8911081</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-9-g32476d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -141,6 +141,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:abd80dc1d719797f57e7c854426855beb"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd80dc1d719797f57e7c854426855beb">handleUnpair</a> (const DeviceUnpairCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:abd80dc1d719797f57e7c854426855beb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time.  <a href="#abd80dc1d719797f57e7c854426855beb">More...</a><br/></td></tr>
 <tr class="separator:abd80dc1d719797f57e7c854426855beb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad505fdba6d8e8f4157274b96d4399f50"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ad505fdba6d8e8f4157274b96d4399f50">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timespan)</td></tr>
+<tr class="memdesc:ad505fdba6d8e8f4157274b96d4399f50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#ad505fdba6d8e8f4157274b96d4399f50">More...</a><br/></td></tr>
+<tr class="separator:ad505fdba6d8e8f4157274b96d4399f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aa94b73d5a590bf1ef77a504f7a14ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a7aa94b73d5a590bf1ef77a504f7a14ab">handleSetValue</a> (const DeviceSetValueCommand::Ptr cmd)</td></tr>
+<tr class="memdesc:a7aa94b73d5a590bf1ef77a504f7a14ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the set-value command in a generic way. The method ensures that only 1 thread can execute set-value process at a time. If the set-value operation succeeds, it ships the set value.  <a href="#a7aa94b73d5a590bf1ef77a504f7a14ab">More...</a><br/></td></tr>
+<tr class="separator:a7aa94b73d5a590bf1ef77a504f7a14ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94e2b5abe52d5db31a0c4b28bcc52f80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a94e2b5abe52d5db31a0c4b28bcc52f80">ship</a> (const <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> &amp;sensorData)</td></tr>
 <tr class="separator:a94e2b5abe52d5db31a0c4b28bcc52f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d84056330e3cac75c4f932dc69160"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList</a> (const Poco::Timespan &amp;timeout=DEFAULT_REQUEST_TIMEOUT)</td></tr>
@@ -151,6 +157,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="separator:a39d625a519fb488eaddc38ad42b0791e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7ae734dddde1a3466a801fe23b18818"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1CancellableSet.html">CancellableSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ae7ae734dddde1a3466a801fe23b18818">cancellable</a> ()</td></tr>
 <tr class="separator:ae7ae734dddde1a3466a801fe23b18818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae92f8ba6dc2c359daacb8d47519fda30"><td class="memItemLeft" align="right" valign="top">Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ae92f8ba6dc2c359daacb8d47519fda30">checkDelayedOperation</a> (const std::string &amp;opname, const Poco::Clock &amp;started, const Poco::Timespan &amp;duration) const </td></tr>
+<tr class="memdesc:ae92f8ba6dc2c359daacb8d47519fda30"><td class="mdescLeft">&#160;</td><td class="mdescRight">When starting an asynchronous operation, it might happen we sleep too long on a lock because the previous operation did not finished yet. This method performs such checks and also tests for global stop request. If everything is in order it just fixes the duration by the time elapsed by waiting. Otherwise, it throws an exception.  <a href="#ae92f8ba6dc2c359daacb8d47519fda30">More...</a><br/></td></tr>
+<tr class="separator:ae92f8ba6dc2c359daacb8d47519fda30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10a7f4fd33589018e747a219114a37ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a10a7f4fd33589018e747a219114a37ba">manageUntilFinished</a> (const std::string &amp;opname, AnyAsyncWork::Ptr work, const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a10a7f4fd33589018e747a219114a37ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manage an <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> after it is started. If it does not finish in the given timeout, it is cancelled explicitly.  <a href="#a10a7f4fd33589018e747a219114a37ba">More...</a><br/></td></tr>
+<tr class="separator:a10a7f4fd33589018e747a219114a37ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:af89c60789e75cb07103e46d40a3ebb32 inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af89c60789e75cb07103e46d40a3ebb32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setupLogger</b> (Poco::Logger *logger=0) const </td></tr>
@@ -252,6 +264,54 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>reference to the <a class="el" href="classBeeeOn_1_1CancellableSet.html">CancellableSet</a> instance that is cancelled on <a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">stop()</a>. This allows to manage asynchronous jobs and cancel them when required. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae92f8ba6dc2c359daacb8d47519fda30"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Timespan DeviceManager::checkDelayedOperation </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>opname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Clock &amp;&#160;</td>
+          <td class="paramname"><em>started</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>duration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When starting an asynchronous operation, it might happen we sleep too long on a lock because the previous operation did not finished yet. This method performs such checks and also tests for global stop request. If everything is in order it just fixes the duration by the time elapsed by waiting. Otherwise, it throws an exception. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IllegalStateException</td><td>when stop has been requested </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -408,6 +468,33 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 
 </div>
 </div>
+<a class="anchor" id="a7aa94b73d5a590bf1ef77a504f7a14ab"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DeviceManager::handleSetValue </td>
+          <td>(</td>
+          <td class="paramtype">const DeviceSetValueCommand::Ptr&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements handling of the set-value command in a generic way. The method ensures that only 1 thread can execute set-value process at a time. If the set-value operation succeeds, it ships the set value. </p>
+<p>It uses the method <a class="el" href="classBeeeOn_1_1DeviceManager.html#ad505fdba6d8e8f4157274b96d4399f50" title="Starts set-value operation in a technology specific way. The method is always called inside a critica...">startSetValue()</a> to initialize and start the set-value process. The method <a class="el" href="classBeeeOn_1_1DeviceManager.html#ad505fdba6d8e8f4157274b96d4399f50" title="Starts set-value operation in a technology specific way. The method is always called inside a critica...">startSetValue()</a> is always called exactly once at a time and until it finishes, no the set-value is started. </p>
+
+</div>
+</div>
 <a class="anchor" id="abd80dc1d719797f57e7c854426855beb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -474,6 +561,49 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 </div><div class="memdoc">
 <p>Obtain <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with Results which contains last measured value from server, method is blocking/non-blocking. Type of blocking is divided on the basis of timeout. Blocking waiting returns <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with last measured value result from server and non-blocking waiting returns <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with last measured value result from server or TimeoutException.</p>
 <p>If <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> contains several Results, the first <a class="el" href="classBeeeOn_1_1Result.html">Result</a> SUCCESS will be selected. </p>
+
+</div>
+</div>
+<a class="anchor" id="a10a7f4fd33589018e747a219114a37ba"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DeviceManager::manageUntilFinished </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>opname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">AnyAsyncWork::Ptr&#160;</td>
+          <td class="paramname"><em>work</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Manage an <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> after it is started. If it does not finish in the given timeout, it is cancelled explicitly. </p>
+<dl class="section return"><dt>Returns</dt><dd>false when cancellled (timeout) </dd></dl>
 
 </div>
 </div>
@@ -544,6 +674,55 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
 <p>Reimplemented in <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a6d1f261358207f6ab7857c03a2d59baf">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad505fdba6d8e8f4157274b96d4399f50"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr DeviceManager::startSetValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timespan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The set-value process might a be a non-blocking operation. The value set by the set-value is expected as a result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
 
 </div>
 </div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-5-g8911081</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-9-g32476d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -55,43 +55,31 @@
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;Poco/Nullable.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/Void.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/Void.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;util/AnyAsyncWork.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;util/Cancellable.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result = Poco::Vo<span class="keywordtype">id</span>&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AsyncWork.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1Cancellable.html">Cancellable</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;AsyncWork&gt; Ptr;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1AsyncWork.html#a96105defd298b14d1c891ae060a54551">tryJoin</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) = 0;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">virtual</span> Poco::Nullable&lt;Result&gt; <a class="code" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">result</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;Result&gt;::~AsyncWork</a>()</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">   52</a></span>&#160;Poco::Nullable&lt;Result&gt; <a class="code" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">AsyncWork&lt;Result&gt;::result</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> Poco::Nullable&lt;Result&gt; null;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> null;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1Cancellable_html"><div class="ttname"><a href="classBeeeOn_1_1Cancellable.html">BeeeOn::Cancellable</a></div><div class="ttdoc">Any class that can be cancelled should inherit from this interface. This allows to maintain a set of ...</div><div class="ttdef"><b>Definition:</b> Cancellable.h:12</div></div>
-<div class="ttc" id="classBeeeOn_1_1AsyncWork_html_a96105defd298b14d1c891ae060a54551"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html#a96105defd298b14d1c891ae060a54551">BeeeOn::AsyncWork::tryJoin</a></div><div class="ttdeci">virtual bool tryJoin(const Poco::Timespan &amp;timeout)=0</div></div>
-<div class="ttc" id="classBeeeOn_1_1AsyncWork_html_a70a242415ad349f213fe259f0ca1ff23"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">BeeeOn::AsyncWork::result</a></div><div class="ttdeci">virtual Poco::Nullable&lt; Result &gt; result() const </div><div class="ttdoc">If the asynchronous operation provides a result, this method gives access to it. Until the operation ...</div><div class="ttdef"><b>Definition:</b> AsyncWork.h:52</div></div>
-<div class="ttc" id="classBeeeOn_1_1AsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork</a></div><div class="ttdoc">AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). </div><div class="ttdef"><b>Definition:</b> AsyncWork.h:23</div></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result = Poco::Vo<span class="keywordtype">id</span>&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AsyncWork.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1AnyAsyncWork.html">AnyAsyncWork</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;AsyncWork&gt; Ptr;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">virtual</span> Poco::Nullable&lt;Result&gt; <a class="code" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">result</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Result&gt;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">   37</a></span>&#160;Poco::Nullable&lt;Result&gt; <a class="code" href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">AsyncWork&lt;Result&gt;::result</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> Poco::Nullable&lt;Result&gt; null;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">return</span> null;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1AnyAsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1AnyAsyncWork.html">BeeeOn::AnyAsyncWork</a></div><div class="ttdoc">AnyAsyncWork represents an asynchronous work to be processed. Such work is defined only in terms of e...</div><div class="ttdef"><b>Definition:</b> AnyAsyncWork.h:15</div></div>
+<div class="ttc" id="classBeeeOn_1_1AsyncWork_html_a70a242415ad349f213fe259f0ca1ff23"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html#a70a242415ad349f213fe259f0ca1ff23">BeeeOn::AsyncWork::result</a></div><div class="ttdeci">virtual Poco::Nullable&lt; Result &gt; result() const </div><div class="ttdoc">If the asynchronous operation provides a result, this method gives access to it. Until the operation ...</div><div class="ttdef"><b>Definition:</b> AsyncWork.h:37</div></div>
+<div class="ttc" id="classBeeeOn_1_1AsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork</a></div><div class="ttdoc">AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). </div><div class="ttdef"><b>Definition:</b> AsyncWork.h:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
