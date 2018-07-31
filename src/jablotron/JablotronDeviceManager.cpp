@@ -470,8 +470,6 @@ bool JablotronDeviceManager::isResponse(MessageType type)
 bool JablotronDeviceManager::modifyValue(
 			const DeviceID &deviceID, int value, bool autoResult)
 {
-	Mutex::ScopedLock guard(m_lock);
-
 	auto it = m_devices.find(deviceID);
 	if (it == m_devices.end()) {
 		throw NotFoundException(
@@ -520,6 +518,8 @@ void JablotronDeviceManager::obtainLastValue()
 			continue;
 		}
 
+		Mutex::ScopedLock guard(m_lock);
+
 		if (!modifyValue(device.first, value, false)) {
 			logger().warning(
 				"last value on device: " + device.first.toString()
@@ -531,6 +531,8 @@ void JablotronDeviceManager::obtainLastValue()
 
 void JablotronDeviceManager::doSetValue(DeviceSetValueCommand::Ptr cmd)
 {
+	Mutex::ScopedLock guard(m_lock);
+
 	if (!modifyValue(cmd->deviceID(), cmd->value())) {
 		throw IllegalStateException(
 			"failed set-value: " + cmd->deviceID().toString());
