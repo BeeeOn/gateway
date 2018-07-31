@@ -31,6 +31,11 @@ public:
 
 protected:
 	/**
+	 * @brief Parse the input data in case when the preset delimiter is empty.
+	 */
+	SensorData parseNoDelimiter(const std::string &data) const;
+
+	/**
 	 * @brief Check the given checksum and parse the content
 	 * by the configured parser.
 	 */

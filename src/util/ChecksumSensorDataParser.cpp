@@ -38,12 +38,23 @@ void ChecksumSensorDataParser::setParser(SensorDataParser::Ptr parser)
 
 SensorData ChecksumSensorDataParser::parse(const string &data) const
 {
+	if (m_delimiter.empty())
+		return parseNoDelimiter(data);
+
 	const auto sep = data.find(m_delimiter);
 	if (sep == string::npos)
 		throw SyntaxException("missing checksum prefix");
 
 	const auto &prefix = data.substr(0, sep);
 	const auto &content = data.substr(sep + 1);
+
+	return checkAndParse(prefix, content);
+}
+
+SensorData ChecksumSensorDataParser::parseNoDelimiter(const string &data) const
+{
+	const auto &prefix = data.substr(0, 8);
+	const auto &content = data.substr(9);
 
 	return checkAndParse(prefix, content);
 }
