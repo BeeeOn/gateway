@@ -29,6 +29,15 @@ public:
 	 */
 	SensorData parse(const std::string &data) const override;
 
+protected:
+	/**
+	 * @brief Check the given checksum and parse the content
+	 * by the configured parser.
+	 */
+	SensorData checkAndParse(
+		const std::string &prefix,
+		const std::string &content) const;
+
 private:
 	std::string m_delimiter;
 	SensorDataParser::Ptr m_parser;

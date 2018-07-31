@@ -44,6 +44,14 @@ SensorData ChecksumSensorDataParser::parse(const string &data) const
 
 	const auto &prefix = data.substr(0, sep);
 	const auto &content = data.substr(sep + 1);
+
+	return checkAndParse(prefix, content);
+}
+
+SensorData ChecksumSensorDataParser::checkAndParse(
+		const string &prefix,
+		const string &content) const
+{
 	const auto checksum = NumberParser::parseHex(prefix);
 
 	Checksum csum(Checksum::TYPE_CRC32);
