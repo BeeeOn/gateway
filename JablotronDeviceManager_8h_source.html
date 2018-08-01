@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-15-g1f214b7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-18-ge467341</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -82,80 +82,84 @@
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">stop</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#aff018b1617fbc58ca02a6fdcc27b28cc">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">handleAccept</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;::Ptr</a> <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">startDiscovery</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">startUnpair</a>(</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">enum</span> MessageType {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                OK,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                ERROR,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                DATA,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                NONE,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        };</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">void</span> loadDeviceList();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">void</span> dongleVersion();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordtype">bool</span> wasTurrisDongleVersion(<span class="keyword">const</span> std::string &amp;message) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">void</span> initJablotronDongle();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">void</span> jablotronProcess();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        MessageType nextMessage(std::string &amp;message);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        MessageType messageType(<span class="keyword">const</span> std::string &amp;data);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        uint32_t extractSerialNumber(<span class="keyword">const</span> std::string &amp;message);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordtype">void</span> setupDongleDevices();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">void</span> shipMessage(<span class="keyword">const</span> std::string &amp;message, JablotronDevice::Ptr jablotronDevice);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">bool</span> transmitMessage(<span class="keyword">const</span> std::string &amp;msg, <span class="keywordtype">bool</span> autoResult);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordtype">void</span> obtainLastValue();</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordtype">bool</span> modifyValue(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, <span class="keywordtype">int</span> value, <span class="keywordtype">bool</span> autoResult = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordtype">void</span> doSetValue(DeviceSetValueCommand::Ptr cmd);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordtype">void</span> doNewDevice(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID,</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                std::map&lt;DeviceID, JablotronDevice::Ptr&gt;::iterator &amp;it);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">handleAccept</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;::Ptr</a> <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">startDiscovery</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">startUnpair</a>(</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        AsyncWork&lt;double&gt;::Ptr <a class="code" href="classBeeeOn_1_1JablotronDeviceManager.html#a06a5aa5675e6d3082c05111e584e6935">startSetValue</a>(</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        <span class="keyword">const</span> <span class="keywordtype">double</span> value,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">enum</span> MessageType {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                OK,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                ERROR,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                DATA,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                NONE,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">void</span> loadDeviceList();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">void</span> dongleVersion();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">bool</span> wasTurrisDongleVersion(<span class="keyword">const</span> std::string &amp;message) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> initJablotronDongle();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">void</span> jablotronProcess();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        MessageType nextMessage(std::string &amp;message);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        MessageType messageType(<span class="keyword">const</span> std::string &amp;data);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        uint32_t extractSerialNumber(<span class="keyword">const</span> std::string &amp;message);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordtype">void</span> setupDongleDevices();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">void</span> shipMessage(<span class="keyword">const</span> std::string &amp;message, JablotronDevice::Ptr jablotronDevice);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordtype">bool</span> transmitMessage(<span class="keyword">const</span> std::string &amp;msg, <span class="keywordtype">bool</span> autoResult);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordtype">void</span> obtainLastValue();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordtype">bool</span> modifyValue(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, <span class="keywordtype">int</span> value, <span class="keywordtype">bool</span> autoResult = <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordtype">bool</span> getResponse();</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordtype">bool</span> isResponse(MessageType type);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordtype">void</span> doNewDevice(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID,</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                std::map&lt;DeviceID, JablotronDevice::Ptr&gt;::iterator &amp;it);</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <a class="code" href="classBeeeOn_1_1SerialPort.html">SerialPort</a> m_serial;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        Poco::Mutex m_lock;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        std::map&lt;DeviceID, JablotronDevice::Ptr&gt; m_devices;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        std::string m_buffer;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        MessageType m_lastResponse;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        Poco::Event m_responseRcv;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        Poco::AtomicCounter m_isListen;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        std::pair&lt;DeviceID, int&gt; m_pgx;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        std::pair&lt;DeviceID, int&gt; m_pgy;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;};</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a08b9ad0aa392756f071edcd59a0fcdf5"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a08b9ad0aa392756f071edcd59a0fcdf5">BeeeOn::JablotronDeviceManager::dongleMatch</a></div><div class="ttdeci">std::string dongleMatch(const HotplugEvent &amp;e) override</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:396</div></div>
-<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a69193fe724d02de3596901a6a557d0b7"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">BeeeOn::JablotronDeviceManager::handleAccept</a></div><div class="ttdeci">void handleAccept(const DeviceAcceptCommand::Ptr cmd) override</div><div class="ttdoc">Generic handler of the DeviceAcceptCommand. It might be helpful to override this method in case we ne...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:165</div></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">bool</span> getResponse();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">bool</span> isResponse(MessageType type);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <a class="code" href="classBeeeOn_1_1SerialPort.html">SerialPort</a> m_serial;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        Poco::Mutex m_lock;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        std::map&lt;DeviceID, JablotronDevice::Ptr&gt; m_devices;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        std::string m_buffer;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        MessageType m_lastResponse;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        Poco::Event m_responseRcv;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        Poco::AtomicCounter m_isListen;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        std::pair&lt;DeviceID, int&gt; m_pgx;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        std::pair&lt;DeviceID, int&gt; m_pgy;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;};</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a08b9ad0aa392756f071edcd59a0fcdf5"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a08b9ad0aa392756f071edcd59a0fcdf5">BeeeOn::JablotronDeviceManager::dongleMatch</a></div><div class="ttdeci">std::string dongleMatch(const HotplugEvent &amp;e) override</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:388</div></div>
+<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a06a5aa5675e6d3082c05111e584e6935"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a06a5aa5675e6d3082c05111e584e6935">BeeeOn::JablotronDeviceManager::startSetValue</a></div><div class="ttdeci">AsyncWork&lt; double &gt;::Ptr startSetValue(const DeviceID &amp;id, const ModuleID &amp;module, const double value, const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts set-value operation in a technology specific way. The method is always called inside a critica...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:524</div></div>
+<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a69193fe724d02de3596901a6a557d0b7"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">BeeeOn::JablotronDeviceManager::handleAccept</a></div><div class="ttdeci">void handleAccept(const DeviceAcceptCommand::Ptr cmd) override</div><div class="ttdoc">Generic handler of the DeviceAcceptCommand. It might be helpful to override this method in case we ne...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:157</div></div>
 <div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_ae474285551e4ad8eeb00d5215d6e14db"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#ae474285551e4ad8eeb00d5215d6e14db">BeeeOn::JablotronDeviceManager::dongleAvailable</a></div><div class="ttdeci">void dongleAvailable() override</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:99</div></div>
 <div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html">BeeeOn::JablotronDeviceManager</a></div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.h:44</div></div>
 <div class="ttc" id="classBeeeOn_1_1AsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork</a></div><div class="ttdoc">AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). </div><div class="ttdef"><b>Definition:</b> AsyncWork.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_aff018b1617fbc58ca02a6fdcc27b28cc"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#aff018b1617fbc58ca02a6fdcc27b28cc">BeeeOn::JablotronDeviceManager::handleGeneric</a></div><div class="ttdeci">void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:157</div></div>
+<div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:13</div></div>
 <div class="ttc" id="classBeeeOn_1_1HotplugEvent_html"><div class="ttname"><a href="classBeeeOn_1_1HotplugEvent.html">BeeeOn::HotplugEvent</a></div><div class="ttdef"><b>Definition:</b> HotplugEvent.h:11</div></div>
 <div class="ttc" id="classBeeeOn_1_1SerialPort_html"><div class="ttname"><a href="classBeeeOn_1_1SerialPort.html">BeeeOn::SerialPort</a></div><div class="ttdef"><b>Definition:</b> SerialPort.h:10</div></div>
 <div class="ttc" id="classBeeeOn_1_1DongleDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DongleDeviceManager.html">BeeeOn::DongleDeviceManager</a></div><div class="ttdef"><b>Definition:</b> DongleDeviceManager.h:15</div></div>
-<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a881a6b34314b8b6424925a2e97ba2b28"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager::startDiscovery</a></div><div class="ttdeci">AsyncWork::Ptr startDiscovery(const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts device discovery process in a technology-specific way. This method is always called inside a c...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:176</div></div>
+<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a881a6b34314b8b6424925a2e97ba2b28"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager::startDiscovery</a></div><div class="ttdeci">AsyncWork::Ptr startDiscovery(const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts device discovery process in a technology-specific way. This method is always called inside a c...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:168</div></div>
 <div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a8b9286e194ee589921f8f72a4f041df8"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">BeeeOn::JablotronDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:109</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:18</div></div>
-<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a471fa567d5f4dd28f9cbe5fb3457e5e4"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager::startUnpair</a></div><div class="ttdeci">AsyncWork&lt; std::set&lt; DeviceID &gt; &gt;::Ptr startUnpair(const DeviceID &amp;id, const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts device unpair process in a technology-specific way. This method is always called inside a crit...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:197</div></div>
+<div class="ttc" id="classBeeeOn_1_1JablotronDeviceManager_html_a471fa567d5f4dd28f9cbe5fb3457e5e4"><div class="ttname"><a href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager::startUnpair</a></div><div class="ttdeci">AsyncWork&lt; std::set&lt; DeviceID &gt; &gt;::Ptr startUnpair(const DeviceID &amp;id, const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts device unpair process in a technology-specific way. This method is always called inside a crit...</div><div class="ttdef"><b>Definition:</b> JablotronDeviceManager.cpp:189</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

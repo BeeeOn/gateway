@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-15-g1f214b7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-18-ge467341</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -136,8 +136,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onMove</b> (c
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:aff018b1617fbc58ca02a6fdcc27b28cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#aff018b1617fbc58ca02a6fdcc27b28cc">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result) override</td></tr>
-<tr class="separator:aff018b1617fbc58ca02a6fdcc27b28cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69193fe724d02de3596901a6a557d0b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69193fe724d02de3596901a6a557d0b7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">handleAccept</a> (const DeviceAcceptCommand::Ptr cmd) override</td></tr>
 <tr class="memdesc:a69193fe724d02de3596901a6a557d0b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic handler of the <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a>. It might be helpful to override this method in case we need to make some technology-specific check of the device to be accepted. The default implementation simply marks the given device as paired. <br/></td></tr>
@@ -149,6 +147,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
  &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="memdesc:a471fa567d5f4dd28f9cbe5fb3457e5e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a471fa567d5f4dd28f9cbe5fb3457e5e4">More...</a><br/></td></tr>
 <tr class="separator:a471fa567d5f4dd28f9cbe5fb3457e5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06a5aa5675e6d3082c05111e584e6935"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a06a5aa5675e6d3082c05111e584e6935">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="memdesc:a06a5aa5675e6d3082c05111e584e6935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#a06a5aa5675e6d3082c05111e584e6935">More...</a><br/></td></tr>
+<tr class="separator:a06a5aa5675e6d3082c05111e584e6935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DongleDeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DongleDeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html">BeeeOn::DongleDeviceManager</a></td></tr>
 <tr class="memitem:a55bd1836dac14a5a651b7eb7a3e9ce83 inherit pro_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a55bd1836dac14a5a651b7eb7a3e9ce83">dongleMissing</a> ()</td></tr>
 <tr class="separator:a55bd1836dac14a5a651b7eb7a3e9ce83 inherit pro_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,15 +163,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a97d5f633032052f934cee6b10dd7233a inherit pro_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memItemLeft" align="right" valign="top">Poco::Event &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a97d5f633032052f934cee6b10dd7233a">event</a> ()</td></tr>
 <tr class="separator:a97d5f633032052f934cee6b10dd7233a inherit pro_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
+<tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
+<tr class="separator:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0239fe377b5928e3bbf5986f15017916">handleListen</a> (const GatewayListenCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the listen command in a generic way. The method ensures that only 1 thread can execute the discovery process at a time.  <a href="#a0239fe377b5928e3bbf5986f15017916">More...</a><br/></td></tr>
 <tr class="separator:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd80dc1d719797f57e7c854426855beb">handleUnpair</a> (const DeviceUnpairCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time.  <a href="#abd80dc1d719797f57e7c854426855beb">More...</a><br/></td></tr>
 <tr class="separator:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad505fdba6d8e8f4157274b96d4399f50 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ad505fdba6d8e8f4157274b96d4399f50">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timespan)</td></tr>
-<tr class="memdesc:ad505fdba6d8e8f4157274b96d4399f50 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#ad505fdba6d8e8f4157274b96d4399f50">More...</a><br/></td></tr>
-<tr class="separator:ad505fdba6d8e8f4157274b96d4399f50 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7aa94b73d5a590bf1ef77a504f7a14ab inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a7aa94b73d5a590bf1ef77a504f7a14ab">handleSetValue</a> (const DeviceSetValueCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a7aa94b73d5a590bf1ef77a504f7a14ab inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the set-value command in a generic way. The method ensures that only 1 thread can execute set-value process at a time. If the set-value operation succeeds, it ships the set value.  <a href="#a7aa94b73d5a590bf1ef77a504f7a14ab">More...</a><br/></td></tr>
 <tr class="separator:a7aa94b73d5a590bf1ef77a504f7a14ab inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -303,43 +303,6 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 
 </div>
 </div>
-<a class="anchor" id="aff018b1617fbc58ca02a6fdcc27b28cc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void JablotronDeviceManager::handleGeneric </td>
-          <td>(</td>
-          <td class="paramtype">const Command::Ptr&#160;</td>
-          <td class="paramname"><em>cmd</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Result::Ptr&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Generic implementation of the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a>. If any device manager needs to override the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a> method, it is more desirable to override <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#aff018b1617fbc58ca02a6fdcc27b28cc">handleGeneric()</a>. </p>
-
-<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">BeeeOn::DeviceManager</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a881a6b34314b8b6424925a2e97ba2b28"></a>
 <div class="memitem">
 <div class="memproto">
@@ -366,6 +329,57 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a06a5aa5675e6d3082c05111e584e6935"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr JablotronDeviceManager::startSetValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timespan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The set-value process might a be a non-blocking operation. The value set by the set-value is expected as a result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#ad505fdba6d8e8f4157274b96d4399f50">BeeeOn::DeviceManager</a>.</p>
 
 </div>
 </div>
