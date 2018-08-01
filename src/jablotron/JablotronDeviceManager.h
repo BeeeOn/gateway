@@ -51,11 +51,15 @@ public:
 	void stop() override;
 
 protected:
-	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
 			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
+	AsyncWork<double>::Ptr startSetValue(
+			const DeviceID &id,
+			const ModuleID &module,
+			const double value,
 			const Poco::Timespan &timeout) override;
 
 private:
@@ -119,7 +123,6 @@ private:
 	 */
 	bool modifyValue(const DeviceID &deviceID, int value, bool autoResult = true);
 
-	void doSetValue(DeviceSetValueCommand::Ptr cmd);
 	void doNewDevice(const DeviceID &deviceID,
 		std::map<DeviceID, JablotronDevice::Ptr>::iterator &it);
 

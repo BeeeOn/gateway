@@ -154,14 +154,6 @@ void JablotronDeviceManager::jablotronProcess()
 	}
 }
 
-void JablotronDeviceManager::handleGeneric(Command::Ptr cmd, Result::Ptr result)
-{
-	if (cmd->is<DeviceSetValueCommand>())
-		doSetValue(cmd.cast<DeviceSetValueCommand>());
-	else
-		DeviceManager::handleGeneric(cmd, result);
-}
-
 void JablotronDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
 	Mutex::ScopedLock guard(m_lock);
@@ -470,8 +462,6 @@ bool JablotronDeviceManager::isResponse(MessageType type)
 bool JablotronDeviceManager::modifyValue(
 			const DeviceID &deviceID, int value, bool autoResult)
 {
-	Mutex::ScopedLock guard(m_lock);
-
 	auto it = m_devices.find(deviceID);
 	if (it == m_devices.end()) {
 		throw NotFoundException(
@@ -520,6 +510,8 @@ void JablotronDeviceManager::obtainLastValue()
 			continue;
 		}
 
+		Mutex::ScopedLock guard(m_lock);
+
 		if (!modifyValue(device.first, value, false)) {
 			logger().warning(
 				"last value on device: " + device.first.toString()
@@ -529,10 +521,20 @@ void JablotronDeviceManager::obtainLastValue()
 	}
 }
 
-void JablotronDeviceManager::doSetValue(DeviceSetValueCommand::Ptr cmd)
+AsyncWork<double>::Ptr JablotronDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &,
+		const double value,
+		const Timespan &timeout)
 {
-	if (!modifyValue(cmd->deviceID(), cmd->value())) {
+	Mutex::ScopedLock guard(m_lock, timeout.totalMilliseconds());
+
+	if (!modifyValue(id, value)) {
 		throw IllegalStateException(
-			"failed set-value: " + cmd->deviceID().toString());
+			"failed set-value: " + id.toString());
 	}
+
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(value);
+	return work;
 }
