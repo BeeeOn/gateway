@@ -415,3 +415,19 @@ double DeviceManager::lastValue(const DeviceID &deviceID,
 
 	return result->value();
 }
+
+void DeviceManager::handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const set<DeviceID> &paired,
+		const DeviceStatusHandler::DeviceValues &)
+{
+	if (this->prefix() != prefix) {
+		logger().warning(
+			"unexpected prefix " + prefix.toString()
+			+ " wanted " + this->prefix().toString(),
+			__FILE__, __LINE__);
+		return;
+	}
+
+	deviceCache()->markPaired(prefix, paired);
+}

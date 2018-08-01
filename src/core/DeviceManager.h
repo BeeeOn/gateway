@@ -16,6 +16,7 @@
 #include "core/CommandHandler.h"
 #include "core/CommandSender.h"
 #include "core/DeviceCache.h"
+#include "core/DeviceStatusHandler.h"
 #include "core/Distributor.h"
 #include "loop/StoppableRunnable.h"
 #include "loop/StopControl.h"
@@ -46,6 +47,7 @@ namespace BeeeOn {
 class DeviceManager:
 	public CommandHandler,
 	public CommandSender,
+	public DeviceStatusHandler,
 	protected Loggable,
 	public StoppableRunnable {
 public:
@@ -58,7 +60,7 @@ public:
 	/**
 	 * @returns prefix managed by this device manager
 	 */
-	DevicePrefix prefix() const;
+	DevicePrefix prefix() const override;
 
 	/**
 	* A generic stop implementation to be used by most DeviceManager
@@ -85,6 +87,17 @@ public:
 	 * To override handle, please use handleGeneric() instead.
 	 */
 	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+
+	/**
+	 * @brief Called when devices from a remote server are fetched
+	 * and so the pairing status of them can be reconsidered.
+	 * The default implementation just updates the device cache
+	 * appropriately.
+	 */
+	void handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const std::set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values) override;
 
 protected:
 	/**
