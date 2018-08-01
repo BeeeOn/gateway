@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-18-ge467341</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-24-g2a0ef7e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -75,6 +75,14 @@ Public Types</h2></td></tr>
 typedef Poco::AutoPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1ServerDeviceListResult.html">ServerDeviceListResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:abbedb2435f49d8d6b9c59b1651cd976a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e42dea8acbe9cc18e3bcb80b9bcfaa9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e42dea8acbe9cc18e3bcb80b9bcfaa9"></a>
+typedef std::map&lt; <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>, <br class="typebreak"/>
+double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ModuleValues</b></td></tr>
+<tr class="separator:a7e42dea8acbe9cc18e3bcb80b9bcfaa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d0b6c954e3a71af4ebda3f78f1db114"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d0b6c954e3a71af4ebda3f78f1db114"></a>
+typedef std::map&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>, <br class="typebreak"/>
+ModuleValues &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceValues</b></td></tr>
+<tr class="separator:a1d0b6c954e3a71af4ebda3f78f1db114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classBeeeOn_1_1Result"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1Result')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1Result.html">BeeeOn::Result</a></td></tr>
 <tr class="memitem:a488acc5b44b789ee532f442fbe8c366a inherit pub_types_classBeeeOn_1_1Result"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a488acc5b44b789ee532f442fbe8c366a"></a>
 typedef Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Result.html">Result</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
@@ -91,12 +99,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9a9c6fe51690d8ced0e7bb7039c508bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a9c6fe51690d8ced0e7bb7039c508bf"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ServerDeviceListResult</b> (const Answer::Ptr answer)</td></tr>
 <tr class="separator:a9a9c6fe51690d8ced0e7bb7039c508bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b1024decf05ff6c6afd5787f9adb05f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b1024decf05ff6c6afd5787f9adb05f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevices</b> (const DeviceValues &amp;values)</td></tr>
+<tr class="separator:a3b1024decf05ff6c6afd5787f9adb05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a941ab2a1da96a730ccbe46fc1c9ce304"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a941ab2a1da96a730ccbe46fc1c9ce304"></a>
+DeviceValues&#160;</td><td class="memItemRight" valign="bottom"><b>devices</b> () const </td></tr>
+<tr class="separator:a941ab2a1da96a730ccbe46fc1c9ce304"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4481df621bb941b74aab5f2a1fb5fa0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4481df621bb941b74aab5f2a1fb5fa0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceList</b> (const std::vector&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &amp;deviceList)</td></tr>
 <tr class="separator:ad4481df621bb941b74aab5f2a1fb5fa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47c8cd9ec2931af08953bdb33ac1df9c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47c8cd9ec2931af08953bdb33ac1df9c"></a>
 std::vector&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>deviceList</b> () const </td></tr>
 <tr class="separator:a47c8cd9ec2931af08953bdb33ac1df9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4939609c1f2a22fe6c6788aaa0f79794"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4939609c1f2a22fe6c6788aaa0f79794"></a>
+Poco::Nullable&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module) const </td></tr>
+<tr class="separator:a4939609c1f2a22fe6c6788aaa0f79794"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1Result"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1Result')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1Result.html">BeeeOn::Result</a></td></tr>
 <tr class="memitem:a472b4ea3add14283ef9b14d7558794a1 inherit pub_methods_classBeeeOn_1_1Result"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a472b4ea3add14283ef9b14d7558794a1"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Result</b> (Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> &gt; answer)</td></tr>
