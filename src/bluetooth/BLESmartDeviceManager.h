@@ -52,6 +52,11 @@ public:
 	BLESmartDeviceManager();
 
 	void dongleAvailable() override;
+
+	/**
+	 * @brief Recognizes compatible dongle by testing HotplugEvent property
+	 * as <code>bluetooth.BEEEON_DONGLE == bluetooth</code>.
+	 */
 	std::string dongleMatch(const HotplugEvent &e) override;
 
 	/**

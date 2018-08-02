@@ -37,6 +37,10 @@ public:
 
 	void dongleFailed(const FailDetector &dongleStatus) override;
 
+	/**
+	 * @brief Recognizes compatible dongle by testing HotplugEvent property
+	 * as <code>bluetooth.BEEEON_DONGLE == bluetooth</code>.
+	 */
 	std::string dongleMatch(const HotplugEvent &e) override;
 
 	void stop() override;

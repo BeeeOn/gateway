@@ -27,8 +27,6 @@ using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
 
-static const string JABLOTRON_VENDOR_ID = "0403";
-static const string JABLOTRON_PRODUCT_ID = "6015";
 static const string VENDOR_NAME = "Jablotron";
 static const int BAUD_RATE = 57600;
 static const int MAX_DEVICES_IN_JABLOTRON = 32;
@@ -387,19 +385,15 @@ void JablotronDeviceManager::shipMessage(
 
 string JablotronDeviceManager::dongleMatch(const HotplugEvent &e)
 {
-	const string &productID = e.properties()
-		->getString("tty.ID_MODEL_ID", "");
+	if (!e.properties()->has("tty.BEEEON_DONGLE"))
+		return "";
 
-	const string &vendorID = e.properties()
-		->getString("tty.ID_VENDOR_ID", "");
+	const auto &dongle = e.properties()->getString("tty.BEEEON_DONGLE");
 
-	if (e.subsystem() == "tty") {
-		if (vendorID == JABLOTRON_VENDOR_ID
-				&& productID == JABLOTRON_PRODUCT_ID)
-			return e.node();
-	}
+	if (dongle != "jablotron")
+		return "";
 
-	return "";
+	return e.node();
 }
 
 /* Retransmission packet status is recommended to be done 3 times with
