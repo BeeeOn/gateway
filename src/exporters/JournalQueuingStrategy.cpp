@@ -1,4 +1,3 @@
-#include <Poco/Checksum.h>
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/DigestStream.h>
@@ -17,6 +16,8 @@
 #include "di/Injectable.h"
 #include "exporters/JournalQueuingStrategy.h"
 #include "io/SafeWriter.h"
+#include "util/ChecksumSensorDataFormatter.h"
+#include "util/ChecksumSensorDataParser.h"
 #include "util/JSONSensorDataFormatter.h"
 #include "util/JSONSensorDataParser.h"
 
@@ -852,51 +853,16 @@ void JournalQueuingStrategy::FileBuffer::inspectAndVerify(
 string JournalQueuingStrategy::FileBuffer::formatEntries(
 	const vector<SensorData> &data)
 {
-	static JSONSensorDataFormatter formatter;
+	static ChecksumSensorDataFormatter formatter(new JSONSensorDataFormatter);
 
 	string buffer;
 
 	for (const auto &one : data) {
-		Checksum csum(Checksum::TYPE_CRC32);
-
-		const auto &content = formatter.format(one);
-		csum.update(content);
-
-		buffer += NumberFormatter::formatHex(csum.checksum(), 8);
-		buffer += "\t";
-		buffer += content;
+		buffer += formatter.format(one);
 		buffer += "\n";
 	}
 
 	return buffer;
-}
-
-SensorData JournalQueuingStrategy::FileBuffer::parseData(const string &line) const
-{
-	static JSONSensorDataParser parser;
-
-	const auto sep = line.find('\t');
-	if (sep == string::npos)
-		throw SyntaxException("missing checksum prefix");
-
-	const auto &prefix = line.substr(0, sep);
-	const auto &content = line.substr(sep + 1);
-	const auto checksum = NumberParser::parseHex(prefix);
-
-	Checksum csum(Checksum::TYPE_CRC32);
-	csum.update(content);
-
-	const auto &computed = csum.checksum();
-
-	if (checksum != computed) {
-		throw IllegalStateException(
-			"checksum is invalid: "
-			+ NumberFormatter::formatHex(checksum, 8)
-			+ " != "
-			+ NumberFormatter::formatHex(computed, 8));
-	}
-
-	return parser.parse(content);
 }
 
 size_t JournalQueuingStrategy::FileBuffer::scanEntries(
@@ -929,6 +895,8 @@ size_t JournalQueuingStrategy::FileBuffer::scanEntries(
 		size_t &bytes,
 		const size_t count) const
 {
+	static ChecksumSensorDataParser parser(new JSONSensorDataParser);
+
 	string line;
 	size_t total = 0;
 
@@ -943,7 +911,7 @@ size_t JournalQueuingStrategy::FileBuffer::scanEntries(
 
 		try {
 			proc({
-				parseData(line),
+				parser.parse(line),
 				name(),
 				m_offset + bytes
 			});
