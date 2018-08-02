@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-43-ge35cdb6</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-46-g9038ede</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -92,7 +92,9 @@ Data Structures</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a68e88ecc66be5a206d4ea1ca2ce6c3fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a68e88ecc66be5a206d4ea1ca2ce6c3fa">dongleAvailable</a> () override</td></tr>
 <tr class="separator:a68e88ecc66be5a206d4ea1ca2ce6c3fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0691ba38e0d7d09680b6f3058e164588"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a0691ba38e0d7d09680b6f3058e164588">dongleMatch</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;e) override</td></tr>
+<tr class="memitem:a0691ba38e0d7d09680b6f3058e164588"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0691ba38e0d7d09680b6f3058e164588"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a0691ba38e0d7d09680b6f3058e164588">dongleMatch</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;e) override</td></tr>
+<tr class="memdesc:a0691ba38e0d7d09680b6f3058e164588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recognizes compatible dongle by testing <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> property as <code>bluetooth.BEEEON_DONGLE == bluetooth</code>. <br/></td></tr>
 <tr class="separator:a0691ba38e0d7d09680b6f3058e164588"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad4564d469fe81cfffdf9e8020c813e8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad4564d469fe81cfffdf9e8020c813e8"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#aad4564d469fe81cfffdf9e8020c813e8">dongleFailed</a> (const <a class="el" href="classBeeeOn_1_1FailDetector.html">FailDetector</a> &amp;dongleStatus) override</td></tr>
@@ -352,34 +354,6 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>When the method returns normally, the <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html">DongleDeviceManager</a> finishes its main loop and exits the thread. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a0eac8644aaeced8ebf7d42299d1e607d">BeeeOn::DongleDeviceManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0691ba38e0d7d09680b6f3058e164588"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string BLESmartDeviceManager::dongleMatch </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;&#160;</td>
-          <td class="paramname"><em>e</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>If the event represents an appropriate dongle, it should return its name or path that can be used for its access.</p>
-<p>If the event represents an inappropriate device, it returns an empty string. </p>
-
-<p>Implements <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#aa1f1ff1cb3c58d4e839d9a6015e3766e">BeeeOn::DongleDeviceManager</a>.</p>
 
 </div>
 </div>

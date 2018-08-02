@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-43-ge35cdb6</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-46-g9038ede</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -79,7 +79,9 @@ Inheritance diagram for BeeeOn::JablotronDeviceManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a08b9ad0aa392756f071edcd59a0fcdf5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a08b9ad0aa392756f071edcd59a0fcdf5">dongleMatch</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;e) override</td></tr>
+<tr class="memitem:a08b9ad0aa392756f071edcd59a0fcdf5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08b9ad0aa392756f071edcd59a0fcdf5"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a08b9ad0aa392756f071edcd59a0fcdf5">dongleMatch</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;e) override</td></tr>
+<tr class="memdesc:a08b9ad0aa392756f071edcd59a0fcdf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recognizes compatible dongle by testing <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> property as <code>tty.BEEEON_DONGLE == jablotron</code>. <br/></td></tr>
 <tr class="separator:a08b9ad0aa392756f071edcd59a0fcdf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae474285551e4ad8eeb00d5215d6e14db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#ae474285551e4ad8eeb00d5215d6e14db">dongleAvailable</a> () override</td></tr>
 <tr class="separator:ae474285551e4ad8eeb00d5215d6e14db"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -286,34 +288,6 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>When the method returns normally, the <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html">DongleDeviceManager</a> finishes its main loop and exits the thread. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a0eac8644aaeced8ebf7d42299d1e607d">BeeeOn::DongleDeviceManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a08b9ad0aa392756f071edcd59a0fcdf5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string JablotronDeviceManager::dongleMatch </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;&#160;</td>
-          <td class="paramname"><em>e</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>If the event represents an appropriate dongle, it should return its name or path that can be used for its access.</p>
-<p>If the event represents an inappropriate device, it returns an empty string. </p>
-
-<p>Implements <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#aa1f1ff1cb3c58d4e839d9a6015e3766e">BeeeOn::DongleDeviceManager</a>.</p>
 
 </div>
 </div>
