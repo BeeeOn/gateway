@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-51-g8622d5f</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-57-g7f3c111</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -99,6 +99,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setModes</b> (const s
 <tr class="separator:a8522cf7a7f162dd8770827398cfdaef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e1d681539b955117d5415626745be21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a9e1d681539b955117d5415626745be21">setStatisticsInterval</a> (const Poco::Timespan &amp;interval)</td></tr>
 <tr class="separator:a9e1d681539b955117d5415626745be21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa954fde0356e282d28e87c3141b6a8ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#aa954fde0356e282d28e87c3141b6a8ae">setLEScanTime</a> (const Poco::Timespan &amp;time)</td></tr>
+<tr class="separator:aa954fde0356e282d28e87c3141b6a8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91a34d7982d0e215accb9653faababd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a91a34d7982d0e215accb9653faababd6">setHciManager</a> (HciInterfaceManager::Ptr manager)</td></tr>
 <tr class="separator:a91a34d7982d0e215accb9653faababd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8cc22e3fad303eca8406c874f9a9cc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ab8cc22e3fad303eca8406c874f9a9cc0">setExecutor</a> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1AsyncExecutor.html">AsyncExecutor</a> &gt; executor)</td></tr>
@@ -437,6 +439,23 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
       </table>
 </div><div class="memdoc">
 <p>Set <a class="el" href="classBeeeOn_1_1HciInterfaceManager.html">HciInterfaceManager</a> implementation. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa954fde0356e282d28e87c3141b6a8ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BluetoothAvailabilityManager::setLEScanTime </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>time</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set time for a single LE scan when testing device availability. </p>
 
 </div>
 </div>

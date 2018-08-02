@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-51-g8622d5f</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-57-g7f3c111</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -93,6 +93,11 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef std::function&lt; bool(const <br class="typebreak"/>
 std::string &amp;path)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>PathFilter</b></td></tr>
 <tr class="separator:a138503c29a7ff54b688f490a64b11a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0483cdf74eeec0550c2cc5953ea5847b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0483cdf74eeec0550c2cc5953ea5847b"></a>
+typedef std::pair<br class="typebreak"/>
+&lt; Poco::FastMutex, std::map<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadSafeDevices</b></td></tr>
+<tr class="separator:a0483cdf74eeec0550c2cc5953ea5847b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classBeeeOn_1_1HciInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1HciInterface')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1HciInterface.html">BeeeOn::HciInterface</a></td></tr>
 <tr class="memitem:a5126bf1be08f148fb95cf50b92feb825 inherit pub_types_classBeeeOn_1_1HciInterface"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5126bf1be08f148fb95cf50b92feb825"></a>
 typedef Poco::SharedPtr<br class="typebreak"/>
@@ -125,7 +130,7 @@ std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>,
 <tr class="separator:a4f1d662a2a90a8f2e9cf2fae364a7ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98317fd72f5ac3e4c9a5794204255754"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98317fd72f5ac3e4c9a5794204255754"></a>
 std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a98317fd72f5ac3e4c9a5794204255754">lescan</a> (const Poco::Timespan &amp;timeout) const override</td></tr>
-<tr class="memdesc:a98317fd72f5ac3e4c9a5794204255754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans the Bluetooth LE network and returns all available devices. The method starts with the obtaining of all known devices to Bluez deamon. Then the bluetooth adapter starts discovery of new devices whitch extends collection of devices. Availability of device is determined by paramter RSSI. If the RSSI parametr is 0 then the device is unavailable. <br/></td></tr>
+<tr class="memdesc:a98317fd72f5ac3e4c9a5794204255754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans the Bluetooth LE network and returns all available devices. The method starts with the obtaining of all known devices to Bluez deamon. Then the bluetooth adapter starts discovery of new devices whitch extends collection of found devices. Availability of device is determined by paramter RSSI. If the RSSI parametr changes during the scan timeout device is available. <br/></td></tr>
 <tr class="separator:a98317fd72f5ac3e4c9a5794204255754"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7c75c936abb81d75f2c5faba1e354cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7c75c936abb81d75f2c5faba1e354cb"></a>
 <a class="el" href="classBeeeOn_1_1HciInfo.html">HciInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#af7c75c936abb81d75f2c5faba1e354cb">info</a> () const override</td></tr>
@@ -148,6 +153,10 @@ static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a255b1a00a2e5c0647f6042c241bc515b">onDBusObjectAdded</a> (GDBusObjectManager *objectManager, GDBusObject *object, gpointer userData)</td></tr>
 <tr class="memdesc:a255b1a00a2e5c0647f6042c241bc515b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of creating new device. This is used during discovery of new devices. <br/></td></tr>
 <tr class="separator:a255b1a00a2e5c0647f6042c241bc515b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dd7894277ccf0e0d2fca0573bd1168e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0dd7894277ccf0e0d2fca0573bd1168e"></a>
+static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a0dd7894277ccf0e0d2fca0573bd1168e">onDeviceRSSIChanged</a> (OrgBluezDevice1 *device, GVariant *properties, const gchar *const *invalidatedProperties, gpointer userData)</td></tr>
+<tr class="memdesc:a0dd7894277ccf0e0d2fca0573bd1168e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of RSSI changed. It is used to detecting that the device is available. <br/></td></tr>
+<tr class="separator:a0dd7894277ccf0e0d2fca0573bd1168e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f3485158c2918d1a3201fe88951ceff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f3485158c2918d1a3201fe88951ceff"></a>
 static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a2f3485158c2918d1a3201fe88951ceff">onDeviceManufacturerDataRecieved</a> (OrgBluezDevice1 *device, GVariant *properties, const gchar *const *invalidatedProperties, gpointer userData)</td></tr>
 <tr class="memdesc:a2f3485158c2918d1a3201fe88951ceff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of receiving advertising data. <br/></td></tr>
