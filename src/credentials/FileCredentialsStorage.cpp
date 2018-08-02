@@ -34,16 +34,7 @@ FileCredentialsStorage::~FileCredentialsStorage()
 		m_timer.stop();
 		save();
 	}
-	catch (const Exception &e) {
-		logger().log(e, __FILE__, __LINE__);
-	}
-	catch (exception &e) {
-		poco_critical(logger(), e.what());
-	}
-	catch(...) {
-		logger().critical("failed to save credentials into " + m_file,
-			__FILE__, __LINE__);
-	}
+	BEEEON_CATCH_CHAIN(logger())
 }
 
 void FileCredentialsStorage::setSaveDelay(const Timespan &delay)
@@ -145,18 +136,8 @@ void FileCredentialsStorage::saveLater()
 			m_timer.setPeriodicInterval(0);
 			m_timer.start(m_callback);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-			m_timerRunning = false;
-		}
-		catch (exception &e) {
-			poco_critical(logger(), e.what());
-			m_timerRunning = false;
-		}
-		catch (...) {
-			poco_critical(logger(), "unknown error occured while starting timer");
-			m_timerRunning = false;
-		}
+		BEEEON_CATCH_CHAIN_ACTION(logger(),
+			m_timerRunning = false)
 	}
 }
 
@@ -169,16 +150,6 @@ void FileCredentialsStorage::onSaveLater(Timer &)
 		saveUnlocked();
 		m_timerRunning = false;
 	}
-	catch (const Exception &e) {
-		logger().log(e, __FILE__, __LINE__);
-		m_timerRunning = false;
-	}
-	catch (exception &e) {
-		poco_critical(logger(), e.what());
-		m_timerRunning = false;
-	}
-	catch (...) {
-		poco_critical(logger(), "unknown error occured while saving");
-		m_timerRunning = false;
-	}
+	BEEEON_CATCH_CHAIN_ACTION(logger(),
+		m_timerRunning = false)
 }
