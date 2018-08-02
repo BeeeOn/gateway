@@ -371,6 +371,21 @@ else()
 	message(STATUS "Mosquitto Client support is disabled")
 endif()
 
+if (ENABLE_IQRF)
+	file(GLOB IQRF_SOURCES
+		${PROJECT_SOURCE_DIR}/iqrf/DPAMessage.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/DPARequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondNodeRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondNodeResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondedNodesResponse.cpp
+	)
+	list(APPEND SOURCES ${IQRF_SOURCES})
+else()
+	message(STATUS "IQRF support is disabled")
+endif()
+
 configure_file(core/Version.cpp.in ${PROJECT_BINARY_DIR}/core/Version.cpp)
 list(APPEND SOURCES ${PROJECT_BINARY_DIR}/core/Version.cpp)
 

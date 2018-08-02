@@ -108,6 +108,14 @@ if(ENABLE_BLE_SMART)
 	list(APPEND TEST_SOURCES ${BLE_SMART_TEST_SOURCES})
 endif()
 
+if (ENABLE_IQRF)
+	file(GLOB IQRF_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/iqrf/DPAResponseTest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${IQRF_TEST_SOURCES})
+endif()
+
 include_directories(
 	${PROJECT_SOURCE_DIR}
 	${PROJECT_SOURCE_DIR}/../base/src
