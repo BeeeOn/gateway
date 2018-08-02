@@ -48,6 +48,7 @@
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="wakeUpTime" time="${bluetooth.refresh}" />
+			<set name="leScanTime" time="${bluetooth.le.scan.time}" />
 			<set name="modes" list="${bluetooth.modes}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />

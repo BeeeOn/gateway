@@ -60,6 +60,11 @@ public:
 	void setStatisticsInterval(const Poco::Timespan &interval);
 
 	/**
+	 * Set time for a single LE scan when testing device availability.
+	 */
+	void setLEScanTime(const Poco::Timespan &time);
+
+	/**
 	 * Set HciInterfaceManager implementation.
 	 */
 	void setHciManager(HciInterfaceManager::Ptr manager);
@@ -125,6 +130,7 @@ private:
 
 	Poco::RunnableAdapter<BluetoothAvailabilityManager> m_listenThread;
 	Poco::Timespan m_wakeUpTime;
+	Poco::Timespan m_leScanTime;
 	Poco::Thread m_thread;
 	std::map<DeviceID, BluetoothDevice> m_deviceList;
 	Poco::FastMutex m_lock;
