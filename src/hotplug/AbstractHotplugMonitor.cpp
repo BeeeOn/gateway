@@ -24,15 +24,7 @@ void AbstractHotplugMonitor::fireAddEvent(const HotplugEvent &event)
 		try {
 			listener->onAdd(event);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
+		BEEEON_CATCH_CHAIN(logger())
 	}
 }
 
@@ -42,15 +34,7 @@ void AbstractHotplugMonitor::fireRemoveEvent(const HotplugEvent &event)
 		try {
 			listener->onRemove(event);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
+		BEEEON_CATCH_CHAIN(logger())
 	}
 }
 
@@ -60,15 +44,7 @@ void AbstractHotplugMonitor::fireChangeEvent(const HotplugEvent &event)
 		try {
 			listener->onChange(event);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
+		BEEEON_CATCH_CHAIN(logger())
 	}
 }
 
@@ -78,15 +54,7 @@ void AbstractHotplugMonitor::fireMoveEvent(const HotplugEvent &event)
 		try {
 			listener->onMove(event);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("unknown error", __FILE__, __LINE__);
-		}
+		BEEEON_CATCH_CHAIN(logger())
 	}
 }
 
