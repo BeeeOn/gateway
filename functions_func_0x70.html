@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-46-g9038ede</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-51-g8622d5f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -103,23 +103,21 @@
 : <a class="el" href="classBeeeOn_1_1SAXHelper.html#aa06d2238824c569541ccd687a2ca8dff">BeeeOn::SAXHelper</a>
 </li>
 <li>parse()
-: <a class="el" href="classBeeeOn_1_1JSONSensorDataParser.html#a916c2c6a300ff6111ecd8e37d52733ca">BeeeOn::JSONSensorDataParser</a>
+: <a class="el" href="classBeeeOn_1_1ChecksumSensorDataParser.html#a2187fc807c4ee06e4835bca049205291">BeeeOn::ChecksumSensorDataParser</a>
+, <a class="el" href="classBeeeOn_1_1JSONSensorDataParser.html#a916c2c6a300ff6111ecd8e37d52733ca">BeeeOn::JSONSensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1SensorDataParser.html#a4501551e87afe3f15b7628f8c329c730">BeeeOn::SensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1TimespanParser.html#a68f05e30872b1d21beb8aa7f349de8c6">BeeeOn::TimespanParser</a>
 </li>
 <li>parseAdvertisingData()
-: <a class="el" href="classBeeeOn_1_1BeeWiSmartMotion.html#a05e89ede0b862377fe6d8653dc741e75">BeeeOn::BeeWiSmartMotion</a>
+: <a class="el" href="classBeeeOn_1_1BeeWiSmartLite.html#a1952355aee9a0ac0e4538a6ffe7e2c84">BeeeOn::BeeWiSmartLite</a>
+, <a class="el" href="classBeeeOn_1_1BeeWiSmartMotion.html#a05e89ede0b862377fe6d8653dc741e75">BeeeOn::BeeWiSmartMotion</a>
 , <a class="el" href="classBeeeOn_1_1BeeWiSmartWatt.html#a1a332f9703a0ba269892259586a38b31">BeeeOn::BeeWiSmartWatt</a>
 , <a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">BeeeOn::BLESmartDevice</a>
 , <a class="el" href="classBeeeOn_1_1BeeWiSmartClim.html#af4a287aa3a9e1b9b4c350c3a7023b29e">BeeeOn::BeeWiSmartClim</a>
 , <a class="el" href="classBeeeOn_1_1BeeWiSmartDoor.html#a2b7d8a76a5e451f1e0cbbbfd2f041488">BeeeOn::BeeWiSmartDoor</a>
-, <a class="el" href="classBeeeOn_1_1BeeWiSmartLite.html#a1952355aee9a0ac0e4538a6ffe7e2c84">BeeeOn::BeeWiSmartLite</a>
 </li>
 <li>parseAndRun()
 : <a class="el" href="classBeeeOn_1_1Tool.html#a8d4393315adf5a15a264d94da69f4f18">BeeeOn::Tool</a>
-</li>
-<li>parseData()
-: <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy_1_1FileBuffer.html#a23d38d659902c728069e1ca2a7060174">BeeeOn::JournalQueuingStrategy::FileBuffer</a>
 </li>
 <li>parseDevice()
 : <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#ac0b0117724fe2ccc5d7019df5e30cb60">BeeeOn::VirtualDeviceManager</a>
@@ -138,6 +136,9 @@
 </li>
 <li>parseModule()
 : <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a97e4a3f6a05e606f4efa1a86ccd8395e">BeeeOn::VirtualDeviceManager</a>
+</li>
+<li>parseNoDelimiter()
+: <a class="el" href="classBeeeOn_1_1ChecksumSensorDataParser.html#ae4d4207f693ec74cc01e31981df16a3b">BeeeOn::ChecksumSensorDataParser</a>
 </li>
 <li>parseValue()
 : <a class="el" href="classBeeeOn_1_1JablotronDevice.html#a54f10dd1f4fe485853d5821c466083c8">BeeeOn::JablotronDevice</a>
@@ -167,8 +168,8 @@
 </li>
 <li>pop()
 : <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a1f15643ac34c0e8ff9cdaecf9c2caf3d">BeeeOn::InMemoryQueuingStrategy</a>
-, <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a307b2cd8561111fb1b6c9df04ca3e183">BeeeOn::JournalQueuingStrategy</a>
 , <a class="el" href="classBeeeOn_1_1QueuingStrategy.html#a5cdedc9444396cb5c3942aef4bc04c5b">BeeeOn::QueuingStrategy</a>
+, <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a307b2cd8561111fb1b6c9df04ca3e183">BeeeOn::JournalQueuingStrategy</a>
 </li>
 <li>precacheEntries()
 : <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a0b283928c47f32f50267b17fc93d9209">BeeeOn::JournalQueuingStrategy</a>
@@ -184,12 +185,12 @@
 : <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a2c3642bf5d270ad9b8d4b9fdfe2bc04c">BeeeOn::JournalQueuingStrategy</a>
 </li>
 <li>print()
-: <a class="el" href="classBeeeOn_1_1ConsoleSessionImpl.html#a967a059a0e12041713ba19a5f0a9857f">BeeeOn::ConsoleSessionImpl</a>
-, <a class="el" href="classBeeeOn_1_1Console_1_1ClosedConsoleSessionImpl.html#aca26a50feeb825ba8529b4147f8433ba">BeeeOn::Console::ClosedConsoleSessionImpl</a>
-, <a class="el" href="classBeeeOn_1_1SimpleConsole.html#a7d53ace25f091e309e00d7990842657f">BeeeOn::SimpleConsole</a>
-, <a class="el" href="classBeeeOn_1_1TCPConsoleSessionImpl.html#a6cb92375627160762e33e52c8d6b53be">BeeeOn::TCPConsoleSessionImpl</a>
-, <a class="el" href="classBeeeOn_1_1ConsoleSession.html#a936329a1a0a7e63905040fe2bc647012">BeeeOn::ConsoleSession</a>
+: <a class="el" href="classBeeeOn_1_1SimpleConsole.html#a7d53ace25f091e309e00d7990842657f">BeeeOn::SimpleConsole</a>
 , <a class="el" href="classBeeeOn_1_1StreamConsoleSessionImpl.html#ae99babbba87f1694208d0dfaf1c206ce">BeeeOn::StreamConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1ConsoleSessionImpl.html#a967a059a0e12041713ba19a5f0a9857f">BeeeOn::ConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1ConsoleSession.html#a936329a1a0a7e63905040fe2bc647012">BeeeOn::ConsoleSession</a>
+, <a class="el" href="classBeeeOn_1_1Console_1_1ClosedConsoleSessionImpl.html#aca26a50feeb825ba8529b4147f8433ba">BeeeOn::Console::ClosedConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1TCPConsoleSessionImpl.html#a6cb92375627160762e33e52c8d6b53be">BeeeOn::TCPConsoleSessionImpl</a>
 </li>
 <li>probeAddressRange()
 : <a class="el" href="classBeeeOn_1_1AbstractHTTPScanner.html#a9f1f3619c2f7cafe51f2048d64f3049c">BeeeOn::AbstractHTTPScanner</a>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc2-46-g9038ede</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc2-51-g8622d5f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -105,8 +105,6 @@ static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a23d38d659902c728069e1ca2a7060174"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JournalQueuingStrategy_1_1FileBuffer.html#a23d38d659902c728069e1ca2a7060174">parseData</a> (const std::string &amp;line) const </td></tr>
-<tr class="separator:a23d38d659902c728069e1ca2a7060174"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8fdd1ce436f585a841696aa49a42756"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8fdd1ce436f585a841696aa49a42756"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1JournalQueuingStrategy_1_1FileBuffer.html#ad8fdd1ce436f585a841696aa49a42756">scanEntries</a> (size_t offset, std::function&lt; void(const <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy_1_1Entry.html">Entry</a> &amp;entry)&gt; proc, size_t &amp;bytes, const size_t count) const </td></tr>
 <tr class="memdesc:ad8fdd1ce436f585a841696aa49a42756"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scan for up to count entries from the current offset. The parameter bytes is updated continuously while reading any bytes and it would up to date even in case of an exception. <br/></td></tr>
@@ -132,31 +130,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>true if the offset is greater than size and thus the buffer contains no more data to be scanned. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a23d38d659902c728069e1ca2a7060174"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> JournalQueuingStrategy::FileBuffer::parseData </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>line</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>parsed data from the given line. </dd></dl>
 
 </div>
 </div>
