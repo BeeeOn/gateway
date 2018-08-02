@@ -4,6 +4,7 @@
 			<add name="runnables" ref="pressureSensorManager" if-yes="${psdev.enable}" />
 			<add name="runnables" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
 			<add name="runnables" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
+			<add name="runnables" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="runnables" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}" />
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
@@ -54,6 +55,16 @@
 			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+		</instance>
+
+		<instance name="bleSmartDeviceManager" class="BeeeOn::BLESmartDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
+			<set name="scanTimeout" time="${blesmart.scan.timeout}" />
+			<set name="deviceTimeout" time="${blesmart.device.timeout}" />
+			<set name="refresh" time="${blesmart.refresh}" />
+			<set name="hciManager" ref="${blesmart.hci.impl}HciManager" />
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
 		<instance name="jablotronDeviceManager" class="BeeeOn::JablotronDeviceManager">

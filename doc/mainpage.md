@@ -319,3 +319,13 @@ sensor available via sysfs.
 * philipshue.http.timeout - timeout of HTTP requests
 
 * philipshue.refresh - interval of polling the particular Philips Hue devices (seconds)
+
+##### BLE Smart
+
+* blesmart.enable - enable the BLE Smart support
+
+* blesmart.scan.timeout - timeout of the Bluetooth Low Energy scan
+
+* blesmart.device.timeout - timeout of work with the device (connect, wait to load services, read/write request)
+
+* blesmart.refresh - interval of polling the particular BLE Smart devices (seconds)

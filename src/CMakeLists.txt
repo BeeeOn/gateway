@@ -209,6 +209,23 @@ else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
 
+if(ENABLE_BLUETOOTH AND ENABLE_BLE_SMART)
+	file(GLOB BLE_SMART_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiDevice.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartClim.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartDoor.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartLite.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartMotion.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartWatt.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDevice.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/TabuLumenSmartLite.cpp
+	)
+	list(APPEND SOURCES ${BLE_SMART_SOURCES})
+else()
+	message(STATUS "Bluetooth Low Energy Smart support is disabled")
+endif()
+
 if(ENABLE_JABLOTRON)
 	file(GLOB JABLOTRON_SOURCES
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
