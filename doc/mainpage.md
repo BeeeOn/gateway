@@ -269,6 +269,8 @@ is available or unavailable, such event is distributed.
 
 * bluetooth.refresh - interval of scanning the network and reporting results
 
+* bluetooth.le.scan.time - time for a single LE scan when testing device availability
+
 ##### Jablotron
 
 * jablotron.enable - enable the Jablotron support

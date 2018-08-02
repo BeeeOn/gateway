@@ -27,6 +27,7 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
 BEEEON_OBJECT_PROPERTY("deviceCache", &BluetoothAvailabilityManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
+BEEEON_OBJECT_PROPERTY("leScanTime", &BluetoothAvailabilityManager::setLEScanTime)
 BEEEON_OBJECT_PROPERTY("modes", &BluetoothAvailabilityManager::setModes)
 BEEEON_OBJECT_PROPERTY("distributor", &BluetoothAvailabilityManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &BluetoothAvailabilityManager::setCommandDispatcher)
@@ -48,7 +49,6 @@ using namespace std;
 const int MODULE_ID = 0;
 const int NUM_OF_ATTEMPTS = 2;
 static const Timespan SCAN_TIME = 5 * Timespan::SECONDS;
-static const Timespan LE_SCAN_TIME = 5 * Timespan::SECONDS;
 static const Timespan MIN_WAKE_UP_TIME = 15 * Timespan::SECONDS;
 
 BluetoothAvailabilityManager::BluetoothAvailabilityManager() :
@@ -72,6 +72,14 @@ void BluetoothAvailabilityManager::setWakeUpTime(const Timespan &time)
 	}
 
 	m_wakeUpTime = time;
+}
+
+void BluetoothAvailabilityManager::setLEScanTime(const Timespan &time)
+{
+	if (time.totalSeconds() <= 0)
+		throw InvalidArgumentException("LE scan time must be at least a second");
+
+	m_leScanTime = time;
 }
 
 void BluetoothAvailabilityManager::setModes(const list<string> &modes)
@@ -210,7 +218,7 @@ list<DeviceID> BluetoothAvailabilityManager::detectClassic(const HciInterface &h
 void BluetoothAvailabilityManager::detectLE(const HciInterface &hci)
 {
 	m_leScanCache.clear();
-	m_leScanCache = hci.lescan(LE_SCAN_TIME);
+	m_leScanCache = hci.lescan(m_leScanTime);
 
 	for (auto &device : m_deviceList) {
 		if (!device.second.isLE())
@@ -336,7 +344,7 @@ bool BluetoothAvailabilityManager::enoughTimeForScan(const Timestamp &startTime)
 	if (m_mode & MODE_CLASSIC)
 		base += SCAN_TIME;
 	if (m_mode & MODE_LE)
-		base += LE_SCAN_TIME;
+		base += m_leScanTime;
 
 	return (base + startTime.elapsed() < m_listenTime && !m_stopControl.shouldStop());
 }
@@ -376,7 +384,7 @@ void BluetoothAvailabilityManager::listen()
 		if (m_mode & MODE_CLASSIC)
 			reportFoundDevices(MODE_CLASSIC, hci->scan());
 		if (m_mode & MODE_LE)
-			reportFoundDevices(MODE_LE, hci->lescan(LE_SCAN_TIME));
+			reportFoundDevices(MODE_LE, hci->lescan(m_leScanTime));
 	};
 
 	logger().information("bluetooth listen has finished", __FILE__, __LINE__);
