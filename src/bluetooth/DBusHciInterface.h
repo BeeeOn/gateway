@@ -113,9 +113,9 @@ public:
 	 * @brief Scans the Bluetooth LE network and returns all available
 	 * devices. The method starts with the obtaining of all known devices
 	 * to Bluez deamon. Then the bluetooth adapter starts discovery of new
-	 * devices whitch extends collection of devices. Availability of device
-	 * is determined by paramter RSSI. If the RSSI parametr is 0 then the
-	 * device is unavailable.
+	 * devices whitch extends collection of found devices. Availability of
+	 * device is determined by paramter RSSI. If the RSSI parametr changes
+	 * during the scan timeout device is available.
 	 */
 	std::map<MACAddress, std::string> lescan(
 		const Poco::Timespan &timeout) const override;
@@ -211,12 +211,10 @@ private:
 		const std::string& trasport) const;
 
 	/**
-	 * @brief Obtains all known devices for Bluez deamon and stores them into
-	 * the paramater devices.
+	 * @brief Obtains all known devices for Bluez deamon and returns them.
 	 */
-	void processKnownDevices(
-		GlibPtr<GDBusObjectManager> objectManager,
-		std::map<MACAddress, std::string>& devices) const;
+	std::vector<GlibPtr<OrgBluezDevice1>> processKnownDevices(
+		GlibPtr<GDBusObjectManager> objectManager) const;
 
 	/**
 	 * @brief The purpose of the method is to run GMainLoop that handles
