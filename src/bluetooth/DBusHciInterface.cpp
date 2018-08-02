@@ -105,8 +105,8 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 
 	GlibPtr<GDBusObjectManager> objectManager = createBluezObjectManager();
 
-	map<MACAddress, string> allDevices;
-	processKnownDevices(objectManager, allDevices);
+	ThreadSafeDevices allDevices;
+	processKnownDevices(objectManager, allDevices.second);
 
 	::g_signal_connect(
 		G_DBUS_OBJECT_MANAGER(objectManager.raw()),
@@ -119,7 +119,8 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 	m_waitCondition.tryWait(timeout);
 
 	map<MACAddress, string> foundDevices;
-	for (auto one : allDevices) {
+	ScopedLock<FastMutex> guard(allDevices.first);
+	for (auto one : allDevices.second) {
 		GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, one.first));
 		int16_t rssi = ::org_bluez_device1_get_rssi(device.raw());
 		if (rssi != 0) {
@@ -343,8 +344,10 @@ void DBusHciInterface::onDBusObjectAdded(
 	const char* charName = ::org_bluez_device1_get_name(device.raw());
 	const string name = charName == nullptr ? "unknown" : charName;
 
-	map<MACAddress, string> &foundDevices = *(reinterpret_cast<map<MACAddress, string>*>(userData));
-	foundDevices.emplace(mac, name);
+	ThreadSafeDevices &foundDevices = *(reinterpret_cast<ThreadSafeDevices*>(userData));
+
+	ScopedLock<FastMutex> guard(foundDevices.first);
+	foundDevices.second.emplace(mac, name);
 }
 
 gboolean DBusHciInterface::onDeviceManufacturerDataRecieved(

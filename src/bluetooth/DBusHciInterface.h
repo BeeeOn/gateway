@@ -47,6 +47,7 @@ public:
 
 	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
+	typedef std::pair<Poco::FastMutex, std::map<MACAddress, std::string>> ThreadSafeDevices;
 
 	/**
 	 * @brief The class is used to store necessary data about device, from
