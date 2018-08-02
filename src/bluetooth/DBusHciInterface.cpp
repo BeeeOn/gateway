@@ -350,6 +350,37 @@ void DBusHciInterface::onDBusObjectAdded(
 	foundDevices.second.emplace(mac, name);
 }
 
+gboolean DBusHciInterface::onDeviceRSSIChanged(
+		OrgBluezDevice1* device,
+		GVariant* properties,
+		const gchar* const*,
+		gpointer userData)
+{
+	if (::g_variant_n_children(properties) == 0)
+		return true;
+
+	GVariantIter* iter;
+	const char* property;
+	GVariant* value;
+	ThreadSafeDevices &foundDevices = *(reinterpret_cast<ThreadSafeDevices*>(userData));
+
+	::g_variant_get(properties, "a{sv}", &iter);
+	while (::g_variant_iter_loop(iter, "{&sv}", &property, &value)) {
+		if (string(property) == "RSSI") {
+			const auto &mac = MACAddress::parse(::org_bluez_device1_get_address(device), ':');
+			const char* charName = ::org_bluez_device1_get_name(device);
+			const string name = charName == nullptr ? "unknown" : charName;
+
+			ScopedLock<FastMutex> guard(foundDevices.first);
+			foundDevices.second.emplace(mac, name);
+
+			break;
+		}
+	}
+
+	return true;
+}
+
 gboolean DBusHciInterface::onDeviceManufacturerDataRecieved(
 		OrgBluezDevice1* device,
 		GVariant* properties,

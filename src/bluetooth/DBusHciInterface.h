@@ -151,6 +151,16 @@ protected:
 		gpointer userData);
 
 	/**
+	 * @brief Callback handling the event of RSSI changed. It is used
+	 * to detecting that the device is available.
+	 */
+	static gboolean onDeviceRSSIChanged(
+		OrgBluezDevice1* device,
+		GVariant* properties,
+		const gchar* const* invalidatedProperties,
+		gpointer userData);
+
+	/**
 	 * @brief Callback handling the event of receiving advertising data.
 	 */
 	static gboolean onDeviceManufacturerDataRecieved(
