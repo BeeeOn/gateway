@@ -256,16 +256,7 @@ struct udev_monitor *UDevMonitor::createMonitor()
 	try {
 		return doCreateMonitor();
 	}
-	catch (const Exception &e) {
-		logger().log(e, __FILE__, __LINE__);
-	}
-	catch (const exception &e) {
-		logger().critical(e.what(), __FILE__, __LINE__);
-	}
-	catch (...) {
-		logger().critical("failed to create udev_monitor",
-				  __FILE__, __LINE__);
-	}
+	BEEEON_CATCH_CHAIN(logger())
 
 	return NULL;
 }
@@ -287,16 +278,7 @@ void UDevMonitor::run()
 		try {
 			scanDevice(mon);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("failed to scan devices",
-				  __FILE__, __LINE__);
-		}
+		BEEEON_CATCH_CHAIN(logger())
 	}
 
 	::udev_monitor_unref(mon);
