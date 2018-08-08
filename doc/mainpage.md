@@ -362,3 +362,29 @@ sensor available via sysfs.
 * blesmart.device.timeout - timeout of work with the device (connect, wait to load services, read/write request)
 
 * blesmart.refresh - interval of polling the particular BLE Smart devices (seconds)
+
+#### IQRF 
+
+* iqrf.enable - enable the IQRF support
+
+* iqrf.subscribeTopic - topic where receive JSON messages from IQRF Daemon
+
+* iqrf.publishTopic - topic where to advertise JSON messages for IQRF Daemon
+
+* iqrf.receiveTimeout - timeout of IQRF DPA requests
+
+* iqrf.refreshTime - interval of obtaining measured values from IQRF devices (seconds)
+
+* iqrf.refreshTimePeripheralInfo - interval of obtaining peripheral info (RSSI, battery) from IQRF devices (seconds)
+
+* iqrf.devicesRetryTimeout - interval between attempts to communicate with IQRF devices
+
+* iqrf.coordinatorReset - controllers to be reset once connected
+
+* iqrf.mqtt.host - host where the MQTT broker is running
+
+* iqrf.mqtt.port - port where the MQTT broker is running
+
+* iqrf.mqtt.qos - MQTT QoS specification
+
+* iqrf.mqtt.clientID - name of the MQTT client

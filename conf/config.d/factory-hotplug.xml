@@ -1,12 +1,13 @@
 <system>
 	<factory>
 		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
-			<set name="matches" list="bluetooth,tty" />
+			<set name="matches" list="bluetooth,tty,spi" />
 			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
 			<add name="listeners" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="listeners" ref="zwaveNetwork" if-yes="${zwave.enable}"/>
 			<add name="listeners" ref="hciInfoReporter" if-yes="${bluetooth.reporting.enable}"/>
+			<add name="listeners" ref="iqrfDeviceManager" if-yes="${iqrf.enable}"/>
 		</instance>
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
@@ -16,6 +17,7 @@
 			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="listeners" ref="zwaveNetwork" if-yes="${zwave.enable}"/>
 			<add name="listeners" ref="hciInfoReporter" if-yes="${bluetooth.reporting.enable}"/>
+			<add name="listeners" ref="iqrfDeviceManager" if-yes="${iqrf.enable}"/>
 		</instance>
 
 		<alias name="hotplugMonitor" ref="${hotplug.impl}Monitor" />

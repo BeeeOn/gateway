@@ -13,6 +13,9 @@
 			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
 			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="loops" ref="hciInfoReporter" if-yes="${bluetooth.reporting.enable}" />
+			<add name="runnables" ref="iqrfMqttClient" if-yes="${iqrf.enable}" />
+			<add name="runnables" ref="iqrfDeviceManager" if-yes="${iqrf.enable}" />
+			<add name="runnables" ref="iqrfMqttConnector" if-yes="${iqrf.enable}" />
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
@@ -207,6 +210,31 @@
 			<set name="registry" ref="zwaveMapperRegistry" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="distributor" ref="distributor" />
+		</instance>
+
+		<instance name="iqrfMqttClient" class="BeeeOn::GatewayMosquittoClient">
+			<set name="host" text="${iqrf.mqtt.host}" />
+			<set name="port" number="${iqrf.mqtt.port}" />
+			<set name="clientID" text="${iqrf.mqtt.clientID}" />
+			<set name="subTopics" list="${iqrf.subscribeTopics}" />
+			<set name="gatewayInfo" ref="gatewayInfo" />
+		</instance>
+
+		<instance name="iqrfDeviceManager" class="BeeeOn::IQRFDeviceManager">
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="mqttConnector" ref="iqrfMqttConnector" />
+			<set name="receiveTimeout" time="${iqrf.receiveTimeout}" />
+			<set name="refreshTime" time="${iqrf.refreshTime}" />
+			<set name="refreshTimePeripheralInfo" time="${iqrf.refreshTimePeripheralInfo}" />
+			<set name="devicesRetryTimeout" time="${iqrf.devicesRetryTimeout}" />
+			<set name="coordinatorReset" text="${iqrf.coordinatorReset}" />
+			<set name="devicePoller" ref="devicePoller" />
+		</instance>
+
+		<instance name="iqrfMqttConnector" class="BeeeOn::IQRFMqttConnector">
+			<set name="mqttClient" ref="iqrfMqttClient" />
+			<set name="publishTopic" text="${iqrf.publishTopic}" />
 		</instance>
 	</factory>
 </system>

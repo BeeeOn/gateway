@@ -51,6 +51,7 @@
 			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
 			<add name="handlers" ref="vptDeviceManager" if-yes="${vpt.enable}"/>
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}"/>
+			<add name="handlers" ref="iqrfDeviceManager" if-yes="${iqrf.enable}"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}"/>
@@ -71,6 +72,7 @@
 			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
 			<add name="handlers" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="handlers" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
+			<add name="handlers" ref="iqrfDeviceManager" if-yes="${iqrf.enable}" />
 		</instance>
 
 		<instance name="pollExecutor" class="BeeeOn::SequentialAsyncExecutor">
