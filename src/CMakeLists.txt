@@ -424,6 +424,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFMqttConnector.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFTypeMappingParser.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFUtil.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondNodeRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordClearAllBondsRequest.cpp
