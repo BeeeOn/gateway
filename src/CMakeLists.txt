@@ -420,6 +420,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFDevice.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessage.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonResponse.cpp
