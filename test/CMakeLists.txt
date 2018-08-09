@@ -149,6 +149,7 @@ endif()
 
 if (ENABLE_IQRF AND MOSQUITTO_CPP)
 	file(GLOB IQRF_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/iqrf/DPAIQHomeProtocolTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponseTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessageTest.cpp

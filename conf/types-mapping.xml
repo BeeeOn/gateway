@@ -166,4 +166,21 @@
 			<beeeon type="battery" />
 		</map>
 	</z-wave-mapping>
+	<iqrf-iqhome-mapping>
+		<map comment="Temperature">
+			<iqrf-iqhome id="0x01" error-value="0x8000" wide="2"
+				resolution="0.0625" signed="yes" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="Humidity">
+			<iqrf-iqhome id="0x02" error-value="0x8000" wide="2"
+				resolution="0.0625" signed="no" />
+			<beeeon type="humidity" />
+		</map>
+		<map comment="CO2">
+			<iqrf-iqhome id="0x03" error-value="0x8000" wide="2"
+				resolution="1" signed="no" />
+			<beeeon type="co2" />
+		</map>
+	</iqrf-iqhome-mapping>
 </types-mapping>

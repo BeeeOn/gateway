@@ -230,11 +230,16 @@
 			<set name="devicesRetryTimeout" time="${iqrf.devicesRetryTimeout}" />
 			<set name="coordinatorReset" text="${iqrf.coordinatorReset}" />
 			<set name="devicePoller" ref="devicePoller" />
+			<set name="protocols" ref="iqHomeDPAProtocol" />
 		</instance>
 
 		<instance name="iqrfMqttConnector" class="BeeeOn::IQRFMqttConnector">
 			<set name="mqttClient" ref="iqrfMqttClient" />
 			<set name="publishTopic" text="${iqrf.publishTopic}" />
+		</instance>
+
+		<instance name="iqHomeDPAProtocol" class="BeeeOn::DPAIQHomeProtocol" >
+			<set name="typesMapping" text="${iqrf.typesMapping.path}" />
 		</instance>
 	</factory>
 </system>
