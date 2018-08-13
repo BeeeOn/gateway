@@ -28,6 +28,7 @@ pkg_search_module (GLIB REQUIRED glib-2.0)
 pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
 
 find_library (UDEV udev)
+find_library (FITP_LIB fitplib)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -46,10 +47,6 @@ endif()
 if(ENABLE_ZWAVE)
 	find_package(OpenZWave REQUIRED)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
-endif()
-
-if(ENABLE_FITP)
-	find_library (FITP_LIB fitplib)
 endif()
 
 file(GLOB TEST_SOURCES
@@ -105,11 +102,12 @@ if (ENABLE_QUEUING_DISTRIBUTOR)
 	list(APPEND TEST_SOURCES ${QUEUING_DISTRIBUTOR_TEST_SOURCES})
 endif()
 
-if(ENABLE_FITP)
+if(FITP_LIB AND ENABLE_FITP)
 	file(GLOB FITP_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${FITP_TEST_SOURCES})
+	list(APPEND LIBS ${FITP_LIB})
 endif()
 
 if(ENABLE_BLE_SMART)
@@ -153,10 +151,6 @@ endif()
 
 if(OPENZWAVE_LIBRARY)
 list(APPEND LIBS ${OPENZWAVE_LIBRARY})
-endif()
-
-if(FITP_LIB)
-list(APPEND LIBS ${FITP_LIB})
 endif()
 
 if(GLIB_LDFLAGS)

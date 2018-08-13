@@ -28,6 +28,7 @@ pkg_search_module (BLUEZ REQUIRED bluez)
 find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
 
 find_library (UDEV udev)
+find_library (FITP_LIB fitp)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -65,10 +66,6 @@ endif()
 if(ENABLE_ZWAVE)
 	find_package(OpenZWave REQUIRED)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
-endif()
-
-if(ENABLE_FITP)
-	find_library (FITP_LIB fitp)
 endif()
 
 if (ENABLE_MOSQUITTO_CLIENT)
@@ -364,12 +361,13 @@ else()
 	message(STATUS "Internal air pressure sensor support is disabled")
 endif()
 
-if(ENABLE_FITP)
+if(FITP_LIB AND ENABLE_FITP)
 	file(GLOB FITP_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDevice.cpp
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceManager.cpp
 	)
 	list(APPEND SOURCES ${FITP_SOURCES})
+	list(APPEND LIBS ${FITP_LIB})
 else()
 	message(STATUS "Fitp support is disabled")
 endif()
@@ -421,10 +419,6 @@ endif()
 
 if(OPENZWAVE_LIBRARY)
 list(APPEND LIBS ${OPENZWAVE_LIBRARY})
-endif()
-
-if(FITP_LIB)
-list(APPEND LIBS ${FITP_LIB})
 endif()
 
 if(GLIB_LDFLAGS)
