@@ -27,14 +27,12 @@ find_package (PkgConfig REQUIRED)
 pkg_search_module (GLIB REQUIRED glib-2.0)
 pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
 
+find_library (UDEV udev)
+
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
 	set(HAS_DBUS_BLUEZ YES)
-endif()
-
-if(ENABLE_UDEV)
-	find_library (UDEV udev)
 endif()
 
 if(ENABLE_MOSQUITTO_EXPORTER)

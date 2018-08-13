@@ -27,14 +27,12 @@ pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
 pkg_search_module (BLUEZ REQUIRED bluez)
 find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
 
+find_library (UDEV udev)
+
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
 	set(HAS_DBUS_BLUEZ YES)
-endif()
-
-if(ENABLE_UDEV)
-	find_library (UDEV udev)
 endif()
 
 if(ENABLE_BLUETOOTH)
@@ -163,9 +161,10 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveListener.cpp
 )
 
-if(ENABLE_UDEV)
+if(UDEV AND ENABLE_UDEV)
 	file(GLOB UDEV_SOURCES ${PROJECT_SOURCE_DIR}/hotplug/UDevMonitor.cpp)
 	list(APPEND SOURCES ${UDEV_SOURCES})
+	list(APPEND LIBS ${UDEV})
 else()
 	message(STATUS "udev support is disabled")
 endif()
@@ -418,10 +417,6 @@ endif()
 
 if (MOSQUITTO_CPP)
 list(APPEND LIBS ${MOSQUITTO_CPP})
-endif()
-
-if (UDEV)
-list(APPEND LIBS ${UDEV})
 endif()
 
 if(OPENZWAVE_LIBRARY)
