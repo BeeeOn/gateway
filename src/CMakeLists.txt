@@ -29,6 +29,7 @@ find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
 
 find_library (UDEV udev)
 find_library (FITP_LIB fitp)
+find_library (MOSQUITTO_CPP mosquittopp)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -66,10 +67,6 @@ endif()
 if(ENABLE_ZWAVE)
 	find_package(OpenZWave REQUIRED)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
-endif()
-
-if (ENABLE_MOSQUITTO_CLIENT)
-	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
 if(ENABLE_UCLIBCXX_FIXES)
@@ -315,13 +312,16 @@ else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
 
-if((ENABLE_MOSQUITTO_EXPORTER) AND (ENABLE_MOSQUITTO_CLIENT))
-	file(GLOB MOSQUITTO_EXPORTER_SOURCES
+if(MOSQUITTO_CPP)
+	file(GLOB MOSQUITTO_SUPPORT_SOURCES
 		${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
+		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
+		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)
-	list(APPEND SOURCES ${MOSQUITTO_EXPORTER_SOURCES})
+	list(APPEND SOURCES ${MOSQUITTO_SUPPORT_SOURCES})
+	list(APPEND LIBS ${MOSQUITTO_CPP})
 else()
-	message(STATUS "Mosquitto Exporting support is disabled")
+	message(STATUS "Mosquitto support is disabled")
 endif()
 
 if(ENABLE_BASIC_DISTRIBUTOR)
@@ -372,16 +372,6 @@ else()
 	message(STATUS "Fitp support is disabled")
 endif()
 
-if (ENABLE_MOSQUITTO_CLIENT)
-	file(GLOB MOSQUITTO_CLIENT_SOURCES
-		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
-		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
-	)
-	list(APPEND SOURCES ${MOSQUITTO_CLIENT_SOURCES})
-else()
-	message(STATUS "Mosquitto Client support is disabled")
-endif()
-
 if (ENABLE_IQRF)
 	file(GLOB IQRF_SOURCES
 		${PROJECT_SOURCE_DIR}/iqrf/DPAMessage.cpp
@@ -411,10 +401,6 @@ add_executable(beeeon-gateway main.cpp)
 
 if(BLUETOOTH)
 list(APPEND LIBS ${BLUETOOTH})
-endif()
-
-if (MOSQUITTO_CPP)
-list(APPEND LIBS ${MOSQUITTO_CPP})
 endif()
 
 if(OPENZWAVE_LIBRARY)

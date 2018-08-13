@@ -29,15 +29,12 @@ pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
 
 find_library (UDEV udev)
 find_library (FITP_LIB fitplib)
+find_library (MOSQUITTO_CPP mosquittopp)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
 	set(HAS_DBUS_BLUEZ YES)
-endif()
-
-if(ENABLE_MOSQUITTO_EXPORTER)
-	find_library (MOSQUITTO_CPP mosquittopp)
 endif()
 
 if(ENABLE_BLUETOOTH)
