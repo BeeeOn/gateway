@@ -30,15 +30,12 @@ pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
 find_library (UDEV udev)
 find_library (FITP_LIB fitplib)
 find_library (MOSQUITTO_CPP mosquittopp)
+find_library (BLUETOOTH bluetooth)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
 	set(HAS_DBUS_BLUEZ YES)
-endif()
-
-if(ENABLE_BLUETOOTH)
-	find_library (BLUETOOTH bluetooth)
 endif()
 
 if(ENABLE_ZWAVE)
@@ -70,7 +67,9 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 )
 
-if(ENABLE_BLUETOOTH)
+if(BLUETOOTH)
+	list(APPEND LIBS ${BLUETOOTH})
+
 	if(HAS_DBUS_BLUEZ)
 		file(GLOB BLUETOOTH_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
@@ -127,10 +126,6 @@ add_executable(test-suite-gateway
 	${PROJECT_SOURCE_DIR}/../base/test/test.cpp
 	${TEST_SOURCES}
 )
-
-if(BLUETOOTH)
-list(APPEND LIBS ${BLUETOOTH})
-endif()
 
 if (MOSQUITTO_CPP)
 list(APPEND LIBS ${MOSQUITTO_CPP})

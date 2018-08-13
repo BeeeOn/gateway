@@ -25,7 +25,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Wall -pedantic -Wextra")
 
 option(ENABLE_UDEV "Enable support of udev" ON)
 option(ENABLE_BELKIN_WEMO "Enable support of Belkin Wemo" ON)
-option(ENABLE_BLUETOOTH "Enable support of Bluetooth" ON)
 option(ENABLE_BLUETOOTH_AVAILABILITY "Enable support of Bluetooth Availability" ON)
 option(ENABLE_BLE_SMART "Enable support of Bluetooth Low Energy Smart" ON)
 option(ENABLE_JABLOTRON "Enable support of Jablotron" ON)

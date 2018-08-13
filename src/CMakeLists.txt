@@ -30,6 +30,7 @@ find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
 find_library (UDEV udev)
 find_library (FITP_LIB fitp)
 find_library (MOSQUITTO_CPP mosquittopp)
+find_library (BLUETOOTH bluetooth)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -37,31 +38,31 @@ if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	set(HAS_DBUS_BLUEZ YES)
 endif()
 
-if(ENABLE_BLUETOOTH)
-	find_library (BLUETOOTH bluetooth)
+if(ENABLE_BLUETOOTH_AVAILABILITY OR ENABLE_BLE_SMART)
+	set(WANTS_BLUETOOTH YES)
+endif()
 
-	if(HAS_DBUS_BLUEZ)
-		file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bluetooth)
-		add_custom_command(
-			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
-			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Adapter1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
-			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
-			COMMENT "Generate DBus 'org.bluez.Adapter1.xml'"
-		)
-		add_custom_command(
-			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
-			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Device1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
-			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
-			COMMENT "Generate DBus 'org.bluez.Device1.xml'"
-		)
-		add_custom_command(
-			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
-			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.GattCharacteristic1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
-			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
-			COMMENT "Generate DBus 'org.bluez.GattCharacteristic1.xml'"
-		)
-		include_directories(${PROJECT_BINARY_DIR})
-	endif()
+if(WANTS_BLUETOOTH AND HAS_DBUS_BLUEZ)
+	file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bluetooth)
+	add_custom_command(
+		OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
+		COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Adapter1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
+		DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
+		COMMENT "Generate DBus 'org.bluez.Adapter1.xml'"
+	)
+	add_custom_command(
+		OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
+		COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Device1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
+		DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
+		COMMENT "Generate DBus 'org.bluez.Device1.xml'"
+	)
+	add_custom_command(
+		OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
+		COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.GattCharacteristic1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
+		DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
+		COMMENT "Generate DBus 'org.bluez.GattCharacteristic1.xml'"
+	)
+	include_directories(${PROJECT_BINARY_DIR})
 endif()
 
 if(ENABLE_ZWAVE)
@@ -181,7 +182,7 @@ else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH)
+if(BLUETOOTH AND WANTS_BLUETOOTH)
 	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/DBusHciConnection.cpp
@@ -209,7 +210,7 @@ else()
 	message(STATUS "Bluetooth support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
+if(BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
 	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
@@ -219,7 +220,7 @@ else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH AND ENABLE_BLE_SMART)
+if(BLUETOOTH AND ENABLE_BLE_SMART)
 	file(GLOB BLE_SMART_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiDevice.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartClim.cpp
