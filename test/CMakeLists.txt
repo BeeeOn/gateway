@@ -10,6 +10,19 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
+
+set(LIBS
+	${POCO_FOUNDATION}
+	${POCO_SSL}
+	${POCO_CRYPTO}
+	${POCO_UTIL}
+	${POCO_NET}
+	${POCO_JSON}
+	${POCO_XML}
+	${CPP_UNIT}
+	${PTHREAD}
+)
+
 find_package (PkgConfig REQUIRED)
 pkg_search_module (GLIB REQUIRED glib-2.0)
 pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
@@ -128,24 +141,33 @@ add_executable(test-suite-gateway
 	${TEST_SOURCES}
 )
 
-set(LIBS
-	${BLUETOOTH}
-	${MOSQUITTO_CPP}
-	${POCO_FOUNDATION}
-	${POCO_SSL}
-	${POCO_CRYPTO}
-	${POCO_UTIL}
-	${POCO_NET}
-	${POCO_JSON}
-	${POCO_XML}
-	${CPP_UNIT}
-	${PTHREAD}
-	${UDEV}
-	${OPENZWAVE_LIBRARY}
-	${FITP_LIB}
-	${GLIB_LDFLAGS}
-	${GIO_UNIX_LDFLAGS}
-)
+if(BLUETOOTH)
+list(APPEND LIBS ${BLUETOOTH})
+endif()
+
+if (MOSQUITTO_CPP)
+list(APPEND LIBS ${MOSQUITTO_CPP})
+endif()
+
+if (UDEV)
+list(APPEND LIBS ${UDEV})
+endif()
+
+if(OPENZWAVE_LIBRARY)
+list(APPEND LIBS ${OPENZWAVE_LIBRARY})
+endif()
+
+if(FITP_LIB)
+list(APPEND LIBS ${FITP_LIB})
+endif()
+
+if(GLIB_LDFLAGS)
+list(APPEND LIBS ${GLIB_LDFLAGS})
+endif()
+
+if(GIO_UNIX_LDFLAGS)
+list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+endif()
 
 target_link_libraries(test-suite-gateway
 	-Wl,--whole-archive
