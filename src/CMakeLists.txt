@@ -107,12 +107,14 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
+	${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
+	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingExporter.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
@@ -331,16 +333,6 @@ if(ENABLE_BASIC_DISTRIBUTOR)
 	list(APPEND SOURCES ${BASIC_DISTRIBUTOR_SOURCES})
 else()
 	message(STATUS "Basic Distributor support is disabled")
-endif()
-
-if(ENABLE_QUEUING_DISTRIBUTOR)
-	file(GLOB QUEUING_DISTRIBUTOR_SOURCES
-		${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
-		${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
-	)
-	list(APPEND SOURCES ${QUEUING_DISTRIBUTOR_SOURCES})
-else()
-	message(STATUS "Queuing Distributor support is disabled")
 endif()
 
 if (ENABLE_TESTING_CENTER)

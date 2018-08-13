@@ -52,8 +52,10 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
+	${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCacheTest.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCacheTest.cpp
+	${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingExporterTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
@@ -89,14 +91,6 @@ if(ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
-endif()
-
-if (ENABLE_QUEUING_DISTRIBUTOR)
-	file(GLOB QUEUING_DISTRIBUTOR_TEST_SOURCES
-		${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
-		${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
-	)
-	list(APPEND TEST_SOURCES ${QUEUING_DISTRIBUTOR_TEST_SOURCES})
 endif()
 
 if(FITP_LIB AND ENABLE_FITP)
