@@ -94,6 +94,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/AsyncCommandDispatcher.cpp
+	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherListener.cpp
@@ -324,15 +325,6 @@ if(MOSQUITTO_CPP)
 	list(APPEND LIBS ${MOSQUITTO_CPP})
 else()
 	message(STATUS "Mosquitto support is disabled")
-endif()
-
-if(ENABLE_BASIC_DISTRIBUTOR)
-	file(GLOB BASIC_DISTRIBUTOR_SOURCES
-		${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
-	)
-	list(APPEND SOURCES ${BASIC_DISTRIBUTOR_SOURCES})
-else()
-	message(STATUS "Basic Distributor support is disabled")
 endif()
 
 if (ENABLE_TESTING_CENTER)
