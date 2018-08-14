@@ -41,6 +41,7 @@ public:
 	void setRetryTimeout(const Poco::Timespan &timeout);
 	void setAssumeAwake(bool awake);
 	void setDriverMaxAttempts(int attempts);
+	void setNetworkKey(const std::list<std::string> &bytes);
 	void setStatisticsInterval(const Poco::Timespan &interval);
 	void setControllersToReset(const std::list<std::string> &homes);
 
@@ -286,6 +287,7 @@ private:
 	bool m_assumeAwake;
 	unsigned int m_driverMaxAttempts;
 	std::set<uint32_t> m_controllersToReset;
+	std::vector<uint8_t> m_networkKey;
 	std::map<uint32_t, std::map<uint8_t, ZWaveNode>> m_homes;
 	Poco::AtomicCounter m_configured;
 	mutable Poco::FastMutex m_managerLock;

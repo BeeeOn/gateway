@@ -34,6 +34,7 @@ BEEEON_OBJECT_PROPERTY("pollInterval", &OZWNetwork::setPollInterval)
 BEEEON_OBJECT_PROPERTY("intervalBetweenPolls", &OZWNetwork::setIntervalBetweenPolls)
 BEEEON_OBJECT_PROPERTY("retryTimeout", &OZWNetwork::setRetryTimeout)
 BEEEON_OBJECT_PROPERTY("statisticsInterval", &OZWNetwork::setStatisticsInterval)
+BEEEON_OBJECT_PROPERTY("networkKey", &OZWNetwork::setNetworkKey)
 BEEEON_OBJECT_PROPERTY("controllersToReset", &OZWNetwork::setControllersToReset)
 BEEEON_OBJECT_PROPERTY("executor", &OZWNetwork::setExecutor)
 BEEEON_OBJECT_PROPERTY("listeners", &OZWNetwork::registerListener)
@@ -114,6 +115,26 @@ void OZWNetwork::setDriverMaxAttempts(int attempts)
 		throw InvalidArgumentException("driverMaxAttempts must be non-negative");
 
 	m_driverMaxAttempts = attempts;
+}
+
+void OZWNetwork::setNetworkKey(const list<string> &bytes)
+{
+	if (!bytes.empty() && bytes.size() != 16) {
+		throw InvalidArgumentException(
+			"networkKey must be either empty or 16 bytes long");
+	}
+
+	m_networkKey.clear();
+
+	for (const auto &byte : bytes) {
+		unsigned int octet = NumberParser::parseHex(byte);
+		if (octet > 0x0ff) {
+			throw InvalidArgumentException(
+				"networkKey must only consist of values 0x00..0xFF");
+		}
+
+		m_networkKey.emplace_back((uint8_t) octet);
+	}
 }
 
 void OZWNetwork::setStatisticsInterval(const Timespan &interval)
@@ -205,6 +226,19 @@ void OZWNetwork::configure()
 		ZWavePocoLoggerAdapter::fromPocoLevel(ozwLogger.getLevel()));
 	Options::Get()->AddOptionInt("QueueLogLevel",
 		ZWavePocoLoggerAdapter::fromPocoLevel(ozwLogger.getLevel()));
+
+	if (!m_networkKey.empty()) {
+		string key;
+
+		for (const auto &byte : m_networkKey) {
+			if (!key.empty())
+				key += ",";
+
+			key += NumberFormatter::formatHex(byte, 2, true);
+		}
+
+		Options::Get()->AddOptionString("NetworkKey", key, false);
+	}
 
 	Options::Get()->Lock();
 
