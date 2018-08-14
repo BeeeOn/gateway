@@ -49,30 +49,12 @@
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
 		</instance>
 
-		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
-			<set name="matches" list="bluetooth,tty" />
-			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
-			<add name="listeners" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
-			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
-			<add name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
-		</instance>
-
 		<instance name="deviceStatusFetcher" class="BeeeOn::DeviceStatusFetcher">
 			<set name="idleDuration" time="30 m" />
 			<set name="waitTimeout" time="1 s" />
 			<set name="repeatTimeout" time="5 m" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
-
-		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
-			<set name="pipePath" text="${hotplug.pipe.path}" />
-			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
-			<add name="listeners" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
-			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
-			<add name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
-		</instance>
-
-		<alias name="hotplugMonitor" ref="${hotplug.impl}Monitor" />
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
 			<set name="address" text="${testing.center.tcp.address}" />
