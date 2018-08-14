@@ -36,10 +36,16 @@ option(ENABLE_TESTING_CENTER "Enable support of Testing Center" ON)
 option(ENABLE_PRESSURE_SENSOR "Enable support of internal air pressure sensor" ON)
 option(ENABLE_FITP "Enable support of FITP" ON)
 option(ENABLE_IQRF "Enable support of IQRF" ON)
+option(ENABLE_TESTS "Enable build of unit tests" ON)
 
 add_subdirectory(src)
 add_subdirectory(base)
+
+if(ENABLE_TESTS)
 add_subdirectory(test)
+else()
+	message(STATUS "Building of unit tests is disabled")
+endif()
 
 find_package(Doxygen)
 
