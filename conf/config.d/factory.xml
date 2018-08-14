@@ -66,6 +66,10 @@
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
 			<set name="pipePath" text="${hotplug.pipe.path}" />
+			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
+			<add name="listeners" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
+			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
+			<add name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<alias name="hotplugMonitor" ref="${hotplug.impl}Monitor" />
