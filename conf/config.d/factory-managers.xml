@@ -124,6 +124,7 @@
 			<set name="configPath" text="${zwave.config.path}" />
 			<set name="pollInterval" time="${zwave.poll.interval}" />
 			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
+			<set name="controllersToReset" list="${zwave.controllers.reset}" />
 			<set name="executor" ref="asyncExecutor" />
 			<add name="listeners" ref="loggingCollector" />
 		</instance>

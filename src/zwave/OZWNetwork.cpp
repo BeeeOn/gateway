@@ -34,6 +34,7 @@ BEEEON_OBJECT_PROPERTY("pollInterval", &OZWNetwork::setPollInterval)
 BEEEON_OBJECT_PROPERTY("intervalBetweenPolls", &OZWNetwork::setIntervalBetweenPolls)
 BEEEON_OBJECT_PROPERTY("retryTimeout", &OZWNetwork::setRetryTimeout)
 BEEEON_OBJECT_PROPERTY("statisticsInterval", &OZWNetwork::setStatisticsInterval)
+BEEEON_OBJECT_PROPERTY("controllersToReset", &OZWNetwork::setControllersToReset)
 BEEEON_OBJECT_PROPERTY("executor", &OZWNetwork::setExecutor)
 BEEEON_OBJECT_PROPERTY("listeners", &OZWNetwork::registerListener)
 BEEEON_OBJECT_HOOK("done", &OZWNetwork::configure)
@@ -123,6 +124,12 @@ void OZWNetwork::setStatisticsInterval(const Timespan &interval)
 	}
 
 	m_statisticsRunner.setInterval(interval);
+}
+
+void OZWNetwork::setControllersToReset(const list<string> &homes)
+{
+	for (const auto &home : homes)
+		m_controllersToReset.emplace((uint32_t) NumberParser::parseHex(home));
 }
 
 void OZWNetwork::registerListener(ZWaveListener::Ptr listener)
@@ -401,6 +408,18 @@ void OZWNetwork::onNotification(const Notification *n)
 	}
 }
 
+void OZWNetwork::resetController(const uint32_t home)
+{
+	logger().notice("resetting controller of home " + homeAsString(home),
+			__FILE__, __LINE__);
+	auto &lock = m_managerLock;
+
+	m_executor->invoke([home, &lock]() {
+		FastMutex::ScopedLock guard(const_cast<FastMutex&>(lock));
+		Manager::Get()->ResetController(home);
+	});
+}
+
 void OZWNetwork::driverReady(const Notification *n)
 {
 	map<uint8_t, ZWaveNode> empty;
@@ -410,6 +429,12 @@ void OZWNetwork::driverReady(const Notification *n)
 
 	logger().notice("new home " + homeAsString(n->GetHomeId()),
 			__FILE__, __LINE__);
+
+	auto shouldReset = m_controllersToReset.find(n->GetHomeId());
+	if (shouldReset != m_controllersToReset.end()) {
+		m_controllersToReset.erase(shouldReset);
+		resetController(n->GetHomeId());
+	}
 }
 
 void OZWNetwork::driverFailed(const Notification *n)

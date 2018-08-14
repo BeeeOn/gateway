@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <map>
 #include <set>
 #include <string>
@@ -41,6 +42,7 @@ public:
 	void setAssumeAwake(bool awake);
 	void setDriverMaxAttempts(int attempts);
 	void setStatisticsInterval(const Poco::Timespan &interval);
+	void setControllersToReset(const std::list<std::string> &homes);
 
 	void setExecutor(AsyncExecutor::Ptr executor);
 	void registerListener(ZWaveListener::Ptr listener);
@@ -81,8 +83,20 @@ protected:
 	bool ignoreNotification(const OpenZWave::Notification *n) const;
 
 	/**
+	 * @brief Initiate asynchronous reset of controller associated
+	 * with the given home ID.
+	 *
+	 * The controller reset is invoked via the m_executor instance.
+	 * During the reset procedure, the driverRemoved() would be called
+	 * for the given home ID.
+	 */
+	void resetController(const uint32_t home);
+
+	/**
 	 * @brief Called when the OZW driver becomes ready to work
-	 * for the given home ID. The OZWNetwork installs the home ID.
+	 * for the given home ID. The OZWNetwork installs the home
+	 * ID and if configured, it performs reset of the associated
+	 * controller.
 	 */
 	void driverReady(const OpenZWave::Notification *n);
 
@@ -95,7 +109,8 @@ protected:
 	/**
 	 * @brief Called when OZW driver is removed from the system.
 	 *
-	 * This happens usually when a Z-Wave dongle is removed.
+	 * This happens usually when a Z-Wave dongle is removed or
+	 * its controller is being reset.
 	 */
 	void driverRemoved(const OpenZWave::Notification *n);
 
@@ -270,6 +285,7 @@ private:
 	Poco::Timespan m_retryTimeout;
 	bool m_assumeAwake;
 	unsigned int m_driverMaxAttempts;
+	std::set<uint32_t> m_controllersToReset;
 	std::map<uint32_t, std::map<uint8_t, ZWaveNode>> m_homes;
 	Poco::AtomicCounter m_configured;
 	mutable Poco::FastMutex m_managerLock;
