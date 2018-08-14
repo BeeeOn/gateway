@@ -10,35 +10,35 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
-find_package (PkgConfig REQUIRED)
-pkg_search_module (GLIB REQUIRED glib-2.0)
-pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
+
+set(LIBS
+	${POCO_FOUNDATION}
+	${POCO_SSL}
+	${POCO_CRYPTO}
+	${POCO_UTIL}
+	${POCO_NET}
+	${POCO_JSON}
+	${POCO_XML}
+	${CPP_UNIT}
+	${PTHREAD}
+)
+
+find_package (PkgConfig)
+if (PKG_CONFIG_FOUND)
+	pkg_search_module (GLIB glib-2.0)
+	pkg_search_module (GIO_UNIX gio-unix-2.0)
+endif()
+
+find_library (UDEV udev)
+find_library (FITP_LIB fitplib)
+find_library (MOSQUITTO_CPP mosquittopp)
+find_library (BLUETOOTH bluetooth)
+find_package(OpenZWave)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
 	set(HAS_DBUS_BLUEZ YES)
-endif()
-
-if(ENABLE_UDEV)
-	find_library (UDEV udev)
-endif()
-
-if(ENABLE_MOSQUITTO_EXPORTER)
-	find_library (MOSQUITTO_CPP mosquittopp)
-endif()
-
-if(ENABLE_BLUETOOTH)
-	find_library (BLUETOOTH bluetooth)
-endif()
-
-if(ENABLE_ZWAVE)
-	find_package(OpenZWave REQUIRED)
-	include_directories(${OPENZWAVE_INCLUDE_DIR})
-endif()
-
-if(ENABLE_FITP)
-	find_library (FITP_LIB fitplib)
 endif()
 
 file(GLOB TEST_SOURCES
@@ -47,8 +47,10 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
+	${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCacheTest.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCacheTest.cpp
+	${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingExporterTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorageTest.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTest.cpp
@@ -63,7 +65,9 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 )
 
-if(ENABLE_BLUETOOTH)
+if(BLUETOOTH)
+	list(APPEND LIBS ${BLUETOOTH})
+
 	if(HAS_DBUS_BLUEZ)
 		file(GLOB BLUETOOTH_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
@@ -79,26 +83,22 @@ if(ENABLE_VPT)
 	list(APPEND TEST_SOURCES ${VPT_TEST_SOURCES})
 endif()
 
-if(ENABLE_ZWAVE)
+if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+
 	file(GLOB ZWAVE_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
+	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 endif()
 
-if (ENABLE_QUEUING_DISTRIBUTOR)
-	file(GLOB QUEUING_DISTRIBUTOR_TEST_SOURCES
-		${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp
-		${PROJECT_SOURCE_DIR}/core/QueuingDistributorTest.cpp
-	)
-	list(APPEND TEST_SOURCES ${QUEUING_DISTRIBUTOR_TEST_SOURCES})
-endif()
-
-if(ENABLE_FITP)
+if(FITP_LIB AND ENABLE_FITP)
 	file(GLOB FITP_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${FITP_TEST_SOURCES})
+	list(APPEND LIBS ${FITP_LIB})
 endif()
 
 if(ENABLE_BLE_SMART)
@@ -128,24 +128,21 @@ add_executable(test-suite-gateway
 	${TEST_SOURCES}
 )
 
-set(LIBS
-	${BLUETOOTH}
-	${MOSQUITTO_CPP}
-	${POCO_FOUNDATION}
-	${POCO_SSL}
-	${POCO_CRYPTO}
-	${POCO_UTIL}
-	${POCO_NET}
-	${POCO_JSON}
-	${POCO_XML}
-	${CPP_UNIT}
-	${PTHREAD}
-	${UDEV}
-	${OPENZWAVE_LIBRARY}
-	${FITP_LIB}
-	${GLIB_LDFLAGS}
-	${GIO_UNIX_LDFLAGS}
-)
+if (MOSQUITTO_CPP)
+list(APPEND LIBS ${MOSQUITTO_CPP})
+endif()
+
+if (UDEV)
+list(APPEND LIBS ${UDEV})
+endif()
+
+if(GLIB_LDFLAGS)
+list(APPEND LIBS ${GLIB_LDFLAGS})
+endif()
+
+if(GIO_UNIX_LDFLAGS)
+list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+endif()
 
 target_link_libraries(test-suite-gateway
 	-Wl,--whole-archive

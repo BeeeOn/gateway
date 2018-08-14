@@ -9,11 +9,34 @@ find_library (POCO_NET PocoNet)
 find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
-find_package (PkgConfig REQUIRED)
-pkg_search_module (GLIB REQUIRED glib-2.0)
-pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
-pkg_search_module (BLUEZ REQUIRED bluez)
+
+set(LIBS
+	${POCO_FOUNDATION}
+	${POCO_SSL}
+	${POCO_CRYPTO}
+	${POCO_UTIL}
+	${POCO_NET}
+	${POCO_JSON}
+	${POCO_XML}
+	${PTHREAD}
+)
+
+find_package (PkgConfig)
+if(PKG_CONFIG_FOUND)
+	pkg_search_module (GLIB glib-2.0)
+	pkg_search_module (GIO_UNIX gio-unix-2.0)
+	pkg_search_module (BLUEZ bluez)
+else()
+	message(STATUS "PkgConfig is missing, glib, gio, bluez are not searched")
+endif()
+
 find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
+
+find_library (UDEV udev)
+find_library (FITP_LIB fitp)
+find_library (MOSQUITTO_CPP mosquittopp)
+find_library (BLUETOOTH bluetooth)
+find_package(OpenZWave)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -21,55 +44,36 @@ if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	set(HAS_DBUS_BLUEZ YES)
 endif()
 
-if(ENABLE_UDEV)
-	find_library (UDEV udev)
+if(ENABLE_BLUETOOTH_AVAILABILITY OR ENABLE_BLE_SMART)
+	set(WANTS_BLUETOOTH YES)
 endif()
 
-if(ENABLE_BLUETOOTH)
-	find_library (BLUETOOTH bluetooth)
-
-	if(HAS_DBUS_BLUEZ)
-		file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bluetooth)
-		add_custom_command(
-			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
-			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Adapter1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
-			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
-			COMMENT "Generate DBus 'org.bluez.Adapter1.xml'"
-		)
-		add_custom_command(
-			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
-			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Device1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
-			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
-			COMMENT "Generate DBus 'org.bluez.Device1.xml'"
-		)
-		add_custom_command(
-			OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
-			COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.GattCharacteristic1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
-			DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
-			COMMENT "Generate DBus 'org.bluez.GattCharacteristic1.xml'"
-		)
-		include_directories(${PROJECT_BINARY_DIR})
-	endif()
-endif()
-
-if(ENABLE_ZWAVE)
-	find_package(OpenZWave REQUIRED)
-	include_directories(${OPENZWAVE_INCLUDE_DIR})
-endif()
-
-if(ENABLE_FITP)
-	find_library (FITP_LIB fitp)
-endif()
-
-if (ENABLE_MOSQUITTO_CLIENT)
-	find_library (MOSQUITTO_CPP mosquittopp)
+if(WANTS_BLUETOOTH AND HAS_DBUS_BLUEZ)
+	file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bluetooth)
+	add_custom_command(
+		OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
+		COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Adapter1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
+		DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Adapter1.xml
+		COMMENT "Generate DBus 'org.bluez.Adapter1.xml'"
+	)
+	add_custom_command(
+		OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
+		COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.Device1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
+		DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.Device1.xml
+		COMMENT "Generate DBus 'org.bluez.Device1.xml'"
+	)
+	add_custom_command(
+		OUTPUT ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
+		COMMAND ${GDBUS_CODEGEN} --interface-prefix org.bluez.GattCharacteristic1. --generate-c-code ${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1 ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
+		DEPENDS ${PROJECT_SOURCE_DIR}/bluetooth/dbus/org.bluez.GattCharacteristic1.xml
+		COMMENT "Generate DBus 'org.bluez.GattCharacteristic1.xml'"
+	)
+	include_directories(${PROJECT_BINARY_DIR})
 endif()
 
 if(ENABLE_UCLIBCXX_FIXES)
-
-add_definitions(-DNO_std_to_string)
-set(CMAKE_CXX_FLAGS "-I${PROJECT_SOURCE_DIR}/../base/src/uclibc++ ${CMAKE_CXX_FLAGS}")
-
+	add_definitions(-DNO_std_to_string)
+	set(CMAKE_CXX_FLAGS "-I${PROJECT_SOURCE_DIR}/../base/src/uclibc++ ${CMAKE_CXX_FLAGS}")
 endif()
 
 file(GLOB SOURCES
@@ -90,6 +94,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Answer.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/AsyncCommandDispatcher.cpp
+	${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/Command.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcher.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherListener.cpp
@@ -103,12 +108,14 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/DistributorListener.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManager.cpp
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
+	${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
+	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingExporter.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
@@ -151,9 +158,10 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveListener.cpp
 )
 
-if(ENABLE_UDEV)
+if(UDEV AND ENABLE_UDEV)
 	file(GLOB UDEV_SOURCES ${PROJECT_SOURCE_DIR}/hotplug/UDevMonitor.cpp)
 	list(APPEND SOURCES ${UDEV_SOURCES})
+	list(APPEND LIBS ${UDEV})
 else()
 	message(STATUS "udev support is disabled")
 endif()
@@ -173,7 +181,7 @@ else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH)
+if(BLUETOOTH AND WANTS_BLUETOOTH)
 	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/DBusHciConnection.cpp
@@ -201,7 +209,7 @@ else()
 	message(STATUS "Bluetooth support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
+if(BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
 	file(GLOB BLUETOOTH_AVAILABILITY_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
@@ -211,7 +219,7 @@ else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
 
-if(ENABLE_BLUETOOTH AND ENABLE_BLE_SMART)
+if(BLUETOOTH AND ENABLE_BLE_SMART)
 	file(GLOB BLE_SMART_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiDevice.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BeeWiSmartClim.cpp
@@ -284,7 +292,7 @@ else()
 	message(STATUS "VPT support is disabled")
 endif()
 
-if(ENABLE_ZWAVE)
+if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	file(GLOB ZWAVE_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
 		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
@@ -303,36 +311,22 @@ if(ENABLE_ZWAVE)
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
 
-if((ENABLE_MOSQUITTO_EXPORTER) AND (ENABLE_MOSQUITTO_CLIENT))
-	file(GLOB MOSQUITTO_EXPORTER_SOURCES
+if(MOSQUITTO_CPP)
+	file(GLOB MOSQUITTO_SUPPORT_SOURCES
 		${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
+		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
+		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)
-	list(APPEND SOURCES ${MOSQUITTO_EXPORTER_SOURCES})
+	list(APPEND SOURCES ${MOSQUITTO_SUPPORT_SOURCES})
+	list(APPEND LIBS ${MOSQUITTO_CPP})
 else()
-	message(STATUS "Mosquitto Exporting support is disabled")
-endif()
-
-if(ENABLE_BASIC_DISTRIBUTOR)
-	file(GLOB BASIC_DISTRIBUTOR_SOURCES
-		${PROJECT_SOURCE_DIR}/core/BasicDistributor.cpp
-	)
-	list(APPEND SOURCES ${BASIC_DISTRIBUTOR_SOURCES})
-else()
-	message(STATUS "Basic Distributor support is disabled")
-endif()
-
-if(ENABLE_QUEUING_DISTRIBUTOR)
-	file(GLOB QUEUING_DISTRIBUTOR_SOURCES
-		${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
-		${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
-	)
-	list(APPEND SOURCES ${QUEUING_DISTRIBUTOR_SOURCES})
-else()
-	message(STATUS "Queuing Distributor support is disabled")
+	message(STATUS "Mosquitto support is disabled")
 endif()
 
 if (ENABLE_TESTING_CENTER)
@@ -353,24 +347,15 @@ else()
 	message(STATUS "Internal air pressure sensor support is disabled")
 endif()
 
-if(ENABLE_FITP)
+if(FITP_LIB AND ENABLE_FITP)
 	file(GLOB FITP_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDevice.cpp
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceManager.cpp
 	)
 	list(APPEND SOURCES ${FITP_SOURCES})
+	list(APPEND LIBS ${FITP_LIB})
 else()
 	message(STATUS "Fitp support is disabled")
-endif()
-
-if (ENABLE_MOSQUITTO_CLIENT)
-	file(GLOB MOSQUITTO_CLIENT_SOURCES
-		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
-		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
-	)
-	list(APPEND SOURCES ${MOSQUITTO_CLIENT_SOURCES})
-else()
-	message(STATUS "Mosquitto Client support is disabled")
 endif()
 
 if (ENABLE_IQRF)
@@ -400,23 +385,17 @@ add_library(BeeeOnGateway ${SOURCES})
 
 add_executable(beeeon-gateway main.cpp)
 
-set(LIBS
-	${BLUETOOTH}
-	${MOSQUITTO_CPP}
-	${POCO_FOUNDATION}
-	${POCO_SSL}
-	${POCO_CRYPTO}
-	${POCO_UTIL}
-	${POCO_NET}
-	${POCO_JSON}
-	${POCO_XML}
-	${PTHREAD}
-	${UDEV}
-	${OPENZWAVE_LIBRARY}
-	${FITP_LIB}
-	${GLIB_LDFLAGS}
-	${GIO_UNIX_LDFLAGS}
-)
+if(BLUETOOTH)
+list(APPEND LIBS ${BLUETOOTH})
+endif()
+
+if(GLIB_LDFLAGS)
+list(APPEND LIBS ${GLIB_LDFLAGS})
+endif()
+
+if(GIO_UNIX_LDFLAGS)
+list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+endif()
 
 target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
