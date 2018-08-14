@@ -21,10 +21,15 @@ set(LIBS
 	${PTHREAD}
 )
 
-find_package (PkgConfig REQUIRED)
-pkg_search_module (GLIB REQUIRED glib-2.0)
-pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
-pkg_search_module (BLUEZ REQUIRED bluez)
+find_package (PkgConfig)
+if(PKG_CONFIG_FOUND)
+	pkg_search_module (GLIB REQUIRED glib-2.0)
+	pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
+	pkg_search_module (BLUEZ REQUIRED bluez)
+else()
+	message(STATUS "PkgConfig is missing, glib, gio, bluez are not searched")
+endif()
+
 find_program (GDBUS_CODEGEN NAMES gdbus-codegen)
 
 find_library (UDEV udev)
