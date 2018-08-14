@@ -21,7 +21,9 @@
 #include "di/Injectable.h"
 #include "hotplug/HotplugEvent.h"
 #include "zwave/OZWNetwork.h"
+#include "zwave/ZWaveNodeEvent.h"
 #include "zwave/ZWaveNotificationEvent.h"
+#include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWavePocoLoggerAdapter.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, OZWNetwork)
@@ -31,7 +33,9 @@ BEEEON_OBJECT_PROPERTY("userPath", &OZWNetwork::setUserPath)
 BEEEON_OBJECT_PROPERTY("pollInterval", &OZWNetwork::setPollInterval)
 BEEEON_OBJECT_PROPERTY("intervalBetweenPolls", &OZWNetwork::setIntervalBetweenPolls)
 BEEEON_OBJECT_PROPERTY("retryTimeout", &OZWNetwork::setRetryTimeout)
+BEEEON_OBJECT_PROPERTY("statisticsInterval", &OZWNetwork::setStatisticsInterval)
 BEEEON_OBJECT_PROPERTY("executor", &OZWNetwork::setExecutor)
+BEEEON_OBJECT_PROPERTY("listeners", &OZWNetwork::registerListener)
 BEEEON_OBJECT_HOOK("done", &OZWNetwork::configure)
 BEEEON_OBJECT_HOOK("cleanup", &OZWNetwork::cleanup)
 BEEEON_OBJECT_END(BeeeOn, OZWNetwork)
@@ -111,9 +115,25 @@ void OZWNetwork::setDriverMaxAttempts(int attempts)
 	m_driverMaxAttempts = attempts;
 }
 
+void OZWNetwork::setStatisticsInterval(const Timespan &interval)
+{
+	if (interval <= 0) {
+		throw InvalidArgumentException(
+			"statistics interval must be a positive number");
+	}
+
+	m_statisticsRunner.setInterval(interval);
+}
+
+void OZWNetwork::registerListener(ZWaveListener::Ptr listener)
+{
+	m_eventSource.addListener(listener);
+}
+
 void OZWNetwork::setExecutor(AsyncExecutor::Ptr executor)
 {
 	m_executor = executor;
+	m_eventSource.setAsyncExecutor(executor);
 }
 
 void OZWNetwork::checkDirectory(const Path &path)
@@ -186,6 +206,10 @@ void OZWNetwork::configure()
 	// logger is deleted by OpenZWave library
 	Log::SetLoggingClass(new ZWavePocoLoggerAdapter(ozwLogger));
 
+	m_statisticsRunner.start([&]() {
+		fireStatistics();
+	});
+
 	Manager::Get()->AddWatcher(&ozwNotification, this);
 	m_configured = true;
 }
@@ -200,6 +224,7 @@ void OZWNetwork::cleanup()
 
 	Manager::Get()->RemoveWatcher(&ozwNotification, this);
 
+	m_statisticsRunner.stop();
 	Manager::Destroy();
 	Options::Destroy();
 }
@@ -280,6 +305,9 @@ bool OZWNetwork::ignoreNotification(const Notification *n) const
 
 void OZWNetwork::onNotification(const Notification *n)
 {
+	ZWaveNotificationEvent e(*n);
+	m_eventSource.fireEvent(e, &ZWaveListener::onNotification);
+
 	if (ignoreNotification(n)) {
 		logger().debug("ignored notification " + n->GetAsString(),
 				__FILE__, __LINE__);
@@ -756,4 +784,25 @@ ZWaveNode::CommandClass OZWNetwork::buildCommandClass(
 		id.GetInstance(),
 		CommandClasses::GetName(cc)
 	};
+}
+
+void OZWNetwork::fireStatistics()
+{
+	FastMutex::ScopedLock guard(m_managerLock);
+
+	for (const auto &home : m_homes) {
+		Driver::DriverData data;
+		Manager::Get()->GetDriverStatistics(home.first, &data);
+
+		ZWaveDriverEvent e(data);
+		m_eventSource.fireEvent(e, &ZWaveListener::onDriverStats);
+
+		for (const auto &node : home.second) {
+			Node::NodeData data;
+			Manager::Get()->GetNodeStatistics(home.first, node.first, &data);
+
+			ZWaveNodeEvent e(data, node.first);
+			m_eventSource.fireEvent(e, &ZWaveListener::onNodeStats);
+		}
+	}
 }

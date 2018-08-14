@@ -11,8 +11,10 @@
 
 #include "hotplug/HotplugListener.h"
 #include "loop/StoppableLoop.h"
-#include "util/AsyncExecutor.h"
+#include "util/EventSource.h"
 #include "util/Loggable.h"
+#include "util/PeriodicRunner.h"
+#include "zwave/ZWaveListener.h"
 #include "zwave/ZWaveNode.h"
 
 namespace OpenZWave {
@@ -38,8 +40,10 @@ public:
 	void setRetryTimeout(const Poco::Timespan &timeout);
 	void setAssumeAwake(bool awake);
 	void setDriverMaxAttempts(int attempts);
+	void setStatisticsInterval(const Poco::Timespan &interval);
 
 	void setExecutor(AsyncExecutor::Ptr executor);
+	void registerListener(ZWaveListener::Ptr listener);
 
 	void onNotification(const OpenZWave::Notification *n);
 
@@ -52,6 +56,7 @@ public:
 protected:
 	void checkDirectory(const Poco::Path &path);
 	void prepareDirectory(const Poco::Path &path);
+	void fireStatistics();
 
 	/**
 	 * @brief Determine hotplugged devices compatible with the OZWNetwork.
@@ -269,7 +274,9 @@ private:
 	Poco::AtomicCounter m_configured;
 	mutable Poco::FastMutex m_managerLock;
 	mutable Poco::FastMutex m_lock;
+	EventSource<ZWaveListener> m_eventSource;
 	AsyncExecutor::Ptr m_executor;
+	PeriodicRunner m_statisticsRunner;
 };
 
 }

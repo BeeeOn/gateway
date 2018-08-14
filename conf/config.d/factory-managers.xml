@@ -123,7 +123,9 @@
 			<set name="userPath" text="${zwave.user.path}" />
 			<set name="configPath" text="${zwave.config.path}" />
 			<set name="pollInterval" time="${zwave.poll.interval}" />
+			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
 			<set name="executor" ref="asyncExecutor" />
+			<add name="listeners" ref="loggingCollector" />
 		</instance>
 	</factory>
 </system>
