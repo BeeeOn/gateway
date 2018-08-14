@@ -10,9 +10,12 @@
 #include "philips/PhilipsHueBulbInfo.h"
 #include "philips/PhilipsHueBridgeInfo.h"
 #include "util/Occasionally.h"
+
+#ifdef HAVE_ZWAVE
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveNodeEvent.h"
 #include "zwave/ZWaveNotificationEvent.h"
+#endif
 
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
