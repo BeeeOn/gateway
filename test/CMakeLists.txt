@@ -31,16 +31,12 @@ find_library (UDEV udev)
 find_library (FITP_LIB fitplib)
 find_library (MOSQUITTO_CPP mosquittopp)
 find_library (BLUETOOTH bluetooth)
+find_package(OpenZWave)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
 	set(HAS_DBUS_BLUEZ YES)
-endif()
-
-if(ENABLE_ZWAVE)
-	find_package(OpenZWave REQUIRED)
-	include_directories(${OPENZWAVE_INCLUDE_DIR})
 endif()
 
 file(GLOB TEST_SOURCES
@@ -85,11 +81,14 @@ if(ENABLE_VPT)
 	list(APPEND TEST_SOURCES ${VPT_TEST_SOURCES})
 endif()
 
-if(ENABLE_ZWAVE)
+if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+
 	file(GLOB ZWAVE_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
+	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 endif()
 
 if(FITP_LIB AND ENABLE_FITP)
@@ -133,10 +132,6 @@ endif()
 
 if (UDEV)
 list(APPEND LIBS ${UDEV})
-endif()
-
-if(OPENZWAVE_LIBRARY)
-list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 endif()
 
 if(GLIB_LDFLAGS)

@@ -31,6 +31,7 @@ find_library (UDEV udev)
 find_library (FITP_LIB fitp)
 find_library (MOSQUITTO_CPP mosquittopp)
 find_library (BLUETOOTH bluetooth)
+find_package(OpenZWave)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -63,11 +64,6 @@ if(WANTS_BLUETOOTH AND HAS_DBUS_BLUEZ)
 		COMMENT "Generate DBus 'org.bluez.GattCharacteristic1.xml'"
 	)
 	include_directories(${PROJECT_BINARY_DIR})
-endif()
-
-if(ENABLE_ZWAVE)
-	find_package(OpenZWave REQUIRED)
-	include_directories(${OPENZWAVE_INCLUDE_DIR})
 endif()
 
 if(ENABLE_UCLIBCXX_FIXES)
@@ -293,7 +289,7 @@ else()
 	message(STATUS "VPT support is disabled")
 endif()
 
-if(ENABLE_ZWAVE)
+if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	file(GLOB ZWAVE_SOURCES
 		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfo.cpp
 		${PROJECT_SOURCE_DIR}/zwave/DefaultZWaveDeviceInfoRegistry.cpp
@@ -312,6 +308,8 @@ if(ENABLE_ZWAVE)
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
+	include_directories(${OPENZWAVE_INCLUDE_DIR})
+	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 else()
 	message(STATUS "Z-Wave support is disabled")
 endif()
@@ -386,10 +384,6 @@ add_executable(beeeon-gateway main.cpp)
 
 if(BLUETOOTH)
 list(APPEND LIBS ${BLUETOOTH})
-endif()
-
-if(OPENZWAVE_LIBRARY)
-list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 endif()
 
 if(GLIB_LDFLAGS)
