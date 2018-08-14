@@ -25,8 +25,8 @@ set(LIBS
 
 find_package (PkgConfig)
 if (PKG_CONFIG_FOUND)
-	pkg_search_module (GLIB REQUIRED glib-2.0)
-	pkg_search_module (GIO_UNIX REQUIRED gio-unix-2.0)
+	pkg_search_module (GLIB glib-2.0)
+	pkg_search_module (GIO_UNIX gio-unix-2.0)
 endif()
 
 find_library (UDEV udev)
