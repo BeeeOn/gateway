@@ -295,6 +295,10 @@ real sensors or actuators.
 
 * zwave.poll.interval - polling interval to be used with older devices
 
+* zwave.statistics.interval - interval of reporting statistics of the Z-Wave network
+
+* zwave.controllers.reset - comma-separated list of home IDs of controllers to be reset once connected
+
 #### Thermona VPT
 
 * vpt.refresh - polling frequency of managed VPT devices (e.g. "20 s")

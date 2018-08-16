@@ -66,6 +66,29 @@ void ZWavePocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
 	logger.log(msg);
 }
 
+LogLevel ZWavePocoLoggerAdapter::fromPocoLevel(Message::Priority prio)
+{
+	switch (prio) {
+	case Message::PRIO_FATAL:
+	case Message::PRIO_CRITICAL:
+		return LogLevel_Fatal;
+	case Message::PRIO_ERROR:
+		return LogLevel_Error;
+	case Message::PRIO_WARNING:
+		return LogLevel_Warning;
+	case Message::PRIO_NOTICE:
+		return LogLevel_Alert;
+	case Message::PRIO_INFORMATION:
+		return LogLevel_Info;
+	case Message::PRIO_DEBUG:
+		return LogLevel_Detail;
+	case Message::PRIO_TRACE:
+		return LogLevel_StreamDetail;
+	default:
+		return LogLevel_Detail;
+	}
+}
+
 void ZWavePocoLoggerAdapter::QueueDump()
 {
 }

@@ -63,6 +63,9 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JournalTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
+	${PROJECT_SOURCE_DIR}/zwave/AbstractZWaveNetworkTest.cpp
+	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistryTest.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
 )
 
 if(BLUETOOTH)
@@ -87,7 +90,6 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 
 	file(GLOB ZWAVE_TEST_SOURCES
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveClassRegistryTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})

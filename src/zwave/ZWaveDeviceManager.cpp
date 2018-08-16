@@ -1,943 +1,549 @@
-#include <list>
+#include <vector>
 
+#include <Poco/Clock.h>
+#include <Poco/DateTimeFormatter.h>
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
-#include <Poco/NumberParser.h>
-#include <Poco/RegularExpression.h>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wignored-qualifiers"
-#include <openzwave/Manager.h>
-#include <openzwave/Options.h>
-#pragma GCC diagnostic pop
-#pragma GCC diagnostic pop
-
+#include "commands/GatewayListenCommand.h"
+#include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceUnpairCommand.h"
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
-#include "hotplug/HotplugEvent.h"
 #include "model/SensorData.h"
-#include "zwave/GenericZWaveDeviceInfoRegistry.h"
-#include "zwave/ZWaveDriverEvent.h"
+#include "util/ClassInfo.h"
 #include "zwave/ZWaveDeviceManager.h"
-#include "zwave/ZWaveNodeEvent.h"
-#include "zwave/ZWaveNotificationEvent.h"
-#include "zwave/ZWavePocoLoggerAdapter.h"
-#include "zwave/ZWaveUtil.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, ZWaveDeviceManager)
+BEEEON_OBJECT_CASTABLE(DeviceManager)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
-BEEEON_OBJECT_CASTABLE(HotplugListener)
-BEEEON_OBJECT_PROPERTY("userPath", &ZWaveDeviceManager::setUserPath)
-BEEEON_OBJECT_PROPERTY("configPath", &ZWaveDeviceManager::setConfigPath)
-BEEEON_OBJECT_PROPERTY("pollInterval", &ZWaveDeviceManager::setPollInterval)
-BEEEON_OBJECT_PROPERTY("statisticsInterval", &ZWaveDeviceManager::setStatisticsInterval)
-BEEEON_OBJECT_PROPERTY("commandDispatcher", &ZWaveDeviceManager::setCommandDispatcher)
+BEEEON_OBJECT_PROPERTY("deviceCache", &ZWaveDeviceManager::setDeviceCache)
+BEEEON_OBJECT_PROPERTY("network", &ZWaveDeviceManager::setNetwork)
+BEEEON_OBJECT_PROPERTY("registry", &ZWaveDeviceManager::setRegistry)
+BEEEON_OBJECT_PROPERTY("dispatchDuration", &ZWaveDeviceManager::setDispatchDuration)
+BEEEON_OBJECT_PROPERTY("pollTimeout", &ZWaveDeviceManager::setPollTimeout)
 BEEEON_OBJECT_PROPERTY("distributor", &ZWaveDeviceManager::setDistributor)
-BEEEON_OBJECT_PROPERTY("deviceInfoRegistry", &ZWaveDeviceManager::setDeviceInfoRegistry)
-BEEEON_OBJECT_PROPERTY("listeners", &ZWaveDeviceManager::registerListener)
-BEEEON_OBJECT_PROPERTY("executor", &ZWaveDeviceManager::setExecutor)
-BEEEON_OBJECT_HOOK("done", &ZWaveDeviceManager::installConfiguration);
+BEEEON_OBJECT_PROPERTY("commandDispatcher", &ZWaveDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_END(BeeeOn, ZWaveDeviceManager)
 
-using namespace BeeeOn;
-using namespace OpenZWave;
 using namespace std;
+using namespace Poco;
+using namespace BeeeOn;
 
-using Poco::FastMutex;
-using Poco::Nullable;
-using Poco::NumberFormatter;
-using Poco::SharedPtr;
-using Poco::Timer;
-using Poco::Timespan;
-
-static const int NODE_ID_MASK = 0xff;
-
-static const int FAILS_TRESHOLD = 3;
-static const Poco::Timespan SLEEP_AFTER_FAILS = 10 * Poco::Timespan::SECONDS;
-static const Poco::Timespan SLEEP_BETWEEN_FAILS = 1 * Poco::Timespan::SECONDS;
-
-/**
- * The OpenZWave library uses a notification loop to provide information
- * about the Z-Wave network. A notification represents e.g. detection of a
- * new device, change of a value, Z-Wave dongle initialization, etc.
- */
-static void onNotification(
-	Notification const *notification, void *context)
+ZWaveDeviceManager::Device::Device(const ZWaveNode &node):
+	m_node(node),
+	m_refresh(0)
 {
-	ZWaveDeviceManager *processor =
-		reinterpret_cast<ZWaveDeviceManager *>(context);
-	processor->onNotification(notification);
+}
+
+DeviceID ZWaveDeviceManager::Device::id() const
+{
+	poco_assert_msg(!m_mapper.isNull(), "mapper not resolved");
+	return m_mapper->buildID();
+}
+
+string ZWaveDeviceManager::Device::product() const
+{
+	poco_assert_msg(!m_mapper.isNull(), "mapper not resolved");
+	return m_mapper->product();
+}
+
+string ZWaveDeviceManager::Device::vendor() const
+{
+	return m_node.vendor();
+}
+
+void ZWaveDeviceManager::Device::updateNode(const ZWaveNode &node)
+{
+	poco_assert_msg(node.id() == m_node.id(), "updating non-matching node");
+
+	if (m_node.queried() && !node.queried())
+		return;
+
+	m_node = node;
+}
+
+const ZWaveNode &ZWaveDeviceManager::Device::node() const
+{
+	return m_node;
+}
+
+bool ZWaveDeviceManager::Device::resolveMapper(
+		ZWaveMapperRegistry::Ptr registry)
+{
+	if (m_mapper.isNull())
+		m_mapper = registry->resolve(m_node);
+
+	return !m_mapper.isNull();
+}
+
+ZWaveMapperRegistry::Mapper::Ptr ZWaveDeviceManager::Device::mapper() const
+{
+	return m_mapper;
+}
+
+void ZWaveDeviceManager::Device::setRefresh(const Timespan &refresh)
+{
+	m_refresh = refresh;
+}
+
+Timespan ZWaveDeviceManager::Device::refresh() const
+{
+	return m_refresh;
+}
+
+list<ModuleType> ZWaveDeviceManager::Device::types() const
+{
+	poco_assert_msg(!m_mapper.isNull(), "mapper not resolved");
+	return m_mapper->types();
+}
+
+SensorValue ZWaveDeviceManager::Device::convert(const ZWaveNode::Value &value) const
+{
+	poco_assert_msg(!m_mapper.isNull(), "mapper not resolved");
+	return m_mapper->convert(value);
+}
+
+string ZWaveDeviceManager::Device::toString() const
+{
+	return id().toString() + " " + m_node.toString();
 }
 
 ZWaveDeviceManager::ZWaveDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_ZWAVE),
-	m_pollInterval(1 * Timespan::SECONDS),
-	m_state(State::IDLE),
-	m_commandCallback(*this, &ZWaveDeviceManager::stopCommand),
-	m_commandTimer(0, 0)
+	DeviceManager(DevicePrefix::PREFIX_ZWAVE, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+	}),
+	m_dispatchDuration(60 * Timespan::SECONDS),
+	m_pollTimeout(30 * Timespan::SECONDS)
 {
 }
 
-ZWaveDeviceManager::~ZWaveDeviceManager()
+void ZWaveDeviceManager::setNetwork(ZWaveNetwork::Ptr network)
 {
-	Manager::Destroy();
-	Options::Destroy();
+	m_network = network;
 }
 
-void ZWaveDeviceManager::installConfiguration()
+void ZWaveDeviceManager::setRegistry(ZWaveMapperRegistry::Ptr registry)
 {
-	Options::Create(m_configPath, m_userPath, "");
-	Options::Get()->AddOptionInt("PollInterval", m_pollInterval.totalMilliseconds());
-	Options::Get()->AddOptionBool("logging", true);
-	Options::Get()->AddOptionBool("SaveConfiguration", false);
-	Options::Get()->Lock();
+	m_registry = registry;
+}
 
-	Manager::Create();
+void ZWaveDeviceManager::setDispatchDuration(const Timespan &duration)
+{
+	if (duration < 1 * Timespan::MILLISECONDS)
+		throw InvalidArgumentException("dispatchDuration must be at least 1 ms");
 
-	// pocoLogger is deleted by OpenZWave library
-	ZWavePocoLoggerAdapter *pocoLogger =
-		new ZWavePocoLoggerAdapter(Loggable::forMethod("OpenZWaveLibrary"));
-	Log::SetLoggingClass(pocoLogger);
+	m_dispatchDuration = duration;
+}
+
+void ZWaveDeviceManager::setPollTimeout(const Timespan &timeout)
+{
+	if (timeout < 1 * Timespan::MILLISECONDS)
+		throw InvalidArgumentException("pollTimeout must be at least 1 ms");
+
+	m_pollTimeout = timeout;
 }
 
 void ZWaveDeviceManager::run()
 {
-	m_stopControl.waitStoppable(-1);
-}
+	logger().information("Z-Wave device manager is starting");
 
-string ZWaveDeviceManager::dongleMatch(const HotplugEvent &e)
-{
-	if (!e.properties()->has("tty.BEEEON_DONGLE"))
-		return "";
-
-	const string &dongleType = e.properties()
-			->getString("tty.BEEEON_DONGLE");
-
-	if (dongleType != "zwave")
-		return "";
-
-	return e.node();
-}
-
-void ZWaveDeviceManager::onAdd(const HotplugEvent &event)
-{
-	FastMutex::ScopedLock guard(m_dongleLock);
-
-	if (!m_driver.driverPath().empty()) {
-		logger().trace("ignored event " + event.toString(),
-			__FILE__, __LINE__);
-		return;
-	}
-
-	const string &name = dongleMatch(event);
-	if (name.empty()) {
-		logger().trace("event " + event.toString() + " does not match",
-			__FILE__, __LINE__);
-		return;
-	}
-
-	logger().debug("registering dongle " + event.toString(),
-		__FILE__, __LINE__);
-
-	m_state = State::IDLE;
-	m_driver.setDriverPath(name);
-
-	Manager::Get()->AddWatcher(::onNotification, this);
-	m_driver.registerItself();
-
-	if (m_eventSource.asyncExecutor().isNull()) {
-		logger().critical(
-			"runtime statistics could not be send, executor was not set",
-			__FILE__, __LINE__);
-	}
-	else {
-		m_statisticsRunner.start([&]() {
-			fireStatistics();
-		});
-	}
-}
-
-void ZWaveDeviceManager::onRemove(const HotplugEvent &event)
-{
-	FastMutex::ScopedLock guard(m_dongleLock);
-
-	if (m_driver.driverPath().empty()) {
-		logger().debug("ignored event " + event.toString(),
-			__FILE__, __LINE__);
-		return;
-	}
-
-	const string &name = dongleMatch(event);
-	if (name.empty()) {
-		logger().debug("event " + event.toString() + " does not match",
-			__FILE__, __LINE__);
-		return;
-	}
-
-	if (event.node() != m_driver.driverPath()) {
-		logger().trace("ignored remove dongle: " + event.toString(),
-			__FILE__, __LINE__);
-		return;
-	}
-
-	logger().debug("unregistering dongle " + event.toString(),
-		__FILE__, __LINE__);
-
-	m_statisticsRunner.stop();
-
-	m_state = State::IDLE;
-	m_driver.unregisterItself();
-	m_driver.setDriverPath("");
-
-	Manager::Get()->RemoveWatcher(::onNotification, this);
-}
-
-bool ZWaveDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>() ) {
-		return !m_driver.driverPath().empty();
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		DeviceID deviceID = cmd->cast<DeviceUnpairCommand>().deviceID();
-		return deviceID.prefix() == DevicePrefix::PREFIX_ZWAVE;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		DeviceID deviceID = cmd->cast<DeviceAcceptCommand>().deviceID();
-		return deviceID.prefix() == DevicePrefix::PREFIX_ZWAVE;
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
-		DeviceID deviceID = cmd->cast<DeviceSetValueCommand>().deviceID();
-		return deviceID.prefix() == DevicePrefix::PREFIX_ZWAVE;
-	}
-
-	return false;
-}
-
-void ZWaveDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
-{
-	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
-	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
-	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
-	else if (cmd->is<DeviceSetValueCommand>())
-		doSetValueCommnad(cmd.cast<DeviceSetValueCommand>(), answer);
-}
-
-void ZWaveDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	FastMutex::ScopedLock guard(m_lock);
-	Result::Ptr result = new Result(answer);
-
-	if (m_state != State::NODE_QUERIED) {
-		logger().error(
-			"device manager is not in queried state",
-			__FILE__, __LINE__
-		);
-
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
-
-	m_state = LISTENING;
-	logger().debug(
-		"start listening mode for "
-		+ to_string(cmd->duration().totalSeconds())
-		+ " seconds",
-		__FILE__, __LINE__);
-
-	if (Manager::Get()->AddNode(m_homeID))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-
-	m_commandTimer.stop();
-	m_commandTimer.setStartInterval(cmd->duration().totalMilliseconds());
-	m_commandTimer.start(m_commandCallback);
-}
-
-void ZWaveDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	FastMutex::ScopedLock guard(m_lock);
-	Result::Ptr result = new Result(answer);
-
-	if (m_state != State::NODE_QUERIED) {
-		logger().error(
-			"device manager is not in queried state",
-			__FILE__, __LINE__);
-
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
-
-	m_state = UNPAIRING;
-	logger().debug(
-		"unpairing device "
-		+ cmd->deviceID().toString(),
-		__FILE__, __LINE__);
-
-	uint8_t nodeID = nodeIDFromDeviceID(cmd->deviceID());
-	auto it = m_beeeonDevices.find(nodeID);
-	if (it == m_beeeonDevices.end()) {
-		result->setStatus(Result::Status::SUCCESS);
-		return;
-	}
-
-	m_beeeonDevices.erase(nodeID);
-
-	if (Manager::Get()->RemoveNode(m_homeID))
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-}
-
-void ZWaveDeviceManager::stopCommand(Timer &)
-{
-	Manager::Get()->CancelControllerCommand(m_homeID);
-	logger().debug("command is done", __FILE__, __LINE__);
-}
-
-void ZWaveDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	FastMutex::ScopedLock guard(m_lock);
-	Result::Ptr result = new Result(answer);
-
-	uint8_t nodeID = nodeIDFromDeviceID(cmd->deviceID());
-
-	auto it = m_beeeonDevices.find(nodeID);
-	if (it == m_beeeonDevices.end()) {
-		result->setStatus(Result::Status::FAILED);
-		logger().warning(
-			"no such device "
-			+ cmd->deviceID().toString()
-			+ " (" + to_string(nodeID)
-			+ ") to accept",
-			__FILE__, __LINE__);
-
-		return;
-	}
-
-	it->second.setPaired(true);
-	result->setStatus(Result::Status::SUCCESS);
-
-	logger().trace(
-		"device "
-		+ cmd->deviceID().toString()
-		+ " is paired",
-		__FILE__, __LINE__);
-}
-
-void ZWaveDeviceManager::doSetValueCommnad(
-	const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	FastMutex::ScopedLock guard(m_lock);
-	Result::Ptr result = new Result(answer);
-
-	if (m_state < State::NODE_QUERIED) {
-		logger().error(
-			"device manager is not in queried state",
-			__FILE__, __LINE__
-		);
-
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
-
-	uint8_t nodeID = nodeIDFromDeviceID(cmd->deviceID());
-	auto it = m_beeeonDevices.find(nodeID);
-	if (it == m_beeeonDevices.end()) {
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
-
-	bool ret = false;
-	ZWaveDeviceInfo::Ptr info;
-
-	try {
-		info = m_registry->find(
-			it->second.vendorID(), it->second.productID());
-
-		string value = info->convertValue(cmd->value());
-
-		ret = modifyValue(nodeID, cmd->moduleID(), value);
-	}
-	catch (const Poco::Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-		logger().error(
-			"failed to set value for device "
-			+ cmd->deviceID().toString(),
-			__FILE__, __LINE__);
-	}
-
-	if (ret)
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
-}
-
-void ZWaveDeviceManager::valueAdded(const Notification *notification)
-{
-	uint8_t nodeID = notification->GetNodeId();
-
-	auto it = m_zwaveNodes.find(nodeID);
-	if (it == m_zwaveNodes.end()) {
-		logger().warning(
-			"unknown node ID: "
-			+ nodeID,
-			__FILE__, __LINE__);
-
-		return;
-	}
-
-	it->second.push_back(notification->GetValueID());
-}
-
-void ZWaveDeviceManager::valueChanged(const Notification *notification)
-{
-	if (m_state < NODE_QUERIED)
-		return;
-
-	uint8_t nodeID = notification->GetNodeId();
-
-	auto it = m_beeeonDevices.find(nodeID);
-	if (it == m_beeeonDevices.end() || !it->second.paired()) {
-		logger().debug(
-			"device: "
-			+ ZWaveUtil::buildID(m_homeID, nodeID).toString()
-			+ " is not paired",
-			__FILE__, __LINE__);
-		return;
-	}
-
-	try {
-		shipData(notification->GetValueID(), it->second);
-	}
-	catch (const Poco::Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-		logger().error(
-			"failed to ship data for node "
-			+ to_string(nodeID),
-			__FILE__, __LINE__);
-	}
-}
-
-void ZWaveDeviceManager::shipData(const ValueID &valueID, const ZWaveNodeInfo &nodeInfo)
-{
-	SensorData sensorData;
-	sensorData.setDeviceID(nodeInfo.deviceID());
-
-	ZWaveDeviceInfo::Ptr info = m_registry->find(
-		nodeInfo.vendorID(), nodeInfo.productID());
-
-	if (!info->registry()->contains(valueID.GetCommandClassId(), valueID.GetIndex())) {
-		logger().trace(
-			"unsupported value with command class "
-			+ ZWaveUtil::commandClass(
-				valueID.GetCommandClassId(),
-				valueID.GetIndex()),
-			__FILE__, __LINE__);
-		return;
-	}
-
-	sensorData.insertValue(
-		SensorValue(
-			nodeInfo.findModuleID(valueID),
-			info->extractValue(valueID, nodeInfo.findModuleType(valueID))
-		)
-	);
-
-	ship(sensorData);
-}
-
-void ZWaveDeviceManager::nodeAdded(
-	const Notification *notification)
-{
-	uint8_t nodeID = notification->GetNodeId();
-	auto it = m_zwaveNodes.emplace(nodeID, list<OpenZWave::ValueID>());
-
-	if (!it.second) {
-		logger().debug(
-			"node ID "
-			+ to_string(nodeID)
-			+ " is already registered",
-			__FILE__, __LINE__
-		);
-	}
-}
-
-void ZWaveDeviceManager::dispatchUnpairedDevices()
-{
-	if (m_state != State::LISTENING) {
-		logger().warning(
-			"attempt to send new devices out of listening mode",
-			__FILE__, __LINE__);
-
-		return;
-	}
-
-	for (auto &nodeID : m_beeeonDevices) {
-		if (nodeID.second.paired())
-			continue;
-
-		if (nodeID.second.vendorName().empty() && nodeID.second.productName().empty()) {
-			logger().trace(
-				"no info about node id " + to_string(nodeID.first),
-				__FILE__, __LINE__
-			);
-			continue;
-		}
-
-		dispatch(
-			new NewDeviceCommand(
-				ZWaveUtil::buildID(m_homeID, nodeID.first),
-				nodeID.second.vendorName(),
-				nodeID.second.productName(),
-				nodeID.second.moduleTypes()
-			)
-		);
-	}
-}
-
-void ZWaveDeviceManager::handleUnpairing(const Notification *notification)
-{
-	switch (notification->GetEvent()) {
-	case OpenZWave::Driver::ControllerState_Starting:
-		logger().information("starting unpairing process",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Waiting:
-		logger().information("expecting user actions",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Sleeping:
-		logger().debug("sleeping while waiting to unpair",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_InProgress:
-		logger().debug("communicating with a device",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Cancel:
-		logger().information("cancelling unpairing process",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Completed:
-		logger().information("unpairing process completed",
-			__FILE__, __LINE__);
-
-		m_state = NODE_QUERIED;
-		break;
-
-	case OpenZWave::Driver::ControllerState_Error:
-	case OpenZWave::Driver::ControllerState_Failed:
-		logger().error("unpairing process has failed: "
-			+ to_string(notification->GetNotification()),
-			__FILE__, __LINE__);
-
-		m_state = NODE_QUERIED;
-		break; // ignore
-
-	default:
-		break;
-	}
-}
-
-void ZWaveDeviceManager::handleListening(const Notification *notification)
-{
-	switch (notification->GetEvent()) {
-	case OpenZWave::Driver::ControllerState_Starting:
-		logger().information("starting discovery process",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Waiting:
-		logger().information("expecting user actions",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Sleeping:
-		logger().debug("sleeping while waiting for devices",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_InProgress:
-		logger().debug("communicating with a device",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Cancel:
-		logger().information("cancelling discovery process",
-			__FILE__, __LINE__);
-		break;
-
-	case OpenZWave::Driver::ControllerState_Completed:
-		logger().information("discovery process completed",
-			__FILE__, __LINE__);
-
-		dispatchUnpairedDevices();
-		m_state = NODE_QUERIED;
-		break;
-
-	case OpenZWave::Driver::ControllerState_Error:
-	case OpenZWave::Driver::ControllerState_Failed:
-		logger().error("discovery process has failed: "
-			+ to_string(notification->GetNotification()),
-			__FILE__, __LINE__);
-
-		dispatchUnpairedDevices();
-		m_state = NODE_QUERIED;
-		break; // ignore
-
-	default:
-		break;
-	}
-}
-
-void ZWaveDeviceManager::onNotification(
-	const Notification *notification)
-{
-	ZWaveNotificationEvent e(*notification);
-	m_eventSource.fireEvent(e, &ZWaveListener::onNotification);
-
-	FastMutex::ScopedLock guard(m_lock);
-	auto it = m_beeeonDevices.find(notification->GetNodeId());
-
-	switch (notification->GetType()) {
-	case Notification::Type_ValueAdded:
-		valueAdded(notification);
-		break;
-	case Notification::Type_ValueChanged:
-		valueChanged(notification);
-		break;
-	case Notification::Type_NodeAdded:
-		nodeAdded(notification);
-		Manager::Get()->WriteConfig(m_homeID);
-		break;
-	case Notification::Type_NodeRemoved:
-		Manager::Get()->WriteConfig(m_homeID);
-		break;
-	case Notification::Type_ControllerCommand:
-		if (m_state == LISTENING)
-			handleListening(notification);
-		else if (m_state == UNPAIRING)
-			handleUnpairing(notification);
-				
-		break;
-	case Notification::Type_NodeQueriesComplete:
-		createBeeeOnDevice(notification->GetNodeId());
-		Manager::Get()->WriteConfig(m_homeID);
-		break;
-	case Notification::Type_PollingDisabled: {
-		if (it != m_beeeonDevices.end())
-			it->second.setPolled(false);
-
-		break;
-	}
-	case Notification::Type_PollingEnabled: {
-		if (it != m_beeeonDevices.end())
-			it->second.setPolled(true);
-
-		break;
-	}
-	case Notification::Type_DriverReady: {
-		m_homeID = notification->GetHomeId();
-		m_state = DONGLE_READY;
-
-		m_beeeonDevices.clear();
-		m_zwaveNodes.clear();
-
-		logger().notice(
-			"driver: " + m_driver.driverPath() + " ready "
-			+ "(home ID: "
-			+ NumberFormatter::formatHex(m_homeID, true)
-			+ ")",
-			__FILE__, __LINE__);
-		break;
-	}
-	case Notification::Type_DriverFailed: {
-		m_state = State::IDLE;
-
-		logger().critical(
-			"driver: "
-			+ m_driver.driverPath()
-			+ " failed",
-			__FILE__, __LINE__);
-		break;
-	}
-	case Notification::Type_AwakeNodesQueried:
-	case Notification::Type_AllNodesQueried:
-	case Notification::Type_AllNodesQueriedSomeDead:
-		if (m_state != DONGLE_READY) {
-			logger().warning(
-				"driver " + m_driver.driverPath()
-				+ " is not ready for use",
-				__FILE__, __LINE__);
-		}
-
-		m_state = NODE_QUERIED;
-
-		logger().debug(
-			"all nodes queried",
-			__FILE__, __LINE__);
-
-		Manager::Get()->WriteConfig(m_homeID);
-
-		loadDeviceList();
-		break;
-	default:
-		break;
-	}
-}
-
-void ZWaveDeviceManager::loadDeviceList()
-{
-	set<DeviceID> deviceIDs;
-
+	Clock lastInclusion = 0;
 	StopControl::Run run(m_stopControl);
 
-	int fails = 0;
 	while (run) {
-		try {
-			deviceIDs = deviceList(-1);
+		const auto event = m_network->pollEvent(m_pollTimeout);
+
+		if (logger().trace())
+			logger().trace(event.toString(), __FILE__, __LINE__);
+
+		switch (event.type()) {
+		case ZWaveNetwork::PollEvent::EVENT_NONE:
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_VALUE:
+			processValue(event.value());
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_NEW_NODE:
+			newNode(event.node(), !lastInclusion.isElapsed(
+					m_dispatchDuration.totalMicroseconds()));
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_UPDATE_NODE:
+			updateNode(event.node(), !lastInclusion.isElapsed(
+					m_dispatchDuration.totalMicroseconds()));
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_REMOVE_NODE:
+			removeNode(event.node());
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_INCLUSION_START:
+			lastInclusion.update();
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_INCLUSION_DONE:
+			lastInclusion.update();
+			m_inclusionWork->cancel();
+			break;
+
+		case ZWaveNetwork::PollEvent::EVENT_REMOVE_NODE_DONE:
+			m_removeNodeWork->cancel();
+			break;
+
+		default:
 			break;
 		}
-		catch (const Poco::Exception &ex) {
-			logger().log(ex, __FILE__, __LINE__);
 
-			if (fails >= FAILS_TRESHOLD) {
-				fails = 0;
-				Poco::Thread::sleep(SLEEP_AFTER_FAILS.totalMilliseconds());
-			}
-
-			fails++;
-			Poco::Thread::sleep(SLEEP_BETWEEN_FAILS.totalMilliseconds());
-		}
+		if (logger().trace())
+			logger().trace("event handled", __FILE__, __LINE__);
 	}
 
-	for (auto &node : m_zwaveNodes) {
-		DeviceID deviceID = ZWaveUtil::buildID(m_homeID, node.first);
-		bool paired = deviceIDs.find(deviceID) != deviceIDs.end();
-
-		try {
-			createDevice(node.first, node.second, paired);
-		}
-		catch (const Poco::ExistsException &ex) {
-			logger().log(ex, __FILE__, __LINE__);
-		}
-	}
-
-	m_zwaveNodes.clear();
-}
-
-void ZWaveDeviceManager::createDevice(
-		const uint8_t nodeID,
-		const std::list<OpenZWave::ValueID> &values,
-		bool paired)
-{
-	ZWaveNodeInfo device = ZWaveNodeInfo::build(m_homeID, nodeID);
-	device.setDeviceID(ZWaveUtil::buildID(m_homeID, nodeID));
-	device.setPaired(paired);
-
-	ZWaveDeviceInfo::Ptr msg =
-		m_registry->find(device.vendorID(), device.productID());
-
-	for (auto valueID : values) {
-		bool contains =
-			msg->registry()->contains(valueID.GetCommandClassId(), valueID.GetIndex());
-
-		logger().information(
-			"node ID " + to_string(nodeID)
-			+ " has "
-			+ (contains ? "supported" : "unsupported")
-			+ " CommandClass: "
-			+ ZWaveUtil::commandClass(
-				valueID.GetCommandClassId(),
-				valueID.GetIndex()),
-			__FILE__, __LINE__
-		);
-
-		if (!contains)
-			continue;
-
-		configureDefaultUnit(valueID);
-
-		device.addValueID(
-			valueID,
-			msg->registry()->find(valueID.GetCommandClassId(), valueID.GetIndex())
-		);
-	}
-
-	m_beeeonDevices.emplace(nodeID, device);
-}
-
-void ZWaveDeviceManager::configureDefaultUnit(OpenZWave::ValueID &valueID)
-{
-	const string unit = Manager::Get()->GetValueUnits(valueID);
-	if (unit == "F" || unit == "C" )
-		Manager::Get()->SetValueUnits(valueID, "C");
-}
-
-uint8_t ZWaveDeviceManager::nodeIDFromDeviceID(
-		const DeviceID &deviceID) const
-{
-	return deviceID.ident() & NODE_ID_MASK;
-}
-
-bool ZWaveDeviceManager::modifyValue(uint8_t nodeID,
-	const ModuleID &moduleID, const string &value)
-{
-	auto it = m_beeeonDevices.find(nodeID);
-	if (it == m_beeeonDevices.end()) {
-		logger().warning(
-			"unknown node ID: "
-			+ to_string(nodeID),
-			__FILE__, __LINE__
-		);
-
-		return false;
-	}
-
-	ValueID valueID = it->second.findValueID(moduleID.value());
-	ValueID::ValueType valueType = valueID.GetType();
-
-	double data;
-	switch(valueType) {
-	case ValueID::ValueType_Bool:
-		data = Poco::NumberParser::parseFloat(value);
-		Manager::Get()->SetValue(valueID, static_cast<bool>(data));
-		break;
-	case ValueID::ValueType_Byte:
-		data = Poco::NumberParser::parseFloat(value);
-		Manager::Get()->SetValue(valueID, static_cast<uint8_t>(data));
-		break;
-	case ValueID::ValueType_Short:
-		data = Poco::NumberParser::parseFloat(value);
-		Manager::Get()->SetValue(valueID, static_cast<int16_t>(data));
-		break;
-	case ValueID::ValueType_Int:
-		data = Poco::NumberParser::parseFloat(value);
-		Manager::Get()->SetValue(valueID, static_cast<int>(data));
-		break;
-	case ValueID::ValueType_List:
-		Manager::Get()->SetValueListSelection(valueID, value);
-		break;
-	default:
-		logger().error(
-			"unsupported ValueID Type: "
-			+ to_string(valueType),
-			__FILE__, __LINE__);
-		return false;
-	}
-
-	return true;
-}
-
-void ZWaveDeviceManager::fireStatistics()
-{
-	if (m_state == IDLE) {
-		logger().debug("statistics cannot be sent, dongle is not ready");
-		return;
-	}
-
-	Poco::FastMutex::ScopedLock guard(m_lock);
-	fireDriverEventStatistics();
-
-	for (auto &id : m_beeeonDevices)
-		fireNodeEventStatistics(id.first);
-}
-
-void ZWaveDeviceManager::fireNodeEventStatistics(uint8_t nodeID)
-{
-	Node::NodeData data;
-	Manager::Get()->GetNodeStatistics(m_homeID, nodeID, &data);
-	ZWaveNodeEvent nodeEvent(data, nodeID);
-
-	m_eventSource.fireEvent(nodeEvent, &ZWaveListener::onNodeStats);
-}
-
-void ZWaveDeviceManager::fireDriverEventStatistics()
-{
-	Driver::DriverData data;
-	Manager::Get()->GetDriverStatistics(m_homeID, &data);
-	ZWaveDriverEvent driverEvent(data);
-
-	m_eventSource.fireEvent(driverEvent, &ZWaveListener::onDriverStats);
-}
-
-void ZWaveDeviceManager::setUserPath(const string &userPath)
-{
-	m_userPath = userPath;
-}
-
-void ZWaveDeviceManager::setConfigPath(const string &configPath)
-{
-	m_configPath = configPath;
-}
-
-void ZWaveDeviceManager::setPollInterval(const Timespan &pollInterval)
-{
-	if (pollInterval != 0 && pollInterval < 1 * Timespan::MILLISECONDS)
-		throw Poco::InvalidArgumentException("pollInterval must be at least 1 ms or 0");
-
-	m_pollInterval = pollInterval;
-}
-
-void ZWaveDeviceManager::setDeviceInfoRegistry(
-	ZWaveDeviceInfoRegistry::Ptr factory)
-{
-	m_registry = factory;
+	logger().information("Z-Wave device manager has stopped");
 }
 
 void ZWaveDeviceManager::stop()
 {
+	logger().information("stopping Z-Wave device manager");
+
 	DeviceManager::stop();
-	answerQueue().dispose();
+	m_network->interrupt();
 }
 
-void ZWaveDeviceManager::createBeeeOnDevice(uint8_t nodeID)
+void ZWaveDeviceManager::processValue(const ZWaveNode::Value &value)
 {
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto it = m_zwaveNodes.find(value.node());
+	if (it == m_zwaveNodes.end()) {
+		if (logger().trace()) {
+			logger().trace(
+				"ignoring value " + value.value()
+				+ " for non-registered device "
+				+ value.node().toString(),
+				__FILE__, __LINE__);
+		}
+
+		return;
+	}
+
+	Device &device = it->second->second;
+	poco_assert(!device.mapper().isNull());
+
+	const auto &cc = value.commandClass();
+
+	if (cc.id() == ZWaveNode::CommandClass::WAKE_UP && cc.index() == 0) {
+		const auto time = value.asTime();
+
+		if (logger().debug()) {
+			logger().debug(
+				"update refresh time of "
+				+ device.id().toString()
+				+ " to " + DateTimeFormatter::format(time),
+				__FILE__, __LINE__);
+		}
+
+		device.setRefresh(time);
+		return;
+	}
+
+	if (!deviceCache()->paired(device.id())) {
+		if (logger().trace()) {
+			logger().trace(
+				"value for non-paired device "
+				+ device.id().toString() + " is dropped",
+				__FILE__, __LINE__);
+		}
+
+		return;
+	}
+
 	try {
-		auto it = m_zwaveNodes.find(nodeID);
-		if (it == m_zwaveNodes.end())
-			return;
-
-		createDevice(nodeID, it->second, false);
-		m_zwaveNodes.erase(it);
+		const Timestamp now;
+		ship({device.id(), now, {device.convert(value)}});
 	}
-	catch (const Poco::ExistsException &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-	}
+	BEEEON_CATCH_CHAIN(logger())
 }
 
-void ZWaveDeviceManager::setStatisticsInterval(const Timespan &interval)
+void ZWaveDeviceManager::newNode(const ZWaveNode &node, bool dispatch)
 {
-	if (interval <= 0) {
-		throw Poco::InvalidArgumentException(
-			"statistics interval must be a positive number");
+	FastMutex::ScopedLock guard(m_lock);
+	newNodeUnlocked(node, dispatch);
+}
+
+void ZWaveDeviceManager::newNodeUnlocked(const ZWaveNode &node, bool dispatch)
+{
+	if (logger().debug()) {
+		logger().debug(
+			"inspecting a new Z-Wave node " + node.toString()
+			+ (dispatch? " (dispatching)" : " (not dispatching)"),
+			__FILE__, __LINE__);
 	}
 
-	m_statisticsRunner.setInterval(interval);
+	auto it = m_zwaveNodes.find(node.id());
+	if (it != m_zwaveNodes.end()) {
+		logger().warning(
+			"node " + node.toString() + " already exists, ignoring...",
+			__FILE__, __LINE__);
+		return;
+	}
+
+	Device device(node);
+	if (!device.resolveMapper(m_registry)) {
+		logger().warning(
+			"unable to resolve mapper for " + node.toString(),
+			__FILE__, __LINE__);
+		return;
+	}
+
+	if (logger().debug()) {
+		logger().debug(
+			"device " + device.id().toString() + " "
+			+ device.product() + " resolved to mapper "
+			+ ClassInfo::forPointer(device.mapper().get()).name(),
+			__FILE__, __LINE__);
+	}
+
+	registerDevice(device);
+
+	if (!deviceCache()->paired(device.id()))
+		dispatchDevice(device, dispatch);
 }
 
-void ZWaveDeviceManager::registerListener(ZWaveListener::Ptr listener)
+void ZWaveDeviceManager::updateNode(const ZWaveNode &node, bool dispatch)
 {
-	m_eventSource.addListener(listener);
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto it = m_zwaveNodes.find(node.id());
+	if (it == m_zwaveNodes.end()) {
+		newNodeUnlocked(node, dispatch);
+		return;
+	}
+
+	if (logger().debug()) {
+		logger().debug(
+			"updating Z-Wave node " + node.toString()
+			+ (dispatch? " (dispatching)" : " (not dispatching)"),
+			__FILE__, __LINE__);
+	}
+
+	Device &device = it->second->second;
+	device.updateNode(node);
+
+	if (!deviceCache()->paired(device.id()))
+		dispatchDevice(device, dispatch);
 }
 
-void ZWaveDeviceManager::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
+void ZWaveDeviceManager::removeNode(const ZWaveNode &node)
 {
-	m_eventSource.setAsyncExecutor(executor);
+	logger().information(
+		"removing Z-Wave node " + node.toString(),
+		__FILE__, __LINE__);
+
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto it = m_zwaveNodes.find(node.id());
+	if (it == m_zwaveNodes.end()) {
+		if (logger().debug()) {
+			logger().debug(
+				"no such Z-Wave node " + node.toString()
+				+ " to be unregistered",
+				__FILE__, __LINE__);
+		}
+
+		return;
+	}
+
+	const auto device = unregisterDevice(it);
+
+	deviceCache()->markUnpaired(device.id());
+	m_recentlyUnpaired.emplace(device.id());
+}
+
+void ZWaveDeviceManager::registerDevice(const Device &device)
+{
+	poco_assert(!device.mapper().isNull());
+
+	if (logger().debug()) {
+		logger().debug(
+			"registering device " + device.id().toString(),
+			__FILE__, __LINE__);
+	}
+
+	auto result = m_devices.emplace(device.id(), device);
+	m_zwaveNodes.emplace(device.node().id(), result.first);
+}
+
+ZWaveDeviceManager::Device ZWaveDeviceManager::unregisterDevice(
+		ZWaveNodeMap::iterator it)
+{
+	const auto devit = it->second;
+	const Device copy = devit->second;
+
+	if (logger().debug()) {
+		logger().debug(
+			"unregistering device " + copy.id().toString(),
+			__FILE__, __LINE__);
+	}
+
+	m_zwaveNodes.erase(it);
+	m_devices.erase(devit);
+
+	return copy;
+}
+
+void ZWaveDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto it = m_devices.find(cmd->deviceID());
+	if (it == m_devices.end()) {
+		throw NotFoundException(
+			"no such device "
+			+ cmd->deviceID().toString()
+			+ " to accept");
+	}
+
+	DeviceManager::handleAccept(cmd);
+
+	logger().information(
+		"device " + cmd->deviceID().toString() + " has been paired",
+		__FILE__, __LINE__);
+}
+
+AsyncWork<>::Ptr ZWaveDeviceManager::startDiscovery(const Timespan &duration)
+{
+	m_network->startInclusion();
+
+	m_inclusionWork = new DelayedAsyncWork<>(
+		[this](DelayedAsyncWork<> &) {stopInclusion();},
+		duration);
+
+	dispatchUnpaired();
+
+	return m_inclusionWork;
+}
+
+void ZWaveDeviceManager::dispatchUnpaired()
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	if (logger().debug()) {
+		logger().debug(
+			"dispatching " + to_string(m_devices.size())
+			+ " non-paired devices",
+			__FILE__, __LINE__);
+	}
+
+	for (const auto &device : m_devices)
+		dispatchDevice(device.second);
+}
+
+void ZWaveDeviceManager::dispatchDevice(const Device &device, bool enabled)
+{
+	poco_assert(!device.mapper().isNull());
+
+	if (deviceCache()->paired(device.id())) {
+		logger().debug(
+			"device " + device.toString() + " is already paired",
+			__FILE__, __LINE__);
+		return;
+	}
+
+	if (device.node().controller()) {
+		logger().debug(
+			"device " + device.toString() + " is a controller",
+			__FILE__, __LINE__);
+		return;
+	}
+
+	if (!enabled) {
+		logger().warning(
+			"avoid dispatching of device " + device.toString()
+			+ " out of listening mode",
+			__FILE__, __LINE__);
+		return;
+	}
+
+	logger().information("dispatching new device " + device.toString(),
+			__FILE__, __LINE__);
+
+	NewDeviceCommand::Ptr cmd = new NewDeviceCommand(
+		device.id(),
+		device.vendor(),
+		device.product(),
+		device.types(),
+		device.refresh()
+	);
+
+	dispatch(cmd);
+}
+
+set<DeviceID> ZWaveDeviceManager::recentlyUnpaired()
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	const auto copy = m_recentlyUnpaired;
+	m_recentlyUnpaired.clear();
+
+	return copy;
+}
+
+AsyncWork<set<DeviceID>>::Ptr ZWaveDeviceManager::startUnpair(
+		const DeviceID &,
+		const Timespan &timeout)
+{
+	FastMutex::ScopedLock guard(m_lock);
+	m_recentlyUnpaired.clear();
+
+	m_network->startRemoveNode();
+
+	DelayedAsyncWork<set<DeviceID>>::Ptr work;
+
+	auto success = [this](DelayedAsyncWork<set<DeviceID>> &self) mutable {
+		stopRemoveNode();
+		self.setResult(recentlyUnpaired());
+	};
+	auto cancel = [this](DelayedAsyncWork<set<DeviceID>> &self) mutable {
+		self.setResult(recentlyUnpaired());
+	};
+
+	m_removeNodeWork = new DelayedAsyncWork<set<DeviceID>>(success, cancel, timeout);
+	return m_removeNodeWork;
+}
+
+void ZWaveDeviceManager::stopInclusion()
+{
+	logger().information(
+		"stopping the Z-Wave inclusion process",
+		__FILE__, __LINE__);
+
+	try {
+		m_network->cancelInclusion();
+	}
+	catch (const IllegalStateException &e) {
+		logger().warning(e.displayText(), __FILE__, __LINE__);
+	}
+	BEEEON_CATCH_CHAIN(logger())
+}
+
+void ZWaveDeviceManager::stopRemoveNode()
+{
+	logger().information(
+		"stopping the Z-Wave node removal process",
+		__FILE__, __LINE__);
+
+	try {
+		m_network->cancelRemoveNode();
+	}
+	catch (const IllegalStateException &e) {
+		logger().warning(e.displayText(), __FILE__, __LINE__);
+	}
+	BEEEON_CATCH_CHAIN(logger())
 }

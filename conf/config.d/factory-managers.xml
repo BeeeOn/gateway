@@ -10,8 +10,8 @@
 			<add name="runnables" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}" />
 			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="runnables" ref="vptDeviceManager" if-yes="${vpt.enable}" />
-			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
+			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
@@ -92,25 +92,6 @@
 			<set name="cryptoConfig" ref="cryptoConfig" />
 		</instance>
 
-		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
-			<set name="userPath" text="${zwave.user.path}" />
-			<set name="configPath" text="${zwave.config.path}" />
-			<set name="pollInterval" time="${zwave.poll.interval}" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="distributor" ref="distributor" />
-			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
-			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
-			<set name="executor" ref="asyncExecutor"/>
-			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
-		</instance>
-
-		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
-			<set name="defaultRegistry" ref="defaultZWaveDeviceInfoRegistry" />
-		</instance>
-
-		<instance name="defaultZWaveDeviceInfoRegistry" class="BeeeOn::DefaultZWaveDeviceInfoRegistry">
-		</instance>
-
 		<instance name="philipsHueDeviceManager" class="BeeeOn::PhilipsHueDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="httpTimeout" time="${philipshue.http.timeout}" />
@@ -137,6 +118,27 @@
 			<set name="channel" number="${fitp.channel}"/>
 			<set name="power" number="${fitp.power}"/>
 			<set name="txRetries" number="${fitp.tx.retries}"/>
+		</instance>
+
+		<instance name="ozwNetwork" class="BeeeOn::OZWNetwork">
+			<set name="userPath" text="${zwave.user.path}" />
+			<set name="configPath" text="${zwave.config.path}" />
+			<set name="pollInterval" time="${zwave.poll.interval}" />
+			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
+			<set name="controllersToReset" list="${zwave.controllers.reset}" />
+			<set name="networkKey" list="${zwave.network.key}" />
+			<set name="executor" ref="asyncExecutor" />
+			<add name="listeners" ref="loggingCollector" />
+		</instance>
+
+		<instance name="genericZWaveMapperRegistry" class="BeeeOn::GenericZWaveMapperRegistry" />
+
+		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
+			<set name="network" ref="ozwNetwork" />
+			<set name="registry" ref="genericZWaveMapperRegistry" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="distributor" ref="distributor" />
 		</instance>
 	</factory>
 </system>

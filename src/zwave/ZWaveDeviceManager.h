@@ -1,231 +1,285 @@
 #pragma once
 
 #include <map>
+#include <set>
+#include <string>
 
-#include <Poco/Condition.h>
+#include <Poco/Clock.h>
 #include <Poco/Mutex.h>
-#include <Poco/Nullable.h>
-#include <Poco/SharedPtr.h>
-#include <Poco/Timer.h>
 #include <Poco/Timespan.h>
 
-#include <openzwave/Notification.h>
-
-#include "commands/DeviceAcceptCommand.h"
-#include "commands/DeviceSetValueCommand.h"
-#include "commands/DeviceUnpairCommand.h"
-#include "commands/GatewayListenCommand.h"
 #include "core/DeviceManager.h"
-#include "hotplug/HotplugListener.h"
-#include "util/EventSource.h"
-#include "util/PeriodicRunner.h"
-#include "zwave/ZWaveDriver.h"
-#include "zwave/ZWaveDeviceInfoRegistry.h"
-#include "zwave/ZWaveListener.h"
-#include "zwave/ZWaveNodeInfo.h"
+#include "model/SensorValue.h"
+#include "util/DelayedAsyncWork.h"
+#include "zwave/ZWaveMapperRegistry.h"
+#include "zwave/ZWaveNetwork.h"
+#include "zwave/ZWaveNode.h"
 
 namespace BeeeOn {
 
 /**
- * In OpenZWave, all feedback from the Z-Wave network is sent to the
- * application via callbacks. This class allows the application to add
- * a notification callback handler. All notifications will be reported
- * to it.
+ * @brief ZWaveDeviceManager implements the logical layer on top of
+ * the ZWaveNetwork interface. It adapts the Z-Wave specifics to the
+ * BeeeOn system with the help of ZWaveMapperRegistry::Mapper.
  *
- * After a supported Z-Wave driver is connected, the onAdd event
- * ensures its setup and initialization via the OpenZWave library.
+ * The Z-Wave provides a dynamic discovery progress where it is possible
+ * to ask the discovered devices for their specifics modules. This process
+ * can however be time consuming. It can have multiple steps:
+ *
+ * 1. Discover new Z-Wave node.
+ * 2. Get few details like vendor ID, product ID.
+ * 3. Probe features of the Z-Wave node.
+ *
+ * The steps 1 and 2 are usually fast enough, however, the step 3 can take
+ * more than a minute. Each Z-Wave node, to be operational, must recognized
+ * by a ZWaveMapperRegistry and a specific Mapper instance must be assigned
+ * to it. Certain Mapper implementions can work just after the step 2,
+ * other might need the step 3 to complete.
+ *
+ * A Z-Wave node is considered as working when a Mapper is resolved for it.
+ * If no Mapper is resolved such Z-Wave node is dropped until an update of
+ * its details comes from the underlying ZWaveNetwork.
  */
-class ZWaveDeviceManager : public DeviceManager, public HotplugListener {
+class ZWaveDeviceManager : public DeviceManager {
 public:
-	ZWaveDeviceManager();
-	~ZWaveDeviceManager();
-
-	void run() override;
-	void stop() override;
-
-	void onAdd(const HotplugEvent &event) override;
-	void onRemove(const HotplugEvent &event) override;
-
-	bool accept(Command::Ptr cmd) override;
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
-
 	/**
-	 * Path to save user's data (log file, xml config), store
-	 * Z-Wave network config data and state.
+	 * @brief High-level representation of a Z-Wave device. It enriches
+	 * the ZWaveNode for information needed by the manager and the BeeeOn
+	 * system. This means especially the Mapper instance.
 	 */
-	void setUserPath(const std::string &userPath);
+	class Device {
+	public:
+		Device(const ZWaveNode &node);
 
-	/**
-	 * Path to xml config file for openzwave library.
-	 */
-	void setConfigPath(const std::string &configPath);
+		DeviceID id() const;
 
-	/**
-	 * Periodic interval for sending of statistics. If interval
-	 * is not set, statistics is not sent.
-	 */
-	void setStatisticsInterval(const Poco::Timespan &interval);
+		std::string product() const;
+		std::string vendor() const;
 
-	/**
-	 * For old devices, detect status changes.
-	 */
-	void setPollInterval(const Poco::Timespan &pollInterval);
-
-	void setDeviceInfoRegistry(Poco::SharedPtr<ZWaveDeviceInfoRegistry> factory);
-
-	/**
-	 * Class for asynchronous sending of statistics from ZWave network.
-	 */
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
-
-	void installConfiguration();
-
-	/**
-	 * It handles notification from Z-Wave network. The method fires
-	 * the ZWaveListener::onNotification for each notification before
-	 * processing it.
-	 * @param notification Provides a container for data sent via
-	 * the notification
-	 */
-	void onNotification(const OpenZWave::Notification *notification);
-
-	void registerListener(ZWaveListener::Ptr listener);
-
-private:
-	/**
-	 * Finding dongle path.
-	 */
-	std::string dongleMatch(const HotplugEvent &e);
-
-	/**
-	 * A new node value (OpenZWave::ValeID) has been added to OpenZWave's
-	 * list and ZWaveNodeInfo. Before vale is added to ZWaveNodeInfo,
-	 * it is checked if a given value is supported.
-	 *
-	 * These notifications occur after a node has been discovered.
-	 *
-	 * @param notification Provides a container for data sent via
-	 * the notification
-	 */
-	void valueAdded(const OpenZWave::Notification *noticiation);
-
-	/**
-	 * A node value has been updated from the Z-Wave network and it
-	 * is different from the previous value.
-	 * @param notification Provides a container for data sent via
-	 * the notification
-	 */
-	void valueChanged(const OpenZWave::Notification *noticiation);
-
-	/**
-	 * A new node has been added to OpenZWave's list. This may be
-	 * due to a device being added to the Z-Wave network, or
-	 * because the application is initializing itself.
-	 * @param notification Provides a container for data sent via
-	 * the notification
-	 */
-	void nodeAdded(const OpenZWave::Notification *notification);
-
-	uint8_t nodeIDFromDeviceID(const DeviceID &deviceID) const;
-
-	/**
-	 * Loads paired devices from server.
-	 */
-	void loadDeviceList();
-
-	/**
-	 * Modifies value.
-	 */
-	bool modifyValue(uint8_t nodeID,
-		const ModuleID &moduleID, const std::string &value);
-
-	void shipData(const OpenZWave::ValueID &valueID,
-		const ZWaveNodeInfo &nodeInfo);
-
-	void stopCommand(Poco::Timer &timer);
-
-	/**
-	 * Creates BeeeOn devices from ZWave nodes. BeeeOn device contains
-	 * information about manufacturer, product and supported measured values.
-	 */
-	void createBeeeOnDevice(uint8_t nodeID);
-
-	void dispatchUnpairedDevices();
-	void doListenCommand(
-		const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
-	void doUnpairCommand(
-		const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer);
-	void doDeviceAcceptCommand(
-		const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer);
-	void doSetValueCommnad(
-		const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer);
-
-	void createDevice(const uint8_t nodeID,
-			const std::list<OpenZWave::ValueID> &values,
-			bool paired);
-
-	void handleUnpairing(const OpenZWave::Notification *notification);
-	void handleListening(const OpenZWave::Notification *notification);
-
-	void configureDefaultUnit(OpenZWave::ValueID &valueID);
-
-	/**
-	 * Processing of statistics in given periodic interval.
-	 */
-	void fireStatistics();
-
-	/**
-	 * Sending of statistics from node to listeners.
-	 */
-	void fireNodeEventStatistics(uint8_t nodeID);
-
-	/**
-	 * Sending of statistics from ZWave driver to listeners.
-	 */
-	void fireDriverEventStatistics();
-
-private:
-	enum State {
 		/**
-		 * Dongle is unplugged or Z-Wave USB device failed.
+		 * @brief Update the underlying ZWaveNode instance by the
+		 * given one. Their identities must match.
+		 *
+		 * If the underlying node is already queried, any attempt to
+		 * update it by a ZWaveNode instance which is not queried would
+		 * be ignored.
 		 */
-		IDLE = 0,
+		void updateNode(const ZWaveNode &node);
+		const ZWaveNode &node() const;
+
 		/**
-		 * A Z-Wave driver has been added and is ready to use. W
+		 * @brief Try to resolve Mapper for this Device based on
+		 * the ZWaveNode contents unless a mapper is already resolved.
+		 * @returns true if a mapper is available
 		 */
-		DONGLE_READY = 1,
+		bool resolveMapper(ZWaveMapperRegistry::Ptr registry);
+
+		ZWaveMapperRegistry::Mapper::Ptr mapper() const;
+
+		void setRefresh(const Poco::Timespan &refresh);
+		Poco::Timespan refresh() const;
+
 		/**
-		 * All the initialization queries on a node have been completed.
+		 * @returns list of types the devices provides to the BeeeOn system
 		 */
-		NODE_QUERIED = 2,
+		std::list<ModuleType> types() const;
+
 		/**
-		 * It enables to accept new devices and communicate with them.
+		 * @returns convert the given Z-Wave value to BeeeOn sensor value
 		 */
-		LISTENING,
-		/**
-		 * It enables to unpair devices.
-		 */
-		UNPAIRING,
+		SensorValue convert(const ZWaveNode::Value &value) const;
+
+		std::string toString() const;
+
+	private:
+		ZWaveNode m_node;
+		ZWaveMapperRegistry::Mapper::Ptr m_mapper;
+		Poco::Timespan m_refresh;
 	};
 
+	typedef std::map<DeviceID, Device> DeviceMap;
+	typedef std::map<ZWaveNode::Identity, DeviceMap::iterator> ZWaveNodeMap;
+
+	ZWaveDeviceManager();
+
+	/**
+	 * @brief Configure ZWaveNetwork to be used by this manager.
+	 */
+	void setNetwork(ZWaveNetwork::Ptr network);
+
+	/**
+	 * @brief Set registry that are able to resolve the Z-Wave devices
+	 * specific features.
+	 */
+	void setRegistry(ZWaveMapperRegistry::Ptr registry);
+
+	/**
+	 * @brief Set maximal time window in which new devices are
+	 * reported since the start of the inclusion mode.
+	 *
+	 * The dispatch time usually needs to be longer than the listen
+	 * duration as received from the server because the node discovery
+	 * is sometimes very slow.
+	 */
+	void setDispatchDuration(const Poco::Timespan &duration);
+
+	/**
+	 * @brief Set poll timeout of the main loop polling the configured
+	 * ZWaveNetwork instance.
+	 */
+	void setPollTimeout(const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Run the loop that receives events from the configured
+	 * ZWaveNetwork instance. The loop receives information about
+	 * sensor data, new nodes, nodes removals, discovery, etc.
+	 */
+	void run() override;
+
+	/**
+	 * @brief Stop the polling loop.
+	 */
+	void stop() override;
+
+protected:
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &duration) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
+
+	/**
+	 * @brief Dispatch all registered devices that are not paired to the
+	 * remote server.
+	 */
+	void dispatchUnpaired();
+
+	/**
+	 * @brief Dispatch the given device to the remote server.
+	 *
+	 * If the device is dispatchable (it is not paired nor it is a controller)
+	 * it is not shipped.
+	 *
+	 * If the given parameter _enabled_ is false, no dispatching would
+	 * occur as we assume that discovery mode is disabled at that moment.
+	 * The purpose of the _enabled_ is that we are likely to first check
+	 * whether the device is dispatchable and than to check whether discovery
+	 * is allowed.
+	 */
+	void dispatchDevice(const Device &device, bool enabled = true);
+
+	/**
+	 * @brief Access cached device IDs of the Z-Wave nodes removed by
+	 * the recent unpair process. The call clears that cache.
+	 *
+	 * The method startUnpair() initiates the Z-Wave node removal process.
+	 * While in progress, the main loop would recieve information about
+	 * Z-Wave nodes being removed from the Z-Wave network. The devices are
+	 * stored in a temporary cache that can be accessed by this method.
+	 *
+	 * The temporary cache is to be used only during the unpair process.
+	 */
+	std::set<DeviceID> recentlyUnpaired();
+
+	/**
+	 * @brief Process a Z-Wave value received from the Z-Wave network.
+	 * If there is a paired device for that value and there is a conversion
+	 * available for that value, the value is shipped via Distributor.
+	 *
+	 * The method processes also values that are not to be shipped, like
+	 * the refresh time.
+	 */
+	void processValue(const ZWaveNode::Value &value);
+
+	/**
+	 * @brief If the given node is fully resolvable (we can determine
+	 * its Mapper instance), it is registered as a new Device and dispatched
+	 * as a new device. Otherwise, such node is ignored.
+	 */
+	void newNode(const ZWaveNode &node, bool dispatch);
+	void newNodeUnlocked(const ZWaveNode &node, bool dispatch);
+
+	/**
+	 * @brief If the given node is already registered, update information about
+	 * it and if it is not paired, dispatch it as a new device (or updated device).
+	 * If the node is not registered, the newNode() is called instead.
+	 *
+	 * @see newNode()
+	 */
+	void updateNode(const ZWaveNode &node, bool dispatch);
+
+	/**
+	 * @brief The given node is considered to be unpaired, its cached data
+	 * is deleted.
+	 */
+	void removeNode(const ZWaveNode &node);
+
+	/**
+	 * @brief Register a device to be available for the BeeeOn system. The device
+	 * must have a resolved mapper. Pairing status is irrelevant for this method
+	 * and not affected.
+	 */
+	void registerDevice(const Device &device);
+
+	/**
+	 * @brief Unregister the device pointed to by the iterator from being available
+	 * to the BeeeOn system. Pairing status is irrelevant for this method and not
+	 * affected.
+	 *
+	 * @returns shallow copy of the removed device
+	 */
+	Device unregisterDevice(ZWaveNodeMap::iterator it);
+
+	/**
+	 * @brief Helper method to stop the Z-Wave inclusion mode.
+	 */
+	void stopInclusion();
+
+	/**
+	 * @brief Helper method to stop the Z-Wave node removal mode.
+	 */
+	void stopRemoveNode();
+
 private:
+	ZWaveNetwork::Ptr m_network;
+	ZWaveMapperRegistry::Ptr m_registry;
+	Poco::Timespan m_dispatchDuration;
+	Poco::Timespan m_pollTimeout;
+
+	/**
+	 * Cache of devices discovered by Z-Wave with a resolved Mapper instance.
+	 */
+	DeviceMap m_devices;
+
+	/**
+	 * Cache of relation between ZWaveNode::Identity and the associated Device.
+	 */
+	ZWaveNodeMap m_zwaveNodes;
+
+	/**
+	 * Temporary cache of recently removed Z-Wave nodes (their device IDs).
+	 * The startUnpair() method clears the cache and it is filled again by
+	 * the main loop. When the unpair process finishes, the cache should be
+	 * treated as invalid.
+	 */
+	std::set<DeviceID> m_recentlyUnpaired;
+
+	/**
+	 * Protect access to m_devices, m_zwaveNodes, m_recentlyUnpaired.
+	 */
 	Poco::FastMutex m_lock;
-	Poco::FastMutex m_dongleLock;
-	ZWaveDriver m_driver;
-	std::map<uint8_t, ZWaveNodeInfo> m_beeeonDevices;
-	uint32_t m_homeID;
-	std::string m_userPath;
-	std::string m_configPath;
-	Poco::Timespan m_pollInterval;
-	State m_state;
-	ZWaveDeviceInfoRegistry::Ptr m_registry;
-	std::map<uint8_t, std::list<OpenZWave::ValueID>> m_zwaveNodes;
 
-	Poco::TimerCallback<ZWaveDeviceManager> m_commandCallback;
-	Poco::Timer m_commandTimer;
+	/**
+	 * Current AsyncWork for the Z-Wave inclusion mode. Only 1 inclusion mode
+	 * can be active at a time. A new instance is created on each startDiscovery().
+	 */
+	DelayedAsyncWork<>::Ptr m_inclusionWork;
 
-	PeriodicRunner m_statisticsRunner;
-	EventSource<ZWaveListener> m_eventSource;
+	/**
+	 * Current AsyncWork for the Z-Wave node removal mode. Only 1 removal mode
+	 * can be active at a time. A new instance is created on each startUnpair().
+	 */
+	DelayedAsyncWork<std::set<DeviceID>>::Ptr m_removeNodeWork;
 };
 
 }

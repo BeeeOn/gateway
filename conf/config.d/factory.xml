@@ -43,10 +43,10 @@
 			<add name="handlers" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}"/>
 			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
 			<add name="handlers" ref="vptDeviceManager" if-yes="${vpt.enable}"/>
-			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
+			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}"/>
 		</instance>
 
 		<instance name="deviceStatusFetcher" class="BeeeOn::DeviceStatusFetcher">
@@ -54,6 +54,7 @@
 			<set name="waitTimeout" time="1 s" />
 			<set name="repeatTimeout" time="5 m" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 		</instance>
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
