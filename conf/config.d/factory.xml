@@ -5,7 +5,7 @@
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
 			<add name="runnables" ref="hotplugMonitor" />
 			<add name="runnables" ref="asyncExecutor" />
-			<add name="runnables" ref="mqttGWExporterClient" />
+			<add name="runnables" ref="mqttGWExporterClient" if-yes="${mqtt.client.enable}" />
 			<add name="runnables" ref="distributor" />
 			<add name="loops" ref="managersRunner" />
 			<add name="runnables" ref="deviceStatusFetcher" />
