@@ -1,6 +1,7 @@
 <system>
 	<factory>
 		<instance name="managersRunner" class="BeeeOn::LoopRunner">
+			<set name="stopParallel" number="1" />
 			<add name="runnables" ref="pressureSensorManager" if-yes="${psdev.enable}" />
 			<add name="runnables" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
 			<add name="runnables" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
