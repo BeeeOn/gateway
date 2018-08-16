@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-18-g5532914</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -84,6 +84,10 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html">DelayedAsyncWork</a>&lt; <a class="el" href="classBeeeOn_1_1Result.html">Result</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a16f5f5203eb7320b1c85aea6a52d3dfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93e2aace89744f934301f4943c725588"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93e2aace89744f934301f4943c725588"></a>
+typedef std::function&lt; void(<a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html">DelayedAsyncWork</a><br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1Result.html">Result</a> &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Call</b></td></tr>
+<tr class="separator:a93e2aace89744f934301f4943c725588"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classBeeeOn_1_1AbstractAsyncWork"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1AbstractAsyncWork')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1AbstractAsyncWork.html">BeeeOn::AbstractAsyncWork&lt; Result &gt;</a></td></tr>
 <tr class="memitem:a5e608629e0090a3b748901bdac6151e5 inherit pub_types_classBeeeOn_1_1AbstractAsyncWork"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e608629e0090a3b748901bdac6151e5"></a>
 typedef Poco::SharedPtr<br class="typebreak"/>
@@ -107,12 +111,12 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a58d031c2f2d65541fc0609c59fa02f08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58d031c2f2d65541fc0609c59fa02f08"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DelayedAsyncWork</b> (std::function&lt; void()&gt; f, const Poco::Timespan &amp;delay)</td></tr>
-<tr class="separator:a58d031c2f2d65541fc0609c59fa02f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa98c07ed0b184a3630e3344564b18d3b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa98c07ed0b184a3630e3344564b18d3b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DelayedAsyncWork</b> (std::function&lt; void()&gt; f, std::function&lt; void()&gt; cancelled, const Poco::Timespan &amp;delay)</td></tr>
-<tr class="separator:aa98c07ed0b184a3630e3344564b18d3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a053f135d9da58e23cf5a0fd5ee33cbea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a053f135d9da58e23cf5a0fd5ee33cbea"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DelayedAsyncWork</b> (Call f, const Poco::Timespan &amp;delay)</td></tr>
+<tr class="separator:a053f135d9da58e23cf5a0fd5ee33cbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ebf918d0a0f6453977d417ba6ba47a6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ebf918d0a0f6453977d417ba6ba47a6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DelayedAsyncWork</b> (Call f, Call cancelled, const Poco::Timespan &amp;delay)</td></tr>
+<tr class="separator:a0ebf918d0a0f6453977d417ba6ba47a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e41a7e691797c34660b2b18f56882b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html#a1e41a7e691797c34660b2b18f56882b9">tryJoin</a> (const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="separator:a1e41a7e691797c34660b2b18f56882b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59a4f28f6108821553e63556a21e5f92"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59a4f28f6108821553e63556a21e5f92"></a>
