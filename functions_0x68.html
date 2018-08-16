@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -73,6 +73,7 @@
       <li><a href="functions_0x6e.html#index_n"><span>n</span></a></li>
       <li><a href="functions_0x6f.html#index_o"><span>o</span></a></li>
       <li><a href="functions_0x70.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_0x71.html#index_q"><span>q</span></a></li>
       <li><a href="functions_0x72.html#index_r"><span>r</span></a></li>
       <li><a href="functions_0x73.html#index_s"><span>s</span></a></li>
       <li><a href="functions_0x74.html#index_t"><span>t</span></a></li>
@@ -90,18 +91,18 @@
 <h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
 <li>handle()
 : <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">BeeeOn::DeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7a1e2c940898861a868b1b59922537a9">BeeeOn::ZWaveDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PosixSignal.html#a55ba0e7b99e14ca61daf271b4cd69316">BeeeOn::PosixSignal</a>
 </li>
 <li>handleAccept()
-: <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a748933d5559d292872abe3280d6cad91">BeeeOn::BelkinWemoDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">BeeeOn::JablotronDeviceManager</a>
+: <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a970eb6198d8c12bb0867726c69badf11">BeeeOn::BLESmartDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3dfc985682448c19e7c9858768ee680a">BeeeOn::PhilipsHueDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a970eb6198d8c12bb0867726c69badf11">BeeeOn::BLESmartDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a43e166a8a6464f6adc8fbc60c2d71c03">BeeeOn::PressureSensorManager</a>
-, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a137cab26ee73854902f81de2be0f12c7">BeeeOn::VPTDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a48ace897a086ee2e22d08bd9b41faedb">BeeeOn::BluetoothAvailabilityManager</a>
+, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a137cab26ee73854902f81de2be0f12c7">BeeeOn::VPTDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a9993bbcd80847af9e570c5f875c6d07d">BeeeOn::ZWaveDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a748933d5559d292872abe3280d6cad91">BeeeOn::BelkinWemoDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1DeviceManager.html#ab6d93d732c2fd1816cb952d2a469c70f">BeeeOn::DeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a69193fe724d02de3596901a6a557d0b7">BeeeOn::JablotronDeviceManager</a>
 </li>
 <li>handleDirtyAnswer()
 : <a class="el" href="classBeeeOn_1_1DeviceStatusFetcher.html#a0c2e9880ac321664ba5eb3f832fe3889">BeeeOn::DeviceStatusFetcher</a>
@@ -131,7 +132,7 @@
 : <a class="el" href="classBeeeOn_1_1GlobalID.html#a1390318b9e9f8f4ae0dabb471a55dab0">BeeeOn::GlobalID</a>
 </li>
 <li>HashedLock()
-: <a class="el" href="classBeeeOn_1_1HashedLock.html#adbf5343bd1b4b17255f9ed2d5ff1146c">BeeeOn::HashedLock&lt; LockType, ID, Hash &gt;</a>
+: <a class="el" href="classBeeeOn_1_1HashedLock.html#af44190021b706a9bc3b936d0a72abae6">BeeeOn::HashedLock&lt; LockType, ID, Hash &gt;</a>
 </li>
 <li>hasNext()
 : <a class="el" href="classBeeeOn_1_1DataReader.html#a75388545b94e61741bd1d89f958d3484">BeeeOn::DataReader</a>
@@ -141,6 +142,12 @@
 </li>
 <li>HERTZ
 : <a class="el" href="structBeeeOn_1_1ModuleType_1_1UnitEnum.html#a623d014a136596ef29f5b6b8e38f4c30a150e180c3946b906ae170ab84bdcb2ce">BeeeOn::ModuleType::UnitEnum</a>
+</li>
+<li>home()
+: <a class="el" href="classBeeeOn_1_1ZWaveNode.html#a4d717c4982b7b356112073430156e5f0">BeeeOn::ZWaveNode</a>
+</li>
+<li>homeAsString()
+: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#acb4e6cbe546503ebff77f368a95da1e6">BeeeOn::OZWNetwork</a>
 </li>
 <li>homeID()
 : <a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#ab36bc3e2d9411f49da1a518c9d4ec1d1">BeeeOn::ZWaveNotificationEvent</a>

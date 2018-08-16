@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -72,6 +72,7 @@
       <li><a href="functions_func_0x6e.html#index_n"><span>n</span></a></li>
       <li><a href="functions_func_0x6f.html#index_o"><span>o</span></a></li>
       <li><a href="functions_func_0x70.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_func_0x71.html#index_q"><span>q</span></a></li>
       <li><a href="functions_func_0x72.html#index_r"><span>r</span></a></li>
       <li><a href="functions_func_0x73.html#index_s"><span>s</span></a></li>
       <li><a href="functions_func_0x74.html#index_t"><span>t</span></a></li>
@@ -95,11 +96,25 @@
 , <a class="el" href="classBeeeOn_1_1Cancellable.html#a6e9ea1463250fe27dc762e22b812a4fc">BeeeOn::Cancellable</a>
 , <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>
 </li>
+<li>cancelIf()
+: <a class="el" href="classBeeeOn_1_1OZWCommand.html#a6f675a6cf815d9ab284c2a5bec00bb78">BeeeOn::OZWCommand</a>
+</li>
+<li>cancelInclusion()
+: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a7531a5295021acb5e7121d204c0c2881">BeeeOn::OZWNetwork</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a1ba8d8f27459008b7abda267c8987dfe">BeeeOn::ZWaveNetwork</a>
+</li>
 <li>cancellable()
 : <a class="el" href="classBeeeOn_1_1DeviceManager.html#ae7ae734dddde1a3466a801fe23b18818">BeeeOn::DeviceManager</a>
 </li>
+<li>cancelRemoveNode()
+: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a1107fa5c2f1e5ac2b7107f06a05f3e28">BeeeOn::OZWNetwork</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a390ef6d0e1142c3107ff2779f3430f53">BeeeOn::ZWaveNetwork</a>
+</li>
 <li>canExport()
 : <a class="el" href="classBeeeOn_1_1ExporterQueue.html#af37d749f2a91ab8a6eb242e25ad4b120">BeeeOn::ExporterQueue</a>
+</li>
+<li>cannotConvert()
+: <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a3974c695c7fb39c7fcd9196a550864ed">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
 </li>
 <li>cast()
 : <a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a9bb6e4d00d9fc09ec4db413a96eed538">BeeeOn::DIWCastImpl&lt; From, To &gt;</a>
@@ -121,6 +136,9 @@
 </li>
 <li>checkExisting()
 : <a class="el" href="classBeeeOn_1_1Journal.html#a45603bb73f5f33cc511d2aaf8cd39260">BeeeOn::Journal</a>
+</li>
+<li>checkNodeIsController()
+: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a8183ce619f4885b99974696956e85ca4">BeeeOn::OZWNetwork</a>
 </li>
 <li>clear()
 : <a class="el" href="classBeeeOn_1_1StopControl.html#a6e21b1833d998f491fedc5cf855150d8">BeeeOn::StopControl</a>
@@ -146,6 +164,9 @@
 <li>command()
 : <a class="el" href="classBeeeOn_1_1Tool.html#abe7742d2bd8732859cb7a2c4f283e3ce">BeeeOn::Tool</a>
 </li>
+<li>commandClass()
+: <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html#abd119ef6b15490ceba46d8a104bca6bc">BeeeOn::ZWaveNode::Value</a>
+</li>
 <li>commitAs()
 : <a class="el" href="classBeeeOn_1_1SafeWriter.html#af713b8d238a9fb8fe236fb3f05b27e5f">BeeeOn::SafeWriter</a>
 </li>
@@ -156,30 +177,34 @@
 : <a class="el" href="classBeeeOn_1_1GWSensorDataExport.html#aee82b3498c4453a34b63fa1b55db9e0a">BeeeOn::GWSensorDataExport</a>
 </li>
 <li>connect()
-: <a class="el" href="classBeeeOn_1_1MosquittoClient.html#af8132ef0bf03096a3a48fa98cbfa845d">BeeeOn::MosquittoClient</a>
-, <a class="el" href="classBeeeOn_1_1BluezHciInterface.html#a363df2235c9498e24c89b4fd7af78a1f">BeeeOn::BluezHciInterface</a>
+: <a class="el" href="classBeeeOn_1_1BluezHciInterface.html#a363df2235c9498e24c89b4fd7af78a1f">BeeeOn::BluezHciInterface</a>
 , <a class="el" href="classBeeeOn_1_1DBusHciInterface.html#ad74181de2f63312036e595202b797f2f">BeeeOn::DBusHciInterface</a>
 , <a class="el" href="classBeeeOn_1_1HciInterface.html#abbd16076099d0ac206c10df8e6a4aba1">BeeeOn::HciInterface</a>
+, <a class="el" href="classBeeeOn_1_1MosquittoClient.html#af8132ef0bf03096a3a48fa98cbfa845d">BeeeOn::MosquittoClient</a>
+</li>
+<li>controller()
+: <a class="el" href="classBeeeOn_1_1ZWaveNode.html#aab22d6fdae7a068fbec3142f8b76fcf4">BeeeOn::ZWaveNode</a>
+</li>
+<li>convert()
+: <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#ab4878f35eab71bf73d45d1ae46d8622f">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a7a1ad76958f987659b6dd7e0c6b43302">BeeeOn::ZWaveDeviceManager::Device</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a66d35e6e5a13331131c2dac8363fe66f">BeeeOn::ZWaveMapperRegistry::Mapper</a>
 </li>
 <li>convertStatus()
 : <a class="el" href="classBeeeOn_1_1GWResponse.html#aa22090619f30b72e320b7adc275131fa">BeeeOn::GWResponse</a>
-</li>
-<li>convertValue()
-: <a class="el" href="classBeeeOn_1_1DefaultZWaveDeviceInfo.html#aa0b50126ed4f2b6e820a82d205abaadc">BeeeOn::DefaultZWaveDeviceInfo</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveDeviceInfo.html#ae692ff07a24b08a8160ea528d15578e0">BeeeOn::ZWaveDeviceInfo</a>
 </li>
 <li>count()
 : <a class="el" href="classBeeeOn_1_1DPACoordBondNodeResponse.html#aacf8fa4abe6e7c3c22d02f784b20032a">BeeeOn::DPACoordBondNodeResponse</a>
 , <a class="el" href="classBeeeOn_1_1MultiException.html#af54929193451b85aa2c41f1613558dd8">BeeeOn::MultiException</a>
 </li>
 <li>country()
-: <a class="el" href="classBeeeOn_1_1LocaleImpl.html#abc16f30fbfc56132a79a5b4a9f89d358">BeeeOn::LocaleImpl</a>
-, <a class="el" href="classBeeeOn_1_1SystemLocaleImpl.html#a506ba25f5987e3cfbd9c12e1a896a0ab">BeeeOn::SystemLocaleImpl</a>
+: <a class="el" href="classBeeeOn_1_1SystemLocaleImpl.html#a506ba25f5987e3cfbd9c12e1a896a0ab">BeeeOn::SystemLocaleImpl</a>
+, <a class="el" href="classBeeeOn_1_1LocaleImpl.html#abc16f30fbfc56132a79a5b4a9f89d358">BeeeOn::LocaleImpl</a>
 </li>
 <li>create()
-: <a class="el" href="classBeeeOn_1_1TranslatorFactory.html#a00135981a2a725f6a209af6236f189fc">BeeeOn::TranslatorFactory</a>
-, <a class="el" href="classBeeeOn_1_1ExponentialBackOffFactory.html#a1ab4745d73a88d8fdf7067aad11cf9cd">BeeeOn::ExponentialBackOffFactory</a>
+: <a class="el" href="classBeeeOn_1_1ExponentialBackOffFactory.html#a1ab4745d73a88d8fdf7067aad11cf9cd">BeeeOn::ExponentialBackOffFactory</a>
 , <a class="el" href="classBeeeOn_1_1BackOffFactory.html#ada9688d204d1702aadb1d255dd394432">BeeeOn::BackOffFactory</a>
+, <a class="el" href="classBeeeOn_1_1TranslatorFactory.html#a00135981a2a725f6a209af6236f189fc">BeeeOn::TranslatorFactory</a>
 , <a class="el" href="classBeeeOn_1_1NoTranslatorFactory.html#afa4868d36403724f38c84074355dadca">BeeeOn::NoTranslatorFactory</a>
 </li>
 <li>createDevice()

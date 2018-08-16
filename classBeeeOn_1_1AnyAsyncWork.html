@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -69,18 +69,21 @@ Inheritance diagram for BeeeOn::AnyAsyncWork:</div>
  <div class="center">
   <img src="classBeeeOn_1_1AnyAsyncWork.png" usemap="#BeeeOn::AnyAsyncWork_map" alt=""/>
   <map id="BeeeOn::AnyAsyncWork_map" name="BeeeOn::AnyAsyncWork_map">
-<area href="classBeeeOn_1_1Cancellable.html" title="Any class that can be cancelled should inherit from this interface. This allows to maintain a set of ..." alt="BeeeOn::Cancellable" shape="rect" coords="1127,0,1464,24"/>
-<area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt;&gt;" shape="rect" coords="520,112,857,136"/>
-<area href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). " alt="BeeeOn::AsyncWork&lt; Result &gt;" shape="rect" coords="1735,112,2072,136"/>
-<area href="classBeeeOn_1_1AbstractSeeker.html" title="AbstractSeeker represents an asynchronous process that seeks for new devices in a certain network..." alt="BeeeOn::AbstractSeeker" shape="rect" coords="520,168,857,192"/>
-<area href="classBeeeOn_1_1AbstractAsyncWork.html" title="AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set..." alt="BeeeOn::AbstractAsyncWork&lt; Result &gt;" shape="rect" coords="1735,168,2072,192"/>
-<area href="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.html" title="Provides searching belkin wemo devices on network in own thread. " alt="BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker" shape="rect" coords="0,224,337,248"/>
-<area href="classBeeeOn_1_1BLESmartDeviceManager_1_1BLESmartSeeker.html" title="Provides searching BLE devices on network in own thread. " alt="BeeeOn::BLESmartDeviceManager::BLESmartSeeker" shape="rect" coords="347,224,684,248"/>
-<area href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html" title="Provides searching philips devices on network in own thread. " alt="BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker" shape="rect" coords="694,224,1031,248"/>
-<area href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html" title="Provides searching vpt devices on network in own thread. Also takes care of thread where is the liste..." alt="BeeeOn::VPTDeviceManager::VPTSeeker" shape="rect" coords="1041,224,1378,248"/>
-<area href="classBeeeOn_1_1BlockingAsyncWork.html" title="BlockingAsyncWork is an adapter of non-asynchronous operations to the AsyncWork interface. It implements a time barrier that just waits until the underlying operation finishes. " alt="BeeeOn::BlockingAsyncWork&lt; Result &gt;" shape="rect" coords="1388,224,1725,248"/>
-<area href="classBeeeOn_1_1DelayedAsyncWork.html" title="Implementation of the AsyncWork interface that executes a given function once after the the given del..." alt="BeeeOn::DelayedAsyncWork&lt; Result &gt;" shape="rect" coords="1735,224,2072,248"/>
-<area href="classBeeeOn_1_1ThreadWrapperAsyncWork.html" title="Adapter of Poco::Thread to AsyncWork interface. The Thread has no general way how to be stopped and t..." alt="BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;" shape="rect" coords="2082,224,2419,248"/>
+<area href="classBeeeOn_1_1Cancellable.html" title="Any class that can be cancelled should inherit from this interface. This allows to maintain a set of ..." alt="BeeeOn::Cancellable" shape="rect" coords="376,0,742,24"/>
+<area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt; std::set&lt; BeeeOn::DeviceID &gt; &gt;" shape="rect" coords="0,112,366,136"/>
+<area href="classBeeeOn_1_1AsyncWork.html" alt="BeeeOn::AsyncWork&lt;&gt;" shape="rect" coords="376,112,742,136"/>
+<area href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). " alt="BeeeOn::AsyncWork&lt; Result &gt;" shape="rect" coords="1128,112,1494,136"/>
+<area href="classBeeeOn_1_1AbstractAsyncWork.html" alt="BeeeOn::AbstractAsyncWork&lt; std::set&lt; BeeeOn::DeviceID &gt; &gt;" shape="rect" coords="0,168,366,192"/>
+<area href="classBeeeOn_1_1AbstractSeeker.html" title="AbstractSeeker represents an asynchronous process that seeks for new devices in a certain network..." alt="BeeeOn::AbstractSeeker" shape="rect" coords="376,168,742,192"/>
+<area href="classBeeeOn_1_1AbstractAsyncWork.html" title="AbstractAsyncWork provides a generic implementation of method result() and a supplementary method set..." alt="BeeeOn::AbstractAsyncWork&lt; Result &gt;" shape="rect" coords="1128,168,1494,192"/>
+<area href="classBeeeOn_1_1DelayedAsyncWork.html" alt="BeeeOn::DelayedAsyncWork&lt; std::set&lt; BeeeOn::DeviceID &gt; &gt;" shape="rect" coords="0,224,366,248"/>
+<area href="classBeeeOn_1_1BelkinWemoDeviceManager_1_1BelkinWemoSeeker.html" title="Provides searching belkin wemo devices on network in own thread. " alt="BeeeOn::BelkinWemoDeviceManager::BelkinWemoSeeker" shape="rect" coords="752,224,1118,248"/>
+<area href="classBeeeOn_1_1BLESmartDeviceManager_1_1BLESmartSeeker.html" title="Provides searching BLE devices on network in own thread. " alt="BeeeOn::BLESmartDeviceManager::BLESmartSeeker" shape="rect" coords="752,280,1118,304"/>
+<area href="classBeeeOn_1_1PhilipsHueDeviceManager_1_1PhilipsHueSeeker.html" title="Provides searching philips devices on network in own thread. " alt="BeeeOn::PhilipsHueDeviceManager::PhilipsHueSeeker" shape="rect" coords="752,336,1118,360"/>
+<area href="classBeeeOn_1_1VPTDeviceManager_1_1VPTSeeker.html" title="Provides searching vpt devices on network in own thread. Also takes care of thread where is the liste..." alt="BeeeOn::VPTDeviceManager::VPTSeeker" shape="rect" coords="752,392,1118,416"/>
+<area href="classBeeeOn_1_1BlockingAsyncWork.html" title="BlockingAsyncWork is an adapter of non-asynchronous operations to the AsyncWork interface. It implements a time barrier that just waits until the underlying operation finishes. " alt="BeeeOn::BlockingAsyncWork&lt; Result &gt;" shape="rect" coords="1504,224,1870,248"/>
+<area href="classBeeeOn_1_1DelayedAsyncWork.html" title="Implementation of the AsyncWork interface that executes a given function once after the the given del..." alt="BeeeOn::DelayedAsyncWork&lt; Result &gt;" shape="rect" coords="1504,280,1870,304"/>
+<area href="classBeeeOn_1_1ThreadWrapperAsyncWork.html" title="Adapter of Poco::Thread to AsyncWork interface. The Thread has no general way how to be stopped and t..." alt="BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;" shape="rect" coords="1504,336,1870,360"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -132,7 +135,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>true when the time discovery process finishes, false when the timeout has exceeded </dd></dl>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractSeeker.html#a4c95fd276b7295ab068decaa34319229">BeeeOn::AbstractSeeker</a>, <a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html#a1e41a7e691797c34660b2b18f56882b9">BeeeOn::DelayedAsyncWork&lt; Result &gt;</a>, <a class="el" href="classBeeeOn_1_1BlockingAsyncWork.html#a06187a03c7f89cbb1a1a1c3917cf6069">BeeeOn::BlockingAsyncWork&lt; Result &gt;</a>, and <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractSeeker.html#a4c95fd276b7295ab068decaa34319229">BeeeOn::AbstractSeeker</a>, <a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html#a1e41a7e691797c34660b2b18f56882b9">BeeeOn::DelayedAsyncWork&lt; Result &gt;</a>, <a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html#a1e41a7e691797c34660b2b18f56882b9">BeeeOn::DelayedAsyncWork&lt; std::set&lt; BeeeOn::DeviceID &gt; &gt;</a>, <a class="el" href="classBeeeOn_1_1BlockingAsyncWork.html#a06187a03c7f89cbb1a1a1c3917cf6069">BeeeOn::BlockingAsyncWork&lt; Result &gt;</a>, and <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>.</p>
 
 </div>
 </div>

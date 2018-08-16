@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,11 +52,17 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::ZWaveDeviceManager Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html" title="ZWaveDeviceManager implements the logical layer on top of the ZWaveNetwork interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of ZWaveMapperRegistry::Mapper. ">ZWaveDeviceManager</a> implements the logical layer on top of the <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a> interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html" title="Map the ZWaveNode-specific data to the BeeeOn-specific ones. It is assumed that the ZWaveNode instanc...">ZWaveMapperRegistry::Mapper</a>.  
+ <a href="classBeeeOn_1_1ZWaveDeviceManager.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ZWaveDeviceManager_8h_source.html">ZWaveDeviceManager.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -66,7 +72,6 @@ Inheritance diagram for BeeeOn::ZWaveDeviceManager:</div>
   <img src="classBeeeOn_1_1ZWaveDeviceManager.png" usemap="#BeeeOn::ZWaveDeviceManager_map" alt=""/>
   <map id="BeeeOn::ZWaveDeviceManager_map" name="BeeeOn::ZWaveDeviceManager_map">
 <area href="classBeeeOn_1_1DeviceManager.html" alt="BeeeOn::DeviceManager" shape="rect" coords="412,112,608,136"/>
-<area href="classBeeeOn_1_1HotplugListener.html" alt="BeeeOn::HotplugListener" shape="rect" coords="618,112,814,136"/>
 <area href="classBeeeOn_1_1CommandHandler.html" alt="BeeeOn::CommandHandler" shape="rect" coords="0,56,196,80"/>
 <area href="classBeeeOn_1_1CommandSender.html" alt="BeeeOn::CommandSender" shape="rect" coords="206,56,402,80"/>
 <area href="classBeeeOn_1_1DeviceStatusHandler.html" title="DeviceStatusHandler represents a class that can process status of a set of devices. This is useful when fetching pairing state from a remote server. " alt="BeeeOn::DeviceStatusHandler" shape="rect" coords="412,56,608,80"/>
@@ -75,79 +80,23 @@ Inheritance diagram for BeeeOn::ZWaveDeviceManager:</div>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a58d5d063547b5bfd6c52d6556f380a71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58d5d063547b5bfd6c52d6556f380a71"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</td></tr>
-<tr class="separator:a58d5d063547b5bfd6c52d6556f380a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0827462ce12a93fde8d47715a26a23e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">stop</a> () override</td></tr>
-<tr class="separator:ab0827462ce12a93fde8d47715a26a23e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e33e2e16017d46d44b8173634de41b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e33e2e16017d46d44b8173634de41b2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onAdd</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
-<tr class="separator:a9e33e2e16017d46d44b8173634de41b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6367baba7d8c6c7a4d1a146158600d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6367baba7d8c6c7a4d1a146158600d7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onRemove</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
-<tr class="separator:ac6367baba7d8c6c7a4d1a146158600d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded060ce7a7822e25d608dac274bbf65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">accept</a> (Command::Ptr cmd) override</td></tr>
-<tr class="separator:aded060ce7a7822e25d608dac274bbf65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a1e2c940898861a868b1b59922537a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7a1e2c940898861a868b1b59922537a9">handle</a> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
-<tr class="separator:a7a1e2c940898861a868b1b59922537a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a929c6fa6cbc6a2129148d4455d41fa07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a929c6fa6cbc6a2129148d4455d41fa07">setUserPath</a> (const std::string &amp;userPath)</td></tr>
-<tr class="separator:a929c6fa6cbc6a2129148d4455d41fa07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27c499603d7f96d6fce2ccb79574eab8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a27c499603d7f96d6fce2ccb79574eab8">setConfigPath</a> (const std::string &amp;configPath)</td></tr>
-<tr class="separator:a27c499603d7f96d6fce2ccb79574eab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a686902fbb3bb309efedaa44da2d24a82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a686902fbb3bb309efedaa44da2d24a82">setStatisticsInterval</a> (const Poco::Timespan &amp;interval)</td></tr>
-<tr class="separator:a686902fbb3bb309efedaa44da2d24a82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40ccd61a4a3c1a0dfcae94e0e92a1df5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a40ccd61a4a3c1a0dfcae94e0e92a1df5">setPollInterval</a> (const Poco::Timespan &amp;pollInterval)</td></tr>
-<tr class="separator:a40ccd61a4a3c1a0dfcae94e0e92a1df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab00493a539cb1ceb340b16c925993c61"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab00493a539cb1ceb340b16c925993c61"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceInfoRegistry</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1ZWaveDeviceInfoRegistry.html">ZWaveDeviceInfoRegistry</a> &gt; factory)</td></tr>
-<tr class="separator:ab00493a539cb1ceb340b16c925993c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdcc7e4f113426e56bb01e056e5968b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#acdcc7e4f113426e56bb01e056e5968b4">setExecutor</a> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1AsyncExecutor.html">AsyncExecutor</a> &gt; executor)</td></tr>
-<tr class="separator:acdcc7e4f113426e56bb01e056e5968b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe8ad5568f422670382cfafd9368064c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe8ad5568f422670382cfafd9368064c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>installConfiguration</b> ()</td></tr>
-<tr class="separator:afe8ad5568f422670382cfafd9368064c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab99889752be021cad52b90d8e61fbc7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab99889752be021cad52b90d8e61fbc7f">onNotification</a> (const OpenZWave::Notification *notification)</td></tr>
-<tr class="separator:ab99889752be021cad52b90d8e61fbc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d3a11803014d8a30e02e50222eeb1d5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d3a11803014d8a30e02e50222eeb1d5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>registerListener</b> (ZWaveListener::Ptr listener)</td></tr>
-<tr class="separator:a8d3a11803014d8a30e02e50222eeb1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
-<tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
-<tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5409f8a69e76bd6b33b9b5ceffe18ba4 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a> () const override</td></tr>
-<tr class="separator:a5409f8a69e76bd6b33b9b5ceffe18ba4 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7268426252429a979e64d77881bcbbd8 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7268426252429a979e64d77881bcbbd8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceCache</b> (DeviceCache::Ptr cache)</td></tr>
-<tr class="separator:a7268426252429a979e64d77881bcbbd8 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
-<tr class="separator:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73591fe2ec1364a5b973057fcb37b51e inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a73591fe2ec1364a5b973057fcb37b51e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a73591fe2ec1364a5b973057fcb37b51e">handleRemoteStatus</a> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &amp;devices, const DeviceStatusHandler::DeviceValues &amp;values) override</td></tr>
-<tr class="memdesc:a73591fe2ec1364a5b973057fcb37b51e inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when devices from a remote server are fetched and so the pairing status of them can be reconsidered. The default implementation just updates the device cache appropriately. <br/></td></tr>
-<tr class="separator:a73591fe2ec1364a5b973057fcb37b51e inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classBeeeOn_1_1CommandSender"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1CommandSender')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></td></tr>
-<tr class="memitem:a253245ba6a7af4fb671b3182beaccf6a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#a253245ba6a7af4fb671b3182beaccf6a">setCommandDispatcher</a> (<a class="el" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a> *dispatcher)</td></tr>
-<tr class="separator:a253245ba6a7af4fb671b3182beaccf6a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf881083d28284f9b4d5542f1d47899a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a> (Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Command.html">Command</a> &gt; cmd, Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> &gt; answer)</td></tr>
-<tr class="separator:aaf881083d28284f9b4d5542f1d47899a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2013cf12aed8921ddcf2a5458de6b5d4 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#a2013cf12aed8921ddcf2a5458de6b5d4">dispatch</a> (Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Command.html">Command</a> &gt; cmd)</td></tr>
-<tr class="separator:a2013cf12aed8921ddcf2a5458de6b5d4 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabb29da373ec3a909daa01614a0b7116 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AnswerQueue.html">AnswerQueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#aabb29da373ec3a909daa01614a0b7116">answerQueue</a> ()</td></tr>
-<tr class="separator:aabb29da373ec3a909daa01614a0b7116 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classBeeeOn_1_1HotplugListener"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1HotplugListener')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1HotplugListener.html">BeeeOn::HotplugListener</a></td></tr>
-<tr class="memitem:a8929df06659e28210bf6baa368bf315b inherit pub_methods_classBeeeOn_1_1HotplugListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8929df06659e28210bf6baa368bf315b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onChange</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event)</td></tr>
-<tr class="separator:a8929df06659e28210bf6baa368bf315b inherit pub_methods_classBeeeOn_1_1HotplugListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7122f77b79d991352e33d8689cde2d3 inherit pub_methods_classBeeeOn_1_1HotplugListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad7122f77b79d991352e33d8689cde2d3"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onMove</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event)</td></tr>
-<tr class="separator:ad7122f77b79d991352e33d8689cde2d3 inherit pub_methods_classBeeeOn_1_1HotplugListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">High-level representation of a Z-Wave device. It enriches the <a class="el" href="classBeeeOn_1_1ZWaveNode.html" title="ZWaveNode represents information from the Z-Wave network about a particular node. Each Z-Wave node is...">ZWaveNode</a> for information needed by the manager and the BeeeOn system. This means especially the Mapper instance.  <a href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a478fa34156f46207d2a5a97872c32dc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a478fa34156f46207d2a5a97872c32dc3"></a>
+typedef std::map&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>, <br class="typebreak"/>
+<a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceMap</b></td></tr>
+<tr class="separator:a478fa34156f46207d2a5a97872c32dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a862ce10f826e221c5f01bcc5a00f887b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a862ce10f826e221c5f01bcc5a00f887b"></a>
+typedef std::map<br class="typebreak"/>
+&lt; <a class="el" href="structBeeeOn_1_1ZWaveNode_1_1Identity.html">ZWaveNode::Identity</a>, <br class="typebreak"/>
+DeviceMap::iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ZWaveNodeMap</b></td></tr>
+<tr class="separator:a862ce10f826e221c5f01bcc5a00f887b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:a51e9e1a992248ac16f20a8c2e6672115 inherit pub_types_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a51e9e1a992248ac16f20a8c2e6672115"></a>
 typedef Poco::SharedPtr<br class="typebreak"/>
@@ -162,28 +111,123 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef std::map&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>, <br class="typebreak"/>
 std::map&lt; <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceValues</b></td></tr>
 <tr class="separator:ad06c6f5e9efcc333f216d4ad526eadca inherit pub_types_classBeeeOn_1_1DeviceStatusHandler"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_types_classBeeeOn_1_1HotplugListener"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1HotplugListener')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1HotplugListener.html">BeeeOn::HotplugListener</a></td></tr>
-<tr class="memitem:a4e12884cd6154da6264181014898a3a1 inherit pub_types_classBeeeOn_1_1HotplugListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e12884cd6154da6264181014898a3a1"></a>
-typedef Poco::SharedPtr<br class="typebreak"/>
-&lt; <a class="el" href="classBeeeOn_1_1HotplugListener.html">HotplugListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
-<tr class="separator:a4e12884cd6154da6264181014898a3a1 inherit pub_types_classBeeeOn_1_1HotplugListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a56bd6154f0785ef4f0f6ff39985c8acd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56bd6154f0785ef4f0f6ff39985c8acd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a56bd6154f0785ef4f0f6ff39985c8acd">setNetwork</a> (ZWaveNetwork::Ptr network)</td></tr>
+<tr class="memdesc:a56bd6154f0785ef4f0f6ff39985c8acd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a> to be used by this manager. <br/></td></tr>
+<tr class="separator:a56bd6154f0785ef4f0f6ff39985c8acd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3de337814fcd4424426ba937d30a5911"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3de337814fcd4424426ba937d30a5911"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a3de337814fcd4424426ba937d30a5911">setRegistry</a> (ZWaveMapperRegistry::Ptr registry)</td></tr>
+<tr class="memdesc:a3de337814fcd4424426ba937d30a5911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set registry that are able to resolve the Z-Wave devices specific features. <br/></td></tr>
+<tr class="separator:a3de337814fcd4424426ba937d30a5911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca3c80e4f9a9f072afb139a738be65e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aca3c80e4f9a9f072afb139a738be65e7">setDispatchDuration</a> (const Poco::Timespan &amp;duration)</td></tr>
+<tr class="memdesc:aca3c80e4f9a9f072afb139a738be65e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximal time window in which new devices are reported since the start of the inclusion mode.  <a href="#aca3c80e4f9a9f072afb139a738be65e7">More...</a><br/></td></tr>
+<tr class="separator:aca3c80e4f9a9f072afb139a738be65e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a288b921a49855a0334d6df52d9055c29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a288b921a49855a0334d6df52d9055c29"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a288b921a49855a0334d6df52d9055c29">setPollTimeout</a> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a288b921a49855a0334d6df52d9055c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set poll timeout of the main loop polling the configured <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a> instance. <br/></td></tr>
+<tr class="separator:a288b921a49855a0334d6df52d9055c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d5d063547b5bfd6c52d6556f380a71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58d5d063547b5bfd6c52d6556f380a71"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a58d5d063547b5bfd6c52d6556f380a71">run</a> () override</td></tr>
+<tr class="memdesc:a58d5d063547b5bfd6c52d6556f380a71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the loop that receives events from the configured <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a> instance. The loop receives information about sensor data, new nodes, nodes removals, discovery, etc. <br/></td></tr>
+<tr class="separator:a58d5d063547b5bfd6c52d6556f380a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0827462ce12a93fde8d47715a26a23e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab0827462ce12a93fde8d47715a26a23e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">stop</a> () override</td></tr>
+<tr class="memdesc:ab0827462ce12a93fde8d47715a26a23e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the polling loop. <br/></td></tr>
+<tr class="separator:ab0827462ce12a93fde8d47715a26a23e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
+<tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
+<tr class="separator:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5409f8a69e76bd6b33b9b5ceffe18ba4 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a> () const override</td></tr>
+<tr class="separator:a5409f8a69e76bd6b33b9b5ceffe18ba4 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7268426252429a979e64d77881bcbbd8 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7268426252429a979e64d77881bcbbd8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceCache</b> (DeviceCache::Ptr cache)</td></tr>
+<tr class="separator:a7268426252429a979e64d77881bcbbd8 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a834fa16d05b841aee857033e96bb47d6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDistributor</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a> &gt; distributor)</td></tr>
+<tr class="separator:a834fa16d05b841aee857033e96bb47d6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d23d839a37a8654bee7e85073274c7c inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">accept</a> (const Command::Ptr cmd) override</td></tr>
+<tr class="separator:a7d23d839a37a8654bee7e85073274c7c inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af37056670e4209fa7d272d26943203aa inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle</a> (Command::Ptr cmd, Answer::Ptr answer) override</td></tr>
+<tr class="separator:af37056670e4209fa7d272d26943203aa inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73591fe2ec1364a5b973057fcb37b51e inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a73591fe2ec1364a5b973057fcb37b51e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a73591fe2ec1364a5b973057fcb37b51e">handleRemoteStatus</a> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &amp;devices, const DeviceStatusHandler::DeviceValues &amp;values) override</td></tr>
+<tr class="memdesc:a73591fe2ec1364a5b973057fcb37b51e inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when devices from a remote server are fetched and so the pairing status of them can be reconsidered. The default implementation just updates the device cache appropriately. <br/></td></tr>
+<tr class="separator:a73591fe2ec1364a5b973057fcb37b51e inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1CommandSender"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1CommandSender')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></td></tr>
+<tr class="memitem:a253245ba6a7af4fb671b3182beaccf6a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#a253245ba6a7af4fb671b3182beaccf6a">setCommandDispatcher</a> (<a class="el" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a> *dispatcher)</td></tr>
+<tr class="separator:a253245ba6a7af4fb671b3182beaccf6a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf881083d28284f9b4d5542f1d47899a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a> (Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Command.html">Command</a> &gt; cmd, Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> &gt; answer)</td></tr>
+<tr class="separator:aaf881083d28284f9b4d5542f1d47899a inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2013cf12aed8921ddcf2a5458de6b5d4 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#a2013cf12aed8921ddcf2a5458de6b5d4">dispatch</a> (Poco::AutoPtr&lt; <a class="el" href="classBeeeOn_1_1Command.html">Command</a> &gt; cmd)</td></tr>
+<tr class="separator:a2013cf12aed8921ddcf2a5458de6b5d4 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabb29da373ec3a909daa01614a0b7116 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AnswerQueue.html">AnswerQueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1CommandSender.html#aabb29da373ec3a909daa01614a0b7116">answerQueue</a> ()</td></tr>
+<tr class="separator:aabb29da373ec3a909daa01614a0b7116 inherit pub_methods_classBeeeOn_1_1CommandSender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a9993bbcd80847af9e570c5f875c6d07d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9993bbcd80847af9e570c5f875c6d07d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a9993bbcd80847af9e570c5f875c6d07d">handleAccept</a> (const DeviceAcceptCommand::Ptr cmd) override</td></tr>
+<tr class="memdesc:a9993bbcd80847af9e570c5f875c6d07d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic handler of the <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a>. It might be helpful to override this method in case we need to make some technology-specific check of the device to be accepted. The default implementation simply marks the given device as paired. <br/></td></tr>
+<tr class="separator:a9993bbcd80847af9e570c5f875c6d07d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5556ff25587a08547e44d954bdce497"><td class="memItemLeft" align="right" valign="top">AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">startDiscovery</a> (const Poco::Timespan &amp;duration) override</td></tr>
+<tr class="memdesc:af5556ff25587a08547e44d954bdce497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#af5556ff25587a08547e44d954bdce497">More...</a><br/></td></tr>
+<tr class="separator:af5556ff25587a08547e44d954bdce497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adef548c10cdc0b842b6a036a1414b09e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;<br class="typebreak"/>
+ &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="memdesc:adef548c10cdc0b842b6a036a1414b09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#adef548c10cdc0b842b6a036a1414b09e">More...</a><br/></td></tr>
+<tr class="separator:adef548c10cdc0b842b6a036a1414b09e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91fff4b25df7a0a28a3c16d9f38b4773"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91fff4b25df7a0a28a3c16d9f38b4773"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a91fff4b25df7a0a28a3c16d9f38b4773">dispatchUnpaired</a> ()</td></tr>
+<tr class="memdesc:a91fff4b25df7a0a28a3c16d9f38b4773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch all registered devices that are not paired to the remote server. <br/></td></tr>
+<tr class="separator:a91fff4b25df7a0a28a3c16d9f38b4773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e39090545fa99bfe6c7280670fe4aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a47e39090545fa99bfe6c7280670fe4aa">dispatchDevice</a> (const <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;device, bool enabled=true)</td></tr>
+<tr class="memdesc:a47e39090545fa99bfe6c7280670fe4aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch the given device to the remote server.  <a href="#a47e39090545fa99bfe6c7280670fe4aa">More...</a><br/></td></tr>
+<tr class="separator:a47e39090545fa99bfe6c7280670fe4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58574e8ccf90577e46162b20389fefa8"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a58574e8ccf90577e46162b20389fefa8">recentlyUnpaired</a> ()</td></tr>
+<tr class="memdesc:a58574e8ccf90577e46162b20389fefa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access cached device IDs of the Z-Wave nodes removed by the recent unpair process. The call clears that cache.  <a href="#a58574e8ccf90577e46162b20389fefa8">More...</a><br/></td></tr>
+<tr class="separator:a58574e8ccf90577e46162b20389fefa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f87e7706599d4c372e78cc7903cc477"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a1f87e7706599d4c372e78cc7903cc477">processValue</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value)</td></tr>
+<tr class="memdesc:a1f87e7706599d4c372e78cc7903cc477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a Z-Wave value received from the Z-Wave network. If there is a paired device for that value and there is a conversion available for that value, the value is shipped via <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a>.  <a href="#a1f87e7706599d4c372e78cc7903cc477">More...</a><br/></td></tr>
+<tr class="separator:a1f87e7706599d4c372e78cc7903cc477"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54b576f5309e4b94a811714dc56bbabe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54b576f5309e4b94a811714dc56bbabe"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a54b576f5309e4b94a811714dc56bbabe">newNode</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, bool <a class="el" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>)</td></tr>
+<tr class="memdesc:a54b576f5309e4b94a811714dc56bbabe"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the given node is fully resolvable (we can determine its Mapper instance), it is registered as a new <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html" title="High-level representation of a Z-Wave device. It enriches the ZWaveNode for information needed by the...">Device</a> and dispatched as a new device. Otherwise, such node is ignored. <br/></td></tr>
+<tr class="separator:a54b576f5309e4b94a811714dc56bbabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4acb7e272587c177c405802f5f1c535a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4acb7e272587c177c405802f5f1c535a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>newNodeUnlocked</b> (const <a class="el" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, bool <a class="el" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>)</td></tr>
+<tr class="separator:a4acb7e272587c177c405802f5f1c535a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1af2181ef52f47405f8874ad82a8912e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a1af2181ef52f47405f8874ad82a8912e">updateNode</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, bool <a class="el" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>)</td></tr>
+<tr class="memdesc:a1af2181ef52f47405f8874ad82a8912e"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the given node is already registered, update information about it and if it is not paired, dispatch it as a new device (or updated device). If the node is not registered, the <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a54b576f5309e4b94a811714dc56bbabe" title="If the given node is fully resolvable (we can determine its Mapper instance), it is registered as a n...">newNode()</a> is called instead.  <a href="#a1af2181ef52f47405f8874ad82a8912e">More...</a><br/></td></tr>
+<tr class="separator:a1af2181ef52f47405f8874ad82a8912e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9456ea5de6ddd9fd6d12132c47c5100"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9456ea5de6ddd9fd6d12132c47c5100"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab9456ea5de6ddd9fd6d12132c47c5100">removeNode</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node)</td></tr>
+<tr class="memdesc:ab9456ea5de6ddd9fd6d12132c47c5100"><td class="mdescLeft">&#160;</td><td class="mdescRight">The given node is considered to be unpaired, its cached data is deleted. <br/></td></tr>
+<tr class="separator:ab9456ea5de6ddd9fd6d12132c47c5100"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad900641cba732da864887896f4b634ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad900641cba732da864887896f4b634ca"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ad900641cba732da864887896f4b634ca">registerDevice</a> (const <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;device)</td></tr>
+<tr class="memdesc:ad900641cba732da864887896f4b634ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a device to be available for the BeeeOn system. The device must have a resolved mapper. Pairing status is irrelevant for this method and not affected. <br/></td></tr>
+<tr class="separator:ad900641cba732da864887896f4b634ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10daf31ace189569b61f69e2a2549e61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a10daf31ace189569b61f69e2a2549e61">unregisterDevice</a> (ZWaveNodeMap::iterator it)</td></tr>
+<tr class="memdesc:a10daf31ace189569b61f69e2a2549e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister the device pointed to by the iterator from being available to the BeeeOn system. Pairing status is irrelevant for this method and not affected.  <a href="#a10daf31ace189569b61f69e2a2549e61">More...</a><br/></td></tr>
+<tr class="separator:a10daf31ace189569b61f69e2a2549e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac8eac118074412512a5396bf0c44d68"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac8eac118074412512a5396bf0c44d68"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aac8eac118074412512a5396bf0c44d68">stopInclusion</a> ()</td></tr>
+<tr class="memdesc:aac8eac118074412512a5396bf0c44d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to stop the Z-Wave inclusion mode. <br/></td></tr>
+<tr class="separator:aac8eac118074412512a5396bf0c44d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975dd8acd230a5eb800edc69d0fa6615"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a975dd8acd230a5eb800edc69d0fa6615"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a975dd8acd230a5eb800edc69d0fa6615">stopRemoveNode</a> ()</td></tr>
+<tr class="memdesc:a975dd8acd230a5eb800edc69d0fa6615"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to stop the Z-Wave node removal mode. <br/></td></tr>
+<tr class="separator:a975dd8acd230a5eb800edc69d0fa6615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
 <tr class="separator:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6d93d732c2fd1816cb952d2a469c70f inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6d93d732c2fd1816cb952d2a469c70f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ab6d93d732c2fd1816cb952d2a469c70f">handleAccept</a> (const DeviceAcceptCommand::Ptr)</td></tr>
-<tr class="memdesc:ab6d93d732c2fd1816cb952d2a469c70f inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic handler of the <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a>. It might be helpful to override this method in case we need to make some technology-specific check of the device to be accepted. The default implementation simply marks the given device as paired. <br/></td></tr>
-<tr class="separator:ab6d93d732c2fd1816cb952d2a469c70f inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56f32abaac4ec4840bcd0e150e7cf3f7 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">startDiscovery</a> (const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a56f32abaac4ec4840bcd0e150e7cf3f7 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a56f32abaac4ec4840bcd0e150e7cf3f7">More...</a><br/></td></tr>
-<tr class="separator:a56f32abaac4ec4840bcd0e150e7cf3f7 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0239fe377b5928e3bbf5986f15017916">handleListen</a> (const GatewayListenCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the listen command in a generic way. The method ensures that only 1 thread can execute the discovery process at a time.  <a href="#a0239fe377b5928e3bbf5986f15017916">More...</a><br/></td></tr>
 <tr class="separator:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0304177883d9b37b4a49f93d74a5c313 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; std::set<br class="typebreak"/>
-&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a0304177883d9b37b4a49f93d74a5c313 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a0304177883d9b37b4a49f93d74a5c313">More...</a><br/></td></tr>
-<tr class="separator:a0304177883d9b37b4a49f93d74a5c313 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd80dc1d719797f57e7c854426855beb">handleUnpair</a> (const DeviceUnpairCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time.  <a href="#abd80dc1d719797f57e7c854426855beb">More...</a><br/></td></tr>
 <tr class="separator:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -222,6 +266,9 @@ Poco::Logger &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>logger<
 <tr class="memitem:aeba38a43bcc45e65dfb6455ad8ad2e1d inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeba38a43bcc45e65dfb6455ad8ad2e1d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Loggable</b> (const std::type_info &amp;info)</td></tr>
 <tr class="separator:aeba38a43bcc45e65dfb6455ad8ad2e1d inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_static_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:ae93889eade4537aea6abb3f383a8463e inherit pro_static_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae93889eade4537aea6abb3f383a8463e"></a>
 static Poco::Logger &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>forMethod</b> (const char *name)</td></tr>
@@ -249,10 +296,17 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <tr class="separator:ac384766c0418d4e3b896b6de39e3ab18 inherit pro_static_attribs_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>In OpenZWave, all feedback from the Z-Wave network is sent to the application via callbacks. This class allows the application to add a notification callback handler. All notifications will be reported to it.</p>
-<p>After a supported Z-Wave driver is connected, the onAdd event ensures its setup and initialization via the OpenZWave library. </p>
+<div class="textblock"><p><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html" title="ZWaveDeviceManager implements the logical layer on top of the ZWaveNetwork interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of ZWaveMapperRegistry::Mapper. ">ZWaveDeviceManager</a> implements the logical layer on top of the <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a> interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html" title="Map the ZWaveNode-specific data to the BeeeOn-specific ones. It is assumed that the ZWaveNode instanc...">ZWaveMapperRegistry::Mapper</a>. </p>
+<p>The Z-Wave provides a dynamic discovery progress where it is possible to ask the discovered devices for their specifics modules. This process can however be time consuming. It can have multiple steps:</p>
+<ol type="1">
+<li>Discover new Z-Wave node.</li>
+<li>Get few details like vendor ID, product ID.</li>
+<li>Probe features of the Z-Wave node.</li>
+</ol>
+<p>The steps 1 and 2 are usually fast enough, however, the step 3 can take more than a minute. Each Z-Wave node, to be operational, must recognized by a <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry.html" title="ZWaveMapperRegistry is mostly intended to map Z-Wave specific data type hierarchy to BeeeOn ModuleTyp...">ZWaveMapperRegistry</a> and a specific Mapper instance must be assigned to it. Certain Mapper implementions can work just after the step 2, other might need the step 3 to complete.</p>
+<p>A Z-Wave node is considered as working when a Mapper is resolved for it. If no Mapper is resolved such Z-Wave node is dropped until an update of its details comes from the underlying <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aded060ce7a7822e25d608dac274bbf65"></a>
+<a class="anchor" id="a47e39090545fa99bfe6c7280670fe4aa"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -260,43 +314,16 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ZWaveDeviceManager::accept </td>
+          <td class="memname">void ZWaveDeviceManager::dispatchDevice </td>
           <td>(</td>
-          <td class="paramtype">Command::Ptr&#160;</td>
-          <td class="paramname"><em>cmd</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Generic implementation of the CommandHandler::accept() method. If the m_acceptable set is initialized appropriately, this generic implementation can be used directly. </p>
-
-<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a7d23d839a37a8654bee7e85073274c7c">BeeeOn::DeviceManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7a1e2c940898861a868b1b59922537a9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::handle </td>
-          <td>(</td>
-          <td class="paramtype">Command::Ptr&#160;</td>
-          <td class="paramname"><em>cmd</em>, </td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;&#160;</td>
+          <td class="paramname"><em>device</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Answer::Ptr&#160;</td>
-          <td class="paramname"><em>answer</em>&#160;</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -306,126 +333,18 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Generic implementation of the CommandHandler::handle() method. It works with respect to the <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">accept()</a> method and handles commands generically if possible. It also catches all exceptions and fails such command executions properly.</p>
-<p>To override handle, please use <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric()</a> instead. </p>
 
-<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">BeeeOn::DeviceManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab99889752be021cad52b90d8e61fbc7f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::onNotification </td>
-          <td>(</td>
-          <td class="paramtype">const OpenZWave::Notification *&#160;</td>
-          <td class="paramname"><em>notification</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>It handles notification from Z-Wave network. The method fires the <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9b09b600d8aaed51292dbabe3dd817ad">ZWaveListener::onNotification</a> for each notification before processing it. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">notification</td><td>Provides a container for data sent via the notification </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Dispatch the given device to the remote server. </p>
+<p>If the device is dispatchable (it is not paired nor it is a controller) it is not shipped.</p>
+<p>If the given parameter <em>enabled</em> is false, no dispatching would occur as we assume that discovery mode is disabled at that moment. The purpose of the <em>enabled</em> is that we are likely to first check whether the device is dispatchable and than to check whether discovery is allowed. </p>
 
 </div>
 </div>
-<a class="anchor" id="a27c499603d7f96d6fce2ccb79574eab8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::setConfigPath </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>configPath</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Path to xml config file for openzwave library. </p>
-
-</div>
-</div>
-<a class="anchor" id="acdcc7e4f113426e56bb01e056e5968b4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::setExecutor </td>
-          <td>(</td>
-          <td class="paramtype">Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1AsyncExecutor.html">AsyncExecutor</a> &gt;&#160;</td>
-          <td class="paramname"><em>executor</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Class for asynchronous sending of statistics from ZWave network. </p>
-
-</div>
-</div>
-<a class="anchor" id="a40ccd61a4a3c1a0dfcae94e0e92a1df5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::setPollInterval </td>
-          <td>(</td>
-          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>pollInterval</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>For old devices, detect status changes. </p>
-
-</div>
-</div>
-<a class="anchor" id="a686902fbb3bb309efedaa44da2d24a82"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::setStatisticsInterval </td>
-          <td>(</td>
-          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>interval</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Periodic interval for sending of statistics. If interval is not set, statistics is not sent. </p>
-
-</div>
-</div>
-<a class="anchor" id="a929c6fa6cbc6a2129148d4455d41fa07"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ZWaveDeviceManager::setUserPath </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>userPath</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Path to save user's data (log file, xml config), store Z-Wave network config data and state. </p>
-
-</div>
-</div>
-<a class="anchor" id="ab0827462ce12a93fde8d47715a26a23e"></a>
+<a class="anchor" id="a1f87e7706599d4c372e78cc7903cc477"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -433,7 +352,34 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ZWaveDeviceManager::stop </td>
+          <td class="memname">void ZWaveDeviceManager::processValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Process a Z-Wave value received from the Z-Wave network. If there is a paired device for that value and there is a conversion available for that value, the value is shipped via <a class="el" href="classBeeeOn_1_1Distributor.html">Distributor</a>. </p>
+<p>The method processes also values that are not to be shipped, like the refresh time. </p>
+
+</div>
+</div>
+<a class="anchor" id="a58574e8ccf90577e46162b20389fefa8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; ZWaveDeviceManager::recentlyUnpaired </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -441,13 +387,165 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>A generic stop implementation to be used by most <a class="el" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> implementations. </p>
 
-<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">BeeeOn::DeviceManager</a>.</p>
+<p>Access cached device IDs of the Z-Wave nodes removed by the recent unpair process. The call clears that cache. </p>
+<p>The method <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e" title="Starts device unpair process in a technology-specific way. This method is always called inside a crit...">startUnpair()</a> initiates the Z-Wave node removal process. While in progress, the main loop would recieve information about Z-Wave nodes being removed from the Z-Wave network. The devices are stored in a temporary cache that can be accessed by this method.</p>
+<p>The temporary cache is to be used only during the unpair process. </p>
+
+</div>
+</div>
+<a class="anchor" id="aca3c80e4f9a9f072afb139a738be65e7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ZWaveDeviceManager::setDispatchDuration </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>duration</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set maximal time window in which new devices are reported since the start of the inclusion mode. </p>
+<p>The dispatch time usually needs to be longer than the listen duration as received from the server because the node discovery is sometimes very slow. </p>
+
+</div>
+</div>
+<a class="anchor" id="af5556ff25587a08547e44d954bdce497"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">AsyncWork::Ptr ZWaveDeviceManager::startDiscovery </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adef548c10cdc0b842b6a036a1414b09e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &gt;::Ptr ZWaveDeviceManager::startUnpair </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The unpairing process might be a non-blocking operation. The unpaired devices are provided via the result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10daf31ace189569b61f69e2a2549e61"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">ZWaveDeviceManager::Device</a> ZWaveDeviceManager::unregisterDevice </td>
+          <td>(</td>
+          <td class="paramtype">ZWaveNodeMap::iterator&#160;</td>
+          <td class="paramname"><em>it</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unregister the device pointed to by the iterator from being available to the BeeeOn system. Pairing status is irrelevant for this method and not affected. </p>
+<dl class="section return"><dt>Returns</dt><dd>shallow copy of the removed device </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1af2181ef52f47405f8874ad82a8912e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ZWaveDeviceManager::updateNode </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>dispatch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the given node is already registered, update information about it and if it is not paired, dispatch it as a new device (or updated device). If the node is not registered, the <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a54b576f5309e4b94a811714dc56bbabe" title="If the given node is fully resolvable (we can determine its Mapper instance), it is registered as a n...">newNode()</a> is called instead. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a54b576f5309e4b94a811714dc56bbabe" title="If the given node is fully resolvable (we can determine its Mapper instance), it is registered as a n...">newNode()</a> </dd></dl>
 
 </div>
 </div>

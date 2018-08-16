@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -81,7 +81,7 @@ Inheritance diagram for BeeeOn::DeviceManager:</div>
 <area href="classBeeeOn_1_1PressureSensorManager.html" alt="BeeeOn::PressureSensorManager" shape="rect" coords="699,392,922,416"/>
 <area href="classBeeeOn_1_1VirtualDeviceManager.html" alt="BeeeOn::VirtualDeviceManager" shape="rect" coords="699,448,922,472"/>
 <area href="classBeeeOn_1_1VPTDeviceManager.html" title="The class implements the work with Regulators VPT LAN v1.0. Allows us to process and execute the comm..." alt="BeeeOn::VPTDeviceManager" shape="rect" coords="699,504,922,528"/>
-<area href="classBeeeOn_1_1ZWaveDeviceManager.html" alt="BeeeOn::ZWaveDeviceManager" shape="rect" coords="699,560,922,584"/>
+<area href="classBeeeOn_1_1ZWaveDeviceManager.html" title="ZWaveDeviceManager implements the logical layer on top of the ZWaveNetwork interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of ZWaveMapperRegistry::Mapper. " alt="BeeeOn::ZWaveDeviceManager" shape="rect" coords="699,560,922,584"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -253,8 +253,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 
 <p>Implements <a class="el" href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a>.</p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#aded060ce7a7822e25d608dac274bbf65">BeeeOn::ZWaveDeviceManager</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="ae7ae734dddde1a3466a801fe23b18818"></a>
@@ -413,8 +411,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>To override handle, please use <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric()</a> instead. </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a>.</p>
-
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7a1e2c940898861a868b1b59922537a9">BeeeOn::ZWaveDeviceManager</a>.</p>
 
 </div>
 </div>
@@ -697,7 +693,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Starts device discovery process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1d48ec939e0009357c7536b0e8995266">BeeeOn::BLESmartDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a6d1f261358207f6ab7857c03a2d59baf">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1d48ec939e0009357c7536b0e8995266">BeeeOn::BLESmartDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a6d1f261358207f6ab7857c03a2d59baf">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>.</p>
 
 </div>
 </div>
@@ -787,7 +783,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
 <p>The unpairing process might be a non-blocking operation. The unpaired devices are provided via the result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a449011ef2b93423b46ba3ec46af6f72f">BeeeOn::BLESmartDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ac1f8e64164ce4cde36b32a9731cdad3e">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a36af3e994b74cb545025df2380309e9b">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a9d565bb5022533350b47b22da4ab2395">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">BeeeOn::BelkinWemoDeviceManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a449011ef2b93423b46ba3ec46af6f72f">BeeeOn::BLESmartDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ac1f8e64164ce4cde36b32a9731cdad3e">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a36af3e994b74cb545025df2380309e9b">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a9d565bb5022533350b47b22da4ab2395">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">BeeeOn::BelkinWemoDeviceManager</a>.</p>
 
 </div>
 </div>
@@ -815,7 +811,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>.</p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">BeeeOn::VirtualDeviceManager</a>, <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a30a185200ddd558f9cbd3f13b475519c">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ab4dd110ff9a7c2294f448a8daa203f0b">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a2cb13d1a1515183d13731bf9208ee077">BeeeOn::DongleDeviceManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">BeeeOn::VirtualDeviceManager</a>, <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a30a185200ddd558f9cbd3f13b475519c">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ab4dd110ff9a7c2294f448a8daa203f0b">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a2cb13d1a1515183d13731bf9208ee077">BeeeOn::DongleDeviceManager</a>.</p>
 
 </div>
 </div>

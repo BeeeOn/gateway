@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-23-g44acd1e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -61,28 +61,41 @@
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">ZWavePocoLoggerAdapter</a> : <span class="keyword">public</span> OpenZWave::i_LogImpl {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">ZWavePocoLoggerAdapter</a>(Poco::Logger&amp; logger);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a8a4901d74540f82f53a7676e361782d7">Write</a>(OpenZWave::LogLevel logLevel, uint8 <span class="keyword">const</span> nodeId,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keywordtype">char</span> <span class="keyword">const</span>* format, va_list args) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span> QueueDump() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span> QueueClear() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">void</span> SetLoggingState(OpenZWave::LogLevel saveLevel,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                OpenZWave::LogLevel queueLevel,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                OpenZWave::LogLevel dumpTrigger) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">void</span> SetLogFileName(<span class="keyword">const</span> std::string&amp; filename) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        Poco::Logger&amp; logger;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;};</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">BeeeOn::ZWavePocoLoggerAdapter</a></div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.h:10</div></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">ZWavePocoLoggerAdapter</a> : <span class="keyword">public</span> OpenZWave::i_LogImpl {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">ZWavePocoLoggerAdapter</a>(Poco::Logger&amp; logger);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a8a4901d74540f82f53a7676e361782d7">Write</a>(OpenZWave::LogLevel logLevel, uint8 <span class="keyword">const</span> nodeId,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordtype">char</span> <span class="keyword">const</span>* format, va_list args) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#ab706e6765a0414f7d838e3ef393830a0">QueueDump</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a822d447d0e607693a9c0a6af3acfedb8">QueueClear</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a1951d46e93f3b5ac0adc00c7a11297f5">SetLoggingState</a>(OpenZWave::LogLevel saveLevel,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                OpenZWave::LogLevel queueLevel,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                OpenZWave::LogLevel dumpTrigger) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a5a50cc837dde432778967582f0ced76b">SetLogFileName</a>(<span class="keyword">const</span> std::string&amp; filename) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">static</span> OpenZWave::LogLevel fromPocoLevel(<span class="keywordtype">int</span> prio)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keywordflow">return</span> fromPocoLevel(</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        static_cast&lt;Poco::Message::Priority&gt;(prio));</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">static</span> OpenZWave::LogLevel fromPocoLevel(Poco::Message::Priority prio);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        Poco::Logger&amp; logger;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html_ab706e6765a0414f7d838e3ef393830a0"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#ab706e6765a0414f7d838e3ef393830a0">BeeeOn::ZWavePocoLoggerAdapter::QueueDump</a></div><div class="ttdeci">void QueueDump() override</div><div class="ttdoc">The implementation does nothing. </div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.cpp:92</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html_a1951d46e93f3b5ac0adc00c7a11297f5"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a1951d46e93f3b5ac0adc00c7a11297f5">BeeeOn::ZWavePocoLoggerAdapter::SetLoggingState</a></div><div class="ttdeci">void SetLoggingState(OpenZWave::LogLevel saveLevel, OpenZWave::LogLevel queueLevel, OpenZWave::LogLevel dumpTrigger) override</div><div class="ttdoc">The implementation does nothing. </div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.cpp:100</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html">BeeeOn::ZWavePocoLoggerAdapter</a></div><div class="ttdoc">ZWavePocoLoggerAdapter adapts the the logging infrastructure of the OpenZWave library to the Poco::Lo...</div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.h:30</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html_a5a50cc837dde432778967582f0ced76b"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a5a50cc837dde432778967582f0ced76b">BeeeOn::ZWavePocoLoggerAdapter::SetLogFileName</a></div><div class="ttdeci">void SetLogFileName(const std::string &amp;filename) override</div><div class="ttdoc">The implementation does nothing. </div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.cpp:104</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html_a822d447d0e607693a9c0a6af3acfedb8"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a822d447d0e607693a9c0a6af3acfedb8">BeeeOn::ZWavePocoLoggerAdapter::QueueClear</a></div><div class="ttdeci">void QueueClear() override</div><div class="ttdoc">The implementation does nothing. </div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.cpp:96</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWavePocoLoggerAdapter_html_a8a4901d74540f82f53a7676e361782d7"><div class="ttname"><a href="classBeeeOn_1_1ZWavePocoLoggerAdapter.html#a8a4901d74540f82f53a7676e361782d7">BeeeOn::ZWavePocoLoggerAdapter::Write</a></div><div class="ttdeci">void Write(OpenZWave::LogLevel logLevel, uint8 const nodeId, char const *format, va_list args) override</div><div class="ttdef"><b>Definition:</b> ZWavePocoLoggerAdapter.cpp:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
