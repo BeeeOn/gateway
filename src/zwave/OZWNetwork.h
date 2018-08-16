@@ -28,6 +28,29 @@ class ValueID;
 
 namespace BeeeOn {
 
+/**
+ * @brief OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW).
+ * Its purpose is to handle OZW notifications and initiate OZW commands if needed.
+ *
+ * The OZW library has multiple configuration options. Some are set internally to
+ * some sane values (unimportant for the BeeeOn gateway), others can be changed by
+ * OZWNetwork properties.
+ *
+ * To initialize, the OZWNetwork::configure() is to be used. The method is called
+ * automatically by DI. The deinitialization is implemented via OZWNetwork::cleanup()
+ * (also called by DI).
+ *
+ * The OZWNetwork is able to handle multiple Z-Wave dongles (according to OZW). It
+ * assigns dongles via the hotplug mechanism. It recognizes dongles with property
+ * tty.BEEEON_DONGLE == "zwave". Currently, only dongles connected via tty are supported.
+ *
+ * Everytime when a Z-Wave dongle is detected via OZWNetwork::onAdd(), the OZW library
+ * is notified and starts a thread for the driver. Drivers are removed on hot-unplug
+ * via OZWNetwork::onRemove() or when the OZWNetwork::cleanup() is called.
+ *
+ * The OZWNetwork utilizes AsyncExecutor for performing asynchronous tasks that must
+ * not be performed from the OZW notification handler function.
+ */
 class OZWNetwork :
 	public HotplugListener,
 	public AbstractZWaveNetwork {
@@ -36,31 +59,126 @@ public:
 	OZWNetwork();
 	~OZWNetwork();
 
+	/**
+	 * @brief Set OZW configPath (contains definitions, XML files, etc.).
+	 * The directory should exist prior to calling OZWNetwork::configure().
+	 *
+	 * @see OZWNetwork::checkDirectory()
+	 */
 	void setConfigPath(const std::string &path);
+
+	/**
+	 * @brief Set OZW userPath (cache of device definitions). This directory
+	 * would be created if it does not exist.
+	 *
+	 * @see OZWNetwork::prepareDirectory()
+	 */
 	void setUserPath(const std::string &path);
+
+	/**
+	 * @brief Set OZW PollInterval option.
+	 */
 	void setPollInterval(const Poco::Timespan &interval);
+
+	/**
+	 * @brief Set OZW IntervalBetweenPolls option.
+	 */
 	void setIntervalBetweenPolls(bool enable);
+
+	/**
+	 * @brief Set OZW RetryTimeout option.
+	 */
 	void setRetryTimeout(const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Set OZW AssumeAwake option.
+	 */
 	void setAssumeAwake(bool awake);
+
+	/**
+	 * @brief Set OZW DriverMaxAttempts option.
+	 */
 	void setDriverMaxAttempts(int attempts);
+
+	/**
+	 * @brief Set OZW NetworkKey option. The key is expected to
+	 * be 16 bytes long.
+	 */
 	void setNetworkKey(const std::list<std::string> &bytes);
+
+	/**
+	 * @brief Set the interval of reporting OZW statistics.
+	 */
 	void setStatisticsInterval(const Poco::Timespan &interval);
+
+	/**
+	 * @brief Set controllers (list of home IDs) to be reset
+	 * upon their first appearance in the network.
+	 */
 	void setControllersToReset(const std::list<std::string> &homes);
 
+	/**
+	 * @brief Set asynchronous executor used for asynchronous tasks
+	 * and events reporting.
+	 */
 	void setExecutor(AsyncExecutor::Ptr executor);
+
+	/**
+	 * @brief Register a ZWaveListener that would be receiving events.
+	 */
 	void registerListener(ZWaveListener::Ptr listener);
 
+	/**
+	 * @brief Handle incoming OZW notifications in the context
+	 * of the OZWNetwork instance.
+	 */
 	void onNotification(const OpenZWave::Notification *n);
 
+	/**
+	 * @brief If the event represents a compatible Z-Wave dongle,
+	 * an appropriate driver is added into the OZW runtime.
+	 */
 	void onAdd(const HotplugEvent &event) override;
+
+	/**
+	 * @brief If the event represents a compatible Z-Wave dongle,
+	 * the appropriate driver is removed from the OZW runtime.
+	 */
 	void onRemove(const HotplugEvent &event) override;
 
+	/**
+	 * @brief Initialize OZW library, set options and register self
+	 * as a watcher for handling notifications. The statistics reporter
+	 * is started.
+	 */
 	void configure();
+
+	/**
+	 * @brief Deinitialize OZW library. Stop the statistics reporter.
+	 */
 	void cleanup();
 
 protected:
+	/**
+	 * @brief Check that the given directory exists and is readable.
+	 * @throws FileAccessDeniedException if the directory is not readable
+	 */
 	void checkDirectory(const Poco::Path &path);
+
+	/**
+	 * @brief Create the directory represented by the given path.
+	 * If it already exists, it must be writable and readable.
+	 */
 	void prepareDirectory(const Poco::Path &path);
+
+	/**
+	 * @brief Fire Z-Wave statistics. This is called periodically by the
+	 * m_statisticsRunner.
+	 *
+	 * @see OZWNetwork::setExecutor()
+	 * @see OZWNetwork::registerListener()
+	 * @see OZWNetwork::setStatisticsInterval()
+	 */
 	void fireStatistics();
 
 	/**
@@ -320,10 +438,33 @@ private:
 	unsigned int m_driverMaxAttempts;
 	std::set<uint32_t> m_controllersToReset;
 	std::vector<uint8_t> m_networkKey;
+
+	/**
+	 * Homes and nodes maintained by the OZWNetwork instance.
+	 */
 	std::map<uint32_t, std::map<uint8_t, ZWaveNode>> m_homes;
+
+	/**
+	 * Set after the OZWNetwork::configure() finishes successfuly.
+	 * The OZWNetwork::cleanup() does nothing, if the m_configured
+	 * is false to not segfault when configure() fails.
+	 */
 	Poco::AtomicCounter m_configured;
+
+	/**
+	 * Lock access to the global OpenZWave::Manager instance.
+	 */
 	mutable Poco::FastMutex m_managerLock;
+
+	/**
+	 * Lock access to the members of OZWNetwork.
+	 */
 	mutable Poco::FastMutex m_lock;
+
+	/**
+	 * Initiate and maintain commands sent to the Z-Wave controller
+	 * via the OpenZWave library.
+	 */
 	OZWCommand m_command;
 	EventSource<ZWaveListener> m_eventSource;
 	AsyncExecutor::Ptr m_executor;
