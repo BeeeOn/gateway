@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-40-g698256f</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-41-gfa79186</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -60,6 +60,11 @@
 <div class="title">BeeeOn::OZWNetwork Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle OZW notifications and initiate OZW commands if needed.  
+ <a href="classBeeeOn_1_1OZWNetwork.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="OZWNetwork_8h_source.html">OZWNetwork.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for BeeeOn::OZWNetwork:</div>
 <div class="dyncontent">
@@ -75,56 +80,71 @@ Inheritance diagram for BeeeOn::OZWNetwork:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a11ddbc5837293fc0d08b95a167b4d44f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11ddbc5837293fc0d08b95a167b4d44f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setConfigPath</b> (const std::string &amp;path)</td></tr>
+<tr class="memitem:a11ddbc5837293fc0d08b95a167b4d44f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a11ddbc5837293fc0d08b95a167b4d44f">setConfigPath</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a11ddbc5837293fc0d08b95a167b4d44f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW configPath (contains definitions, XML files, etc.). The directory should exist prior to calling <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a267438b3e789f0b38af156724de28562" title="Initialize OZW library, set options and register self as a watcher for handling notifications. The statistics reporter is started. ">OZWNetwork::configure()</a>.  <a href="#a11ddbc5837293fc0d08b95a167b4d44f">More...</a><br/></td></tr>
 <tr class="separator:a11ddbc5837293fc0d08b95a167b4d44f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e84a842043f2feb3f77a20c44c571f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e84a842043f2feb3f77a20c44c571f7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setUserPath</b> (const std::string &amp;path)</td></tr>
+<tr class="memitem:a5e84a842043f2feb3f77a20c44c571f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a5e84a842043f2feb3f77a20c44c571f7">setUserPath</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a5e84a842043f2feb3f77a20c44c571f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW userPath (cache of device definitions). This directory would be created if it does not exist.  <a href="#a5e84a842043f2feb3f77a20c44c571f7">More...</a><br/></td></tr>
 <tr class="separator:a5e84a842043f2feb3f77a20c44c571f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5f77db8dfce92c3dad7d3426fd81663"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac5f77db8dfce92c3dad7d3426fd81663"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setPollInterval</b> (const Poco::Timespan &amp;interval)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#ac5f77db8dfce92c3dad7d3426fd81663">setPollInterval</a> (const Poco::Timespan &amp;interval)</td></tr>
+<tr class="memdesc:ac5f77db8dfce92c3dad7d3426fd81663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW PollInterval option. <br/></td></tr>
 <tr class="separator:ac5f77db8dfce92c3dad7d3426fd81663"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a311eaf1ec090203cde1e05966c54be51"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a311eaf1ec090203cde1e05966c54be51"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setIntervalBetweenPolls</b> (bool enable)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a311eaf1ec090203cde1e05966c54be51">setIntervalBetweenPolls</a> (bool enable)</td></tr>
+<tr class="memdesc:a311eaf1ec090203cde1e05966c54be51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW IntervalBetweenPolls option. <br/></td></tr>
 <tr class="separator:a311eaf1ec090203cde1e05966c54be51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c0d0a4f44294b1d00ea0585b3d819b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c0d0a4f44294b1d00ea0585b3d819b8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setRetryTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a6c0d0a4f44294b1d00ea0585b3d819b8">setRetryTimeout</a> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a6c0d0a4f44294b1d00ea0585b3d819b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW RetryTimeout option. <br/></td></tr>
 <tr class="separator:a6c0d0a4f44294b1d00ea0585b3d819b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75785a22200f782eb3f9b258ba11f2e6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75785a22200f782eb3f9b258ba11f2e6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setAssumeAwake</b> (bool awake)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a75785a22200f782eb3f9b258ba11f2e6">setAssumeAwake</a> (bool awake)</td></tr>
+<tr class="memdesc:a75785a22200f782eb3f9b258ba11f2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW AssumeAwake option. <br/></td></tr>
 <tr class="separator:a75785a22200f782eb3f9b258ba11f2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a547135e233f023a7372018cc5d15d7a0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a547135e233f023a7372018cc5d15d7a0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDriverMaxAttempts</b> (int attempts)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a547135e233f023a7372018cc5d15d7a0">setDriverMaxAttempts</a> (int attempts)</td></tr>
+<tr class="memdesc:a547135e233f023a7372018cc5d15d7a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW DriverMaxAttempts option. <br/></td></tr>
 <tr class="separator:a547135e233f023a7372018cc5d15d7a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57aba0cb38425c8f7b3b9644b1abdb3b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57aba0cb38425c8f7b3b9644b1abdb3b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setNetworkKey</b> (const std::list&lt; std::string &gt; &amp;bytes)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a57aba0cb38425c8f7b3b9644b1abdb3b">setNetworkKey</a> (const std::list&lt; std::string &gt; &amp;bytes)</td></tr>
+<tr class="memdesc:a57aba0cb38425c8f7b3b9644b1abdb3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OZW NetworkKey option. The key is expected to be 16 bytes long. <br/></td></tr>
 <tr class="separator:a57aba0cb38425c8f7b3b9644b1abdb3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0526dc2ec7610af47f8a6d54191e0d15"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0526dc2ec7610af47f8a6d54191e0d15"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setStatisticsInterval</b> (const Poco::Timespan &amp;interval)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a0526dc2ec7610af47f8a6d54191e0d15">setStatisticsInterval</a> (const Poco::Timespan &amp;interval)</td></tr>
+<tr class="memdesc:a0526dc2ec7610af47f8a6d54191e0d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interval of reporting OZW statistics. <br/></td></tr>
 <tr class="separator:a0526dc2ec7610af47f8a6d54191e0d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a350724a8e673ed47e1794f1ee83013fc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a350724a8e673ed47e1794f1ee83013fc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setControllersToReset</b> (const std::list&lt; std::string &gt; &amp;homes)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a350724a8e673ed47e1794f1ee83013fc">setControllersToReset</a> (const std::list&lt; std::string &gt; &amp;homes)</td></tr>
+<tr class="memdesc:a350724a8e673ed47e1794f1ee83013fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set controllers (list of home IDs) to be reset upon their first appearance in the network. <br/></td></tr>
 <tr class="separator:a350724a8e673ed47e1794f1ee83013fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a813f6d447fb21b98cf61cf7d5a6f07d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a813f6d447fb21b98cf61cf7d5a6f07d2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setExecutor</b> (AsyncExecutor::Ptr executor)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a813f6d447fb21b98cf61cf7d5a6f07d2">setExecutor</a> (AsyncExecutor::Ptr executor)</td></tr>
+<tr class="memdesc:a813f6d447fb21b98cf61cf7d5a6f07d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set asynchronous executor used for asynchronous tasks and events reporting. <br/></td></tr>
 <tr class="separator:a813f6d447fb21b98cf61cf7d5a6f07d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47ffacc0f49a125f72fb5ac6b2ef56db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47ffacc0f49a125f72fb5ac6b2ef56db"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>registerListener</b> (ZWaveListener::Ptr listener)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a47ffacc0f49a125f72fb5ac6b2ef56db">registerListener</a> (ZWaveListener::Ptr listener)</td></tr>
+<tr class="memdesc:a47ffacc0f49a125f72fb5ac6b2ef56db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a <a class="el" href="classBeeeOn_1_1ZWaveListener.html">ZWaveListener</a> that would be receiving events. <br/></td></tr>
 <tr class="separator:a47ffacc0f49a125f72fb5ac6b2ef56db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29b23fa38950ad9a64c685565a3cf60e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29b23fa38950ad9a64c685565a3cf60e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onNotification</b> (const OpenZWave::Notification *n)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a29b23fa38950ad9a64c685565a3cf60e">onNotification</a> (const OpenZWave::Notification *n)</td></tr>
+<tr class="memdesc:a29b23fa38950ad9a64c685565a3cf60e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle incoming OZW notifications in the context of the <a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> instance. <br/></td></tr>
 <tr class="separator:a29b23fa38950ad9a64c685565a3cf60e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a444639595c09faaf8c0df64405aab014"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a444639595c09faaf8c0df64405aab014"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onAdd</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a444639595c09faaf8c0df64405aab014">onAdd</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
+<tr class="memdesc:a444639595c09faaf8c0df64405aab014"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the event represents a compatible Z-Wave dongle, an appropriate driver is added into the OZW runtime. <br/></td></tr>
 <tr class="separator:a444639595c09faaf8c0df64405aab014"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a968363c7be60a30e5fb4735d79d36b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a968363c7be60a30e5fb4735d79d36b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>onRemove</b> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9a968363c7be60a30e5fb4735d79d36b">onRemove</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event) override</td></tr>
+<tr class="memdesc:a9a968363c7be60a30e5fb4735d79d36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the event represents a compatible Z-Wave dongle, the appropriate driver is removed from the OZW runtime. <br/></td></tr>
 <tr class="separator:a9a968363c7be60a30e5fb4735d79d36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a267438b3e789f0b38af156724de28562"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a267438b3e789f0b38af156724de28562"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>configure</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a267438b3e789f0b38af156724de28562">configure</a> ()</td></tr>
+<tr class="memdesc:a267438b3e789f0b38af156724de28562"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize OZW library, set options and register self as a watcher for handling notifications. The statistics reporter is started. <br/></td></tr>
 <tr class="separator:a267438b3e789f0b38af156724de28562"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafb216f0007311c73dc25c32c19b90da"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafb216f0007311c73dc25c32c19b90da"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>cleanup</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#aafb216f0007311c73dc25c32c19b90da">cleanup</a> ()</td></tr>
+<tr class="memdesc:aafb216f0007311c73dc25c32c19b90da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialize OZW library. Stop the statistics reporter. <br/></td></tr>
 <tr class="separator:aafb216f0007311c73dc25c32c19b90da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1HotplugListener"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1HotplugListener')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1HotplugListener.html">BeeeOn::HotplugListener</a></td></tr>
 <tr class="memitem:a8929df06659e28210bf6baa368bf315b inherit pub_methods_classBeeeOn_1_1HotplugListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8929df06659e28210bf6baa368bf315b"></a>
@@ -139,14 +159,15 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onMove</b> (c
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:afec2d3d4b1edc2bcc0daadb65a2bd8dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afec2d3d4b1edc2bcc0daadb65a2bd8dd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>checkDirectory</b> (const Poco::Path &amp;path)</td></tr>
+<tr class="memitem:afec2d3d4b1edc2bcc0daadb65a2bd8dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#afec2d3d4b1edc2bcc0daadb65a2bd8dd">checkDirectory</a> (const Poco::Path &amp;path)</td></tr>
+<tr class="memdesc:afec2d3d4b1edc2bcc0daadb65a2bd8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the given directory exists and is readable.  <a href="#afec2d3d4b1edc2bcc0daadb65a2bd8dd">More...</a><br/></td></tr>
 <tr class="separator:afec2d3d4b1edc2bcc0daadb65a2bd8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e4eb1d0b63bccf52208e93c49c0cab1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e4eb1d0b63bccf52208e93c49c0cab1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>prepareDirectory</b> (const Poco::Path &amp;path)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9e4eb1d0b63bccf52208e93c49c0cab1">prepareDirectory</a> (const Poco::Path &amp;path)</td></tr>
+<tr class="memdesc:a9e4eb1d0b63bccf52208e93c49c0cab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the directory represented by the given path. If it already exists, it must be writable and readable. <br/></td></tr>
 <tr class="separator:a9e4eb1d0b63bccf52208e93c49c0cab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00e8cccc6e771eb13e693a8475708365"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00e8cccc6e771eb13e693a8475708365"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>fireStatistics</b> ()</td></tr>
+<tr class="memitem:a00e8cccc6e771eb13e693a8475708365"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a00e8cccc6e771eb13e693a8475708365">fireStatistics</a> ()</td></tr>
+<tr class="memdesc:a00e8cccc6e771eb13e693a8475708365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fire Z-Wave statistics. This is called periodically by the m_statisticsRunner.  <a href="#a00e8cccc6e771eb13e693a8475708365">More...</a><br/></td></tr>
 <tr class="separator:a00e8cccc6e771eb13e693a8475708365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1161189c5e5d10c34cd9c6f12b2941c0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1161189c5e5d10c34cd9c6f12b2941c0"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a1161189c5e5d10c34cd9c6f12b2941c0">ignoreNotification</a> (const OpenZWave::Notification *n) const </td></tr>
@@ -157,7 +178,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a7edbe8b8900dc79b41a4761ff08f4b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43d4b10b76d1c4e2fd022f2be19eca04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43d4b10b76d1c4e2fd022f2be19eca04"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a43d4b10b76d1c4e2fd022f2be19eca04">driverReady</a> (const OpenZWave::Notification *n)</td></tr>
-<tr class="memdesc:a43d4b10b76d1c4e2fd022f2be19eca04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the OZW driver becomes ready to work for the given home ID. The <a class="el" href="classBeeeOn_1_1OZWNetwork.html">OZWNetwork</a> installs the home ID and if configured, it performs reset of the associated controller. <br/></td></tr>
+<tr class="memdesc:a43d4b10b76d1c4e2fd022f2be19eca04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the OZW driver becomes ready to work for the given home ID. The <a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> installs the home ID and if configured, it performs reset of the associated controller. <br/></td></tr>
 <tr class="separator:a43d4b10b76d1c4e2fd022f2be19eca04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5036249972e66b54630704f64f2cf704"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5036249972e66b54630704f64f2cf704"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a5036249972e66b54630704f64f2cf704">driverFailed</a> (const OpenZWave::Notification *n)</td></tr>
@@ -241,7 +262,7 @@ Poco::Logger &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>logger<
 Static Protected Member Functions</h2></td></tr>
 <tr class="memitem:a3468e64eec5117f81fb8575602d345fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3468e64eec5117f81fb8575602d345fa"></a>
 static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a3468e64eec5117f81fb8575602d345fa">matchEvent</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;event)</td></tr>
-<tr class="memdesc:a3468e64eec5117f81fb8575602d345fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine hotplugged devices compatible with the <a class="el" href="classBeeeOn_1_1OZWNetwork.html">OZWNetwork</a>. The property tty.BEEEON_DONGLE is tested to equal to "zwave". <br/></td></tr>
+<tr class="memdesc:a3468e64eec5117f81fb8575602d345fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine hotplugged devices compatible with the <a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a>. The property tty.BEEEON_DONGLE is tested to equal to "zwave". <br/></td></tr>
 <tr class="separator:a3468e64eec5117f81fb8575602d345fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a988db8d1cf3292bcca93d0a67a191aa9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a988db8d1cf3292bcca93d0a67a191aa9">ozwNotification</a> (OpenZWave::Notification const *n, void *context)</td></tr>
 <tr class="separator:a988db8d1cf3292bcca93d0a67a191aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -290,7 +311,14 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html">ZWaveNetwork</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a4b8cecdad77eae97e924193d821d4fba inherit pub_types_classBeeeOn_1_1ZWaveNetwork"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle OZW notifications and initiate OZW commands if needed. </p>
+<p>The OZW library has multiple configuration options. Some are set internally to some sane values (unimportant for the BeeeOn gateway), others can be changed by <a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> properties.</p>
+<p>To initialize, the <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a267438b3e789f0b38af156724de28562" title="Initialize OZW library, set options and register self as a watcher for handling notifications. The statistics reporter is started. ">OZWNetwork::configure()</a> is to be used. The method is called automatically by DI. The deinitialization is implemented via <a class="el" href="classBeeeOn_1_1OZWNetwork.html#aafb216f0007311c73dc25c32c19b90da" title="Deinitialize OZW library. Stop the statistics reporter. ">OZWNetwork::cleanup()</a> (also called by DI).</p>
+<p>The <a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> is able to handle multiple Z-Wave dongles (according to OZW). It assigns dongles via the hotplug mechanism. It recognizes dongles with property tty.BEEEON_DONGLE == "zwave". Currently, only dongles connected via tty are supported.</p>
+<p>Everytime when a Z-Wave dongle is detected via <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a444639595c09faaf8c0df64405aab014" title="If the event represents a compatible Z-Wave dongle, an appropriate driver is added into the OZW runti...">OZWNetwork::onAdd()</a>, the OZW library is notified and starts a thread for the driver. Drivers are removed on hot-unplug via <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9a968363c7be60a30e5fb4735d79d36b" title="If the event represents a compatible Z-Wave dongle, the appropriate driver is removed from the OZW ru...">OZWNetwork::onRemove()</a> or when the <a class="el" href="classBeeeOn_1_1OZWNetwork.html#aafb216f0007311c73dc25c32c19b90da" title="Deinitialize OZW library. Stop the statistics reporter. ">OZWNetwork::cleanup()</a> is called.</p>
+<p>The <a class="el" href="classBeeeOn_1_1OZWNetwork.html" title="OZWNetwork manages the Z-Wave network by using the OpenZWave library (OZW). Its purpose is to handle ...">OZWNetwork</a> utilizes <a class="el" href="classBeeeOn_1_1AsyncExecutor.html">AsyncExecutor</a> for performing asynchronous tasks that must not be performed from the OZW notification handler function. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac5f527c8a9e8577e3e4f5a96d669d7ac"></a>
 <div class="memitem">
 <div class="memproto">
@@ -417,6 +445,38 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 
 </div>
 </div>
+<a class="anchor" id="afec2d3d4b1edc2bcc0daadb65a2bd8dd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OZWNetwork::checkDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Path &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check that the given directory exists and is readable. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">FileAccessDeniedException</td><td>if the directory is not readable </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ac80c71f87b3dac7bffcbc830c4e68e09"></a>
 <div class="memitem">
 <div class="memproto">
@@ -441,6 +501,36 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 
 <p>Called when OZW driver is removed from the system. </p>
 <p>This happens usually when a Z-Wave dongle is removed or its controller is being reset. </p>
+
+</div>
+</div>
+<a class="anchor" id="a00e8cccc6e771eb13e693a8475708365"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OZWNetwork::fireStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fire Z-Wave statistics. This is called periodically by the m_statisticsRunner. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a813f6d447fb21b98cf61cf7d5a6f07d2" title="Set asynchronous executor used for asynchronous tasks and events reporting. ">OZWNetwork::setExecutor()</a> </dd>
+<dd>
+<a class="el" href="classBeeeOn_1_1OZWNetwork.html#a47ffacc0f49a125f72fb5ac6b2ef56db" title="Register a ZWaveListener that would be receiving events. ">OZWNetwork::registerListener()</a> </dd>
+<dd>
+<a class="el" href="classBeeeOn_1_1OZWNetwork.html#a0526dc2ec7610af47f8a6d54191e0d15" title="Set the interval of reporting OZW statistics. ">OZWNetwork::setStatisticsInterval()</a> </dd></dl>
 
 </div>
 </div>
@@ -689,6 +779,44 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 
 <p>Initiate asynchronous reset of controller associated with the given home ID. </p>
 <p>The controller reset is invoked via the m_executor instance. During the reset procedure, the <a class="el" href="classBeeeOn_1_1OZWNetwork.html#ac80c71f87b3dac7bffcbc830c4e68e09" title="Called when OZW driver is removed from the system. ">driverRemoved()</a> would be called for the given home ID. </p>
+
+</div>
+</div>
+<a class="anchor" id="a11ddbc5837293fc0d08b95a167b4d44f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OZWNetwork::setConfigPath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set OZW configPath (contains definitions, XML files, etc.). The directory should exist prior to calling <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a267438b3e789f0b38af156724de28562" title="Initialize OZW library, set options and register self as a watcher for handling notifications. The statistics reporter is started. ">OZWNetwork::configure()</a>. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classBeeeOn_1_1OZWNetwork.html#afec2d3d4b1edc2bcc0daadb65a2bd8dd" title="Check that the given directory exists and is readable. ">OZWNetwork::checkDirectory()</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5e84a842043f2feb3f77a20c44c571f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OZWNetwork::setUserPath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set OZW userPath (cache of device definitions). This directory would be created if it does not exist. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9e4eb1d0b63bccf52208e93c49c0cab1" title="Create the directory represented by the given path. If it already exists, it must be writable and rea...">OZWNetwork::prepareDirectory()</a> </dd></dl>
 
 </div>
 </div>
