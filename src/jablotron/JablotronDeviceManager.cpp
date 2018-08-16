@@ -167,7 +167,7 @@ AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 {
 	m_isListen = true;
 
-	auto finish = [&]() {
+	auto finish = [&](DelayedAsyncWork<> &) {
 		logger().debug("listen is done", __FILE__, __LINE__);
 		m_isListen = false;
 
