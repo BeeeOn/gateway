@@ -1,0 +1,165 @@
+<types-mapping>
+	<z-wave-mapping>
+		<!--
+		This section describes mapping of Z-Wave command classes
+		into BeeeOn types. The order DOES MATTER and thus DO NOT
+		reorder the particular map elements.
+		-->
+		<map comment="Basic">
+			<z-wave command-class="32" />
+			<beeeon type="unknown" />
+		</map>
+		<map comment="Switch Binary">
+			<z-wave command-class="37" />
+			<beeeon type="on_off,controllable" />
+		</map>
+		<map comment="Sensor Binary (reserved)">
+			<z-wave command-class="48" index="0" />
+			<beeeon type="on_off" />
+		</map>
+		<map comment="Sensor Binary (general purpose)">
+			<z-wave command-class="48" index="1" />
+			<beeeon type="on_off" />
+		</map>
+		<map comment="Sensor Binary (smoke)">
+			<z-wave command-class="48" index="2" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (CO)">
+			<z-wave command-class="48" index="3" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (CO2)">
+			<z-wave command-class="48" index="4" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (heat)">
+			<z-wave command-class="48" index="5" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (water)">
+			<z-wave command-class="48" index="6" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (freeze)">
+			<z-wave command-class="48" index="7" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (tamper)">
+			<z-wave command-class="48" index="8" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Sensor Binary (auxiliary)">
+			<z-wave command-class="48" index="9" />
+			<beeeon type="on_off" />
+		</map>
+		<map comment="Sensor Binary (door/window)">
+			<z-wave command-class="48" index="10" />
+			<beeeon type="open_close" />
+		</map>
+		<map comment="Sensor Binary (tilt)">
+			<z-wave command-class="48" index="11" />
+			<beeeon type="on_off" />
+		</map>
+		<map comment="Sensor Binary (motion)">
+			<z-wave command-class="48" index="12" />
+			<beeeon type="motion" />
+		</map>
+		<map comment="Sensor Binary (glass break)">
+			<z-wave command-class="48" index="13" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (smoke)">
+			<z-wave command-class="113" index="1" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (CO)">
+			<z-wave command-class="113" index="2" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (CO2)">
+			<z-wave command-class="113" index="3" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (heat)">
+			<z-wave command-class="113" index="4" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (water)">
+			<z-wave command-class="113" index="5" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (tampering)">
+			<z-wave command-class="113" index="7" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (AC connected/disconnected)">
+			<z-wave command-class="113" index="8" />
+			<beeeon type="on_off" />
+		</map>
+		<map comment="Alarm (system failure)">
+			<z-wave command-class="113" index="9" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (emergency)">
+			<z-wave command-class="113" index="10" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="Alarm (alarm clock)">
+			<z-wave command-class="113" index="11" />
+			<beeeon type="security_alert" />
+		</map>
+		<map comment="SensorMultilevel (air temperature)">
+			<z-wave command-class="49" index="1" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="SensorMultilevel (luminance)">
+			<z-wave command-class="49" index="3" />
+			<beeeon type="luminance" />
+		</map>
+		<map comment="SensorMultilevel (power)">
+			<z-wave command-class="49" index="4" />
+			<beeeon type="power" />
+		</map>
+		<map comment="SensorMultilevel (relative humidity)">
+			<z-wave command-class="49" index="5" />
+			<beeeon type="humidity" />
+		</map>
+		<map comment="SensorMultilevel (voltage)">
+			<z-wave command-class="49" index="15" />
+			<beeeon type="voltage" />
+		</map>
+		<map comment="SensorMultilevel (current)">
+			<z-wave command-class="49" index="16" />
+			<beeeon type="current" />
+		</map>
+		<map comment="SensorMultilevel (water temperature)">
+			<z-wave command-class="49" index="23" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="SensorMultilevel (soil temperature)">
+			<z-wave command-class="49" index="24" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="SensorMultilevel (ultraviolet)">
+			<z-wave command-class="49" index="27" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="SensorMultilevel (noise)">
+			<z-wave command-class="49" index="30" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="SensorMultilevel (soil humidity)">
+			<z-wave command-class="49" index="41" />
+			<beeeon type="temperature" />
+		</map>
+		<map comment="SensorMultilevel (outer temperature)">
+			<z-wave command-class="49" index="34" />
+			<beeeon type="temperature,outer" />
+		</map>
+		<map comment="Battery">
+			<z-wave command-class="128" />
+			<beeeon type="battery" />
+		</map>
+	</z-wave-mapping>
+</types-mapping>

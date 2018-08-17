@@ -131,7 +131,9 @@
 			<add name="listeners" ref="loggingCollector" />
 		</instance>
 
-		<instance name="genericZWaveMapperRegistry" class="BeeeOn::GenericZWaveMapperRegistry" />
+		<instance name="genericZWaveMapperRegistry" class="BeeeOn::GenericZWaveMapperRegistry">
+			<set name="typesMapping" text="${zwave.generic.typesMapping.path}" />
+		</instance>
 
 		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
