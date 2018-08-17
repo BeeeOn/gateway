@@ -17,24 +17,6 @@ static const string raw_7f23d5a =
 	"D4EC89F4\t{\"device_id\":\"0x4100000001020304\",\"timestamp\":1527660187000000,\"data\":["
 	"{\"module_id\":0,\"value\":5},{\"module_id\":1,\"value\":14.5},{\"module_id\":2,\"value\":-15}]}\n";
 
-static const vector<SensorData> data_1e90a60 = {
-	{
-		DeviceID::parse("0x4100000001020304"),
-		Timestamp::fromEpochTime(1527660187),
-		{{0, 5}, {1, 14.5}, {2, -15}}
-	},
-	{
-		DeviceID::parse("0x410000000a0b0c0d"),
-		Timestamp::fromEpochTime(1527660231),
-		{{0, 1}}
-	},
-	{
-		DeviceID::parse("0x4100000001020304"),
-		Timestamp::fromEpochTime(1527661621),
-		{{0, 6}, {3, 1}}
-	},
-};
-
 static const string raw_1e90a60 =
 	"D4EC89F4\t{\"device_id\":\"0x4100000001020304\",\"timestamp\":1527660187000000,\"data\":["
 	"{\"module_id\":0,\"value\":5},{\"module_id\":1,\"value\":14.5},{\"module_id\":2,\"value\":-15}]}\n"
@@ -43,47 +25,17 @@ static const string raw_1e90a60 =
 	"178646E2\t{\"device_id\":\"0x4100000001020304\",\"timestamp\":1527661621000000,\"data\":["
 	"{\"module_id\":0,\"value\":6},{\"module_id\":3,\"value\":1}]}\n";
 
-static const vector<SensorData> data_fdd5085 = {
-	{
-		DeviceID::parse("0x410000000fffffff"),
-		Timestamp::fromEpochTime(1528012112),
-		{{0, 0}, {1, 1}}
-	},
-	{
-		DeviceID::parse("0x410000000a0b0c0d"),
-		Timestamp::fromEpochTime(1528012123),
-		{{0, 0}}
-	}
-};
-
 static const string raw_fdd5085 =
 	"46F3D928\t{\"device_id\":\"0x410000000fffffff\",\"timestamp\":1528012112000000,\"data\":["
 	"{\"module_id\":0,\"value\":0},{\"module_id\":1,\"value\":1}]}\n"
 	"1193DA2B\t{\"device_id\":\"0x410000000a0b0c0d\",\"timestamp\":1528012123000000,\"data\":["
 	"{\"module_id\":0,\"value\":0}]}\n";
 
-static const vector<SensorData> data_7f23d5f = {
-	{
-		DeviceID::parse("0x4100000001020304"),
-		Timestamp::fromEpochTime(1527660187),
-		{{0, 5}, {1, 14.5}, {2, -15}}
-	}
-};
-
 static const string raw_7f23d5f =
 	"D4EC89F4\t{\"device_id\":\"0x4100000001020304\",\"timestamp\":1527660187000000,\"data\":["
 	"{\"module_id\":0,\"value\":5},"
 	"{\"module_id\":1,\"value\":14.5},"
 	"{\"module_id\":2,\"value\":-15}]}\n";
-
-static const vector<SensorData> data_263eb6d = {
-	{
-		DeviceID::parse("0x410000000aaaaaaa"),
-		Timestamp::fromEpochTime(1527695312),
-		{{0, 1}, {1, 1}, {2, 1}}
-	}
-};
-
 
 class RecoverableJournalQueuingStrategyTest : public FileTestFixture {
 	CPPUNIT_TEST_SUITE(RecoverableJournalQueuingStrategyTest);
