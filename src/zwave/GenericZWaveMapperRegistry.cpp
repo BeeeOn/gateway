@@ -1,20 +1,27 @@
 #include <map>
 #include <vector>
 
+#include <Poco/AutoPtr.h>
 #include <Poco/Exception.h>
+#include <Poco/FileStream.h>
 #include <Poco/Logger.h>
+#include <Poco/NumberParser.h>
 #include <Poco/String.h>
 
 #include "di/Injectable.h"
+#include "util/SecureXmlParser.h"
 #include "zwave/GenericZWaveMapperRegistry.h"
 #include "zwave/ZWaveNode.h"
+#include "zwave/ZWaveTypeMappingParser.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, GenericZWaveMapperRegistry)
 BEEEON_OBJECT_CASTABLE(ZWaveMapperRegistry)
+BEEEON_OBJECT_PROPERTY("typesMapping", &GenericZWaveMapperRegistry::loadTypesMapping)
 BEEEON_OBJECT_END(BeeeOn, GenericZWaveMapperRegistry)
 
 using namespace std;
 using namespace Poco;
+using namespace Poco::XML;
 using namespace BeeeOn;
 
 using CC = ZWaveNode::CommandClass;
@@ -291,6 +298,48 @@ GenericZWaveMapperRegistry::GenericZWaveMapperRegistry()
 		{{CC::ALARM,             0x0A}, 37},
 		{{CC::ALARM,             0x0B}, 38},
 	};
+}
+
+void GenericZWaveMapperRegistry::loadTypesMapping(const string &file)
+{
+	logger().information("loading types-mapping from: " + file);
+	FileInputStream in(file);
+
+	loadTypesMapping(in);
+}
+
+void GenericZWaveMapperRegistry::loadTypesMapping(istream &in)
+{
+	ZWaveTypeMappingParser parser;
+
+	map<pair<uint8_t, uint8_t>, ModuleType> typesMapping;
+	map<pair<uint8_t, uint8_t>, unsigned int> typesOrder;
+	unsigned int order = 0;
+
+	for (const auto &map : parser.parse(in)) {
+		const auto zwave = map.first;
+		const auto beeeon = map.second;
+
+		auto mResult = typesMapping.emplace(zwave, beeeon);
+		if (!mResult.second) {
+			throw ExistsException(
+				"duplicate Z-Wave type " + to_string(zwave.first)
+				+ ":" + to_string(zwave.second));
+		}
+
+		auto oResult = typesOrder.emplace(zwave, order++);
+		poco_assert(oResult.second);
+
+		if (logger().debug()) {
+			logger().debug(
+				"mapping " + to_string(zwave.first) + ":" + to_string(zwave.second)
+				+ " to " + beeeon.type().toString(),
+				__FILE__, __LINE__);
+		}
+	}
+
+	m_typesMapping = typesMapping;
+	m_typesOrder = typesOrder;
 }
 
 ZWaveMapperRegistry::Mapper::Ptr GenericZWaveMapperRegistry::resolve(

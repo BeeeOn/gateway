@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iosfwd>
 #include <map>
 
 #include "model/ModuleID.h"
@@ -78,6 +79,12 @@ public:
 	};
 
 	GenericZWaveMapperRegistry();
+
+	/**
+	 * @brief Load XML file with the types mapping between Z-Wave and BeeeOn.
+	 */
+	void loadTypesMapping(const std::string &file);
+	void loadTypesMapping(std::istream &in);
 
 	/**
 	 * @breif Map the given ZWaveNode instance on-fly to the BeeeOn system

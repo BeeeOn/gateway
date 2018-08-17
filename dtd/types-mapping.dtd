@@ -1,0 +1,18 @@
+<!ELEMENT types-mapping (z-wave-mapping)>
+
+<!ELEMENT z-wave-mapping (map)*>
+<!ELEMENT map (z-wave,beeeon)>
+<!ATTLIST map
+	comment        CDATA   #REQUIRED
+>
+
+<!ELEMENT z-wave EMPTY>
+<!ATTLIST z-wave
+	command-class  CDATA   #REQUIRED
+	index          CDATA   "0"
+>
+
+<!ELEMENT beeeon EMPTY>
+<!ATTLIST beeeon
+	type           CDATA   #REQUIRED
+>
