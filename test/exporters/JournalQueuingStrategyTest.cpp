@@ -8,6 +8,11 @@
 #include "cppunit/BetterAssert.h"
 #include "cppunit/FileTestFixture.h"
 #include "exporters/JournalQueuingStrategy.h"
+#include "io/SafeWriter.h"
+#include "util/ChecksumSensorDataFormatter.h"
+#include "util/ChecksumSensorDataParser.h"
+#include "util/JSONSensorDataFormatter.h"
+#include "util/JSONSensorDataParser.h"
 #include "util/PosixSignal.h"
 
 using namespace Poco;
@@ -84,6 +89,7 @@ static const vector<SensorData> data_263eb6d = {
 
 class JournalQueuingStrategyTest : public FileTestFixture {
 	CPPUNIT_TEST_SUITE(JournalQueuingStrategyTest);
+	CPPUNIT_TEST(testTestingData);
 	CPPUNIT_TEST(testSetupFromScratch);
 	CPPUNIT_TEST(testSetupExistingEmpty);
 	CPPUNIT_TEST(testSetupExisting);
@@ -103,6 +109,7 @@ class JournalQueuingStrategyTest : public FileTestFixture {
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void setUp();
+	void testTestingData();
 	void testSetupFromScratch();
 	void testSetupExistingEmpty();
 	void testSetupExisting();
@@ -119,6 +126,11 @@ public:
 	void testPopZero();
 	void testPopAtOnce();
 	void testPopInSteps();
+private:
+	void doTestData(
+		const vector<SensorData> &data,
+		const string &raw,
+		const string &hash) const;
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(JournalQueuingStrategyTest);
@@ -130,6 +142,45 @@ CPPUNIT_TEST_SUITE_REGISTRATION(JournalQueuingStrategyTest);
 void JournalQueuingStrategyTest::setUp()
 {
 	FileTestFixture::setUpAsDirectory();
+}
+
+void JournalQueuingStrategyTest::doTestData(
+	const vector<SensorData> &data,
+	const string &raw,
+	const string &hash) const
+{
+	ChecksumSensorDataParser parser(new JSONSensorDataParser);
+	ChecksumSensorDataFormatter formatter(new JSONSensorDataFormatter);
+	SafeWriter writer(Path(testingPath(), "check"));
+
+	CPPUNIT_ASSERT_EQUAL(
+		raw,
+		[&]() -> string {
+			string buffer;
+
+			for (const auto one : data)
+				buffer += formatter.format(one) + "\n";
+
+			return buffer;
+		}());
+
+	writer.stream(true) << raw;
+	const auto result = writer.finalize();
+	CPPUNIT_ASSERT_EQUAL(
+		hash,
+		DigestEngine::digestToHex(result.first));
+
+}
+
+/**
+ * @brief Test that the testing data are correct. This test is also helpful
+ * when changing the test to quickly discover the new checksums and hashes.
+ */
+void JournalQueuingStrategyTest::testTestingData()
+{
+	doTestData(data_1e90a60, raw_1e90a60, "1e90a6059b538bb614b762d1f94203fafb3533d6");
+	doTestData(data_fdd5085, raw_fdd5085, "fdd5085abed67887ce412239738352fc3ae3936f");
+	doTestData(data_7f23d5f, raw_7f23d5f, "7f23d5f8aa61ea540c4af41b59381a054dc0601d");
 }
 
 /**
