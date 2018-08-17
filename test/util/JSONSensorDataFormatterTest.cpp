@@ -40,7 +40,7 @@ void JSONSensorDataFormatterTest::testFormat()
 
 	const string expected = R"({"device_id":"0x499602d2","timestamp":)"
 		+ to_string(data.timestamp().value().epochMicroseconds())
-		+ R"(,"data":[{"module_id":5,"value":4.2},{"module_id":4,"value":0.5}]})";
+		+ R"(,"data":[{"module_id":5,"value":4.200},{"module_id":4,"value":0.500}]})";
 
 	CPPUNIT_ASSERT_EQUAL(str, expected);
 }
@@ -57,7 +57,7 @@ void JSONSensorDataFormatterTest::testFormatNaN()
 
 	const string expected = R"({"device_id":"0x499602d3","timestamp":)"
 		+ to_string(data.timestamp().value().epochMicroseconds())
-		+ R"(,"data":[{"module_id":6,"value":null},{"module_id":2,"value":154454}]})";
+		+ R"(,"data":[{"module_id":6,"value":null},{"module_id":2,"value":154454.246}]})";
 
 	CPPUNIT_ASSERT_EQUAL(str, expected);
 }
