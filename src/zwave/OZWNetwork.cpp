@@ -584,6 +584,8 @@ void OZWNetwork::nodeNaming(const Notification *n)
 		"resolved node " + node.toString() + " identification: "
 		+ node.toInfoString() + " '" + name + "'",
 		__FILE__, __LINE__);
+
+	notifyEvent(PollEvent::createNewNode(node));
 }
 
 void OZWNetwork::nodeProtocolInfo(const Notification *n)
@@ -656,8 +658,6 @@ void OZWNetwork::nodeReady(const Notification *n)
 			+ Manager::Get()->GetLibraryVersion(n->GetHomeId()),
 			__FILE__, __LINE__);
 	}
-
-	notifyEvent(PollEvent::createNewNode(node));
 }
 
 void OZWNetwork::nodeRemoved(const Notification *n)
