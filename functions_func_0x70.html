@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-46-gdbc475c</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-53-g3e69dcf</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -79,6 +79,7 @@
       <li><a href="functions_func_0x75.html#index_u"><span>u</span></a></li>
       <li><a href="functions_func_0x76.html#index_v"><span>v</span></a></li>
       <li><a href="functions_func_0x77.html#index_w"><span>w</span></a></li>
+      <li><a href="functions_func_0x78.html#index_x"><span>x</span></a></li>
       <li><a href="functions_func_0x7a.html#index_z"><span>z</span></a></li>
       <li><a href="functions_func_0x7e.html#index_0x7e"><span>~</span></a></li>
     </ul>
@@ -107,21 +108,26 @@
 : <a class="el" href="classBeeeOn_1_1ChecksumSensorDataParser.html#a2187fc807c4ee06e4835bca049205291">BeeeOn::ChecksumSensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1JSONSensorDataParser.html#a916c2c6a300ff6111ecd8e37d52733ca">BeeeOn::JSONSensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1SensorDataParser.html#a4501551e87afe3f15b7628f8c329c730">BeeeOn::SensorDataParser</a>
+, <a class="el" href="classBeeeOn_1_1TypeMappingParser.html#a6e7fb8aeb0c8d49c8937c8e73bcce0ec">BeeeOn::TypeMappingParser&lt; TechType &gt;</a>
+, <a class="el" href="classBeeeOn_1_1XmlTypeMappingParser.html#a264cc5c89ed1f85183bd095c5a8d439e">BeeeOn::XmlTypeMappingParser&lt; TechType &gt;</a>
 , <a class="el" href="classBeeeOn_1_1TimespanParser.html#a68f05e30872b1d21beb8aa7f349de8c6">BeeeOn::TimespanParser</a>
 </li>
 <li>parseAdvertisingData()
-: <a class="el" href="classBeeeOn_1_1BeeWiSmartLite.html#a1952355aee9a0ac0e4538a6ffe7e2c84">BeeeOn::BeeWiSmartLite</a>
+: <a class="el" href="classBeeeOn_1_1BeeWiSmartClim.html#af4a287aa3a9e1b9b4c350c3a7023b29e">BeeeOn::BeeWiSmartClim</a>
+, <a class="el" href="classBeeeOn_1_1BeeWiSmartDoor.html#a2b7d8a76a5e451f1e0cbbbfd2f041488">BeeeOn::BeeWiSmartDoor</a>
+, <a class="el" href="classBeeeOn_1_1BeeWiSmartLite.html#a1952355aee9a0ac0e4538a6ffe7e2c84">BeeeOn::BeeWiSmartLite</a>
 , <a class="el" href="classBeeeOn_1_1BeeWiSmartMotion.html#a05e89ede0b862377fe6d8653dc741e75">BeeeOn::BeeWiSmartMotion</a>
 , <a class="el" href="classBeeeOn_1_1BeeWiSmartWatt.html#a1a332f9703a0ba269892259586a38b31">BeeeOn::BeeWiSmartWatt</a>
 , <a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">BeeeOn::BLESmartDevice</a>
-, <a class="el" href="classBeeeOn_1_1BeeWiSmartClim.html#af4a287aa3a9e1b9b4c350c3a7023b29e">BeeeOn::BeeWiSmartClim</a>
-, <a class="el" href="classBeeeOn_1_1BeeWiSmartDoor.html#a2b7d8a76a5e451f1e0cbbbfd2f041488">BeeeOn::BeeWiSmartDoor</a>
 </li>
 <li>parseAndRun()
 : <a class="el" href="classBeeeOn_1_1Tool.html#a8d4393315adf5a15a264d94da69f4f18">BeeeOn::Tool</a>
 </li>
 <li>parseDevice()
 : <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#ac0b0117724fe2ccc5d7019df5e30cb60">BeeeOn::VirtualDeviceManager</a>
+</li>
+<li>parseDOM()
+: <a class="el" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#ab056af8a7d8808fe6adaf05411846410">BeeeOn::XmlTypeMappingParserHelper</a>
 </li>
 <li>parseEDID()
 : <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#aa087d150ff4235a25dfd5af8258a6ce2">BeeeOn::FitpDeviceManager</a>
@@ -140,6 +146,10 @@
 </li>
 <li>parseNoDelimiter()
 : <a class="el" href="classBeeeOn_1_1ChecksumSensorDataParser.html#ae4d4207f693ec74cc01e31981df16a3b">BeeeOn::ChecksumSensorDataParser</a>
+</li>
+<li>parseTechType()
+: <a class="el" href="classBeeeOn_1_1ZWaveTypeMappingParser.html#acea388b7769e84bc8bd5fb9795cc3499">BeeeOn::ZWaveTypeMappingParser</a>
+, <a class="el" href="classBeeeOn_1_1XmlTypeMappingParser.html#a59f7736bcd5cceb1173444462c3a5402">BeeeOn::XmlTypeMappingParser&lt; TechType &gt;</a>
 </li>
 <li>parseValue()
 : <a class="el" href="classBeeeOn_1_1JablotronDevice.html#a54f10dd1f4fe485853d5821c466083c8">BeeeOn::JablotronDevice</a>
@@ -165,16 +175,16 @@
 : <a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#ac18a0cbd2aaa5ce6c866d8ea690d7065">BeeeOn::PhilipsHueBulb</a>
 </li>
 <li>pollEvent()
-: <a class="el" href="classBeeeOn_1_1AbstractZWaveNetwork.html#a899987dda72d3db12034411324e5e4a1">BeeeOn::AbstractZWaveNetwork</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a2e0e3da7cac7c5b93dacf43ba502692b">BeeeOn::ZWaveNetwork</a>
+: <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a2e0e3da7cac7c5b93dacf43ba502692b">BeeeOn::ZWaveNetwork</a>
+, <a class="el" href="classBeeeOn_1_1AbstractZWaveNetwork.html#a899987dda72d3db12034411324e5e4a1">BeeeOn::AbstractZWaveNetwork</a>
 </li>
 <li>pollForEvents()
 : <a class="el" href="classBeeeOn_1_1PipeHotplugMonitor.html#a531af3a32f15d761a5de9f0fc0715030">BeeeOn::PipeHotplugMonitor</a>
 </li>
 <li>pop()
-: <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a1f15643ac34c0e8ff9cdaecf9c2caf3d">BeeeOn::InMemoryQueuingStrategy</a>
+: <a class="el" href="classBeeeOn_1_1QueuingStrategy.html#a5cdedc9444396cb5c3942aef4bc04c5b">BeeeOn::QueuingStrategy</a>
+, <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a1f15643ac34c0e8ff9cdaecf9c2caf3d">BeeeOn::InMemoryQueuingStrategy</a>
 , <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a307b2cd8561111fb1b6c9df04ca3e183">BeeeOn::JournalQueuingStrategy</a>
-, <a class="el" href="classBeeeOn_1_1QueuingStrategy.html#a5cdedc9444396cb5c3942aef4bc04c5b">BeeeOn::QueuingStrategy</a>
 </li>
 <li>precacheEntries()
 : <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a0b283928c47f32f50267b17fc93d9209">BeeeOn::JournalQueuingStrategy</a>
@@ -193,12 +203,12 @@
 : <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a2c3642bf5d270ad9b8d4b9fdfe2bc04c">BeeeOn::JournalQueuingStrategy</a>
 </li>
 <li>print()
-: <a class="el" href="classBeeeOn_1_1StreamConsoleSessionImpl.html#ae99babbba87f1694208d0dfaf1c206ce">BeeeOn::StreamConsoleSessionImpl</a>
-, <a class="el" href="classBeeeOn_1_1Console_1_1ClosedConsoleSessionImpl.html#aca26a50feeb825ba8529b4147f8433ba">BeeeOn::Console::ClosedConsoleSessionImpl</a>
+: <a class="el" href="classBeeeOn_1_1SimpleConsole.html#a7d53ace25f091e309e00d7990842657f">BeeeOn::SimpleConsole</a>
+, <a class="el" href="classBeeeOn_1_1TCPConsoleSessionImpl.html#a6cb92375627160762e33e52c8d6b53be">BeeeOn::TCPConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1StreamConsoleSessionImpl.html#ae99babbba87f1694208d0dfaf1c206ce">BeeeOn::StreamConsoleSessionImpl</a>
 , <a class="el" href="classBeeeOn_1_1ConsoleSessionImpl.html#a967a059a0e12041713ba19a5f0a9857f">BeeeOn::ConsoleSessionImpl</a>
 , <a class="el" href="classBeeeOn_1_1ConsoleSession.html#a936329a1a0a7e63905040fe2bc647012">BeeeOn::ConsoleSession</a>
-, <a class="el" href="classBeeeOn_1_1SimpleConsole.html#a7d53ace25f091e309e00d7990842657f">BeeeOn::SimpleConsole</a>
-, <a class="el" href="classBeeeOn_1_1TCPConsoleSessionImpl.html#a6cb92375627160762e33e52c8d6b53be">BeeeOn::TCPConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1Console_1_1ClosedConsoleSessionImpl.html#aca26a50feeb825ba8529b4147f8433ba">BeeeOn::Console::ClosedConsoleSessionImpl</a>
 </li>
 <li>probeAddressRange()
 : <a class="el" href="classBeeeOn_1_1AbstractHTTPScanner.html#a9f1f3619c2f7cafe51f2048d64f3049c">BeeeOn::AbstractHTTPScanner</a>
@@ -232,8 +242,8 @@
 </li>
 <li>product()
 : <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a1175309e8718cc4af567d60a0e235bf4">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#afdf388f01d2ae10976c0861fcff6d2b5">BeeeOn::ZWaveMapperRegistry::Mapper</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveNode.html#accf81c781ae661f870cce0559eb49570">BeeeOn::ZWaveNode</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#afdf388f01d2ae10976c0861fcff6d2b5">BeeeOn::ZWaveMapperRegistry::Mapper</a>
 </li>
 <li>productId()
 : <a class="el" href="classBeeeOn_1_1ZWaveNode.html#a534f3cb110f3f0642798b58c9a4f26b5">BeeeOn::ZWaveNode</a>
