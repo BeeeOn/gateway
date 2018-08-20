@@ -721,16 +721,18 @@ void OZWNetwork::valueChanged(const Notification *n)
 	Manager::Get()->GetValueAsString(n->GetValueID(), &value);
 
 	const string &unit = Manager::Get()->GetValueUnits(n->GetValueID());
+	const auto cc = buildCommandClass(n->GetValueID());
 
 	if (logger().debug()) {
-		logger().debug("received data " + value + " from "
+		logger().debug("received data " + value
+				+ " (" + cc.toString() + ") from "
 				+ it->second.toString(),
 				__FILE__, __LINE__);
 	}
 
 	notifyEvent(PollEvent::createValue({
 		it->second,
-		buildCommandClass(n->GetValueID()),
+		cc,
 		value,
 		unit
 	}));
