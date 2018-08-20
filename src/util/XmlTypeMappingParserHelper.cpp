@@ -34,9 +34,9 @@ void XmlTypeMappingParserHelper::parseDOM(istream &in)
 
 pair<AutoPtr<Node>, ModuleType> XmlTypeMappingParserHelper::next()
 {
-	Node *node = m_iterator->nextNode();
+	Node *node = nullptr;
 
-	while (node != nullptr) {
+	while ((node = m_iterator->nextNode()) != nullptr) {
 		if (node->localName() != "beeeon")
 			continue;
 
