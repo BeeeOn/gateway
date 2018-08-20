@@ -42,7 +42,6 @@ if(GLIB_FOUND AND GIO_UNIX_FOUND)
 endif()
 
 file(GLOB TEST_SOURCES
-	${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcherTest.cpp
@@ -72,11 +71,17 @@ file(GLOB TEST_SOURCES
 if(BLUETOOTH)
 	list(APPEND LIBS ${BLUETOOTH})
 
+	file(GLOB BLUETOOTH_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
+	)
+
+	list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
+
 	if(HAS_DBUS_BLUEZ)
-		file(GLOB BLUETOOTH_SOURCES
+		file(GLOB DBUS_BLUEZ_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
 		)
-		list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
+		list(APPEND TEST_SOURCES ${DBUS_BLUEZ_SOURCES})
 	endif()
 endif()
 
