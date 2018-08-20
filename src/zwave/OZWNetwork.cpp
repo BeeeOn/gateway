@@ -722,8 +722,8 @@ void OZWNetwork::valueChanged(const Notification *n)
 
 	const string &unit = Manager::Get()->GetValueUnits(n->GetValueID());
 
-	if (logger().trace()) {
-		logger().trace("received data " + value + " from "
+	if (logger().debug()) {
+		logger().debug("received data " + value + " from "
 				+ it->second.toString(),
 				__FILE__, __LINE__);
 	}
