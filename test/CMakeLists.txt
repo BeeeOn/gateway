@@ -66,6 +66,7 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/zwave/AbstractZWaveNetworkTest.cpp
 	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistryTest.cpp
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
+	${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParserTest.cpp
 )
 
 if(BLUETOOTH)

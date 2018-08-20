@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iosfwd>
 #include <map>
 
 #include "model/ModuleID.h"
@@ -77,11 +78,36 @@ public:
 		std::map<ModuleID, ModuleType> m_modules;
 	};
 
+	GenericZWaveMapperRegistry();
+
+	/**
+	 * @brief Load XML file with the types mapping between Z-Wave and BeeeOn.
+	 */
+	void loadTypesMapping(const std::string &file);
+	void loadTypesMapping(std::istream &in);
+
 	/**
 	 * @breif Map the given ZWaveNode instance on-fly to the BeeeOn system
 	 * by using the GenericMapper.
 	 */
 	Mapper::Ptr resolve(const ZWaveNode &node) override;
+
+private:
+	/**
+	 * The m_typesMapping maps Z-Wave command classes to BeeeOn types.
+	 */
+	std::map<std::pair<uint8_t, uint8_t>, ModuleType> m_typesMapping;
+
+	/**
+	 * The m_typesOrder maintains backwards compatibility of the m_typesMapping and GenericMapper.
+	 * If a new data type is added, it MUST be appended to the end of the m_typesOrder and its
+	 * value must be incremented by 1 from the last one.
+	 *
+	 * The values as discovered from Z-Wave nodes must be always in the same order to
+	 * have a stable mapping to BeeeOn modules of a device. When all values are reported
+	 * for a Z-Wave device, they are sorted according to the m_typesOrder.
+	 */
+	std::map<std::pair<uint8_t, uint8_t>, unsigned int> m_typesOrder;
 };
 
 }

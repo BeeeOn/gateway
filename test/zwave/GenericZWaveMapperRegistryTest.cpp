@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "cppunit/BetterAssert.h"
@@ -53,6 +55,22 @@ void GenericZWaveMapperRegistryTest::testResolveUnsupportedNode()
 void GenericZWaveMapperRegistryTest::testResolveTempSensor()
 {
 	GenericZWaveMapperRegistry registry;
+
+	std::istringstream typesMapping;
+	typesMapping.str(
+		"<mappings>\n"
+		"  <map command='battery'>\n"
+		"    <z-wave command-class='128' />\n"
+		"    <beeeon type='battery' />\n"
+		"  </map>\n"
+		"  <map command='temperature'>\n"
+		"    <z-wave command-class='49' index='1' />\n"
+		"    <beeeon type='temperature' />\n"
+		"  </map>\n"
+		"</mappings>\n"
+	);
+	registry.loadTypesMapping(typesMapping);
+
 	ZWaveNode node({0x1000, 120});
 	node.add({CC::BATTERY, 0, 0});
 	node.add({CC::SENSOR_MULTILEVEL, 1, 0});

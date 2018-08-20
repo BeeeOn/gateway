@@ -155,6 +155,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataParser.cpp
+	${PROJECT_SOURCE_DIR}/util/XmlTypeMappingParserHelper.cpp
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveListener.cpp
 )
 
@@ -306,6 +307,7 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNotificationEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWavePocoLoggerAdapter.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParser.cpp
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
