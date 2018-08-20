@@ -161,10 +161,17 @@
 			</set>
 		</instance>
 
+		<instance name="climaxZWaveMapperRegistry" class="BeeeOn::ClimaxZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="018E:0001" text="dc23zw" />
+			</set>
+		</instance>
+
 		<instance name="zwaveMapperRegistry" class="BeeeOn::CompositeZWaveMapperRegistry">
 			<add name="registry" ref="st02l1ZWaveMapperRegistry" />
 			<add name="registry" ref="fibaroZWaveMapperRegistry" />
 			<add name="registry" ref="aeotecZWaveMapperRegistry" />
+			<add name="registry" ref="climaxZWaveMapperRegistry" />
 			<add name="registry" ref="genericZWaveMapperRegistry" />
 		</instance>
 
