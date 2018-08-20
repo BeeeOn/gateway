@@ -155,6 +155,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/NullSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/SensorDataParser.cpp
+	${PROJECT_SOURCE_DIR}/util/XmlTypeMappingParserHelper.cpp
 	${PROJECT_SOURCE_DIR}/zwave/ZWaveListener.cpp
 )
 
