@@ -42,7 +42,6 @@ if(GLIB_FOUND AND GIO_UNIX_FOUND)
 endif()
 
 file(GLOB TEST_SOURCES
-	${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcherTest.cpp
@@ -63,20 +62,22 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JournalTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
-	${PROJECT_SOURCE_DIR}/zwave/AbstractZWaveNetworkTest.cpp
-	${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistryTest.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
-	${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParserTest.cpp
 )
 
 if(BLUETOOTH)
 	list(APPEND LIBS ${BLUETOOTH})
 
+	file(GLOB BLUETOOTH_SOURCES
+		${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
+	)
+
+	list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
+
 	if(HAS_DBUS_BLUEZ)
-		file(GLOB BLUETOOTH_SOURCES
+		file(GLOB DBUS_BLUEZ_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
 		)
-		list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
+		list(APPEND TEST_SOURCES ${DBUS_BLUEZ_SOURCES})
 	endif()
 endif()
 
@@ -91,6 +92,10 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 
 	file(GLOB ZWAVE_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/zwave/AbstractZWaveNetworkTest.cpp
+		${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistryTest.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParserTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
