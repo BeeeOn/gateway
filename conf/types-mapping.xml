@@ -27,11 +27,11 @@
 		</map>
 		<map comment="Sensor Binary (CO)">
 			<z-wave command-class="48" index="3" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Sensor Binary (CO2)">
 			<z-wave command-class="48" index="4" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Sensor Binary (heat)">
 			<z-wave command-class="48" index="5" />
@@ -39,11 +39,11 @@
 		</map>
 		<map comment="Sensor Binary (water)">
 			<z-wave command-class="48" index="6" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Sensor Binary (freeze)">
 			<z-wave command-class="48" index="7" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Sensor Binary (tamper)">
 			<z-wave command-class="48" index="8" />
@@ -67,7 +67,7 @@
 		</map>
 		<map comment="Sensor Binary (glass break)">
 			<z-wave command-class="48" index="13" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Alarm (smoke)">
 			<z-wave command-class="113" index="1" />
@@ -75,11 +75,11 @@
 		</map>
 		<map comment="Alarm (CO)">
 			<z-wave command-class="113" index="2" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Alarm (CO2)">
 			<z-wave command-class="113" index="3" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Alarm (heat)">
 			<z-wave command-class="113" index="4" />
@@ -87,7 +87,7 @@
 		</map>
 		<map comment="Alarm (water)">
 			<z-wave command-class="113" index="5" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Alarm (tampering)">
 			<z-wave command-class="113" index="7" />
@@ -99,15 +99,15 @@
 		</map>
 		<map comment="Alarm (system failure)">
 			<z-wave command-class="113" index="9" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Alarm (emergency)">
 			<z-wave command-class="113" index="10" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="Alarm (alarm clock)">
 			<z-wave command-class="113" index="11" />
-			<beeeon type="security_alert" />
+			<beeeon type="unknown" />
 		</map>
 		<map comment="SensorMultilevel (air temperature)">
 			<z-wave command-class="49" index="1" />
