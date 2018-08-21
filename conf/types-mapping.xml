@@ -143,15 +143,15 @@
 		</map>
 		<map comment="SensorMultilevel (ultraviolet)">
 			<z-wave command-class="49" index="27" />
-			<beeeon type="temperature" />
+			<beeeon type="ultraviolet" />
 		</map>
 		<map comment="SensorMultilevel (noise)">
 			<z-wave command-class="49" index="30" />
-			<beeeon type="temperature" />
+			<beeeon type="noise" />
 		</map>
 		<map comment="SensorMultilevel (soil humidity)">
 			<z-wave command-class="49" index="41" />
-			<beeeon type="temperature" />
+			<beeeon type="humidity" />
 		</map>
 		<map comment="SensorMultilevel (outer temperature)">
 			<z-wave command-class="49" index="34" />
