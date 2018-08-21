@@ -157,6 +157,10 @@
 			<z-wave command-class="49" index="34" />
 			<beeeon type="temperature,outer" />
 		</map>
+		<map comment="SensorMultilevel (particular matter 2.5)">
+			<z-wave command-class="49" index="35" />
+			<beeeon type="pm25" />
+		</map>
 		<map comment="Battery">
 			<z-wave command-class="128" />
 			<beeeon type="battery" />
