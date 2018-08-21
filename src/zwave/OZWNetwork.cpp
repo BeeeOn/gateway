@@ -584,6 +584,8 @@ void OZWNetwork::nodeNaming(const Notification *n)
 		"resolved node " + node.toString() + " identification: "
 		+ node.toInfoString() + " '" + name + "'",
 		__FILE__, __LINE__);
+
+	notifyEvent(PollEvent::createNewNode(node));
 }
 
 void OZWNetwork::nodeProtocolInfo(const Notification *n)
@@ -656,8 +658,6 @@ void OZWNetwork::nodeReady(const Notification *n)
 			+ Manager::Get()->GetLibraryVersion(n->GetHomeId()),
 			__FILE__, __LINE__);
 	}
-
-	notifyEvent(PollEvent::createNewNode(node));
 }
 
 void OZWNetwork::nodeRemoved(const Notification *n)
@@ -721,16 +721,18 @@ void OZWNetwork::valueChanged(const Notification *n)
 	Manager::Get()->GetValueAsString(n->GetValueID(), &value);
 
 	const string &unit = Manager::Get()->GetValueUnits(n->GetValueID());
+	const auto cc = buildCommandClass(n->GetValueID());
 
-	if (logger().trace()) {
-		logger().trace("received data " + value + " from "
+	if (logger().debug()) {
+		logger().debug("received data " + value
+				+ " (" + cc.toString() + ") from "
 				+ it->second.toString(),
 				__FILE__, __LINE__);
 	}
 
 	notifyEvent(PollEvent::createValue({
 		it->second,
-		buildCommandClass(n->GetValueID()),
+		cc,
 		value,
 		unit
 	}));
