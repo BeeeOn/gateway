@@ -135,10 +135,50 @@
 			<set name="typesMapping" text="${zwave.generic.typesMapping.path}" />
 		</instance>
 
+		<instance name="st02l1ZWaveMapperRegistry" class="BeeeOn::ST02L1ZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="013C:000C" text="4-in-1" />     <!-- PST02-1A -->
+				<pair key="013C:000D" text="3-in-1-pir" /> <!-- PST02-1B -->
+				<pair key="013C:000E" text="3-in-1" />     <!-- PST02-1C -->
+				<pair key="013C:0002" text="4-in-1" />     <!-- PSM02-1  -->
+				<pair key="0118:0002" text="4-in-1" />     <!-- TSM02    -->
+				<pair key="0108:000D" text="3-in-1-pir" /> <!-- DCH-Z120 -->
+				<pair key="0108:000E" text="3-in-1" />     <!-- DCH-Z110 -->
+				<pair key="0175:000E" text="3-in-1" />     <!-- MT02648  -->
+			</set>
+		</instance>
+
+		<instance name="fibaroZWaveMapperRegistry" class="BeeeOn::FibaroZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="010F:1000" text="fgk101" />
+				<pair key="010F:1002" text="fgsd002" />
+			</set>
+		</instance>
+
+		<instance name="aeotecZWaveMapperRegistry" class="BeeeOn::AeotecZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="0086:0064" text="zw100" />
+			</set>
+		</instance>
+
+		<instance name="climaxZWaveMapperRegistry" class="BeeeOn::ClimaxZWaveMapperRegistry">
+			<set name="specMap">
+				<pair key="018E:0001" text="dc23zw" />
+			</set>
+		</instance>
+
+		<instance name="zwaveMapperRegistry" class="BeeeOn::CompositeZWaveMapperRegistry">
+			<add name="registry" ref="st02l1ZWaveMapperRegistry" />
+			<add name="registry" ref="fibaroZWaveMapperRegistry" />
+			<add name="registry" ref="aeotecZWaveMapperRegistry" />
+			<add name="registry" ref="climaxZWaveMapperRegistry" />
+			<add name="registry" ref="genericZWaveMapperRegistry" />
+		</instance>
+
 		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="network" ref="ozwNetwork" />
-			<set name="registry" ref="genericZWaveMapperRegistry" />
+			<set name="registry" ref="zwaveMapperRegistry" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="distributor" ref="distributor" />
 		</instance>

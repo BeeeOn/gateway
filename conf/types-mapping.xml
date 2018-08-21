@@ -23,7 +23,7 @@
 		</map>
 		<map comment="Sensor Binary (smoke)">
 			<z-wave command-class="48" index="2" />
-			<beeeon type="security_alert" />
+			<beeeon type="smoke" />
 		</map>
 		<map comment="Sensor Binary (CO)">
 			<z-wave command-class="48" index="3" />
@@ -35,7 +35,7 @@
 		</map>
 		<map comment="Sensor Binary (heat)">
 			<z-wave command-class="48" index="5" />
-			<beeeon type="security_alert" />
+			<beeeon type="heat" />
 		</map>
 		<map comment="Sensor Binary (water)">
 			<z-wave command-class="48" index="6" />
@@ -71,7 +71,7 @@
 		</map>
 		<map comment="Alarm (smoke)">
 			<z-wave command-class="113" index="1" />
-			<beeeon type="security_alert" />
+			<beeeon type="smoke" />
 		</map>
 		<map comment="Alarm (CO)">
 			<z-wave command-class="113" index="2" />
@@ -83,7 +83,7 @@
 		</map>
 		<map comment="Alarm (heat)">
 			<z-wave command-class="113" index="4" />
-			<beeeon type="security_alert" />
+			<beeeon type="heat" />
 		</map>
 		<map comment="Alarm (water)">
 			<z-wave command-class="113" index="5" />
