@@ -480,6 +480,11 @@ void OZWNetwork::driverReady(const Notification *n)
 		m_controllersToReset.erase(shouldReset);
 		resetController(n->GetHomeId());
 	}
+	else {
+		FastMutex::ScopedLock guard(m_managerLock);
+
+		Manager::Get()->WriteConfig(n->GetHomeId());
+	}
 }
 
 void OZWNetwork::driverFailed(const Notification *n)
