@@ -28,7 +28,7 @@ public:
 	 * Set executor instance for asynchronous data transfer to
 	 * listeners.
 	 */
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+	void setExecutor(AsyncExecutor::Ptr executor);
 
 protected:
 	/*

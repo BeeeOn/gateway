@@ -72,7 +72,7 @@ public:
 	/**
 	 * Set executor for delivering events.
 	 */
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+	void setExecutor(AsyncExecutor::Ptr executor);
 
 	/**
 	 * Register listener of bluetooth events.

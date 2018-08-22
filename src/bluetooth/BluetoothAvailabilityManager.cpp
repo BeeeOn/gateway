@@ -470,7 +470,7 @@ void BluetoothAvailabilityManager::setHciManager(HciInterfaceManager::Ptr manage
 	m_hciManager = manager;
 }
 
-void BluetoothAvailabilityManager::setExecutor(SharedPtr<AsyncExecutor> executor)
+void BluetoothAvailabilityManager::setExecutor(AsyncExecutor::Ptr executor)
 {
 	m_eventSource.setAsyncExecutor(executor);
 }
