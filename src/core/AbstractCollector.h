@@ -1,7 +1,7 @@
 #ifndef BEEEON_ABSTRACT_COLLECTOR_H
 #define BEEEON_ABSTRACT_COLLECTOR_H
 
-#include "bluetooth/BluetoothListener.h"
+#include "bluetooth/HciListener.h"
 #include "core/CommandDispatcherListener.h"
 #include "core/DistributorListener.h"
 #include "philips/PhilipsHueListener.h"
@@ -16,7 +16,7 @@ namespace BeeeOn {
  * sensors.
  */
 class AbstractCollector :
-	public BluetoothListener,
+	public HciListener,
 	public DistributorListener,
 	public PhilipsHueListener,
 	public ZWaveListener,

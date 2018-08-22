@@ -20,7 +20,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
 BEEEON_OBJECT_CASTABLE(ZWaveListener)
-BEEEON_OBJECT_CASTABLE(BluetoothListener)
+BEEEON_OBJECT_CASTABLE(HciListener)
 BEEEON_OBJECT_CASTABLE(PhilipsHueListener)
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
 BEEEON_OBJECT_END(BeeeOn, LoggingCollector)

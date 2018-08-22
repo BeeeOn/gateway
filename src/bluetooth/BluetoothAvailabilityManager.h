@@ -12,8 +12,8 @@
 #include <Poco/Timespan.h>
 
 #include "bluetooth/BluetoothDevice.h"
-#include "bluetooth/BluetoothListener.h"
 #include "bluetooth/HciInterface.h"
+#include "bluetooth/HciListener.h"
 #include "commands/DeviceAcceptCommand.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
@@ -77,7 +77,7 @@ public:
 	/**
 	 * Register listener of bluetooth events.
 	 */
-	void registerListener(BluetoothListener::Ptr listener);
+	void registerListener(HciListener::Ptr listener);
 
 protected:
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
@@ -137,7 +137,7 @@ private:
 	Poco::FastMutex m_scanLock;
 	HciInterfaceManager::Ptr m_hciManager;
 	PeriodicRunner m_statisticsRunner;
-	EventSource<BluetoothListener> m_eventSource;
+	EventSource<HciListener> m_eventSource;
 	Poco::Timespan m_listenTime;
 	int m_mode;
 	std::map<MACAddress, std::string> m_leScanCache;

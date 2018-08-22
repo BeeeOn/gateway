@@ -102,7 +102,7 @@ void BluetoothAvailabilityManager::dongleAvailable()
 		HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
 
 		const HciInfo &info = hci->info();
-		m_eventSource.fireEvent(info, &BluetoothListener::onHciStats);
+		m_eventSource.fireEvent(info, &HciListener::onHciStats);
 	});
 
 	/*
@@ -475,7 +475,7 @@ void BluetoothAvailabilityManager::setExecutor(SharedPtr<AsyncExecutor> executor
 	m_eventSource.setAsyncExecutor(executor);
 }
 
-void BluetoothAvailabilityManager::registerListener(BluetoothListener::Ptr listener)
+void BluetoothAvailabilityManager::registerListener(HciListener::Ptr listener)
 {
 	m_eventSource.addListener(listener);
 }

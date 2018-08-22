@@ -77,7 +77,7 @@ if(ENABLE_UCLIBCXX_FIXES)
 endif()
 
 file(GLOB SOURCES
-	${PROJECT_SOURCE_DIR}/bluetooth/BluetoothListener.cpp
+	${PROJECT_SOURCE_DIR}/bluetooth/HciListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairCommand.cpp
