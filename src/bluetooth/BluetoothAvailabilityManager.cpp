@@ -9,6 +9,7 @@
 #include <Poco/Timestamp.h>
 
 #include "bluetooth/BluetoothAvailabilityManager.h"
+#include "bluetooth/HciUtil.h"
 #include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
@@ -173,15 +174,7 @@ void BluetoothAvailabilityManager::notifyDongleRemoved()
 
 string BluetoothAvailabilityManager::dongleMatch(const HotplugEvent &e)
 {
-	if (!e.properties()->has("bluetooth.BEEEON_DONGLE"))
-		return "";
-
-	const auto &dongle = e.properties()->getString("bluetooth.BEEEON_DONGLE");
-
-	if (dongle != "bluetooth")
-		return "";
-
-	return e.name();
+	return HciUtil::hotplugMatch(e);
 }
 
 void BluetoothAvailabilityManager::stop()
