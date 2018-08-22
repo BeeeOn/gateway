@@ -480,6 +480,20 @@ void OZWNetwork::driverReady(const Notification *n)
 		m_controllersToReset.erase(shouldReset);
 		resetController(n->GetHomeId());
 	}
+	else {
+		FastMutex::ScopedLock guard(m_managerLock);
+		const auto home = n->GetHomeId();
+
+		logger().information(
+			"home " + homeAsString(home)
+			+ " Z-Wave: "
+			+ Manager::Get()->GetLibraryTypeName(home)
+			+ " "
+			+ Manager::Get()->GetLibraryVersion(home),
+			__FILE__, __LINE__);
+
+		Manager::Get()->WriteConfig(n->GetHomeId());
+	}
 }
 
 void OZWNetwork::driverFailed(const Notification *n)
@@ -646,18 +660,6 @@ void OZWNetwork::nodeReady(const Notification *n)
 		"node " + node.toString()
 		+ " is ready to work",
 		__FILE__, __LINE__);
-
-	if (checkNodeIsController(n->GetHomeId(), node.node())) {
-		FastMutex::ScopedLock guard(m_managerLock);
-
-		logger().information(
-			"home " + homeAsString(n->GetHomeId())
-			+ " Z-Wave: "
-			+ Manager::Get()->GetLibraryTypeName(n->GetHomeId())
-			+ " "
-			+ Manager::Get()->GetLibraryVersion(n->GetHomeId()),
-			__FILE__, __LINE__);
-	}
 }
 
 void OZWNetwork::nodeRemoved(const Notification *n)
