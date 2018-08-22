@@ -258,6 +258,15 @@ After the initial setup, we have full control over all currently supported devic
 
 * belkinwemo.refresh - interval of polling the particular Belkin Wemo devices (seconds)
 
+##### Bluetooth HCI statistics reporting
+
+The BeeeOn Gateway can periodically report statistics of HCI interfaces via the internal
+C++ interface HciListener.
+
+* bluetooth.reporting.enable - enable reporting of HCI statistics
+
+* bluetooth.statistics.interval - interval of periodic reports of each HCI interface
+
 ##### Bluetooth availability
 
 The BeeeOn Gateway can scan the Bluetooth for availability of devices. When a device

@@ -6,6 +6,7 @@
 			<add name="listeners" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="listeners" ref="ozwNetwork" if-yes="${zwave.enable}"/>
+			<add name="listeners" ref="hciInfoReporter" if-yes="${bluetooth.reporting.enable}"/>
 		</instance>
 
 		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
@@ -14,6 +15,7 @@
 			<add name="listeners" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="listeners" ref="ozwNetwork" if-yes="${zwave.enable}"/>
+			<add name="listeners" ref="hciInfoReporter" if-yes="${bluetooth.reporting.enable}"/>
 		</instance>
 
 		<alias name="hotplugMonitor" ref="${hotplug.impl}Monitor" />
