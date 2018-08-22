@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-77-g4b98a60</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-78-g33e0925</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -55,7 +55,7 @@
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_ABSTRACT_COLLECTOR_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_ABSTRACT_COLLECTOR_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;bluetooth/BluetoothListener.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;bluetooth/HciListener.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/CommandDispatcherListener.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;core/DistributorListener.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;philips/PhilipsHueListener.h&quot;</span></div>
@@ -64,7 +64,7 @@
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractCollector.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1AbstractCollector.html">AbstractCollector</a> :</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1BluetoothListener.html">BluetoothListener</a>,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1HciListener.html">HciListener</a>,</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DistributorListener.html">DistributorListener</a>,</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1PhilipsHueListener.html">PhilipsHueListener</a>,</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1ZWaveListener.html">ZWaveListener</a>,</div>
@@ -105,6 +105,7 @@
 <div class="ttc" id="classBeeeOn_1_1HciInfo_html"><div class="ttname"><a href="classBeeeOn_1_1HciInfo.html">BeeeOn::HciInfo</a></div><div class="ttdef"><b>Definition:</b> HciInfo.h:16</div></div>
 <div class="ttc" id="classBeeeOn_1_1DistributorListener_html"><div class="ttname"><a href="classBeeeOn_1_1DistributorListener.html">BeeeOn::DistributorListener</a></div><div class="ttdoc">Interface to report events occuring in Distributor. </div><div class="ttdef"><b>Definition:</b> DistributorListener.h:15</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueListener_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueListener.html">BeeeOn::PhilipsHueListener</a></div><div class="ttdef"><b>Definition:</b> PhilipsHueListener.h:14</div></div>
+<div class="ttc" id="classBeeeOn_1_1HciListener_html"><div class="ttname"><a href="classBeeeOn_1_1HciListener.html">BeeeOn::HciListener</a></div><div class="ttdef"><b>Definition:</b> HciListener.h:9</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractCollector_html_a10ba5f0fdb6b23db5496198dfe65b041"><div class="ttname"><a href="classBeeeOn_1_1AbstractCollector.html#a10ba5f0fdb6b23db5496198dfe65b041">BeeeOn::AbstractCollector::onBulbStats</a></div><div class="ttdeci">void onBulbStats(const PhilipsHueBulbInfo &amp;info) override</div><div class="ttdef"><b>Definition:</b> AbstractCollector.cpp:29</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractCollector_html_a64f9b509686743280182c5e4e7432396"><div class="ttname"><a href="classBeeeOn_1_1AbstractCollector.html#a64f9b509686743280182c5e4e7432396">BeeeOn::AbstractCollector::onHciStats</a></div><div class="ttdeci">void onHciStats(const HciInfo &amp;info) override</div><div class="ttdef"><b>Definition:</b> AbstractCollector.cpp:25</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveNotificationEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNotificationEvent.html">BeeeOn::ZWaveNotificationEvent</a></div><div class="ttdoc">Low-level OpenZWave notification event. Because, the OpenZWave::Notification cannot be copied nor clo...</div><div class="ttdef"><b>Definition:</b> ZWaveNotificationEvent.h:16</div></div>
@@ -112,7 +113,6 @@
 <div class="ttc" id="classBeeeOn_1_1AbstractCollector_html_a30734aa654562ebc7deb6e3c1a82529b"><div class="ttname"><a href="classBeeeOn_1_1AbstractCollector.html#a30734aa654562ebc7deb6e3c1a82529b">BeeeOn::AbstractCollector::onBridgeStats</a></div><div class="ttdeci">void onBridgeStats(const PhilipsHueBridgeInfo &amp;info) override</div><div class="ttdef"><b>Definition:</b> AbstractCollector.cpp:33</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueBulbInfo_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBulbInfo.html">BeeeOn::PhilipsHueBulbInfo</a></div><div class="ttdef"><b>Definition:</b> PhilipsHueBulbInfo.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDriverEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDriverEvent.html">BeeeOn::ZWaveDriverEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveDriverEvent.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1BluetoothListener_html"><div class="ttname"><a href="classBeeeOn_1_1BluetoothListener.html">BeeeOn::BluetoothListener</a></div><div class="ttdef"><b>Definition:</b> BluetoothListener.h:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
