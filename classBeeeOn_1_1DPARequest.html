@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-81-g0d4f55e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-91-gd6e8056</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -70,9 +70,16 @@ Inheritance diagram for BeeeOn::DPARequest:</div>
  <div class="center">
   <img src="classBeeeOn_1_1DPARequest.png" usemap="#BeeeOn::DPARequest_map" alt=""/>
   <map id="BeeeOn::DPARequest_map" name="BeeeOn::DPARequest_map">
-<area href="classBeeeOn_1_1DPAMessage.html" title="The class represents DPA message that can be sent/received from IQRF network. " alt="BeeeOn::DPAMessage" shape="rect" coords="129,0,377,24"/>
-<area href="classBeeeOn_1_1DPACoordBondedNodesRequest.html" title="DPA message that requires list of paired devices from coordinator. " alt="BeeeOn::DPACoordBondedNodesRequest" shape="rect" coords="0,112,248,136"/>
-<area href="classBeeeOn_1_1DPACoordBondNodeRequest.html" title="Request for node bonding with 10 s timeout (internal IQRF OS timeout). " alt="BeeeOn::DPACoordBondNodeRequest" shape="rect" coords="258,112,506,136"/>
+<area href="classBeeeOn_1_1DPAMessage.html" title="The class represents DPA message that can be sent/received from IQRF network. " alt="BeeeOn::DPAMessage" shape="rect" coords="0,0,250,24"/>
+<area href="classBeeeOn_1_1DPABatchRequest.html" title="One batch request can contain several simple requests. " alt="BeeeOn::DPABatchRequest" shape="rect" coords="260,112,510,136"/>
+<area href="classBeeeOn_1_1DPACoordBondedNodesRequest.html" title="DPA message that requires list of paired devices from coordinator. " alt="BeeeOn::DPACoordBondedNodesRequest" shape="rect" coords="260,168,510,192"/>
+<area href="classBeeeOn_1_1DPACoordBondNodeRequest.html" title="Request for node bonding with 10 s timeout (internal IQRF OS timeout). " alt="BeeeOn::DPACoordBondNodeRequest" shape="rect" coords="260,224,510,248"/>
+<area href="classBeeeOn_1_1DPACoordClearAllBondsRequest.html" alt="BeeeOn::DPACoordClearAllBondsRequest" shape="rect" coords="260,280,510,304"/>
+<area href="classBeeeOn_1_1DPACoordDiscoveryRequest.html" alt="BeeeOn::DPACoordDiscoveryRequest" shape="rect" coords="260,336,510,360"/>
+<area href="classBeeeOn_1_1DPACoordRemoveNodeRequest.html" alt="BeeeOn::DPACoordRemoveNodeRequest" shape="rect" coords="260,392,510,416"/>
+<area href="classBeeeOn_1_1DPANodeRemoveBondRequest.html" alt="BeeeOn::DPANodeRemoveBondRequest" shape="rect" coords="260,448,510,472"/>
+<area href="classBeeeOn_1_1DPAOSPeripheralInfoRequest.html" alt="BeeeOn::DPAOSPeripheralInfoRequest" shape="rect" coords="260,504,510,528"/>
+<area href="classBeeeOn_1_1DPAOSRestartRequest.html" alt="BeeeOn::DPAOSRestartRequest" shape="rect" coords="260,560,510,584"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -144,6 +151,12 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:afe40a4d2e2dec5a7b1ac0f86e9b95436"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe40a4d2e2dec5a7b1ac0f86e9b95436"></a>
 static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>DPA_COORD_PNUM</b> = 0x00</td></tr>
 <tr class="separator:afe40a4d2e2dec5a7b1ac0f86e9b95436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2cb1a7e4f43d01b1489358d2f4a43b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2cb1a7e4f43d01b1489358d2f4a43b8"></a>
+static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>DPA_NODE_PNUM</b> = 0x01</td></tr>
+<tr class="separator:ae2cb1a7e4f43d01b1489358d2f4a43b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a632148c93da3f8c28c370600c8c5d652"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a632148c93da3f8c28c370600c8c5d652"></a>
+static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>DPA_OS_PNUM</b> = 0x02</td></tr>
+<tr class="separator:a632148c93da3f8c28c370600c8c5d652"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_classBeeeOn_1_1DPAMessage"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classBeeeOn_1_1DPAMessage')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classBeeeOn_1_1DPAMessage.html">BeeeOn::DPAMessage</a></td></tr>
 <tr class="memitem:a668eef4e5bcfbc51129e31f47a8729c3 inherit pub_static_attribs_classBeeeOn_1_1DPAMessage"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a668eef4e5bcfbc51129e31f47a8729c3"></a>
 static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>COORDINATOR_NODE_ADDRESS</b> = 0x0000</td></tr>
@@ -195,6 +208,8 @@ Additional Inherited Members</h2></td></tr>
 <p>Example: 01.00.06.83.ff.ff </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1DPAMessage.html#a1dfaa3641772bcbf6c9b2a032c1238fd">BeeeOn::DPAMessage</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1DPABatchRequest.html#a1a718d4c3f2aac2e17a4b9b9f74ce0b5">BeeeOn::DPABatchRequest</a>.</p>
 
 </div>
 </div>

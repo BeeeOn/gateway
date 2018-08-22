@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-81-g0d4f55e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-91-gd6e8056</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,12 +71,21 @@ Inheritance diagram for BeeeOn::DPAMessage:</div>
  <div class="center">
   <img src="classBeeeOn_1_1DPAMessage.png" usemap="#BeeeOn::DPAMessage_map" alt=""/>
   <map id="BeeeOn::DPAMessage_map" name="BeeeOn::DPAMessage_map">
-<area href="classBeeeOn_1_1DPARequest.html" title="DPA request contains a header: " alt="BeeeOn::DPARequest" shape="rect" coords="134,56,393,80"/>
-<area href="classBeeeOn_1_1DPAResponse.html" title="Each response contains a header with: " alt="BeeeOn::DPAResponse" shape="rect" coords="672,56,931,80"/>
-<area href="classBeeeOn_1_1DPACoordBondedNodesRequest.html" title="DPA message that requires list of paired devices from coordinator. " alt="BeeeOn::DPACoordBondedNodesRequest" shape="rect" coords="0,112,259,136"/>
-<area href="classBeeeOn_1_1DPACoordBondNodeRequest.html" title="Request for node bonding with 10 s timeout (internal IQRF OS timeout). " alt="BeeeOn::DPACoordBondNodeRequest" shape="rect" coords="269,112,528,136"/>
-<area href="classBeeeOn_1_1DPACoordBondedNodesResponse.html" title="DPA message that contains list of paired devices from coordinator. Up to 256 devices can be bonded..." alt="BeeeOn::DPACoordBondedNodesResponse" shape="rect" coords="538,112,797,136"/>
-<area href="classBeeeOn_1_1DPACoordBondNodeResponse.html" alt="BeeeOn::DPACoordBondNodeResponse" shape="rect" coords="807,112,1066,136"/>
+<area href="classBeeeOn_1_1DPARequest.html" title="DPA request contains a header: " alt="BeeeOn::DPARequest" shape="rect" coords="0,56,259,80"/>
+<area href="classBeeeOn_1_1DPAResponse.html" title="Each response contains a header with: " alt="BeeeOn::DPAResponse" shape="rect" coords="538,56,797,80"/>
+<area href="classBeeeOn_1_1DPABatchRequest.html" title="One batch request can contain several simple requests. " alt="BeeeOn::DPABatchRequest" shape="rect" coords="269,112,528,136"/>
+<area href="classBeeeOn_1_1DPACoordBondedNodesRequest.html" title="DPA message that requires list of paired devices from coordinator. " alt="BeeeOn::DPACoordBondedNodesRequest" shape="rect" coords="269,168,528,192"/>
+<area href="classBeeeOn_1_1DPACoordBondNodeRequest.html" title="Request for node bonding with 10 s timeout (internal IQRF OS timeout). " alt="BeeeOn::DPACoordBondNodeRequest" shape="rect" coords="269,224,528,248"/>
+<area href="classBeeeOn_1_1DPACoordClearAllBondsRequest.html" alt="BeeeOn::DPACoordClearAllBondsRequest" shape="rect" coords="269,280,528,304"/>
+<area href="classBeeeOn_1_1DPACoordDiscoveryRequest.html" alt="BeeeOn::DPACoordDiscoveryRequest" shape="rect" coords="269,336,528,360"/>
+<area href="classBeeeOn_1_1DPACoordRemoveNodeRequest.html" alt="BeeeOn::DPACoordRemoveNodeRequest" shape="rect" coords="269,392,528,416"/>
+<area href="classBeeeOn_1_1DPANodeRemoveBondRequest.html" alt="BeeeOn::DPANodeRemoveBondRequest" shape="rect" coords="269,448,528,472"/>
+<area href="classBeeeOn_1_1DPAOSPeripheralInfoRequest.html" alt="BeeeOn::DPAOSPeripheralInfoRequest" shape="rect" coords="269,504,528,528"/>
+<area href="classBeeeOn_1_1DPAOSRestartRequest.html" alt="BeeeOn::DPAOSRestartRequest" shape="rect" coords="269,560,528,584"/>
+<area href="classBeeeOn_1_1DPACoordBondedNodesResponse.html" title="DPA message that contains list of paired devices from coordinator. Up to 256 devices can be bonded..." alt="BeeeOn::DPACoordBondedNodesResponse" shape="rect" coords="807,112,1066,136"/>
+<area href="classBeeeOn_1_1DPACoordBondNodeResponse.html" alt="BeeeOn::DPACoordBondNodeResponse" shape="rect" coords="807,168,1066,192"/>
+<area href="classBeeeOn_1_1DPACoordRemoveNodeResponse.html" alt="BeeeOn::DPACoordRemoveNodeResponse" shape="rect" coords="807,224,1066,248"/>
+<area href="classBeeeOn_1_1DPAOSPeripheralInfoResponse.html" alt="BeeeOn::DPAOSPeripheralInfoResponse" shape="rect" coords="807,280,1066,304"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -322,7 +331,7 @@ Protected Member Functions</h2></td></tr>
 <p>Converts vector of values to dpa string. Dpa string contains hex values separated by dot. </p>
 <p>Example: 01.00.06.83.ff.ff </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1DPAResponse.html#abb4353572fdbdbc18fc453faec0490c2">BeeeOn::DPAResponse</a>, and <a class="el" href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">BeeeOn::DPARequest</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1DPAResponse.html#abb4353572fdbdbc18fc453faec0490c2">BeeeOn::DPAResponse</a>, <a class="el" href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">BeeeOn::DPARequest</a>, and <a class="el" href="classBeeeOn_1_1DPABatchRequest.html#a1a718d4c3f2aac2e17a4b9b9f74ce0b5">BeeeOn::DPABatchRequest</a>.</p>
 
 </div>
 </div>

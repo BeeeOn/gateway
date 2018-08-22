@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc3-81-g0d4f55e</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc3-91-gd6e8056</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -63,29 +63,31 @@
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr &lt;DPARequest&gt; Ptr;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> uint8_t DPA_COORD_PNUM;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classBeeeOn_1_1DPARequest.html">DPARequest</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> uint8_t DPA_NODE_PNUM;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> uint8_t DPA_OS_PNUM;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="classBeeeOn_1_1DPARequest.html">DPARequest</a>(</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                NetworkAddress node,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                uint8_t pNumber,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                uint8_t pCommand</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        );</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="classBeeeOn_1_1DPARequest.html">DPARequest</a>(</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                NetworkAddress node,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                uint8_t pNumber,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                uint8_t pCommand,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                uint16_t hwPID,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keyword">const</span> std::vector&lt;uint8_t&gt; &amp;peripheralData</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        );</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">toDPAString</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="classBeeeOn_1_1DPARequest.html">DPARequest</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classBeeeOn_1_1DPARequest.html">DPARequest</a>(</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                NetworkAddress node,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                uint8_t pNumber,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                uint8_t pCommand</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        );</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="classBeeeOn_1_1DPARequest.html">DPARequest</a>(</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                NetworkAddress node,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                uint8_t pNumber,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                uint8_t pCommand,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                uint16_t hwPID,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keyword">const</span> std::vector&lt;uint8_t&gt; &amp;peripheralData</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        );</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="classBeeeOn_1_1DPARequest.html#a0f430f3370b2f7ccea2216137a3a0e3d">size</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">toDPAString</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="classBeeeOn_1_1DPARequest.html#a0f430f3370b2f7ccea2216137a3a0e3d">size</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1DPAMessage_html"><div class="ttname"><a href="classBeeeOn_1_1DPAMessage.html">BeeeOn::DPAMessage</a></div><div class="ttdoc">The class represents DPA message that can be sent/received from IQRF network. </div><div class="ttdef"><b>Definition:</b> DPAMessage.h:22</div></div>
 <div class="ttc" id="classBeeeOn_1_1DPARequest_html"><div class="ttname"><a href="classBeeeOn_1_1DPARequest.html">BeeeOn::DPARequest</a></div><div class="ttdoc">DPA request contains a header: </div><div class="ttdef"><b>Definition:</b> DPARequest.h:16</div></div>
 <div class="ttc" id="classBeeeOn_1_1DPARequest_html_a77df29c851639514d9cbb97d1b4c5cb9"><div class="ttname"><a href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">BeeeOn::DPARequest::toDPAString</a></div><div class="ttdeci">std::string toDPAString() const override</div><div class="ttdoc">Converts vector of values to dpa string. Dpa string contains hex values separated by dot...</div></div>
