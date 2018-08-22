@@ -4,6 +4,13 @@
 #include "iqrf/DPARequest.h"
 #include "iqrf/request/DPACoordBondedNodesRequest.h"
 #include "iqrf/request/DPACoordBondNodeRequest.h"
+#include "iqrf/request/DPACoordClearAllBondsRequest.h"
+#include "iqrf/request/DPACoordDiscoveryRequest.h"
+#include "iqrf/request/DPACoordRemoveNodeRequest.h"
+#include "iqrf/request/DPANodeRemoveBondRequest.h"
+#include "iqrf/request/DPAOSPeripheralInfoRequest.h"
+#include "iqrf/request/DPAOSRestartRequest.h"
+#include "iqrf/request/DPAOSBatchRequest.h"
 
 using namespace std;
 using namespace Poco;
@@ -15,12 +22,26 @@ class DPARequestTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testCreateDPARequest);
 	CPPUNIT_TEST(testCreateDPABondedNodesRequest);
 	CPPUNIT_TEST(testCreateDPABondNodeRequest);
+	CPPUNIT_TEST(testCreateDPAUnbondNodeRequest);
+	CPPUNIT_TEST(testCreateDPADiscoveryRequest);
+	CPPUNIT_TEST(testClearAllBondsRequest);
+	CPPUNIT_TEST(testRemoveBondRequest);
+	CPPUNIT_TEST(testPeripheralInfoRequest);
+	CPPUNIT_TEST(testRestartRequest);
+	CPPUNIT_TEST(testBatchRequest);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
 	void testCreateDPARequest();
 	void testCreateDPABondedNodesRequest();
 	void testCreateDPABondNodeRequest();
+	void testCreateDPAUnbondNodeRequest();
+	void testCreateDPADiscoveryRequest();
+	void testClearAllBondsRequest();
+	void testRemoveBondRequest();
+	void testPeripheralInfoRequest();
+	void testRestartRequest();
+	void testBatchRequest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DPARequestTest);
@@ -65,6 +86,68 @@ void DPARequestTest::testCreateDPABondNodeRequest()
 {
 	const string rawDPA = "00.00.00.04.ff.ff.00.00";
 	const DPARequest::Ptr request = new DPACoordBondNodeRequest;
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testCreateDPAUnbondNodeRequest()
+{
+	const string rawDPA = "00.00.00.05.ff.ff.01";
+	const DPARequest::Ptr request = new DPACoordRemoveNodeRequest(1);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testCreateDPADiscoveryRequest()
+{
+	const string rawDPA = "00.00.00.07.ff.ff.07.00";
+	const DPARequest::Ptr request = new DPACoordDiscoveryRequest;
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testClearAllBondsRequest()
+{
+	const string rawDPA = "00.00.00.03.ff.ff";
+	const DPARequest::Ptr request = new DPACoordClearAllBondsRequest;
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testRemoveBondRequest()
+{
+	const string rawDPA = "12.00.01.01.ff.ff";
+	const DPARequest::Ptr request = new DPANodeRemoveBondRequest(0x12);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testPeripheralInfoRequest()
+{
+	const string rawDPA = "12.00.02.00.ff.ff";
+	const DPARequest::Ptr request = new DPAOSPeripheralInfoRequest(0x12);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testRestartRequest()
+{
+	const string rawDPA = "12.00.02.08.ff.ff";
+	const DPARequest::Ptr request = new DPAOSRestartRequest(0x12);
+
+	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
+}
+
+void DPARequestTest::testBatchRequest()
+{
+	const string rawDPA =
+		"12.00.02.05.ff.ff."  // DPA request header
+		"05.01.01.ff.ff."     // DPANodeRemoveBondRequest
+		"05.02.08.ff.ff";     // DPAOSRestartRequest
+
+	DPABatchRequest::Ptr request = new DPABatchRequest(0x12);
+	request->append(new DPANodeRemoveBondRequest(0x12));
+	request->append(new DPAOSRestartRequest(0x12));
 
 	CPPUNIT_ASSERT_EQUAL(rawDPA, request->toDPAString());
 }

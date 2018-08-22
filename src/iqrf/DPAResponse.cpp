@@ -4,6 +4,8 @@
 #include "iqrf/DPAResponse.h"
 #include "iqrf/response/DPACoordBondNodeResponse.h"
 #include "iqrf/response/DPACoordBondedNodesResponse.h"
+#include "iqrf/response/DPACoordRemoveNodeResponse.h"
+#include "iqrf/response/DPAOSPeripheralInfoResponse.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -85,12 +87,20 @@ DPAResponse::Ptr DPAResponse::fromRaw(const string &data)
 	DPAResponse::Ptr response;
 
 	switch (cmd) {
+	case PERIPHERAL_INFO:
+		response = new DPAOSPeripheralInfoResponse;
+		break;
+
 	case BONDED_NODES:
 		response = new DPACoordBondedNodesResponse;
 		break;
 
 	case BOND_NODE:
 		response = new DPACoordBondNodeResponse;
+		break;
+
+	case REMOVE_NODE:
+		response = new DPACoordRemoveNodeResponse;
 		break;
 
 	default:

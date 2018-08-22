@@ -22,8 +22,10 @@ public:
 	typedef Poco::SharedPtr<DPAResponse> Ptr;
 
 	enum Type {
+		PERIPHERAL_INFO = 0x80,
 		BONDED_NODES = 0x82,
 		BOND_NODE = 0x84,
+		REMOVE_NODE = 0x85,
 	};
 
 	/**

@@ -18,6 +18,8 @@ public:
 	typedef Poco::SharedPtr <DPARequest> Ptr;
 
 	static const uint8_t DPA_COORD_PNUM;
+	static const uint8_t DPA_NODE_PNUM;
+	static const uint8_t DPA_OS_PNUM;
 
 	DPARequest();
 

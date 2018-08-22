@@ -9,6 +9,8 @@ using namespace std;
 static const uint8_t DPA_REQUEST_HEADER_SIZE = 6;
 
 const uint8_t DPARequest::DPA_COORD_PNUM = 0x00;
+const uint8_t DPARequest::DPA_NODE_PNUM = 0x01;
+const uint8_t DPARequest::DPA_OS_PNUM = 0x02;
 
 DPARequest::DPARequest():
 	DPAMessage(0, 0, 0, 0, {})

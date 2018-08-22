@@ -371,8 +371,17 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondNodeRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordClearAllBondsRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordDiscoveryRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordRemoveNodeRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPANodeRemoveBondRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPAOSBatchRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPAOSPeripheralInfoRequest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/request/DPAOSRestartRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondNodeResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordBondedNodesResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordRemoveNodeResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/response/DPAOSPeripheralInfoResponse.cpp
 	)
 	list(APPEND SOURCES ${IQRF_SOURCES})
 else()
