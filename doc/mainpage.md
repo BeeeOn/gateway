@@ -263,13 +263,13 @@ After the initial setup, we have full control over all currently supported devic
 The BeeeOn Gateway can scan the Bluetooth for availability of devices. When a device
 is available or unavailable, such event is distributed.
 
-* bluetooth.enable - enable the Bluetooth availability support
+* bluetooth.availability.enable - enable the Bluetooth availability support
 
-* bluetooth.modes - list of bluetooth modes to enable (available: classic, le)
+* bluetooth.availability.modes - list of bluetooth modes to enable (available: classic, le)
 
-* bluetooth.refresh - interval of scanning the network and reporting results
+* bluetooth.availability.refresh - interval of scanning the network and reporting results
 
-* bluetooth.le.scan.time - time for a single LE scan when testing device availability
+* bluetooth.availability.le.scan.time - time for a single LE scan when testing device availability
 
 ##### Jablotron
 

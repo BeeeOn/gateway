@@ -4,7 +4,7 @@
 			<set name="stopParallel" number="1" />
 			<add name="runnables" ref="pressureSensorManager" if-yes="${psdev.enable}" />
 			<add name="runnables" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
-			<add name="runnables" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
+			<add name="runnables" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
 			<add name="runnables" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="runnables" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}" />
@@ -48,9 +48,9 @@
 
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
 			<set name="deviceCache" ref="deviceCache" />
-			<set name="wakeUpTime" time="${bluetooth.refresh}" />
-			<set name="leScanTime" time="${bluetooth.le.scan.time}" />
-			<set name="modes" list="${bluetooth.modes}" />
+			<set name="wakeUpTime" time="${bluetooth.availability.refresh}" />
+			<set name="leScanTime" time="${bluetooth.availability.le.scan.time}" />
+			<set name="modes" list="${bluetooth.availability.modes}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="hciManager" ref="${bluetooth.hci.impl}HciManager" />
