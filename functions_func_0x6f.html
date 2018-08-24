@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-6-g4efb6f0</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-10-g85a810f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -93,17 +93,18 @@
 : <a class="el" href="classBeeeOn_1_1VPTDevice.html#aa33a54488a5aa8406baaf9b0146e3227">BeeeOn::VPTDevice</a>
 </li>
 <li>onAdd()
-: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a444639595c09faaf8c0df64405aab014">BeeeOn::OZWNetwork</a>
+: <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a278049a8b764e1e56451cf8a0c2f47b8">BeeeOn::HciInfoReporter</a>
+, <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a444639595c09faaf8c0df64405aab014">BeeeOn::OZWNetwork</a>
 </li>
 <li>onBridgeStats()
-: <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a7961839aacc1ffb7cf1527adcac86e53">BeeeOn::LoggingCollector</a>
+: <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a30734aa654562ebc7deb6e3c1a82529b">BeeeOn::AbstractCollector</a>
+, <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a7961839aacc1ffb7cf1527adcac86e53">BeeeOn::LoggingCollector</a>
 , <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#a685910292923fb9ef592a5ee2597788c">BeeeOn::PhilipsHueListener</a>
-, <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a30734aa654562ebc7deb6e3c1a82529b">BeeeOn::AbstractCollector</a>
 </li>
 <li>onBulbStats()
-: <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#af1ea6dc5601ad2dd8505297b6ce1660c">BeeeOn::PhilipsHueListener</a>
+: <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a9c03f9eb064817edb2aacfd35d5e6882">BeeeOn::LoggingCollector</a>
+, <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#af1ea6dc5601ad2dd8505297b6ce1660c">BeeeOn::PhilipsHueListener</a>
 , <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a10ba5f0fdb6b23db5496198dfe65b041">BeeeOn::AbstractCollector</a>
-, <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a9c03f9eb064817edb2aacfd35d5e6882">BeeeOn::LoggingCollector</a>
 </li>
 <li>onDBusObjectAdded()
 : <a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a255b1a00a2e5c0647f6042c241bc515b">BeeeOn::DBusHciInterface</a>
@@ -119,9 +120,9 @@
 , <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a766ced1c52cf5196cb7bbecd28f62679">BeeeOn::LoggingCollector</a>
 </li>
 <li>onDriverStats()
-: <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a6181303baa0575a1b2e3c13a5d974e06">BeeeOn::ZWaveListener</a>
+: <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a0494fcbcb167cbf4a282e538a3c4c0e6">BeeeOn::LoggingCollector</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a6181303baa0575a1b2e3c13a5d974e06">BeeeOn::ZWaveListener</a>
 , <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a50e240fb15d598375e969e21072d8a9a">BeeeOn::AbstractCollector</a>
-, <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a0494fcbcb167cbf4a282e538a3c4c0e6">BeeeOn::LoggingCollector</a>
 </li>
 <li>onExport()
 : <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a5ea4c97ed6fb470f7fb007aa74f2b944">BeeeOn::AbstractCollector</a>
@@ -138,13 +139,14 @@
 , <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9e5700c5d2ef6b0a3fe90a09ce97cb94">BeeeOn::ZWaveListener</a>
 </li>
 <li>onNotification()
-: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a29b23fa38950ad9a64c685565a3cf60e">BeeeOn::OZWNetwork</a>
+: <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a4d55028f4a6cb163374d5a07baf96e2d">BeeeOn::LoggingCollector</a>
 , <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a2ab48efbcf3d4d2c1bd220295ee65d8c">BeeeOn::AbstractCollector</a>
-, <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a4d55028f4a6cb163374d5a07baf96e2d">BeeeOn::LoggingCollector</a>
+, <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a29b23fa38950ad9a64c685565a3cf60e">BeeeOn::OZWNetwork</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9b09b600d8aaed51292dbabe3dd817ad">BeeeOn::ZWaveListener</a>
 </li>
 <li>onRemove()
 : <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9a968363c7be60a30e5fb4735d79d36b">BeeeOn::OZWNetwork</a>
+, <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a07efe48a6b00a72b49e51fd4588fafc0">BeeeOn::HciInfoReporter</a>
 </li>
 <li>onStopLoop()
 : <a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a9d137382c0077a80df3fe17ae920eb71">BeeeOn::DBusHciInterface</a>
@@ -170,8 +172,8 @@
 <li>operator==()
 : <a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html#aa30a3f9c4cc0f4fe78ab4c396e9f6282">BeeeOn::BelkinWemoDimmer</a>
 , <a class="el" href="classBeeeOn_1_1BelkinWemoLink.html#a0fe8798edcb92302ab92d3ce994d3893">BeeeOn::BelkinWemoLink</a>
-, <a class="el" href="classBeeeOn_1_1BelkinWemoSwitch.html#a67e5eadbe1724be9a78cb0e5aa93bc48">BeeeOn::BelkinWemoSwitch</a>
 , <a class="el" href="classBeeeOn_1_1VPTDevice.html#afe773bd5a627fec97b0e780c1d195d95">BeeeOn::VPTDevice</a>
+, <a class="el" href="classBeeeOn_1_1BelkinWemoSwitch.html#a67e5eadbe1724be9a78cb0e5aa93bc48">BeeeOn::BelkinWemoSwitch</a>
 </li>
 <li>operator[]()
 : <a class="el" href="classBeeeOn_1_1Journal.html#aa9da130365a65eb34a9b00eb568e50cf">BeeeOn::Journal</a>

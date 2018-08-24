@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-6-g4efb6f0</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-10-g85a810f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -178,13 +178,19 @@
 <li>belkinwemo.http.timeout - timeout of HTTP requests</li>
 <li>belkinwemo.refresh - interval of polling the particular Belkin Wemo devices (seconds)</li>
 </ul>
+<h5>Bluetooth HCI statistics reporting</h5>
+<p>The BeeeOn Gateway can periodically report statistics of HCI interfaces via the internal C++ interface HciListener.</p>
+<ul>
+<li>bluetooth.reporting.enable - enable reporting of HCI statistics</li>
+<li>bluetooth.statistics.interval - interval of periodic reports of each HCI interface</li>
+</ul>
 <h5>Bluetooth availability</h5>
 <p>The BeeeOn Gateway can scan the Bluetooth for availability of devices. When a device is available or unavailable, such event is distributed.</p>
 <ul>
-<li>bluetooth.enable - enable the Bluetooth availability support</li>
-<li>bluetooth.modes - list of bluetooth modes to enable (available: classic, le)</li>
-<li>bluetooth.refresh - interval of scanning the network and reporting results</li>
-<li>bluetooth.le.scan.time - time for a single LE scan when testing device availability</li>
+<li>bluetooth.availability.enable - enable the Bluetooth availability support</li>
+<li>bluetooth.availability.modes - list of bluetooth modes to enable (available: classic, le)</li>
+<li>bluetooth.availability.refresh - interval of scanning the network and reporting results</li>
+<li>bluetooth.availability.le.scan.time - time for a single LE scan when testing device availability</li>
 </ul>
 <h5>Jablotron</h5>
 <ul>
