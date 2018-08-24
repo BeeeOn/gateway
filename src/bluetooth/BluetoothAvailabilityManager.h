@@ -13,13 +13,10 @@
 
 #include "bluetooth/BluetoothDevice.h"
 #include "bluetooth/HciInterface.h"
-#include "bluetooth/HciListener.h"
 #include "commands/DeviceAcceptCommand.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
 #include "model/SensorData.h"
-#include "util/EventSource.h"
-#include "util/PeriodicRunner.h"
 
 namespace BeeeOn {
 
@@ -55,11 +52,6 @@ public:
 	void setModes(const std::list<std::string> &modes);
 
 	/**
-	 * Set interval of periodic bluetooth statistics generation.
-	 */
-	void setStatisticsInterval(const Poco::Timespan &interval);
-
-	/**
 	 * Set time for a single LE scan when testing device availability.
 	 */
 	void setLEScanTime(const Poco::Timespan &time);
@@ -68,16 +60,6 @@ public:
 	 * Set HciInterfaceManager implementation.
 	 */
 	void setHciManager(HciInterfaceManager::Ptr manager);
-
-	/**
-	 * Set executor for delivering events.
-	 */
-	void setExecutor(AsyncExecutor::Ptr executor);
-
-	/**
-	 * Register listener of bluetooth events.
-	 */
-	void registerListener(HciListener::Ptr listener);
 
 protected:
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
@@ -136,8 +118,6 @@ private:
 	Poco::FastMutex m_lock;
 	Poco::FastMutex m_scanLock;
 	HciInterfaceManager::Ptr m_hciManager;
-	PeriodicRunner m_statisticsRunner;
-	EventSource<HciListener> m_eventSource;
 	Poco::Timespan m_listenTime;
 	int m_mode;
 	std::map<MACAddress, std::string> m_leScanCache;

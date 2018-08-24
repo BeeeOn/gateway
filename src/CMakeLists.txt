@@ -189,7 +189,9 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 		${PROJECT_SOURCE_DIR}/bluetooth/DBusHciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciConnection.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInfo.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/HciInfoReporter.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/HciUtil.cpp
 	)
 	list(APPEND SOURCES ${BLUETOOTH_SOURCES})
 	if(HAS_DBUS_BLUEZ)

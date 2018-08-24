@@ -6,6 +6,7 @@
 #include "bluetooth/BeeWiSmartLite.h"
 #include "bluetooth/BeeWiSmartMotion.h"
 #include "bluetooth/BeeWiSmartWatt.h"
+#include "bluetooth/HciUtil.h"
 #include "bluetooth/TabuLumenSmartLite.h"
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
@@ -126,15 +127,7 @@ void BLESmartDeviceManager::notifyDongleRemoved()
 
 string BLESmartDeviceManager::dongleMatch(const HotplugEvent &e)
 {
-	if (!e.properties()->has("bluetooth.BEEEON_DONGLE"))
-		return "";
-
-	const auto &dongle = e.properties()->getString("bluetooth.BEEEON_DONGLE");
-
-	if (dongle != "bluetooth")
-		return "";
-
-	return e.name();
+	return HciUtil::hotplugMatch(e);
 }
 
 void BLESmartDeviceManager::dongleFailed(const FailDetector &dongleStatus)
