@@ -177,7 +177,7 @@ protected:
 			const DeviceID &id,
 			const ModuleID &module,
 			const double value,
-			const Poco::Timespan &timespan);
+			const Poco::Timespan &timeout);
 
 	/**
 	 * @brief Implements handling of the set-value command in a generic way.
