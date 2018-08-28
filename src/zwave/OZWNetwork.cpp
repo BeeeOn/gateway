@@ -21,10 +21,10 @@
 #include "di/Injectable.h"
 #include "hotplug/HotplugEvent.h"
 #include "zwave/OZWNetwork.h"
+#include "zwave/OZWPocoLoggerAdapter.h"
 #include "zwave/ZWaveNodeEvent.h"
 #include "zwave/ZWaveNotificationEvent.h"
 #include "zwave/ZWaveDriverEvent.h"
-#include "zwave/ZWavePocoLoggerAdapter.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, OZWNetwork)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
@@ -225,9 +225,9 @@ void OZWNetwork::configure()
 	Logger &ozwLogger = Logger::get("OpenZWaveLibrary");
 
 	Options::Get()->AddOptionInt("SaveLogLevel",
-		ZWavePocoLoggerAdapter::fromPocoLevel(ozwLogger.getLevel()));
+		OZWPocoLoggerAdapter::fromPocoLevel(ozwLogger.getLevel()));
 	Options::Get()->AddOptionInt("QueueLogLevel",
-		ZWavePocoLoggerAdapter::fromPocoLevel(ozwLogger.getLevel()));
+		OZWPocoLoggerAdapter::fromPocoLevel(ozwLogger.getLevel()));
 
 	if (!m_networkKey.empty()) {
 		string key;
@@ -247,7 +247,7 @@ void OZWNetwork::configure()
 	Manager::Create();
 
 	// logger is deleted by OpenZWave library
-	Log::SetLoggingClass(new ZWavePocoLoggerAdapter(ozwLogger));
+	Log::SetLoggingClass(new OZWPocoLoggerAdapter(ozwLogger));
 
 	m_statisticsRunner.start([&]() {
 		fireStatistics();
