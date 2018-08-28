@@ -298,11 +298,11 @@ real sensors or actuators.
 
 * zwave.enable - enable the Z-Wave support
 
-* zwave.user.path - path to Z-Wave user config data and state
+* zwave.ozw.userPath - path to OpenZWave user config data and state
 
-* zwave.config.path - path to Z-Wave XML config data
+* zwave.ozw.configPath - path to OpenZWave XML config data
 
-* zwave.poll.interval - polling interval to be used with older devices
+* zwave.ozw.pollInterval - polling interval to be used with older devices (via OpenZWave)
 
 * zwave.statistics.interval - interval of reporting statistics of the Z-Wave network
 
