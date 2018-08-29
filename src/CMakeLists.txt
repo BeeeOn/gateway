@@ -303,26 +303,32 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/CompositeZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/FibaroZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/GenericZWaveMapperRegistry.cpp
-		${PROJECT_SOURCE_DIR}/zwave/OZWCommand.cpp
-		${PROJECT_SOURCE_DIR}/zwave/OZWNetwork.cpp
-		${PROJECT_SOURCE_DIR}/zwave/OZWPocoLoggerAdapter.cpp
 		${PROJECT_SOURCE_DIR}/zwave/SpecificZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ST02L1ZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNetwork.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNode.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveNotificationEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParser.cpp
 	)
 	list(APPEND SOURCES ${ZWAVE_SOURCES})
+endif()
+
+if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
+	file(GLOB OZW_SOURCES
+		${PROJECT_SOURCE_DIR}/zwave/OZWCommand.cpp
+		${PROJECT_SOURCE_DIR}/zwave/OZWNetwork.cpp
+		${PROJECT_SOURCE_DIR}/zwave/OZWPocoLoggerAdapter.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveNotificationEvent.cpp
+	)
+	list(APPEND SOURCES ${OZW_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
 else()
-	message(STATUS "Z-Wave support is disabled")
+	message(STATUS "OpenZWave support is disabled")
 endif()
 
 if(MOSQUITTO_CPP)
