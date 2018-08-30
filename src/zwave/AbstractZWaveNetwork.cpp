@@ -75,10 +75,11 @@ ZWaveNetwork::PollEvent AbstractZWaveNetwork::pollEvent(
 			mightBlock = false;
 		}
 		else {
-			mightBlock = false;
+			break;
 		}
 	} while(1);
 
+	m_event.reset();
 	return event;
 }
 
