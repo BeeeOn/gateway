@@ -201,6 +201,7 @@ protected:
 	 * Blocking waiting returns device list from server and non-blocking
 	 * waiting returns device list from server or TimeoutException.
 	 */
+	[[deprecated("use DeviceFetcher instead")]]
 	std::set<DeviceID> deviceList(
 		const Poco::Timespan &timeout = DEFAULT_REQUEST_TIMEOUT);
 
@@ -215,6 +216,7 @@ protected:
 	 * If Answer contains several Results, the first Result SUCCESS will
 	 * be selected.
 	 */
+	[[deprecated("use DeviceFetcher instead")]]
 	double lastValue(const DeviceID &deviceID, const ModuleID &moduleID,
 		const Poco::Timespan &waitTime = DEFAULT_REQUEST_TIMEOUT);
 
@@ -257,7 +259,9 @@ protected:
 		const Poco::Timespan &timeout);
 
 private:
+	[[deprecated("use DeviceFetcher instead")]]
 	void requestDeviceList(Answer::Ptr answer);
+	[[deprecated("use DeviceFetcher instead")]]
 	std::set<DeviceID> responseDeviceList(
 		const Poco::Timespan &waitTime, Answer::Ptr answer);
 
