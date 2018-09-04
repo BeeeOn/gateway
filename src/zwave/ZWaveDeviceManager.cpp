@@ -12,6 +12,7 @@
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
 #include "model/SensorData.h"
+#include "util/BlockingAsyncWork.h"
 #include "util/ClassInfo.h"
 #include "zwave/ZWaveDeviceManager.h"
 
@@ -117,6 +118,7 @@ ZWaveDeviceManager::ZWaveDeviceManager():
 		typeid(GatewayListenCommand),
 		typeid(DeviceAcceptCommand),
 		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
 	}),
 	m_dispatchDuration(60 * Timespan::SECONDS),
 	m_pollTimeout(30 * Timespan::SECONDS)
@@ -546,4 +548,27 @@ void ZWaveDeviceManager::stopRemoveNode()
 		logger().warning(e.displayText(), __FILE__, __LINE__);
 	}
 	BEEEON_CATCH_CHAIN(logger())
+}
+
+AsyncWork<double>::Ptr ZWaveDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Poco::Timespan &timeout)
+{
+	FastMutex::ScopedLock guard(m_lock, timeout.totalMilliseconds());
+
+	auto it = m_devices.find(id);
+	if (it == m_devices.end())
+		throw NotFoundException("no such device " + id.toString() + " to set value");
+
+	Device &device = it->second;
+	auto mapper = device.mapper();
+
+	m_network->postValue(mapper->convert(module, value));
+
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(value);
+
+	return work;
 }
