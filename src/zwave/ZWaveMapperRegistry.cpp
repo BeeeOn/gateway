@@ -58,6 +58,11 @@ DeviceID ZWaveMapperRegistry::Mapper::mangleID(const DeviceID &id, uint8_t bits)
 	return {id.prefix(), mangleBits | ident};
 }
 
+ZWaveNode::Identity ZWaveMapperRegistry::Mapper::identity() const
+{
+	return m_identity;
+}
+
 ZWaveMapperRegistry::~ZWaveMapperRegistry()
 {
 }

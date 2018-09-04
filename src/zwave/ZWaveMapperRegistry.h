@@ -68,6 +68,7 @@ public:
 
 	protected:
 		static DeviceID mangleID(const DeviceID &id, uint8_t bits);
+		ZWaveNode::Identity identity() const;
 
 	private:
 		ZWaveNode::Identity m_identity;
