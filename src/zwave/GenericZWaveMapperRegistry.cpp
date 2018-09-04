@@ -211,6 +211,42 @@ SensorValue GenericZWaveMapperRegistry::GenericMapper::convert(
 	return SensorValue{it->second, result};
 }
 
+ZWaveNode::Value GenericZWaveMapperRegistry::GenericMapper::convert(
+		const ModuleID &id,
+		double value) const
+{
+	Nullable<ModuleType> type = findType(id);
+	if (type.isNull()) {
+		throw NotFoundException(
+			"no such controllable module " + id.toString()
+			+ " for " + buildID().toString());
+	}
+
+	auto it = m_mapping.begin();
+	for (; it != m_mapping.end(); ++it) {
+		if (it->second == id)
+			break;
+	}
+
+	if (it == m_mapping.end()) {
+		throw NotFoundException(
+			"module " + id.toString()
+			+ " is not mapped for " + buildID().toString());
+	}
+
+	auto &cc = it->first;
+
+	switch (type.value().type()) {
+	case ModuleType::Type::TYPE_ON_OFF:
+		return ZWaveNode::Value(identity(), cc, to_string(value != 0));
+
+	default:
+		throw NotImplementedException(
+			"type " + type.value().type().toString()
+			+ " is unsupported for Z-Wave as controllable");
+	}
+}
+
 GenericZWaveMapperRegistry::GenericZWaveMapperRegistry()
 {
 }

@@ -56,6 +56,7 @@ public:
 		 */
 		std::list<ModuleType> types() const override;
 		SensorValue convert(const ZWaveNode::Value &value) const override;
+		ZWaveNode::Value convert(const ModuleID &id, double value) const override;
 
 		/**
 		 * @brief Record the given association between the given Z-Wave

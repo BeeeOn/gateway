@@ -66,6 +66,15 @@ public:
 		 */
 		virtual SensorValue convert(const ZWaveNode::Value &value) const = 0;
 
+		/**
+		 * @returns Z-Wave value representing the given value of that module ID.
+		 *
+		 * @throws Poco::NotFoundException if no such controllable module ID is available
+		 * @throws Poco::NotImplementedException when such module ID is unsupported
+		 * for changes by this mapper
+		 */
+		virtual ZWaveNode::Value convert(const ModuleID &id, double value) const;
+
 	protected:
 		static DeviceID mangleID(const DeviceID &id, uint8_t bits);
 		ZWaveNode::Identity identity() const;

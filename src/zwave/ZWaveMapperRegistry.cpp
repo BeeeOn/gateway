@@ -58,6 +58,13 @@ DeviceID ZWaveMapperRegistry::Mapper::mangleID(const DeviceID &id, uint8_t bits)
 	return {id.prefix(), mangleBits | ident};
 }
 
+ZWaveNode::Value ZWaveMapperRegistry::Mapper::convert(
+		const ModuleID &,
+		double) const
+{
+	throw NotImplementedException("reverse conversion not supported");
+}
+
 ZWaveNode::Identity ZWaveMapperRegistry::Mapper::identity() const
 {
 	return m_identity;
