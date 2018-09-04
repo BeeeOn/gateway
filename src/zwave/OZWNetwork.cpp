@@ -26,6 +26,7 @@
 #include "zwave/ZWaveNodeEvent.h"
 #include "zwave/ZWaveNotificationEvent.h"
 #include "zwave/ZWaveDriverEvent.h"
+#include "zwave/ZWaveSerialProber.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, OZWNetwork)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
@@ -304,10 +305,10 @@ void OZWNetwork::cleanup()
 
 bool OZWNetwork::matchEvent(const HotplugEvent &event)
 {
-	if (!event.properties()->has("tty.BEEEON_DONGLE"))
-		return false;
+	if (event.properties()->has("tty.BEEEON_DONGLE"))
+		return "zwave" == event.properties()->getString("tty.BEEEON_DONGLE");
 
-	return "zwave" == event.properties()->getString("tty.BEEEON_DONGLE");
+	return event.properties()->getBool("tty.BEEEON_PROBE", false);
 }
 
 void OZWNetwork::onAdd(const HotplugEvent &event)
@@ -319,10 +320,20 @@ void OZWNetwork::onAdd(const HotplugEvent &event)
 
 	Driver::ControllerInterface iftype = Driver::ControllerInterface_Unknown;
 
-	if (event.subsystem() == "tty")
+	if (event.subsystem() == "tty") {
+		if (event.properties()->getBool("tty.BEEEON_PROBE", false)) {
+			SerialPort port(event.node());
+			ZWaveSerialProber::setupPort(port);
+			ZWaveSerialProber prober(port);
+
+			prober.probe(10 * Timespan::MILLISECONDS);
+		}
+
 		iftype = Driver::ControllerInterface_Serial;
-	else
+	}
+	else {
 		iftype = Driver::ControllerInterface_Hid;
+	}
 
 	FastMutex::ScopedLock guard(m_managerLock);
 	Manager::Get()->AddDriver(event.node(), iftype);
