@@ -487,7 +487,7 @@ void OZWNetwork::resetController(const uint32_t home)
 
 void OZWNetwork::driverReady(const Notification *n)
 {
-	map<uint8_t, ZWaveNode> empty;
+	map<uint8_t, OZWNode> empty;
 	auto result = m_homes.emplace(n->GetHomeId(), empty);
 	if (!result.second)
 		return;
@@ -565,7 +565,7 @@ void OZWNetwork::nodeAdded(const Notification *n)
 
 	const bool controller = checkNodeIsController(n->GetHomeId(), n->GetNodeId());
 
-	ZWaveNode node({n->GetHomeId(), n->GetNodeId()}, controller);
+	OZWNode node({n->GetHomeId(), n->GetNodeId()}, controller);
 
 	auto result = home->second.emplace(n->GetNodeId(), node);
 	if (!result.second)
@@ -724,7 +724,7 @@ void OZWNetwork::valueAdded(const Notification *n)
 				__FILE__, __LINE__);
 	}
 
-	it->second.add(cc);
+	it->second.add(cc, n->GetValueID());
 }
 
 void OZWNetwork::valueChanged(const Notification *n)

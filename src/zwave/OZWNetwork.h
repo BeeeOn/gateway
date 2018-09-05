@@ -467,7 +467,7 @@ private:
 	/**
 	 * Homes and nodes maintained by the OZWNetwork instance.
 	 */
-	std::map<uint32_t, std::map<uint8_t, ZWaveNode>> m_homes;
+	std::map<uint32_t, std::map<uint8_t, OZWNode>> m_homes;
 
 	/**
 	 * Set after the OZWNetwork::configure() finishes successfuly.
