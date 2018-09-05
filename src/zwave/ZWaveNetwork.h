@@ -163,6 +163,16 @@ public:
 	 * @brief Interrupt any blocking calls currently in progress.
 	 */
 	virtual void interrupt() = 0;
+
+	/**
+	 * @brief Post the given value into the Z-Wave network. There is no implicit
+	 * feedback about the result status.
+	 *
+	 * The method might throw Poco::NotImplementedException in case of setting
+	 * unsupported values or if not supported by the backend.
+	 */
+	virtual void postValue(const ZWaveNode::Value&) = 0;
+
 };
 
 }

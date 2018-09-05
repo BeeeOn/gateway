@@ -1,6 +1,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <Poco/Clock.h>
+#include <Poco/Exception.h>
 
 #include "cppunit/BetterAssert.h"
 #include "zwave/AbstractZWaveNetwork.h"
@@ -44,6 +45,11 @@ public:
 	void cancelRemoveNode() override
 	{
 		notifyEvent(PollEvent::createRemoveNodeDone());
+	}
+
+	void postValue(const ZWaveNode::Value&) override
+	{
+		throw NotImplementedException(__func__);
 	}
 };
 

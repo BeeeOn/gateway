@@ -464,7 +464,7 @@ protected:
 	 * @throws Poco::InvalidArgumentException - when value cannot be set or is invalid
 	 * @throws Poco::NotImplementedException - for unsupported value types
 	 */
-	void postValue(const ZWaveNode::Value &value);
+	void postValue(const ZWaveNode::Value &value) override;
 
 	/**
 	 * @returns label of list item for the given ValueID and a value of the list.
