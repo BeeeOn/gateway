@@ -52,7 +52,7 @@ string ZWaveNode::CommandClass::toString() const
 	if (m_instance)
 		repr += "[" + to_string(m_instance) + "]";
 
-	if (m_name.empty())
+	if (!m_name.empty())
 		repr += " (" + m_name + ")";
 
 	return repr;
