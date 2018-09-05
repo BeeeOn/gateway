@@ -48,6 +48,26 @@ using namespace OpenZWave;
 using namespace Poco;
 using namespace BeeeOn;
 
+OZWNetwork::OZWNode::OZWNode(const ZWaveNode::Identity &id, bool controller):
+		ZWaveNode(id, controller)
+{
+}
+
+void OZWNetwork::OZWNode::add(const CommandClass &cc, const OpenZWave::ValueID &id)
+{
+	ZWaveNode::add(cc);
+	m_valueIDs.emplace(cc, id);
+}
+
+OpenZWave::ValueID OZWNetwork::OZWNode::operator[] (const CommandClass &cc) const
+{
+	auto it = m_valueIDs.find(cc);
+	if (it == m_valueIDs.end())
+		throw NotFoundException("command class " + cc.toString() + " not found");
+
+	return it->second;
+}
+
 #define OZW_DEFAULT_POLL_INTERVAL          (0 * Timespan::SECONDS)
 #define OZW_DEFAULT_INTERVAL_BETWEEN_POLLS false
 #define OZW_DEFAULT_RETRY_TIMEOUT          (10 * Timespan::SECONDS)
