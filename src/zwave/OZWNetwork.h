@@ -453,6 +453,24 @@ protected:
 	 */
 	void interrupt() override;
 
+	/**
+	 * @brief Post the given value into the Z-Wave network. The call is non-blocking
+	 * and there is no direct feedback about a successful progress. It is possible
+	 * to check successful change by watching polling for events.
+	 *
+	 * @throws Poco::NotFoundException - when home or node are not registered
+	 * @throws Poco::NotFoundException - when the command class is not
+	 * registered with the node
+	 * @throws Poco::InvalidArgumentException - when value cannot be set or is invalid
+	 * @throws Poco::NotImplementedException - for unsupported value types
+	 */
+	void postValue(const ZWaveNode::Value &value);
+
+	/**
+	 * @returns label of list item for the given ValueID and a value of the list.
+	 */
+	std::string valueForList(const OpenZWave::ValueID &valueID, const int value);
+
 private:
 	Poco::Path m_configPath;
 	Poco::Path m_userPath;

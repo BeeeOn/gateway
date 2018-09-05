@@ -20,6 +20,7 @@
 
 #include "di/Injectable.h"
 #include "hotplug/HotplugEvent.h"
+#include "util/ZipIterator.h"
 #include "zwave/OZWNetwork.h"
 #include "zwave/OZWPocoLoggerAdapter.h"
 #include "zwave/ZWaveNodeEvent.h"
@@ -996,4 +997,105 @@ void OZWNetwork::fireStatistics()
 			m_eventSource.fireEvent(e, &ZWaveListener::onNodeStats);
 		}
 	}
+}
+
+void OZWNetwork::postValue(const ZWaveNode::Value &value)
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto home = m_homes.find(value.node().home);
+	if (home == m_homes.end())
+		throw NotFoundException("no such home " + homeAsString(value.node().home));
+
+	auto it = home->second.find(value.node().node);
+	if (it == home->second.end())
+		throw NotFoundException("no such node " + value.node().toString());
+
+	OZWNode &node = it->second;
+	const ValueID valueID = node[value.commandClass()];
+	const ValueID::ValueType type = valueID.GetType();
+	const string typeName = Value::GetTypeNameFromEnum(type);
+
+	FastMutex::ScopedLock guardManager(m_managerLock);
+
+	if (Manager::Get()->IsValueReadOnly(valueID))
+		throw InvalidArgumentException("value " + value.toString() + " is read-only");
+
+	if (logger().debug()) {
+		logger().debug(
+			"posting value " + value.toString() + " as " + typeName,
+			__FILE__, __LINE__);
+	}
+
+	switch(type) {
+	case ValueID::ValueType_Bool:
+		Manager::Get()->SetValue(valueID, value.asBool());
+		break;
+	case ValueID::ValueType_Byte:
+		Manager::Get()->SetValue(valueID, static_cast<uint8_t>(value.asInt()));
+		break;
+	case ValueID::ValueType_Short:
+		Manager::Get()->SetValue(valueID, static_cast<int16_t>(value.asInt()));
+		break;
+	case ValueID::ValueType_Int:
+		Manager::Get()->SetValue(valueID, value.asInt());
+		break;
+	case ValueID::ValueType_Decimal:
+		Manager::Get()->SetValue(valueID, static_cast<float>(value.asDouble()));
+		break;
+	case ValueID::ValueType_String:
+		Manager::Get()->SetValue(valueID, value.value());
+		break;
+	case ValueID::ValueType_List:
+		Manager::Get()->SetValueListSelection(valueID, valueForList(valueID, value.asInt()));
+		break;
+	default:
+		throw NotImplementedException(
+			"unsupported value type " + typeName + " for " + node.toString());
+	}
+}
+
+template <typename Values, typename Names>
+static string itemsAsString(Values &v, Names &n)
+{
+	Zip<Values, Names> zip(v, n);
+	string tmp;
+
+	for (auto it = begin(zip); it != end(zip); ++it)
+		tmp += to_string((*it).first) + " = " + (*it).second + ", ";
+
+	return tmp;
+}
+
+string OZWNetwork::valueForList(const ValueID &valueID, const int value)
+{
+	vector<string> itemsNames;
+	vector<int32_t> itemsValues;
+	int item = -1;
+
+	Manager::Get()->GetValueListItems(valueID, &itemsNames);
+	Manager::Get()->GetValueListValues(valueID, &itemsValues);
+
+	if (logger().debug()) {
+		logger().debug(
+			buildCommandClass(valueID).toString() + " items: "
+			+ itemsAsString(itemsValues, itemsNames),
+			__FILE__, __LINE__);
+	}
+
+	for (auto it = begin(itemsValues); it != end(itemsValues); ++it) {
+		if (*it == value) {
+			item = static_cast<int>(distance(begin(itemsValues), it));
+			break;
+		}
+	}
+
+	if (item < 0) {
+		throw InvalidArgumentException(
+			"unexpected value " + to_string(value)
+			+ " for command class "
+			+ buildCommandClass(valueID).toString());
+	}
+
+	return itemsNames[item];
 }
