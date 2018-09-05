@@ -347,7 +347,7 @@ static void credentialsAction(TestingCenter::ActionContext &context)
 		console.print("  autosave disable");
 		console.print("  autosave <seconds>");
 		return;
-	}	
+	}
 	else if (context.args[1] == "set") {
 		assureArgs(context, 5, "credentials set");
 
