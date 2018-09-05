@@ -37,7 +37,7 @@
 			<add name="handlers" ref="gwServerConnector" if-yes="${gws.enable}"/>
 			<add name="handlers" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
-			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
+			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
 			<add name="handlers" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="handlers" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="handlers" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}"/>
