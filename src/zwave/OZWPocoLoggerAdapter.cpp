@@ -1,18 +1,18 @@
 #include <Poco/String.h>
 
-#include "zwave/ZWavePocoLoggerAdapter.h"
+#include "zwave/OZWPocoLoggerAdapter.h"
 
 using namespace BeeeOn;
 using namespace Poco;
 using namespace OpenZWave;
 using namespace std;
 
-ZWavePocoLoggerAdapter::ZWavePocoLoggerAdapter(Poco::Logger& logger):
+OZWPocoLoggerAdapter::OZWPocoLoggerAdapter(Poco::Logger& logger):
 	logger(logger)
 {
 }
 
-void ZWavePocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
+void OZWPocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
 	char const* format, va_list args)
 {
 	Message msg;
@@ -66,7 +66,7 @@ void ZWavePocoLoggerAdapter::Write(LogLevel logLevel, uint8 const nodeId,
 	logger.log(msg);
 }
 
-LogLevel ZWavePocoLoggerAdapter::fromPocoLevel(Message::Priority prio)
+LogLevel OZWPocoLoggerAdapter::fromPocoLevel(Message::Priority prio)
 {
 	switch (prio) {
 	case Message::PRIO_FATAL:
@@ -89,18 +89,18 @@ LogLevel ZWavePocoLoggerAdapter::fromPocoLevel(Message::Priority prio)
 	}
 }
 
-void ZWavePocoLoggerAdapter::QueueDump()
+void OZWPocoLoggerAdapter::QueueDump()
 {
 }
 
-void ZWavePocoLoggerAdapter::QueueClear()
+void OZWPocoLoggerAdapter::QueueClear()
 {
 }
 
-void ZWavePocoLoggerAdapter::SetLoggingState(LogLevel, LogLevel, LogLevel)
+void OZWPocoLoggerAdapter::SetLoggingState(LogLevel, LogLevel, LogLevel)
 {
 }
 
-void ZWavePocoLoggerAdapter::SetLogFileName(const string &)
+void OZWPocoLoggerAdapter::SetLogFileName(const string &)
 {
 }

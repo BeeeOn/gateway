@@ -8,7 +8,7 @@
 namespace BeeeOn {
 
 /**
- * @brief ZWavePocoLoggerAdapter adapts the the logging infrastructure
+ * @brief OZWPocoLoggerAdapter adapts the the logging infrastructure
  * of the OpenZWave library to the Poco::Logger. It converts the
  * OpenZWave logging levels as follows:
  *
@@ -27,9 +27,9 @@ namespace BeeeOn {
  * holding the node ID. This can be used for better formatting of log
  * messages.
  */
-class ZWavePocoLoggerAdapter : public OpenZWave::i_LogImpl {
+class OZWPocoLoggerAdapter : public OpenZWave::i_LogImpl {
 public:
-	ZWavePocoLoggerAdapter(Poco::Logger& logger);
+	OZWPocoLoggerAdapter(Poco::Logger& logger);
 
 	/**
 	 * Write formatted data from variable argument list to string.
