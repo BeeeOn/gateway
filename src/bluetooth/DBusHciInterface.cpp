@@ -514,6 +514,8 @@ DBusHciInterfaceManager::DBusHciInterfaceManager()
 
 HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 {
+	ScopedLock<FastMutex> guard(m_mutex);
+
 	auto it = m_interfaces.find(name);
 	if (it != m_interfaces.end())
 		return it->second;

@@ -285,6 +285,7 @@ public:
 	HciInterface::Ptr lookup(const std::string &name) override;
 
 private:
+	Poco::FastMutex m_mutex;
 	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
 };
 
