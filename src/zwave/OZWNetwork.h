@@ -160,6 +160,31 @@ public:
 
 protected:
 	/**
+	 * @brief OZWNode wraps the ZWaveNode to be able to hold specific
+	 * data related to the OpenZWave library.
+	 */
+	class OZWNode : public ZWaveNode {
+	public:
+		OZWNode(const Identity &id, bool controller = false);
+
+		/**
+		 * @brief Register the command class together with ValueID
+		 * representation as provided by the OpenZWave library.
+		 * Calls ZWaveNode::add() internally.
+		 */
+		void add(const CommandClass &cc, const OpenZWave::ValueID &id);
+
+		/**
+		 * @brief Return the appropriate ValueID for the given command class.
+		 * @throws Poco::NotFoundException
+		 */
+		OpenZWave::ValueID operator[](const CommandClass &cc) const;
+
+	private:
+		std::map<CommandClass, OpenZWave::ValueID> m_valueIDs;
+	};
+
+	/**
 	 * @brief Check that the given directory exists and is readable.
 	 * @throws FileAccessDeniedException if the directory is not readable
 	 */
@@ -428,6 +453,24 @@ protected:
 	 */
 	void interrupt() override;
 
+	/**
+	 * @brief Post the given value into the Z-Wave network. The call is non-blocking
+	 * and there is no direct feedback about a successful progress. It is possible
+	 * to check successful change by watching polling for events.
+	 *
+	 * @throws Poco::NotFoundException - when home or node are not registered
+	 * @throws Poco::NotFoundException - when the command class is not
+	 * registered with the node
+	 * @throws Poco::InvalidArgumentException - when value cannot be set or is invalid
+	 * @throws Poco::NotImplementedException - for unsupported value types
+	 */
+	void postValue(const ZWaveNode::Value &value) override;
+
+	/**
+	 * @returns label of list item for the given ValueID and a value of the list.
+	 */
+	std::string valueForList(const OpenZWave::ValueID &valueID, const int value);
+
 private:
 	Poco::Path m_configPath;
 	Poco::Path m_userPath;
@@ -442,7 +485,7 @@ private:
 	/**
 	 * Homes and nodes maintained by the OZWNetwork instance.
 	 */
-	std::map<uint32_t, std::map<uint8_t, ZWaveNode>> m_homes;
+	std::map<uint32_t, std::map<uint8_t, OZWNode>> m_homes;
 
 	/**
 	 * Set after the OZWNetwork::configure() finishes successfuly.

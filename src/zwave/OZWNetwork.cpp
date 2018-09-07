@@ -20,6 +20,7 @@
 
 #include "di/Injectable.h"
 #include "hotplug/HotplugEvent.h"
+#include "util/ZipIterator.h"
 #include "zwave/OZWNetwork.h"
 #include "zwave/OZWPocoLoggerAdapter.h"
 #include "zwave/ZWaveNodeEvent.h"
@@ -47,6 +48,26 @@ using namespace std;
 using namespace OpenZWave;
 using namespace Poco;
 using namespace BeeeOn;
+
+OZWNetwork::OZWNode::OZWNode(const ZWaveNode::Identity &id, bool controller):
+		ZWaveNode(id, controller)
+{
+}
+
+void OZWNetwork::OZWNode::add(const CommandClass &cc, const OpenZWave::ValueID &id)
+{
+	ZWaveNode::add(cc);
+	m_valueIDs.emplace(cc, id);
+}
+
+OpenZWave::ValueID OZWNetwork::OZWNode::operator[] (const CommandClass &cc) const
+{
+	auto it = m_valueIDs.find(cc);
+	if (it == m_valueIDs.end())
+		throw NotFoundException("command class " + cc.toString() + " not found");
+
+	return it->second;
+}
 
 #define OZW_DEFAULT_POLL_INTERVAL          (0 * Timespan::SECONDS)
 #define OZW_DEFAULT_INTERVAL_BETWEEN_POLLS false
@@ -467,7 +488,7 @@ void OZWNetwork::resetController(const uint32_t home)
 
 void OZWNetwork::driverReady(const Notification *n)
 {
-	map<uint8_t, ZWaveNode> empty;
+	map<uint8_t, OZWNode> empty;
 	auto result = m_homes.emplace(n->GetHomeId(), empty);
 	if (!result.second)
 		return;
@@ -545,7 +566,7 @@ void OZWNetwork::nodeAdded(const Notification *n)
 
 	const bool controller = checkNodeIsController(n->GetHomeId(), n->GetNodeId());
 
-	ZWaveNode node({n->GetHomeId(), n->GetNodeId()}, controller);
+	OZWNode node({n->GetHomeId(), n->GetNodeId()}, controller);
 
 	auto result = home->second.emplace(n->GetNodeId(), node);
 	if (!result.second)
@@ -704,7 +725,7 @@ void OZWNetwork::valueAdded(const Notification *n)
 				__FILE__, __LINE__);
 	}
 
-	it->second.add(cc);
+	it->second.add(cc, n->GetValueID());
 }
 
 void OZWNetwork::valueChanged(const Notification *n)
@@ -976,4 +997,105 @@ void OZWNetwork::fireStatistics()
 			m_eventSource.fireEvent(e, &ZWaveListener::onNodeStats);
 		}
 	}
+}
+
+void OZWNetwork::postValue(const ZWaveNode::Value &value)
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto home = m_homes.find(value.node().home);
+	if (home == m_homes.end())
+		throw NotFoundException("no such home " + homeAsString(value.node().home));
+
+	auto it = home->second.find(value.node().node);
+	if (it == home->second.end())
+		throw NotFoundException("no such node " + value.node().toString());
+
+	OZWNode &node = it->second;
+	const ValueID valueID = node[value.commandClass()];
+	const ValueID::ValueType type = valueID.GetType();
+	const string typeName = Value::GetTypeNameFromEnum(type);
+
+	FastMutex::ScopedLock guardManager(m_managerLock);
+
+	if (Manager::Get()->IsValueReadOnly(valueID))
+		throw InvalidArgumentException("value " + value.toString() + " is read-only");
+
+	if (logger().debug()) {
+		logger().debug(
+			"posting value " + value.toString() + " as " + typeName,
+			__FILE__, __LINE__);
+	}
+
+	switch(type) {
+	case ValueID::ValueType_Bool:
+		Manager::Get()->SetValue(valueID, value.asBool());
+		break;
+	case ValueID::ValueType_Byte:
+		Manager::Get()->SetValue(valueID, static_cast<uint8_t>(value.asInt()));
+		break;
+	case ValueID::ValueType_Short:
+		Manager::Get()->SetValue(valueID, static_cast<int16_t>(value.asInt()));
+		break;
+	case ValueID::ValueType_Int:
+		Manager::Get()->SetValue(valueID, value.asInt());
+		break;
+	case ValueID::ValueType_Decimal:
+		Manager::Get()->SetValue(valueID, static_cast<float>(value.asDouble()));
+		break;
+	case ValueID::ValueType_String:
+		Manager::Get()->SetValue(valueID, value.value());
+		break;
+	case ValueID::ValueType_List:
+		Manager::Get()->SetValueListSelection(valueID, valueForList(valueID, value.asInt()));
+		break;
+	default:
+		throw NotImplementedException(
+			"unsupported value type " + typeName + " for " + node.toString());
+	}
+}
+
+template <typename Values, typename Names>
+static string itemsAsString(Values &v, Names &n)
+{
+	Zip<Values, Names> zip(v, n);
+	string tmp;
+
+	for (auto it = begin(zip); it != end(zip); ++it)
+		tmp += to_string((*it).first) + " = " + (*it).second + ", ";
+
+	return tmp;
+}
+
+string OZWNetwork::valueForList(const ValueID &valueID, const int value)
+{
+	vector<string> itemsNames;
+	vector<int32_t> itemsValues;
+	int item = -1;
+
+	Manager::Get()->GetValueListItems(valueID, &itemsNames);
+	Manager::Get()->GetValueListValues(valueID, &itemsValues);
+
+	if (logger().debug()) {
+		logger().debug(
+			buildCommandClass(valueID).toString() + " items: "
+			+ itemsAsString(itemsValues, itemsNames),
+			__FILE__, __LINE__);
+	}
+
+	for (auto it = begin(itemsValues); it != end(itemsValues); ++it) {
+		if (*it == value) {
+			item = static_cast<int>(distance(begin(itemsValues), it));
+			break;
+		}
+	}
+
+	if (item < 0) {
+		throw InvalidArgumentException(
+			"unexpected value " + to_string(value)
+			+ " for command class "
+			+ buildCommandClass(valueID).toString());
+	}
+
+	return itemsNames[item];
 }
