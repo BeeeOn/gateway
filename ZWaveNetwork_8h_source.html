@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-22-g8e92e3d</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -142,10 +142,14 @@
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveNetwork.html#a390ef6d0e1142c3107ff2779f3430f53">cancelRemoveNode</a>() = 0;</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveNetwork.html#a633f0d89f9ced39a4062ccbcfb69d8f3">interrupt</a>() = 0;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;};</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveNetwork.html#a227d43dc993d1b76aba9e558af5638e8">postValue</a>(<span class="keyword">const</span> ZWaveNode::Value&amp;) = 0;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;};</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveNetwork_1_1PollEvent_html_ac642debb7f0138c7ecad919423c57321ad08bfeb10d4c1baefcf95bf0e7ceb195"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNetwork_1_1PollEvent.html#ac642debb7f0138c7ecad919423c57321ad08bfeb10d4c1baefcf95bf0e7ceb195">BeeeOn::ZWaveNetwork::PollEvent::EVENT_INCLUSION_DONE</a></div><div class="ttdoc">Z-Wave inclusion process has stopped. </div><div class="ttdef"><b>Definition:</b> ZWaveNetwork.h:74</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveNetwork_html_a227d43dc993d1b76aba9e558af5638e8"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNetwork.html#a227d43dc993d1b76aba9e558af5638e8">BeeeOn::ZWaveNetwork::postValue</a></div><div class="ttdeci">virtual void postValue(const ZWaveNode::Value &amp;)=0</div><div class="ttdoc">Post the given value into the Z-Wave network. There is no implicit feedback about the result status...</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveNetwork_html_a2e0e3da7cac7c5b93dacf43ba502692b"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNetwork.html#a2e0e3da7cac7c5b93dacf43ba502692b">BeeeOn::ZWaveNetwork::pollEvent</a></div><div class="ttdeci">virtual PollEvent pollEvent(const Poco::Timespan &amp;timeout)=0</div><div class="ttdoc">Poll for new events in the ZWaveNetwork. </div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveNode_1_1Value_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNode_1_1Value.html">BeeeOn::ZWaveNode::Value</a></div><div class="ttdoc">Value coming from the Z-Wave network. It holds some data (usually sensor data) and metadata to identi...</div><div class="ttdef"><b>Definition:</b> ZWaveNode.h:102</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveNetwork_1_1PollEvent_html_ac642debb7f0138c7ecad919423c57321ac6be0f762f03025f038b06d091ac79a3"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNetwork_1_1PollEvent.html#ac642debb7f0138c7ecad919423c57321ac6be0f762f03025f038b06d091ac79a3">BeeeOn::ZWaveNetwork::PollEvent::EVENT_NEW_NODE</a></div><div class="ttdoc">A new Z-Wave node has been detected. There might be incomplete information about it. Use method PollEvent::node() to access it. </div><div class="ttdef"><b>Definition:</b> ZWaveNetwork.h:46</div></div>

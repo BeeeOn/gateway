@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-22-g8e92e3d</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,6 +52,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
@@ -78,6 +79,12 @@ Inheritance diagram for BeeeOn::OZWNetwork:</div>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html">OZWNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html" title="OZWNode wraps the ZWaveNode to be able to hold specific data related to the OpenZWave library...">OZWNode</a> wraps the <a class="el" href="classBeeeOn_1_1ZWaveNode.html" title="ZWaveNode represents information from the Z-Wave network about a particular node. Each Z-Wave node is...">ZWaveNode</a> to be able to hold specific data related to the OpenZWave library.  <a href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a11ddbc5837293fc0d08b95a167b4d44f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a11ddbc5837293fc0d08b95a167b4d44f">setConfigPath</a> (const std::string &amp;path)</td></tr>
@@ -241,6 +248,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a12c9d45a193b12e3c83d0848f57db6aa">interrupt</a> () override</td></tr>
 <tr class="memdesc:a12c9d45a193b12e3c83d0848f57db6aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the current OZW command and interrupt an active <a class="el" href="classBeeeOn_1_1AbstractZWaveNetwork.html#a899987dda72d3db12034411324e5e4a1">pollEvent()</a> call. <br/></td></tr>
 <tr class="separator:a12c9d45a193b12e3c83d0848f57db6aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad49d1ca6017e38bc4447adfd8b176b3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#ad49d1ca6017e38bc4447adfd8b176b3e">postValue</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value) override</td></tr>
+<tr class="memdesc:ad49d1ca6017e38bc4447adfd8b176b3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post the given value into the Z-Wave network. The call is non-blocking and there is no direct feedback about a successful progress. It is possible to check successful change by watching polling for events.  <a href="#ad49d1ca6017e38bc4447adfd8b176b3e">More...</a><br/></td></tr>
+<tr class="separator:ad49d1ca6017e38bc4447adfd8b176b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28acc680720f0692f35f2ebc9e45c564"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNetwork.html#a28acc680720f0692f35f2ebc9e45c564">valueForList</a> (const OpenZWave::ValueID &amp;valueID, const int value)</td></tr>
+<tr class="separator:a28acc680720f0692f35f2ebc9e45c564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1AbstractZWaveNetwork"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1AbstractZWaveNetwork')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1AbstractZWaveNetwork.html">BeeeOn::AbstractZWaveNetwork</a></td></tr>
 <tr class="memitem:aaf5f5e453607522d369477a10c834765 inherit pro_methods_classBeeeOn_1_1AbstractZWaveNetwork"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractZWaveNetwork.html#aaf5f5e453607522d369477a10c834765">notifyEvent</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNetwork_1_1PollEvent.html">PollEvent</a> &amp;event)</td></tr>
 <tr class="separator:aaf5f5e453607522d369477a10c834765 inherit pro_methods_classBeeeOn_1_1AbstractZWaveNetwork"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -755,6 +767,43 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 
 </div>
 </div>
+<a class="anchor" id="ad49d1ca6017e38bc4447adfd8b176b3e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OZWNetwork::postValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Post the given value into the Z-Wave network. The call is non-blocking and there is no direct feedback about a successful progress. It is possible to check successful change by watching polling for events. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Poco::NotFoundException</td><td>- when home or node are not registered </td></tr>
+    <tr><td class="paramname">Poco::NotFoundException</td><td>- when the command class is not registered with the node </td></tr>
+    <tr><td class="paramname">Poco::InvalidArgumentException</td><td>- when value cannot be set or is invalid </td></tr>
+    <tr><td class="paramname">Poco::NotImplementedException</td><td>- for unsupported value types </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a227d43dc993d1b76aba9e558af5638e8">BeeeOn::ZWaveNetwork</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a7edbe8b8900dc79b41a4761ff08f4b8d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -931,6 +980,41 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a2e0e3da7cac7c5b93dacf43ba502692b" title="Poll for new events in the ZWaveNetwork. ">ZWaveNetwork::pollEvent()</a> </dd>
 <dd>
 <a class="el" href="classBeeeOn_1_1ZWaveNetwork_1_1PollEvent.html#ac642debb7f0138c7ecad919423c57321a4db06f880ce7ae24d89dd6ee89231cfe" title="Received data from a Z-Wave node. Use method PollEvent::value() to access it. ">PollEvent::EVENT_VALUE</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a28acc680720f0692f35f2ebc9e45c564"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string OZWNetwork::valueForList </td>
+          <td>(</td>
+          <td class="paramtype">const OpenZWave::ValueID &amp;&#160;</td>
+          <td class="paramname"><em>valueID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>label of list item for the given ValueID and a value of the list. </dd></dl>
 
 </div>
 </div>

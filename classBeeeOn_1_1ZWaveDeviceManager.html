@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-22-g8e92e3d</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -180,6 +180,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
  &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="memdesc:adef548c10cdc0b842b6a036a1414b09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#adef548c10cdc0b842b6a036a1414b09e">More...</a><br/></td></tr>
 <tr class="separator:adef548c10cdc0b842b6a036a1414b09e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b9be6c69c2342873ea82175a43e64bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="memdesc:a7b9be6c69c2342873ea82175a43e64bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#a7b9be6c69c2342873ea82175a43e64bf">More...</a><br/></td></tr>
+<tr class="separator:a7b9be6c69c2342873ea82175a43e64bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91fff4b25df7a0a28a3c16d9f38b4773"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91fff4b25df7a0a28a3c16d9f38b4773"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a91fff4b25df7a0a28a3c16d9f38b4773">dispatchUnpaired</a> ()</td></tr>
 <tr class="memdesc:a91fff4b25df7a0a28a3c16d9f38b4773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch all registered devices that are not paired to the remote server. <br/></td></tr>
@@ -231,9 +234,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd80dc1d719797f57e7c854426855beb">handleUnpair</a> (const DeviceUnpairCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time.  <a href="#abd80dc1d719797f57e7c854426855beb">More...</a><br/></td></tr>
 <tr class="separator:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a460e34e2891288c80c2a18adb4aa7d inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a2a460e34e2891288c80c2a18adb4aa7d inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#a2a460e34e2891288c80c2a18adb4aa7d">More...</a><br/></td></tr>
-<tr class="separator:a2a460e34e2891288c80c2a18adb4aa7d inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7aa94b73d5a590bf1ef77a504f7a14ab inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a7aa94b73d5a590bf1ef77a504f7a14ab">handleSetValue</a> (const DeviceSetValueCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a7aa94b73d5a590bf1ef77a504f7a14ab inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the set-value command in a generic way. The method ensures that only 1 thread can execute set-value process at a time. If the set-value operation succeeds, it ships the set value.  <a href="#a7aa94b73d5a590bf1ef77a504f7a14ab">More...</a><br/></td></tr>
 <tr class="separator:a7aa94b73d5a590bf1ef77a504f7a14ab inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -443,6 +443,57 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b9be6c69c2342873ea82175a43e64bf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr ZWaveDeviceManager::startSetValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The set-value process might a be a non-blocking operation. The value set by the set-value is expected as a result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d">BeeeOn::DeviceManager</a>.</p>
 
 </div>
 </div>

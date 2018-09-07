@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-22-g8e92e3d</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -94,6 +94,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a54560095bf2bfb125d9b8f4f5a37d95d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4878f35eab71bf73d45d1ae46d8622f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorValue.html">SensorValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#ab4878f35eab71bf73d45d1ae46d8622f">convert</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value) const override</td></tr>
 <tr class="separator:ab4878f35eab71bf73d45d1ae46d8622f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a852e4741107941941a59a883033bb199"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a852e4741107941941a59a883033bb199">convert</a> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;id, double value) const override</td></tr>
+<tr class="separator:a852e4741107941941a59a883033bb199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9736c667904e0c1d68084d736bc910ea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9736c667904e0c1d68084d736bc910ea"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a9736c667904e0c1d68084d736bc910ea">mapType</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1CommandClass.html">ZWaveNode::CommandClass</a> &amp;cc, const <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &amp;type)</td></tr>
 <tr class="memdesc:a9736c667904e0c1d68084d736bc910ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Record the given association between the given Z-Wave command class and BeeeOn <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a>. When calling this method mutiple times, the order corresponds to an increasing <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>. <br/></td></tr>
@@ -120,6 +122,10 @@ Protected Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a3974c695c7fb39c7fcd9196a550864ed">cannotConvert</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value) const </td></tr>
 <tr class="memdesc:a3974c695c7fb39c7fcd9196a550864ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throw an exception when the given value cannot be converted into the BeeeOn representation. <br/></td></tr>
 <tr class="separator:a3974c695c7fb39c7fcd9196a550864ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html">BeeeOn::ZWaveMapperRegistry::Mapper</a></td></tr>
+<tr class="memitem:a5928600ee0c820142e51033dc85c9185 inherit pro_methods_classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5928600ee0c820142e51033dc85c9185"></a>
+<a class="el" href="structBeeeOn_1_1ZWaveNode_1_1Identity.html">ZWaveNode::Identity</a>&#160;</td><td class="memItemRight" valign="bottom"><b>identity</b> () const </td></tr>
+<tr class="separator:a5928600ee0c820142e51033dc85c9185 inherit pro_methods_classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -179,6 +185,50 @@ static <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classBeeeOn_1_1SensorValue.html">SensorValue</a> representation of the <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html" title="Value coming from the Z-Wave network. It holds some data (usually sensor data) and metadata to identi...">ZWaveNode::Value</a> instance </dd></dl>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a66d35e6e5a13331131c2dac8363fe66f">BeeeOn::ZWaveMapperRegistry::Mapper</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a852e4741107941941a59a883033bb199"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> GenericZWaveMapperRegistry::GenericMapper::convert </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Z-Wave value representing the given value of that module ID.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Poco::NotFoundException</td><td>if no such controllable module ID is available </td></tr>
+    <tr><td class="paramname">Poco::NotImplementedException</td><td>when such module ID is unsupported for changes by this mapper </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a23fe22aa65a7743dce1038fa836fbaa1">BeeeOn::ZWaveMapperRegistry::Mapper</a>.</p>
 
 </div>
 </div>

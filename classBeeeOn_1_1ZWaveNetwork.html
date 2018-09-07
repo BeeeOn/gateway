@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-22-g8e92e3d</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -111,6 +111,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a633f0d89f9ced39a4062ccbcfb69d8f3">interrupt</a> ()=0</td></tr>
 <tr class="memdesc:a633f0d89f9ced39a4062ccbcfb69d8f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt any blocking calls currently in progress. <br/></td></tr>
 <tr class="separator:a633f0d89f9ced39a4062ccbcfb69d8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a227d43dc993d1b76aba9e558af5638e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a227d43dc993d1b76aba9e558af5638e8">postValue</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;)=0</td></tr>
+<tr class="memdesc:a227d43dc993d1b76aba9e558af5638e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post the given value into the Z-Wave network. There is no implicit feedback about the result status.  <a href="#a227d43dc993d1b76aba9e558af5638e8">More...</a><br/></td></tr>
+<tr class="separator:a227d43dc993d1b76aba9e558af5638e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classBeeeOn_1_1ZWaveNetwork.html" title="ZWaveNetwork is an interface to a real Z-Wave network. ">ZWaveNetwork</a> is an interface to a real Z-Wave network. </p>
@@ -147,6 +150,35 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>The call is blocking or non-blocking based on the given timeout. </p>
 
 <p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractZWaveNetwork.html#a899987dda72d3db12034411324e5e4a1">BeeeOn::AbstractZWaveNetwork</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a227d43dc993d1b76aba9e558af5638e8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void BeeeOn::ZWaveNetwork::postValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Post the given value into the Z-Wave network. There is no implicit feedback about the result status. </p>
+<p>The method might throw Poco::NotImplementedException in case of setting unsupported values or if not supported by the backend. </p>
+
+<p>Implemented in <a class="el" href="classBeeeOn_1_1OZWNetwork.html#ad49d1ca6017e38bc4447adfd8b176b3e">BeeeOn::OZWNetwork</a>.</p>
 
 </div>
 </div>

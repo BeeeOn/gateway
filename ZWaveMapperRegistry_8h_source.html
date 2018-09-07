@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-22-g8e92e3d</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -88,20 +88,23 @@
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorValue.html">SensorValue</a> <a class="code" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a66d35e6e5a13331131c2dac8363fe66f">convert</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value) <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> mangleID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>, uint8_t bits);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <a class="code" href="structBeeeOn_1_1ZWaveNode_1_1Identity.html">ZWaveNode::Identity</a> m_identity;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                std::string m_product;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        };</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1ZWaveMapperRegistry.html">ZWaveMapperRegistry</a>();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">virtual</span> Mapper::Ptr <a class="code" href="classBeeeOn_1_1ZWaveMapperRegistry.html#acf6bb60d7a4a0317e25d054bfc5bffc7">resolve</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node) = 0;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> <a class="code" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a66d35e6e5a13331131c2dac8363fe66f">convert</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;<span class="keywordtype">id</span>, <span class="keywordtype">double</span> value) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> mangleID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>, uint8_t bits);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <a class="code" href="structBeeeOn_1_1ZWaveNode_1_1Identity.html">ZWaveNode::Identity</a> identity() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <a class="code" href="structBeeeOn_1_1ZWaveNode_1_1Identity.html">ZWaveNode::Identity</a> m_identity;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                std::string m_product;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        };</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1ZWaveMapperRegistry.html">ZWaveMapperRegistry</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keyword">virtual</span> Mapper::Ptr <a class="code" href="classBeeeOn_1_1ZWaveMapperRegistry.html#acf6bb60d7a4a0317e25d054bfc5bffc7">resolve</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node) = 0;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveMapperRegistry_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveMapperRegistry.html">BeeeOn::ZWaveMapperRegistry</a></div><div class="ttdoc">ZWaveMapperRegistry is mostly intended to map Z-Wave specific data type hierarchy to BeeeOn ModuleTyp...</div><div class="ttdef"><b>Definition:</b> ZWaveMapperRegistry.h:22</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper_html_afdf388f01d2ae10976c0861fcff6d2b5"><div class="ttname"><a href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#afdf388f01d2ae10976c0861fcff6d2b5">BeeeOn::ZWaveMapperRegistry::Mapper::product</a></div><div class="ttdeci">virtual std::string product() const </div><div class="ttdef"><b>Definition:</b> ZWaveMapperRegistry.cpp:30</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper_html_ad45a1525348477bfc448ab31b0bfbda7"><div class="ttname"><a href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#ad45a1525348477bfc448ab31b0bfbda7">BeeeOn::ZWaveMapperRegistry::Mapper::findType</a></div><div class="ttdeci">Poco::Nullable&lt; ModuleType &gt; findType(const ModuleID &amp;id) const </div><div class="ttdoc">Find module type by ID. </div><div class="ttdef"><b>Definition:</b> ZWaveMapperRegistry.cpp:35</div></div>
