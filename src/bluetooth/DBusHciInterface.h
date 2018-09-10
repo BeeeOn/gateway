@@ -52,7 +52,9 @@ public:
 	/**
 	 * @brief The class represents the Bluetooth Low Energy device and
 	 * stores necessary data about device such as instance of device,
-	 * handle of signal and timestamp of last rssi update.
+	 * handle of signal and timestamp of last rssi update. Also the class
+	 * allows to store necessary data (signal handle, pointer to callback)
+	 * when the device is watched.
 	 */
 	class Device {
 	public:
@@ -84,48 +86,42 @@ public:
 			return m_lastSeen;
 		}
 
+		uint64_t watchHandle() const
+		{
+			return m_watchHandle;
+		}
+
+		void watch(
+			uint64_t watchHandle,
+			Poco::SharedPtr<WatchCallback> callBack)
+		{
+			m_watchHandle = watchHandle;
+			m_callBack = callBack;
+		}
+
+		void unwatch()
+		{
+			m_watchHandle = 0;
+			m_callBack = nullptr;
+		}
+
+		bool isWatched() const
+		{
+			return !m_callBack.isNull();
+		}
+
 		std::string name();
 		MACAddress macAddress();
 		int16_t rssi();
 
 	private:
 		GlibPtr<OrgBluezDevice1> m_device;
-		uint64_t m_rssiHandle;
 		Poco::Timestamp m_lastSeen;
-	};
-
-	/**
-	 * @brief The class is used to store necessary data about device, from
-	 * which the advertising data is processed, such as instance of device,
-	 * handle of signal and pointer to callback.
-	 */
-	class WatchedDevice {
-	public:
-		WatchedDevice(
-			const GlibPtr<OrgBluezDevice1> device,
-			const uint64_t signalHandle,
-			const Poco::SharedPtr<WatchCallback> callBack);
-
-		GlibPtr<OrgBluezDevice1> device() const
-		{
-			return m_device;
-		}
-
-		uint64_t signalHandle() const
-		{
-			return m_signalHandle;
-		}
-
-		Poco::SharedPtr<WatchCallback> callBack() const
-		{
-			return m_callBack;
-		}
-
-	private:
-		GlibPtr<OrgBluezDevice1> m_device;
-		uint64_t m_signalHandle;
+		uint64_t m_rssiHandle;
+		uint64_t m_watchHandle;
 		Poco::SharedPtr<WatchCallback> m_callBack;
 	};
+
 
 	/**
 	 * @param name name of hci
@@ -315,13 +311,11 @@ private:
 	GlibPtr<GDBusObjectManager> m_objectManager;
 	uint64_t m_objectManagerHandle;
 	mutable ThreadSafeDevices m_devices;
-	std::map<MACAddress, WatchedDevice> m_watchedDevices;
 	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
 
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
 	mutable Poco::FastMutex m_discoveringMutex;
-	Poco::FastMutex m_watchMutex;
 };
 
 class DBusHciInterfaceManager : public HciInterfaceManager {

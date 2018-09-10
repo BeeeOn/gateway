@@ -202,19 +202,20 @@ void DBusHciInterface::watch(
 		const MACAddress& address,
 		SharedPtr<WatchCallback> callBack)
 {
-	ScopedLock<FastMutex> lock(m_watchMutex);
+	ScopedLock<FastMutex> lock(m_devices.first);
 
-	auto it = m_watchedDevices.find(address);
-	if (it != m_watchedDevices.end())
+	auto it = m_devices.second.find(address);
+	if (it == m_devices.second.end())
+		throw NotFoundException("failed to watch device " + address.toString(':'));
+
+	if (it->second.isWatched())
 		return;
 
 	if (logger().debug())
 		logger().debug("watch the device " + address.toString(':'), __FILE__, __LINE__);
 
-	GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, address));
-
 	uint64_t handle = ::g_signal_connect(
-		device.raw(),
+		it->second.device().raw(),
 		"g-properties-changed",
 		G_CALLBACK(onDeviceManufacturerDataRecieved),
 		callBack.get());
@@ -222,25 +223,26 @@ void DBusHciInterface::watch(
 	if (handle == 0)
 		throw IOException("failed to watch device " + address.toString());
 
-	WatchedDevice watchedDevice(device, handle, callBack);
-	m_watchedDevices.emplace(address, watchedDevice);
+	it->second.watch(handle, callBack);
 }
 
 void DBusHciInterface::unwatch(const MACAddress& address)
 {
-	ScopedLock<FastMutex> lock(m_watchMutex);
+	ScopedLock<FastMutex> lock(m_devices.first);
 
-	auto it = m_watchedDevices.find(address);
-	if (it == m_watchedDevices.end())
+	auto it = m_devices.second.find(address);
+	if (it == m_devices.second.end())
+		return;
+
+	if (!it->second.isWatched())
 		return;
 
 	if (logger().debug())
 		logger().debug("unwatch the device " + address.toString(':'), __FILE__, __LINE__);
 
-	GlibPtr<OrgBluezDevice1> device = it->second.device();
-	const auto handle = it->second.signalHandle();
-	m_watchedDevices.erase(address);
-	::g_signal_handler_disconnect(device.raw(), handle);
+	const auto handle = it->second.watchHandle();
+	it->second.unwatch();
+	::g_signal_handler_disconnect(it->second.device().raw(), handle);
 }
 
 void DBusHciInterface::waitUntilPoweredChange(GlibPtr<OrgBluezAdapter1> adapter, const bool powered) const
@@ -548,16 +550,6 @@ MACAddress DBusHciInterface::Device::macAddress()
 int16_t DBusHciInterface::Device::rssi()
 {
 	return ::org_bluez_device1_get_rssi(m_device.raw());
-}
-
-DBusHciInterface::WatchedDevice::WatchedDevice(
-		const GlibPtr<OrgBluezDevice1> device,
-		const uint64_t signalHandle,
-		const Poco::SharedPtr<WatchCallback> callBack):
-	m_device(device),
-	m_signalHandle(signalHandle),
-	m_callBack(callBack)
-{
 }
 
 
