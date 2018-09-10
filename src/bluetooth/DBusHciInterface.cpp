@@ -512,6 +512,32 @@ GlibPtr<OrgBluezDevice1> DBusHciInterface::retrieveBluezDevice(const string& pat
 	return device;
 }
 
+DBusHciInterface::Device::Device(
+		const GlibPtr<OrgBluezDevice1> device,
+		const uint64_t rssiHandle):
+	m_device(device),
+	m_rssiHandle(rssiHandle)
+{
+}
+
+string DBusHciInterface::Device::name()
+{
+	const char* charName = ::org_bluez_device1_get_name(m_device.raw());
+	const string name = charName == nullptr ? "unknown" : charName;
+
+	return name;
+}
+
+MACAddress DBusHciInterface::Device::macAddress()
+{
+	return MACAddress::parse(::org_bluez_device1_get_address(m_device.raw()), ':');
+}
+
+int16_t DBusHciInterface::Device::rssi()
+{
+	return ::org_bluez_device1_get_rssi(m_device.raw());
+}
+
 DBusHciInterface::WatchedDevice::WatchedDevice(
 		const GlibPtr<OrgBluezDevice1> device,
 		const uint64_t signalHandle,

@@ -49,6 +49,51 @@ public:
 	typedef std::pair<Poco::FastMutex, std::map<MACAddress, std::string>> ThreadSafeDevices;
 
 	/**
+	 * @brief The class represents the Bluetooth Low Energy device and
+	 * stores necessary data about device such as instance of device,
+	 * handle of signal and timestamp of last rssi update.
+	 */
+	class Device {
+	public:
+		/**
+		 * @param rssiHandle handle of signal on which is connected
+		 * onDeviceRSSIChanged callback.
+		 */
+		Device(
+			const GlibPtr<OrgBluezDevice1> device,
+			const uint64_t rssiHandle);
+
+		GlibPtr<OrgBluezDevice1> device() const
+		{
+			return m_device;
+		}
+
+		uint64_t rssiHandle() const
+		{
+			return m_rssiHandle;
+		}
+
+		void updateLastSeen()
+		{
+			m_lastSeen = Poco::Timestamp();
+		}
+
+		Poco::Timestamp lastSeen() const
+		{
+			return m_lastSeen;
+		}
+
+		std::string name();
+		MACAddress macAddress();
+		int16_t rssi();
+
+	private:
+		GlibPtr<OrgBluezDevice1> m_device;
+		uint64_t m_rssiHandle;
+		Poco::Timestamp m_lastSeen;
+	};
+
+	/**
 	 * @brief The class is used to store necessary data about device, from
 	 * which the advertising data is processed, such as instance of device,
 	 * handle of signal and pointer to callback.
