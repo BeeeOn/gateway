@@ -19,18 +19,43 @@ using namespace std;
 static int CHANGE_POWER_ATTEMPTS = 5;
 static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
 static int GERROR_IN_PROGRESS = 36;
+static uint16_t RSSI_DEVICE_UNAVAILABLE = 0;
+static Timespan MAX_AGE_RSSI = 90 * Timespan::SECONDS;
 
 DBusHciInterface::DBusHciInterface(const string& name):
 	m_name(name),
 	m_loopThread(*this, &DBusHciInterface::runLoop)
 {
 	m_adapter = retrieveBluezAdapter(createAdapterPath(m_name));
+	m_objectManager = createBluezObjectManager();
+
+	for (auto& one : processKnownDevices(m_objectManager)) {
+		const auto handle = ::g_signal_connect(
+			one.raw(),
+			"g-properties-changed",
+			G_CALLBACK(onDeviceRSSIChanged),
+			&m_devices);
+
+		Device device(one, handle);
+		m_devices.second.emplace(device.macAddress(), device);
+	}
+
+	m_objectManagerHandle = ::g_signal_connect(
+		G_DBUS_OBJECT_MANAGER(m_objectManager.raw()),
+		"object-added",
+		G_CALLBACK(onDBusObjectAdded),
+		&m_devices);
+
 	m_thread.start(m_loopThread);
 }
 
 DBusHciInterface::~DBusHciInterface()
 {
 	stopDiscovery(m_adapter);
+
+	::g_signal_handler_disconnect(m_objectManager.raw(), m_objectManagerHandle);
+	for (auto& one : m_devices.second)
+		::g_signal_handler_disconnect(one.second.device().raw(), one.second.rssiHandle());
 
 	if (::g_main_loop_is_running(m_loop.raw()))
 		::g_main_loop_quit(m_loop.raw());
@@ -109,27 +134,7 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 	logger().information("starting BLE scan for " +
 		to_string(timeout.totalSeconds()) + " seconds", __FILE__, __LINE__);
 
-	uint64_t managerHandle;
-	GlibPtr<GDBusObjectManager> objectManager = createBluezObjectManager();
-
-	ThreadSafeDevices foundDevices;
-	map<uint64_t, GlibPtr<OrgBluezDevice1>> allDevices;
-
-	for (auto device : processKnownDevices(objectManager)) {
-		uint64_t handle = ::g_signal_connect(
-			device.raw(),
-			"g-properties-changed",
-			G_CALLBACK(onDeviceRSSIChanged),
-			&foundDevices);
-
-		allDevices.emplace(handle, device);
-	}
-
-	managerHandle = ::g_signal_connect(
-		G_DBUS_OBJECT_MANAGER(objectManager.raw()),
-		"object-added",
-		G_CALLBACK(onDBusObjectAdded),
-		&foundDevices);
+	map<MACAddress, string> foundDevices;
 
 	startDiscovery(m_adapter, "le");
 
@@ -140,25 +145,30 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 		}
 	}
 
-	ScopedLock<FastMutex> guard(foundDevices.first);
-	for (auto one : foundDevices.second) {
-		GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(createDevicePath(m_name, one.first));
-		int16_t rssi = ::org_bluez_device1_get_rssi(device.raw());
+	ScopedLock<FastMutex> guard(m_devices.first);
+	for (auto one : m_devices.second) {
+		if (one.second.lastSeen().elapsed() > MAX_AGE_RSSI.totalMicroseconds())
+			continue;
 
-		if (logger().debug())
-			logger().debug("found BLE device " + one.second + " by address " + one.first.toString(':') +
-				" (" + to_string(rssi) + ")", __FILE__, __LINE__);
+		const auto rssi = one.second.rssi();
+		if (rssi == RSSI_DEVICE_UNAVAILABLE)
+			continue;
+
+		const string name = one.second.name();
+		foundDevices.emplace(one.first, name);
+
+		if (logger().debug()) {
+			logger().debug("found BLE device " + name +
+				" by address " + one.first.toString(':') +
+				" (" + to_string(rssi) + ")",
+				__FILE__, __LINE__);
+		}
 	}
 
-	for (auto one : allDevices)
-		::g_signal_handler_disconnect(one.second.raw(), one.first);
-
-	::g_signal_handler_disconnect(objectManager.raw(), managerHandle);
-
 	logger().information("BLE scan has finished, found " +
-		to_string(foundDevices.second.size()) + " device(s)", __FILE__, __LINE__);
+		to_string(foundDevices.size()) + " device(s)", __FILE__, __LINE__);
 
-	return foundDevices.second;
+	return foundDevices;
 }
 
 HciInfo DBusHciInterface::info() const
@@ -366,14 +376,17 @@ void DBusHciInterface::onDBusObjectAdded(
 	BEEEON_CATCH_CHAIN_ACTION(Loggable::forClass(typeid(DBusHciInterface)),
 		return);
 
-	MACAddress mac = MACAddress::parse(::org_bluez_device1_get_address(device.raw()), ':');
-	const char* charName = ::org_bluez_device1_get_name(device.raw());
-	const string name = charName == nullptr ? "unknown" : charName;
+	const auto handle = ::g_signal_connect(
+		device.raw(),
+		"g-properties-changed",
+		G_CALLBACK(onDeviceRSSIChanged),
+		userData);
 
-	ThreadSafeDevices &foundDevices = *(reinterpret_cast<ThreadSafeDevices*>(userData));
+	ThreadSafeDevices &devices = *(reinterpret_cast<ThreadSafeDevices*>(userData));
 
-	ScopedLock<FastMutex> guard(foundDevices.first);
-	foundDevices.second.emplace(mac, name);
+	ScopedLock<FastMutex> guard(devices.first);
+	Device newDevice(device, handle);
+	devices.second.emplace(newDevice.macAddress(), newDevice);
 }
 
 gboolean DBusHciInterface::onDeviceRSSIChanged(
@@ -388,17 +401,16 @@ gboolean DBusHciInterface::onDeviceRSSIChanged(
 	GVariantIter* iter;
 	const char* property;
 	GVariant* value;
-	ThreadSafeDevices &foundDevices = *(reinterpret_cast<ThreadSafeDevices*>(userData));
+	ThreadSafeDevices &devices = *(reinterpret_cast<ThreadSafeDevices*>(userData));
 
 	::g_variant_get(properties, "a{sv}", &iter);
 	while (::g_variant_iter_loop(iter, "{&sv}", &property, &value)) {
 		if (string(property) == "RSSI") {
-			const auto &mac = MACAddress::parse(::org_bluez_device1_get_address(device), ':');
-			const char* charName = ::org_bluez_device1_get_name(device);
-			const string name = charName == nullptr ? "unknown" : charName;
-
-			ScopedLock<FastMutex> guard(foundDevices.first);
-			foundDevices.second.emplace(mac, name);
+			ScopedLock<FastMutex> guard(devices.first);
+			MACAddress mac = MACAddress::parse(::org_bluez_device1_get_address(device), ':');
+			auto it = devices.second.find(mac);
+			if (it != devices.second.end())
+				it->second.updateLastSeen();
 
 			break;
 		}

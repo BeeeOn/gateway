@@ -42,11 +42,12 @@ namespace BeeeOn {
  */
 class DBusHciInterface : public HciInterface, Loggable {
 public:
+	class Device;
 	friend class DBusHciConnection;
 
 	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
-	typedef std::pair<Poco::FastMutex, std::map<MACAddress, std::string>> ThreadSafeDevices;
+	typedef std::pair<Poco::FastMutex, std::map<MACAddress, Device>> ThreadSafeDevices;
 
 	/**
 	 * @brief The class represents the Bluetooth Low Energy device and
@@ -155,11 +156,8 @@ public:
 
 	/**
 	 * @brief Scans the Bluetooth LE network and returns all available
-	 * devices. The method starts with the obtaining of all known devices
-	 * to Bluez deamon. Then the bluetooth adapter starts discovery of new
-	 * devices whitch extends collection of found devices. Availability of
-	 * device is determined by paramter RSSI. If the RSSI parametr changes
-	 * during the scan timeout device is available.
+	 * devices. The method returns devices whitch updated their RSSI
+	 * before the given time.
 	 */
 	std::map<MACAddress, std::string> lescan(
 		const Poco::Timespan &timeout) const override;
@@ -187,7 +185,8 @@ protected:
 
 	/**
 	 * @brief Callback handling the event of creating new device.
-	 * This is used during discovery of new devices.
+	 * The method adds the new device to m_devices and register
+	 * onDeviceRSSIChanged callback.
 	 */
 	static void onDBusObjectAdded(
 		GDBusObjectManager* objectManager,
@@ -313,6 +312,9 @@ private:
 	GlibPtr<GMainLoop> m_loop;
 	Poco::RunnableAdapter<DBusHciInterface> m_loopThread;
 	Poco::Thread m_thread;
+	GlibPtr<GDBusObjectManager> m_objectManager;
+	uint64_t m_objectManagerHandle;
+	mutable ThreadSafeDevices m_devices;
 	std::map<MACAddress, WatchedDevice> m_watchedDevices;
 	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
 
