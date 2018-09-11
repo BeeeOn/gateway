@@ -1,4 +1,5 @@
 #include "bluetooth/RevogiDevice.h"
+#include "bluetooth/RevogiSmartLite.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -85,6 +86,9 @@ RevogiDevice::Ptr RevogiDevice::createDevice(
 {
 	vector<unsigned char> data = conn->read(UUID_DEVICE_NAME);
 	string modelID(data.begin(), data.end());
+
+	if (modelID == RevogiSmartLite::LIGHT_NAME)
+		return new RevogiSmartLite(address, timeout);
 
 	throw NotFoundException("device " + modelID + " not supported");
 }
