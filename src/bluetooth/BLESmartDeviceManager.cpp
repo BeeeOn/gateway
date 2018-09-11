@@ -8,6 +8,7 @@
 #include "bluetooth/BeeWiSmartWatt.h"
 #include "bluetooth/HciUtil.h"
 #include "bluetooth/TabuLumenSmartLite.h"
+#include "bluetooth/RevogiDevice.h"
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
@@ -391,6 +392,8 @@ BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& addres
 		newDevice = new BeeWiSmartLite(address, m_deviceTimeout);
 	else if (TabuLumenSmartLite::match(modelID))
 		newDevice = new TabuLumenSmartLite(address, m_deviceTimeout);
+	else if (RevogiDevice::match(modelID))
+		newDevice = RevogiDevice::createDevice(address, m_deviceTimeout, conn);
 	else
 		throw NotFoundException("device " + modelID + "not supported");
 
