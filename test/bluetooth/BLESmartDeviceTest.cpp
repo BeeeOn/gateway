@@ -8,6 +8,7 @@
 #include "bluetooth/BeeWiSmartWatt.h"
 #include "bluetooth/RevogiSmartCandle.h"
 #include "bluetooth/RevogiSmartLite.h"
+#include "bluetooth/RevogiSmartPlug.h"
 #include "cppunit/BetterAssert.h"
 #include "model/SensorData.h"
 #include "net/MACAddress.h"
@@ -44,6 +45,9 @@ class BLESmartDeviceTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testRevogiSmartCandleParseValidData);
 	CPPUNIT_TEST(testRevogiSmartCandleParseTooLongMessage);
 	CPPUNIT_TEST(testRevogiSmartCandleParseTooShortMessage);
+	CPPUNIT_TEST(testRevogiSmartPlugParseValidData);
+	CPPUNIT_TEST(testRevogiSmartPlugParseTooLongMessage);
+	CPPUNIT_TEST(testRevogiSmartPlugParseTooShortMessage);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testBeeWiSmartClimParseValidData();
@@ -71,6 +75,9 @@ public:
 	void testRevogiSmartCandleParseValidData();
 	void testRevogiSmartCandleParseTooLongMessage();
 	void testRevogiSmartCandleParseTooShortMessage();
+	void testRevogiSmartPlugParseValidData();
+	void testRevogiSmartPlugParseTooLongMessage();
+	void testRevogiSmartPlugParseTooShortMessage();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(BLESmartDeviceTest);
@@ -132,6 +139,15 @@ public:
 	{
 	}
 	using RevogiSmartCandle::parseValues;
+};
+
+class TestableRevogiSmartPlug: public RevogiSmartPlug {
+public:
+	TestableRevogiSmartPlug(const MACAddress& address, const Timespan& timeout):
+		RevogiSmartPlug(address, timeout)
+	{
+	}
+	using RevogiSmartPlug::parseValues;
 };
 
 /**
@@ -711,6 +727,65 @@ void BLESmartDeviceTest::testRevogiSmartCandleParseTooShortMessage()
 	CPPUNIT_ASSERT_THROW_MESSAGE(
 		"expected 18 B, received 2 B",
 		light.parseValues(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing valid values from Revogi Smart Plug.
+ */
+void BLESmartDeviceTest::testRevogiSmartPlugParseValidData()
+{
+	TestableRevogiSmartPlug plug(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values1 =
+		{0x0f, 0x0f, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0xff,
+		0xea, 0x00, 0x60, 0x32, 0x00, 0x0a, 0x2c, 0xff, 0xff};
+	SensorData data1 = plug.parseValues(values1);
+	CPPUNIT_ASSERT_EQUAL(data1[0].value(), 1);
+	CPPUNIT_ASSERT_EQUAL(data1[1].value(), 0.255);
+	CPPUNIT_ASSERT_EQUAL(data1[2].value(), 234);
+	CPPUNIT_ASSERT_EQUAL(data1[3].value(), 0.096);
+	CPPUNIT_ASSERT_EQUAL(data1[4].value(), 50);
+
+	vector<unsigned char> values2 =
+		{0x0f, 0x0f, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0xff, 0xff,
+		0xeb, 0x01, 0x60, 0x31, 0x00, 0x0a, 0x2c, 0xff, 0xff};
+	SensorData data2 = plug.parseValues(values2);
+	CPPUNIT_ASSERT_EQUAL(data2[0].value(), 1);
+	CPPUNIT_ASSERT_EQUAL(data2[1].value(), 65.535);
+	CPPUNIT_ASSERT_EQUAL(data2[2].value(), 235);
+	CPPUNIT_ASSERT_EQUAL(data2[3].value(), 0.352);
+	CPPUNIT_ASSERT_EQUAL(data2[4].value(), 49);
+}
+
+/**
+ * @brief Test of parsing too long message from Revogi Smart Plug.
+ */
+void BLESmartDeviceTest::testRevogiSmartPlugParseTooLongMessage()
+{
+	TestableRevogiSmartPlug plug(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x0f, 0x0f, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0x5a, 0x56,
+		0xea, 0x10, 0x05, 0x32, 0x00, 0x0a, 0x2c, 0xff, 0xff, 0xff};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 19 B, received 20 B",
+		plug.parseValues(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing too short message from Revogi Smart Plug.
+ */
+void BLESmartDeviceTest::testRevogiSmartPlugParseTooShortMessage()
+{
+	TestableRevogiSmartPlug plug(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x00, 0xbb};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 19 B, received 2 B",
+		plug.parseValues(values),
 		ProtocolException);
 }
 
