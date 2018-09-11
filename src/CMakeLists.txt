@@ -234,6 +234,7 @@ if(BLUETOOTH AND ENABLE_BLE_SMART)
 		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDevice.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/RevogiDevice.cpp
+		${PROJECT_SOURCE_DIR}/bluetooth/RevogiRGBLight.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/TabuLumenSmartLite.cpp
 	)
 	list(APPEND SOURCES ${BLE_SMART_SOURCES})
