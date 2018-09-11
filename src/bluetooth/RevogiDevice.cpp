@@ -1,4 +1,5 @@
 #include "bluetooth/RevogiDevice.h"
+#include "bluetooth/RevogiSmartCandle.h"
 #include "bluetooth/RevogiSmartLite.h"
 
 using namespace BeeeOn;
@@ -89,6 +90,8 @@ RevogiDevice::Ptr RevogiDevice::createDevice(
 
 	if (modelID == RevogiSmartLite::LIGHT_NAME)
 		return new RevogiSmartLite(address, timeout);
+	else if (modelID == RevogiSmartCandle::LIGHT_NAME)
+		return new RevogiSmartCandle(address, timeout);
 
 	throw NotFoundException("device " + modelID + " not supported");
 }

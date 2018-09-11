@@ -6,6 +6,7 @@
 #include "bluetooth/BeeWiSmartLite.h"
 #include "bluetooth/BeeWiSmartMotion.h"
 #include "bluetooth/BeeWiSmartWatt.h"
+#include "bluetooth/RevogiSmartCandle.h"
 #include "bluetooth/RevogiSmartLite.h"
 #include "cppunit/BetterAssert.h"
 #include "model/SensorData.h"
@@ -40,6 +41,9 @@ class BLESmartDeviceTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testRevogiSmartLiteParseValidData);
 	CPPUNIT_TEST(testRevogiSmartLiteParseTooLongMessage);
 	CPPUNIT_TEST(testRevogiSmartLiteParseTooShortMessage);
+	CPPUNIT_TEST(testRevogiSmartCandleParseValidData);
+	CPPUNIT_TEST(testRevogiSmartCandleParseTooLongMessage);
+	CPPUNIT_TEST(testRevogiSmartCandleParseTooShortMessage);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testBeeWiSmartClimParseValidData();
@@ -64,6 +68,9 @@ public:
 	void testRevogiSmartLiteParseValidData();
 	void testRevogiSmartLiteParseTooLongMessage();
 	void testRevogiSmartLiteParseTooShortMessage();
+	void testRevogiSmartCandleParseValidData();
+	void testRevogiSmartCandleParseTooLongMessage();
+	void testRevogiSmartCandleParseTooShortMessage();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(BLESmartDeviceTest);
@@ -116,6 +123,15 @@ public:
 	using RevogiSmartLite::colorTempFromKelvins;
 	using RevogiSmartLite::colorTempToKelvins;
 	using RevogiSmartLite::parseValues;
+};
+
+class TestableRevogiSmartCandle : public RevogiSmartCandle {
+public:
+	TestableRevogiSmartCandle(const MACAddress& address, const Timespan& timeout):
+		RevogiSmartCandle(address, timeout)
+	{
+	}
+	using RevogiSmartCandle::parseValues;
 };
 
 /**
@@ -634,6 +650,61 @@ void BLESmartDeviceTest::testRevogiSmartLiteParseTooLongMessage()
 void BLESmartDeviceTest::testRevogiSmartLiteParseTooShortMessage()
 {
 	TestableRevogiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x00, 0xbb};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 18 B, received 2 B",
+		light.parseValues(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing valid values from Revogi Smart Candle.
+ */
+void BLESmartDeviceTest::testRevogiSmartCandleParseValidData()
+{
+	TestableRevogiSmartCandle light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values1 =
+		{0x0f, 0x0e, 0x04, 0x00, 0xff, 0xff, 0xff, 0xc8, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x2e, 0xff, 0xff};
+	SensorData data1 = light.parseValues(values1);
+	CPPUNIT_ASSERT_EQUAL(data1[0].value(), 1);
+	CPPUNIT_ASSERT_EQUAL(data1[1].value(), 100);
+	CPPUNIT_ASSERT_EQUAL(data1[2].value(), 16777215);
+
+	vector<unsigned char> values2 =
+		{0x0f, 0x0e, 0x04, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x2e, 0xff, 0xff};
+	SensorData data2 = light.parseValues(values2);
+	CPPUNIT_ASSERT_EQUAL(data2[0].value(), 0);
+	CPPUNIT_ASSERT_EQUAL(data2[1].value(), 0);
+	CPPUNIT_ASSERT_EQUAL(data2[2].value(), 255);
+}
+
+/**
+ * @brief Test of parsing too long message from Revogi Smart Candle.
+ */
+void BLESmartDeviceTest::testRevogiSmartCandleParseTooLongMessage()
+{
+	TestableRevogiSmartCandle light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+
+	vector<unsigned char> values =
+		{0x0f, 0x0e, 0x04, 0x00, 0xff, 0x00, 0xff, 0xc8, 0x00, 0x00,
+		0x32, 0x30, 0x00, 0x00, 0x00, 0x00, 0x2e, 0xff, 0xff};
+	CPPUNIT_ASSERT_THROW_MESSAGE(
+		"expected 18 B, received 19 B",
+		light.parseValues(values),
+		ProtocolException);
+}
+
+/**
+ * @brief Test of parsing too short message from Revogi Smart Candle.
+ */
+void BLESmartDeviceTest::testRevogiSmartCandleParseTooShortMessage()
+{
+	TestableRevogiSmartCandle light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values =
 		{0x00, 0xbb};
