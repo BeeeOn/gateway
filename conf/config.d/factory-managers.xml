@@ -74,10 +74,20 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 		</instance>
 
+		<instance name="jablotronTxBackOffFactory" class="BeeeOn::RandomBackOffFactory">
+			<set name="min" time="200 ms" />
+			<set name="max" time="500 ms" />
+			<set name="count" number="2" />
+		</instance>
+
 		<instance name="jablotronDeviceManager" class="BeeeOn::JablotronDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="txBackOffFactory" ref="jablotronTxBackOffFactory" />
+			<set name="unpairErasesSlot" number="${jablotron.unpairErasesSlot}" />
+			<set name="eraseAllOnProbe" number="${jablotron.eraseAllOnProbe}" />
+			<set name="registerOnProbe" list="${jablotron.registerOnProbe}" />
 		</instance>
 
 		<instance name="vptDeviceManager" class="BeeeOn::VPTDeviceManager">

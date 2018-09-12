@@ -290,6 +290,12 @@ is available or unavailable, such event is distributed.
 
 * jablotron.enable - enable the Jablotron support
 
+* jablotron.unpairErasesSlot - enable erasing slots while doing unpair
+
+* jablotron.eraseAllOnProbe - when Turris Dongle is connected, all its slots would be erased
+
+* jablotron.registerOnProbe - when Turris Dongle is connected, the given list of addresses is registered
+
 ##### Virtual devices
 
 For debugging and testing purposes, the BeeeOn Gateway contains a subsystem for creating
