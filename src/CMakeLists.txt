@@ -247,6 +247,7 @@ endif()
 
 if(ENABLE_JABLOTRON)
 	file(GLOB JABLOTRON_SOURCES
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronController.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
