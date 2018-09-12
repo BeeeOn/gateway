@@ -256,6 +256,7 @@ if(ENABLE_JABLOTRON)
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceOpenClose.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceRC86K.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceTP82N.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadget.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronReport.cpp
 	)
 	list(APPEND SOURCES ${JABLOTRON_SOURCES})

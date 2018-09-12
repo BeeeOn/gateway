@@ -84,6 +84,7 @@ endif()
 
 if(ENABLE_JABLOTRON)
 	file(GLOB JABLOTRON_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadgetTest.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronReportTest.cpp
 	)
 	list(APPEND TEST_SOURCES ${JABLOTRON_TEST_SOURCES})
