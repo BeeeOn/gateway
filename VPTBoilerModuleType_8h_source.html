@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-31-gaebe612</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,36 +52,33 @@
 <div class="title">VPTBoilerModuleType.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef GATEWAY_VPT_BOILER_MODULE_TYPE_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GATEWAY_VPT_BOILER_MODULE_TYPE_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;util/Enum.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VPTBoilerModuleTypeEnum.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VPTBoilerModuleTypeEnum.html">VPTBoilerModuleTypeEnum</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">enum</span> Raw {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                MOD_BOILER_STATUS = 0,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                MOD_BOILER_MODE,</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                MOD_CURRENT_WATER_TEMPERATURE,</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                MOD_CURRENT_OUTSIDE_TEMPERATURE,</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                MOD_AVERAGE_OUTSIDE_TEMPERATURE,</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                MOD_CURRENT_BOILER_PERFORMANCE,</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                MOD_CURRENT_BOILER_PRESSURE,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                MOD_CURRENT_BOILER_OT_FAULT_FLAGS,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                MOD_CURRENT_BOILER_OT_OEM_FAULTS,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        };</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">static</span> <a class="code" href="structBeeeOn_1_1EnumHelper.html#af2681d06a439d4b56222a8ab77c76b4f">EnumHelper&lt;Raw&gt;::ValueMap</a> &amp;valueMap();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classBeeeOn_1_1Enum.html">Enum&lt;VPTBoilerModuleTypeEnum&gt;</a> <a class="code" href="classBeeeOn_1_1Enum.html">VPTBoilerModuleType</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1VPTBoilerModuleTypeEnum_html"><div class="ttname"><a href="classBeeeOn_1_1VPTBoilerModuleTypeEnum.html">BeeeOn::VPTBoilerModuleTypeEnum</a></div><div class="ttdef"><b>Definition:</b> VPTBoilerModuleType.h:8</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;util/Enum.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VPTBoilerModuleTypeEnum.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VPTBoilerModuleTypeEnum.html">VPTBoilerModuleTypeEnum</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">enum</span> Raw {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                MOD_BOILER_STATUS = 0,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                MOD_BOILER_MODE,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                MOD_CURRENT_WATER_TEMPERATURE,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                MOD_CURRENT_OUTSIDE_TEMPERATURE,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                MOD_AVERAGE_OUTSIDE_TEMPERATURE,</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                MOD_CURRENT_BOILER_PERFORMANCE,</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                MOD_CURRENT_BOILER_PRESSURE,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                MOD_CURRENT_BOILER_OT_FAULT_FLAGS,</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                MOD_CURRENT_BOILER_OT_OEM_FAULTS,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        };</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">static</span> <a class="code" href="structBeeeOn_1_1EnumHelper.html#af2681d06a439d4b56222a8ab77c76b4f">EnumHelper&lt;Raw&gt;::ValueMap</a> &amp;valueMap();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classBeeeOn_1_1Enum.html">Enum&lt;VPTBoilerModuleTypeEnum&gt;</a> <a class="code" href="classBeeeOn_1_1Enum.html">VPTBoilerModuleType</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1VPTBoilerModuleTypeEnum_html"><div class="ttname"><a href="classBeeeOn_1_1VPTBoilerModuleTypeEnum.html">BeeeOn::VPTBoilerModuleTypeEnum</a></div><div class="ttdef"><b>Definition:</b> VPTBoilerModuleType.h:7</div></div>
 <div class="ttc" id="classBeeeOn_1_1Enum_html"><div class="ttname"><a href="classBeeeOn_1_1Enum.html">BeeeOn::Enum</a></div><div class="ttdef"><b>Definition:</b> Enum.h:107</div></div>
 <div class="ttc" id="structBeeeOn_1_1EnumHelper_html_af2681d06a439d4b56222a8ab77c76b4f"><div class="ttname"><a href="structBeeeOn_1_1EnumHelper.html#af2681d06a439d4b56222a8ab77c76b4f">BeeeOn::EnumHelper::ValueMap</a></div><div class="ttdeci">std::map&lt; Raw, std::string &gt; ValueMap</div><div class="ttdef"><b>Definition:</b> Enum.h:21</div></div>
 </div><!-- fragment --></div><!-- contents -->

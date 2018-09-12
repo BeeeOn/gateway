@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-31-gaebe612</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,33 +52,30 @@
 <div class="title">VPTHTTPScanner.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef GATEWAY_VPT_HTTP_SCANNER_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GATEWAY_VPT_HTTP_SCANNER_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/IPAddress.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/SocketAddress.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;net/AbstractHTTPScanner.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VPTHTTPScanner.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html">AbstractHTTPScanner</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a>();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a>(<span class="keyword">const</span> std::string&amp; path, uint16_t port, <span class="keyword">const</span> Poco::Net::IPAddress&amp; minNetMask);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        ~<a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a>();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">void</span> prepareRequest(Poco::Net::HTTPRequest&amp; request) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html#a9b5611cfbf6acb237c58948769736c2d">isValidResponse</a>(<span class="keyword">const</span> std::string&amp; response) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1VPTHTTPScanner_html"><div class="ttname"><a href="classBeeeOn_1_1VPTHTTPScanner.html">BeeeOn::VPTHTTPScanner</a></div><div class="ttdef"><b>Definition:</b> VPTHTTPScanner.h:11</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/IPAddress.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/Net/SocketAddress.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;net/AbstractHTTPScanner.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VPTHTTPScanner.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1AbstractHTTPScanner.html">AbstractHTTPScanner</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a>(<span class="keyword">const</span> std::string&amp; path, uint16_t port, <span class="keyword">const</span> Poco::Net::IPAddress&amp; minNetMask);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        ~<a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html">VPTHTTPScanner</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordtype">void</span> prepareRequest(Poco::Net::HTTPRequest&amp; request) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1VPTHTTPScanner.html#a9b5611cfbf6acb237c58948769736c2d">isValidResponse</a>(<span class="keyword">const</span> std::string&amp; response) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;};</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1VPTHTTPScanner_html"><div class="ttname"><a href="classBeeeOn_1_1VPTHTTPScanner.html">BeeeOn::VPTHTTPScanner</a></div><div class="ttdef"><b>Definition:</b> VPTHTTPScanner.h:10</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTHTTPScanner_html_a9b5611cfbf6acb237c58948769736c2d"><div class="ttname"><a href="classBeeeOn_1_1VPTHTTPScanner.html#a9b5611cfbf6acb237c58948769736c2d">BeeeOn::VPTHTTPScanner::isValidResponse</a></div><div class="ttdeci">bool isValidResponse(const std::string &amp;response) override</div><div class="ttdoc">It defines if the response is valid or not. </div><div class="ttdef"><b>Definition:</b> VPTHTTPScanner.cpp:35</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html">BeeeOn::AbstractHTTPScanner</a></div><div class="ttdoc">The abstract class contains core of HTTP scanning of network. Derivated classes will have to implemen...</div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.h:25</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractHTTPScanner_html"><div class="ttname"><a href="classBeeeOn_1_1AbstractHTTPScanner.html">BeeeOn::AbstractHTTPScanner</a></div><div class="ttdoc">The abstract class contains core of HTTP scanning of network. Derivated classes will have to implemen...</div><div class="ttdef"><b>Definition:</b> AbstractHTTPScanner.h:24</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

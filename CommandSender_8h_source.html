@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-31-gaebe612</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,51 +52,48 @@
 <div class="title">CommandSender.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_COMMAND_SENDER_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_COMMAND_SENDER_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/AutoPtr.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;core/AnswerQueue.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;core/CommandHandler.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;util/UnsafePtr.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>Answer;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">class </span>Command;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">class </span>CommandDispatcher;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1CommandSender.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1CommandSender.html">CommandSender</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1CommandSender.html">CommandSender</a>();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#a253245ba6a7af4fb671b3182beaccf6a">setCommandDispatcher</a>(<a class="code" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a> *dispatcher);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>(Poco::AutoPtr&lt;Command&gt; cmd, Poco::AutoPtr&lt;Answer&gt; answer);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>(Poco::AutoPtr&lt;Command&gt; cmd);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="classBeeeOn_1_1AnswerQueue.html">AnswerQueue</a> &amp;<a class="code" href="classBeeeOn_1_1CommandSender.html#aabb29da373ec3a909daa01614a0b7116">answerQueue</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a>* sendingHandler();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classBeeeOn_1_1UnsafePtr.html">UnsafePtr&lt;CommandDispatcher&gt;</a> m_commandDispatcher;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="classBeeeOn_1_1AnswerQueue.html">AnswerQueue</a> m_answerQueue;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1AnswerQueue_html"><div class="ttname"><a href="classBeeeOn_1_1AnswerQueue.html">BeeeOn::AnswerQueue</a></div><div class="ttdef"><b>Definition:</b> AnswerQueue.h:23</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;Poco/AutoPtr.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/AnswerQueue.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;core/CommandHandler.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;util/UnsafePtr.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>Answer;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>Command;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">class </span>CommandDispatcher;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1CommandSender.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1CommandSender.html">CommandSender</a> {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1CommandSender.html">CommandSender</a>();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#a253245ba6a7af4fb671b3182beaccf6a">setCommandDispatcher</a>(<a class="code" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a> *dispatcher);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>(Poco::AutoPtr&lt;Command&gt; cmd, Poco::AutoPtr&lt;Answer&gt; answer);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>(Poco::AutoPtr&lt;Command&gt; cmd);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="classBeeeOn_1_1AnswerQueue.html">AnswerQueue</a> &amp;<a class="code" href="classBeeeOn_1_1CommandSender.html#aabb29da373ec3a909daa01614a0b7116">answerQueue</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a>* sendingHandler();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="classBeeeOn_1_1UnsafePtr.html">UnsafePtr&lt;CommandDispatcher&gt;</a> m_commandDispatcher;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classBeeeOn_1_1AnswerQueue.html">AnswerQueue</a> m_answerQueue;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1AnswerQueue_html"><div class="ttname"><a href="classBeeeOn_1_1AnswerQueue.html">BeeeOn::AnswerQueue</a></div><div class="ttdef"><b>Definition:</b> AnswerQueue.h:22</div></div>
 <div class="ttc" id="classBeeeOn_1_1CommandSender_html_a253245ba6a7af4fb671b3182beaccf6a"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html#a253245ba6a7af4fb671b3182beaccf6a">BeeeOn::CommandSender::setCommandDispatcher</a></div><div class="ttdeci">void setCommandDispatcher(CommandDispatcher *dispatcher)</div><div class="ttdef"><b>Definition:</b> CommandSender.cpp:11</div></div>
-<div class="ttc" id="classBeeeOn_1_1CommandHandler_html"><div class="ttname"><a href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a></div><div class="ttdef"><b>Definition:</b> CommandHandler.h:19</div></div>
+<div class="ttc" id="classBeeeOn_1_1CommandHandler_html"><div class="ttname"><a href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a></div><div class="ttdef"><b>Definition:</b> CommandHandler.h:18</div></div>
 <div class="ttc" id="classBeeeOn_1_1UnsafePtr_html"><div class="ttname"><a href="classBeeeOn_1_1UnsafePtr.html">BeeeOn::UnsafePtr</a></div><div class="ttdef"><b>Definition:</b> UnsafePtr.h:15</div></div>
 <div class="ttc" id="classBeeeOn_1_1CommandSender_html_aaf881083d28284f9b4d5542f1d47899a"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">BeeeOn::CommandSender::dispatch</a></div><div class="ttdeci">void dispatch(Poco::AutoPtr&lt; Command &gt; cmd, Poco::AutoPtr&lt; Answer &gt; answer)</div></div>
-<div class="ttc" id="classBeeeOn_1_1CommandSender_html"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></div><div class="ttdef"><b>Definition:</b> CommandSender.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1CommandDispatcher_html"><div class="ttname"><a href="classBeeeOn_1_1CommandDispatcher.html">BeeeOn::CommandDispatcher</a></div><div class="ttdef"><b>Definition:</b> CommandDispatcher.h:13</div></div>
+<div class="ttc" id="classBeeeOn_1_1CommandSender_html"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></div><div class="ttdef"><b>Definition:</b> CommandSender.h:20</div></div>
+<div class="ttc" id="classBeeeOn_1_1CommandDispatcher_html"><div class="ttname"><a href="classBeeeOn_1_1CommandDispatcher.html">BeeeOn::CommandDispatcher</a></div><div class="ttdef"><b>Definition:</b> CommandDispatcher.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1CommandSender_html_aabb29da373ec3a909daa01614a0b7116"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html#aabb29da373ec3a909daa01614a0b7116">BeeeOn::CommandSender::answerQueue</a></div><div class="ttdeci">AnswerQueue &amp; answerQueue()</div><div class="ttdef"><b>Definition:</b> CommandSender.cpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-30-g3571ca1</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-31-gaebe612</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,66 +52,63 @@
 <div class="title">Command.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_COMMAND_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_COMMAND_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/AutoPtr.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/RefCountedObject.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;core/Answer.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;core/Result.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;util/Castable.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span>CommandDispatcher;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>CommandHandler;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span>CommandSender;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * Abstract class for Commands, which will be sent within the gates.</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> * All Command objects should have a protected destructor,</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> * to forbid explicit use of delete.</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1Command.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1Command.html">Command</a> : <span class="keyword">public</span> Poco::RefCountedObject, <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1Castable.html">Castable</a> {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">// This way, we are hiding setSendingHandler() from the outer world.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">friend</span> <a class="code" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">friend</span> <a class="code" href="classBeeeOn_1_1CommandSender.html">CommandSender</a>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">typedef</span> Poco::AutoPtr&lt;Command&gt; Ptr;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="classBeeeOn_1_1Command.html">Command</a>();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        std::string name() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a>* <a class="code" href="classBeeeOn_1_1Command.html#a0368b9c7b5a268f61d2c69caeabca840">sendingHandler</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1Command.html#a38f9f75618fbee0bbd48f7e3e66fc6bf">toString</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">virtual</span> Result::Ptr <a class="code" href="classBeeeOn_1_1Command.html#a87e8c5e7dbbeb593b6e3d4e1533d2c7d">deriveResult</a>(Answer::Ptr answer) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">void</span> setSendingHandler(<a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a> *sender);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1Command.html">Command</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a> *m_sendingHandler;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/AutoPtr.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/RefCountedObject.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;core/Answer.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;core/Result.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;util/Castable.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">class </span>CommandDispatcher;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span>CommandHandler;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>CommandSender;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * Abstract class for Commands, which will be sent within the gates.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * All Command objects should have a protected destructor,</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> * to forbid explicit use of delete.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1Command.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1Command.html">Command</a> : <span class="keyword">public</span> Poco::RefCountedObject, <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1Castable.html">Castable</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="comment">// This way, we are hiding setSendingHandler() from the outer world.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">friend</span> <a class="code" href="classBeeeOn_1_1CommandDispatcher.html">CommandDispatcher</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">friend</span> <a class="code" href="classBeeeOn_1_1CommandSender.html">CommandSender</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">typedef</span> Poco::AutoPtr&lt;Command&gt; Ptr;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classBeeeOn_1_1Command.html">Command</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        std::string name() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a>* <a class="code" href="classBeeeOn_1_1Command.html#a0368b9c7b5a268f61d2c69caeabca840">sendingHandler</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1Command.html#a38f9f75618fbee0bbd48f7e3e66fc6bf">toString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">virtual</span> Result::Ptr <a class="code" href="classBeeeOn_1_1Command.html#a87e8c5e7dbbeb593b6e3d4e1533d2c7d">deriveResult</a>(Answer::Ptr answer) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> setSendingHandler(<a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a> *sender);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1Command.html">Command</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <a class="code" href="classBeeeOn_1_1CommandHandler.html">CommandHandler</a> *m_sendingHandler;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1Command_html_a87e8c5e7dbbeb593b6e3d4e1533d2c7d"><div class="ttname"><a href="classBeeeOn_1_1Command.html#a87e8c5e7dbbeb593b6e3d4e1533d2c7d">BeeeOn::Command::deriveResult</a></div><div class="ttdeci">virtual Result::Ptr deriveResult(Answer::Ptr answer) const </div><div class="ttdef"><b>Definition:</b> Command.cpp:37</div></div>
-<div class="ttc" id="classBeeeOn_1_1Command_html"><div class="ttname"><a href="classBeeeOn_1_1Command.html">BeeeOn::Command</a></div><div class="ttdef"><b>Definition:</b> Command.h:26</div></div>
-<div class="ttc" id="classBeeeOn_1_1CommandHandler_html"><div class="ttname"><a href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a></div><div class="ttdef"><b>Definition:</b> CommandHandler.h:19</div></div>
+<div class="ttc" id="classBeeeOn_1_1Command_html"><div class="ttname"><a href="classBeeeOn_1_1Command.html">BeeeOn::Command</a></div><div class="ttdef"><b>Definition:</b> Command.h:25</div></div>
+<div class="ttc" id="classBeeeOn_1_1CommandHandler_html"><div class="ttname"><a href="classBeeeOn_1_1CommandHandler.html">BeeeOn::CommandHandler</a></div><div class="ttdef"><b>Definition:</b> CommandHandler.h:18</div></div>
 <div class="ttc" id="classBeeeOn_1_1Castable_html"><div class="ttname"><a href="classBeeeOn_1_1Castable.html">BeeeOn::Castable</a></div><div class="ttdef"><b>Definition:</b> Castable.h:8</div></div>
-<div class="ttc" id="classBeeeOn_1_1CommandSender_html"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></div><div class="ttdef"><b>Definition:</b> CommandSender.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1CommandDispatcher_html"><div class="ttname"><a href="classBeeeOn_1_1CommandDispatcher.html">BeeeOn::CommandDispatcher</a></div><div class="ttdef"><b>Definition:</b> CommandDispatcher.h:13</div></div>
+<div class="ttc" id="classBeeeOn_1_1CommandSender_html"><div class="ttname"><a href="classBeeeOn_1_1CommandSender.html">BeeeOn::CommandSender</a></div><div class="ttdef"><b>Definition:</b> CommandSender.h:20</div></div>
+<div class="ttc" id="classBeeeOn_1_1CommandDispatcher_html"><div class="ttname"><a href="classBeeeOn_1_1CommandDispatcher.html">BeeeOn::CommandDispatcher</a></div><div class="ttdef"><b>Definition:</b> CommandDispatcher.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1Command_html_a0368b9c7b5a268f61d2c69caeabca840"><div class="ttname"><a href="classBeeeOn_1_1Command.html#a0368b9c7b5a268f61d2c69caeabca840">BeeeOn::Command::sendingHandler</a></div><div class="ttdeci">CommandHandler * sendingHandler() const </div><div class="ttdef"><b>Definition:</b> Command.cpp:27</div></div>
 <div class="ttc" id="classBeeeOn_1_1Command_html_a38f9f75618fbee0bbd48f7e3e66fc6bf"><div class="ttname"><a href="classBeeeOn_1_1Command.html#a38f9f75618fbee0bbd48f7e3e66fc6bf">BeeeOn::Command::toString</a></div><div class="ttdeci">virtual std::string toString() const </div><div class="ttdef"><b>Definition:</b> Command.cpp:32</div></div>
 </div><!-- fragment --></div><!-- contents -->
