@@ -1,5 +1,4 @@
-#ifndef GATEWAY_VPT_HTTP_SCANNER_H
-#define GATEWAY_VPT_HTTP_SCANNER_H
+#pragma once
 
 #include <Poco/Net/IPAddress.h>
 #include <Poco/Net/SocketAddress.h>
@@ -20,5 +19,3 @@ protected:
 };
 
 }
-
-#endif

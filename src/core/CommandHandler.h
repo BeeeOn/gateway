@@ -1,5 +1,4 @@
-#ifndef BEEEON_COMMAND_HANDLER_H
-#define BEEEON_COMMAND_HANDLER_H
+#pragma once
 
 #include <string>
 
@@ -37,5 +36,3 @@ public:
 };
 
 }
-
-#endif

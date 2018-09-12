@@ -1,5 +1,4 @@
-#ifndef BEEEON_HOTPLUG_EVENT_H
-#define BEEEON_HOTPLUG_EVENT_H
+#pragma once
 
 #include <string>
 
@@ -43,5 +42,3 @@ private:
 };
 
 }
-
-#endif

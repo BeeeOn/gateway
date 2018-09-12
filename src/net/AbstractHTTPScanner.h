@@ -1,5 +1,4 @@
-#ifndef GATEWAY_ABSTRACT_HTTP_SCANNER_H
-#define GATEWAY_ABSTRACT_HTTP_SCANNER_H
+#pragma once
 
 #include <set>
 
@@ -116,5 +115,3 @@ private:
 };
 
 }
-
-#endif

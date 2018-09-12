@@ -1,5 +1,4 @@
-#ifndef GATEWAY_BELKINWEMO_H
-#define GATEWAY_BELKINWEMO_H
+#pragma once
 
 #include <map>
 #include <vector>
@@ -94,5 +93,3 @@ private:
 };
 
 }
-
-#endif

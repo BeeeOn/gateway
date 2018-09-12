@@ -1,5 +1,4 @@
-#ifndef BEEEON_FITPROTOCOL_DEVICE_MANAGER_H
-#define BEEEON_FITPROTOCOL_DEVICE_MANAGER_H
+#pragma once
 
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
@@ -238,5 +237,3 @@ private:
 };
 
 }
-
-#endif

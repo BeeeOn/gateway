@@ -1,5 +1,4 @@
-#ifndef GATEWAY_BELKIN_WEMO_SWITCH_H
-#define GATEWAY_BELKIN_WEMO_SWITCH_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -62,5 +61,3 @@ protected:
 };
 
 }
-
-#endif

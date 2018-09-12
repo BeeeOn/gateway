@@ -1,5 +1,4 @@
-#ifndef BEEEON_MQTT_EXPORTER_H
-#define BEEEON_MQTT_EXPORTER_H
+#pragma once
 
 #include <string>
 #include <mosquittopp.h>
@@ -41,5 +40,3 @@ private:
 };
 
 }
-
-#endif // BEEEON_MQTT_EXPORTER_H

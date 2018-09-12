@@ -1,5 +1,4 @@
-#ifndef BEEEON_DEVICE_SET_VALUE_COMMAND_H
-#define BEEEON_DEVICE_SET_VALUE_COMMAND_H
+#pragma once
 
 #include <Poco/Timespan.h>
 
@@ -47,5 +46,3 @@ private:
 };
 
 }
-
-#endif

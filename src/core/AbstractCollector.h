@@ -1,5 +1,4 @@
-#ifndef BEEEON_ABSTRACT_COLLECTOR_H
-#define BEEEON_ABSTRACT_COLLECTOR_H
+#pragma once
 
 #include "bluetooth/HciListener.h"
 #include "core/CommandDispatcherListener.h"
@@ -66,5 +65,3 @@ public:
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BEEEON_LOGGING_COLLECTOR_H
-#define BEEEON_LOGGING_COLLECTOR_H
+#pragma once
 
 #include <Poco/AtomicCounter.h>
 
@@ -27,5 +26,3 @@ private:
 };
 
 }
-
-#endif

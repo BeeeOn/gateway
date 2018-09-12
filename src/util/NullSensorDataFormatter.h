@@ -1,5 +1,4 @@
-#ifndef BEEEON_NULL_SENSOR_DATA_FORMATTER_H
-#define BEEEON_NULL_SENSOR_DATA_FORMATTER_H
+#pragma once
 
 #include <string>
 
@@ -24,5 +23,3 @@ public:
 };
 
 }
-
-#endif // BEEEON_NULL_SENSOR_DATA_FORMATTER_H

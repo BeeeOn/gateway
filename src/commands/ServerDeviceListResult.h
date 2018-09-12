@@ -1,5 +1,4 @@
-#ifndef BEEEON_SERVER_DEVICE_LIST_RESULT_H
-#define BEEEON_SERVER_DEVICE_LIST_RESULT_H
+#pragma once
 
 #include <map>
 #include <vector>
@@ -42,5 +41,3 @@ private:
 };
 
 }
-
-#endif

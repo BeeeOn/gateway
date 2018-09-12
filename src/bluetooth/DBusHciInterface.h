@@ -1,5 +1,4 @@
-#ifndef GATEWAY_DBUS_HCI_INTERFACE_H
-#define GATEWAY_DBUS_HCI_INTERFACE_H
+#pragma once
 
 #include <glib.h>
 #include <gio/gio.h>
@@ -290,5 +289,3 @@ private:
 };
 
 }
-
-#endif

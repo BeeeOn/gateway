@@ -1,5 +1,4 @@
-#ifndef BEEEON_NEW_DEVICE_COMMAND_H
-#define BEEEON_NEW_DEVICE_COMMAND_H
+#pragma once
 
 #include <list>
 
@@ -44,5 +43,3 @@ private:
 };
 
 }
-
-#endif

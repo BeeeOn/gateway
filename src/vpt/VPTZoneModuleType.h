@@ -1,5 +1,4 @@
-#ifndef GATEWAY_VPT_ZONE_MODULE_TYPE_H
-#define GATEWAY_VPT_ZONE_MODULE_TYPE_H
+#pragma once
 
 #include "util/Enum.h"
 
@@ -26,5 +25,3 @@ public:
 typedef Enum<VPTZoneModuleTypeEnum> VPTZoneModuleType;
 
 }
-
-#endif

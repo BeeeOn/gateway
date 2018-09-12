@@ -1,5 +1,4 @@
-#ifndef BEEEON_VIRTUAL_DEVICE_H
-#define BEEEON_VIRTUAL_DEVICE_H
+#pragma once
 
 #include <list>
 
@@ -52,5 +51,3 @@ private:
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BEEEON_DEVICE_UNPAIR_COMMAND_H
-#define BEEEON_DEVICE_UNPAIR_COMMAND_H
+#pragma once
 
 #include <Poco/Timespan.h>
 
@@ -41,5 +40,3 @@ private:
 };
 
 }
-
-#endif

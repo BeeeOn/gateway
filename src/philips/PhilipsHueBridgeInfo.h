@@ -1,5 +1,4 @@
-#ifndef BEEEON_PHILIPS_HUE_BRIDGE_INFO_H
-#define BEEEON_PHILIPS_HUE_BRIDGE_INFO_H
+#pragma once
 
 #include <string>
 
@@ -38,5 +37,3 @@ private:
 };
 
 }
-
-#endif

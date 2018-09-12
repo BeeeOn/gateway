@@ -1,5 +1,4 @@
-#ifndef GATEWAY_VPT_BOILER_MODULE_TYPE_H
-#define GATEWAY_VPT_BOILER_MODULE_TYPE_H
+#pragma once
 
 #include "util/Enum.h"
 
@@ -25,5 +24,3 @@ public:
 typedef Enum<VPTBoilerModuleTypeEnum> VPTBoilerModuleType;
 
 }
-
-#endif

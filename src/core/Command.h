@@ -1,5 +1,4 @@
-#ifndef BEEEON_COMMAND_H
-#define BEEEON_COMMAND_H
+#pragma once
 
 #include <string>
 
@@ -67,5 +66,3 @@ protected:
 };
 
 }
-
-#endif

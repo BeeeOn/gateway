@@ -1,5 +1,4 @@
-#ifndef BEEEON_GATEWAY_LISTEN_COMMAND_H
-#define BEEEON_GATEWAY_LISTEN_COMMAND_H
+#pragma once
 
 #include <Poco/Timespan.h>
 
@@ -31,5 +30,3 @@ private:
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BEEEON_SENSOR_DATA_FORMATTER_H
-#define BEEEON_SENSOR_DATA_FORMATTER_H
+#pragma once
 
 #include <string>
 
@@ -23,5 +22,3 @@ public:
 };
 
 }
-
-#endif // BEEEON_SENSOR_DATA_FORMATTER_H

@@ -1,5 +1,4 @@
-#ifndef BEEEON_DONGLE_DEVICE_MANAGER_H
-#define BEEEON_DONGLE_DEVICE_MANAGER_H
+#pragma once
 
 #include <Poco/Event.h>
 #include <Poco/Mutex.h>
@@ -110,5 +109,3 @@ private:
 };
 
 }
-
-#endif

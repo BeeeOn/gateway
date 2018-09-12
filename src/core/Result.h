@@ -1,5 +1,4 @@
-#ifndef BEEEON_RESULT_H
-#define BEEEON_RESULT_H
+#pragma once
 
 #include <Poco/AutoPtr.h>
 #include <Poco/Event.h>
@@ -72,5 +71,3 @@ private:
 };
 
 }
-
-#endif

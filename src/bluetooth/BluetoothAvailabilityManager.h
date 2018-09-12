@@ -1,5 +1,4 @@
-#ifndef BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H
-#define BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H
+#pragma once
 
 #include <list>
 #include <map>
@@ -124,5 +123,3 @@ private:
 };
 
 }
-
-#endif //BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H

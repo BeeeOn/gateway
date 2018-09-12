@@ -1,5 +1,4 @@
-#ifndef GATEWAY_PHILIPS_H
-#define GATEWAY_PHILIPS_H
+#pragma once
 
 #include <map>
 #include <vector>
@@ -115,5 +114,3 @@ private:
 };
 
 }
-
-#endif

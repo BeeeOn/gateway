@@ -1,5 +1,4 @@
-#ifndef BEEEON_DEVICE_MANAGER_H
-#define BEEEON_DEVICE_MANAGER_H
+#pragma once
 
 #include <set>
 #include <typeindex>
@@ -282,5 +281,3 @@ private:
 };
 
 }
-
-#endif

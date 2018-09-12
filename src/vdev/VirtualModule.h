@@ -1,5 +1,4 @@
-#ifndef BEEEON_VIRTUAL_MODULE_H
-#define BEEEON_VIRTUAL_MODULE_H
+#pragma once
 
 #include <list>
 
@@ -60,5 +59,3 @@ private:
 };
 
 }
-
-#endif

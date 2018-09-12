@@ -1,5 +1,4 @@
-#ifndef GATEWAY_VPT_H
-#define GATEWAY_VPT_H
+#pragma once
 
 #include <map>
 #include <vector>
@@ -145,5 +144,3 @@ private:
 };
 
 }
-
-#endif

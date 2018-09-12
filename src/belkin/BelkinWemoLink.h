@@ -1,5 +1,4 @@
-#ifndef GATEWAY_BELKIN_WEMO_LINK_H
-#define GATEWAY_BELKIN_WEMO_LINK_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -105,5 +104,3 @@ private:
 };
 
 }
-
-#endif

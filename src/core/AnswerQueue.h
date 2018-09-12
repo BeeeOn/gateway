@@ -1,5 +1,4 @@
-#ifndef BEEEON_ANSWER_QUEUE_H
-#define BEEEON_ANSWER_QUEUE_H
+#pragma once
 
 #include <list>
 
@@ -71,5 +70,3 @@ protected:
 };
 
 }
-
-#endif

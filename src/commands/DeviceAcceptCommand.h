@@ -1,5 +1,4 @@
-#ifndef BEEEON_DEVICE_ACCEPTED_COMMAND_H
-#define BEEEON_DEVICE_ACCEPTED_COMMAND_H
+#pragma once
 
 #include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
@@ -28,5 +27,3 @@ private:
 };
 
 }
-
-#endif

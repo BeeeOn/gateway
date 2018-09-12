@@ -1,5 +1,4 @@
-#ifndef BEEEON_MOSQUITTO_CLIENT_H
-#define BEEEON_MOSQUITTO_CLIENT_H
+#pragma once
 
 #include <list>
 #include <queue>
@@ -131,5 +130,3 @@ private:
 };
 
 }
-
-#endif

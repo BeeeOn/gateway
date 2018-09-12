@@ -1,5 +1,4 @@
-#ifndef BEEEON_CSV_SENSOR_DATA_FORMATTER_H
-#define BEEEON_CSV_SENSOR_DATA_FORMATTER_H
+#pragma once
 
 #include <string>
 
@@ -44,5 +43,3 @@ private:
 };
 
 }
-
-#endif // BEEEON_CSV_SENSOR_DATA_FORMATTER_H

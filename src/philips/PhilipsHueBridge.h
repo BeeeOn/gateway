@@ -1,5 +1,4 @@
-#ifndef GATEWAY_PHILIPS_BRIDGE_H
-#define GATEWAY_PHILIPS_BRIDGE_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -138,5 +137,3 @@ private:
 };
 
 }
-
-#endif

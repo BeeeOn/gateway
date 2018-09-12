@@ -1,5 +1,4 @@
-#ifndef BEEEON_BLUEZ_HCI_INTERFACE_H
-#define BEEEON_BLUEZ_HCI_INTERFACE_H
+#pragma once
 
 #include <utility>
 #include <vector>
@@ -87,5 +86,3 @@ public:
 };
 
 }
-
-#endif // BEEEON_BLUEZ_HCI_INTERFACE_H

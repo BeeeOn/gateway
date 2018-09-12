@@ -1,5 +1,4 @@
-#ifndef BEEEON_SERVER_GET_LAST_VALUE_COMMAND_H
-#define BEEEON_SERVER_GET_LAST_VALUE_COMMAND_H
+#pragma once
 
 #include "core/Command.h"
 #include "model/DeviceID.h"
@@ -33,5 +32,3 @@ private:
 };
 
 }
-
-#endif

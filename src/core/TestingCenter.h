@@ -1,5 +1,4 @@
-#ifndef BEEEON_TESTING_CENTER_H
-#define BEEEON_TESTING_CENTER_H
+#pragma once
 
 #include <functional>
 #include <list>
@@ -84,5 +83,3 @@ private:
 };
 
 }
-
-#endif

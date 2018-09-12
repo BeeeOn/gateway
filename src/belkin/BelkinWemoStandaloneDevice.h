@@ -1,5 +1,4 @@
-#ifndef GATEWAY_BELKIN_WEMO_STANDALONE_DEVICE_H
-#define GATEWAY_BELKIN_WEMO_STANDALONE_DEVICE_H
+#pragma once
 
 #include <string>
 
@@ -62,5 +61,3 @@ protected:
 };
 
 }
-
-#endif

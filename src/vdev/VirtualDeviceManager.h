@@ -1,5 +1,4 @@
-#ifndef BEEEON_VIRTUAL_DEVICE_MANAGER_H
-#define BEEEON_VIRTUAL_DEVICE_MANAGER_H
+#pragma once
 
 #include <queue>
 #include <string>
@@ -198,5 +197,3 @@ private:
 };
 
 }
-
-#endif

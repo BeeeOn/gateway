@@ -1,5 +1,4 @@
-#ifndef BEEEON_NAMED_PIPE_EXPORTER_H
-#define BEEEON_NAMED_PIPE_EXPORTER_H
+#pragma once
 
 #include <string>
 #include <Poco/Logger.h>
@@ -54,5 +53,3 @@ private:
 };
 
 }
-
-#endif // BEEEON_NAMED_PIPE_EXPORTER_H
