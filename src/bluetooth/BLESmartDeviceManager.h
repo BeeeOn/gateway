@@ -137,12 +137,6 @@ protected:
 		const StopControl& stop);
 
 	/**
-	 * @brief It is faster then asking for device identification.
-	 * In this way, we speed up lookup for supported devices only.
-	 */
-	bool fastPrefilter(const std::string& name) const;
-
-	/**
 	 * @brief Creates BLE device based on its Model ID.
 	 */
 	BLESmartDevice::Ptr createDevice(const MACAddress& address) const;
@@ -153,12 +147,6 @@ private:
 	Poco::FastMutex m_devicesMutex;
 	std::map<DeviceID, BLESmartDevice::Ptr> m_devices;
 	Poco::SharedPtr<HciInterface::WatchCallback> m_watchCallback;
-	/**
-	 * @brief The set of device names that can be one of the supported
-	 * devices. If a device with this name is found in the seeking for
-	 * new devices, it is further investigated.
-	 */
-	std::set<std::string> m_matchedNames;
 
 	Poco::Timespan m_scanTimeout;
 	Poco::Timespan m_deviceTimeout;

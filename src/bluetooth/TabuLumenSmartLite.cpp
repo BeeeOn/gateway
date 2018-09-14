@@ -27,7 +27,6 @@ const vector<uint8_t> TabuLumenSmartLite::ADD_KEY = {
 const vector<uint8_t> TabuLumenSmartLite::XOR_KEY = {
 	0x00, 0x2b, 0x3c, 0x4d, 0x5e, 0x6f, 0xf7, 0xe8, 0xd9, 0xca,
 	0xbb, 0xac, 0x9d, 0x8e, 0x7f, 0x5e, 0x6f, 0xf7, 0xe8, 0xd9};
-const string TabuLumenSmartLite::NAME = "Lighting_AVC";
 const string TabuLumenSmartLite::LIGHT_NAME = "TL 100S Smart Light";
 const string TabuLumenSmartLite::VENDOR_NAME = "Tabu Lumen";
 
