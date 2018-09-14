@@ -118,6 +118,7 @@ protected:
 
 	private:
 		Poco::Clock m_lastRequested;
+		bool m_started;
 		bool m_successful;
 	};
 

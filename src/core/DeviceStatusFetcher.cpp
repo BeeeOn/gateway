@@ -36,6 +36,7 @@ DevicePrefix DeviceStatusFetcher::PrefixAnswer::prefix() const
 
 DeviceStatusFetcher::PrefixStatus::PrefixStatus():
 	m_lastRequested(0),
+	m_started(false),
 	m_successful(false)
 {
 }
@@ -44,6 +45,7 @@ void DeviceStatusFetcher::PrefixStatus::startRequest()
 {
 	poco_assert(!m_successful);
 	m_lastRequested.update();
+	m_started = true;
 }
 
 void DeviceStatusFetcher::PrefixStatus::deliverResponse(
@@ -55,7 +57,7 @@ void DeviceStatusFetcher::PrefixStatus::deliverResponse(
 
 bool DeviceStatusFetcher::PrefixStatus::needsRequest() const
 {
-	return !m_successful;
+	return !m_started;
 }
 
 bool DeviceStatusFetcher::PrefixStatus::shouldRepeat(
@@ -230,6 +232,11 @@ void DeviceStatusFetcher::run()
 			}
 
 			break;
+
+		case ACTIVE:
+			if (logger().debug()) {
+				logger().debug("some request is still active", __FILE__, __LINE__);
+			}
 
 		default:
 			break;
