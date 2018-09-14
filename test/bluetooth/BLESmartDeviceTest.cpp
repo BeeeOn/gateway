@@ -341,7 +341,7 @@ void BLESmartDeviceTest::testBeeWiSmartLiteParseValidData()
 	SensorData data1 = light.parseAdvertisingData(values1);
 	CPPUNIT_ASSERT_EQUAL(int(data1[0].value()), 1);
 	CPPUNIT_ASSERT_EQUAL(int(data1[1].value()), 0);
-	CPPUNIT_ASSERT_EQUAL(int(data1[2].value()), 3000);
+	CPPUNIT_ASSERT_EQUAL(int(data1[2].value()), 6000);
 	CPPUNIT_ASSERT_EQUAL(int(data1[3].value()), 255);
 
 	vector<unsigned char> values2 =
@@ -349,7 +349,7 @@ void BLESmartDeviceTest::testBeeWiSmartLiteParseValidData()
 	SensorData data2 = light.parseAdvertisingData(values2);
 	CPPUNIT_ASSERT_EQUAL(int(data2[0].value()), 0);
 	CPPUNIT_ASSERT_EQUAL(int(data2[1].value()), 100);
-	CPPUNIT_ASSERT_EQUAL(int(data2[2].value()), 6000);
+	CPPUNIT_ASSERT_EQUAL(int(data2[2].value()), 3000);
 	CPPUNIT_ASSERT_EQUAL(int(data2[3].value()), 16776960);
 }
 
@@ -432,14 +432,14 @@ void BLESmartDeviceTest::testConvertColorTemptBeeWiSmartLite()
 {
 	TestableBeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(25000)), 11);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(6000)), 11);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(5400)), 9);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(4950)), 8);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(4800)), 7);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(3600)), 4);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(3000)), 2);
-	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(2000)), 2);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(25000)), 2);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(6000)), 2);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(5400)), 4);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(4950)), 5);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(4800)), 6);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(3600)), 9);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(3000)), 11);
+	CPPUNIT_ASSERT_EQUAL(int(light.colorTempFromKelvins(2000)), 11);
 
 	CPPUNIT_ASSERT_THROW_MESSAGE(
 		"color temperature is out of range",
@@ -450,12 +450,12 @@ void BLESmartDeviceTest::testConvertColorTemptBeeWiSmartLite()
 		light.colorTempFromKelvins(1000),
 		IllegalStateException);
 
-	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(11), 6000U);
-	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(9), 5333U);
-	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(8), 5000U);
-	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(7), 4667U);
-	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(4), 3667U);
-	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(2), 3000U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(11), 3000U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(9), 3667U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(8), 4000U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(7), 4333U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(4), 5333U);
+	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(2), 6000U);
 	CPPUNIT_ASSERT_EQUAL(light.colorTempToKelvins(0), 0U);
 
 	CPPUNIT_ASSERT_THROW_MESSAGE(
