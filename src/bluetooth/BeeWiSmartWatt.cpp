@@ -26,7 +26,7 @@ static list<ModuleType> DEVICE_MODULE_TYPES = {
 const UUID BeeWiSmartWatt::ACTUAL_VALUES = UUID("a8b3ff07-4834-4051-89d0-3de95cddd318");
 const UUID BeeWiSmartWatt::ON_OFF = UUID("a8b3ff04-4834-4051-89d0-3de95cddd318");
 const UUID BeeWiSmartWatt::LIGHT_ON_OFF = UUID("a8b3ff06-4834-4051-89d0-3de95cddd318");
-const string BeeWiSmartWatt::NAME = "BeeWi Smart Wattt";
+const string BeeWiSmartWatt::NAME = "BeeWi Smart Watt";
 
 BeeWiSmartWatt::BeeWiSmartWatt(const MACAddress& address, const Timespan& timeout):
 	BeeWiDevice(address, timeout, NAME, DEVICE_MODULE_TYPES)
