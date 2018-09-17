@@ -140,7 +140,8 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessageTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${IQRF_TEST_SOURCES})
+	add_library(BeeeOnIQRFTest ${IQRF_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest)
 endif()
 
 include_directories(

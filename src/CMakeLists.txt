@@ -410,7 +410,8 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordRemoveNodeResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPAOSPeripheralInfoResponse.cpp
 	)
-	list(APPEND SOURCES ${IQRF_SOURCES})
+	add_library(BeeeOnIQRF ${IQRF_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnIQRF)
 else()
 	message(STATUS "IQRF support is disabled")
 endif()
