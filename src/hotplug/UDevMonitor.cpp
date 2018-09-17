@@ -153,7 +153,7 @@ void UDevMonitor::initialScan()
 		throwFromErrno("udev_enumerate_scan_devices");
 	}
 
-	struct udev_list_entry *devices = NULL;
+	struct udev_list_entry *devices;
 	struct udev_list_entry *current = NULL;
 	devices = ::udev_enumerate_get_list_entry(en);
 
