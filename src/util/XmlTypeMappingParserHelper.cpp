@@ -45,6 +45,7 @@ pair<AutoPtr<Node>, ModuleType> XmlTypeMappingParserHelper::next()
 			logger().warning(
 				"element beeeon has no parent",
 				__FILE__, __LINE__);
+			continue;
 		}
 		else if (mapNode->localName() != "map") {
 			logger().warning(
