@@ -381,7 +381,8 @@ if(FITP_LIB AND ENABLE_FITP)
 		${PROJECT_SOURCE_DIR}/fitp/FitpDevice.cpp
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceManager.cpp
 	)
-	list(APPEND SOURCES ${FITP_SOURCES})
+	add_library(BeeeOnFitp ${FITP_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnFitp)
 	list(APPEND LIBS ${FITP_LIB})
 else()
 	message(STATUS "Fitp support is disabled")

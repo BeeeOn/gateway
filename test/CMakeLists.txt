@@ -121,8 +121,9 @@ if(FITP_LIB AND ENABLE_FITP)
 	file(GLOB FITP_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${FITP_TEST_SOURCES})
+	add_library(BeeeOnFitpTest ${FITP_TEST_SOURCES})
 	list(APPEND LIBS ${FITP_LIB})
+	list(APPEND TEST_MODULE_LIBS BeeeOnFitp BeeeOnFitpTest)
 endif()
 
 if(ENABLE_BLE_SMART)
