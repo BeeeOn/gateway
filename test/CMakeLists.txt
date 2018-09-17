@@ -86,7 +86,9 @@ if(ENABLE_JABLOTRON)
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadgetTest.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronReportTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${JABLOTRON_TEST_SOURCES})
+
+	add_library(BeeeOnTurrisGadgetsTest ${JABLOTRON_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnTurrisGadgets BeeeOnTurrisGadgetsTest)
 endif()
 
 if(ENABLE_VPT)

@@ -256,7 +256,8 @@ if(ENABLE_JABLOTRON)
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadget.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronReport.cpp
 	)
-	list(APPEND SOURCES ${JABLOTRON_SOURCES})
+	add_library(BeeeOnTurrisGadgets ${JABLOTRON_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnTurrisGadgets)
 else()
 	message(STATUS "Jablotron support is disabled")
 endif()
