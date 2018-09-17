@@ -360,7 +360,8 @@ if (ENABLE_TESTING_CENTER)
 	file(GLOB TESTING_CENTER_SOURCES
 		${PROJECT_SOURCE_DIR}/core/TestingCenter.cpp
 	)
-	list(APPEND SOURCES ${TESTING_CENTER_SOURCES})
+	add_library(BeeeOnTestingCenter ${TESTING_CENTER_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnTestingCenter)
 else()
 	message(STATUS "Testing Center support is disabled")
 endif()
