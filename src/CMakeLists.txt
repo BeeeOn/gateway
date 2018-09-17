@@ -284,7 +284,8 @@ if(ENABLE_VIRTUAL_DEVICES)
 		${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
 		${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
 	)
-	list(APPEND SOURCES ${VIRTUAL_DEVICES_SOURCES})
+	add_library(BeeeOnVDev ${VIRTUAL_DEVICES_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnVDev)
 else()
 	message(STATUS "Virtual Devices support is disabled")
 endif()
