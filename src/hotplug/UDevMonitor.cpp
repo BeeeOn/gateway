@@ -91,7 +91,7 @@ void UDevMonitor::collectProperties(
 	const string &prefix = string(subsystem ? subsystem : "") + (subsystem ? "." : "");
 
 	struct udev_list_entry *attributes;
-	struct udev_list_entry *current;
+	struct udev_list_entry *current = NULL;
 
 	attributes = ::udev_device_get_properties_list_entry(dev);
 	udev_list_entry_foreach(current, attributes) {
