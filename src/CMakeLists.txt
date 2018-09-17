@@ -370,7 +370,8 @@ if (ENABLE_PRESSURE_SENSOR)
 	file(GLOB PRESSURE_SENSOR_SOURCES
 		${PROJECT_SOURCE_DIR}/psdev/PressureSensorManager.cpp
 	)
-	list(APPEND SOURCES ${PRESSURE_SENSOR_SOURCES})
+	add_library(BeeeOnPSDev ${PRESSURE_SENSOR_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnPSDev)
 else()
 	message(STATUS "Internal air pressure sensor support is disabled")
 endif()
