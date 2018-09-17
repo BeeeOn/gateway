@@ -91,7 +91,7 @@ void UDevMonitor::collectProperties(
 	const string &prefix = string(subsystem ? subsystem : "") + (subsystem ? "." : "");
 
 	struct udev_list_entry *attributes;
-	struct udev_list_entry *current;
+	struct udev_list_entry *current = NULL;
 
 	attributes = ::udev_device_get_properties_list_entry(dev);
 	udev_list_entry_foreach(current, attributes) {
@@ -153,7 +153,7 @@ void UDevMonitor::initialScan()
 		throwFromErrno("udev_enumerate_scan_devices");
 	}
 
-	struct udev_list_entry *devices = NULL;
+	struct udev_list_entry *devices;
 	struct udev_list_entry *current = NULL;
 	devices = ::udev_enumerate_get_list_entry(en);
 
