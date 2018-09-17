@@ -57,6 +57,7 @@
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}" />
+			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
 		</instance>
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
