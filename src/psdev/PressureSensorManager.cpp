@@ -16,6 +16,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, PressureSensorManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &PressureSensorManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &PressureSensorManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &PressureSensorManager::setCommandDispatcher)
@@ -56,8 +57,6 @@ void PressureSensorManager::run()
 {
 	poco_information(logger(), "pressure sensor started");
 
-	initialize();
-
 	StopControl::Run run(m_stopControl);
 
 	while(run) {
@@ -78,24 +77,13 @@ void PressureSensorManager::stop()
 	DeviceManager::stop();
 }
 
-void PressureSensorManager::initialize()
+void PressureSensorManager::handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values)
 {
-	set<DeviceID> devices;
-	try {
-		devices = deviceList(-1);
-	}
-	catch (const Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-	}
-
-	if (devices.size() > 1) {
-		poco_warning(logger(),
-			"obtained more than one paired sensor: "
-			+ to_string(devices.size()));
-	}
-
-	if (devices.find(pairedID()) != devices.end())
-		deviceCache()->markPaired(pairedID());
+	DeviceManager::handleRemoteStatus(prefix, devices, values);
+	m_stopControl.requestWakeup();
 }
 
 AsyncWork<>::Ptr PressureSensorManager::startDiscovery(const Timespan &)
