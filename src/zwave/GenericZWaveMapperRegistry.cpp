@@ -122,7 +122,7 @@ SensorValue GenericZWaveMapperRegistry::GenericMapper::convert(
 
 		case 0x04:
 		case 0x07:
-			if (value.asInt() >= 1 || value.asInt() <= 6)
+			if (value.asInt() >= 1 && value.asInt() <= 6)
 				result = 1;
 			else if (value.asInt() == 254)
 				result = 1;
@@ -131,7 +131,7 @@ SensorValue GenericZWaveMapperRegistry::GenericMapper::convert(
 			break;
 
 		case 0x05:
-			if (value.asInt() >= 1 || value.asInt() <= 4)
+			if (value.asInt() >= 1 && value.asInt() <= 4)
 				result = 1;
 			else if (value.asInt() == 254)
 				result = 1;
@@ -158,7 +158,7 @@ SensorValue GenericZWaveMapperRegistry::GenericMapper::convert(
 			break;
 
 		case 0x0A:
-			if (value.asInt() >= 1 || value.asInt() <= 3)
+			if (value.asInt() >= 1 && value.asInt() <= 3)
 				result = 1;
 			else if (value.asInt() == 254)
 				result = 1;
