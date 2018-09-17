@@ -298,7 +298,8 @@ if(ENABLE_VPT)
 		${PROJECT_SOURCE_DIR}/vpt/VPTValuesParser.cpp
 		${PROJECT_SOURCE_DIR}/vpt/VPTZoneModuleType.cpp
 	)
-	list(APPEND SOURCES ${VPT_SOURCES})
+	add_library(BeeeOnVPT ${VPT_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnVPT)
 else()
 	message(STATUS "VPT support is disabled")
 endif()
