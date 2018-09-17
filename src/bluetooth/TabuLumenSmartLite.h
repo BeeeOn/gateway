@@ -16,8 +16,6 @@ class TabuLumenSmartLite : public BLESmartDevice {
 public:
 	typedef Poco::SharedPtr<TabuLumenSmartLite> Ptr;
 
-	static const std::string NAME;
-
 private:
 	/**
 	 * UUID of characteristics to modify device status and to authorize.

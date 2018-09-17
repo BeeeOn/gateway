@@ -51,16 +51,6 @@ BLESmartDeviceManager::BLESmartDeviceManager():
 		[&](const MACAddress& address, vector<unsigned char>& data) {
 			processAsyncData(address, data);
 		});
-
-	m_matchedNames = {
-		"unknown",
-		BeeWiSmartClim::NAME,
-		BeeWiSmartMotion::NAME,
-		BeeWiSmartDoor::NAME,
-		BeeWiSmartWatt::NAME,
-		BeeWiSmartLite::NAME,
-		TabuLumenSmartLite::NAME,
-	};
 }
 
 void BLESmartDeviceManager::setScanTimeout(const Timespan &timeout)
@@ -344,9 +334,6 @@ void BLESmartDeviceManager::seekDevices(vector<BLESmartDevice::Ptr>& foundDevice
 		if (stop.shouldStop())
 			break;
 
-		if (!fastPrefilter(device.second))
-			continue;
-
 		ScopedLockWithUnlock<FastMutex> lock(m_devicesMutex);
 		auto it = m_devices.find(DeviceID(DevicePrefix::PREFIX_BLE_SMART, device.first));
 		if (it != m_devices.end()) {
@@ -374,11 +361,6 @@ void BLESmartDeviceManager::seekDevices(vector<BLESmartDevice::Ptr>& foundDevice
 		logger().information("found " + newDevice->productName() + " " + newDevice->deviceID().toString(),
 			__FILE__, __LINE__);
 	}
-}
-
-bool BLESmartDeviceManager::fastPrefilter(const string& name) const
-{
-	return m_matchedNames.find(name) != m_matchedNames.end();
 }
 
 BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& address) const

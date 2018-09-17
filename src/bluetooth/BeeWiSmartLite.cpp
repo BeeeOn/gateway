@@ -151,7 +151,7 @@ unsigned int BeeWiSmartLite::colorTempToKelvins(const double value) const
 	if (value < MIN_COLOR_TEMP || value > MAX_COLOR_TEMP)
 		throw IllegalStateException("value is out of range");
 
-	double percents = (value - MIN_COLOR_TEMP) / (MAX_COLOR_TEMP - MIN_COLOR_TEMP);
+	double percents = 1.0 - ((value - MIN_COLOR_TEMP) / (MAX_COLOR_TEMP - MIN_COLOR_TEMP));
 	return round((percents * (MAX_SUPPORTED_COLOR_TEMP - MIN_SUPPORTED_COLOR_TEMP)) + MIN_SUPPORTED_COLOR_TEMP);
 }
 
@@ -161,13 +161,13 @@ unsigned char BeeWiSmartLite::colorTempFromKelvins(const double temperature) con
 		throw IllegalStateException("color temperature is out of range");
 
 	if (temperature <= MIN_SUPPORTED_COLOR_TEMP) {
-		return MIN_COLOR_TEMP;
-	}
-	else if (temperature >= MAX_SUPPORTED_COLOR_TEMP) {
 		return MAX_COLOR_TEMP;
 	}
+	else if (temperature >= MAX_SUPPORTED_COLOR_TEMP) {
+		return MIN_COLOR_TEMP;
+	}
 	else {
-		double percents = (temperature - MIN_SUPPORTED_COLOR_TEMP) / (MAX_SUPPORTED_COLOR_TEMP - MIN_SUPPORTED_COLOR_TEMP);
+		double percents = 1.0 - (temperature - MIN_SUPPORTED_COLOR_TEMP) / (MAX_SUPPORTED_COLOR_TEMP - MIN_SUPPORTED_COLOR_TEMP);
 		return round((percents * (MAX_COLOR_TEMP - MIN_COLOR_TEMP)) + MIN_COLOR_TEMP);
 	}
 }
