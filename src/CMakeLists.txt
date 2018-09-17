@@ -243,7 +243,8 @@ if(BLUETOOTH AND ENABLE_BLE_SMART)
 		${PROJECT_SOURCE_DIR}/bluetooth/RevogiSmartPlug.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/TabuLumenSmartLite.cpp
 	)
-	list(APPEND SOURCES ${BLE_SMART_SOURCES})
+	add_library(BeeeOnBLE ${BLE_SMART_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBLE)
 else()
 	message(STATUS "Bluetooth Low Energy Smart support is disabled")
 endif()
