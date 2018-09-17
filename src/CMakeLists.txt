@@ -349,7 +349,8 @@ if(MOSQUITTO_CPP)
 		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
 		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)
-	list(APPEND SOURCES ${MOSQUITTO_SUPPORT_SOURCES})
+	add_library(BeeeOnMosquitto ${MOSQUITTO_SUPPORT_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnMosquitto)
 	list(APPEND LIBS ${MOSQUITTO_CPP})
 else()
 	message(STATUS "Mosquitto support is disabled")
