@@ -178,7 +178,8 @@ if(ENABLE_BELKIN_WEMO)
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoStandaloneDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
 	)
-	list(APPEND SOURCES ${BELKIN_SOURCES})
+	add_library(BeeeOnBelkinWemo ${BELKIN_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBelkinWemo)
 else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
