@@ -429,6 +429,7 @@ target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
 		BeeeOnGateway
 		BeeeOnBase
+		${MODULE_LIBS}
 		-Wl,--no-whole-archive
 		${LIBS}
 )

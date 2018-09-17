@@ -167,6 +167,7 @@ target_link_libraries(test-suite-gateway
 	BeeeOnGateway
 	BeeeOnBaseTest
 	BeeeOnBase
+	${TEST_MODULE_LIBS}
 	-Wl,--no-whole-archive
 	${LIBS}
 )
