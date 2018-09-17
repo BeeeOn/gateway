@@ -26,6 +26,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &BluetoothAvailabilityManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_PROPERTY("leScanTime", &BluetoothAvailabilityManager::setLEScanTime)
@@ -304,16 +305,14 @@ AsyncWork<set<DeviceID>>::Ptr BluetoothAvailabilityManager::startUnpair(
 
 void BluetoothAvailabilityManager::fetchDeviceList()
 {
-	set<DeviceID> idList;
-	idList = deviceList();
+	set<DeviceID> idList = waitRemoteStatus(-1);
 
 	FastMutex::ScopedLock lock(m_lock);
 
-	deviceCache()->markPaired(prefix(), {});
 	m_deviceList.clear();
 
 	for (const auto &id : idList)
-		addDevice(id);
+		m_deviceList.emplace(id, BluetoothDevice(id));
 }
 
 bool BluetoothAvailabilityManager::enoughTimeForScan(const Timestamp &startTime)
