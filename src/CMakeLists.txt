@@ -271,7 +271,8 @@ if(ENABLE_PHILIPS_HUE)
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDimmableBulb.cpp
 	)
-	list(APPEND SOURCES ${PHILIPS_SOURCES})
+	add_library(BeeeOnPhilipsHue ${PHILIPS_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnPhilipsHue)
 	add_definitions(-DHAVE_PHILIPS_HUE=1)
 else()
 	message(STATUS "Philips Hue support is disabled")

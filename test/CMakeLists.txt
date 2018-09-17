@@ -98,6 +98,10 @@ if(ENABLE_VPT)
 	list(APPEND TEST_SOURCES ${VPT_TEST_SOURCES})
 endif()
 
+if(ENABLE_PHILIPS_HUE)
+	list(APPEND TEST_MODULE_LIBS BeeeOnPhilipsHue) # dependency in LoggingCollector
+endif()
+
 if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 
