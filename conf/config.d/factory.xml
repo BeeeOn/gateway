@@ -58,6 +58,7 @@
 			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}" />
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
+			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
 		</instance>
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
