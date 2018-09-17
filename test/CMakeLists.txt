@@ -112,8 +112,9 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParserTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
+	add_library(BeeeOnZWaveTest ${ZWAVE_TEST_SOURCES})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
+	list(APPEND TEST_MODULE_LIBS BeeeOnZWave BeeeOnZWaveOZW BeeeOnZWaveTest)
 endif()
 
 if(FITP_LIB AND ENABLE_FITP)

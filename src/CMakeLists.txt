@@ -322,8 +322,9 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParser.cpp
 	)
-	list(APPEND SOURCES ${ZWAVE_SOURCES})
+	add_library(BeeeOnZWave ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
+	list(APPEND MODULE_LIBS BeeeOnZWave)
 endif()
 
 if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
@@ -333,7 +334,8 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/OZWPocoLoggerAdapter.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWNotificationEvent.cpp
 	)
-	list(APPEND SOURCES ${OZW_SOURCES})
+	add_library(BeeeOnZWaveOZW ${OZW_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnZWaveOZW)
 	add_definitions(-DHAVE_OPENZWAVE=1)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
