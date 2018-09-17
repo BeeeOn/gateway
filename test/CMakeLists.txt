@@ -66,20 +66,19 @@ file(GLOB TEST_SOURCES
 )
 
 if(BLUETOOTH)
-	list(APPEND LIBS ${BLUETOOTH})
-
 	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
 	)
-
-	list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
 
 	if(HAS_DBUS_BLUEZ)
 		file(GLOB DBUS_BLUEZ_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
 		)
-		list(APPEND TEST_SOURCES ${DBUS_BLUEZ_SOURCES})
 	endif()
+
+	add_library(BeeeOnBluetoothTest ${BLUETOOTH_SOURCES} ${DBUS_BLUEZ_SOURCES})
+	list(APPEND LIBS ${BLUETOOTH})
+	list(APPEND TEST_MODULE_LIBS BeeeOnBluetooth BeeeOnBluetoothTest)
 endif()
 
 if(ENABLE_JABLOTRON)

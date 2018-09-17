@@ -195,9 +195,8 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciUtil.cpp
 	)
-	list(APPEND SOURCES ${BLUETOOTH_SOURCES})
 	if(HAS_DBUS_BLUEZ)
-		list(APPEND SOURCES
+		list(APPEND BLUETOOTH_SOURCES
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
@@ -209,6 +208,8 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 			PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter -Wno-pedantic"
 		)
 	endif()
+	add_library(BeeeOnBluetooth ${BLUETOOTH_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBluetooth)
 	add_definitions(-DHAVE_HCI=1)
 else()
 	message(STATUS "Bluetooth support is disabled")
