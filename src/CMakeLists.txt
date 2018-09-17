@@ -220,7 +220,8 @@ if(BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
 	)
-	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+	add_library(BeeeOnBluetoothAvailability ${BLUETOOTH_AVAILABILITY_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBluetoothAvailability)
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
