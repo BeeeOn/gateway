@@ -66,6 +66,14 @@ private:
 	void resolveServices();
 
 	/**
+	 * @brief Writes value to the GATT characteristic defined
+	 * by UUID.
+	 */
+	void doWrite(
+		const Poco::UUID& uuid,
+		const std::vector<unsigned char>& value);
+
+	/**
 	 * @brief Tries to find GATT characteristic defined by UUID for
 	 * the given device. If the characteristic is not found it returns nullptr.
 	 */

@@ -76,21 +76,7 @@ void DBusHciConnection::write(
 			__FILE__, __LINE__);
 	}
 
-	GlibPtr<OrgBluezGattCharacteristic1> characteristic = findGATTCharacteristic(uuid);
-	if (characteristic.isNull())
-		throw NotFoundException("no such GATT characteristic " + uuid.toString());
-
-	::g_dbus_proxy_set_default_timeout(G_DBUS_PROXY(characteristic.raw()), m_timeout.totalMilliseconds());
-
-	GVariant* data = ::g_variant_new_from_data(
-		G_VARIANT_TYPE("ay"), &value[0], value.size(), true, nullptr, nullptr);
-	GVariantBuilder args;
-	::g_variant_builder_init(&args, G_VARIANT_TYPE("a{sv}"));
-	GlibPtr<GError> error;
-	::org_bluez_gatt_characteristic1_call_write_value_sync(
-		characteristic.raw(), data, ::g_variant_builder_end(&args), nullptr, &error);
-
-	throwErrorIfAny(error);
+	doWrite(uuid, value);
 }
 
 void DBusHciConnection::resolveServices()
@@ -118,6 +104,27 @@ void DBusHciConnection::resolveServices()
 
 	if (!::org_bluez_device1_get_services_resolved(m_device.raw()))
 		throw TimeoutException("resolving of services failed");
+}
+
+void DBusHciConnection::doWrite(
+		const Poco::UUID& uuid,
+		const std::vector<unsigned char>& value)
+{
+	GlibPtr<OrgBluezGattCharacteristic1> characteristic = findGATTCharacteristic(uuid);
+	if (characteristic.isNull())
+		throw NotFoundException("no such GATT characteristic " + uuid.toString());
+
+	::g_dbus_proxy_set_default_timeout(G_DBUS_PROXY(characteristic.raw()), m_timeout.totalMilliseconds());
+
+	GVariant* data = ::g_variant_new_from_data(
+		G_VARIANT_TYPE("ay"), &value[0], value.size(), true, nullptr, nullptr);
+	GVariantBuilder args;
+	::g_variant_builder_init(&args, G_VARIANT_TYPE("a{sv}"));
+	GlibPtr<GError> error;
+	::org_bluez_gatt_characteristic1_call_write_value_sync(
+		characteristic.raw(), data, ::g_variant_builder_end(&args), nullptr, &error);
+
+	throwErrorIfAny(error);
 }
 
 gboolean DBusHciConnection::onDeviceServicesResolved(
