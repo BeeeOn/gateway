@@ -22,9 +22,9 @@
 #include "hotplug/HotplugEvent.h"
 #include "util/ZipIterator.h"
 #include "zwave/OZWNetwork.h"
+#include "zwave/OZWNotificationEvent.h"
 #include "zwave/OZWPocoLoggerAdapter.h"
 #include "zwave/ZWaveNodeEvent.h"
-#include "zwave/ZWaveNotificationEvent.h"
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveSerialProber.h"
 
@@ -389,7 +389,7 @@ bool OZWNetwork::ignoreNotification(const Notification *n) const
 
 void OZWNetwork::onNotification(const Notification *n)
 {
-	ZWaveNotificationEvent e(*n);
+	OZWNotificationEvent e(*n);
 	m_eventSource.fireEvent(e, &ZWaveListener::onNotification);
 
 	if (ignoreNotification(n)) {

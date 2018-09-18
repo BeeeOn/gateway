@@ -18,7 +18,7 @@ void AbstractCollector::onNodeStats(const ZWaveNodeEvent &)
 {
 }
 
-void AbstractCollector::onNotification(const ZWaveNotificationEvent &)
+void AbstractCollector::onNotification(const OZWNotificationEvent &)
 {
 }
 

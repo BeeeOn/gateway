@@ -322,7 +322,7 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/OZWPocoLoggerAdapter.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveNotificationEvent.cpp
+		${PROJECT_SOURCE_DIR}/zwave/OZWNotificationEvent.cpp
 	)
 	list(APPEND SOURCES ${OZW_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)

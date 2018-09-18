@@ -14,7 +14,7 @@
 #ifdef HAVE_ZWAVE
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveNodeEvent.h"
-#include "zwave/ZWaveNotificationEvent.h"
+#include "zwave/OZWNotificationEvent.h"
 #endif
 
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
@@ -91,12 +91,12 @@ void LoggingCollector::onNodeStats(const ZWaveNodeEvent &e)
 			+ to_string(e.quality()));
 }
 
-void LoggingCollector::onNotification(const ZWaveNotificationEvent &e)
+void LoggingCollector::onNotification(const OZWNotificationEvent &e)
 {
 	const string event = e.event().isNull() ?
 		"(null)" : NumberFormatter::formatHex(e.event().value(), 2, true);
 
-	logger().debug("Z-Wave Notification: "
+	logger().debug("OpenZWave Notification: "
 			+ to_string(e.type())
 			+ ", {"
 			+ NumberFormatter::formatHex(e.homeID(), 8, true)
@@ -126,7 +126,7 @@ void LoggingCollector::onNodeStats(const ZWaveNodeEvent &)
 {
 }
 
-void LoggingCollector::onNotification(const ZWaveNotificationEvent &)
+void LoggingCollector::onNotification(const OZWNotificationEvent &)
 {
 }
 #endif
