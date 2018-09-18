@@ -14,6 +14,9 @@
 #ifdef HAVE_ZWAVE
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveNodeEvent.h"
+#endif
+
+#ifdef HAVE_OPENZWAVE
 #include "zwave/OZWNotificationEvent.h"
 #endif
 
@@ -90,7 +93,17 @@ void LoggingCollector::onNodeStats(const ZWaveNodeEvent &e)
 			+ "/"
 			+ to_string(e.quality()));
 }
+#else
+void LoggingCollector::onDriverStats(const ZWaveDriverEvent &)
+{
+}
 
+void LoggingCollector::onNodeStats(const ZWaveNodeEvent &)
+{
+}
+#endif
+
+#ifdef HAVE_OPENZWAVE
 void LoggingCollector::onNotification(const OZWNotificationEvent &e)
 {
 	const string event = e.event().isNull() ?
@@ -118,14 +131,6 @@ void LoggingCollector::onNotification(const OZWNotificationEvent &e)
 			+ event);
 }
 #else
-void LoggingCollector::onDriverStats(const ZWaveDriverEvent &)
-{
-}
-
-void LoggingCollector::onNodeStats(const ZWaveNodeEvent &)
-{
-}
-
 void LoggingCollector::onNotification(const OZWNotificationEvent &)
 {
 }
