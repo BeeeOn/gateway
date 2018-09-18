@@ -307,6 +307,7 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/SpecificZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ST02L1ZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveMapperRegistry.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNetwork.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNode.cpp
@@ -321,7 +322,6 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/OZWCommand.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWNetwork.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWPocoLoggerAdapter.cpp
-		${PROJECT_SOURCE_DIR}/zwave/ZWaveDriverEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWNotificationEvent.cpp
 	)
 	list(APPEND SOURCES ${OZW_SOURCES})

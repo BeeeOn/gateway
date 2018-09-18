@@ -997,7 +997,31 @@ void OZWNetwork::fireStatistics()
 		Driver::DriverData data;
 		Manager::Get()->GetDriverStatistics(home.first, &data);
 
-		ZWaveDriverEvent e(data);
+		const map<string, uint32_t> stats ={
+			{"SOFCnt", data.m_SOFCnt},
+			{"ACKWaiting", data.m_ACKWaiting},
+			{"readAborts", data.m_readAborts},
+			{"badChecksum", data.m_badChecksum},
+			{"readCnt", data.m_readCnt},
+			{"writeCnt", data.m_writeCnt},
+			{"CANCnt", data.m_CANCnt},
+			{"NAKCnt", data.m_NAKCnt},
+			{"ACKCnt", data.m_ACKCnt},
+			{"OOFCnt", data.m_OOFCnt},
+			{"dropped", data.m_dropped},
+			{"retries", data.m_retries},
+			{"callbacks", data.m_callbacks},
+			{"badroutes", data.m_badroutes},
+			{"noACK", data.m_noack},
+			{"netbusy", data.m_netbusy},
+			{"notidle", data.m_notidle},
+			{"nondelivery", data.m_nondelivery},
+			{"routedbusy", data.m_routedbusy},
+			{"broadcastReadCnt", data.m_broadcastReadCnt},
+			{"broadcastWriteCnt", data.m_broadcastWriteCnt},
+		};
+
+		ZWaveDriverEvent e(stats);
 		m_eventSource.fireEvent(e, &ZWaveListener::onDriverStats);
 
 		for (const auto &node : home.second) {

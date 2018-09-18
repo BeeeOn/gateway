@@ -1,133 +1,125 @@
+#include <Poco/Exception.h>
 #include "zwave/ZWaveDriverEvent.h"
 
+using namespace std;
+using namespace Poco;
 using namespace BeeeOn;
 
-ZWaveDriverEvent::ZWaveDriverEvent(const OpenZWave::Driver::DriverData &data):
-	m_SOFCnt(data.m_SOFCnt),
-	m_ACKWaiting(data.m_ACKWaiting),
-	m_readAborts(data.m_readAborts),
-	m_badChecksum(data.m_badChecksum),
-	m_readCnt(data.m_readCnt),
-	m_writeCnt(data.m_writeCnt),
-	m_CANCnt(data.m_CANCnt),
-	m_NAKCnt(data.m_NAKCnt),
-	m_ACKCnt(data.m_ACKCnt),
-	m_OOFCnt(data.m_OOFCnt),
-	m_dropped(data.m_dropped),
-	m_retries(data.m_retries),
-	m_callbacks(data.m_callbacks),
-	m_badroutes(data.m_badroutes),
-	m_noACK(data.m_noack),
-	m_netbusy(data.m_netbusy),
-	m_notidle(data.m_notidle),
-	m_nondelivery(data.m_nondelivery),
-	m_routedbusy(data.m_routedbusy),
-	m_broadcastReadCnt(data.m_broadcastReadCnt),
-	m_broadcastWriteCnt(data.m_broadcastWriteCnt)
+ZWaveDriverEvent::ZWaveDriverEvent(const map<string, uint32_t> &stats):
+	m_stats(stats)
 {
+}
+
+uint32_t ZWaveDriverEvent::lookup(const string &key) const
+{
+	auto it = m_stats.find(key);
+	if (it == m_stats.end())
+		throw NotFoundException("no such driver statistic " + key);
+
+	return it->second;
 }
 
 uint32_t ZWaveDriverEvent::SOAFCount() const
 {
-	return m_SOFCnt;
+	return lookup("SOFCnt");
 }
 
 uint32_t ZWaveDriverEvent::ACKWaiting() const
 {
-	return m_ACKWaiting;
+	return lookup("ACKWaiting");
 }
 
 uint32_t ZWaveDriverEvent::readAborts() const
 {
-	return m_readAborts;
+	return lookup("readAborts");
 }
 
 uint32_t ZWaveDriverEvent::badChecksum() const
 {
-	return m_badChecksum;
+	return lookup("badChecksum");
 }
 
 uint32_t ZWaveDriverEvent::readCount() const
 {
-	return m_readCnt;
+	return lookup("readCnt");
 }
 
 uint32_t ZWaveDriverEvent::writeCount() const
 {
-	return m_writeCnt;
+	return lookup("writeCnt");
 }
 
 uint32_t ZWaveDriverEvent::CANCount() const
 {
-	return m_CANCnt;
+	return lookup("CANCnt");
 }
 
 uint32_t ZWaveDriverEvent::NAKCount() const
 {
-	return m_NAKCnt;
+	return lookup("NAKCnt");
 }
 
 uint32_t ZWaveDriverEvent::ACKCount() const
 {
-	return m_ACKCnt;
+	return lookup("ACKCnt");
 }
 
 uint32_t ZWaveDriverEvent::OOFCount() const
 {
-	return m_OOFCnt;
+	return lookup("OOFCnt");
 }
 
 uint32_t ZWaveDriverEvent::dropped() const
 {
-	return m_dropped;
+	return lookup("dropped");
 }
 
 uint32_t ZWaveDriverEvent::retries() const
 {
-	return m_retries;
+	return lookup("retries");
 }
 
 uint32_t ZWaveDriverEvent::callbacks() const
 {
-	return m_callbacks;
+	return lookup("callbacks");
 }
 
 uint32_t ZWaveDriverEvent::badroutes() const
 {
-	return m_badroutes;
+	return lookup("badroutes");
 }
 
 uint32_t ZWaveDriverEvent::noACK() const
 {
-	return m_noACK;
+	return lookup("noACK");
 }
 
 uint32_t ZWaveDriverEvent::netBusy() const
 {
-	return m_netbusy;
+	return lookup("netbusy");
 }
 
 uint32_t ZWaveDriverEvent::notIdle() const
 {
-	return m_notidle;
+	return lookup("notidle");
 }
 
 uint32_t ZWaveDriverEvent::nonDelivery() const
 {
-	return m_nondelivery;
+	return lookup("nondelivery");
 }
 
 uint32_t ZWaveDriverEvent::routedBusy() const
 {
-	return m_routedbusy;
+	return lookup("routedbusy");
 }
 
 uint32_t ZWaveDriverEvent::broadcastReadCount() const
 {
-	return m_broadcastReadCnt;
+	return lookup("broadcastReadCnt");
 }
 
 uint32_t ZWaveDriverEvent::broadcastWriteCount() const
 {
-	return m_broadcastWriteCnt;
+	return lookup("broadcastWriteCnt");
 }
