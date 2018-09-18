@@ -247,8 +247,10 @@ void DBusHciInterface::startDiscovery(
 	if (::org_bluez_adapter1_get_discovering(adapter.raw()))
 		return;
 
+	GlibPtr<GError> error;
 	initDiscoveryFilter(adapter, trasport);
-	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, nullptr);
+	::org_bluez_adapter1_call_start_discovery_sync(adapter.raw(), nullptr, &error);
+	throwErrorIfAny(error);
 }
 
 void DBusHciInterface::stopDiscovery(GlibPtr<OrgBluezAdapter1> adapter) const
