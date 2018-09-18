@@ -278,7 +278,9 @@ void BluetoothAvailabilityManager::handleAccept(const DeviceAcceptCommand::Ptr c
 {
 	FastMutex::ScopedLock lock(m_lock);
 
-	addDevice(cmd.cast<DeviceAcceptCommand>()->deviceID());
+	const auto id = cmd->deviceID();
+	m_deviceList.emplace(id, BluetoothDevice(id));
+	deviceCache()->markPaired(id);
 }
 
 AsyncWork<>::Ptr BluetoothAvailabilityManager::startDiscovery(const Timespan &timeout)
@@ -366,12 +368,6 @@ void BluetoothAvailabilityManager::listen()
 	};
 
 	logger().information("bluetooth listen has finished", __FILE__, __LINE__);
-}
-
-void BluetoothAvailabilityManager::addDevice(const DeviceID &id)
-{
-	m_deviceList.emplace(id, BluetoothDevice(id));
-	deviceCache()->markPaired(id);
 }
 
 void BluetoothAvailabilityManager::removeDevice(const DeviceID &id)

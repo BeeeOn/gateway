@@ -95,8 +95,6 @@ private:
 
 	void listen();
 
-	void addDevice(const DeviceID &id);
-
 	void removeDevice(const DeviceID &id);
 
 	void shipStatusOf(const BluetoothDevice &device);
