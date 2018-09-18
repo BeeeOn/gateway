@@ -307,10 +307,10 @@ void BluetoothAvailabilityManager::fetchDeviceList()
 	set<DeviceID> idList;
 	idList = deviceList();
 
+	FastMutex::ScopedLock lock(m_lock);
+
 	deviceCache()->markPaired(prefix(), {});
 	m_deviceList.clear();
-
-	FastMutex::ScopedLock lock(m_lock);
 
 	for (const auto &id : idList)
 		addDevice(id);
