@@ -1,14 +1,7 @@
 #pragma once
 
 #include <cstdint>
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wignored-qualifiers"
-#include <Node.h>
-#pragma GCC diagnostic pop
-#pragma GCC diagnostic pop
+#include <map>
 
 namespace BeeeOn {
 
@@ -24,7 +17,8 @@ public:
 	 * Creates statistics data from node.
 	 */
 	ZWaveNodeEvent(
-		const OpenZWave::Node::NodeData &data, uint8_t nodeID);
+		const std::map<std::string, uint32_t> &stats,
+		uint8_t nodeID);
 
 	uint32_t sentCount() const;
 	uint32_t sentFailed() const;
@@ -43,19 +37,12 @@ public:
 	 */
 	uint8_t nodeID() const;
 
+protected:
+	uint32_t lookup(const std::string &key) const;
+
 private:
 	uint8_t m_nodeID;                // Identification of Z-Wave device.
-	uint32_t m_sentCnt;              // Number of messages sent from this node.
-	uint32_t m_sentFailed;           // Number of sent messages failed
-	uint32_t m_retries;              // Number of message retries
-	uint32_t m_receivedCnt;          // Number of messages received from this node.
-	uint32_t m_receivedDups;         // Number of duplicated messages received;
-	uint32_t m_receivedUnsolicited;  // Number of messages received unsolicited
-	uint32_t m_lastRequestRTT;       // Last message request RTT
-	uint32_t m_lastResponseRTT;      // Last message response RTT
-	uint32_t m_averageRequestRTT;    // Average Request round trip time (ms).
-	uint32_t m_averageResponseRTT;   // Average Response round trip time.
-	uint32_t m_quality;              // Node quality measure
+	std::map<std::string, uint32_t> m_stats;
 };
 
 }

@@ -1004,7 +1004,21 @@ void OZWNetwork::fireStatistics()
 			Node::NodeData data;
 			Manager::Get()->GetNodeStatistics(home.first, node.first, &data);
 
-			ZWaveNodeEvent e(data, node.first);
+			const map<string, uint32_t> stats = {
+				{"sentCnt",            data.m_sentCnt},
+				{"sentFailed",         data.m_sentFailed},
+				{"retries",            data.m_retries},
+				{"receivedCnt",        data.m_receivedCnt},
+				{"receivedDups",       data.m_receivedDups},
+				{"receivedUnsolicited",data.m_receivedUnsolicited},
+				{"lastRequestRTT",     data.m_lastRequestRTT},
+				{"lastResponseRTT",    data.m_lastResponseRTT},
+				{"averageRequestRTT",  data.m_averageRequestRTT},
+				{"averageResponseRTT", data.m_averageResponseRTT},
+				{"quality",            data.m_quality},
+			};
+
+			ZWaveNodeEvent e(stats, node.first);
 			m_eventSource.fireEvent(e, &ZWaveListener::onNodeStats);
 		}
 	}
