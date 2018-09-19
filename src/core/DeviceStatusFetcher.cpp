@@ -325,8 +325,14 @@ void DeviceStatusFetcher::processAnswer(
 	if (!success)
 		return;
 
-	for (auto handler : handlers)
-		handler->handleRemoteStatus(answer->prefix(), paired, {});
+	logger().information("delivering remote status of " + answer->prefix().toString());
+
+	for (auto handler : handlers) {
+		try {
+			handler->handleRemoteStatus(answer->prefix(), paired, {});
+		}
+		BEEEON_CATCH_CHAIN(logger())
+	}
 }
 
 void DeviceStatusFetcher::collectPaired(
