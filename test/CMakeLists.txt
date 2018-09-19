@@ -152,6 +152,7 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponseTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessageTest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFTypeMappingParserTest.cpp
 	)
 	add_library(BeeeOnIQRFTest ${IQRF_TEST_SOURCES})
 	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest)
