@@ -52,6 +52,14 @@ public:
 	 */
 	void setUnit(const std::string &unit);
 
+	/**
+	 * @brief Wake-up the main thread when received new status.
+	 */
+	void handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const std::set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values) override;
+
 protected:
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
@@ -60,12 +68,6 @@ protected:
 			const Poco::Timespan &timeout) override;
 
 private:
-	/**
-	 * @brief obtain list of paired devices from a server and
-	 * eventually sets the state of this instance to paired.
-	 */
-	void initialize();
-
 	/**
 	 * @brief read value of air pressure and ship it to the Distributor.
 	 */

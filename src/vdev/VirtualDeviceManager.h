@@ -129,11 +129,6 @@ public:
 		const ModuleID &moduleID);
 
 	/**
-	 * Sets devices as paired according to the device list sent from server.
-	 */
-	void setPairedDevices();
-
-	/**
 	 * Plans devices that are in a map of virtual devices and are paired.
 	 */
 	void scheduleAllEntries();
@@ -155,6 +150,14 @@ public:
 	 * information, debug, trace.
 	 */
 	void logDeviceParsed(VirtualDevice::Ptr device);
+
+	/**
+	 * @brief Reschedule virtual devices after updating the remote status.
+	 */
+	void handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const std::set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values) override;
 
 protected:
 	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;

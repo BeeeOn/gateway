@@ -18,6 +18,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, VirtualDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &VirtualDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &VirtualDeviceManager::setConfigFile)
 BEEEON_OBJECT_PROPERTY("distributor", &VirtualDeviceManager::setDistributor)
@@ -318,22 +319,13 @@ void VirtualDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr res
 		DeviceManager::handleGeneric(cmd, result);
 }
 
-void VirtualDeviceManager::setPairedDevices()
+void VirtualDeviceManager::handleRemoteStatus(
+	const DevicePrefix &prefix,
+	const set<DeviceID> &devices,
+	const DeviceStatusHandler::DeviceValues &values)
 {
-	if (m_requestDeviceList) {
-		set<DeviceID> deviceIDs = deviceList(-1);
-
-		FastMutex::ScopedLock guard(m_lock);
-		for (auto &pair : m_virtualDevicesMap) {
-			if (deviceIDs.find(pair.first) != deviceIDs.end())
-				continue;
-
-			deviceCache()->markPaired(pair.first);
-		}
-	}
-	else {
-		logger().information("skipping request of device list");
-	}
+	DeviceManager::handleRemoteStatus(prefix, devices, values);
+	scheduleAllEntries();
 }
 
 void VirtualDeviceManager::scheduleAllEntries()
@@ -355,7 +347,6 @@ bool VirtualDeviceManager::isEmptyQueue()
 
 void VirtualDeviceManager::run()
 {
-	setPairedDevices();
 	scheduleAllEntries();
 
 	StopControl::Run run(m_stopControl);

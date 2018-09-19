@@ -55,6 +55,8 @@
 			<set name="repeatTimeout" time="5 m" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
+			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
+			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}" />
 		</instance>
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
