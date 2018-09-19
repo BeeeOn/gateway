@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,51 +52,48 @@
 <div class="title">PosixSignal.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_POSIX_SIGNAL_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_POSIX_SIGNAL_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>Poco {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>Thread;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PosixSignal.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PosixSignal.html">PosixSignal</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="classBeeeOn_1_1PosixSignal.html">PosixSignal</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">typedef</span> std::function&lt;void(unsigned int)&gt; Handler;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keywordtype">long</span> pid, <span class="keyword">const</span> std::string name);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keyword">const</span> Poco::Thread &amp;thread, <span class="keyword">const</span> std::string &amp;name);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a6a9d88f5a24b8fc1791dc93be2bde3ea">ignore</a>(<span class="keyword">const</span> std::string &amp;name);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a55ba0e7b99e14ca61daf271b4cd69316">handle</a>(<span class="keyword">const</span> std::string &amp;name, Handler handler);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a0b9ff1350d2aeb3bf488558770aab378">trapFatal</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a616296b6e3b4df17ca301445f21a9c8a">byName</a>(<span class="keyword">const</span> std::string &amp;name);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keywordtype">long</span> pid, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keyword">const</span> Poco::Thread &amp;thread, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a6a9d88f5a24b8fc1791dc93be2bde3ea">ignore</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a55ba0e7b99e14ca61daf271b4cd69316">handle</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num, Handler handler);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>Poco {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span>Thread;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1PosixSignal.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1PosixSignal.html">PosixSignal</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classBeeeOn_1_1PosixSignal.html">PosixSignal</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">typedef</span> std::function&lt;void(unsigned int)&gt; Handler;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keywordtype">long</span> pid, <span class="keyword">const</span> std::string name);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keyword">const</span> Poco::Thread &amp;thread, <span class="keyword">const</span> std::string &amp;name);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a6a9d88f5a24b8fc1791dc93be2bde3ea">ignore</a>(<span class="keyword">const</span> std::string &amp;name);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a55ba0e7b99e14ca61daf271b4cd69316">handle</a>(<span class="keyword">const</span> std::string &amp;name, Handler handler);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a0b9ff1350d2aeb3bf488558770aab378">trapFatal</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a616296b6e3b4df17ca301445f21a9c8a">byName</a>(<span class="keyword">const</span> std::string &amp;name);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keywordtype">long</span> pid, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">send</a>(<span class="keyword">const</span> Poco::Thread &amp;thread, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a6a9d88f5a24b8fc1791dc93be2bde3ea">ignore</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PosixSignal.html#a55ba0e7b99e14ca61daf271b4cd69316">handle</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> num, Handler handler);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1PosixSignal_html_a616296b6e3b4df17ca301445f21a9c8a"><div class="ttname"><a href="classBeeeOn_1_1PosixSignal.html#a616296b6e3b4df17ca301445f21a9c8a">BeeeOn::PosixSignal::byName</a></div><div class="ttdeci">static unsigned int byName(const std::string &amp;name)</div><div class="ttdef"><b>Definition:</b> PosixSignal.cpp:45</div></div>
-<div class="ttc" id="classBeeeOn_1_1PosixSignal_html"><div class="ttname"><a href="classBeeeOn_1_1PosixSignal.html">BeeeOn::PosixSignal</a></div><div class="ttdoc">The class implements working with POSIX signals. </div><div class="ttdef"><b>Definition:</b> PosixSignal.h:18</div></div>
+<div class="ttc" id="classBeeeOn_1_1PosixSignal_html"><div class="ttname"><a href="classBeeeOn_1_1PosixSignal.html">BeeeOn::PosixSignal</a></div><div class="ttdoc">The class implements working with POSIX signals. </div><div class="ttdef"><b>Definition:</b> PosixSignal.h:17</div></div>
 <div class="ttc" id="classBeeeOn_1_1PosixSignal_html_aa6ebaf3fd6a6e81eff4adb9b48b2e793"><div class="ttname"><a href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">BeeeOn::PosixSignal::send</a></div><div class="ttdeci">static void send(long pid, const std::string name)</div></div>
 <div class="ttc" id="classBeeeOn_1_1PosixSignal_html_a6a9d88f5a24b8fc1791dc93be2bde3ea"><div class="ttname"><a href="classBeeeOn_1_1PosixSignal.html#a6a9d88f5a24b8fc1791dc93be2bde3ea">BeeeOn::PosixSignal::ignore</a></div><div class="ttdeci">static void ignore(const std::string &amp;name)</div></div>
 <div class="ttc" id="classBeeeOn_1_1PosixSignal_html_a55ba0e7b99e14ca61daf271b4cd69316"><div class="ttname"><a href="classBeeeOn_1_1PosixSignal.html#a55ba0e7b99e14ca61daf271b4cd69316">BeeeOn::PosixSignal::handle</a></div><div class="ttdeci">static void handle(const std::string &amp;name, Handler handler)</div><div class="ttdef"><b>Definition:</b> PosixSignal.cpp:82</div></div>

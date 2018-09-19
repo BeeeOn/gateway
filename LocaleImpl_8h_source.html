@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,44 +52,40 @@
 <div class="title">LocaleImpl.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_LOCALE_IMPL_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_LOCALE_IMPL_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1LocaleImpl.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1LocaleImpl.html">LocaleImpl</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1LocaleImpl.html">LocaleImpl</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#a82cd058b1511bca4a5ca5ce70c59c8f7">language</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#abc16f30fbfc56132a79a5b4a9f89d358">country</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#a2bd4bdfda1c0ac094a9d4697f26dfb92">displayName</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#a0842a3d85d24a93de07c579b67e91b88">toString</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1SystemLocaleImpl.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html">SystemLocaleImpl</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1LocaleImpl.html">LocaleImpl</a> {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#a6ec9480b640e1caa45e5dc1ea36a2592">language</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#a506ba25f5987e3cfbd9c12e1a896a0ab">country</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#aaed0e36ef0bbd911f3c8bc624dd98f31">displayName</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#a7925fe00f569abfe7d9be32d0480eee6">toString</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1LocaleImpl.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1LocaleImpl.html">LocaleImpl</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1LocaleImpl.html">LocaleImpl</a>();</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#a82cd058b1511bca4a5ca5ce70c59c8f7">language</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#abc16f30fbfc56132a79a5b4a9f89d358">country</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#a2bd4bdfda1c0ac094a9d4697f26dfb92">displayName</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> std::string <a class="code" href="classBeeeOn_1_1LocaleImpl.html#a0842a3d85d24a93de07c579b67e91b88">toString</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1SystemLocaleImpl.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html">SystemLocaleImpl</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1LocaleImpl.html">LocaleImpl</a> {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#a6ec9480b640e1caa45e5dc1ea36a2592">language</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#a506ba25f5987e3cfbd9c12e1a896a0ab">country</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#aaed0e36ef0bbd911f3c8bc624dd98f31">displayName</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1SystemLocaleImpl.html#a7925fe00f569abfe7d9be32d0480eee6">toString</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1LocaleImpl_html_abc16f30fbfc56132a79a5b4a9f89d358"><div class="ttname"><a href="classBeeeOn_1_1LocaleImpl.html#abc16f30fbfc56132a79a5b4a9f89d358">BeeeOn::LocaleImpl::country</a></div><div class="ttdeci">virtual std::string country() const =0</div></div>
 <div class="ttc" id="classBeeeOn_1_1SystemLocaleImpl_html_a6ec9480b640e1caa45e5dc1ea36a2592"><div class="ttname"><a href="classBeeeOn_1_1SystemLocaleImpl.html#a6ec9480b640e1caa45e5dc1ea36a2592">BeeeOn::SystemLocaleImpl::language</a></div><div class="ttdeci">std::string language() const override</div><div class="ttdef"><b>Definition:</b> LocaleImpl.cpp:13</div></div>
 <div class="ttc" id="classBeeeOn_1_1LocaleImpl_html_a2bd4bdfda1c0ac094a9d4697f26dfb92"><div class="ttname"><a href="classBeeeOn_1_1LocaleImpl.html#a2bd4bdfda1c0ac094a9d4697f26dfb92">BeeeOn::LocaleImpl::displayName</a></div><div class="ttdeci">virtual std::string displayName() const =0</div></div>
 <div class="ttc" id="classBeeeOn_1_1LocaleImpl_html_a0842a3d85d24a93de07c579b67e91b88"><div class="ttname"><a href="classBeeeOn_1_1LocaleImpl.html#a0842a3d85d24a93de07c579b67e91b88">BeeeOn::LocaleImpl::toString</a></div><div class="ttdeci">virtual std::string toString() const =0</div></div>
 <div class="ttc" id="classBeeeOn_1_1SystemLocaleImpl_html_a7925fe00f569abfe7d9be32d0480eee6"><div class="ttname"><a href="classBeeeOn_1_1SystemLocaleImpl.html#a7925fe00f569abfe7d9be32d0480eee6">BeeeOn::SystemLocaleImpl::toString</a></div><div class="ttdeci">std::string toString() const override</div><div class="ttdef"><b>Definition:</b> LocaleImpl.cpp:47</div></div>
-<div class="ttc" id="classBeeeOn_1_1LocaleImpl_html"><div class="ttname"><a href="classBeeeOn_1_1LocaleImpl.html">BeeeOn::LocaleImpl</a></div><div class="ttdef"><b>Definition:</b> LocaleImpl.h:10</div></div>
+<div class="ttc" id="classBeeeOn_1_1LocaleImpl_html"><div class="ttname"><a href="classBeeeOn_1_1LocaleImpl.html">BeeeOn::LocaleImpl</a></div><div class="ttdef"><b>Definition:</b> LocaleImpl.h:9</div></div>
 <div class="ttc" id="classBeeeOn_1_1SystemLocaleImpl_html_a506ba25f5987e3cfbd9c12e1a896a0ab"><div class="ttname"><a href="classBeeeOn_1_1SystemLocaleImpl.html#a506ba25f5987e3cfbd9c12e1a896a0ab">BeeeOn::SystemLocaleImpl::country</a></div><div class="ttdeci">std::string country() const override</div><div class="ttdef"><b>Definition:</b> LocaleImpl.cpp:25</div></div>
-<div class="ttc" id="classBeeeOn_1_1SystemLocaleImpl_html"><div class="ttname"><a href="classBeeeOn_1_1SystemLocaleImpl.html">BeeeOn::SystemLocaleImpl</a></div><div class="ttdef"><b>Definition:</b> LocaleImpl.h:40</div></div>
+<div class="ttc" id="classBeeeOn_1_1SystemLocaleImpl_html"><div class="ttname"><a href="classBeeeOn_1_1SystemLocaleImpl.html">BeeeOn::SystemLocaleImpl</a></div><div class="ttdef"><b>Definition:</b> LocaleImpl.h:39</div></div>
 <div class="ttc" id="classBeeeOn_1_1LocaleImpl_html_a82cd058b1511bca4a5ca5ce70c59c8f7"><div class="ttname"><a href="classBeeeOn_1_1LocaleImpl.html#a82cd058b1511bca4a5ca5ce70c59c8f7">BeeeOn::LocaleImpl::language</a></div><div class="ttdeci">virtual std::string language() const =0</div></div>
 <div class="ttc" id="classBeeeOn_1_1SystemLocaleImpl_html_aaed0e36ef0bbd911f3c8bc624dd98f31"><div class="ttname"><a href="classBeeeOn_1_1SystemLocaleImpl.html#aaed0e36ef0bbd911f3c8bc624dd98f31">BeeeOn::SystemLocaleImpl::displayName</a></div><div class="ttdeci">std::string displayName() const override</div><div class="ttdef"><b>Definition:</b> LocaleImpl.cpp:41</div></div>
 </div><!-- fragment --></div><!-- contents -->

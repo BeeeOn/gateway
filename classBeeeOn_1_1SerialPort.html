@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -53,8 +53,7 @@
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::SerialPort Class Reference</div>  </div>
 </div><!--header-->
@@ -86,6 +85,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab4e47973303a69a0b1e774ebbb0c1ac2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4e47973303a69a0b1e774ebbb0c1ac2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevicePath</b> (const std::string &amp;devicePath)</td></tr>
 <tr class="separator:ab4e47973303a69a0b1e774ebbb0c1ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48dfc53e47a91b20eef9705d7c191997"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48dfc53e47a91b20eef9705d7c191997"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>devicePath</b> () const </td></tr>
+<tr class="separator:a48dfc53e47a91b20eef9705d7c191997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfee2d8fcfdfff92a499f844f0a070d1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfee2d8fcfdfff92a499f844f0a070d1"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setBaudRate</b> (int baudRate)</td></tr>
 <tr class="separator:abfee2d8fcfdfff92a499f844f0a070d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,12 +108,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setNonBlocking</b> (b
 <tr class="memitem:ae1ae5d830b95aac9cec46008871dcaca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1ae5d830b95aac9cec46008871dcaca"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>read</b> (const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="separator:ae1ae5d830b95aac9cec46008871dcaca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3adaa4a81c473105d752ebb132c13a6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3adaa4a81c473105d752ebb132c13a6d"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> (const char *buffer, std::size_t size)</td></tr>
-<tr class="separator:a3adaa4a81c473105d752ebb132c13a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb57057c4b97b8d61f74d1168be059a8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb57057c4b97b8d61f74d1168be059a8"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> (const std::string &amp;data)</td></tr>
-<tr class="separator:afb57057c4b97b8d61f74d1168be059a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e6bb23f0340b1421675e5f9d124b426"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e6bb23f0340b1421675e5f9d124b426"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> (const char *buffer, size_t size)</td></tr>
+<tr class="separator:a2e6bb23f0340b1421675e5f9d124b426"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac37e37efe892041c6fe5c274dfb3f279"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac37e37efe892041c6fe5c274dfb3f279"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> (const std::string &amp;data)</td></tr>
+<tr class="separator:ac37e37efe892041c6fe5c274dfb3f279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94d1ee3a3af45ef4f74a77f2dea2ec56"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94d1ee3a3af45ef4f74a77f2dea2ec56"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> ()</td></tr>
 <tr class="separator:a94d1ee3a3af45ef4f74a77f2dea2ec56"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,12 +123,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>flush</b> ()</td></tr
 <tr class="memitem:a6c38d0fb8e2d471564978458bf2e64e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c38d0fb8e2d471564978458bf2e64e5"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isOpen</b> ()</td></tr>
 <tr class="separator:a6c38d0fb8e2d471564978458bf2e64e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0bc0c9fbaaf55239ead4f791938e7f55"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0bc0c9fbaaf55239ead4f791938e7f55"></a>
-static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>readDirect</b> (int fd)</td></tr>
-<tr class="separator:a0bc0c9fbaaf55239ead4f791938e7f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a8255d49e78dc544ec3588e5cff5cdf9f"></a>

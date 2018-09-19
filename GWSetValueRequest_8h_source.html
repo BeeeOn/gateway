@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,46 +52,43 @@
 <div class="title">GWSetValueRequest.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_GW_MESSAGE_SET_VALUE_REQUEST_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_GW_MESSAGE_SET_VALUE_REQUEST_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/JSON/Object.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;gwmessage/GWRequest.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1GWSetValueRequest.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1GWSetValueRequest.html">GWSetValueRequest</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1GWRequest.html">GWRequest</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;GWSetValueRequest&gt; Ptr;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classBeeeOn_1_1GWSetValueRequest.html">GWSetValueRequest</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="classBeeeOn_1_1GWSetValueRequest.html">GWSetValueRequest</a>(<span class="keyword">const</span> Poco::JSON::Object::Ptr <span class="keywordtype">object</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> setDeviceID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">void</span> setModuleID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> moduleID() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">void</span> setValue(<span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">double</span> value() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">void</span> setTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        Poco::Timespan timeout() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1GWRequest_html"><div class="ttname"><a href="classBeeeOn_1_1GWRequest.html">BeeeOn::GWRequest</a></div><div class="ttdoc">Abstract class representing a request message. The GWRequest can not be used alone, but it must be inherited by a specific request object. </div><div class="ttdef"><b>Definition:</b> GWRequest.h:26</div></div>
-<div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:13</div></div>
-<div class="ttc" id="classBeeeOn_1_1GWSetValueRequest_html"><div class="ttname"><a href="classBeeeOn_1_1GWSetValueRequest.html">BeeeOn::GWSetValueRequest</a></div><div class="ttdoc">Represents a message sent by the server to the gateway, intended to change state of an active module ...</div><div class="ttdef"><b>Definition:</b> GWSetValueRequest.h:22</div></div>
-<div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:18</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/JSON/Object.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;gwmessage/GWRequest.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1GWSetValueRequest.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1GWSetValueRequest.html">GWSetValueRequest</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1GWRequest.html">GWRequest</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;GWSetValueRequest&gt; Ptr;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classBeeeOn_1_1GWSetValueRequest.html">GWSetValueRequest</a>();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classBeeeOn_1_1GWSetValueRequest.html">GWSetValueRequest</a>(<span class="keyword">const</span> Poco::JSON::Object::Ptr <span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> setDeviceID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">void</span> setModuleID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> moduleID() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">void</span> setValue(<span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">double</span> value() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> setTimeout(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        Poco::Timespan timeout() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1GWRequest_html"><div class="ttname"><a href="classBeeeOn_1_1GWRequest.html">BeeeOn::GWRequest</a></div><div class="ttdoc">Abstract class representing a request message. The GWRequest can not be used alone, but it must be inherited by a specific request object. </div><div class="ttdef"><b>Definition:</b> GWRequest.h:25</div></div>
+<div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
+<div class="ttc" id="classBeeeOn_1_1GWSetValueRequest_html"><div class="ttname"><a href="classBeeeOn_1_1GWSetValueRequest.html">BeeeOn::GWSetValueRequest</a></div><div class="ttdoc">Represents a message sent by the server to the gateway, intended to change state of an active module ...</div><div class="ttdef"><b>Definition:</b> GWSetValueRequest.h:21</div></div>
+<div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

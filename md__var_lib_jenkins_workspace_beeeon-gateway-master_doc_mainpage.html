@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -124,6 +124,8 @@
 <li>ssl.certificate.filePath - path to the SSL certificate used to identify the BeeeOn Gateway when connecting to the BeeeOn Server. Each BeeeOn Gateway should have a unique certificate signed by the BeeeOn Server authority.</li>
 <li>ssl.privateKey.filePath - path to the SSL private key.</li>
 <li>gateway.id - ID of the BeeeOn Gateway intended for <em>testing only</em>. In production, the ID is extracted from the SSL certificate.</li>
+<li>application.instance.id - name of the application used for checking whether only one BeeeOn Gateway appliacation instance is currently running</li>
+<li>application.instance.mode - (fail, ignore, recover) strategy to be used when dealing with multiple BeeeOn Gateway appliacation instances running</li>
 </ul>
 <h5>Credentials storage facility</h5>
 <p>The BeeeOn Gateway provides a credentials storage facility. Its purpose is to serve credentials to Device Managers to authenticate with its sensors properly. The credentials storage can persist the credentials with a certain level of security. The current implementation stores all credentials in an encrypted form.</p>

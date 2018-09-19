@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,44 +52,41 @@
 <div class="title">TimeInterval.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_TIME_INTERVAL_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_TIME_INTERVAL_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/Timestamp.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1TimeInterval.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a>(<span class="keyword">const</span> Poco::Timestamp &amp;start,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                        <span class="keyword">const</span> Poco::Timestamp &amp;end);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        ~<a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a> <a class="code" href="classBeeeOn_1_1TimeInterval.html#a238b5cc9c92c9806d911324f58f7ab39">past</a>(<span class="keyword">const</span> Poco::Timespan &amp;range,</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        <span class="keyword">const</span> Poco::Timestamp &amp;end = Poco::Timestamp());</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1TimeInterval.html#abff9dcf77179daa78ab1d9d3266cbd6e">isEmpty</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1TimeInterval.html#a123e66e1cfacd890db31176c839cb0c7">isBefore</a>(<span class="keyword">const</span> Poco::Timestamp &amp;at) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        Poco::Timestamp start() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        Poco::Timestamp end() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> Poco::Timestamp &amp;start();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> Poco::Timestamp &amp;end();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        Poco::Timestamp m_start;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        Poco::Timestamp m_end;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Poco/Timestamp.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1TimeInterval.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a>(<span class="keyword">const</span> Poco::Timestamp &amp;start,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                        <span class="keyword">const</span> Poco::Timestamp &amp;end);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        ~<a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1TimeInterval.html">TimeInterval</a> <a class="code" href="classBeeeOn_1_1TimeInterval.html#a238b5cc9c92c9806d911324f58f7ab39">past</a>(<span class="keyword">const</span> Poco::Timespan &amp;range,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keyword">const</span> Poco::Timestamp &amp;end = Poco::Timestamp());</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1TimeInterval.html#abff9dcf77179daa78ab1d9d3266cbd6e">isEmpty</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1TimeInterval.html#a123e66e1cfacd890db31176c839cb0c7">isBefore</a>(<span class="keyword">const</span> Poco::Timestamp &amp;at) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        Poco::Timestamp start() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        Poco::Timestamp end() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> Poco::Timestamp &amp;start();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> Poco::Timestamp &amp;end();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        Poco::Timestamp m_start;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        Poco::Timestamp m_end;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1TimeInterval_html_a238b5cc9c92c9806d911324f58f7ab39"><div class="ttname"><a href="classBeeeOn_1_1TimeInterval.html#a238b5cc9c92c9806d911324f58f7ab39">BeeeOn::TimeInterval::past</a></div><div class="ttdeci">static TimeInterval past(const Poco::Timespan &amp;range, const Poco::Timestamp &amp;end=Poco::Timestamp())</div><div class="ttdef"><b>Definition:</b> TimeInterval.cpp:29</div></div>
 <div class="ttc" id="classBeeeOn_1_1TimeInterval_html_abff9dcf77179daa78ab1d9d3266cbd6e"><div class="ttname"><a href="classBeeeOn_1_1TimeInterval.html#abff9dcf77179daa78ab1d9d3266cbd6e">BeeeOn::TimeInterval::isEmpty</a></div><div class="ttdeci">bool isEmpty() const </div><div class="ttdef"><b>Definition:</b> TimeInterval.cpp:34</div></div>
-<div class="ttc" id="classBeeeOn_1_1TimeInterval_html"><div class="ttname"><a href="classBeeeOn_1_1TimeInterval.html">BeeeOn::TimeInterval</a></div><div class="ttdef"><b>Definition:</b> TimeInterval.h:18</div></div>
+<div class="ttc" id="classBeeeOn_1_1TimeInterval_html"><div class="ttname"><a href="classBeeeOn_1_1TimeInterval.html">BeeeOn::TimeInterval</a></div><div class="ttdef"><b>Definition:</b> TimeInterval.h:17</div></div>
 <div class="ttc" id="classBeeeOn_1_1TimeInterval_html_a123e66e1cfacd890db31176c839cb0c7"><div class="ttname"><a href="classBeeeOn_1_1TimeInterval.html#a123e66e1cfacd890db31176c839cb0c7">BeeeOn::TimeInterval::isBefore</a></div><div class="ttdeci">bool isBefore(const Poco::Timestamp &amp;at) const </div><div class="ttdef"><b>Definition:</b> TimeInterval.cpp:39</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

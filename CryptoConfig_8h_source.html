@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-60-gdb2c789</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,48 +52,45 @@
 <div class="title">CryptoConfig.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BEEEON_CRYPTO_CONFIG_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_CRYPTO_CONFIG_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/Crypto/CipherKey.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>CryptoParams;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1CryptoConfig.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1CryptoConfig.html">CryptoConfig</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string DEFAULT_ALGORITHM;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="classBeeeOn_1_1CryptoConfig.html#a6c61c14cdb291be4f744c9193b6e0708">CryptoConfig</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordtype">void</span> setAlgorithm(<span class="keyword">const</span> std::string &amp;name);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">void</span> setPassphrase(<span class="keyword">const</span> std::string &amp;passphrase);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> setIterationCount(<span class="keyword">const</span> <span class="keywordtype">int</span> count);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        Poco::Crypto::CipherKey <a class="code" href="classBeeeOn_1_1CryptoConfig.html#ac21b82de4ec12c1ae2f1c5c89007081c">createKey</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1CryptoParams.html">CryptoParams</a> &amp;params) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classBeeeOn_1_1CryptoParams.html">CryptoParams</a> <a class="code" href="classBeeeOn_1_1CryptoConfig.html#aa9dc7267f9627750d2a84bff8508df90">deriveParams</a>(<span class="keyword">const</span> std::string &amp;salt = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string m_algorithm;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        std::string m_passphrase;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">int</span> m_iterationCount;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classBeeeOn_1_1CryptoConfig_html"><div class="ttname"><a href="classBeeeOn_1_1CryptoConfig.html">BeeeOn::CryptoConfig</a></div><div class="ttdef"><b>Definition:</b> CryptoConfig.h:14</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Poco/Crypto/CipherKey.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>CryptoParams;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1CryptoConfig.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1CryptoConfig.html">CryptoConfig</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string DEFAULT_ALGORITHM;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classBeeeOn_1_1CryptoConfig.html#a6c61c14cdb291be4f744c9193b6e0708">CryptoConfig</a>();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span> setAlgorithm(<span class="keyword">const</span> std::string &amp;name);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordtype">void</span> setPassphrase(<span class="keyword">const</span> std::string &amp;passphrase);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">void</span> setIterationCount(<span class="keyword">const</span> <span class="keywordtype">int</span> count);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        Poco::Crypto::CipherKey <a class="code" href="classBeeeOn_1_1CryptoConfig.html#ac21b82de4ec12c1ae2f1c5c89007081c">createKey</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1CryptoParams.html">CryptoParams</a> &amp;params) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="classBeeeOn_1_1CryptoParams.html">CryptoParams</a> <a class="code" href="classBeeeOn_1_1CryptoConfig.html#aa9dc7267f9627750d2a84bff8508df90">deriveParams</a>(<span class="keyword">const</span> std::string &amp;salt = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::string m_algorithm;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string m_passphrase;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">int</span> m_iterationCount;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1CryptoConfig_html"><div class="ttname"><a href="classBeeeOn_1_1CryptoConfig.html">BeeeOn::CryptoConfig</a></div><div class="ttdef"><b>Definition:</b> CryptoConfig.h:13</div></div>
 <div class="ttc" id="classBeeeOn_1_1CryptoConfig_html_aa9dc7267f9627750d2a84bff8508df90"><div class="ttname"><a href="classBeeeOn_1_1CryptoConfig.html#aa9dc7267f9627750d2a84bff8508df90">BeeeOn::CryptoConfig::deriveParams</a></div><div class="ttdeci">CryptoParams deriveParams(const std::string &amp;salt=&quot;&quot;) const </div><div class="ttdef"><b>Definition:</b> CryptoConfig.cpp:73</div></div>
-<div class="ttc" id="classBeeeOn_1_1CryptoParams_html"><div class="ttname"><a href="classBeeeOn_1_1CryptoParams.html">BeeeOn::CryptoParams</a></div><div class="ttdef"><b>Definition:</b> CryptoParams.h:8</div></div>
+<div class="ttc" id="classBeeeOn_1_1CryptoParams_html"><div class="ttname"><a href="classBeeeOn_1_1CryptoParams.html">BeeeOn::CryptoParams</a></div><div class="ttdef"><b>Definition:</b> CryptoParams.h:7</div></div>
 <div class="ttc" id="classBeeeOn_1_1CryptoConfig_html_a6c61c14cdb291be4f744c9193b6e0708"><div class="ttname"><a href="classBeeeOn_1_1CryptoConfig.html#a6c61c14cdb291be4f744c9193b6e0708">BeeeOn::CryptoConfig::CryptoConfig</a></div><div class="ttdeci">CryptoConfig()</div><div class="ttdef"><b>Definition:</b> CryptoConfig.cpp:21</div></div>
 <div class="ttc" id="classBeeeOn_1_1CryptoConfig_html_ac21b82de4ec12c1ae2f1c5c89007081c"><div class="ttname"><a href="classBeeeOn_1_1CryptoConfig.html#ac21b82de4ec12c1ae2f1c5c89007081c">BeeeOn::CryptoConfig::createKey</a></div><div class="ttdeci">Poco::Crypto::CipherKey createKey(const CryptoParams &amp;params) const </div><div class="ttdef"><b>Definition:</b> CryptoConfig.cpp:59</div></div>
-<div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:17</div></div>
+<div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
