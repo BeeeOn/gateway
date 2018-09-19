@@ -19,6 +19,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, BelkinWemoDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &BelkinWemoDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &BelkinWemoDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &BelkinWemoDeviceManager::setCommandDispatcher)
@@ -49,11 +50,7 @@ void BelkinWemoDeviceManager::run()
 {
 	logger().information("starting Belkin WeMo device manager", __FILE__, __LINE__);
 
-	set<DeviceID> paired;
-	paired = deviceList(-1);
-
-	for (const auto &id : paired)
-		deviceCache()->markPaired(id);
+	set<DeviceID> paired = waitRemoteStatus(-1);
 
 	if (paired.size() > 0)
 		searchPairedDevices();

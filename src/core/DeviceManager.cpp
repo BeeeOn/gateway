@@ -22,7 +22,8 @@ DeviceManager::DeviceManager(const DevicePrefix &prefix,
 		const initializer_list<type_index> &acceptable):
 	m_prefix(prefix),
 	m_deviceCache(new MemoryDeviceCache),
-	m_acceptable(acceptable)
+	m_acceptable(acceptable),
+	m_remoteStatusDelivered(false)
 {
 }
 
@@ -430,4 +431,17 @@ void DeviceManager::handleRemoteStatus(
 	}
 
 	deviceCache()->markPaired(prefix, paired);
+	m_remoteStatusDelivered = true;
+	m_stopControl.requestWakeup();
+}
+
+set<DeviceID> DeviceManager::waitRemoteStatus(const Poco::Timespan &timeout)
+{
+	while (!m_stopControl.shouldStop() && !m_remoteStatusDelivered)
+		m_stopControl.waitStoppable(timeout);
+
+	if (m_remoteStatusDelivered)
+		return deviceCache()->paired(prefix());
+
+	return {};
 }

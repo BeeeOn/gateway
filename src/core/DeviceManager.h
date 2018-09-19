@@ -3,6 +3,7 @@
 #include <set>
 #include <typeindex>
 
+#include <Poco/AtomicCounter.h>
 #include <Poco/Clock.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
@@ -99,6 +100,14 @@ public:
 		const DeviceStatusHandler::DeviceValues &values) override;
 
 protected:
+	/**
+	 * @brief Wait until the remote status is delivered or timeout exceeds.
+	 * DO NOT USE this method, it is intended as a transition mechanism from
+	 * calling of the deprecated method deviceList().
+	 * @returns list of paired devices as received from the remote status
+	 */
+	std::set<DeviceID> waitRemoteStatus(const Poco::Timespan &timeout);
+
 	/**
 	 * Generic implementation of the handle(). If any device manager
 	 * needs to override the handle() method, it is more desirable to
@@ -278,6 +287,7 @@ private:
 	Poco::SharedPtr<Distributor> m_distributor;
 	std::set<std::type_index> m_acceptable;
 	CancellableSet m_cancellable;
+	Poco::AtomicCounter m_remoteStatusDelivered;
 };
 
 }

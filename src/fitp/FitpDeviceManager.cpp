@@ -18,6 +18,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, FitpDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &FitpDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &FitpDeviceManager::setConfigPath)
 BEEEON_OBJECT_PROPERTY("noiseMin", &FitpDeviceManager::setNoiseMin)
@@ -326,21 +327,12 @@ void FitpDeviceManager::initFitp()
 
 void FitpDeviceManager::loadDeviceList()
 {
-	set<DeviceID> deviceIDs;
-
-	try {
-		deviceIDs = deviceList(-1);
-	}
-	catch (const Poco::Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-		return;
-	}
+	set<DeviceID> deviceIDs = waitRemoteStatus(-1);
 
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : deviceIDs) {
 		FitpDevice::Ptr device = new FitpDevice(item);
 		m_devices.emplace(item, device);
-		deviceCache()->markPaired(item);
 	}
 }
 

@@ -26,6 +26,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, BluetoothAvailabilityManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &BluetoothAvailabilityManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("wakeUpTime", &BluetoothAvailabilityManager::setWakeUpTime)
 BEEEON_OBJECT_PROPERTY("leScanTime", &BluetoothAvailabilityManager::setLEScanTime)
@@ -277,7 +278,9 @@ void BluetoothAvailabilityManager::handleAccept(const DeviceAcceptCommand::Ptr c
 {
 	FastMutex::ScopedLock lock(m_lock);
 
-	addDevice(cmd.cast<DeviceAcceptCommand>()->deviceID());
+	const auto id = cmd->deviceID();
+	m_deviceList.emplace(id, BluetoothDevice(id));
+	deviceCache()->markPaired(id);
 }
 
 AsyncWork<>::Ptr BluetoothAvailabilityManager::startDiscovery(const Timespan &timeout)
@@ -304,16 +307,14 @@ AsyncWork<set<DeviceID>>::Ptr BluetoothAvailabilityManager::startUnpair(
 
 void BluetoothAvailabilityManager::fetchDeviceList()
 {
-	set<DeviceID> idList;
-	idList = deviceList();
+	set<DeviceID> idList = waitRemoteStatus(-1);
 
 	FastMutex::ScopedLock lock(m_lock);
 
-	deviceCache()->markPaired(prefix(), {});
 	m_deviceList.clear();
 
 	for (const auto &id : idList)
-		addDevice(id);
+		m_deviceList.emplace(id, BluetoothDevice(id));
 }
 
 bool BluetoothAvailabilityManager::enoughTimeForScan(const Timestamp &startTime)
@@ -367,12 +368,6 @@ void BluetoothAvailabilityManager::listen()
 	};
 
 	logger().information("bluetooth listen has finished", __FILE__, __LINE__);
-}
-
-void BluetoothAvailabilityManager::addDevice(const DeviceID &id)
-{
-	m_deviceList.emplace(id, BluetoothDevice(id));
-	deviceCache()->markPaired(id);
 }
 
 void BluetoothAvailabilityManager::removeDevice(const DeviceID &id)

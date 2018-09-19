@@ -16,6 +16,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, VPTDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &VPTDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &VPTDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &VPTDeviceManager::setCommandDispatcher)
@@ -56,17 +57,7 @@ void VPTDeviceManager::run()
 {
 	logger().information("starting VPT device manager");
 
-	set<DeviceID> paired;
-
-	try {
-		paired = deviceList(-1);
-	}
-	catch (Exception& e) {
-		logger().log(e, __FILE__, __LINE__);
-	}
-
-	for (const auto &id : paired)
-		deviceCache()->markPaired(id);
+	set<DeviceID> paired = waitRemoteStatus(-1);
 
 	if (paired.size() > 0)
 		searchPairedDevices();
