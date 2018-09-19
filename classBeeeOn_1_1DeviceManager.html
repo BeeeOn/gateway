@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-50-gdd42ba5</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -136,6 +136,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:abd40493771aabb83d6ee3d85bf5dc542"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd40493771aabb83d6ee3d85bf5dc542">waitRemoteStatus</a> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:abd40493771aabb83d6ee3d85bf5dc542"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList()</a>.  <a href="#abd40493771aabb83d6ee3d85bf5dc542">More...</a><br/></td></tr>
+<tr class="separator:abd40493771aabb83d6ee3d85bf5dc542"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
 <tr class="separator:afd0a5e70736672b26a1669d2b11eaa73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6d93d732c2fd1816cb952d2a469c70f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6d93d732c2fd1816cb952d2a469c70f"></a>
@@ -812,6 +815,33 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>configureSimpl
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>.</p>
 
 <p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">BeeeOn::VirtualDeviceManager</a>, <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a30a185200ddd558f9cbd3f13b475519c">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ab4dd110ff9a7c2294f448a8daa203f0b">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a2cb13d1a1515183d13731bf9208ee077">BeeeOn::DongleDeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abd40493771aabb83d6ee3d85bf5dc542"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; DeviceManager::waitRemoteStatus </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList()</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>list of paired devices as received from the remote status </dd></dl>
 
 </div>
 </div>

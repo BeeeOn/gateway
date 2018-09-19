@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-50-gdd42ba5</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-58-gcdc92c7</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -200,6 +200,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a15a91c60549414403a2c341a768b754d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find password credential for VPT by the given <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> from the credentials storage. If the password is not found the NotFoundException is thrown.  <a href="#a15a91c60549414403a2c341a768b754d">More...</a><br/></td></tr>
 <tr class="separator:a15a91c60549414403a2c341a768b754d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
+<tr class="memitem:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd40493771aabb83d6ee3d85bf5dc542">waitRemoteStatus</a> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList()</a>.  <a href="#abd40493771aabb83d6ee3d85bf5dc542">More...</a><br/></td></tr>
+<tr class="separator:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0239fe377b5928e3bbf5986f15017916">handleListen</a> (const GatewayListenCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the listen command in a generic way. The method ensures that only 1 thread can execute the discovery process at a time.  <a href="#a0239fe377b5928e3bbf5986f15017916">More...</a><br/></td></tr>
 <tr class="separator:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
