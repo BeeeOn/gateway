@@ -11,6 +11,11 @@
 			<add name="runnables" ref="deviceStatusFetcher" />
 		</instance>
 
+		<instance name="applicationInstanceChecker" class="BeeeOn::SingleInstanceChecker" init="early">
+			<set name="name" text="${application.instance.id}" />
+			<set name="mode" text="${application.instance.mode}" />
+		</instance>
+
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
 			<set name="certificatePath" text="${ssl.certificate}" />
 			<set name="keyPath" text="${ssl.key}" />

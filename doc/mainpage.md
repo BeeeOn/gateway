@@ -163,6 +163,12 @@ certificate signed by the BeeeOn Server authority.
 * gateway.id - ID of the BeeeOn Gateway intended for *testing only*. In production, the
 ID is extracted from the SSL certificate.
 
+* application.instance.id - name of the application used for checking whether only one
+BeeeOn Gateway appliacation instance is currently running
+
+* application.instance.mode - (fail, ignore, recover) strategy to be used when dealing
+with multiple BeeeOn Gateway appliacation instances running
+
 ##### Credentials storage facility
 
 The BeeeOn Gateway provides a credentials storage facility. Its purpose is to serve
