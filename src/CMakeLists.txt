@@ -415,6 +415,7 @@ endif()
 
 if (ENABLE_IQRF)
 	file(GLOB IQRF_SOURCES
+		${PROJECT_SOURCE_DIR}/iqrf/DPAMappedProtocol.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAMessage.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAProtocol.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequest.cpp
