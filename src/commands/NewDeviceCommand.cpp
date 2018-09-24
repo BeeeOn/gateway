@@ -8,11 +8,7 @@ using namespace Poco;
 
 NewDeviceCommand::NewDeviceCommand(const DeviceID &deviceID, const string &vendor,
 	const string &productName, const list<ModuleType> &dataTypes, Timespan refreshTime):
-		m_deviceID(deviceID),
-		m_vendor(vendor),
-		m_productName(productName),
-		m_dataTypes(dataTypes),
-		m_refreshTime(refreshTime)
+		m_description(deviceID, vendor, productName, dataTypes, refreshTime)
 {
 }
 
@@ -22,64 +18,40 @@ NewDeviceCommand::~NewDeviceCommand()
 
 DeviceID NewDeviceCommand::deviceID() const
 {
-	return m_deviceID;
+	return m_description.id();
 }
 
 string NewDeviceCommand::vendor() const
 {
-	return m_vendor;
+	return m_description.vendor();
 }
 
 string NewDeviceCommand::productName() const
 {
-	return m_productName;
+	return m_description.productName();
 }
 
 list<ModuleType> NewDeviceCommand::dataTypes() const
 {
-	return m_dataTypes;
+	return m_description.dataTypes();
 }
 
 bool NewDeviceCommand::supportsRefreshTime() const
 {
-	return m_refreshTime < 0;
+	return m_description.refreshTime() < 0;
 }
 
 Timespan NewDeviceCommand::refreshTime() const
 {
-	return m_refreshTime;
+	return m_description.refreshTime();
 }
 
 string NewDeviceCommand::toString() const
 {
-	string cmdString;
-	string modules;
+	return m_description.toString();
+}
 
-	for (auto it = m_dataTypes.begin(); it != m_dataTypes.end(); ++it) {
-		modules += it->type().toString();
-
-		const auto &attributes = it->attributes();
-		if (!attributes.empty())
-			modules += ",";
-
-		for (auto attr = attributes.begin(); attr != attributes.end(); ++attr) {
-			modules += attr->toString();
-
-			if (attr != --attributes.end())
-				modules += ",";
-		}
-
-		if (it != --m_dataTypes.end())
-			modules += " ";
-	}
-
-	cmdString += name() + " ";
-	cmdString += m_deviceID.toString() + " ";
-	cmdString += m_vendor + " ";
-	cmdString += m_productName + " ";
-	cmdString += to_string(m_refreshTime.totalSeconds()) + " ";
-	cmdString += modules + " ";
-
-
-	return cmdString;
+const DeviceDescription &NewDeviceCommand::description() const
+{
+	return m_description;
 }
