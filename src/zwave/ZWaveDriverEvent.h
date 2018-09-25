@@ -18,7 +18,13 @@ public:
 	 */
 	ZWaveDriverEvent(const std::map<std::string, uint32_t> &stats);
 
-	uint32_t SOAFCount() const;
+	[[deprecated("use SOFCount instead")]]
+	uint32_t SOAFCount() const
+	{
+		return SOFCount();
+	}
+
+	uint32_t SOFCount() const;
 	uint32_t ACKWaiting() const;
 	uint32_t readAborts() const;
 	uint32_t badChecksum() const;

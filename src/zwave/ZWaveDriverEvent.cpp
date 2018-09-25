@@ -19,7 +19,7 @@ uint32_t ZWaveDriverEvent::lookup(const string &key) const
 	return it->second;
 }
 
-uint32_t ZWaveDriverEvent::SOAFCount() const
+uint32_t ZWaveDriverEvent::SOFCount() const
 {
 	return lookup("SOFCnt");
 }
