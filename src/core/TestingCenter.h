@@ -14,6 +14,7 @@
 #include "io/Console.h"
 #include "loop/StoppableRunnable.h"
 #include "model/DeviceID.h"
+#include "model/DeviceDescription.h"
 #include "model/ModuleID.h"
 #include "util/CryptoConfig.h"
 #include "util/Loggable.h"
@@ -37,6 +38,8 @@ public:
 		Poco::SharedPtr<FileCredentialsStorage> credentialsStorage;
 		Poco::SharedPtr<CryptoConfig> cryptoConfig;
 		std::list<DeviceID> &newDevices;
+		std::set<DeviceID> &acceptedDevices;
+		std::map<DeviceID, DeviceDescription> &seenDevices;
 	};
 
 	/**
@@ -80,6 +83,8 @@ private:
 	Poco::Mutex m_mutex;
 	Poco::SharedPtr<FileCredentialsStorage> m_credentialsStorage;
 	Poco::SharedPtr<CryptoConfig> m_cryptoConfig;
+	std::map<DeviceID, DeviceDescription> m_seenDevices;
+	std::set<DeviceID> m_acceptedDevices;
 };
 
 }

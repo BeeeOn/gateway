@@ -141,6 +141,8 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 	else if (args[1] == "device-accept") {
 		assureArgs(context, 3, "command device-accept");
 
+		context.acceptedDevices.insert(DeviceID::parse(args[2]));
+
 		return new DeviceAcceptCommand(
 			DeviceID::parse(args[2])
 		);
@@ -252,7 +254,8 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		console.print("  create <device-id> [<module-value>...]");
 		console.print("  update <device-id> <module-id> <module-value>");
 		console.print("  list");
-		console.print("  list-new");
+		console.print("  list-new [s|summary]");
+		console.print("  list-paired");
 		console.print("  delete <device-id>");
 		return;
 	}
@@ -298,6 +301,14 @@ static void deviceAction(TestingCenter::ActionContext &context)
 	else if (context.args[1] == "list-new") {
 		assureArgs(context, 2, "device list-new");
 
+		if (context.args.size() > 2 && (context.args[2] == "s" || context.args[2] == "summary")) {
+			for (const auto &c : context.seenDevices) {
+				if (context.acceptedDevices.find(c.first) == context.acceptedDevices.end())
+					console.print(c.second.toPrettyString());
+			}
+			return;
+		}
+
 		ScopedLock<Mutex> guard(context.mutex);
 
 		for (auto &deviceID: context.newDevices)
@@ -314,6 +325,14 @@ static void deviceAction(TestingCenter::ActionContext &context)
 		context.devices.erase(deviceID);
 
 		context.console.print(deviceID.toString() + " deleted");
+	}
+	else if (context.args[1] == "list-paired") {
+		assureArgs(context, 2, "device list-paired");
+
+		for (const auto &c : context.seenDevices) {
+			if (context.acceptedDevices.find(c.first) != context.acceptedDevices.end())
+				console.print(c.second.toPrettyString());
+		}
 	}
 	else {
 		console.print("unrecognized action: " + context.args[1]);
@@ -347,7 +366,7 @@ static void credentialsAction(TestingCenter::ActionContext &context)
 		console.print("  autosave disable");
 		console.print("  autosave <seconds>");
 		return;
-	}	
+	}
 	else if (context.args[1] == "set") {
 		assureArgs(context, 5, "credentials set");
 
@@ -510,7 +529,7 @@ void TestingCenter::processLine(ConsoleSession &session, const string &line)
 	}
 
 	ActionContext context {session, m_devices, m_mutex,
-		*this, args, m_credentialsStorage, m_cryptoConfig, m_newDevices};
+		*this, args, m_credentialsStorage, m_cryptoConfig, m_newDevices, m_acceptedDevices, m_seenDevices};
 	Action f = it->second.action;
 
 	try {
@@ -592,6 +611,9 @@ void TestingCenter::handle(Command::Ptr cmd, Answer::Ptr answer)
 		ScopedLock<Mutex> guard(m_mutex);
 		m_newDevices.push_back(command->deviceID());
 		result->setStatus(Result::Status::SUCCESS);
+
+		if (m_seenDevices.find(command->description().id()) == m_seenDevices.end())
+			m_seenDevices.emplace(command->description().id(), command->description());
 	}
 }
 
