@@ -13,13 +13,13 @@ namespace BeeeOn {
  *
  * @see https://github.com/OpenZWave/open-zwave/blob/master/cpp/src/Notification.h
  */
-class ZWaveNotificationEvent {
+class OZWNotificationEvent {
 public:
 	/**
 	 * Copy contents of the given notification into the event
 	 * representation.
 	 */
-	ZWaveNotificationEvent(const OpenZWave::Notification &notification);
+	OZWNotificationEvent(const OpenZWave::Notification &notification);
 
 	/**
 	 * Shortcut to access home ID.

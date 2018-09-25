@@ -41,7 +41,7 @@ public:
 	/**
 	 * Empty implementation to be overrided if needed.
 	 */
-	void onNotification(const ZWaveNotificationEvent &event) override;
+	void onNotification(const OZWNotificationEvent &event) override;
 
 	/**
 	 * Empty implementation to be overrided if needed.

@@ -22,9 +22,9 @@
 #include "hotplug/HotplugEvent.h"
 #include "util/ZipIterator.h"
 #include "zwave/OZWNetwork.h"
+#include "zwave/OZWNotificationEvent.h"
 #include "zwave/OZWPocoLoggerAdapter.h"
 #include "zwave/ZWaveNodeEvent.h"
-#include "zwave/ZWaveNotificationEvent.h"
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveSerialProber.h"
 
@@ -389,7 +389,7 @@ bool OZWNetwork::ignoreNotification(const Notification *n) const
 
 void OZWNetwork::onNotification(const Notification *n)
 {
-	ZWaveNotificationEvent e(*n);
+	OZWNotificationEvent e(*n);
 	m_eventSource.fireEvent(e, &ZWaveListener::onNotification);
 
 	if (ignoreNotification(n)) {
@@ -997,14 +997,52 @@ void OZWNetwork::fireStatistics()
 		Driver::DriverData data;
 		Manager::Get()->GetDriverStatistics(home.first, &data);
 
-		ZWaveDriverEvent e(data);
+		const map<string, uint32_t> stats ={
+			{"SOFCnt", data.m_SOFCnt},
+			{"ACKWaiting", data.m_ACKWaiting},
+			{"readAborts", data.m_readAborts},
+			{"badChecksum", data.m_badChecksum},
+			{"readCnt", data.m_readCnt},
+			{"writeCnt", data.m_writeCnt},
+			{"CANCnt", data.m_CANCnt},
+			{"NAKCnt", data.m_NAKCnt},
+			{"ACKCnt", data.m_ACKCnt},
+			{"OOFCnt", data.m_OOFCnt},
+			{"dropped", data.m_dropped},
+			{"retries", data.m_retries},
+			{"callbacks", data.m_callbacks},
+			{"badroutes", data.m_badroutes},
+			{"noACK", data.m_noack},
+			{"netbusy", data.m_netbusy},
+			{"notidle", data.m_notidle},
+			{"nondelivery", data.m_nondelivery},
+			{"routedbusy", data.m_routedbusy},
+			{"broadcastReadCnt", data.m_broadcastReadCnt},
+			{"broadcastWriteCnt", data.m_broadcastWriteCnt},
+		};
+
+		ZWaveDriverEvent e(stats);
 		m_eventSource.fireEvent(e, &ZWaveListener::onDriverStats);
 
 		for (const auto &node : home.second) {
 			Node::NodeData data;
 			Manager::Get()->GetNodeStatistics(home.first, node.first, &data);
 
-			ZWaveNodeEvent e(data, node.first);
+			const map<string, uint32_t> stats = {
+				{"sentCnt",            data.m_sentCnt},
+				{"sentFailed",         data.m_sentFailed},
+				{"retries",            data.m_retries},
+				{"receivedCnt",        data.m_receivedCnt},
+				{"receivedDups",       data.m_receivedDups},
+				{"receivedUnsolicited",data.m_receivedUnsolicited},
+				{"lastRequestRTT",     data.m_lastRequestRTT},
+				{"lastResponseRTT",    data.m_lastResponseRTT},
+				{"averageRequestRTT",  data.m_averageRequestRTT},
+				{"averageResponseRTT", data.m_averageResponseRTT},
+				{"quality",            data.m_quality},
+			};
+
+			ZWaveNodeEvent e(stats, node.first);
 			m_eventSource.fireEvent(e, &ZWaveListener::onNodeStats);
 		}
 	}

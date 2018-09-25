@@ -1,77 +1,80 @@
+#include <Poco/Exception.h>
+
 #include "zwave/ZWaveNodeEvent.h"
 
+using namespace std;
+using namespace Poco;
 using namespace BeeeOn;
 
 ZWaveNodeEvent::ZWaveNodeEvent(
-		const OpenZWave::Node::NodeData &data, uint8_t nodeID):
+		const map<string, uint32_t> &stats, uint8_t nodeID):
 	m_nodeID(nodeID),
-	m_sentCnt(data.m_sentCnt),
-	m_sentFailed(data.m_sentFailed),
-	m_retries(data.m_retries),
-	m_receivedCnt(data.m_receivedCnt),
-	m_receivedDups(data.m_receivedDups),
-	m_receivedUnsolicited(data.m_receivedUnsolicited),
-	m_lastRequestRTT(data.m_lastRequestRTT),
-	m_lastResponseRTT(data.m_lastResponseRTT),
-	m_averageRequestRTT(data.m_averageRequestRTT),
-	m_averageResponseRTT(data.m_averageResponseRTT),
-	m_quality(data.m_quality)
+	m_stats(stats)
 {
+}
+
+uint32_t ZWaveNodeEvent::lookup(const string &key) const
+{
+	auto it = m_stats.find(key);
+	if (it == m_stats.end())
+		throw NotFoundException("no such node statistic " + key);
+
+	return it->second;
 }
 
 uint32_t ZWaveNodeEvent::sentCount() const
 {
-	return m_sentCnt;
+	return lookup("sentCnt");
 }
 
 uint32_t ZWaveNodeEvent::sentFailed() const
 {
-	return m_sentFailed;
+	return lookup("sentFailed");
 }
 
 uint32_t ZWaveNodeEvent::retries() const
 {
-	return m_retries;
+	return lookup("retries");
 }
 
 uint32_t ZWaveNodeEvent::receivedCount() const
 {
-	return m_receivedCnt;
+	return lookup("receivedCnt");
 }
 
 uint32_t ZWaveNodeEvent::receiveDuplications() const
 {
-	return m_receivedDups;
+	return lookup("receivedDups");
 }
 
 uint32_t ZWaveNodeEvent::receiveUnsolicited() const
 {
-	return m_receivedUnsolicited;
+	return lookup("receivedUnsolicited");
 }
 
 uint32_t ZWaveNodeEvent::lastRequestRTT() const
 {
-	return m_lastRequestRTT;
+	return lookup("lastRequestRTT");
 }
 
 uint32_t ZWaveNodeEvent::lastResponseRTT() const
 {
-	return m_lastResponseRTT;
+	return lookup("lastResponseRTT");
 }
 
 uint32_t ZWaveNodeEvent::averageRequestRTT() const
 {
-	return m_averageRequestRTT;
+	return lookup("averageRequestRTT");
 }
 
 uint32_t ZWaveNodeEvent::averageResponseRTT() const
 {
-	return m_averageResponseRTT;
+	return lookup("averageResponseRTT");
 }
 
 uint32_t ZWaveNodeEvent::quality() const
 {
-	return m_quality;
+	return lookup("quality");
 }
 
 uint8_t ZWaveNodeEvent::nodeID() const

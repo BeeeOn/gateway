@@ -1,8 +1,8 @@
-#include "zwave/ZWaveNotificationEvent.h"
+#include "zwave/OZWNotificationEvent.h"
 
 using namespace BeeeOn;
 
-ZWaveNotificationEvent::ZWaveNotificationEvent(
+OZWNotificationEvent::OZWNotificationEvent(
 		const OpenZWave::Notification &notification):
 	m_type(notification.GetType()),
 	m_valueId(notification.GetValueID()),
@@ -19,22 +19,22 @@ ZWaveNotificationEvent::ZWaveNotificationEvent(
 	}
 }
 
-OpenZWave::Notification::NotificationType ZWaveNotificationEvent::type() const
+OpenZWave::Notification::NotificationType OZWNotificationEvent::type() const
 {
 	return m_type;
 }
 
-OpenZWave::ValueID ZWaveNotificationEvent::valueID() const
+OpenZWave::ValueID OZWNotificationEvent::valueID() const
 {
 	return m_valueId;
 }
 
-uint8_t ZWaveNotificationEvent::byte() const
+uint8_t OZWNotificationEvent::byte() const
 {
 	return m_byte;
 }
 
-Poco::Nullable<uint8_t> ZWaveNotificationEvent::event() const
+Poco::Nullable<uint8_t> OZWNotificationEvent::event() const
 {
 	return m_event;
 }
