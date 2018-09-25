@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -55,55 +55,42 @@
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#pragma GCC diagnostic push</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#pragma GCC diagnostic ignored &quot;-Wunused-parameter&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#pragma GCC diagnostic push</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#pragma GCC diagnostic ignored &quot;-Wignored-qualifiers&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;Node.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#pragma GCC diagnostic pop</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#pragma GCC diagnostic pop</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveNodeEvent.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html">ZWaveNodeEvent</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html#ac30ca8aacbd1dbeb7ea7445aeeee0e53">ZWaveNodeEvent</a>(</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keyword">const</span> OpenZWave::Node::NodeData &amp;data, uint8_t <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        uint32_t sentCount() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        uint32_t sentFailed() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        uint32_t retries() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        uint32_t receivedCount() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        uint32_t receiveDuplications() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        uint32_t receiveUnsolicited() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        uint32_t lastRequestRTT() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        uint32_t lastResponseRTT() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        uint32_t averageRequestRTT() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        uint32_t averageResponseRTT() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        uint32_t quality() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        uint8_t <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        uint8_t m_nodeID;                <span class="comment">// Identification of Z-Wave device.</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        uint32_t m_sentCnt;              <span class="comment">// Number of messages sent from this node.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        uint32_t m_sentFailed;           <span class="comment">// Number of sent messages failed</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        uint32_t m_retries;              <span class="comment">// Number of message retries</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        uint32_t m_receivedCnt;          <span class="comment">// Number of messages received from this node.</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        uint32_t m_receivedDups;         <span class="comment">// Number of duplicated messages received;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        uint32_t m_receivedUnsolicited;  <span class="comment">// Number of messages received unsolicited</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        uint32_t m_lastRequestRTT;       <span class="comment">// Last message request RTT</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        uint32_t m_lastResponseRTT;      <span class="comment">// Last message response RTT</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        uint32_t m_averageRequestRTT;    <span class="comment">// Average Request round trip time (ms).</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        uint32_t m_averageResponseRTT;   <span class="comment">// Average Response round trip time.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        uint32_t m_quality;              <span class="comment">// Node quality measure</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html">BeeeOn::ZWaveNodeEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html_ac30ca8aacbd1dbeb7ea7445aeeee0e53"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html#ac30ca8aacbd1dbeb7ea7445aeeee0e53">BeeeOn::ZWaveNodeEvent::ZWaveNodeEvent</a></div><div class="ttdeci">ZWaveNodeEvent(const OpenZWave::Node::NodeData &amp;data, uint8_t nodeID)</div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.cpp:5</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html_ab0b92d7742ac9508880d542f59728dc0"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">BeeeOn::ZWaveNodeEvent::nodeID</a></div><div class="ttdeci">uint8_t nodeID() const </div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.cpp:77</div></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveNodeEvent.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html">ZWaveNodeEvent</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html#a786d16fe6882eababe956c81256d4438">ZWaveNodeEvent</a>(</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                <span class="keyword">const</span> std::map&lt;std::string, uint32_t&gt; &amp;stats,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                uint8_t <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        uint32_t sentCount() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        uint32_t sentFailed() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        uint32_t retries() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        uint32_t receivedCount() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        uint32_t receiveDuplications() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        uint32_t receiveUnsolicited() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        uint32_t lastRequestRTT() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        uint32_t lastResponseRTT() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        uint32_t averageRequestRTT() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        uint32_t averageResponseRTT() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        uint32_t quality() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        uint8_t <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        uint32_t lookup(<span class="keyword">const</span> std::string &amp;key) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        uint8_t m_nodeID;                <span class="comment">// Identification of Z-Wave device.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        std::map&lt;std::string, uint32_t&gt; m_stats;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html">BeeeOn::ZWaveNodeEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.h:14</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html_a786d16fe6882eababe956c81256d4438"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html#a786d16fe6882eababe956c81256d4438">BeeeOn::ZWaveNodeEvent::ZWaveNodeEvent</a></div><div class="ttdeci">ZWaveNodeEvent(const std::map&lt; std::string, uint32_t &gt; &amp;stats, uint8_t nodeID)</div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.cpp:9</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html_ab0b92d7742ac9508880d542f59728dc0"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">BeeeOn::ZWaveNodeEvent::nodeID</a></div><div class="ttdeci">uint8_t nodeID() const </div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.cpp:80</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

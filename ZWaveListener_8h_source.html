@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -60,7 +60,7 @@
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>ZWaveDriverEvent;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span>ZWaveNodeEvent;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>ZWaveNotificationEvent;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>OZWNotificationEvent;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveListener.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveListener.html">ZWaveListener</a> {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
@@ -73,17 +73,17 @@
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveListener.html#a9e5700c5d2ef6b0a3fe90a09ce97cb94">onNodeStats</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNodeEvent.html">ZWaveNodeEvent</a> &amp;nodeEvent) = 0;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveListener.html#a9b09b600d8aaed51292dbabe3dd817ad">onNotification</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNotificationEvent.html">ZWaveNotificationEvent</a> &amp;e) = 0;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveListener.html#a203d9925d4825fc9db649089032bfcc2">onNotification</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a> &amp;e) = 0;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html">BeeeOn::ZWaveNodeEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.h:21</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveListener_html_a9b09b600d8aaed51292dbabe3dd817ad"><div class="ttname"><a href="classBeeeOn_1_1ZWaveListener.html#a9b09b600d8aaed51292dbabe3dd817ad">BeeeOn::ZWaveListener::onNotification</a></div><div class="ttdeci">virtual void onNotification(const ZWaveNotificationEvent &amp;e)=0</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveNodeEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNodeEvent.html">BeeeOn::ZWaveNodeEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveNodeEvent.h:14</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveListener_html_a6181303baa0575a1b2e3c13a5d974e06"><div class="ttname"><a href="classBeeeOn_1_1ZWaveListener.html#a6181303baa0575a1b2e3c13a5d974e06">BeeeOn::ZWaveListener::onDriverStats</a></div><div class="ttdeci">virtual void onDriverStats(const ZWaveDriverEvent &amp;nodeEvent)=0</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveListener_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveListener.html">BeeeOn::ZWaveListener</a></div><div class="ttdef"><b>Definition:</b> ZWaveListener.h:14</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveListener_html_a203d9925d4825fc9db649089032bfcc2"><div class="ttname"><a href="classBeeeOn_1_1ZWaveListener.html#a203d9925d4825fc9db649089032bfcc2">BeeeOn::ZWaveListener::onNotification</a></div><div class="ttdeci">virtual void onNotification(const OZWNotificationEvent &amp;e)=0</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveListener_html_a9e5700c5d2ef6b0a3fe90a09ce97cb94"><div class="ttname"><a href="classBeeeOn_1_1ZWaveListener.html#a9e5700c5d2ef6b0a3fe90a09ce97cb94">BeeeOn::ZWaveListener::onNodeStats</a></div><div class="ttdeci">virtual void onNodeStats(const ZWaveNodeEvent &amp;nodeEvent)=0</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveNotificationEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveNotificationEvent.html">BeeeOn::ZWaveNotificationEvent</a></div><div class="ttdoc">Low-level OpenZWave notification event. Because, the OpenZWave::Notification cannot be copied nor clo...</div><div class="ttdef"><b>Definition:</b> ZWaveNotificationEvent.h:16</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDriverEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDriverEvent.html">BeeeOn::ZWaveDriverEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveDriverEvent.h:21</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDriverEvent_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDriverEvent.html">BeeeOn::ZWaveDriverEvent</a></div><div class="ttdef"><b>Definition:</b> ZWaveDriverEvent.h:14</div></div>
+<div class="ttc" id="classBeeeOn_1_1OZWNotificationEvent_html"><div class="ttname"><a href="classBeeeOn_1_1OZWNotificationEvent.html">BeeeOn::OZWNotificationEvent</a></div><div class="ttdoc">Low-level OpenZWave notification event. Because, the OpenZWave::Notification cannot be copied nor clo...</div><div class="ttdef"><b>Definition:</b> OZWNotificationEvent.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

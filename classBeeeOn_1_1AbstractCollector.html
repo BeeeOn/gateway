@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -85,8 +85,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a50e240fb15d598375e969e21072d8a9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab308084c5940ca7ba9450335ca75d449"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#ab308084c5940ca7ba9450335ca75d449">onNodeStats</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html">ZWaveNodeEvent</a> &amp;event) override</td></tr>
 <tr class="separator:ab308084c5940ca7ba9450335ca75d449"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ab48efbcf3d4d2c1bd220295ee65d8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#a2ab48efbcf3d4d2c1bd220295ee65d8c">onNotification</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html">ZWaveNotificationEvent</a> &amp;event) override</td></tr>
-<tr class="separator:a2ab48efbcf3d4d2c1bd220295ee65d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5845bf7bf432987cc50d7095b2406c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#a4c5845bf7bf432987cc50d7095b2406c">onNotification</a> (const <a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a> &amp;event) override</td></tr>
+<tr class="separator:a4c5845bf7bf432987cc50d7095b2406c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64f9b509686743280182c5e4e7432396"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#a64f9b509686743280182c5e4e7432396">onHciStats</a> (const <a class="el" href="classBeeeOn_1_1HciInfo.html">HciInfo</a> &amp;info) override</td></tr>
 <tr class="separator:a64f9b509686743280182c5e4e7432396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10ba5f0fdb6b23db5496198dfe65b041"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#a10ba5f0fdb6b23db5496198dfe65b041">onBulbStats</a> (const <a class="el" href="classBeeeOn_1_1PhilipsHueBulbInfo.html">PhilipsHueBulbInfo</a> &amp;info) override</td></tr>
@@ -330,7 +330,7 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 
 </div>
 </div>
-<a class="anchor" id="a2ab48efbcf3d4d2c1bd220295ee65d8c"></a>
+<a class="anchor" id="a4c5845bf7bf432987cc50d7095b2406c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -340,7 +340,7 @@ typedef Poco::SharedPtr<br class="typebreak"/>
         <tr>
           <td class="memname">void AbstractCollector::onNotification </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html">ZWaveNotificationEvent</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a> &amp;&#160;</td>
           <td class="paramname"><em>event</em></td><td>)</td>
           <td></td>
         </tr>
@@ -353,9 +353,9 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </div><div class="memdoc">
 <p>Empty implementation to be overrided if needed. </p>
 
-<p>Implements <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9b09b600d8aaed51292dbabe3dd817ad">BeeeOn::ZWaveListener</a>.</p>
+<p>Implements <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a203d9925d4825fc9db649089032bfcc2">BeeeOn::ZWaveListener</a>.</p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a4d55028f4a6cb163374d5a07baf96e2d">BeeeOn::LoggingCollector</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1LoggingCollector.html#ad56fec8baa46e333f114cf6cd36cc616">BeeeOn::LoggingCollector</a>.</p>
 
 </div>
 </div>

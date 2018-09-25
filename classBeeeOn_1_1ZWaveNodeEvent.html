@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,7 +52,8 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::ZWaveNodeEvent Class Reference</div>  </div>
 </div><!--header-->
@@ -62,8 +63,8 @@
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac30ca8aacbd1dbeb7ea7445aeeee0e53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html#ac30ca8aacbd1dbeb7ea7445aeeee0e53">ZWaveNodeEvent</a> (const OpenZWave::Node::NodeData &amp;data, uint8_t <a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a>)</td></tr>
-<tr class="separator:ac30ca8aacbd1dbeb7ea7445aeeee0e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a786d16fe6882eababe956c81256d4438"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html#a786d16fe6882eababe956c81256d4438">ZWaveNodeEvent</a> (const std::map&lt; std::string, uint32_t &gt; &amp;stats, uint8_t <a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a>)</td></tr>
+<tr class="separator:a786d16fe6882eababe956c81256d4438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22e1608401492f1922083ead75c7ea54"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22e1608401492f1922083ead75c7ea54"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>sentCount</b> () const </td></tr>
 <tr class="separator:a22e1608401492f1922083ead75c7ea54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,6 +100,12 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>quality</b> () co
 <tr class="separator:abbc9ae61d4fb079f32cb433dc11c7fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0b92d7742ac9508880d542f59728dc0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html#ab0b92d7742ac9508880d542f59728dc0">nodeID</a> () const </td></tr>
 <tr class="separator:ab0b92d7742ac9508880d542f59728dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:af493321f5a1ade3cc900bc5232b814f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af493321f5a1ade3cc900bc5232b814f0"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>lookup</b> (const std::string &amp;key) const </td></tr>
+<tr class="separator:af493321f5a1ade3cc900bc5232b814f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Statistics from ZWave network from one device.</p>
@@ -106,15 +113,15 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>quality</b> () co
 <dd>
 <a href="http://www.openzwave.com/dev/classOpenZWave_1_1Manager.html">http://www.openzwave.com/dev/classOpenZWave_1_1Manager.html</a> (GetNodeStatistics()) </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ac30ca8aacbd1dbeb7ea7445aeeee0e53"></a>
+<a class="anchor" id="a786d16fe6882eababe956c81256d4438"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ZWaveNodeEvent::ZWaveNodeEvent </td>
           <td>(</td>
-          <td class="paramtype">const OpenZWave::Node::NodeData &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramtype">const std::map&lt; std::string, uint32_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>stats</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

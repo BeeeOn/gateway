@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -81,19 +81,20 @@
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        Poco::Timespan <a class="code" href="classBeeeOn_1_1DeviceDescription.html#afbb8f9193d9131d04804dfb7653e31e5">refreshTime</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string toString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">static</span> std::string normalizeName(<span class="keyword">const</span> std::string&amp; bytes);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceID;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        std::string m_vendor;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        std::string m_productName;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        std::list&lt;ModuleType&gt; m_dataTypes;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        Poco::Timespan m_refreshTime;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        std::string toPrettyString() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">static</span> std::string normalizeName(<span class="keyword">const</span> std::string&amp; bytes);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceID;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        std::string m_vendor;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        std::string m_productName;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        std::list&lt;ModuleType&gt; m_dataTypes;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        Poco::Timespan m_refreshTime;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1DeviceDescription_html_afbb8f9193d9131d04804dfb7653e31e5"><div class="ttname"><a href="classBeeeOn_1_1DeviceDescription.html#afbb8f9193d9131d04804dfb7653e31e5">BeeeOn::DeviceDescription::refreshTime</a></div><div class="ttdeci">Poco::Timespan refreshTime() const </div><div class="ttdef"><b>Definition:</b> DeviceDescription.cpp:54</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceDescription_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceDescription.html">BeeeOn::DeviceDescription</a></div><div class="ttdoc">The class wraps information about a device&amp;#39;s type. It describes its properties and provided sensor ty...</div><div class="ttdef"><b>Definition:</b> DeviceDescription.h:17</div></div>

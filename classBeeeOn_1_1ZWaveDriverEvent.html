@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,7 +52,8 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::ZWaveDriverEvent Class Reference</div>  </div>
 </div><!--header-->
@@ -62,11 +63,14 @@
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5408a563da6deee0cc7fdf307f5ab6e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDriverEvent.html#a5408a563da6deee0cc7fdf307f5ab6e1">ZWaveDriverEvent</a> (const OpenZWave::Driver::DriverData &amp;data)</td></tr>
-<tr class="separator:a5408a563da6deee0cc7fdf307f5ab6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a8e53f82137e8d77f66e169921fd755"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a8e53f82137e8d77f66e169921fd755"></a>
+<tr class="memitem:ad7afc5bb4a31a4c16a2a84d669d7f10e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveDriverEvent.html#ad7afc5bb4a31a4c16a2a84d669d7f10e">ZWaveDriverEvent</a> (const std::map&lt; std::string, uint32_t &gt; &amp;stats)</td></tr>
+<tr class="separator:ad7afc5bb4a31a4c16a2a84d669d7f10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ca5c7df8e1ea5138c6eac597474b93c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ca5c7df8e1ea5138c6eac597474b93c"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>SOAFCount</b> () const </td></tr>
-<tr class="separator:a0a8e53f82137e8d77f66e169921fd755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a1ca5c7df8e1ea5138c6eac597474b93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87b4692bc698d743d1f07d82b360e12"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac87b4692bc698d743d1f07d82b360e12"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>SOFCount</b> () const </td></tr>
+<tr class="separator:ac87b4692bc698d743d1f07d82b360e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f099492a90374a676fb1c25221bd946"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f099492a90374a676fb1c25221bd946"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>ACKWaiting</b> () const </td></tr>
 <tr class="separator:a8f099492a90374a676fb1c25221bd946"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +131,12 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>broadcastReadCoun
 <tr class="memitem:aa6fce2174489e0ab58c48d4fe5a0eeee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6fce2174489e0ab58c48d4fe5a0eeee"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>broadcastWriteCount</b> () const </td></tr>
 <tr class="separator:aa6fce2174489e0ab58c48d4fe5a0eeee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a5a480f84c0496319db5c92f1811ca2ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5a480f84c0496319db5c92f1811ca2ca"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>lookup</b> (const std::string &amp;key) const </td></tr>
+<tr class="separator:a5a480f84c0496319db5c92f1811ca2ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Statistics from ZWave network from USB driver.</p>
@@ -134,15 +144,15 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>broadcastWriteCou
 <dd>
 <a href="http://www.openzwave.com/dev/classOpenZWave_1_1Manager.html">http://www.openzwave.com/dev/classOpenZWave_1_1Manager.html</a> (GetDriverStatistics()) </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a5408a563da6deee0cc7fdf307f5ab6e1"></a>
+<a class="anchor" id="ad7afc5bb4a31a4c16a2a84d669d7f10e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ZWaveDriverEvent::ZWaveDriverEvent </td>
           <td>(</td>
-          <td class="paramtype">const OpenZWave::Driver::DriverData &amp;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
+          <td class="paramtype">const std::map&lt; std::string, uint32_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>stats</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -84,8 +84,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6181303baa0575a1b2e3c13a5d974e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e5700c5d2ef6b0a3fe90a09ce97cb94"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9e5700c5d2ef6b0a3fe90a09ce97cb94">onNodeStats</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNodeEvent.html">ZWaveNodeEvent</a> &amp;nodeEvent)=0</td></tr>
 <tr class="separator:a9e5700c5d2ef6b0a3fe90a09ce97cb94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b09b600d8aaed51292dbabe3dd817ad"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9b09b600d8aaed51292dbabe3dd817ad">onNotification</a> (const <a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html">ZWaveNotificationEvent</a> &amp;e)=0</td></tr>
-<tr class="separator:a9b09b600d8aaed51292dbabe3dd817ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a203d9925d4825fc9db649089032bfcc2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveListener.html#a203d9925d4825fc9db649089032bfcc2">onNotification</a> (const <a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a> &amp;e)=0</td></tr>
+<tr class="separator:a203d9925d4825fc9db649089032bfcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface for reporting statistics from <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html" title="ZWaveDeviceManager implements the logical layer on top of the ZWaveNetwork interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of ZWaveMapperRegistry::Mapper. ">ZWaveDeviceManager</a>. </p>
@@ -144,7 +144,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9b09b600d8aaed51292dbabe3dd817ad"></a>
+<a class="anchor" id="a203d9925d4825fc9db649089032bfcc2"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -154,7 +154,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void BeeeOn::ZWaveListener::onNotification </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html">ZWaveNotificationEvent</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a> &amp;&#160;</td>
           <td class="paramname"><em>e</em></td><td>)</td>
           <td></td>
         </tr>
@@ -167,7 +167,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>This method is called for each low-level Z-Wave notification. </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a2ab48efbcf3d4d2c1bd220295ee65d8c">BeeeOn::AbstractCollector</a>, and <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a4d55028f4a6cb163374d5a07baf96e2d">BeeeOn::LoggingCollector</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a4c5845bf7bf432987cc50d7095b2406c">BeeeOn::AbstractCollector</a>, and <a class="el" href="classBeeeOn_1_1LoggingCollector.html#ad56fec8baa46e333f114cf6cd36cc616">BeeeOn::LoggingCollector</a>.</p>
 
 </div>
 </div>

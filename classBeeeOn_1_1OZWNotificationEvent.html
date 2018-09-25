@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>BeeeOn Gateway: BeeeOn::ZWaveNotificationEvent Class Reference</title>
+<title>BeeeOn Gateway: BeeeOn::OZWNotificationEvent Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-61-g36e2e07</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -47,49 +47,49 @@
   </div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>BeeeOn</b></li><li class="navelem"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html">ZWaveNotificationEvent</a></li>  </ul>
+<li class="navelem"><b>BeeeOn</b></li><li class="navelem"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">BeeeOn::ZWaveNotificationEvent Class Reference</div>  </div>
+<div class="title">BeeeOn::OZWNotificationEvent Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Low-level OpenZWave notification event. Because, the OpenZWave::Notification cannot be copied nor cloned, we have to represent it explicitly and copy all its contents.  
- <a href="classBeeeOn_1_1ZWaveNotificationEvent.html#details">More...</a></p>
+ <a href="classBeeeOn_1_1OZWNotificationEvent.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ZWaveNotificationEvent_8h_source.html">ZWaveNotificationEvent.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="OZWNotificationEvent_8h_source.html">OZWNotificationEvent.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3785b49bca035e759d52f0c53b2917bf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#a3785b49bca035e759d52f0c53b2917bf">ZWaveNotificationEvent</a> (const OpenZWave::Notification &amp;notification)</td></tr>
-<tr class="separator:a3785b49bca035e759d52f0c53b2917bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab36bc3e2d9411f49da1a518c9d4ec1d1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#ab36bc3e2d9411f49da1a518c9d4ec1d1">homeID</a> () const </td></tr>
-<tr class="separator:ab36bc3e2d9411f49da1a518c9d4ec1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18ea02a57f7ecabadee9495ee84ec7b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#ae18ea02a57f7ecabadee9495ee84ec7b">nodeID</a> () const </td></tr>
-<tr class="separator:ae18ea02a57f7ecabadee9495ee84ec7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8127cc7deff0953d876ca988068aece7"><td class="memItemLeft" align="right" valign="top">OpenZWave::Notification::NotificationType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#a8127cc7deff0953d876ca988068aece7">type</a> () const </td></tr>
-<tr class="separator:a8127cc7deff0953d876ca988068aece7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3c66c24d49ac7fb5e4a7ee47fd17be9"><td class="memItemLeft" align="right" valign="top">OpenZWave::ValueID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#ae3c66c24d49ac7fb5e4a7ee47fd17be9">valueID</a> () const </td></tr>
-<tr class="separator:ae3c66c24d49ac7fb5e4a7ee47fd17be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19dda6ce3a6a687cf6b1c01863b3a16b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#a19dda6ce3a6a687cf6b1c01863b3a16b">byte</a> () const </td></tr>
-<tr class="separator:a19dda6ce3a6a687cf6b1c01863b3a16b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e4c939874bd0171cddef18ab7ad53b1"><td class="memItemLeft" align="right" valign="top">Poco::Nullable&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ZWaveNotificationEvent.html#a7e4c939874bd0171cddef18ab7ad53b1">event</a> () const </td></tr>
-<tr class="separator:a7e4c939874bd0171cddef18ab7ad53b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accaec7429ff0645470b4ce655bfda1ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#accaec7429ff0645470b4ce655bfda1ef">OZWNotificationEvent</a> (const OpenZWave::Notification &amp;notification)</td></tr>
+<tr class="separator:accaec7429ff0645470b4ce655bfda1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ee2f5fdc43774e0910235f276d66d1b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#a7ee2f5fdc43774e0910235f276d66d1b">homeID</a> () const </td></tr>
+<tr class="separator:a7ee2f5fdc43774e0910235f276d66d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a956969bb86deb2fb2d59898c3ae28049"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#a956969bb86deb2fb2d59898c3ae28049">nodeID</a> () const </td></tr>
+<tr class="separator:a956969bb86deb2fb2d59898c3ae28049"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e919b0505a0dd0640e0881975e927cc"><td class="memItemLeft" align="right" valign="top">OpenZWave::Notification::NotificationType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#a5e919b0505a0dd0640e0881975e927cc">type</a> () const </td></tr>
+<tr class="separator:a5e919b0505a0dd0640e0881975e927cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad050898ce73f71164366fd499b26704"><td class="memItemLeft" align="right" valign="top">OpenZWave::ValueID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#aad050898ce73f71164366fd499b26704">valueID</a> () const </td></tr>
+<tr class="separator:aad050898ce73f71164366fd499b26704"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ba5c8bd668773439ad861edc213e457"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#a5ba5c8bd668773439ad861edc213e457">byte</a> () const </td></tr>
+<tr class="separator:a5ba5c8bd668773439ad861edc213e457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27f70241576f9b4d0f111d8931e3d747"><td class="memItemLeft" align="right" valign="top">Poco::Nullable&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#a27f70241576f9b4d0f111d8931e3d747">event</a> () const </td></tr>
+<tr class="separator:a27f70241576f9b4d0f111d8931e3d747"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Low-level OpenZWave notification event. Because, the OpenZWave::Notification cannot be copied nor cloned, we have to represent it explicitly and copy all its contents. </p>
 <dl class="section see"><dt>See Also</dt><dd><a href="https://github.com/OpenZWave/open-zwave/blob/master/cpp/src/Notification.h">https://github.com/OpenZWave/open-zwave/blob/master/cpp/src/Notification.h</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a3785b49bca035e759d52f0c53b2917bf"></a>
+<a class="anchor" id="accaec7429ff0645470b4ce655bfda1ef"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ZWaveNotificationEvent::ZWaveNotificationEvent </td>
+          <td class="memname">OZWNotificationEvent::OZWNotificationEvent </td>
           <td>(</td>
           <td class="paramtype">const OpenZWave::Notification &amp;&#160;</td>
           <td class="paramname"><em>notification</em></td><td>)</td>
@@ -102,12 +102,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a19dda6ce3a6a687cf6b1c01863b3a16b"></a>
+<a class="anchor" id="a5ba5c8bd668773439ad861edc213e457"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t ZWaveNotificationEvent::byte </td>
+          <td class="memname">uint8_t OZWNotificationEvent::byte </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -120,12 +120,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7e4c939874bd0171cddef18ab7ad53b1"></a>
+<a class="anchor" id="a27f70241576f9b4d0f111d8931e3d747"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Poco::Nullable&lt; uint8_t &gt; ZWaveNotificationEvent::event </td>
+          <td class="memname">Poco::Nullable&lt; uint8_t &gt; OZWNotificationEvent::event </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -138,7 +138,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab36bc3e2d9411f49da1a518c9d4ec1d1"></a>
+<a class="anchor" id="a7ee2f5fdc43774e0910235f276d66d1b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -146,7 +146,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t BeeeOn::ZWaveNotificationEvent::homeID </td>
+          <td class="memname">uint32_t BeeeOn::OZWNotificationEvent::homeID </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -162,7 +162,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae18ea02a57f7ecabadee9495ee84ec7b"></a>
+<a class="anchor" id="a956969bb86deb2fb2d59898c3ae28049"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -170,7 +170,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BeeeOn::ZWaveNotificationEvent::nodeID </td>
+          <td class="memname">uint8_t BeeeOn::OZWNotificationEvent::nodeID </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -186,12 +186,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8127cc7deff0953d876ca988068aece7"></a>
+<a class="anchor" id="a5e919b0505a0dd0640e0881975e927cc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">OpenZWave::Notification::NotificationType ZWaveNotificationEvent::type </td>
+          <td class="memname">OpenZWave::Notification::NotificationType OZWNotificationEvent::type </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -202,12 +202,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae3c66c24d49ac7fb5e4a7ee47fd17be9"></a>
+<a class="anchor" id="aad050898ce73f71164366fd499b26704"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">OpenZWave::ValueID ZWaveNotificationEvent::valueID </td>
+          <td class="memname">OpenZWave::ValueID OZWNotificationEvent::valueID </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -220,8 +220,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/zwave/<a class="el" href="ZWaveNotificationEvent_8h_source.html">ZWaveNotificationEvent.h</a></li>
-<li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/zwave/ZWaveNotificationEvent.cpp</li>
+<li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/zwave/<a class="el" href="OZWNotificationEvent_8h_source.html">OZWNotificationEvent.h</a></li>
+<li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/zwave/OZWNotificationEvent.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
