@@ -94,6 +94,8 @@ void DeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 		handleAccept(cmd.cast<DeviceAcceptCommand>());
 	else if (cmd->is<GatewayListenCommand>())
 		handleListen(cmd.cast<GatewayListenCommand>());
+	else if (cmd->is<DeviceSearchCommand>())
+		handleSearch(cmd.cast<DeviceSearchCommand>());
 	else if (cmd->is<DeviceUnpairCommand>()) {
 		DeviceUnpairResult::Ptr unpair = result.cast<DeviceUnpairResult>();
 		poco_assert(!unpair.isNull());
@@ -142,6 +144,58 @@ void DeviceManager::handleListen(const GatewayListenCommand::Ptr cmd)
 
 	auto discovery = startDiscovery(timeout);
 	manageUntilFinished("discovery", discovery, timeout);
+}
+
+AsyncWork<>::Ptr DeviceManager::startSearch(
+		const Timespan &,
+		const Poco::Net::IPAddress &)
+{
+	throw NotImplementedException("generic search-by-ip-address is not supported");
+}
+
+AsyncWork<>::Ptr DeviceManager::startSearch(
+		const Timespan &,
+		const MACAddress &)
+{
+	throw NotImplementedException("generic search-by-mac-address is not supported");
+}
+
+AsyncWork<>::Ptr DeviceManager::startSearch(
+		const Timespan &,
+		const uint64_t)
+{
+	throw NotImplementedException("generic search-by-serial-number is not supported");
+}
+
+void DeviceManager::handleSearch(const DeviceSearchCommand::Ptr cmd)
+{
+	const Clock started;
+	const Timespan &duration = cmd->duration();
+
+	if (duration < 1 * Timespan::SECONDS) {
+		throw InvalidArgumentException(
+			"search duration is too short: "
+			+ to_string(duration.totalMicroseconds()) + " us");
+	}
+
+	ScopedLock<FastMutex> guard(m_listenLock, duration.totalMilliseconds());
+
+	const Timespan &timeout = checkDelayedOperation("search", started, duration);
+
+	logger().information("starting search (" + to_string(timeout.totalSeconds()) + " s)", __FILE__, __LINE__);
+
+	AsyncWork<>::Ptr search;
+
+	if (cmd->hasIPAddress())
+		search = startSearch(timeout, cmd->ipAddress());
+	else if (cmd->hasMACAddress())
+		search = startSearch(timeout, cmd->macAddress());
+	else if (cmd->hasSerialNumber())
+		search = startSearch(timeout, cmd->serialNumber());
+	else
+		poco_assert_msg(0, "missing search criteria");
+
+	manageUntilFinished("search", search, timeout);
 }
 
 AsyncWork<set<DeviceID>>::Ptr DeviceManager::startUnpair(

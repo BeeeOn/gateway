@@ -11,6 +11,7 @@
 #include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
+#include "commands/DeviceSearchCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/AnswerQueue.h"
 #include "core/CommandHandler.h"
@@ -147,6 +148,58 @@ protected:
 	 * by the implementation.
 	 */
 	void handleListen(const GatewayListenCommand::Ptr cmd);
+
+	/**
+	 * @brief Start searching a device by IP address in a technology-specific way.
+	 * This method is always called inside a critical section and so
+	 * its implementation does not have to be thread-safe nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The purpose of this call is to initialize and start the searching
+	 * process which might be a non-blocking operation. The caller uses
+	 * the provided AsyncWork<> instance to wait until it finishes or to
+	 * cancel it earlier if needed.
+	 */
+	virtual AsyncWork<>::Ptr startSearch(
+		const Poco::Timespan &timeout,
+		const Poco::Net::IPAddress &address);
+
+	/**
+	 * @brief Start searching a device by MAC address in a technology-specific way.
+	 * This method is always called inside a critical section and so
+	 * its implementation does not have to be thread-safe nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The purpose of this call is to initialize and start the searching
+	 * process which might be a non-blocking operation. The caller uses
+	 * the provided AsyncWork<> instance to wait until it finishes or to
+	 * cancel it earlier if needed.
+	 */
+	virtual AsyncWork<>::Ptr startSearch(
+		const Poco::Timespan &timeout,
+		const MACAddress &address);
+
+	/**
+	 * @brief Start searching a device by serial number in a technology-specific way.
+	 * This method is always called inside a critical section and so
+	 * its implementation does not have to be thread-safe nor reentrant
+	 * (unless it cooperates with other threads itself).
+	 *
+	 * The purpose of this call is to initialize and start the searching
+	 * process which might be a non-blocking operation. The caller uses
+	 * the provided AsyncWork<> instance to wait until it finishes or to
+	 * cancel it earlier if needed.
+	 */
+	virtual AsyncWork<>::Ptr startSearch(
+		const Poco::Timespan &timeout,
+		const uint64_t serialNumber);
+
+	/**
+	 * @brief Implements handling of the search command in a generic way. The method
+	 * ensures that only 1 thread can exactly the search process at a time. It is
+	 * also mutual exclusive to the discovery process.
+	 */
+	void handleSearch(const DeviceSearchCommand::Ptr cmd);
 
 	/**
 	 * @brief Starts device unpair process in a technology-specific way.
