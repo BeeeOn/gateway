@@ -32,7 +32,7 @@ void ZWaveTypeMappingParserTest::testParse()
 {
 	istringstream buffer;
 	buffer.str(
-		"<mappings>\n"
+		"<z-wave-mapping>\n"
 		"  <map comment='first type'>\n"
 		"    <z-wave command-class='32' index='0' />\n"
 		"    <beeeon type='temperature' />\n"
@@ -41,7 +41,7 @@ void ZWaveTypeMappingParserTest::testParse()
 		"    <z-wave command-class='49' index='1' />\n"
 		"    <beeeon type='humidity' />\n"
 		"  </map>\n"
-		"</mappings>\n"
+		"</z-wave-mapping>\n"
 	);
 
 	ZWaveTypeMappingParser parser;
@@ -64,7 +64,7 @@ void ZWaveTypeMappingParserTest::testParseMissingBeeeOnType()
 {
 	istringstream buffer;
 	buffer.str(
-		"<mappings>\n"
+		"<z-wave-mapping>\n"
 		"  <map comment='first type'>\n"
 		"    <z-wave command-class='32' index='0' />\n"
 		"    <beeeon type='temperature' />\n"
@@ -73,7 +73,7 @@ void ZWaveTypeMappingParserTest::testParseMissingBeeeOnType()
 		"    <z-wave command-class='49' index='1' />\n"
 		"    <beeeon />\n"
 		"  </map>\n"
-		"</mappings>\n"
+		"</z-wave-mapping>\n"
 	);
 
 	ZWaveTypeMappingParser parser;
@@ -84,7 +84,7 @@ void ZWaveTypeMappingParserTest::testParseMissingCommandClass()
 {
 	istringstream buffer;
 	buffer.str(
-		"<mappings>\n"
+		"<z-wave-mapping>\n"
 		"  <map comment='first type'>\n"
 		"    <z-wave command-class='32' index='0' />\n"
 		"    <beeeon type='temperature' />\n"
@@ -93,7 +93,7 @@ void ZWaveTypeMappingParserTest::testParseMissingCommandClass()
 		"    <z-wave index='1' />\n"
 		"    <beeeon type='humidity' />\n"
 		"  </map>\n"
-		"</mappings>\n"
+		"</z-wave-mapping>\n"
 	);
 
 	ZWaveTypeMappingParser parser;
@@ -104,7 +104,7 @@ void ZWaveTypeMappingParserTest::testParseMissingIndex()
 {
 	istringstream buffer;
 	buffer.str(
-		"<mappings>\n"
+		"<z-wave-mapping>\n"
 		"  <map comment='first type'>\n"
 		"    <z-wave command-class='32' index='0' />\n"
 		"    <beeeon type='motion' />\n"
@@ -113,7 +113,7 @@ void ZWaveTypeMappingParserTest::testParseMissingIndex()
 		"    <z-wave command-class='49' />\n"
 		"    <beeeon type='ultraviolet' />\n"
 		"  </map>\n"
-		"</mappings>\n"
+		"</z-wave-mapping>\n"
 	);
 
 	ZWaveTypeMappingParser parser;

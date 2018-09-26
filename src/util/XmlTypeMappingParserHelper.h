@@ -54,6 +54,7 @@ public:
 	 * @param logger - logger to log into
 	 */
 	XmlTypeMappingParserHelper(
+		const std::string &mappingGroup,
 		const std::string &techNode,
 		Poco::Logger &logger);
 
@@ -71,6 +72,7 @@ public:
 	std::pair<Poco::AutoPtr<Poco::XML::Node>, ModuleType> next();
 
 private:
+	std::string m_mappingGroup;
 	std::string m_techNode;
 	Poco::AutoPtr<Poco::XML::Document> m_document;
 	Poco::SharedPtr<Poco::XML::NodeIterator> m_iterator;
