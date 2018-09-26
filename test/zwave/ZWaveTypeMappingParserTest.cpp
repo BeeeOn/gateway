@@ -15,13 +15,11 @@ namespace BeeeOn {
 class ZWaveTypeMappingParserTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(ZWaveTypeMappingParserTest);
 	CPPUNIT_TEST(testParse);
-	CPPUNIT_TEST(testParseMissingBeeeOnType);
 	CPPUNIT_TEST(testParseMissingCommandClass);
 	CPPUNIT_TEST(testParseMissingIndex);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testParse();
-	void testParseMissingBeeeOnType();
 	void testParseMissingCommandClass();
 	void testParseMissingIndex();
 };
@@ -58,26 +56,6 @@ void ZWaveTypeMappingParserTest::testParse()
 	CPPUNIT_ASSERT_EQUAL(49, humidity.first.first);
 	CPPUNIT_ASSERT_EQUAL(1, humidity.first.second);
 	CPPUNIT_ASSERT_EQUAL(ModuleType::Type::TYPE_HUMIDITY, humidity.second.type());
-}
-
-void ZWaveTypeMappingParserTest::testParseMissingBeeeOnType()
-{
-	istringstream buffer;
-	buffer.str(
-		"<z-wave-mapping>\n"
-		"  <map comment='first type'>\n"
-		"    <z-wave command-class='32' index='0' />\n"
-		"    <beeeon type='temperature' />\n"
-		"  </map>\n"
-		"  <map comment='first type'>\n"
-		"    <z-wave command-class='49' index='1' />\n"
-		"    <beeeon />\n"
-		"  </map>\n"
-		"</z-wave-mapping>\n"
-	);
-
-	ZWaveTypeMappingParser parser;
-	CPPUNIT_ASSERT_THROW(parser.parse(buffer), SyntaxException);
 }
 
 void ZWaveTypeMappingParserTest::testParseMissingCommandClass()

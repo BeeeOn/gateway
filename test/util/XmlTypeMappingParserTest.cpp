@@ -18,11 +18,13 @@ class XmlTypeMappingParserTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testParseOneMappingGroup);
 	CPPUNIT_TEST(testParseManyMappingGroups);
 	CPPUNIT_TEST(testParseMissingGroupName);
+	CPPUNIT_TEST(testParseMissingBeeeOnType);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testParseOneMappingGroup();
 	void testParseManyMappingGroups();
 	void testParseMissingGroupName();
+	void testParseMissingBeeeOnType();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(XmlTypeMappingParserTest);
@@ -140,6 +142,22 @@ void XmlTypeMappingParserTest::testParseManyMappingGroups()
 	const auto humidity = sequence2[0];
 	CPPUNIT_ASSERT_EQUAL("0x02", humidity.first);
 	CPPUNIT_ASSERT_EQUAL(ModuleType::Type::TYPE_HUMIDITY, humidity.second.type());
+}
+
+void XmlTypeMappingParserTest::testParseMissingBeeeOnType()
+{
+	istringstream buffer;
+	buffer.str(
+		"<test-mapping>\n"
+		"  <map comment='Temperature'>\n"
+		"    <iqrf id='0x01' />\n"
+		"    <beeeon />\n"
+		"  </map>\n"
+		"</test-mapping>\n"
+	);
+
+	TestableTypeMappingParser parser("test-mapping", "iqrf");
+	CPPUNIT_ASSERT_THROW(parser.parse(buffer), SyntaxException);
 }
 
 }
