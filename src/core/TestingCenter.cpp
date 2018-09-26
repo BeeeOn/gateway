@@ -4,8 +4,10 @@
 #include <Poco/NumberFormatter.h>
 #include <Poco/NumberParser.h>
 #include <Poco/StringTokenizer.h>
+#include <Poco/Net/IPAddress.h>
 
 #include "commands/DeviceAcceptCommand.h"
+#include "commands/DeviceSearchCommand.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
@@ -21,6 +23,7 @@
 #include "credentials/PinCredentials.h"
 #include "di/Injectable.h"
 #include "model/ModuleType.h"
+#include "net/MACAddress.h"
 #include "util/ArgsParser.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, TestingCenter)
@@ -36,6 +39,7 @@ BEEEON_OBJECT_END(BeeeOn, TestingCenter)
 using namespace std;
 using namespace Poco;
 using namespace Poco::Crypto;
+using namespace Poco::Net;
 using namespace BeeeOn;
 
 static string identifyAnswer(const Answer::Ptr p)
@@ -100,6 +104,23 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 			duration = Timespan(NumberParser::parse(args[2]) * Timespan::SECONDS);
 
 		return new GatewayListenCommand(duration);
+	}
+	else if (args[1] == "search") {
+		assureArgs(context, 4, "command search");
+
+		Timespan timeout(5 * Timespan::SECONDS);
+		if (args.size() > 5)
+			timeout = Timespan(NumberParser::parse(args[5]) * Timespan::SECONDS);
+
+		const auto prefix = DevicePrefix::parse(args[2]);
+		if (args[3] == "ip")
+			return new DeviceSearchCommand(prefix, IPAddress::parse(args[4]), timeout);
+		if (args[3] == "mac")
+			return new DeviceSearchCommand(prefix, MACAddress::parse(args[4]), timeout);
+		if (args[3] == "serial")
+			return new DeviceSearchCommand(prefix, NumberParser::parseUnsigned(args[4]), timeout);
+
+		throw InvalidArgumentException("unknown search type: " + args[3]);
 	}
 	else if (args[1] == "list-devices") {
 		assureArgs(context, 3, "command list-devices");
@@ -167,6 +188,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("  unpair <device-id>");
 		console.print("  set-value <device-id> <module-id> <value> [<timeout>]");
 		console.print("  listen [<timeout>]");
+		console.print("  search <device-prefix> ip|mac|serial <criteria> [<timeout>]");
 		console.print("  list-devices <device-prefix>");
 		console.print("  last-value <device-id> <module-id>");
 		console.print("  new-device <device-id> <vendor> <product-name> <refresh-time> "
