@@ -71,26 +71,54 @@ void DBusHciConnection::write(
 		const UUID& uuid,
 		const vector<unsigned char>& value)
 {
+	ScopedLock<FastMutex> lock(m_writeMutex);
+
 	if (logger().debug()) {
 		logger().debug("sending write request to device " + m_address.toString(':'),
 			__FILE__, __LINE__);
 	}
 
-	GlibPtr<OrgBluezGattCharacteristic1> characteristic = findGATTCharacteristic(uuid);
+	doWrite(uuid, value);
+}
+
+vector<unsigned char> DBusHciConnection::notifiedWrite(
+		const UUID& notifyUuid,
+		const UUID& writeUuid,
+		const vector<unsigned char>& value,
+		const Poco::Timespan& notifyTimeout)
+{
+	ScopedLock<FastMutex> lock(m_writeMutex);
+
+	if (logger().debug()) {
+		logger().debug("sending notified write request to device " + m_address.toString(':'),
+			__FILE__, __LINE__);
+	}
+
+	GlibPtr<OrgBluezGattCharacteristic1> characteristic = findGATTCharacteristic(notifyUuid);
 	if (characteristic.isNull())
-		throw NotFoundException("no such GATT characteristic " + uuid.toString());
+		throw NotFoundException("no such GATT characteristic " + notifyUuid.toString());
 
-	::g_dbus_proxy_set_default_timeout(G_DBUS_PROXY(characteristic.raw()), m_timeout.totalMilliseconds());
-
-	GVariant* data = ::g_variant_new_from_data(
-		G_VARIANT_TYPE("ay"), &value[0], value.size(), true, nullptr, nullptr);
-	GVariantBuilder args;
-	::g_variant_builder_init(&args, G_VARIANT_TYPE("a{sv}"));
 	GlibPtr<GError> error;
-	::org_bluez_gatt_characteristic1_call_write_value_sync(
-		characteristic.raw(), data, ::g_variant_builder_end(&args), nullptr, &error);
-
+	::org_bluez_gatt_characteristic1_call_start_notify_sync(characteristic.raw(), nullptr, &error);
 	throwErrorIfAny(error);
+
+	pair<Event, vector<unsigned char>> callbackData;
+	uint64_t handle = ::g_signal_connect(
+		characteristic.raw(),
+		"g-properties-changed",
+		G_CALLBACK(onCharacteristicValueChanged),
+		&callbackData);
+
+	doWrite(writeUuid, value);
+	bool success = callbackData.first.tryWait(notifyTimeout.totalMilliseconds());
+
+	::org_bluez_gatt_characteristic1_call_stop_notify_sync(characteristic.raw(), nullptr, nullptr);
+	::g_signal_handler_disconnect(characteristic.raw(), handle);
+
+	if (!success)
+		throw TimeoutException("failed to obtain notifying data from " + m_address.toString());
+
+	return callbackData.second;
 }
 
 void DBusHciConnection::resolveServices()
@@ -120,6 +148,27 @@ void DBusHciConnection::resolveServices()
 		throw TimeoutException("resolving of services failed");
 }
 
+void DBusHciConnection::doWrite(
+		const Poco::UUID& uuid,
+		const std::vector<unsigned char>& value)
+{
+	GlibPtr<OrgBluezGattCharacteristic1> characteristic = findGATTCharacteristic(uuid);
+	if (characteristic.isNull())
+		throw NotFoundException("no such GATT characteristic " + uuid.toString());
+
+	::g_dbus_proxy_set_default_timeout(G_DBUS_PROXY(characteristic.raw()), m_timeout.totalMilliseconds());
+
+	GVariant* data = ::g_variant_new_from_data(
+		G_VARIANT_TYPE("ay"), &value[0], value.size(), true, nullptr, nullptr);
+	GVariantBuilder args;
+	::g_variant_builder_init(&args, G_VARIANT_TYPE("a{sv}"));
+	GlibPtr<GError> error;
+	::org_bluez_gatt_characteristic1_call_write_value_sync(
+		characteristic.raw(), data, ::g_variant_builder_end(&args), nullptr, &error);
+
+	throwErrorIfAny(error);
+}
+
 gboolean DBusHciConnection::onDeviceServicesResolved(
 		OrgBluezDevice1*,
 		GVariant* properties,
@@ -138,6 +187,38 @@ gboolean DBusHciConnection::onDeviceServicesResolved(
 	while (::g_variant_iter_loop(iter, "{&sv}", &key, &value)) {
 		if (string(key) == "ServicesResolved") {
 			resolved.set();
+
+			break;
+		}
+	}
+
+	return true;
+}
+
+gboolean DBusHciConnection::onCharacteristicValueChanged(
+		OrgBluezGattCharacteristic1*,
+		GVariant* properties,
+		const gchar* const*,
+		gpointer userData)
+{
+	if (::g_variant_n_children(properties) == 0)
+		return true;
+
+	GVariantIter* iter;
+	const char* property;
+	GVariant* value;
+	pair<Event, vector<unsigned char>> &callbackData =
+		*(reinterpret_cast<pair<Event, vector<unsigned char>>*>(userData));
+
+	::g_variant_get(properties, "a{sv}", &iter);
+	while (::g_variant_iter_loop(iter, "{&sv}", &property, &value)) {
+		if (string(property) == "Value") {
+			gsize size = 0;
+			const unsigned char* data = reinterpret_cast<const unsigned char*>(
+				::g_variant_get_fixed_array(value, &size, sizeof(unsigned char)));
+			vector<unsigned char> result(data, data + size);
+			callbackData.second = result;
+			callbackData.first.set();
 
 			break;
 		}
