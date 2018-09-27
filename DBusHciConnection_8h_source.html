@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-85-ga6769ea</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -57,69 +57,89 @@
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/UUID.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;bluetooth/GlibPtr.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;bluetooth/HciConnection.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;bluetooth/org-bluez-device1.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;bluetooth/org-bluez-gattcharacteristic1.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;net/MACAddress.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1DBusHciConnection.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1DBusHciConnection.html">DBusHciConnection</a>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1HciConnection.html">HciConnection</a>,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;DBusHciConnection&gt; Ptr;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classBeeeOn_1_1DBusHciConnection.html">DBusHciConnection</a>(</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="keyword">const</span> std::string&amp; hciName,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezDevice1&gt;</a> device,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        ~<a class="code" href="classBeeeOn_1_1DBusHciConnection.html">DBusHciConnection</a>();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        std::vector&lt;unsigned char&gt; <a class="code" href="classBeeeOn_1_1DBusHciConnection.html#a839c5f09c489eceabb86ef04f5a03577">read</a>(<span class="keyword">const</span> Poco::UUID&amp; uuid) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1DBusHciConnection.html#aca1e3406df4347f4ecfc82fad712ad5b">write</a>(</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; uuid,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">static</span> gboolean onDeviceServicesResolved(</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                OrgBluezDevice1* device,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                GVariant* properties,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keyword">const</span> gchar* <span class="keyword">const</span>* invalidatedProperties,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                gpointer userData);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> disconnect();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">void</span> resolveServices();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezGattCharacteristic1&gt;</a> findGATTCharacteristic(</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; uuid);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezGattCharacteristic1&gt;</a> retrieveBluezGATTCharacteristic(</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keyword">const</span> std::string&amp; path);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        std::string m_hciName;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezDevice1&gt;</a> m_device;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> m_address;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        Poco::Timespan m_timeout;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Poco/Mutex.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/UUID.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;bluetooth/GlibPtr.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;bluetooth/HciConnection.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;bluetooth/org-bluez-device1.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;bluetooth/org-bluez-gattcharacteristic1.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;net/MACAddress.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1DBusHciConnection.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1DBusHciConnection.html">DBusHciConnection</a>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1HciConnection.html">HciConnection</a>,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;DBusHciConnection&gt; Ptr;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classBeeeOn_1_1DBusHciConnection.html">DBusHciConnection</a>(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keyword">const</span> std::string&amp; hciName,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezDevice1&gt;</a> device,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        ~<a class="code" href="classBeeeOn_1_1DBusHciConnection.html">DBusHciConnection</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::vector&lt;unsigned char&gt; <a class="code" href="classBeeeOn_1_1DBusHciConnection.html#a839c5f09c489eceabb86ef04f5a03577">read</a>(<span class="keyword">const</span> Poco::UUID&amp; uuid) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1DBusHciConnection.html#aca1e3406df4347f4ecfc82fad712ad5b">write</a>(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; uuid,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        std::vector&lt;unsigned char&gt; <a class="code" href="classBeeeOn_1_1DBusHciConnection.html#a278859c684ad8b3c5941fbadd6899a24">notifiedWrite</a>(</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; notifyUuid,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; writeUuid,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; value,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; notifyTimeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">static</span> gboolean onDeviceServicesResolved(</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                OrgBluezDevice1* device,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                GVariant* properties,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keyword">const</span> gchar* <span class="keyword">const</span>* invalidatedProperties,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                gpointer userData);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">static</span> gboolean onCharacteristicValueChanged(</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                OrgBluezGattCharacteristic1*,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                GVariant* properties,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keyword">const</span> gchar* <span class="keyword">const</span>*,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                gpointer userData);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">void</span> disconnect();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">void</span> resolveServices();</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordtype">void</span> doWrite(</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; uuid,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; value);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezGattCharacteristic1&gt;</a> findGATTCharacteristic(</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keyword">const</span> Poco::UUID&amp; uuid);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezGattCharacteristic1&gt;</a> retrieveBluezGATTCharacteristic(</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        std::string m_hciName;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <a class="code" href="classBeeeOn_1_1GlibPtr.html">GlibPtr&lt;OrgBluezDevice1&gt;</a> m_device;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> m_address;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        Poco::Timespan m_timeout;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        Poco::FastMutex m_writeMutex;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;};</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1DBusHciConnection_html_a839c5f09c489eceabb86ef04f5a03577"><div class="ttname"><a href="classBeeeOn_1_1DBusHciConnection.html#a839c5f09c489eceabb86ef04f5a03577">BeeeOn::DBusHciConnection::read</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; read(const Poco::UUID &amp;uuid) override</div><div class="ttdoc">Reads value from the GATT characteristic defined by UUID. </div><div class="ttdef"><b>Definition:</b> DBusHciConnection.cpp:40</div></div>
 <div class="ttc" id="classBeeeOn_1_1GlibPtr_html"><div class="ttname"><a href="classBeeeOn_1_1GlibPtr.html">BeeeOn::GlibPtr&lt; OrgBluezDevice1 &gt;</a></div></div>
 <div class="ttc" id="classBeeeOn_1_1MACAddress_html"><div class="ttname"><a href="classBeeeOn_1_1MACAddress.html">BeeeOn::MACAddress</a></div><div class="ttdef"><b>Definition:</b> MACAddress.h:8</div></div>
 <div class="ttc" id="classBeeeOn_1_1HciConnection_html"><div class="ttname"><a href="classBeeeOn_1_1HciConnection.html">BeeeOn::HciConnection</a></div><div class="ttdoc">The interface class represents connection with BLE device. </div><div class="ttdef"><b>Definition:</b> HciConnection.h:16</div></div>
 <div class="ttc" id="classBeeeOn_1_1DBusHciConnection_html_aca1e3406df4347f4ecfc82fad712ad5b"><div class="ttname"><a href="classBeeeOn_1_1DBusHciConnection.html#aca1e3406df4347f4ecfc82fad712ad5b">BeeeOn::DBusHciConnection::write</a></div><div class="ttdeci">void write(const Poco::UUID &amp;uuid, const std::vector&lt; unsigned char &gt; &amp;value) override</div><div class="ttdoc">Writes value to the GATT characteristic defined by UUID. </div><div class="ttdef"><b>Definition:</b> DBusHciConnection.cpp:70</div></div>
-<div class="ttc" id="classBeeeOn_1_1DBusHciConnection_html"><div class="ttname"><a href="classBeeeOn_1_1DBusHciConnection.html">BeeeOn::DBusHciConnection</a></div><div class="ttdoc">The class represents connection with Bluetooth Low energy device. It allows sending read/write reques...</div><div class="ttdef"><b>Definition:</b> DBusHciConnection.h:23</div></div>
+<div class="ttc" id="classBeeeOn_1_1DBusHciConnection_html"><div class="ttname"><a href="classBeeeOn_1_1DBusHciConnection.html">BeeeOn::DBusHciConnection</a></div><div class="ttdoc">The class represents connection with Bluetooth Low energy device. It allows sending read/write reques...</div><div class="ttdef"><b>Definition:</b> DBusHciConnection.h:24</div></div>
+<div class="ttc" id="classBeeeOn_1_1DBusHciConnection_html_a278859c684ad8b3c5941fbadd6899a24"><div class="ttname"><a href="classBeeeOn_1_1DBusHciConnection.html#a278859c684ad8b3c5941fbadd6899a24">BeeeOn::DBusHciConnection::notifiedWrite</a></div><div class="ttdeci">std::vector&lt; unsigned char &gt; notifiedWrite(const Poco::UUID &amp;notifyUuid, const Poco::UUID &amp;writeUuid, const std::vector&lt; unsigned char &gt; &amp;value, const Poco::Timespan &amp;notifyTimeout) override</div><div class="ttdoc">The method starts notifying the characteristic given by notifyUuid. The callback is connected to sign...</div><div class="ttdef"><b>Definition:</b> DBusHciConnection.cpp:84</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

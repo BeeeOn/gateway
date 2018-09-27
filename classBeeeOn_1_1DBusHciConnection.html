@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-85-ga6769ea</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -100,12 +100,19 @@ std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bo
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciConnection.html#aca1e3406df4347f4ecfc82fad712ad5b">write</a> (const Poco::UUID &amp;uuid, const std::vector&lt; unsigned char &gt; &amp;value) override</td></tr>
 <tr class="memdesc:aca1e3406df4347f4ecfc82fad712ad5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes value to the GATT characteristic defined by UUID. <br/></td></tr>
 <tr class="separator:aca1e3406df4347f4ecfc82fad712ad5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a278859c684ad8b3c5941fbadd6899a24"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a278859c684ad8b3c5941fbadd6899a24"></a>
+std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciConnection.html#a278859c684ad8b3c5941fbadd6899a24">notifiedWrite</a> (const Poco::UUID &amp;notifyUuid, const Poco::UUID &amp;writeUuid, const std::vector&lt; unsigned char &gt; &amp;value, const Poco::Timespan &amp;notifyTimeout) override</td></tr>
+<tr class="memdesc:a278859c684ad8b3c5941fbadd6899a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">The method starts notifying the characteristic given by notifyUuid. The callback is connected to signal property changed of the notifying characteristic. Then the given data are sent to the characteristic defined by writeUuid. After that it waits for a maximum of notifyTimeout for the data to be recieved. <br/></td></tr>
+<tr class="separator:a278859c684ad8b3c5941fbadd6899a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
 <tr class="memitem:ad6de9ec72b17881c546a3d0356fc0276"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6de9ec72b17881c546a3d0356fc0276"></a>
 static gboolean&#160;</td><td class="memItemRight" valign="bottom"><b>onDeviceServicesResolved</b> (OrgBluezDevice1 *device, GVariant *properties, const gchar *const *invalidatedProperties, gpointer userData)</td></tr>
 <tr class="separator:ad6de9ec72b17881c546a3d0356fc0276"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8d59cd1ef87593cded4324a97c95243"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8d59cd1ef87593cded4324a97c95243"></a>
+static gboolean&#160;</td><td class="memItemRight" valign="bottom"><b>onCharacteristicValueChanged</b> (OrgBluezGattCharacteristic1 *, GVariant *properties, const gchar *const *, gpointer userData)</td></tr>
+<tr class="separator:ad8d59cd1ef87593cded4324a97c95243"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents connection with Bluetooth Low energy device. It allows sending read/write requests. </p>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-85-ga6769ea</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,27 +71,29 @@
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html">   50</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html">XmlTypeMappingParserHelper</a> : <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#aa321af11f605ab438618016da33fe0c5">XmlTypeMappingParserHelper</a>(</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keyword">const</span> std::string &amp;techNode,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                Poco::Logger &amp;logger);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#ab056af8a7d8808fe6adaf05411846410">parseDOM</a>(std::istream &amp;in);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        std::pair&lt;Poco::AutoPtr&lt;Poco::XML::Node&gt;, <a class="code" href="classBeeeOn_1_1ModuleType.html">ModuleType</a>&gt; <a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a726adbeee47336b7c4862b2c63b85bfc">next</a>();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        std::string m_techNode;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        Poco::AutoPtr&lt;Poco::XML::Document&gt; m_document;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        Poco::SharedPtr&lt;Poco::XML::NodeIterator&gt; m_iterator;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;};</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a6ddcfdf2e4f667275b331317e721d675">XmlTypeMappingParserHelper</a>(</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keyword">const</span> std::string &amp;mappingGroup,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keyword">const</span> std::string &amp;techNode,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                Poco::Logger &amp;logger);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#ab056af8a7d8808fe6adaf05411846410">parseDOM</a>(std::istream &amp;in);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        std::pair&lt;Poco::AutoPtr&lt;Poco::XML::Node&gt;, <a class="code" href="classBeeeOn_1_1ModuleType.html">ModuleType</a>&gt; <a class="code" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a726adbeee47336b7c4862b2c63b85bfc">next</a>();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        std::string m_mappingGroup;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        std::string m_techNode;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        Poco::AutoPtr&lt;Poco::XML::Document&gt; m_document;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        Poco::SharedPtr&lt;Poco::XML::NodeIterator&gt; m_iterator;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html_ab056af8a7d8808fe6adaf05411846410"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#ab056af8a7d8808fe6adaf05411846410">BeeeOn::XmlTypeMappingParserHelper::parseDOM</a></div><div class="ttdeci">void parseDOM(std::istream &amp;in)</div><div class="ttdoc">Parse the given input stream and create its DOM representation internally. </div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.cpp:25</div></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html_ab056af8a7d8808fe6adaf05411846410"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#ab056af8a7d8808fe6adaf05411846410">BeeeOn::XmlTypeMappingParserHelper::parseDOM</a></div><div class="ttdeci">void parseDOM(std::istream &amp;in)</div><div class="ttdoc">Parse the given input stream and create its DOM representation internally. </div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.cpp:27</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleType_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleType.html">BeeeOn::ModuleType</a></div><div class="ttdef"><b>Definition:</b> ModuleType.h:18</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
-<div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html_aa321af11f605ab438618016da33fe0c5"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#aa321af11f605ab438618016da33fe0c5">BeeeOn::XmlTypeMappingParserHelper::XmlTypeMappingParserHelper</a></div><div class="ttdeci">XmlTypeMappingParserHelper(const std::string &amp;techNode, Poco::Logger &amp;logger)</div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.cpp:17</div></div>
-<div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html_a726adbeee47336b7c4862b2c63b85bfc"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a726adbeee47336b7c4862b2c63b85bfc">BeeeOn::XmlTypeMappingParserHelper::next</a></div><div class="ttdeci">std::pair&lt; Poco::AutoPtr&lt; Poco::XML::Node &gt;, ModuleType &gt; next()</div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.cpp:35</div></div>
+<div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html_a6ddcfdf2e4f667275b331317e721d675"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a6ddcfdf2e4f667275b331317e721d675">BeeeOn::XmlTypeMappingParserHelper::XmlTypeMappingParserHelper</a></div><div class="ttdeci">XmlTypeMappingParserHelper(const std::string &amp;mappingGroup, const std::string &amp;techNode, Poco::Logger &amp;logger)</div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.cpp:17</div></div>
+<div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html_a726adbeee47336b7c4862b2c63b85bfc"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a726adbeee47336b7c4862b2c63b85bfc">BeeeOn::XmlTypeMappingParserHelper::next</a></div><div class="ttdeci">std::pair&lt; Poco::AutoPtr&lt; Poco::XML::Node &gt;, ModuleType &gt; next()</div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.cpp:37</div></div>
 <div class="ttc" id="classBeeeOn_1_1XmlTypeMappingParserHelper_html"><div class="ttname"><a href="classBeeeOn_1_1XmlTypeMappingParserHelper.html">BeeeOn::XmlTypeMappingParserHelper</a></div><div class="ttdoc">Helper defining method for parsing an input stream as an XML input. The purpose is to extract informa...</div><div class="ttdef"><b>Definition:</b> XmlTypeMappingParserHelper.h:50</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

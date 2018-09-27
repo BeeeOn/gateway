@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-72-g29a3074</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-85-ga6769ea</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -74,8 +74,8 @@ Inheritance diagram for BeeeOn::XmlTypeMappingParserHelper:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa321af11f605ab438618016da33fe0c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#aa321af11f605ab438618016da33fe0c5">XmlTypeMappingParserHelper</a> (const std::string &amp;techNode, Poco::Logger &amp;logger)</td></tr>
-<tr class="separator:aa321af11f605ab438618016da33fe0c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ddcfdf2e4f667275b331317e721d675"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#a6ddcfdf2e4f667275b331317e721d675">XmlTypeMappingParserHelper</a> (const std::string &amp;mappingGroup, const std::string &amp;techNode, Poco::Logger &amp;logger)</td></tr>
+<tr class="separator:a6ddcfdf2e4f667275b331317e721d675"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab056af8a7d8808fe6adaf05411846410"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab056af8a7d8808fe6adaf05411846410"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1XmlTypeMappingParserHelper.html#ab056af8a7d8808fe6adaf05411846410">parseDOM</a> (std::istream &amp;in)</td></tr>
 <tr class="memdesc:ab056af8a7d8808fe6adaf05411846410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the given input stream and create its DOM representation internally. <br/></td></tr>
@@ -106,13 +106,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   &lt;/some-root&gt;
 </pre><p>The parser does not care about the depth of element <code>&lt;map&gt;</code>. The <code>&lt;TECH-SPEC /&gt;</code> element is unknown to the helper but it MUST be the previous sibling of the <code>&lt;beeeon&gt;</code> element. <code>TECH-ATTR</code> is technology-specific attribute that the parser does not take care of either. The element <code>&lt;beeeon&gt;</code> specifies the BeeeOn type to map to. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa321af11f605ab438618016da33fe0c5"></a>
+<a class="anchor" id="a6ddcfdf2e4f667275b331317e721d675"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">XmlTypeMappingParserHelper::XmlTypeMappingParserHelper </td>
           <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>mappingGroup</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>techNode</em>, </td>
         </tr>
