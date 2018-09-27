@@ -82,6 +82,14 @@ if(BLUETOOTH)
 	endif()
 endif()
 
+if(ENABLE_JABLOTRON)
+	file(GLOB JABLOTRON_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadgetTest.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronReportTest.cpp
+	)
+	list(APPEND TEST_SOURCES ${JABLOTRON_TEST_SOURCES})
+endif()
+
 if(ENABLE_VPT)
 	file(GLOB VPT_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/vpt/VPTDeviceTest.cpp

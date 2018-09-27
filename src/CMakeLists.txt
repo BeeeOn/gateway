@@ -247,15 +247,10 @@ endif()
 
 if(ENABLE_JABLOTRON)
 	file(GLOB JABLOTRON_SOURCES
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDevice.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceAC88.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA82SH.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA83P.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceJA85ST.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronController.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceManager.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceOpenClose.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceRC86K.cpp
-		${PROJECT_SOURCE_DIR}/jablotron/JablotronDeviceTP82N.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadget.cpp
+		${PROJECT_SOURCE_DIR}/jablotron/JablotronReport.cpp
 	)
 	list(APPEND SOURCES ${JABLOTRON_SOURCES})
 else()
