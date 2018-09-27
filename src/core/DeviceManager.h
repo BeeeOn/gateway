@@ -257,31 +257,6 @@ protected:
 	void ship(const SensorData &sensorData);
 
 	/**
-	 * Obtain device list from server, method is blocking/non-blocking.
-	 * Type of blocking is divided on the basis of timeout.
-	 * Blocking waiting returns device list from server and non-blocking
-	 * waiting returns device list from server or TimeoutException.
-	 */
-	[[deprecated("use DeviceFetcher instead")]]
-	std::set<DeviceID> deviceList(
-		const Poco::Timespan &timeout = DEFAULT_REQUEST_TIMEOUT);
-
-	/**
-	 * Obtain Answer with Results which contains last measured value
-	 * from server, method is blocking/non-blocking. Type of blocking
-	 * is divided on the basis of timeout.
-	 * Blocking waiting returns Answer with last measured value result
-	 * from server and non-blocking waiting returns Answer with last
-	 * measured value result from server or TimeoutException.
-	 *
-	 * If Answer contains several Results, the first Result SUCCESS will
-	 * be selected.
-	 */
-	[[deprecated("use DeviceFetcher instead")]]
-	double lastValue(const DeviceID &deviceID, const ModuleID &moduleID,
-		const Poco::Timespan &waitTime = DEFAULT_REQUEST_TIMEOUT);
-
-	/**
 	 * @returns the underlying DeviceCache instance
 	 */
 	DeviceCache::Ptr deviceCache() const;
@@ -319,16 +294,7 @@ protected:
 		AnyAsyncWork::Ptr work,
 		const Poco::Timespan &timeout);
 
-private:
-	[[deprecated("use DeviceFetcher instead")]]
-	void requestDeviceList(Answer::Ptr answer);
-	[[deprecated("use DeviceFetcher instead")]]
-	std::set<DeviceID> responseDeviceList(
-		const Poco::Timespan &waitTime, Answer::Ptr answer);
-
 protected:
-	static const Poco::Timespan DEFAULT_REQUEST_TIMEOUT;
-
 	StopControl m_stopControl;
 
 private:
