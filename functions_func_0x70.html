@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-rc4-85-ga6769ea</span>
+   &#160;<span id="projectnumber">v2018.07.1-rc4-91-gd00fa09</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -105,13 +105,14 @@
 : <a class="el" href="classBeeeOn_1_1SAXHelper.html#aa06d2238824c569541ccd687a2ca8dff">BeeeOn::SAXHelper</a>
 </li>
 <li>parse()
-: <a class="el" href="classBeeeOn_1_1TimespanParser.html#a68f05e30872b1d21beb8aa7f349de8c6">BeeeOn::TimespanParser</a>
+: <a class="el" href="classBeeeOn_1_1XmlTypeMappingParser.html#a264cc5c89ed1f85183bd095c5a8d439e">BeeeOn::XmlTypeMappingParser&lt; TechType &gt;</a>
+, <a class="el" href="classBeeeOn_1_1TimespanParser.html#a68f05e30872b1d21beb8aa7f349de8c6">BeeeOn::TimespanParser</a>
 , <a class="el" href="classBeeeOn_1_1IQRFJsonMessage.html#a0c5c60bb3b5dfcfad2c17ac49e424044">BeeeOn::IQRFJsonMessage</a>
+, <a class="el" href="structBeeeOn_1_1JablotronGadget_1_1Info.html#a27a8400ad4cab9097eac93ccafa7fd5f">BeeeOn::JablotronGadget::Info</a>
 , <a class="el" href="classBeeeOn_1_1ChecksumSensorDataParser.html#a2187fc807c4ee06e4835bca049205291">BeeeOn::ChecksumSensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1JSONSensorDataParser.html#a916c2c6a300ff6111ecd8e37d52733ca">BeeeOn::JSONSensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1SensorDataParser.html#a4501551e87afe3f15b7628f8c329c730">BeeeOn::SensorDataParser</a>
 , <a class="el" href="classBeeeOn_1_1TypeMappingParser.html#a6e7fb8aeb0c8d49c8937c8e73bcce0ec">BeeeOn::TypeMappingParser&lt; TechType &gt;</a>
-, <a class="el" href="classBeeeOn_1_1XmlTypeMappingParser.html#a264cc5c89ed1f85183bd095c5a8d439e">BeeeOn::XmlTypeMappingParser&lt; TechType &gt;</a>
 </li>
 <li>parseAdvertisingData()
 : <a class="el" href="classBeeeOn_1_1BeeWiSmartClim.html#af4a287aa3a9e1b9b4c350c3a7023b29e">BeeeOn::BeeWiSmartClim</a>
@@ -152,9 +153,6 @@
 : <a class="el" href="classBeeeOn_1_1XmlTypeMappingParser.html#a59f7736bcd5cceb1173444462c3a5402">BeeeOn::XmlTypeMappingParser&lt; TechType &gt;</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveTypeMappingParser.html#acea388b7769e84bc8bd5fb9795cc3499">BeeeOn::ZWaveTypeMappingParser</a>
 </li>
-<li>parseValue()
-: <a class="el" href="classBeeeOn_1_1JablotronDevice.html#a54f10dd1f4fe485853d5821c466083c8">BeeeOn::JablotronDevice</a>
-</li>
 <li>parseValues()
 : <a class="el" href="classBeeeOn_1_1BeeWiSmartWatt.html#a9c347353acb2180a9ede6723abc1f20b">BeeeOn::BeeWiSmartWatt</a>
 , <a class="el" href="classBeeeOn_1_1RevogiDevice.html#ae7b6a5d4c8ea625c0170a584239b5c6c">BeeeOn::RevogiDevice</a>
@@ -186,10 +184,19 @@
 <li>pollForEvents()
 : <a class="el" href="classBeeeOn_1_1PipeHotplugMonitor.html#a531af3a32f15d761a5de9f0fc0715030">BeeeOn::PipeHotplugMonitor</a>
 </li>
+<li>pollReport()
+: <a class="el" href="classBeeeOn_1_1JablotronController.html#a93bfa5d5aa4387fe72cca53c2df96a5e">BeeeOn::JablotronController</a>
+</li>
 <li>pop()
 : <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a1f15643ac34c0e8ff9cdaecf9c2caf3d">BeeeOn::InMemoryQueuingStrategy</a>
 , <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a307b2cd8561111fb1b6c9df04ca3e183">BeeeOn::JournalQueuingStrategy</a>
 , <a class="el" href="classBeeeOn_1_1QueuingStrategy.html#a5cdedc9444396cb5c3942aef4bc04c5b">BeeeOn::QueuingStrategy</a>
+</li>
+<li>popReport()
+: <a class="el" href="classBeeeOn_1_1JablotronController.html#ade142ce52040158527a5fc7279e076af">BeeeOn::JablotronController</a>
+</li>
+<li>popResponse()
+: <a class="el" href="classBeeeOn_1_1JablotronController.html#a4967ecde9a5454cee94493aca88cb1e4">BeeeOn::JablotronController</a>
 </li>
 <li>postValue()
 : <a class="el" href="classBeeeOn_1_1OZWNetwork.html#ad49d1ca6017e38bc4447adfd8b176b3e">BeeeOn::OZWNetwork</a>
@@ -211,22 +218,29 @@
 <li>prescanBuffers()
 : <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#a2c3642bf5d270ad9b8d4b9fdfe2bc04c">BeeeOn::JournalQueuingStrategy</a>
 </li>
+<li>primaryAddress()
+: <a class="el" href="structBeeeOn_1_1JablotronGadget_1_1Info.html#a66a96484af87fc7bb5e87016c1fb8d9a">BeeeOn::JablotronGadget::Info</a>
+</li>
 <li>print()
-: <a class="el" href="classBeeeOn_1_1SimpleConsole.html#a7d53ace25f091e309e00d7990842657f">BeeeOn::SimpleConsole</a>
-, <a class="el" href="classBeeeOn_1_1StreamConsoleSessionImpl.html#ae99babbba87f1694208d0dfaf1c206ce">BeeeOn::StreamConsoleSessionImpl</a>
-, <a class="el" href="classBeeeOn_1_1TCPConsoleSessionImpl.html#a6cb92375627160762e33e52c8d6b53be">BeeeOn::TCPConsoleSessionImpl</a>
-, <a class="el" href="classBeeeOn_1_1Console_1_1ClosedConsoleSessionImpl.html#aca26a50feeb825ba8529b4147f8433ba">BeeeOn::Console::ClosedConsoleSessionImpl</a>
+: <a class="el" href="classBeeeOn_1_1ConsoleSessionImpl.html#a967a059a0e12041713ba19a5f0a9857f">BeeeOn::ConsoleSessionImpl</a>
 , <a class="el" href="classBeeeOn_1_1ConsoleSession.html#a936329a1a0a7e63905040fe2bc647012">BeeeOn::ConsoleSession</a>
-, <a class="el" href="classBeeeOn_1_1ConsoleSessionImpl.html#a967a059a0e12041713ba19a5f0a9857f">BeeeOn::ConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1Console_1_1ClosedConsoleSessionImpl.html#aca26a50feeb825ba8529b4147f8433ba">BeeeOn::Console::ClosedConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1StreamConsoleSessionImpl.html#ae99babbba87f1694208d0dfaf1c206ce">BeeeOn::StreamConsoleSessionImpl</a>
+, <a class="el" href="classBeeeOn_1_1SimpleConsole.html#a7d53ace25f091e309e00d7990842657f">BeeeOn::SimpleConsole</a>
+, <a class="el" href="classBeeeOn_1_1TCPConsoleSessionImpl.html#a6cb92375627160762e33e52c8d6b53be">BeeeOn::TCPConsoleSessionImpl</a>
 </li>
 <li>probe()
 : <a class="el" href="classBeeeOn_1_1ZWaveSerialProber.html#a1c2c450fe37bd9b111e405656a585c2f">BeeeOn::ZWaveSerialProber</a>
+, <a class="el" href="classBeeeOn_1_1JablotronController.html#a754ab9049a184fe535e4160c67aea340">BeeeOn::JablotronController</a>
 </li>
 <li>probeAddressRange()
 : <a class="el" href="classBeeeOn_1_1AbstractHTTPScanner.html#a9f1f3619c2f7cafe51f2048d64f3049c">BeeeOn::AbstractHTTPScanner</a>
 </li>
 <li>probeInterface()
 : <a class="el" href="classBeeeOn_1_1AbstractHTTPScanner.html#a70d576fb34911bde8adf779e4cb2d741">BeeeOn::AbstractHTTPScanner</a>
+</li>
+<li>probePort()
+: <a class="el" href="classBeeeOn_1_1JablotronController.html#a858b2d35b99354d997eec782d2b7a480">BeeeOn::JablotronController</a>
 </li>
 <li>processAnswer()
 : <a class="el" href="classBeeeOn_1_1DeviceStatusFetcher.html#a2f485034eaa75409e2a7471f322dfc38">BeeeOn::DeviceStatusFetcher</a>
@@ -246,6 +260,9 @@
 <li>processManufacturerData()
 : <a class="el" href="classBeeeOn_1_1DBusHciInterface.html#adc95960434e783311bd3ad11c8c32996">BeeeOn::DBusHciInterface</a>
 </li>
+<li>processMessage()
+: <a class="el" href="classBeeeOn_1_1JablotronController.html#a566ef4d6b603cd8da5554378760c512b">BeeeOn::JablotronController</a>
+</li>
 <li>processNewDevice()
 : <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a7c7e90258ab714dc1f1807409748dee1">BeeeOn::VPTDeviceManager</a>
 </li>
@@ -254,8 +271,8 @@
 </li>
 <li>product()
 : <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a1175309e8718cc4af567d60a0e235bf4">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveNode.html#accf81c781ae661f870cce0559eb49570">BeeeOn::ZWaveNode</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#afdf388f01d2ae10976c0861fcff6d2b5">BeeeOn::ZWaveMapperRegistry::Mapper</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveNode.html#accf81c781ae661f870cce0559eb49570">BeeeOn::ZWaveNode</a>
 </li>
 <li>productId()
 : <a class="el" href="classBeeeOn_1_1ZWaveNode.html#a534f3cb110f3f0642798b58c9a4f26b5">BeeeOn::ZWaveNode</a>
@@ -267,9 +284,9 @@
 : <a class="el" href="classBeeeOn_1_1MosquittoClient.html#a2fc2d948583ca1f62a1368e74c30d59b">BeeeOn::MosquittoClient</a>
 </li>
 <li>push()
-: <a class="el" href="classBeeeOn_1_1QueuingStrategy.html#a8b8057b6691239c0b7902291f4b6286b">BeeeOn::QueuingStrategy</a>
-, <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#abe8b64d8ab42742c1ffe0c82f61717b7">BeeeOn::JournalQueuingStrategy</a>
+: <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#abe8b64d8ab42742c1ffe0c82f61717b7">BeeeOn::JournalQueuingStrategy</a>
 , <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a5326fa9fb873e857a017db30e76cdf88">BeeeOn::InMemoryQueuingStrategy</a>
+, <a class="el" href="classBeeeOn_1_1QueuingStrategy.html#a8b8057b6691239c0b7902291f4b6286b">BeeeOn::QueuingStrategy</a>
 </li>
 </ul>
 </div><!-- contents -->
