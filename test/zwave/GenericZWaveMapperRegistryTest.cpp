@@ -58,7 +58,7 @@ void GenericZWaveMapperRegistryTest::testResolveTempSensor()
 
 	std::istringstream typesMapping;
 	typesMapping.str(
-		"<mappings>\n"
+		"<z-wave-mapping>\n"
 		"  <map command='battery'>\n"
 		"    <z-wave command-class='128' />\n"
 		"    <beeeon type='battery' />\n"
@@ -67,7 +67,7 @@ void GenericZWaveMapperRegistryTest::testResolveTempSensor()
 		"    <z-wave command-class='49' index='1' />\n"
 		"    <beeeon type='temperature' />\n"
 		"  </map>\n"
-		"</mappings>\n"
+		"</z-wave-mapping>\n"
 	);
 	registry.loadTypesMapping(typesMapping);
 

@@ -13,7 +13,8 @@ using namespace Poco::XML;
 using namespace BeeeOn;
 
 ZWaveTypeMappingParser::ZWaveTypeMappingParser():
-	XmlTypeMappingParser<ZWaveType>("z-wave", Loggable::forClass(typeid(*this)))
+	XmlTypeMappingParser<ZWaveType>(
+		"z-wave-mapping", "z-wave", Loggable::forClass(typeid(*this)))
 {
 }
 

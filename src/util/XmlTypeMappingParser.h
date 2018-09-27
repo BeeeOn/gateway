@@ -17,7 +17,10 @@ namespace BeeeOn {
 template <typename TechType>
 class XmlTypeMappingParser : public TypeMappingParser<TechType>, protected Loggable {
 public:
-	XmlTypeMappingParser(const std::string &techNode, Poco::Logger &logger);
+	XmlTypeMappingParser(
+		const std::string &mappingGroup,
+		const std::string &techNode,
+		Poco::Logger &logger);
 
 	/**
 	 * @brief Parse the input stream as XML file via the XmlTypeMappingParserHelper.
@@ -44,9 +47,10 @@ private:
 
 template <typename TechType>
 XmlTypeMappingParser<TechType>::XmlTypeMappingParser(
+		const std::string &mappingGroup,
 		const std::string &techNode,
 		Poco::Logger &logger):
-	m_helper(techNode, logger)
+	m_helper(mappingGroup, techNode, logger)
 {
 }
 

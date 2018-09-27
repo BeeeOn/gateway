@@ -15,8 +15,10 @@ using namespace Poco::XML;
 using namespace BeeeOn;
 
 XmlTypeMappingParserHelper::XmlTypeMappingParserHelper(
+		const string &mappingGroup,
 		const string &techNode,
 		Logger &logger):
+	m_mappingGroup(mappingGroup),
 	m_techNode(techNode)
 {
 	setupLogger(&logger);
@@ -71,6 +73,20 @@ pair<AutoPtr<Node>, ModuleType> XmlTypeMappingParserHelper::next()
 			if (logger().trace()) {
 				logger().trace(
 					"skipping element beeeon with previous sibling '" + techNode->localName() + "'",
+					__FILE__, __LINE__);
+			}
+
+			continue;
+		}
+
+		const Node *mappingGroup = mapNode->parentNode();
+		if (mappingGroup == nullptr)
+			throw SyntaxException("missing mapping group element " + m_mappingGroup);
+
+		if (mappingGroup->localName() != m_mappingGroup) {
+			if (logger().trace()) {
+				logger().trace(
+					"missing element " + m_mappingGroup,
 					__FILE__, __LINE__);
 			}
 
