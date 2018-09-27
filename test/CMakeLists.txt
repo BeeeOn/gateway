@@ -66,20 +66,19 @@ file(GLOB TEST_SOURCES
 )
 
 if(BLUETOOTH)
-	list(APPEND LIBS ${BLUETOOTH})
-
 	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterfaceTest.cpp
 	)
-
-	list(APPEND TEST_SOURCES ${BLUETOOTH_SOURCES})
 
 	if(HAS_DBUS_BLUEZ)
 		file(GLOB DBUS_BLUEZ_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
 		)
-		list(APPEND TEST_SOURCES ${DBUS_BLUEZ_SOURCES})
 	endif()
+
+	add_library(BeeeOnBluetoothTest ${BLUETOOTH_SOURCES} ${DBUS_BLUEZ_SOURCES})
+	list(APPEND LIBS ${BLUETOOTH})
+	list(APPEND TEST_MODULE_LIBS BeeeOnBluetooth BeeeOnBluetoothTest)
 endif()
 
 if(ENABLE_JABLOTRON)
@@ -87,14 +86,21 @@ if(ENABLE_JABLOTRON)
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadgetTest.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronReportTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${JABLOTRON_TEST_SOURCES})
+
+	add_library(BeeeOnTurrisGadgetsTest ${JABLOTRON_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnTurrisGadgets BeeeOnTurrisGadgetsTest)
 endif()
 
 if(ENABLE_VPT)
 	file(GLOB VPT_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/vpt/VPTDeviceTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${VPT_TEST_SOURCES})
+	add_library(BeeeOnVPTTest ${VPT_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnVPT BeeeOnVPTTest)
+endif()
+
+if(ENABLE_PHILIPS_HUE)
+	list(APPEND TEST_MODULE_LIBS BeeeOnPhilipsHue) # dependency in LoggingCollector
 endif()
 
 if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
@@ -106,23 +112,26 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeTest.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParserTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${ZWAVE_TEST_SOURCES})
+	add_library(BeeeOnZWaveTest ${ZWAVE_TEST_SOURCES})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
+	list(APPEND TEST_MODULE_LIBS BeeeOnZWave BeeeOnZWaveOZW BeeeOnZWaveTest)
 endif()
 
 if(FITP_LIB AND ENABLE_FITP)
 	file(GLOB FITP_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${FITP_TEST_SOURCES})
+	add_library(BeeeOnFitpTest ${FITP_TEST_SOURCES})
 	list(APPEND LIBS ${FITP_LIB})
+	list(APPEND TEST_MODULE_LIBS BeeeOnFitp BeeeOnFitpTest)
 endif()
 
 if(ENABLE_BLE_SMART)
 	file(GLOB BLE_SMART_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BLESmartDeviceTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${BLE_SMART_TEST_SOURCES})
+	add_library(BeeeOnBLETest ${BLE_SMART_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnBLE BeeeOnBLETest)
 endif()
 
 if (ENABLE_IQRF)
@@ -131,7 +140,8 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessageTest.cpp
 	)
-	list(APPEND TEST_SOURCES ${IQRF_TEST_SOURCES})
+	add_library(BeeeOnIQRFTest ${IQRF_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest)
 endif()
 
 include_directories(
@@ -167,6 +177,7 @@ target_link_libraries(test-suite-gateway
 	BeeeOnGateway
 	BeeeOnBaseTest
 	BeeeOnBase
+	${TEST_MODULE_LIBS}
 	-Wl,--no-whole-archive
 	${LIBS}
 )

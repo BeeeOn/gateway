@@ -178,7 +178,8 @@ if(ENABLE_BELKIN_WEMO)
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoStandaloneDevice.cpp
 		${PROJECT_SOURCE_DIR}/belkin/BelkinWemoSwitch.cpp
 	)
-	list(APPEND SOURCES ${BELKIN_SOURCES})
+	add_library(BeeeOnBelkinWemo ${BELKIN_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBelkinWemo)
 else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
@@ -194,9 +195,8 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciUtil.cpp
 	)
-	list(APPEND SOURCES ${BLUETOOTH_SOURCES})
 	if(HAS_DBUS_BLUEZ)
-		list(APPEND SOURCES
+		list(APPEND BLUETOOTH_SOURCES
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-device1.c
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
@@ -208,6 +208,8 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 			PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter -Wno-pedantic"
 		)
 	endif()
+	add_library(BeeeOnBluetooth ${BLUETOOTH_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBluetooth)
 	add_definitions(-DHAVE_HCI=1)
 else()
 	message(STATUS "Bluetooth support is disabled")
@@ -218,7 +220,8 @@ if(BLUETOOTH AND ENABLE_BLUETOOTH_AVAILABILITY)
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothAvailabilityManager.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/BluetoothDevice.cpp
 	)
-	list(APPEND SOURCES ${BLUETOOTH_AVAILABILITY_SOURCES})
+	add_library(BeeeOnBluetoothAvailability ${BLUETOOTH_AVAILABILITY_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBluetoothAvailability)
 else()
 	message(STATUS "Bluetooth Avaibility support is disabled")
 endif()
@@ -240,7 +243,8 @@ if(BLUETOOTH AND ENABLE_BLE_SMART)
 		${PROJECT_SOURCE_DIR}/bluetooth/RevogiSmartPlug.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/TabuLumenSmartLite.cpp
 	)
-	list(APPEND SOURCES ${BLE_SMART_SOURCES})
+	add_library(BeeeOnBLE ${BLE_SMART_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnBLE)
 else()
 	message(STATUS "Bluetooth Low Energy Smart support is disabled")
 endif()
@@ -252,7 +256,8 @@ if(ENABLE_JABLOTRON)
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronGadget.cpp
 		${PROJECT_SOURCE_DIR}/jablotron/JablotronReport.cpp
 	)
-	list(APPEND SOURCES ${JABLOTRON_SOURCES})
+	add_library(BeeeOnTurrisGadgets ${JABLOTRON_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnTurrisGadgets)
 else()
 	message(STATUS "Jablotron support is disabled")
 endif()
@@ -266,7 +271,8 @@ if(ENABLE_PHILIPS_HUE)
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/philips/PhilipsHueDimmableBulb.cpp
 	)
-	list(APPEND SOURCES ${PHILIPS_SOURCES})
+	add_library(BeeeOnPhilipsHue ${PHILIPS_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnPhilipsHue)
 	add_definitions(-DHAVE_PHILIPS_HUE=1)
 else()
 	message(STATUS "Philips Hue support is disabled")
@@ -278,7 +284,8 @@ if(ENABLE_VIRTUAL_DEVICES)
 		${PROJECT_SOURCE_DIR}/vdev/VirtualDevice.cpp
 		${PROJECT_SOURCE_DIR}/vdev/VirtualDeviceManager.cpp
 	)
-	list(APPEND SOURCES ${VIRTUAL_DEVICES_SOURCES})
+	add_library(BeeeOnVDev ${VIRTUAL_DEVICES_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnVDev)
 else()
 	message(STATUS "Virtual Devices support is disabled")
 endif()
@@ -291,7 +298,8 @@ if(ENABLE_VPT)
 		${PROJECT_SOURCE_DIR}/vpt/VPTValuesParser.cpp
 		${PROJECT_SOURCE_DIR}/vpt/VPTZoneModuleType.cpp
 	)
-	list(APPEND SOURCES ${VPT_SOURCES})
+	add_library(BeeeOnVPT ${VPT_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnVPT)
 else()
 	message(STATUS "VPT support is disabled")
 endif()
@@ -314,8 +322,9 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveNodeEvent.cpp
 		${PROJECT_SOURCE_DIR}/zwave/ZWaveTypeMappingParser.cpp
 	)
-	list(APPEND SOURCES ${ZWAVE_SOURCES})
+	add_library(BeeeOnZWave ${ZWAVE_SOURCES})
 	add_definitions(-DHAVE_ZWAVE=1)
+	list(APPEND MODULE_LIBS BeeeOnZWave)
 endif()
 
 if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
@@ -325,7 +334,8 @@ if(OPENZWAVE_LIBRARY AND ENABLE_ZWAVE)
 		${PROJECT_SOURCE_DIR}/zwave/OZWPocoLoggerAdapter.cpp
 		${PROJECT_SOURCE_DIR}/zwave/OZWNotificationEvent.cpp
 	)
-	list(APPEND SOURCES ${OZW_SOURCES})
+	add_library(BeeeOnZWaveOZW ${OZW_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnZWaveOZW)
 	add_definitions(-DHAVE_OPENZWAVE=1)
 	include_directories(${OPENZWAVE_INCLUDE_DIR})
 	list(APPEND LIBS ${OPENZWAVE_LIBRARY})
@@ -339,7 +349,8 @@ if(MOSQUITTO_CPP)
 		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
 		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)
-	list(APPEND SOURCES ${MOSQUITTO_SUPPORT_SOURCES})
+	add_library(BeeeOnMosquitto ${MOSQUITTO_SUPPORT_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnMosquitto)
 	list(APPEND LIBS ${MOSQUITTO_CPP})
 else()
 	message(STATUS "Mosquitto support is disabled")
@@ -349,7 +360,8 @@ if (ENABLE_TESTING_CENTER)
 	file(GLOB TESTING_CENTER_SOURCES
 		${PROJECT_SOURCE_DIR}/core/TestingCenter.cpp
 	)
-	list(APPEND SOURCES ${TESTING_CENTER_SOURCES})
+	add_library(BeeeOnTestingCenter ${TESTING_CENTER_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnTestingCenter)
 else()
 	message(STATUS "Testing Center support is disabled")
 endif()
@@ -358,7 +370,8 @@ if (ENABLE_PRESSURE_SENSOR)
 	file(GLOB PRESSURE_SENSOR_SOURCES
 		${PROJECT_SOURCE_DIR}/psdev/PressureSensorManager.cpp
 	)
-	list(APPEND SOURCES ${PRESSURE_SENSOR_SOURCES})
+	add_library(BeeeOnPSDev ${PRESSURE_SENSOR_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnPSDev)
 else()
 	message(STATUS "Internal air pressure sensor support is disabled")
 endif()
@@ -368,7 +381,8 @@ if(FITP_LIB AND ENABLE_FITP)
 		${PROJECT_SOURCE_DIR}/fitp/FitpDevice.cpp
 		${PROJECT_SOURCE_DIR}/fitp/FitpDeviceManager.cpp
 	)
-	list(APPEND SOURCES ${FITP_SOURCES})
+	add_library(BeeeOnFitp ${FITP_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnFitp)
 	list(APPEND LIBS ${FITP_LIB})
 else()
 	message(STATUS "Fitp support is disabled")
@@ -396,7 +410,8 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPACoordRemoveNodeResponse.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/response/DPAOSPeripheralInfoResponse.cpp
 	)
-	list(APPEND SOURCES ${IQRF_SOURCES})
+	add_library(BeeeOnIQRF ${IQRF_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnIQRF)
 else()
 	message(STATUS "IQRF support is disabled")
 endif()
@@ -429,6 +444,7 @@ target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
 		BeeeOnGateway
 		BeeeOnBase
+		${MODULE_LIBS}
 		-Wl,--no-whole-archive
 		${LIBS}
 )
