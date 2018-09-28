@@ -13,6 +13,30 @@
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 		</instance>
 
+		<instance name="gwsLoopRunner" class="BeeeOn::LoopRunner">
+			<add name="runnables" ref="gwsEventsExecutor" />
+			<add name="runnables" ref="gwsConnector" />
+		</instance>
+
+		<instance name="gwsEventsExecutor" class="BeeeOn::SequentialAsyncExecutor">
+			<set name="stopTimeout" time="2 s" />
+		</instance>
+
+		<instance name="gwsConnector" class="BeeeOn::GWSConnectorImpl">
+			<set name="host" text="${gws.host}" />
+			<set name="port" number="${gws.port}" />
+			<set name="receiveTimeout" time="${gws.receiveTimeout}" />
+			<set name="sendTimeout" time="${gws.sendTimeout}" />
+			<set name="reconnectDelay" time="${gws.retryConnectTimeout}" />
+			<set name="keepAliveTimeout" time="${gws.keepAliveTimeout}" />
+			<set name="maxMessageSize" number="${gws.maxMessageSize}" />
+			<set name="outputsCount" number="${gws.outputsCount}" />
+			<set name="gatewayInfo" ref="gatewayInfo" />
+			<set name="priorityAssigner" ref="gwsPriorityAssigner" />
+			<set name="sslConfig" ref="gwsSSLClient" if-yes="${ssl.enable}" />
+			<set name="eventsExecutor" ref="gwsEventsExecutor" />
+		</instance>
+
 		<instance name="gwsSSLClient" class="BeeeOn::SSLClient">
 			<set name="certificate" text="${ssl.certificate}" />
 			<set name="privateKey" text="${ssl.key}" />
