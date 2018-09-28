@@ -1,9 +1,12 @@
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <Poco/File.h>
+
 #include "cppunit/BetterAssert.h"
 #include "cppunit/FileTestFixture.h"
 
 #include "core/FilesystemDeviceCache.h"
+#include "model/DevicePrefix.h"
 
 using namespace Poco;
 
@@ -18,6 +21,7 @@ class FilesystemDeviceCacheTest : public FileTestFixture {
 
 public:
 	void setUp();
+	void tearDown();
 
 	void testPairUnpair();
 	void testNothingPrepaired();
@@ -35,6 +39,19 @@ void FilesystemDeviceCacheTest::setUp()
 	setUpAsDirectory();
 
 	m_cache.setCacheDir(testingPath().toString());
+}
+
+void FilesystemDeviceCacheTest::tearDown()
+{
+	// remove all created named mutexes
+	for (const auto &prefix : DevicePrefix::all()) {
+		File mutex("/tmp/" + prefix.toString() + ".mutex");
+
+		try {
+			mutex.remove();
+		}
+		catch (...) {}
+	}
 }
 
 /**
