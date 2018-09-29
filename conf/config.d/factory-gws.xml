@@ -39,6 +39,7 @@
 			<set name="priorityAssigner" ref="gwsPriorityAssigner" />
 			<set name="sslConfig" ref="gwsSSLClient" if-yes="${ssl.enable}" />
 			<set name="eventsExecutor" ref="gwsEventsExecutor" />
+			<add name="listeners" ref="gwsCommandHandler" />
 			<add name="listeners" ref="gwsExporter" />
 		</instance>
 
@@ -68,6 +69,10 @@
 			<set name="strategyPriority" number="30" />
 		</instance>
 		<alias name="gwsExporter" ref="${exporter.gws.impl}GwsExporter" />
+
+		<instance name="gwsCommandHandler" class="BeeeOn::GWSCommandHandler">
+			<set name="connector" ref="gwsConnector" />
+		</instance>
 
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
 			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />
