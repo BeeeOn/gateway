@@ -156,6 +156,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/server/GWSListener.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSOptimisticExporter.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSPriorityAssigner.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSQueuingExporter.cpp
 	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataParser.cpp
 	${PROJECT_SOURCE_DIR}/util/ColorBrightness.cpp

@@ -13,9 +13,13 @@
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 		</instance>
 
+		<constant name="gws.queuingGwsExporter.enable"
+			yes-when="${exporter.gws.impl} == queuing" />
+
 		<instance name="gwsLoopRunner" class="BeeeOn::LoopRunner">
 			<add name="runnables" ref="gwsEventsExecutor" />
 			<add name="runnables" ref="gwsConnector" />
+			<add name="runnables" ref="queuingGwsExporter" if-yes="${gws.queuingGwsExporter.enable}" />
 		</instance>
 
 		<instance name="gwsEventsExecutor" class="BeeeOn::SequentialAsyncExecutor">
@@ -49,9 +53,21 @@
 		<instance name="gwsFixedPriorityAssigner" class="BeeeOn::GWSFixedPriorityAssigner" />
 		<alias name="gwsPriorityAssigner" ref="gwsFixedPriorityAssigner" />
 
-		<instance name="gwsExporter" class="BeeeOn::GWSOptimisticExporter">
+		<instance name="optimisticGwsExporter" class="BeeeOn::GWSOptimisticExporter">
 			<set name="connector" ref="gwsConnector" />
 		</instance>
+
+		<instance name="queuingGwsExporter" class="BeeeOn::GWSQueuingExporter">
+			<set name="connector" ref="gwsConnector" />
+			<set name="queuingStrategy" ref="gwsQueuingStrategy" />
+			<set name="activeCount" number="${exporter.gws.activeCount}" />
+			<set name="acquireTimeout" time="5 s" />
+			<set name="saveFailedDelay" time="${gws.retryConnectTimeout}" />
+			<set name="saveThreshold" number="${exporter.gws.saveThreshold}" />
+			<set name="saveTimeout" time="${exporter.gws.saveTimeout}" />
+			<set name="strategyPriority" number="30" />
+		</instance>
+		<alias name="gwsExporter" ref="${exporter.gws.impl}GwsExporter" />
 
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
 			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />
