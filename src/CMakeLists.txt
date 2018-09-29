@@ -149,6 +149,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/server/GWSOutputQueue.cpp
 	${PROJECT_SOURCE_DIR}/server/GWServerConnector.cpp
 	${PROJECT_SOURCE_DIR}/server/ServerAnswer.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSConnector.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSListener.cpp
 	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataParser.cpp
