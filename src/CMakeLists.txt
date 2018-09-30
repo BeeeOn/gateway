@@ -151,6 +151,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/server/ServerAnswer.cpp
 	${PROJECT_SOURCE_DIR}/server/AbstractGWSConnector.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSCommandHandler.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSCommandSender.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSConnector.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSConnectorImpl.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSFixedPriorityAssigner.cpp

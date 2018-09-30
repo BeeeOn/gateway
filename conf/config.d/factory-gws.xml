@@ -19,6 +19,7 @@
 		<instance name="gwsLoopRunner" class="BeeeOn::LoopRunner">
 			<add name="runnables" ref="gwsEventsExecutor" />
 			<add name="runnables" ref="gwsConnector" />
+			<add name="runnables" ref="gwsCommandSender" />
 			<add name="runnables" ref="queuingGwsExporter" if-yes="${gws.queuingGwsExporter.enable}" />
 		</instance>
 
@@ -40,6 +41,7 @@
 			<set name="sslConfig" ref="gwsSSLClient" if-yes="${ssl.enable}" />
 			<set name="eventsExecutor" ref="gwsEventsExecutor" />
 			<add name="listeners" ref="gwsCommandHandler" />
+			<add name="listeners" ref="gwsCommandSender" />
 			<add name="listeners" ref="gwsExporter" />
 		</instance>
 
@@ -72,6 +74,12 @@
 
 		<instance name="gwsCommandHandler" class="BeeeOn::GWSCommandHandler">
 			<set name="connector" ref="gwsConnector" />
+		</instance>
+
+		<instance name="gwsCommandSender" class="BeeeOn::GWSCommandSender">
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="connector" ref="gwsConnector" />
+			<set name="unpairDuration" time="10 s" />
 		</instance>
 
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
