@@ -75,10 +75,6 @@ public:
 	void setRefresh(const Poco::Timespan &refresh);
 	void setHciManager(HciInterfaceManager::Ptr manager);
 
-	void handleRemoteStatus(
-		const DevicePrefix &prefix,
-		const std::set<DeviceID> &paired);
-
 protected:
 	/**
 	 * @brief Wakes up the main thread.

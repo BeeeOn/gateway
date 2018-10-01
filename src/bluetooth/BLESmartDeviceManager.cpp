@@ -20,6 +20,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, BLESmartDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &BLESmartDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &BLESmartDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &BLESmartDeviceManager::setCommandDispatcher)
@@ -88,16 +89,6 @@ void BLESmartDeviceManager::dongleAvailable()
 	logger().information("starting BLE Smart device manager", __FILE__, __LINE__);
 
 	m_hci = m_hciManager->lookup(dongleName());
-
-	set<DeviceID> paired;
-	try {
-		paired = deviceList(-1);
-	}
-	catch (Exception& e) {
-		logger().log(e, __FILE__, __LINE__);
-	}
-
-	handleRemoteStatus(prefix(), paired);
 
 	while (!m_stopControl.shouldStop()) {
 		Timestamp now;
@@ -179,14 +170,6 @@ void BLESmartDeviceManager::eraseAllDevices()
 	ScopedLock<FastMutex> lock(m_devicesMutex);
 
 	m_devices.clear();
-}
-
-void BLESmartDeviceManager::handleRemoteStatus(
-		const DevicePrefix&,
-		const std::set<DeviceID> &paired)
-{
-	for (const auto &id : paired)
-		deviceCache()->markPaired(id);
 }
 
 AsyncWork<>::Ptr BLESmartDeviceManager::startDiscovery(const Timespan &timeout)
