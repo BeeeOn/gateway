@@ -28,6 +28,7 @@ BEEEON_OBJECT_PROPERTY("disableGC", &JournalQueuingStrategy::setDisableGC)
 BEEEON_OBJECT_PROPERTY("neverDropOldest", &JournalQueuingStrategy::setNeverDropOldest)
 BEEEON_OBJECT_PROPERTY("bytesLimit", &JournalQueuingStrategy::setBytesLimit)
 BEEEON_OBJECT_PROPERTY("ignoreIndexErrors", &JournalQueuingStrategy::setIgnoreIndexErrors)
+BEEEON_OBJECT_HOOK("done", &JournalQueuingStrategy::setup)
 BEEEON_OBJECT_END(BeeeOn, JournalQueuingStrategy)
 
 using namespace std;
