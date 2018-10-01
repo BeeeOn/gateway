@@ -21,6 +21,9 @@
 			<set name="loadDefaultCA" text="false" />
 		</instance>
 
+		<instance name="gwsFixedPriorityAssigner" class="BeeeOn::GWSFixedPriorityAssigner" />
+		<alias name="gwsPriorityAssigner" ref="gwsFixedPriorityAssigner" />
+
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
 			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />
 			<set name="disableGC" number="${exporter.gws.tmpStorage.disableGC}" />
