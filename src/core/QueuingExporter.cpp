@@ -27,7 +27,7 @@ QueuingExporter::~QueuingExporter()
 	BEEEON_CATCH_CHAIN(logger());
 }
 
-void QueuingExporter::setStrategy(const QueuingStrategy::Ptr &strategy)
+void QueuingExporter::setStrategy(const QueuingStrategy::Ptr strategy)
 {
 	m_strategy = strategy;
 }
