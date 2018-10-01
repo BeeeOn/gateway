@@ -67,6 +67,7 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/server/GWSCommandHandlerTest.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSOptimisticExporterTest.cpp
 	${PROJECT_SOURCE_DIR}/server/GWSQueuingExporterTest.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSResenderTest.cpp
 )
 
 if(BLUETOOTH)
