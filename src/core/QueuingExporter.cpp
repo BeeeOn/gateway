@@ -40,7 +40,7 @@ void QueuingExporter::setSaveThreshold(int dataCount)
 	m_saveThreshold = dataCount;
 }
 
-void QueuingExporter:: setSaveTimeout(Timespan timeout)
+void QueuingExporter::setSaveTimeout(const Timespan &timeout)
 {
 	if (timeout < 0)
 		throw InvalidArgumentException("save timeout should be positive");
