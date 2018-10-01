@@ -40,6 +40,6 @@
 		<instance name="inMemoryQueuingStrategy0" class="BeeeOn::InMemoryQueuingStrategy">
 		</instance>
 
-		<alias name="gwsQueuingStrategy" ref="${gws.tmpStorage.impl}QueuingStrategy0" />
+		<alias name="gwsQueuingStrategy" ref="${exporter.gws.tmpStorage.impl}QueuingStrategy0" />
 	</factory>
 </system>
