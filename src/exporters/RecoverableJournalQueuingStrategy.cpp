@@ -22,6 +22,7 @@ BEEEON_OBJECT_PROPERTY("ignoreIndexErrors", &RecoverableJournalQueuingStrategy::
 BEEEON_OBJECT_PROPERTY("disableTmpDataRecovery", &RecoverableJournalQueuingStrategy::setDisableTmpDataRecovery)
 BEEEON_OBJECT_PROPERTY("disableBrokenRecovery", &RecoverableJournalQueuingStrategy::setDisableBrokenRecovery)
 BEEEON_OBJECT_PROPERTY("disableLostRecovery", &RecoverableJournalQueuingStrategy::setDisableLostRecovery)
+BEEEON_OBJECT_HOOK("done", &RecoverableJournalQueuingStrategy::setup)
 BEEEON_OBJECT_END(BeeeOn, RecoverableJournalQueuingStrategy)
 
 using namespace std;

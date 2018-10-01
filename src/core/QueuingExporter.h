@@ -55,7 +55,7 @@ public:
 	 */
 	bool ship(const SensorData &data) override;
 
-	void setStrategy(const QueuingStrategy::Ptr &strategy);
+	void setStrategy(const QueuingStrategy::Ptr strategy);
 
 	/**
 	 * When the number of enqueued SensorData is greater than or equal to
@@ -75,7 +75,7 @@ public:
 	 *
 	 * @param timeout
 	 */
-	void setSaveTimeout(const Poco::Timespan timeout);
+	void setSaveTimeout(const Poco::Timespan &timeout);
 
 	/**
 	 * Provided SensorData are mix from the queue and the QueuingStrategy.

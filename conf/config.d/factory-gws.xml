@@ -23,23 +23,23 @@
 
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
 			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />
-			<set name="disableGC" text="${exporter.gws.tmpStorage.disableGC}" />
-			<set name="neverDropOldest" text="${exporter.gws.tmpStorage.neverDropOldest}" />
-			<set name="bytesLimit" text="${exporter.gws.tmpStorage.sizeLimit}" />
-			<set name="ignoreIndexErrors" text="${exporter.gws.tmpStorage.ignoreIndexErrors}" />
+			<set name="disableGC" number="${exporter.gws.tmpStorage.disableGC}" />
+			<set name="neverDropOldest" number="${exporter.gws.tmpStorage.neverDropOldest}" />
+			<set name="bytesLimit" number="${exporter.gws.tmpStorage.sizeLimit}" />
+			<set name="ignoreIndexErrors" number="${exporter.gws.tmpStorage.ignoreIndexErrors}" />
 		</instance>
 
 		<instance name="recoverableJournalQueuingStrategy0" class="BeeeOn::RecoverableJournalQueuingStrategy">
 			<set name="rootDir" text="${exporter.gws.tmpStorage.rootDir}" />
-			<set name="disableGC" text="${exporter.gws.tmpStorage.disableGC}" />
-			<set name="neverDropOldest" text="${exporter.gws.tmpStorage.neverDropOldest}" />
-			<set name="bytesLimit" text="${exporter.gws.tmpStorage.sizeLimit}" />
-			<set name="ignoreIndexErrors" text="${exporter.gws.tmpStorage.ignoreIndexErrors}" />
+			<set name="disableGC" number="${exporter.gws.tmpStorage.disableGC}" />
+			<set name="neverDropOldest" number="${exporter.gws.tmpStorage.neverDropOldest}" />
+			<set name="bytesLimit" number="${exporter.gws.tmpStorage.sizeLimit}" />
+			<set name="ignoreIndexErrors" number="${exporter.gws.tmpStorage.ignoreIndexErrors}" />
 		</instance>
 
 		<instance name="inMemoryQueuingStrategy0" class="BeeeOn::InMemoryQueuingStrategy">
 		</instance>
 
-		<alias name="gwsQueuingStrategy" ref="${gws.tmpStorage.impl}QueuingStrategy0" />
+		<alias name="gwsQueuingStrategy" ref="${exporter.gws.tmpStorage.impl}QueuingStrategy0" />
 	</factory>
 </system>

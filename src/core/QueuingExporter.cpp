@@ -27,7 +27,7 @@ QueuingExporter::~QueuingExporter()
 	BEEEON_CATCH_CHAIN(logger());
 }
 
-void QueuingExporter::setStrategy(const QueuingStrategy::Ptr &strategy)
+void QueuingExporter::setStrategy(const QueuingStrategy::Ptr strategy)
 {
 	m_strategy = strategy;
 }
@@ -40,7 +40,7 @@ void QueuingExporter::setSaveThreshold(int dataCount)
 	m_saveThreshold = dataCount;
 }
 
-void QueuingExporter:: setSaveTimeout(Timespan timeout)
+void QueuingExporter::setSaveTimeout(const Timespan &timeout)
 {
 	if (timeout < 0)
 		throw InvalidArgumentException("save timeout should be positive");
@@ -101,7 +101,7 @@ void QueuingExporter::doSaveQueue(size_t skipFirst)
 	BEEEON_CATCH_CHAIN_ACTION(logger(),
 	    if (queueSize() > m_saveThreshold)
 			m_queue.erase(oneBelowThreshold, m_queue.end());
-	);
+	)
 }
 
 bool QueuingExporter::ship(const SensorData &data)
