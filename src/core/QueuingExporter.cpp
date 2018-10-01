@@ -101,7 +101,7 @@ void QueuingExporter::doSaveQueue(size_t skipFirst)
 	BEEEON_CATCH_CHAIN_ACTION(logger(),
 	    if (queueSize() > m_saveThreshold)
 			m_queue.erase(oneBelowThreshold, m_queue.end());
-	);
+	)
 }
 
 bool QueuingExporter::ship(const SensorData &data)
