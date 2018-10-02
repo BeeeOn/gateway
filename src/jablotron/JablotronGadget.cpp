@@ -155,7 +155,7 @@ vector<SensorValue> JablotronGadget::Info::parse(const JablotronReport &report) 
 
 	case JablotronGadget::JA83M:
 		if (report.has("SENSOR"))
-			values.push_back({0, static_cast<double>(!report.get("ACT"))});
+			values.push_back({0, static_cast<double>(report.get("ACT"))});
 		if (report.has("TAMPER"))
 			values.push_back({1, static_cast<double>(report.get("ACT"))});
 
