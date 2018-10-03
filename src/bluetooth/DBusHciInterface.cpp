@@ -195,8 +195,13 @@ HciConnection::Ptr DBusHciInterface::connect(
 	if (logger().debug())
 		logger().debug("connecting to device " + address.toString(':'), __FILE__, __LINE__);
 
-	const string path = createDevicePath(m_name, address);
-	GlibPtr<OrgBluezDevice1> device = retrieveBluezDevice(path);
+	ScopedLockWithUnlock<FastMutex> guard(m_devices.first);
+	auto it = m_devices.second.find(address);
+	if (it == m_devices.second.end())
+		throw NotFoundException("failed to connect device " + address.toString(':'));
+
+	GlibPtr<OrgBluezDevice1> device = it->second.device();
+	guard.unlock();
 
 	if (!::org_bluez_device1_get_connected(device.raw())) {
 		GlibPtr<GError> error;
