@@ -10,6 +10,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, DBusHciInterfaceManager)
 BEEEON_OBJECT_CASTABLE(HciInterfaceManager)
+BEEEON_OBJECT_PROPERTY("leMaxAgeRssi", &DBusHciInterfaceManager::setLeMaxAgeRssi)
 BEEEON_OBJECT_END(BeeeOn, DBusHciInterfaceManager)
 
 using namespace BeeeOn;
@@ -20,12 +21,14 @@ static int CHANGE_POWER_ATTEMPTS = 5;
 static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
 static int GERROR_IN_PROGRESS = 36;
 static uint16_t RSSI_DEVICE_UNAVAILABLE = 0;
-static Timespan MAX_AGE_RSSI = 90 * Timespan::SECONDS;
 
-DBusHciInterface::DBusHciInterface(const string& name):
+DBusHciInterface::DBusHciInterface(const string& name, const Timespan& leMaxAgeRssi):
 	m_name(name),
-	m_loopThread(*this, &DBusHciInterface::runLoop)
+	m_loopThread(*this, &DBusHciInterface::runLoop),
+	m_leMaxAgeRssi(leMaxAgeRssi)
 {
+	poco_assert(leMaxAgeRssi > 0);
+
 	m_adapter = retrieveBluezAdapter(createAdapterPath(m_name));
 	m_objectManager = createBluezObjectManager();
 
@@ -147,7 +150,7 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 
 	ScopedLock<FastMutex> guard(m_devices.first);
 	for (auto one : m_devices.second) {
-		if (one.second.lastSeen().elapsed() > MAX_AGE_RSSI.totalMicroseconds())
+		if (one.second.lastSeen().elapsed() > m_leMaxAgeRssi.totalMicroseconds())
 			continue;
 
 		const auto rssi = one.second.rssi();
@@ -553,8 +556,17 @@ int16_t DBusHciInterface::Device::rssi()
 }
 
 
-DBusHciInterfaceManager::DBusHciInterfaceManager()
+DBusHciInterfaceManager::DBusHciInterfaceManager():
+	m_leMaxAgeRssi(30 * Timespan::SECONDS)
 {
+}
+
+void DBusHciInterfaceManager::setLeMaxAgeRssi(const Timespan& time)
+{
+	if (time.totalSeconds() <= 0)
+		throw InvalidArgumentException("LE max age RSSI must be at least a second");
+
+	m_leMaxAgeRssi = time;
 }
 
 HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
@@ -565,7 +577,7 @@ HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 	if (it != m_interfaces.end())
 		return it->second;
 
-	DBusHciInterface::Ptr newHci = new DBusHciInterface(name);
+	DBusHciInterface::Ptr newHci = new DBusHciInterface(name, m_leMaxAgeRssi);
 	m_interfaces.emplace(name, newHci);
 	return newHci;
 }

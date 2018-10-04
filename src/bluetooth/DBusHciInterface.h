@@ -125,8 +125,12 @@ public:
 
 	/**
 	 * @param name name of hci
+	 * @param leMaxAgeRssi maximum time from the rssi update of the
+	 * device to declare the device is available
 	 */
-	DBusHciInterface(const std::string& name);
+	DBusHciInterface(
+		const std::string& name,
+		const Poco::Timespan& leMaxAgeRssi);
 	~DBusHciInterface();
 
 	/**
@@ -312,6 +316,7 @@ private:
 	uint64_t m_objectManagerHandle;
 	mutable ThreadSafeDevices m_devices;
 	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
+	Poco::Timespan m_leMaxAgeRssi;
 
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
@@ -322,11 +327,14 @@ class DBusHciInterfaceManager : public HciInterfaceManager {
 public:
 	DBusHciInterfaceManager();
 
+	void setLeMaxAgeRssi(const Poco::Timespan& time);
+
 	HciInterface::Ptr lookup(const std::string &name) override;
 
 private:
 	Poco::FastMutex m_mutex;
 	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
+	Poco::Timespan m_leMaxAgeRssi;
 };
 
 }
