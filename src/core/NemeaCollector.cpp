@@ -92,8 +92,6 @@ void NemeaCollector::initInterface(EventMetaData &interfaceMetaInfo){
 
     if (trap_ctx_get_last_error(interfaceMetaInfo.ctx) != TRAP_E_OK){
       cerr << "ERROR in TRAP initialization: " << trap_ctx_get_last_error_msg(interfaceMetaInfo.ctx) << endl;
-      exit_value = 3;
-      goto cleanup;
    }
    
     // Interface control
