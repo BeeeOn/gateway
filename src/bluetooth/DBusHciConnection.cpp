@@ -29,7 +29,14 @@ DBusHciConnection::DBusHciConnection(
 	m_timeout(timeout)
 {
 	m_address = MACAddress::parse(::org_bluez_device1_get_address(m_device.raw()), ':');
-	resolveServices();
+
+	try {
+		resolveServices();
+	}
+	catch (Exception &e) {
+		disconnect();
+		e.rethrow();
+	}
 }
 
 DBusHciConnection::~DBusHciConnection()
