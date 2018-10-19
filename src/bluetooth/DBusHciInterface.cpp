@@ -18,6 +18,7 @@ using namespace std;
 
 static int CHANGE_POWER_ATTEMPTS = 5;
 static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
+static int GERROR_IN_PROGRESS = 36;
 
 DBusHciInterface::DBusHciInterface(const string& name):
 	m_name(name),
@@ -45,8 +46,13 @@ DBusHciInterface::~DBusHciInterface()
  */
 static void throwErrorIfAny(const GlibPtr<GError> error)
 {
-	if (!error.isNull())
-		throw IOException(error->message);
+	if (!error.isNull()) {
+		// This error occured when the discovery or connection is already in progress.
+		if (error->code == GERROR_IN_PROGRESS)
+			return;
+		else
+			throw IOException(error->message);
+	}
 }
 
 void DBusHciInterface::up() const
