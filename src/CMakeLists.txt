@@ -80,6 +80,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/bluetooth/HciListener.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceAcceptCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceSetValueCommand.cpp
+	${PROJECT_SOURCE_DIR}/commands/DeviceSearchCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairCommand.cpp
 	${PROJECT_SOURCE_DIR}/commands/DeviceUnpairResult.cpp
 	${PROJECT_SOURCE_DIR}/commands/GatewayListenCommand.cpp

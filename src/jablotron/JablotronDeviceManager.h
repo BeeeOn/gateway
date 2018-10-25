@@ -142,6 +142,15 @@ protected:
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 
 	/**
+	 * @brief Search whether the gadget of the given serialNumber is registered.
+	 * If it is not and the serialNumber is valid, register it with the connected
+	 * Turris Dongle. Finally, if such gadget is not paired, report it as a new device.
+	 */
+	AsyncWork<>::Ptr startSearch(
+			const Poco::Timespan &timeout,
+			const uint64_t serialNumber) override;
+
+	/**
 	 * @brief Unpair the given device. If it is PGX, PGY or Siren, then only
 	 * the device cache is updated. When unpairing a gadget, it is unregistered
 	 * from its slot if the unpairErasesSlot property is true.
