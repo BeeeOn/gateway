@@ -160,7 +160,7 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 
 	const Timespan &timeout = checkDelayedOperation("unpair", started, duration);
 
-	logger().information("starting unpair", __FILE__, __LINE__);
+	logger().information("starting unpair of " + cmd->deviceID().toString(), __FILE__, __LINE__);
 
 	auto unpair = startUnpair(cmd->deviceID(), timeout);
 	manageUntilFinished("unpair", unpair, timeout);
@@ -210,7 +210,11 @@ void DeviceManager::handleSetValue(const DeviceSetValueCommand::Ptr cmd)
 
 	const Timespan &timeout = checkDelayedOperation("set-value", started, duration);
 
-	logger().information("starting set-value", __FILE__, __LINE__);
+	logger().information(
+		"starting set-value " + to_string(cmd->value())
+		+ " of " + cmd->deviceID().toString()
+		+ " [" + cmd->moduleID().toString() + "]",
+		__FILE__, __LINE__);
 
 	auto operation = startSetValue(
 		cmd->deviceID(),
