@@ -160,7 +160,7 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 
 	const Timespan &timeout = checkDelayedOperation("unpair", started, duration);
 
-	logger().information("starting unpair", __FILE__, __LINE__);
+	logger().information("starting unpair of " + cmd->deviceID().toString(), __FILE__, __LINE__);
 
 	auto unpair = startUnpair(cmd->deviceID(), timeout);
 	manageUntilFinished("unpair", unpair, timeout);
