@@ -210,7 +210,11 @@ void DeviceManager::handleSetValue(const DeviceSetValueCommand::Ptr cmd)
 
 	const Timespan &timeout = checkDelayedOperation("set-value", started, duration);
 
-	logger().information("starting set-value", __FILE__, __LINE__);
+	logger().information(
+		"starting set-value " + to_string(cmd->value())
+		+ " of " + cmd->deviceID().toString()
+		+ " [" + cmd->moduleID().toString() + "]",
+		__FILE__, __LINE__);
 
 	auto operation = startSetValue(
 		cmd->deviceID(),
