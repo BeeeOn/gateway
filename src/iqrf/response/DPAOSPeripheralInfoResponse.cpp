@@ -6,6 +6,9 @@ using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
 
+static const double MAX_SIGNAL = -16;   // dBm
+static const double MIN_SIGNAL = -110;  // dBm
+
 uint32_t DPAOSPeripheralInfoResponse::mid() const
 {
 	uint32_t moduleID = 0;
@@ -50,4 +53,16 @@ double DPAOSPeripheralInfoResponse::percentageSupplyVoltage() const
 	}
 
 	return (100.0 / 59.0) * peripheralData()[9];
+}
+
+double DPAOSPeripheralInfoResponse::rssiPercentage() const
+{
+	double strength = rssi();
+
+	if (strength >= MAX_SIGNAL)
+		return 100;
+	else if (strength <= MIN_SIGNAL)
+		return 0;
+
+	return round(100 * (1 - (MAX_SIGNAL - rssi()) / (MAX_SIGNAL - MIN_SIGNAL)));
 }

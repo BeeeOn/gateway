@@ -22,6 +22,13 @@ public:
 	int8_t rssi() const;
 
 	/**
+	 * @brief Converts RSSI value ([dBm]) of incoming RF signal to percentage.
+	 *
+	 * @see https://www.adriangranados.com/blog/dbm-to-percent-conversion
+	 */
+	double rssiPercentage() const;
+
+	/**
 	 * @returns Power supply measurement (up to 3.84V),
 	 * low battery state: voltage < 2.93V.
 	 *
