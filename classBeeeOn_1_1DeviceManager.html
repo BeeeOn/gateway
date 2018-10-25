@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-5-gb61a465</span>
+   &#160;<span id="projectnumber">v2018.07.1-9-g3efe2c9</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -152,6 +152,19 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a0239fe377b5928e3bbf5986f15017916"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0239fe377b5928e3bbf5986f15017916">handleListen</a> (const GatewayListenCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a0239fe377b5928e3bbf5986f15017916"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the listen command in a generic way. The method ensures that only 1 thread can execute the discovery process at a time.  <a href="#a0239fe377b5928e3bbf5986f15017916">More...</a><br/></td></tr>
 <tr class="separator:a0239fe377b5928e3bbf5986f15017916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0924c9ad198c04f2b051041a41831eec"><td class="memItemLeft" align="right" valign="top">virtual AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0924c9ad198c04f2b051041a41831eec">startSearch</a> (const Poco::Timespan &amp;timeout, const Poco::Net::IPAddress &amp;address)</td></tr>
+<tr class="memdesc:a0924c9ad198c04f2b051041a41831eec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start searching a device by IP address in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a0924c9ad198c04f2b051041a41831eec">More...</a><br/></td></tr>
+<tr class="separator:a0924c9ad198c04f2b051041a41831eec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17b1b2ebd078a3f91dc30e080d704325"><td class="memItemLeft" align="right" valign="top">virtual AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a17b1b2ebd078a3f91dc30e080d704325">startSearch</a> (const Poco::Timespan &amp;timeout, const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address)</td></tr>
+<tr class="memdesc:a17b1b2ebd078a3f91dc30e080d704325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start searching a device by MAC address in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a17b1b2ebd078a3f91dc30e080d704325">More...</a><br/></td></tr>
+<tr class="separator:a17b1b2ebd078a3f91dc30e080d704325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f1899333f2d948275c4dec4a99ffef6"><td class="memItemLeft" align="right" valign="top">virtual AsyncWork::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a5f1899333f2d948275c4dec4a99ffef6">startSearch</a> (const Poco::Timespan &amp;timeout, const uint64_t serialNumber)</td></tr>
+<tr class="memdesc:a5f1899333f2d948275c4dec4a99ffef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start searching a device by serial number in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a5f1899333f2d948275c4dec4a99ffef6">More...</a><br/></td></tr>
+<tr class="separator:a5f1899333f2d948275c4dec4a99ffef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06fda5c7d7b5ba7fcc589a851f46213a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06fda5c7d7b5ba7fcc589a851f46213a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a06fda5c7d7b5ba7fcc589a851f46213a">handleSearch</a> (const DeviceSearchCommand::Ptr cmd)</td></tr>
+<tr class="memdesc:a06fda5c7d7b5ba7fcc589a851f46213a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the search command in a generic way. The method ensures that only 1 thread can exactly the search process at a time. It is also mutual exclusive to the discovery process. <br/></td></tr>
+<tr class="separator:a06fda5c7d7b5ba7fcc589a851f46213a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0304177883d9b37b4a49f93d74a5c313"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; std::set<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="memdesc:a0304177883d9b37b4a49f93d74a5c313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a0304177883d9b37b4a49f93d74a5c313">More...</a><br/></td></tr>
@@ -701,6 +714,119 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
 <p>Reimplemented in <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1d48ec939e0009357c7536b0e8995266">BeeeOn::BLESmartDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a6d1f261358207f6ab7857c03a2d59baf">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0924c9ad198c04f2b051041a41831eec"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> ::Ptr BeeeOn::DeviceManager::startSearch </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Net::IPAddress &amp;&#160;</td>
+          <td class="paramname"><em>address</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Start searching a device by IP address in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The purpose of this call is to initialize and start the searching process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
+
+</div>
+</div>
+<a class="anchor" id="a17b1b2ebd078a3f91dc30e080d704325"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> ::Ptr BeeeOn::DeviceManager::startSearch </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;&#160;</td>
+          <td class="paramname"><em>address</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Start searching a device by MAC address in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The purpose of this call is to initialize and start the searching process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
+
+</div>
+</div>
+<a class="anchor" id="a5f1899333f2d948275c4dec4a99ffef6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a> ::Ptr BeeeOn::DeviceManager::startSearch </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint64_t&#160;</td>
+          <td class="paramname"><em>serialNumber</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Start searching a device by serial number in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The purpose of this call is to initialize and start the searching process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
+
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a200888f0591f1a9869fcf05b626d9b43">BeeeOn::JablotronDeviceManager</a>.</p>
 
 </div>
 </div>
