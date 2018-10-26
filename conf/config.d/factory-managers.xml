@@ -52,7 +52,7 @@
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="wakeUpTime" time="${bluetooth.availability.refresh}" />
-			<set name="leScanTime" time="${bluetooth.availability.le.scan.time}" />
+			<set name="leScanTime" time="${bluetooth.le.scanTime}" />
 			<set name="modes" list="${bluetooth.availability.modes}" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
@@ -68,7 +68,7 @@
 
 		<instance name="bleSmartDeviceManager" class="BeeeOn::BLESmartDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
-			<set name="scanTimeout" time="${blesmart.scan.timeout}" />
+			<set name="scanTimeout" time="${bluetooth.le.scanTime}" />
 			<set name="deviceTimeout" time="${blesmart.device.timeout}" />
 			<set name="refresh" time="${blesmart.refresh}" />
 			<set name="hciManager" ref="${blesmart.hci.impl}HciManager" />
