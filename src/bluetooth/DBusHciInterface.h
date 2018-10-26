@@ -127,10 +127,13 @@ public:
 	 * @param name name of hci
 	 * @param leMaxAgeRssi maximum time from the rssi update of the
 	 * device to declare the device is available
+	 * @param leMaxUnavailabilityTime maximum LE device unavailability
+	 * time for device to be deleted
 	 */
 	DBusHciInterface(
 		const std::string& name,
-		const Poco::Timespan& leMaxAgeRssi);
+		const Poco::Timespan& leMaxAgeRssi,
+		const Poco::Timespan& leMaxUnavailabilityTime);
 	~DBusHciInterface();
 
 	/**
@@ -260,6 +263,11 @@ private:
 		GlibPtr<GDBusObjectManager> objectManager) const;
 
 	/**
+	 * @brief Removes the unavailable devices for specific time except watched devices.
+	 */
+	void removeUnvailableDevices() const;
+
+	/**
 	 * @brief The purpose of the method is to run GMainLoop that handles
 	 * asynchronous events such as add new device during lescan() in separated thread.
 	 */
@@ -317,6 +325,7 @@ private:
 	mutable ThreadSafeDevices m_devices;
 	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
 	Poco::Timespan m_leMaxAgeRssi;
+	Poco::Timespan m_leMaxUnavailabilityTime;
 
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
@@ -328,6 +337,7 @@ public:
 	DBusHciInterfaceManager();
 
 	void setLeMaxAgeRssi(const Poco::Timespan& time);
+	void setLeMaxUnavailabilityTime(const Poco::Timespan& time);
 
 	HciInterface::Ptr lookup(const std::string &name) override;
 
@@ -335,6 +345,7 @@ private:
 	Poco::FastMutex m_mutex;
 	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
 	Poco::Timespan m_leMaxAgeRssi;
+	Poco::Timespan m_leMaxUnavailabilityTime;
 };
 
 }

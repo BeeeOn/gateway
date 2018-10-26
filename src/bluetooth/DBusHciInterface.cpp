@@ -11,6 +11,7 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, DBusHciInterfaceManager)
 BEEEON_OBJECT_CASTABLE(HciInterfaceManager)
 BEEEON_OBJECT_PROPERTY("leMaxAgeRssi", &DBusHciInterfaceManager::setLeMaxAgeRssi)
+BEEEON_OBJECT_PROPERTY("leMaxUnavailabilityTime", &DBusHciInterfaceManager::setLeMaxUnavailabilityTime)
 BEEEON_OBJECT_END(BeeeOn, DBusHciInterfaceManager)
 
 using namespace BeeeOn;
@@ -22,12 +23,17 @@ static Timespan CHANGE_POWER_DELAY = 200 * Timespan::MILLISECONDS;
 static int GERROR_IN_PROGRESS = 36;
 static uint16_t RSSI_DEVICE_UNAVAILABLE = 0;
 
-DBusHciInterface::DBusHciInterface(const string& name, const Timespan& leMaxAgeRssi):
+DBusHciInterface::DBusHciInterface(
+		const string& name,
+		const Timespan& leMaxAgeRssi,
+		const Timespan& leMaxUnavailabilityTime):
 	m_name(name),
 	m_loopThread(*this, &DBusHciInterface::runLoop),
-	m_leMaxAgeRssi(leMaxAgeRssi)
+	m_leMaxAgeRssi(leMaxAgeRssi),
+	m_leMaxUnavailabilityTime(leMaxUnavailabilityTime)
 {
 	poco_assert(leMaxAgeRssi > 0);
+	poco_assert(leMaxUnavailabilityTime > 0);
 
 	m_adapter = retrieveBluezAdapter(createAdapterPath(m_name));
 	m_objectManager = createBluezObjectManager();
@@ -167,6 +173,8 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 				__FILE__, __LINE__);
 		}
 	}
+
+	removeUnvailableDevices();
 
 	logger().information("BLE scan has finished, found " +
 		to_string(foundDevices.size()) + " device(s)", __FILE__, __LINE__);
@@ -323,6 +331,33 @@ vector<GlibPtr<OrgBluezDevice1>> DBusHciInterface::processKnownDevices(
 	}
 
 	return devices;
+}
+
+void DBusHciInterface::removeUnvailableDevices() const
+{
+	for (auto it = m_devices.second.begin(); it != m_devices.second.end(); ) {
+		if (it->second.isWatched()) {
+			it++;
+			continue;
+		}
+
+		if (it->second.lastSeen().elapsed() > m_leMaxUnavailabilityTime.totalMicroseconds()) {
+			logger().information(
+				"remove unavailable LE device " + it->second.macAddress().toString(':') +
+				" after " + DateTimeFormatter::format(it->second.lastSeen().elapsed()) +
+				" of inactivity", __FILE__, __LINE__);
+
+			::g_signal_handler_disconnect(it->second.device().raw(), it->second.rssiHandle());
+
+			string devicePath = createDevicePath(m_name, it->second.macAddress());
+
+			it = m_devices.second.erase(it);
+			::org_bluez_adapter1_call_remove_device_sync(m_adapter.raw(), devicePath.c_str(), nullptr, nullptr);
+		}
+		else {
+			it++;
+		}
+	}
 }
 
 void DBusHciInterface::runLoop()
@@ -557,7 +592,8 @@ int16_t DBusHciInterface::Device::rssi()
 
 
 DBusHciInterfaceManager::DBusHciInterfaceManager():
-	m_leMaxAgeRssi(30 * Timespan::SECONDS)
+	m_leMaxAgeRssi(30 * Timespan::SECONDS),
+	m_leMaxUnavailabilityTime(7 * Timespan::DAYS)
 {
 }
 
@@ -569,6 +605,16 @@ void DBusHciInterfaceManager::setLeMaxAgeRssi(const Timespan& time)
 	m_leMaxAgeRssi = time;
 }
 
+void DBusHciInterfaceManager::setLeMaxUnavailabilityTime(const Poco::Timespan& time)
+{
+	if (time.totalSeconds() <= 0) {
+		throw InvalidArgumentException(
+			"maximum LE device unavailability time must be at least a second");
+	}
+
+	m_leMaxUnavailabilityTime = time;
+}
+
 HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 {
 	ScopedLock<FastMutex> guard(m_mutex);
@@ -577,7 +623,8 @@ HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 	if (it != m_interfaces.end())
 		return it->second;
 
-	DBusHciInterface::Ptr newHci = new DBusHciInterface(name, m_leMaxAgeRssi);
+	DBusHciInterface::Ptr newHci =
+		new DBusHciInterface(name, m_leMaxAgeRssi, m_leMaxUnavailabilityTime);
 	m_interfaces.emplace(name, newHci);
 	return newHci;
 }
