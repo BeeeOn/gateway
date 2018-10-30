@@ -156,7 +156,7 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 			args[3],
 			args[4],
 			moduleTypes,
-			NumberParser::parse(args[5])
+			NumberParser::parse(args[5]) * Timespan::SECONDS
 		);
 	}
 	else if (args[1] == "device-accept") {
