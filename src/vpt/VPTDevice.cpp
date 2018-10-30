@@ -512,9 +512,9 @@ vector<SensorData> VPTDevice::requestValues()
 	return parser.parse(m_boilerId, response.getBody());
 }
 
-vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refresh)
+vector<DeviceDescription> VPTDevice::descriptions(const Timespan& refresh) const
 {
-	vector<NewDeviceCommand::Ptr> vector;
+	vector<DeviceDescription> vector;
 
 	for (int i = 1; i <= COUNT_OF_ZONES; i++) {
 		const auto description = DeviceDescription::Builder()
@@ -524,7 +524,7 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refre
 			.refreshTime(refresh)
 			.build();
 
-		vector.push_back(new NewDeviceCommand(description));
+		vector.push_back(description);
 	}
 
 	const auto description = DeviceDescription::Builder()
@@ -534,7 +534,7 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refre
 		.refreshTime(refresh)
 		.build();
 
-	vector.push_back(new NewDeviceCommand(description));
+	vector.push_back(description);
 
 	return vector;
 }
