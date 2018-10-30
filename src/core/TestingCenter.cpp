@@ -151,13 +151,14 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 		for (unsigned int i = 6; i < context.args.size(); i++)
 			moduleTypes.push_back(ModuleType::parse(args[i]));
 
-		return new NewDeviceCommand(
-			DeviceID::parse(args[2]),
-			args[3],
-			args[4],
-			moduleTypes,
-			NumberParser::parse(args[5]) * Timespan::SECONDS
-		);
+		const auto description = DeviceDescription::Builder()
+			.id(DeviceID::parse(args[2]))
+			.type(args[3], args[4])
+			.modules(moduleTypes)
+			.refreshTime(NumberParser::parse(args[5]) * Timespan::SECONDS)
+			.build();
+
+		return new NewDeviceCommand(description);
 	}
 	else if (args[1] == "device-accept") {
 		assureArgs(context, 3, "command device-accept");
