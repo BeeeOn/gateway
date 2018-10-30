@@ -23,6 +23,8 @@ public:
 		const std::string &productName, const std::list<ModuleType> &dataTypes,
 		Poco::Timespan refreshTime = -1);
 
+	NewDeviceCommand(const DeviceDescription &description);
+
 	DeviceID deviceID() const;
 	std::string vendor() const;
 	std::string productName() const;
