@@ -195,29 +195,19 @@ void FitpDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result
 
 void FitpDeviceManager::dispatchNewDevice(FitpDevice::Ptr device)
 {
-	NewDeviceCommand::Ptr cmd;
+	auto builder = DeviceDescription::Builder();
+	builder.id(device->deviceID());
+	builder.refreshTime(DEFAULT_REFRESH_TIME);
+	builder.modules(device->modules(device->type()));
 
-	if (device->type() == FitpDevice::END_DEVICE) {
-		cmd = new NewDeviceCommand(
-			device->deviceID(),
-			VENDOR,
-			PRODUCT_END_DEVICE,
-			device->modules(FitpDevice::END_DEVICE),
-			DEFAULT_REFRESH_TIME);
-	}
-	else if (device->type() == FitpDevice::COORDINATOR) {
-		cmd = new NewDeviceCommand(
-			device->deviceID(),
-			VENDOR,
-			PRODUCT_COORDINATOR,
-			device->modules(FitpDevice::COORDINATOR),
-			DEFAULT_REFRESH_TIME);
-	}
-	else {
+	if (device->type() == FitpDevice::END_DEVICE)
+		builder.type(VENDOR, PRODUCT_END_DEVICE);
+	else if (device->type() == FitpDevice::COORDINATOR)
+		builder.type(VENDOR, PRODUCT_COORDINATOR);
+	else
 		throw InvalidArgumentException("invalid device type");
-	}
 
-	dispatch(cmd);
+	dispatch(new NewDeviceCommand(builder.build()));
 }
 
 void FitpDeviceManager::setConfigPath(const string &configPath)
