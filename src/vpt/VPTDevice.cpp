@@ -516,25 +516,25 @@ vector<NewDeviceCommand::Ptr> VPTDevice::createNewDeviceCommands(Timespan& refre
 {
 	vector<NewDeviceCommand::Ptr> vector;
 
-	std::list<ModuleType> zoneModules = VPTDevice::ZONE_MODULE_TYPES;
 	for (int i = 1; i <= COUNT_OF_ZONES; i++) {
-		vector.push_back(
-			new NewDeviceCommand(
-				VPTDevice::createSubdeviceID(i, m_boilerId),
-				VPT_VENDOR,
-				"Zone " + to_string(i),
-				zoneModules,
-				refresh));
+		const auto description = DeviceDescription::Builder()
+			.id(VPTDevice::createSubdeviceID(i, m_boilerId))
+			.type(VPT_VENDOR, "Zone " + to_string(i))
+			.modules(VPTDevice::ZONE_MODULE_TYPES)
+			.refreshTime(refresh)
+			.build();
+
+		vector.push_back(new NewDeviceCommand(description));
 	}
 
-	std::list<ModuleType> boilerModules = VPTDevice::BOILER_MODULE_TYPES;
-	vector.push_back(
-		new NewDeviceCommand(
-			m_boilerId,
-			VPT_VENDOR,
-			"Boiler",
-			boilerModules,
-			refresh));
+	const auto description = DeviceDescription::Builder()
+		.id(m_boilerId)
+		.type(VPT_VENDOR, "Boiler")
+		.modules(VPTDevice::BOILER_MODULE_TYPES)
+		.refreshTime(refresh)
+		.build();
+
+	vector.push_back(new NewDeviceCommand(description));
 
 	return vector;
 }
