@@ -71,7 +71,7 @@ FitpDevice::DeviceType FitpDevice::type() const
 	return m_type;
 }
 
-list<ModuleType> FitpDevice::modules()
+list<ModuleType> FitpDevice::modules() const
 {
 	if (m_type == END_DEVICE)
 		return MODULES_ED;
@@ -79,7 +79,7 @@ list<ModuleType> FitpDevice::modules()
 		return MODULES_COORD;
 }
 
-size_t FitpDevice::moduleEDOffset(const uint8_t &id)
+size_t FitpDevice::moduleEDOffset(const uint8_t &id) const
 {
 	size_t count = 0;
 
@@ -108,7 +108,7 @@ size_t FitpDevice::moduleEDOffset(const uint8_t &id)
 	return count;
 }
 
-size_t FitpDevice::moduleCOORDOffset(const uint8_t &id)
+size_t FitpDevice::moduleCOORDOffset(const uint8_t &id) const
 {
 	size_t count = 0;
 
@@ -179,7 +179,7 @@ double FitpDevice::extractValue(const vector<uint8_t> &values)
 	return double(data);
 }
 
-SensorData FitpDevice::parseMessage(const vector<uint8_t> &data, DeviceID deviceID)
+SensorData FitpDevice::parseMessage(const vector<uint8_t> &data, DeviceID deviceID) const
 {
 
 	SensorData sensorData;
