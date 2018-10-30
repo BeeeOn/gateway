@@ -71,9 +71,9 @@ FitpDevice::DeviceType FitpDevice::type() const
 	return m_type;
 }
 
-list<ModuleType> FitpDevice::modules(const DeviceType &type)
+list<ModuleType> FitpDevice::modules()
 {
-	if (type == END_DEVICE)
+	if (m_type == END_DEVICE)
 		return MODULES_ED;
 	else
 		return MODULES_COORD;

@@ -36,7 +36,7 @@ public:
 	 * ED - battery, inner temperature, outer temperature, humidity, RSSI module.
 	 * COORD - battery, inner temperature, RSSI module.
 	 */
-	std::list<ModuleType> modules(const DeviceType &type);
+	std::list<ModuleType> modules();
 
 	/**
 	 * Returns count of bytes that has to be skipped in case of end device.

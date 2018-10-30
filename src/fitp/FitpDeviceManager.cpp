@@ -198,7 +198,7 @@ void FitpDeviceManager::dispatchNewDevice(FitpDevice::Ptr device)
 	auto builder = DeviceDescription::Builder();
 	builder.id(device->deviceID());
 	builder.refreshTime(DEFAULT_REFRESH_TIME);
-	builder.modules(device->modules(device->type()));
+	builder.modules(device->modules());
 
 	if (device->type() == FitpDevice::END_DEVICE)
 		builder.type(VENDOR, PRODUCT_END_DEVICE);
