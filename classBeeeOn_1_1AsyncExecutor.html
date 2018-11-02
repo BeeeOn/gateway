@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-14-gb84bf3e</span>
+   &#160;<span id="projectnumber">v2018.07.1-31-g9b523c4</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -66,8 +66,9 @@ Inheritance diagram for BeeeOn::AsyncExecutor:</div>
  <div class="center">
   <img src="classBeeeOn_1_1AsyncExecutor.png" usemap="#BeeeOn::AsyncExecutor_map" alt=""/>
   <map id="BeeeOn::AsyncExecutor_map" name="BeeeOn::AsyncExecutor_map">
-<area href="classBeeeOn_1_1ParallelExecutor.html" title="Implementation of AsyncExecutor interface that invokes given procedures in parallel. " alt="BeeeOn::ParallelExecutor" shape="rect" coords="0,56,208,80"/>
-<area href="classBeeeOn_1_1SequentialAsyncExecutor.html" alt="BeeeOn::SequentialAsyncExecutor" shape="rect" coords="218,56,426,80"/>
+<area href="classBeeeOn_1_1NonAsyncExecutor.html" title="Implementation of AsyncExecutor that executes the tasks directly in the current thread. Thus, the execution is in fact not asynchronous. The purpose of the NonAsyncExecutor is to provide a way how to deal with delegation of asynchronous processing (that is already in a separate thread) to another AsyncExecutor-based system. " alt="BeeeOn::NonAsyncExecutor" shape="rect" coords="0,56,208,80"/>
+<area href="classBeeeOn_1_1ParallelExecutor.html" title="Implementation of AsyncExecutor interface that invokes given procedures in parallel. " alt="BeeeOn::ParallelExecutor" shape="rect" coords="218,56,426,80"/>
+<area href="classBeeeOn_1_1SequentialAsyncExecutor.html" alt="BeeeOn::SequentialAsyncExecutor" shape="rect" coords="436,56,644,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -109,7 +110,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Add task to queue for executing </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1ParallelExecutor.html#a9688b733427ee1f05016a1e9cf8f6699">BeeeOn::ParallelExecutor</a>, and <a class="el" href="classBeeeOn_1_1SequentialAsyncExecutor.html#ae131deeae961b410f477da009d29d284">BeeeOn::SequentialAsyncExecutor</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1ParallelExecutor.html#a9688b733427ee1f05016a1e9cf8f6699">BeeeOn::ParallelExecutor</a>, <a class="el" href="classBeeeOn_1_1SequentialAsyncExecutor.html#ae131deeae961b410f477da009d29d284">BeeeOn::SequentialAsyncExecutor</a>, and <a class="el" href="classBeeeOn_1_1NonAsyncExecutor.html#a0ca2b0eafc1dc7e0a983e69eff16c1d5">BeeeOn::NonAsyncExecutor</a>.</p>
 
 </div>
 </div>

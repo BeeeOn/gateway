@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-14-gb84bf3e</span>
+   &#160;<span id="projectnumber">v2018.07.1-31-g9b523c4</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -66,7 +66,7 @@
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;Poco/SharedPtr.h&gt;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;commands/NewDeviceCommand.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/DeviceDescription.h&quot;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;model/GatewayID.h&quot;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
@@ -123,7 +123,7 @@
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        std::vector&lt;SensorData&gt; <a class="code" href="classBeeeOn_1_1VPTDevice.html#a7f96662d8648713cbaa76b28fd52b05e">requestValues</a>();</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        std::vector&lt;NewDeviceCommand::Ptr&gt; <a class="code" href="classBeeeOn_1_1VPTDevice.html#a78109b295a64e8c7640edc4b52bf0a44">createNewDeviceCommands</a>(Poco::Timespan&amp; refresh);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        std::vector&lt;DeviceDescription&gt; <a class="code" href="classBeeeOn_1_1VPTDevice.html#a4770e9615d1c64d3f58e21bf18ea514a">descriptions</a>(<span class="keyword">const</span> Poco::Timespan&amp; refresh) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1VPTDevice.html#afe773bd5a627fec97b0e780c1d195d95">operator==</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1VPTDevice.html">VPTDevice</a>&amp; other) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
@@ -166,13 +166,13 @@
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;};</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1VPTDevice_html_a78109b295a64e8c7640edc4b52bf0a44"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#a78109b295a64e8c7640edc4b52bf0a44">BeeeOn::VPTDevice::createNewDeviceCommands</a></div><div class="ttdeci">std::vector&lt; NewDeviceCommand::Ptr &gt; createNewDeviceCommands(Poco::Timespan &amp;refresh)</div><div class="ttdoc">Returns list of new device commands of all subdevices. </div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:515</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTDevice_html_aa33a54488a5aa8406baaf9b0146e3227"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#aa33a54488a5aa8406baaf9b0146e3227">BeeeOn::VPTDevice::omitSubdeviceFromDeviceID</a></div><div class="ttdeci">static DeviceID omitSubdeviceFromDeviceID(const DeviceID &amp;id)</div><div class="ttdoc">Returns DeviceID of real VPT. </div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:460</div></div>
 <div class="ttc" id="classBeeeOn_1_1HTTPEntireResponse_html"><div class="ttname"><a href="classBeeeOn_1_1HTTPEntireResponse.html">BeeeOn::HTTPEntireResponse</a></div><div class="ttdef"><b>Definition:</b> HTTPEntireResponse.h:13</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTDevice_html_a1835a29e9c22ee9c0a4430466a223a71"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#a1835a29e9c22ee9c0a4430466a223a71">BeeeOn::VPTDevice::extractSubdeviceFromDeviceID</a></div><div class="ttdeci">static int extractSubdeviceFromDeviceID(const DeviceID &amp;id)</div><div class="ttdoc">Extracts subdevice number from DeviceID. </div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:467</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTDevice_html_a421a468d2618623367c3a0b3888f23af"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#a421a468d2618623367c3a0b3888f23af">BeeeOn::VPTDevice::buildDevice</a></div><div class="ttdeci">static VPTDevice::Ptr buildDevice(const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const Poco::Timespan &amp;pingTimeout, const GatewayID &amp;id)</div><div class="ttdoc">Connects to specified address to fetch information for creating VPT Device. If the device do not resp...</div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:200</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTDevice_html_a7f96662d8648713cbaa76b28fd52b05e"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#a7f96662d8648713cbaa76b28fd52b05e">BeeeOn::VPTDevice::requestValues</a></div><div class="ttdeci">std::vector&lt; SensorData &gt; requestValues()</div><div class="ttdoc">Gathers data from all sensors of subdevices. </div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:501</div></div>
+<div class="ttc" id="classBeeeOn_1_1VPTDevice_html_a4770e9615d1c64d3f58e21bf18ea514a"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#a4770e9615d1c64d3f58e21bf18ea514a">BeeeOn::VPTDevice::descriptions</a></div><div class="ttdeci">std::vector&lt; DeviceDescription &gt; descriptions(const Poco::Timespan &amp;refresh) const </div><div class="ttdoc">Returns list of new device commands of all subdevices. </div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:515</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTDevice_html_afe773bd5a627fec97b0e780c1d195d95"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#afe773bd5a627fec97b0e780c1d195d95">BeeeOn::VPTDevice::operator==</a></div><div class="ttdeci">bool operator==(const VPTDevice &amp;other) const </div><div class="ttdoc">Compares two VPTs based on DeviceID. </div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:195</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
 <div class="ttc" id="classBeeeOn_1_1VPTDevice_html_aad042bdd42b151ac58f2c4afa2a26066"><div class="ttname"><a href="classBeeeOn_1_1VPTDevice.html#aad042bdd42b151ac58f2c4afa2a26066">BeeeOn::VPTDevice::requestModifyState</a></div><div class="ttdeci">void requestModifyState(const DeviceID &amp;id, const ModuleID module, const double value)</div><div class="ttdef"><b>Definition:</b> VPTDevice.cpp:225</div></div>

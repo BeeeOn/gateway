@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-14-gb84bf3e</span>
+   &#160;<span id="projectnumber">v2018.07.1-31-g9b523c4</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -52,6 +52,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::DeviceDescription Class Reference</div>  </div>
@@ -63,23 +64,40 @@
 
 <p><code>#include &lt;<a class="el" href="DeviceDescription_8h_source.html">DeviceDescription.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceDescription_1_1Builder.html">Builder</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7f524bdab1bd2b1a3ec33f1bfb33cf77"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f524bdab1bd2b1a3ec33f1bfb33cf77"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DeviceDescription</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const std::string &amp;vendor, const std::string &amp;productName, const std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt; &amp;dataTypes, Poco::Timespan <a class="el" href="classBeeeOn_1_1DeviceDescription.html#afbb8f9193d9131d04804dfb7653e31e5">refreshTime</a>=-1)</td></tr>
-<tr class="separator:a7f524bdab1bd2b1a3ec33f1bfb33cf77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15c3dc81414d7dee64893afa3ed6e6f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15c3dc81414d7dee64893afa3ed6e6f4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setID</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
+<tr class="separator:a15c3dc81414d7dee64893afa3ed6e6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b973cbdb1aa774edef81251e2a43044"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b973cbdb1aa774edef81251e2a43044"></a>
 <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> () const </td></tr>
 <tr class="separator:a7b973cbdb1aa774edef81251e2a43044"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73601079969c4b5bbc1ae81221f4f38f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a73601079969c4b5bbc1ae81221f4f38f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setVendor</b> (const std::string &amp;vendor)</td></tr>
+<tr class="separator:a73601079969c4b5bbc1ae81221f4f38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28d476f6842916020d99d55c84f8c1ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a28d476f6842916020d99d55c84f8c1ec"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>vendor</b> () const </td></tr>
 <tr class="separator:a28d476f6842916020d99d55c84f8c1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac699d843ca30c05ae2e7f12c8c408767"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac699d843ca30c05ae2e7f12c8c408767"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setProductName</b> (const std::string &amp;name)</td></tr>
+<tr class="separator:ac699d843ca30c05ae2e7f12c8c408767"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a035e0c47f678729adaff9219fd8dfbdb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a035e0c47f678729adaff9219fd8dfbdb"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>productName</b> () const </td></tr>
 <tr class="separator:a035e0c47f678729adaff9219fd8dfbdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf09adcf818716696a4fa758e7644c74"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf09adcf818716696a4fa758e7644c74"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDataTypes</b> (const std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt; &amp;types)</td></tr>
+<tr class="separator:abf09adcf818716696a4fa758e7644c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63cbffbc40f74fb8fef85f4bb87603f3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63cbffbc40f74fb8fef85f4bb87603f3"></a>
 std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>dataTypes</b> () const </td></tr>
 <tr class="separator:a63cbffbc40f74fb8fef85f4bb87603f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02e9cec254e7f2c0fa728c6f89f5ff5e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02e9cec254e7f2c0fa728c6f89f5ff5e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setRefreshTime</b> (const Poco::Timespan &amp;time)</td></tr>
+<tr class="separator:a02e9cec254e7f2c0fa728c6f89f5ff5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbb8f9193d9131d04804dfb7653e31e5"><td class="memItemLeft" align="right" valign="top">Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceDescription.html#afbb8f9193d9131d04804dfb7653e31e5">refreshTime</a> () const </td></tr>
 <tr class="separator:afbb8f9193d9131d04804dfb7653e31e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a397ddf583bd343181a225db73c4c76aa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a397ddf583bd343181a225db73c4c76aa"></a>

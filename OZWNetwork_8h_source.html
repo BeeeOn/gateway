@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-14-gb84bf3e</span>
+   &#160;<span id="projectnumber">v2018.07.1-31-g9b523c4</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -129,9 +129,9 @@
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                <a class="code" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html">OZWNode</a>(<span class="keyword">const</span> <a class="code" href="structBeeeOn_1_1ZWaveNode_1_1Identity.html">Identity</a> &amp;<span class="keywordtype">id</span>, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html#aab22d6fdae7a068fbec3142f8b76fcf4">controller</a> = <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html#a37ac0dec7e0f65a382e4a9f5f7b77257">add</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1CommandClass.html">CommandClass</a> &amp;cc, <span class="keyword">const</span> OpenZWave::ValueID &amp;<span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html#a37ac0dec7e0f65a382e4a9f5f7b77257">add</a>(<span class="keyword">const</span> CommandClass &amp;cc, <span class="keyword">const</span> OpenZWave::ValueID &amp;<span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                OpenZWave::ValueID <a class="code" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html#a666894e4b5149aac113b344bc636d9a8">operator[]</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1CommandClass.html">CommandClass</a> &amp;cc) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                OpenZWave::ValueID <a class="code" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html#a666894e4b5149aac113b344bc636d9a8">operator[]</a>(<span class="keyword">const</span> CommandClass &amp;cc) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                std::map&lt;CommandClass, OpenZWave::ValueID&gt; m_valueIDs;</div>
