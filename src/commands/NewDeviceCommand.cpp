@@ -6,9 +6,8 @@ using namespace BeeeOn;
 using namespace std;
 using namespace Poco;
 
-NewDeviceCommand::NewDeviceCommand(const DeviceID &deviceID, const string &vendor,
-	const string &productName, const list<ModuleType> &dataTypes, Timespan refreshTime):
-		m_description(deviceID, vendor, productName, dataTypes, refreshTime)
+NewDeviceCommand::NewDeviceCommand(const DeviceDescription &description):
+	m_description(description)
 {
 }
 

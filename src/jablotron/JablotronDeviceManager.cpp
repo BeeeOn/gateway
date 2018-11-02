@@ -546,9 +546,17 @@ void JablotronDeviceManager::newDevice(
 		const list<ModuleType> &types,
 		const Timespan &refreshTime)
 {
-	NewDeviceCommand::Ptr cmd = new NewDeviceCommand(
-		id, "Jablotron", name, types, refreshTime);
-	dispatch(cmd);
+	auto builder = DeviceDescription::Builder()
+		.id(id)
+		.type("Jablotron", name)
+		.modules(types);
+
+	if (refreshTime < 0)
+		builder.noRefreshTime();
+	else
+		builder.refreshTime(refreshTime);
+
+	dispatch(new NewDeviceCommand(builder.build()));
 }
 
 AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)

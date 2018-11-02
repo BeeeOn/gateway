@@ -5,6 +5,7 @@
 #include <Poco/Crypto/CipherKey.h>
 #include <Poco/Net/IPAddress.h>
 
+#include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "credentials/PasswordCredentials.h"
 #include "di/Injectable.h"
@@ -385,10 +386,10 @@ void VPTDeviceManager::processNewDevice(VPTDevice::Ptr newDevice)
 	logger().debug("found device " + newDevice->boilerID().toString() +
 		" at " + newDevice->address().toString(), __FILE__, __LINE__);
 
-	vector<NewDeviceCommand::Ptr> newDeviceCommands = newDevice->createNewDeviceCommands(m_refresh);
-	for (auto cmd : newDeviceCommands) {
-		if (!deviceCache()->paired(cmd->deviceID()))
-			dispatch(cmd);
+	const auto &descriptions = newDevice->descriptions(m_refresh);
+	for (auto d : descriptions) {
+		if (!deviceCache()->paired(d.id()))
+			dispatch(new NewDeviceCommand(d));
 	}
 }
 

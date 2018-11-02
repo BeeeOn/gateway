@@ -463,14 +463,14 @@ void PhilipsHueDeviceManager::processNewDevice(PhilipsHueBulb::Ptr newDevice)
 	logger().debug("found device " + newDevice->deviceID().toString(),
 		__FILE__, __LINE__);
 
-	auto types = newDevice->moduleTypes();
-	dispatch(
-		new NewDeviceCommand(
-			newDevice->deviceID(),
-			PHILIPS_HUE_VENDOR,
-			newDevice->name(),
-			types,
-			m_refresh));
+	const auto description = DeviceDescription::Builder()
+		.id(newDevice->deviceID())
+		.type(PHILIPS_HUE_VENDOR, newDevice->name())
+		.modules(newDevice->moduleTypes())
+		.refreshTime(m_refresh)
+		.build();
+
+	dispatch(new NewDeviceCommand(description));
 
 	fireBulbStatistics(newDevice);
 }

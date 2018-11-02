@@ -89,12 +89,14 @@ void PressureSensorManager::handleRemoteStatus(
 AsyncWork<>::Ptr PressureSensorManager::startDiscovery(const Timespan &)
 {
 	if (!deviceCache()->paired(pairedID())) {
-		dispatch(new NewDeviceCommand(
-			pairedID(),
-			m_vendor,
-			PRODUCT,
-			TYPES,
-			m_refresh));
+		const auto description = DeviceDescription::Builder()
+			.id(pairedID())
+			.type(m_vendor, PRODUCT)
+			.modules(TYPES)
+			.refreshTime(m_refresh)
+			.build();
+
+		dispatch(new NewDeviceCommand(description));
 	}
 
 	return BlockingAsyncWork<>::instance();

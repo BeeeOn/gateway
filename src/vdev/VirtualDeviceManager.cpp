@@ -207,14 +207,14 @@ void VirtualDeviceManager::installVirtualDevices()
 
 void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)
 {
-	NewDeviceCommand::Ptr cmd = new NewDeviceCommand(
-		device->deviceID(),
-		device->vendorName(),
-		device->productName(),
-		device->moduleTypes(),
-		device->refresh());
+	const auto description = DeviceDescription::Builder()
+		.id(device->deviceID())
+		.type(device->vendorName(), device->productName())
+		.modules(device->moduleTypes())
+		.refreshTime(device->refresh())
+		.build();
 
-	dispatch(cmd);
+	dispatch(new NewDeviceCommand(description));
 }
 
 void VirtualDeviceManager::doListenCommand(

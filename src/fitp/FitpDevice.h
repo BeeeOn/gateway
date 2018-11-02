@@ -36,23 +36,23 @@ public:
 	 * ED - battery, inner temperature, outer temperature, humidity, RSSI module.
 	 * COORD - battery, inner temperature, RSSI module.
 	 */
-	std::list<ModuleType> modules(const DeviceType &type);
+	std::list<ModuleType> modules() const;
 
 	/**
 	 * Returns count of bytes that has to be skipped in case of end device.
 	 */
-	size_t moduleEDOffset(const uint8_t &id);
+	size_t moduleEDOffset(const uint8_t &id) const;
 
 	/**
 	 * Returns count of bytes that has to be skipped in case of coordinator.
 	 */
-	size_t moduleCOORDOffset(const uint8_t &id);
+	size_t moduleCOORDOffset(const uint8_t &id) const;
 
 	/**
 	 * Processes data received from device. It is able to recognize a particular
 	 * module and its value.
 	 */
-	SensorData parseMessage(const std::vector<uint8_t> &data, DeviceID deviceID);
+	SensorData parseMessage(const std::vector<uint8_t> &data, DeviceID deviceID) const;
 
 	/**
 	 * Returns module value.

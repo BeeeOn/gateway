@@ -476,15 +476,14 @@ void ZWaveDeviceManager::dispatchDevice(const Device &device, bool enabled)
 	logger().information("dispatching new device " + device.toString(),
 			__FILE__, __LINE__);
 
-	NewDeviceCommand::Ptr cmd = new NewDeviceCommand(
-		device.id(),
-		device.vendor(),
-		device.product(),
-		device.types(),
-		device.refresh()
-	);
+	const auto description = DeviceDescription::Builder()
+		.id(device.id())
+		.type(device.vendor(), device.product())
+		.modules(device.types())
+		.refreshTime(device.refresh())
+		.build();
 
-	dispatch(cmd);
+	dispatch(new NewDeviceCommand(description));
 }
 
 set<DeviceID> ZWaveDeviceManager::recentlyUnpaired()

@@ -395,13 +395,15 @@ void BLESmartDeviceManager::processNewDevice(BLESmartDevice::Ptr newDevice)
 		__FILE__, __LINE__);
 
 	auto types = newDevice->moduleTypes();
-	dispatch(
-		new NewDeviceCommand(
-			newDevice->deviceID(),
-			newDevice->vendor(),
-			newDevice->productName(),
-			types,
-			m_refresh));
+
+	const auto description = DeviceDescription::Builder()
+		.id(newDevice->deviceID())
+		.type(newDevice->vendor(), newDevice->productName())
+		.modules(types)
+		.refreshTime(m_refresh)
+		.build();
+
+	dispatch(new NewDeviceCommand(description));
 }
 
 BLESmartDeviceManager::BLESmartSeeker::BLESmartSeeker(

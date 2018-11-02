@@ -402,11 +402,15 @@ void BluetoothAvailabilityManager::shipStatusOf(const BluetoothDevice &device)
 void BluetoothAvailabilityManager::sendNewDevice(const DeviceID &id, const string &name)
 {
 	logger().debug("new device: id = " + id.toString() + " name = " + name);
-	dispatch(new NewDeviceCommand(
-				id,
-				"Bluetooth Availability",
-				name,
-				moduleTypes()));
+
+	const auto description = DeviceDescription::Builder()
+		.id(id)
+		.type("Bluetooth Availability", name)
+		.modules(moduleTypes())
+		.noRefreshTime()
+		.build();
+
+	dispatch(new NewDeviceCommand(description));
 }
 
 list<ModuleType> BluetoothAvailabilityManager::moduleTypes() const

@@ -12,7 +12,7 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 
-#include "commands/NewDeviceCommand.h"
+#include "model/DeviceDescription.h"
 #include "model/DeviceID.h"
 #include "model/GatewayID.h"
 #include "model/ModuleID.h"
@@ -107,7 +107,7 @@ public:
 	/**
 	 * @brief Returns list of new device commands of all subdevices.
 	 */
-	std::vector<NewDeviceCommand::Ptr> createNewDeviceCommands(Poco::Timespan& refresh);
+	std::vector<DeviceDescription> descriptions(const Poco::Timespan& refresh) const;
 
 	/**
 	 * @brief Compares two VPTs based on DeviceID.
