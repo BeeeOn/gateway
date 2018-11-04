@@ -11,6 +11,7 @@ find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 
+
 find_library (LIBTRAP trap)
 find_library (UNIREC unirec)
 find_library (PCAP pcap)
@@ -29,7 +30,6 @@ set(LIBS
     ${PCAP}
     ${UNIREC}
     ${LIBTRAP}
-
 )
 
 find_package (PkgConfig)
@@ -43,6 +43,7 @@ find_library (FITP_LIB fitplib)
 find_library (MOSQUITTO_CPP mosquittopp)
 find_library (BLUETOOTH bluetooth)
 find_package(OpenZWave)
+
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})

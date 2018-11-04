@@ -122,7 +122,7 @@
 		<instance name="fsDeviceCache" class="BeeeOn::FilesystemDeviceCache">
 			<set name="cacheDir" text="${cache.devices.dir}" />
 		</instance>
-
+  
 		<alias name="deviceCache" ref="${cache.devices.impl}DeviceCache" />
 	</factory>
 </system>
