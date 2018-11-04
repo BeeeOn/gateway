@@ -43,9 +43,8 @@ static const list<ModuleType> MODULES_ED = {
 	{ModuleType::Type::TYPE_RSSI},
 };
 
-FitpDevice::FitpDevice(DeviceID id, bool paired):
-	m_deviceID(id),
-	m_paired(paired)
+FitpDevice::FitpDevice(DeviceID id):
+	m_deviceID(id)
 {
 	if (((id & 0xFF000000) >> 24) == COORD_PREFIX)
 		m_type = COORDINATOR;
@@ -70,16 +69,6 @@ DeviceID FitpDevice::deviceID() const
 FitpDevice::DeviceType FitpDevice::type() const
 {
 	return m_type;
-}
-
-void FitpDevice::setPaired(const bool paired)
-{
-	m_paired = paired;
-}
-
-bool FitpDevice::paired()
-{
-	return m_paired;
 }
 
 list<ModuleType> FitpDevice::modules(const DeviceType &type)

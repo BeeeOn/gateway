@@ -1,5 +1,4 @@
-#ifndef BEEEON_PHILIPS_HUE_BULB_INFO_H
-#define BEEEON_PHILIPS_HUE_BULB_INFO_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -37,5 +36,3 @@ private:
 };
 
 }
-
-#endif

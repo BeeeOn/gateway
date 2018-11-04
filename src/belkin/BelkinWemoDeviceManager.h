@@ -1,14 +1,9 @@
-#ifndef GATEWAY_BELKINWEMO_H
-#define GATEWAY_BELKINWEMO_H
+#pragma once
 
 #include <map>
-#include <set>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
-#include <Poco/Event.h>
 #include <Poco/Mutex.h>
-#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
 #include "belkin/BelkinWemoBulb.h"
@@ -16,11 +11,12 @@
 #include "belkin/BelkinWemoDimmer.h"
 #include "belkin/BelkinWemoLink.h"
 #include "belkin/BelkinWemoSwitch.h"
+#include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
-#include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "net/MACAddress.h"
-
+#include "util/AsyncWork.h"
 
 namespace BeeeOn {
 
@@ -30,19 +26,17 @@ public:
 	 * @brief Provides searching belkin wemo devices on network
 	 * in own thread.
 	 */
-	class BelkinWemoSeeker : public StoppableRunnable {
+	class BelkinWemoSeeker : public AbstractSeeker {
 	public:
-		BelkinWemoSeeker(BelkinWemoDeviceManager& parent);
+		typedef Poco::SharedPtr<BelkinWemoSeeker> Ptr;
 
-		void setDuration(const Poco::Timespan& duration);
+		BelkinWemoSeeker(BelkinWemoDeviceManager& parent, const Poco::Timespan& duration);
 
-		void run() override;
-		void stop() override;
+	protected:
+		void seekLoop(StopControl &control) override;
 
 	private:
 		BelkinWemoDeviceManager& m_parent;
-		Poco::Timespan m_duration;
-		Poco::AtomicCounter m_stop;
 	};
 
 	BelkinWemoDeviceManager();
@@ -55,8 +49,12 @@ public:
 	void setRefresh(const Poco::Timespan &refresh);
 
 protected:
-	bool accept(const Command::Ptr cmd) override;
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
 
 	void refreshPairedDevices();
 	void searchPairedDevices();
@@ -67,48 +65,31 @@ protected:
 	void eraseUnusedLinks();
 
 	/**
-	 * @brief Processes the listen command.
+	 * @brief Processes the device set value command.
 	 */
-	void doListenCommand(const Command::Ptr cmd, const Answer::Ptr answer);
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const Command::Ptr cmd, const Answer::Ptr answer);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const Command::Ptr cmd, const Answer::Ptr answer);
-
+	void doSetValueCommand(const Command::Ptr cmd);
 	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @return If the setting was successfull or not.
 	 */
 	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
-	std::vector<BelkinWemoSwitch::Ptr> seekSwitches();
-	std::vector<BelkinWemoBulb::Ptr> seekBulbs();
-	std::vector<BelkinWemoDimmer::Ptr> seekDimmers();
+	std::vector<BelkinWemoSwitch::Ptr> seekSwitches(const StopControl& stop);
+	std::vector<BelkinWemoBulb::Ptr> seekBulbs(const StopControl& stop);
+	std::vector<BelkinWemoDimmer::Ptr> seekDimmers(const StopControl& stop);
 
 	void processNewDevice(BelkinWemoDevice::Ptr newDevice);
 
 private:
-	Poco::Thread m_seekerThread;
 	Poco::FastMutex m_linksMutex;
 	Poco::FastMutex m_pairedMutex;
 
 	std::map<MACAddress, BelkinWemoLink::Ptr> m_links;
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
-	std::set<DeviceID> m_pairedDevices;
 
 	Poco::Timespan m_refresh;
-	BelkinWemoDeviceManager::BelkinWemoSeeker m_seeker;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
-	Poco::Event m_event;
 };
 
 }
-
-#endif

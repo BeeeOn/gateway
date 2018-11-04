@@ -3,8 +3,6 @@
 #include <list>
 #include <string>
 
-#include <Poco/AtomicCounter.h>
-#include <Poco/Event.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 
@@ -38,9 +36,6 @@ public:
 	void run() override;
 	void stop() override;
 
-	bool accept(const Command::Ptr cmd) override;
-	void handle(const Command::Ptr cmd, Answer::Ptr answer) override;
-
 	void setRefresh(const Poco::Timespan &refresh);
 
 	/**
@@ -57,13 +52,22 @@ public:
 	 */
 	void setUnit(const std::string &unit);
 
-private:
 	/**
-	 * @brief obtain list of paired devices from a server and
-	 * eventually sets the state of this instance to paired.
+	 * @brief Wake-up the main thread when received new status.
 	 */
-	void initialize();
+	void handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const std::set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values) override;
 
+protected:
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
+
+private:
 	/**
 	 * @brief read value of air pressure and ship it to the Distributor.
 	 */
@@ -82,16 +86,10 @@ private:
 	 */
 	double convertToHPA(const double value);
 
-	void handleListenCommand(const GatewayListenCommand &cmd, Answer::Ptr answer);
-	void handleAcceptCommand(const DeviceAcceptCommand &cmd, Answer::Ptr answer);
-	void handleUnpairCommand(const DeviceUnpairCommand &cmd, Answer::Ptr answer);
-
 private:
-	Poco::AtomicCounter m_paired;
 	Poco::Timespan m_refresh;
 	std::string m_vendor;
 	std::string m_path;
-	Poco::Event m_event;
 	std::string m_unit;
 };
 

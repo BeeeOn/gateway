@@ -1,5 +1,4 @@
-#ifndef BEEEON_SOAP_MESSAGE_H
-#define BEEEON_SOAP_MESSAGE_H
+#pragma once
 
 #include <string>
 #include <sstream>
@@ -28,5 +27,3 @@ private:
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BEEEON_HCI_INFO_H
-#define BEEEON_HCI_INFO_H
+#pragma once
 
 #include <string>
 
@@ -61,5 +60,3 @@ private:
 };
 
 }
-
-#endif

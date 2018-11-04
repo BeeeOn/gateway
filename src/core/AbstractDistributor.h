@@ -22,18 +22,13 @@ public:
 	*/
 	virtual void registerExporter(Poco::SharedPtr<Exporter> exporter);
 
-	/*
-	 * Export data to all registered exporters.
-	 */
-	virtual void exportData(const SensorData &sensorData) = 0;
-
 	void registerListener(DistributorListener::Ptr listener);
 
 	/*
 	 * Set executor instance for asynchronous data transfer to
 	 * listeners.
 	 */
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
+	void setExecutor(AsyncExecutor::Ptr executor);
 
 protected:
 	/*

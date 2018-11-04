@@ -1,5 +1,4 @@
-#ifndef BEEEON_SERVER_DEVICE_LIST_COMMAND_H
-#define BEEEON_SERVER_DEVICE_LIST_COMMAND_H
+#pragma once
 
 #include "core/Command.h"
 #include "model/DevicePrefix.h"
@@ -30,5 +29,3 @@ private:
 };
 
 }
-
-#endif

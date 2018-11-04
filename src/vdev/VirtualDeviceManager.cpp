@@ -18,6 +18,8 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, VirtualDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &VirtualDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &VirtualDeviceManager::setConfigFile)
 BEEEON_OBJECT_PROPERTY("distributor", &VirtualDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &VirtualDeviceManager::setCommandDispatcher)
@@ -32,7 +34,12 @@ using namespace std;
 const static unsigned int DEFAULT_REFRESH_SECS = 30;
 
 VirtualDeviceManager::VirtualDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_VIRTUAL_DEVICE)
+	DeviceManager(DevicePrefix::PREFIX_VIRTUAL_DEVICE, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	})
 {
 }
 
@@ -65,7 +72,7 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 		+ ", modules: "
 		+ to_string(device->modules().size())
 		+ ", paired: "
-		+ (device->paired() ? "yes" : "no")
+		+ (deviceCache()->paired(device->deviceID()) ? "yes" : "no")
 		+ ", refresh: "
 		+ to_string(device->refresh().totalSeconds())
 		+ ", vendor: "
@@ -111,7 +118,11 @@ VirtualDevice::Ptr VirtualDeviceManager::parseDevice(
 	unsigned int refresh = cfg->getUInt("refresh", DEFAULT_REFRESH_SECS);
 	device->setRefresh(refresh * Timespan::SECONDS);
 
-	device->setPaired(cfg->getBool("paired", false));
+	if (cfg->getBool("paired", false))
+		deviceCache()->markPaired(id);
+	else
+		deviceCache()->markUnpaired(id);
+
 	device->setVendorName(cfg->getString("vendor"));
 	device->setProductName(cfg->getString("product"));
 
@@ -194,29 +205,6 @@ void VirtualDeviceManager::installVirtualDevices()
 	);
 }
 
-bool VirtualDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceSetValueCommand>()) {
-		auto it = m_virtualDevicesMap.find(
-			cmd->cast<DeviceSetValueCommand>().deviceID());
-		return it != m_virtualDevicesMap.end();
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		auto it = m_virtualDevicesMap.find(
-			cmd->cast<DeviceUnpairCommand>().deviceID());
-		return it != m_virtualDevicesMap.end();
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix()
-			== DevicePrefix::PREFIX_VIRTUAL_DEVICE;
-	}
-
-	return false;
-}
-
 void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)
 {
 	NewDeviceCommand::Ptr cmd = new NewDeviceCommand(
@@ -230,39 +218,24 @@ void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)
 }
 
 void VirtualDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr, const Answer::Ptr answer)
+	const GatewayListenCommand::Ptr)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : m_virtualDevicesMap) {
-		if (!item.second->paired())
+		if (!deviceCache()->paired(item.first))
 			dispatchNewDevice(item.second);
 	}
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
+		const DeviceAcceptCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_virtualDevicesMap.find(cmd->deviceID());
-	if (it == m_virtualDevicesMap.end()) {
-		logger().warning(
-			"no such device "
-			+ cmd->deviceID().toString()
-			+ " to accept",
-			__FILE__, __LINE__
-		);
+	if (it == m_virtualDevicesMap.end())
+		throw NotFoundException("accept " + cmd->deviceID().toString());
 
-		result->setStatus(Result::Status::SUCCESS);
-		return;
-	}
-
-	if (it->second->paired()) {
+	if (deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"ignoring accept for paired device "
 			+ cmd->deviceID().toString(),
@@ -271,17 +244,13 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 	}
 
 	const VirtualDeviceEntry entry(it->second);
-	entry.device()->setPaired(true);
+	deviceCache()->markPaired(cmd->deviceID());
 	scheduleEntryUnlocked(entry);
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void VirtualDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+		const DeviceUnpairCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_virtualDevicesMap.find(cmd->deviceID());
 	if (it == m_virtualDevicesMap.end()) {
@@ -291,11 +260,10 @@ void VirtualDeviceManager::doUnpairCommand(
 			__FILE__, __LINE__
 		);
 
-		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
-	if (!it->second->paired()) {
+	if (!deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"unpairing device that is not paired: "
 			+ cmd->deviceID().toString(),
@@ -303,44 +271,31 @@ void VirtualDeviceManager::doUnpairCommand(
 		);
 	}
 
-	it->second->setPaired(false);
-
-	result->setStatus(Result::Status::SUCCESS);
+	deviceCache()->markUnpaired(cmd->deviceID());
 }
 
 void VirtualDeviceManager::doSetValueCommand(
-	const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer)
+	const DeviceSetValueCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_virtualDevicesMap.find(cmd->deviceID());
-	if (it == m_virtualDevicesMap.end()) {
-		logger().warning(
-			"failed to set value for non-existing device "
-			+ cmd->deviceID().toString(),
-			__FILE__, __LINE__
-		);
-
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
+	if (it == m_virtualDevicesMap.end())
+		throw NotFoundException("set-value: " + cmd->deviceID().toString());
 
 	for (auto &item : it->second->modules()) {
 		if (item->moduleID() == cmd->moduleID()) {
 			if (item->reaction() == VirtualModule::REACTION_NONE) {
-				logger().warning(
-					"value of module "
-					+ item->moduleType().type().toString()
-					+ " cannot be set");
-
-				result->setStatus(Result::Status::FAILED);
-				return;
+				throw InvalidAccessException(
+					"cannot set-value: " + cmd->deviceID().toString());
 			}
 		}
 	}
 
-	it->second->modifyValue(cmd->moduleID(), cmd->value(), result);
+	if (!it->second->modifyValue(cmd->moduleID(), cmd->value())) {
+		throw IllegalStateException(
+			"set-value: " + cmd->deviceID().toString());
+	}
+
 	logger().debug(
 		"module "
 		+ cmd->moduleID().toString()
@@ -350,43 +305,34 @@ void VirtualDeviceManager::doSetValueCommand(
 	);
 }
 
-void VirtualDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void VirtualDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceSetValueCommand>())
-		doSetValueCommand(cmd.cast<DeviceSetValueCommand>(), answer);
+		doSetValueCommand(cmd.cast<DeviceSetValueCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
+		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw IllegalStateException("received unaccepted command");
+		DeviceManager::handleGeneric(cmd, result);
 }
 
-void VirtualDeviceManager::setPairedDevices()
+void VirtualDeviceManager::handleRemoteStatus(
+	const DevicePrefix &prefix,
+	const set<DeviceID> &devices,
+	const DeviceStatusHandler::DeviceValues &values)
 {
-	if (m_requestDeviceList) {
-		set<DeviceID> deviceIDs = deviceList(-1);
-
-		FastMutex::ScopedLock guard(m_lock);
-		for (auto &pair : m_virtualDevicesMap) {
-			if (deviceIDs.find(pair.first) != deviceIDs.end())
-				continue;
-
-			pair.second->setPaired(true);
-		}
-	}
-	else {
-		logger().information("skipping request of device list");
-	}
+	DeviceManager::handleRemoteStatus(prefix, devices, values);
+	scheduleAllEntries();
 }
 
 void VirtualDeviceManager::scheduleAllEntries()
 {
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : m_virtualDevicesMap) {
-		if (item.second->paired()) {
+		if (deviceCache()->paired(item.first)) {
 			const VirtualDeviceEntry entry(item.second);
 			scheduleEntryUnlocked(VirtualDeviceEntry(item.second));
 		}
@@ -401,22 +347,23 @@ bool VirtualDeviceManager::isEmptyQueue()
 
 void VirtualDeviceManager::run()
 {
-	setPairedDevices();
 	scheduleAllEntries();
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		if (isEmptyQueue()) {
 			logger().debug(
 				"empty queue of devices",
 				__FILE__, __LINE__);
-			m_event.wait();
+			run.waitStoppable(-1);
 			continue;
 		}
 
 		ScopedLockWithUnlock<FastMutex> guard(m_lock);
 		const VirtualDeviceEntry entry = m_virtualDeviceQueue.top();
 
-		if (!entry.device()->paired()) {
+		if (!deviceCache()->paired(entry.device()->deviceID())) {
 			logger().debug(
 				"unpaired device "
 				+ entry.device()->deviceID().toString()
@@ -438,7 +385,7 @@ void VirtualDeviceManager::run()
 				+ to_string(sleepTime.totalMilliseconds())
 				+ " milliseconds",
 				__FILE__, __LINE__);
-			m_event.tryWait(sleepTime.totalMilliseconds());
+			run.waitStoppable(sleepTime);
 			continue;
 		}
 
@@ -459,14 +406,12 @@ void VirtualDeviceManager::run()
 		}
 
 		scheduleEntryUnlocked(entry);
-		m_event.reset();
 	}
 }
 
 void VirtualDeviceManager::stop()
 {
-	m_stop = true;
-	m_event.set();
+	DeviceManager::stop();
 	answerQueue().dispose();
 }
 
@@ -474,7 +419,7 @@ void VirtualDeviceManager::scheduleEntryUnlocked(VirtualDeviceEntry entry)
 {
 	entry.setInserted(Timestamp());
 	m_virtualDeviceQueue.push(entry);
-	m_event.set();
+	m_stopControl.requestWakeup();
 }
 
 bool VirtualDeviceEntryComparator::lessThan(

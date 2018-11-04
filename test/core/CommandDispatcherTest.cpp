@@ -209,8 +209,8 @@ void CommandDispatcherTest::testSupportedCommand()
 	dispatcher.registerHandler(handlerTest1);
 	dispatcher.registerHandler(handlerTest2);
 
-	dispatcher.dispatch(cmd, answer);
 	Poco::Timestamp now;
+	dispatcher.dispatch(cmd, answer);
 
 	CPPUNIT_ASSERT(!queue.wait(1, answerList));
 	CPPUNIT_ASSERT(1 == queue.size());

@@ -163,6 +163,12 @@ certificate signed by the BeeeOn Server authority.
 * gateway.id - ID of the BeeeOn Gateway intended for *testing only*. In production, the
 ID is extracted from the SSL certificate.
 
+* application.instance.id - name of the application used for checking whether only one
+BeeeOn Gateway appliacation instance is currently running
+
+* application.instance.mode - (fail, ignore, recover) strategy to be used when dealing
+with multiple BeeeOn Gateway appliacation instances running
+
 ##### Credentials storage facility
 
 The BeeeOn Gateway provides a credentials storage facility. Its purpose is to serve
@@ -258,20 +264,37 @@ After the initial setup, we have full control over all currently supported devic
 
 * belkinwemo.refresh - interval of polling the particular Belkin Wemo devices (seconds)
 
+##### Bluetooth HCI statistics reporting
+
+The BeeeOn Gateway can periodically report statistics of HCI interfaces via the internal
+C++ interface HciListener.
+
+* bluetooth.reporting.enable - enable reporting of HCI statistics
+
+* bluetooth.statistics.interval - interval of periodic reports of each HCI interface
+
 ##### Bluetooth availability
 
 The BeeeOn Gateway can scan the Bluetooth for availability of devices. When a device
 is available or unavailable, such event is distributed.
 
-* bluetooth.enable - enable the Bluetooth availability support
+* bluetooth.availability.enable - enable the Bluetooth availability support
 
-* bluetooth.modes - list of bluetooth modes to enable (available: classic, le)
+* bluetooth.availability.modes - list of bluetooth modes to enable (available: classic, le)
 
-* bluetooth.refresh - interval of scanning the network and reporting results
+* bluetooth.availability.refresh - interval of scanning the network and reporting results
+
+* bluetooth.availability.le.scan.time - time for a single LE scan when testing device availability
 
 ##### Jablotron
 
 * jablotron.enable - enable the Jablotron support
+
+* jablotron.unpairErasesSlot - enable erasing slots while doing unpair
+
+* jablotron.eraseAllOnProbe - when Turris Dongle is connected, all its slots would be erased
+
+* jablotron.registerOnProbe - when Turris Dongle is connected, the given list of addresses is registered
 
 ##### Virtual devices
 
@@ -287,11 +310,15 @@ real sensors or actuators.
 
 * zwave.enable - enable the Z-Wave support
 
-* zwave.user.path - path to Z-Wave user config data and state
+* zwave.ozw.userPath - path to OpenZWave user config data and state
 
-* zwave.config.path - path to Z-Wave XML config data
+* zwave.ozw.configPath - path to OpenZWave XML config data
 
-* zwave.poll.interval - polling interval to be used with older devices
+* zwave.ozw.pollInterval - polling interval to be used with older devices (via OpenZWave)
+
+* zwave.statistics.interval - interval of reporting statistics of the Z-Wave network
+
+* zwave.controllers.reset - comma-separated list of home IDs of controllers to be reset once connected
 
 #### Thermona VPT
 
@@ -319,3 +346,13 @@ sensor available via sysfs.
 * philipshue.http.timeout - timeout of HTTP requests
 
 * philipshue.refresh - interval of polling the particular Philips Hue devices (seconds)
+
+##### BLE Smart
+
+* blesmart.enable - enable the BLE Smart support
+
+* blesmart.scan.timeout - timeout of the Bluetooth Low Energy scan
+
+* blesmart.device.timeout - timeout of work with the device (connect, wait to load services, read/write request)
+
+* blesmart.refresh - interval of polling the particular BLE Smart devices (seconds)

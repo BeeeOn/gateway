@@ -1,5 +1,4 @@
-#ifndef BEEEON_SERVER_LAST_VALUE_RESULT_H
-#define BEEEON_SERVER_LAST_VALUE_RESULT_H
+#pragma once
 
 #include "core/Answer.h"
 #include "core/Result.h"
@@ -37,5 +36,3 @@ private:
 };
 
 }
-
-#endif

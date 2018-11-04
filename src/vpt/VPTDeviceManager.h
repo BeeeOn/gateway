@@ -1,15 +1,10 @@
-#ifndef GATEWAY_VPT_H
-#define GATEWAY_VPT_H
+#pragma once
 
 #include <map>
-#include <set>
 #include <vector>
 
-#include <Poco/AtomicCounter.h>
-#include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
-#include <Poco/Thread.h>
 #include <Poco/Timespan.h>
 
 #include "commands/DeviceAcceptCommand.h"
@@ -17,12 +12,13 @@
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "commands/NewDeviceCommand.h"
-#include "core/Answer.h"
+#include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
 #include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
-#include "loop/StoppableRunnable.h"
+#include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "vpt/VPTDevice.h"
 
@@ -39,26 +35,17 @@ public:
 	 * @brief Provides searching vpt devices on network in own thread.
 	 * Also takes care of thread where is the listen command performed.
 	 */
-	class VPTSeeker : public StoppableRunnable {
+	class VPTSeeker : public AbstractSeeker {
 	public:
-		VPTSeeker(VPTDeviceManager& parent);
+		typedef Poco::SharedPtr<VPTSeeker> Ptr;
 
-		/**
-		 * @brief Waits for thread to finish
-		 */
-		~VPTSeeker();
+		VPTSeeker(VPTDeviceManager& parent, const Poco::Timespan& duration);
 
-		bool startSeeking(const Poco::Timespan& duration);
-
-		void run() override;
-		void stop() override;
+	protected:
+		void seekLoop(StopControl &control) override;
 
 	private:
 		VPTDeviceManager& m_parent;
-
-		Poco::Timespan m_duration;
-		Poco::Thread m_seekerThread;
-		Poco::AtomicCounter m_stop;
 	};
 
 	VPTDeviceManager();
@@ -79,8 +66,12 @@ public:
 	void setCryptoConfig(Poco::SharedPtr<CryptoConfig> config);
 
 protected:
-	bool accept(const Command::Ptr cmd) override;
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 
 	/**
 	 * @brief Gathers SensorData from devices and
@@ -101,26 +92,11 @@ protected:
 	bool isAnySubdevicePaired(VPTDevice::Ptr device);
 
 	/**
-	 * @brief Processes the listen command.
-	 */
-	void doListenCommand(const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer);
-
-	/**
-	 * @brief Processes the unpair command.
-	 */
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer);
-
-	/**
-	 * @brief Processes the device accept command.
-	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer);
-
-	/**
 	 * @brief Sets the proper device's module to given value.
 	 * @param result Will contains information about
 	 * the success of the request
 	 */
-	void modifyValue(const DeviceSetValueCommand::Ptr cmd, const Answer::Ptr answer);
+	void modifyValue(const DeviceSetValueCommand::Ptr cmd);
 
 	/**
 	 * @brief Returns true if any subdevice is paired.
@@ -131,7 +107,7 @@ protected:
 	/**
 	 * @brief Searchs the devices on the network.
 	 */
-	std::vector<VPTDevice::Ptr> seekDevices();
+	std::vector<VPTDevice::Ptr> seekDevices(const StopControl& stop);
 
 	/**
 	 * @brief Processes a new device. It means saving the new device
@@ -148,20 +124,14 @@ protected:
 	std::string findPassword(const DeviceID& id);
 
 private:
-	VPTDeviceManager::VPTSeeker m_seeker;
 	VPTHTTPScanner m_scanner;
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;
-	Poco::Event m_event;
 
 	Poco::Timespan m_refresh;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_pingTimeout;
 
-	/**
-	 * The set contains DeviceID of paired devices.
-	 */
-	std::set<DeviceID> m_pairedDevices;
 	/**
 	 * The map maps only DeviceIDs of real VPT
 	 * devices to VPTDevices.
@@ -174,5 +144,3 @@ private:
 };
 
 }
-
-#endif

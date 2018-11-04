@@ -1,5 +1,4 @@
-#ifndef BEEEON_COMMAND_SENDER_H
-#define BEEEON_COMMAND_SENDER_H
+#pragma once
 
 #include <Poco/AutoPtr.h>
 
@@ -54,5 +53,3 @@ private:
 };
 
 }
-
-#endif

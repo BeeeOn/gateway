@@ -1,5 +1,4 @@
-#ifndef GATEWAY_BELKIN_WEMO_DIMMER_H
-#define GATEWAY_BELKIN_WEMO_DIMMER_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -61,5 +60,3 @@ public:
 };
 
 }
-
-#endif

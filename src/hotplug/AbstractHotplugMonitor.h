@@ -1,5 +1,4 @@
-#ifndef BEEEON_ABSTRACT_HOTPLUG_MONITOR_H
-#define BEEEON_ABSTRACT_HOTPLUG_MONITOR_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -29,5 +28,3 @@ private:
 };
 
 }
-
-#endif

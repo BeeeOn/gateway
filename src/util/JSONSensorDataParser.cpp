@@ -1,5 +1,10 @@
+#include "di/Injectable.h"
 #include "util/JsonUtil.h"
 #include "util/JSONSensorDataParser.h"
+
+BEEEON_OBJECT_BEGIN(BeeeOn, JSONSensorDataParser)
+BEEEON_OBJECT_CASTABLE(SensorDataParser)
+BEEEON_OBJECT_END(BeeeOn, JSONSensorDataParser)
 
 using namespace BeeeOn;
 using namespace Poco;

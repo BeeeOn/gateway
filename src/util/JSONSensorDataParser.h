@@ -17,7 +17,7 @@ namespace BeeeOn {
  * epochMicroseconds.
  * When a "value" is null, it is parsed to NaN.
  */
-class JSONSensorDataParser : SensorDataParser {
+class JSONSensorDataParser : public SensorDataParser {
 public:
 	SensorData parse(const std::string &data) const override;
 };

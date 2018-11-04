@@ -1,5 +1,4 @@
-#ifndef GATEWAY_PHILIPS_DIMMABLE_BULB_H
-#define GATEWAY_PHILIPS_DIMMABLE_BULB_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -35,5 +34,3 @@ private:
 };
 
 }
-
-#endif

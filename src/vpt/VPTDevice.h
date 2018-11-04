@@ -1,5 +1,4 @@
-#ifndef BEEEON_VPT_DEVICE_H
-#define BEEEON_VPT_DEVICE_H
+#pragma once
 
 #include <list>
 #include <map>
@@ -177,5 +176,3 @@ private:
 };
 
 }
-
-#endif

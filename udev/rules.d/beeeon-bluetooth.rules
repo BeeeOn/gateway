@@ -1,0 +1,2 @@
+SUBSYSTEM=="bluetooth", ENV{DEVTYPE}=="host", ENV{BEEEON_DONGLE}="bluetooth"
+

@@ -1,5 +1,4 @@
-#ifndef BEEEON_VIRTUAL_MODULE_H
-#define BEEEON_VIRTUAL_MODULE_H
+#pragma once
 
 #include <list>
 
@@ -39,7 +38,7 @@ public:
 	void setMax(double max);
 	double max() const;
 
-	void modifyValue(double value, Result::Ptr result);
+	bool modifyValue(double value);
 
 	void setGenerator(const std::string &generator);
 	bool generatorEnabled() const;
@@ -60,5 +59,3 @@ private:
 };
 
 }
-
-#endif

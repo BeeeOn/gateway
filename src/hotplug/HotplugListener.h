@@ -1,5 +1,4 @@
-#ifndef BEEEON_HOTPLUG_LISTENER_H
-#define BEEEON_HOTPLUG_LISTENER_H
+#pragma once
 
 #include <Poco/SharedPtr.h>
 
@@ -20,5 +19,3 @@ public:
 };
 
 }
-
-#endif

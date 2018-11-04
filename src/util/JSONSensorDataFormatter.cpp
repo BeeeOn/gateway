@@ -26,6 +26,8 @@ JSONSensorDataFormatter::JSONSensorDataFormatter()
 string JSONSensorDataFormatter::format(const SensorData &data)
 {
 	stringstream output;
+	output.setf(ios::fixed);
+	output.precision(3);
 	PrintHandler json(output);
 
 	json.startObject();

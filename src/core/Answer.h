@@ -1,5 +1,4 @@
-#ifndef BEEEON_ANSWER_H
-#define BEEEON_ANSWER_H
+#pragma once
 
 #include <Poco/AutoPtr.h>
 #include <Poco/Event.h>
@@ -9,16 +8,13 @@
 #include <Poco/Task.h>
 #include <Poco/TaskManager.h>
 
-#include "core/Command.h"
 #include "core/Result.h"
 
 namespace BeeeOn {
 
 class AnswerQueue;
-class Command;
 class CommandDispatcher;
 class CommandHandler;
-class Result;
 
 /*
  * During the Answer creation the queue is set. The queue is notified using
@@ -27,12 +23,15 @@ class Result;
  *
  * The Answer and the Result share the common mutex. The operations that
  * change the status in the Answer and in the Result MUST be locked.
+ *
+ * Be aware, only a single thread is allowed to wait for notification (e.g.: via waitNotPending()).
+ * Otherwise, a race condition can occur.
  */
 class Answer : public Poco::RefCountedObject, public Poco::SynchronizedObject {
 public:
 	typedef Poco::AutoPtr<Answer> Ptr;
 
-	Answer(AnswerQueue &answerQueue);
+	Answer(AnswerQueue &answerQueue, const bool autoDispose = false);
 
 	/*
 	 * All reference counted objects should have a protected destructor,
@@ -88,11 +87,11 @@ public:
 
 private:
 	AnswerQueue &m_answerQueue;
+	Poco::Event m_notifyEvent;
 	Poco::AtomicCounter m_dirty;
 	std::vector<Result::Ptr> m_resultList;
 	unsigned long m_handlers;
+	const bool m_autoDispose;
 };
 
 }
-
-#endif

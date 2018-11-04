@@ -1,7 +1,6 @@
-#ifndef BEEEON_ABSTRACT_COLLECTOR_H
-#define BEEEON_ABSTRACT_COLLECTOR_H
+#pragma once
 
-#include "bluetooth/BluetoothListener.h"
+#include "bluetooth/HciListener.h"
 #include "core/CommandDispatcherListener.h"
 #include "core/DistributorListener.h"
 #include "philips/PhilipsHueListener.h"
@@ -16,7 +15,7 @@ namespace BeeeOn {
  * sensors.
  */
 class AbstractCollector :
-	public BluetoothListener,
+	public HciListener,
 	public DistributorListener,
 	public PhilipsHueListener,
 	public ZWaveListener,
@@ -42,7 +41,7 @@ public:
 	/**
 	 * Empty implementation to be overrided if needed.
 	 */
-	void onNotification(const ZWaveNotificationEvent &event) override;
+	void onNotification(const OZWNotificationEvent &event) override;
 
 	/**
 	 * Empty implementation to be overrided if needed.
@@ -66,5 +65,3 @@ public:
 };
 
 }
-
-#endif

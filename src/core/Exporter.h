@@ -1,5 +1,4 @@
-#ifndef BEEEON_EXPORTER_H
-#define BEEEON_EXPORTER_H
+#pragma once
 
 namespace BeeeOn {
 
@@ -25,5 +24,3 @@ public:
 };
 
 }
-
-#endif // BEEEON_EXPORTER_H

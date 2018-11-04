@@ -1,7 +1,5 @@
-#ifndef BEEEON_FITPROTOCOL_DEVICE_MANAGER_H
-#define BEEEON_FITPROTOCOL_DEVICE_MANAGER_H
+#pragma once
 
-#include <Poco/Event.h>
 #include <Poco/Mutex.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timer.h>
@@ -195,15 +193,13 @@ public:
 	void processJoinMsg(const std::vector<uint8_t> &data);
 
 protected:
-	bool accept(const Command::Ptr cmd) override;
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 	/**
 	 * Reacts to ListenCommand. It sends NewDeviceCommand if
 	 * device is not paired or is not available.
 	 */
-	void doListenCommand(const GatewayListenCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doListenCommand(const GatewayListenCommand::Ptr cmd);
 
 	/**
 	 * Reacts to AcceptCommand. Device has to be stored in map
@@ -211,15 +207,13 @@ protected:
 	 * If these conditions are fulfilled, method inserts device into a map of devices,
 	 * and it sets device as paired.
 	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	/**
 	* Reacts to UnpairCommand. Device has to be in map of
 	* devices, it has to be paired and available.
 	*/
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
 
 	/**
 	 * Ensures sending of NewDeviceCommand to CommandDispatcher.
@@ -238,11 +232,8 @@ private:
 	bool m_listening;
 	Poco::TimerCallback<FitpDeviceManager> m_listenCallback;
 	Poco::Timer m_listenTimer;
-	Poco::Event m_event;
 	Poco::FastMutex m_lock;
 	Poco::SharedPtr<GatewayInfo> m_gatewayInfo;
 };
 
 }
-
-#endif

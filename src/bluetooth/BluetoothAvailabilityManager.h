@@ -1,11 +1,9 @@
-#ifndef BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H
-#define BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H
+#pragma once
 
 #include <list>
 #include <map>
 #include <string>
 
-#include <Poco/Event.h>
 #include <Poco/Logger.h>
 #include <Poco/Mutex.h>
 #include <Poco/RunnableAdapter.h>
@@ -13,14 +11,11 @@
 #include <Poco/Timespan.h>
 
 #include "bluetooth/BluetoothDevice.h"
-#include "bluetooth/BluetoothListener.h"
 #include "bluetooth/HciInterface.h"
-#include "core/Answer.h"
+#include "commands/DeviceAcceptCommand.h"
 #include "core/DongleDeviceManager.h"
 #include "model/DeviceID.h"
 #include "model/SensorData.h"
-#include "util/EventSource.h"
-#include "util/PeriodicRunner.h"
 
 namespace BeeeOn {
 
@@ -38,6 +33,10 @@ public:
 
 	void dongleFailed(const FailDetector &dongleStatus) override;
 
+	/**
+	 * @brief Recognizes compatible dongle by testing HotplugEvent property
+	 * as <code>bluetooth.BEEEON_DONGLE == bluetooth</code>.
+	 */
 	std::string dongleMatch(const HotplugEvent &e) override;
 
 	void stop() override;
@@ -51,34 +50,22 @@ public:
 
 	void setModes(const std::list<std::string> &modes);
 
-	bool accept(const Command::Ptr cmd) override;
-
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
-
-	void doDeviceAcceptCommand(
-		const Command::Ptr &cmd, const Answer::Ptr &answer);
-
-	void doUnpairCommand(
-		const Command::Ptr &cmd, const Answer::Ptr &answer);
-
-	void doListenCommand(const Command::Ptr &cmd, const Answer::Ptr &answer);
+	/**
+	 * Set time for a single LE scan when testing device availability.
+	 */
+	void setLEScanTime(const Poco::Timespan &time);
 
 	/**
-	 * Set interval of periodic bluetooth statistics generation.
+	 * Set HciInterfaceManager implementation.
 	 */
-	void setStatisticsInterval(const Poco::Timespan &interval);
-
-	/**
-	 * Set executor for delivering events.
-	 */
-	void setExecutor(Poco::SharedPtr<AsyncExecutor> executor);
-
-	/**
-	 * Register listener of bluetooth events.
-	 */
-	void registerListener(BluetoothListener::Ptr listener);
+	void setHciManager(HciInterfaceManager::Ptr manager);
 
 protected:
+	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
+	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
+			const DeviceID &id,
+			const Poco::Timespan &timeout) override;
 	void notifyDongleRemoved() override;
 
 private:
@@ -108,10 +95,6 @@ private:
 
 	void listen();
 
-	void addDevice(const DeviceID &id);
-
-	bool hasDevice(const DeviceID &id);
-
 	void removeDevice(const DeviceID &id);
 
 	void shipStatusOf(const BluetoothDevice &device);
@@ -126,18 +109,15 @@ private:
 
 	Poco::RunnableAdapter<BluetoothAvailabilityManager> m_listenThread;
 	Poco::Timespan m_wakeUpTime;
+	Poco::Timespan m_leScanTime;
 	Poco::Thread m_thread;
 	std::map<DeviceID, BluetoothDevice> m_deviceList;
-	Poco::Event m_stopEvent;
 	Poco::FastMutex m_lock;
 	Poco::FastMutex m_scanLock;
-	PeriodicRunner m_statisticsRunner;
-	EventSource<BluetoothListener> m_eventSource;
+	HciInterfaceManager::Ptr m_hciManager;
 	Poco::Timespan m_listenTime;
 	int m_mode;
 	std::map<MACAddress, std::string> m_leScanCache;
 };
 
 }
-
-#endif //BEEEON_BLUETOOTH_AVAILABILITY_MANAGER_H

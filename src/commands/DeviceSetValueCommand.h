@@ -1,9 +1,8 @@
-#ifndef BEEEON_DEVICE_SET_VALUE_COMMAND_H
-#define BEEEON_DEVICE_SET_VALUE_COMMAND_H
+#pragma once
 
 #include <Poco/Timespan.h>
 
-#include "core/Command.h"
+#include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
 
@@ -22,7 +21,7 @@ namespace BeeeOn {
  * can get need to be reported on server.
  *
  */
-class DeviceSetValueCommand : public Command {
+class DeviceSetValueCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceSetValueCommand> Ptr;
 
@@ -47,5 +46,3 @@ private:
 };
 
 }
-
-#endif

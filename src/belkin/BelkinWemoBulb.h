@@ -1,5 +1,4 @@
-#ifndef GATEWAY_BELKIN_WEMO_BULB_H
-#define GATEWAY_BELKIN_WEMO_BULB_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -50,5 +49,3 @@ private:
 };
 
 }
-
-#endif

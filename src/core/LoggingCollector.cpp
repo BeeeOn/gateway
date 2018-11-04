@@ -10,14 +10,20 @@
 #include "philips/PhilipsHueBulbInfo.h"
 #include "philips/PhilipsHueBridgeInfo.h"
 #include "util/Occasionally.h"
+
+#ifdef HAVE_ZWAVE
 #include "zwave/ZWaveDriverEvent.h"
 #include "zwave/ZWaveNodeEvent.h"
-#include "zwave/ZWaveNotificationEvent.h"
+#endif
+
+#ifdef HAVE_OPENZWAVE
+#include "zwave/OZWNotificationEvent.h"
+#endif
 
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
 BEEEON_OBJECT_CASTABLE(ZWaveListener)
-BEEEON_OBJECT_CASTABLE(BluetoothListener)
+BEEEON_OBJECT_CASTABLE(HciListener)
 BEEEON_OBJECT_CASTABLE(PhilipsHueListener)
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
 BEEEON_OBJECT_END(BeeeOn, LoggingCollector)
@@ -87,13 +93,23 @@ void LoggingCollector::onNodeStats(const ZWaveNodeEvent &e)
 			+ "/"
 			+ to_string(e.quality()));
 }
+#else
+void LoggingCollector::onDriverStats(const ZWaveDriverEvent &)
+{
+}
 
-void LoggingCollector::onNotification(const ZWaveNotificationEvent &e)
+void LoggingCollector::onNodeStats(const ZWaveNodeEvent &)
+{
+}
+#endif
+
+#ifdef HAVE_OPENZWAVE
+void LoggingCollector::onNotification(const OZWNotificationEvent &e)
 {
 	const string event = e.event().isNull() ?
 		"(null)" : NumberFormatter::formatHex(e.event().value(), 2, true);
 
-	logger().debug("Z-Wave Notification: "
+	logger().debug("OpenZWave Notification: "
 			+ to_string(e.type())
 			+ ", {"
 			+ NumberFormatter::formatHex(e.homeID(), 8, true)
@@ -115,15 +131,7 @@ void LoggingCollector::onNotification(const ZWaveNotificationEvent &e)
 			+ event);
 }
 #else
-void LoggingCollector::onDriverStats(const ZWaveDriverEvent &)
-{
-}
-
-void LoggingCollector::onNodeStats(const ZWaveNodeEvent &)
-{
-}
-
-void LoggingCollector::onNotification(const ZWaveNotificationEvent &)
+void LoggingCollector::onNotification(const OZWNotificationEvent &)
 {
 }
 #endif

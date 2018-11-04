@@ -24,7 +24,7 @@ void AbstractDistributor::registerListener(DistributorListener::Ptr listener)
 	m_eventSource.addListener(listener);
 }
 
-void AbstractDistributor::setExecutor(Poco::SharedPtr<AsyncExecutor> executor)
+void AbstractDistributor::setExecutor(AsyncExecutor::Ptr executor)
 {
 	m_eventSource.setAsyncExecutor(executor);
 }

@@ -1,5 +1,4 @@
-#ifndef BEEEON_UDEV_MONITOR_H
-#define BEEEON_UDEV_MONITOR_H
+#pragma once
 
 #include <list>
 #include <set>
@@ -49,5 +48,3 @@ private:
 };
 
 }
-
-#endif

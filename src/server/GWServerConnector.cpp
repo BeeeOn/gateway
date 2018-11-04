@@ -521,6 +521,9 @@ void GWServerConnector::setInactiveMultiplier(int multiplier)
 
 bool GWServerConnector::ship(const SensorData &data)
 {
+	if (!m_isConnected)
+		return false;
+
 	GWSensorDataExport::Ptr exportMessage = new GWSensorDataExport();
 	GWSensorDataExportContext::Ptr exportContext = new GWSensorDataExportContext();
 
@@ -709,7 +712,14 @@ void GWServerConnector::handleResponse(GWResponse::Ptr response)
 			ServerDeviceListResult::Ptr deviceListResult = result.cast<ServerDeviceListResult>();
 			if (deviceListResult.isNull())
 				throw IllegalStateException("request result do not match with response result");
-			deviceListResult->setDeviceList(response.cast<GWDeviceListResponse>()->devices());
+
+			map<DeviceID, map<ModuleID, double>> data;
+			GWDeviceListResponse::Ptr dlResponse = response.cast<GWDeviceListResponse>();
+
+			for (const auto id : dlResponse->devices())
+				data.emplace(id, dlResponse->modulesValues(id));
+
+			deviceListResult->setDevices(data);
 			break;
 		}
 		case GWMessageType::LAST_VALUE_RESPONSE:

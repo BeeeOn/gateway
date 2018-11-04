@@ -1,5 +1,4 @@
-#ifndef BEEEON_UPNP_H
-#define BEEEON_UPNP_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -27,5 +26,3 @@ private:
 };
 
 }
-
-#endif

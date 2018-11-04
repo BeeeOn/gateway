@@ -2,6 +2,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <Poco/Exception.h>
+
 #include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceSetValueCommand.h"
 #include "commands/DeviceUnpairCommand.h"
@@ -16,6 +18,8 @@
 BEEEON_OBJECT_BEGIN(BeeeOn, FitpDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &FitpDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &FitpDeviceManager::setConfigPath)
 BEEEON_OBJECT_PROPERTY("noiseMin", &FitpDeviceManager::setNoiseMin)
 BEEEON_OBJECT_PROPERTY("noiseMax", &FitpDeviceManager::setNoiseMax)
@@ -56,7 +60,11 @@ using namespace std;
 #define FITP_CONFIG_PATH    "/var/cache/beeeon/gateway/fitp.devices"
 
 FitpDeviceManager::FitpDeviceManager():
-	DeviceManager(DevicePrefix::PREFIX_FITPROTOCOL),
+	DeviceManager(DevicePrefix::PREFIX_FITPROTOCOL, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceAcceptCommand),
+	}),
 	m_configFile(FITP_CONFIG_PATH),
 	m_listening(false),
 	m_listenCallback(*this, &FitpDeviceManager::stopListen),
@@ -69,8 +77,7 @@ FitpDeviceManager::~FitpDeviceManager()
 	fitp_deinit();
 }
 
-void FitpDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
+void FitpDeviceManager::doListenCommand(const GatewayListenCommand::Ptr cmd)
 {
 	if (m_listening) {
 		logger().debug(
@@ -81,17 +88,10 @@ void FitpDeviceManager::doListenCommand(
 	}
 	m_listening = true;
 
-	Result::Ptr result = new Result(answer);
-
 	if (cmd->duration().totalSeconds() < 1) {
-		logger().error(
-			"listening duration is too short: "
-			+ to_string(cmd->duration().totalMilliseconds())
-			+ " ms"
-			__FILE__, __LINE__
-		);
-		result->setStatus(Result::Status::FAILED);
-		return;
+		throw InvalidArgumentException(
+			to_string(cmd->duration().totalMilliseconds())
+			+ " ms");
 	}
 
 	logger().debug(
@@ -104,8 +104,6 @@ void FitpDeviceManager::doListenCommand(
 	m_listenTimer.stop();
 	m_listenTimer.setStartInterval(cmd->duration().totalMilliseconds());
 	m_listenTimer.start(m_listenCallback);
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
 void FitpDeviceManager::stopListen(Timer &)
@@ -119,32 +117,20 @@ void FitpDeviceManager::stopListen(Timer &)
 	);
 }
 
-void FitpDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
+void FitpDeviceManager::doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
+
 	auto it = m_devices.find(cmd->deviceID());
-	if (it == m_devices.end()) {
-		logger().warning(
-			"no such device "
-			+ cmd->deviceID().toString()
-			+ " to accept",
-			__FILE__, __LINE__
-		);
+	if (it == m_devices.end())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-		result->setStatus(Result::Status::SUCCESS);
-		return;
-	}
-
-	if (it->second->paired()) {
+	if (deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"ignoring accept for paired device "
 			+ cmd->deviceID().toString(),
 			__FILE__, __LINE__
 		);
-		result->setStatus(Result::Status::SUCCESS);
 		return;
 	}
 
@@ -153,8 +139,7 @@ void FitpDeviceManager::doDeviceAcceptCommand(
 		__FILE__, __LINE__
 	);
 
-	result->setStatus(Result::Status::SUCCESS);
-	it->second->setPaired(true);
+	deviceCache()->markPaired(cmd->deviceID());
 
 	logger().notice(
 		"device "
@@ -164,34 +149,25 @@ void FitpDeviceManager::doDeviceAcceptCommand(
 	);
 }
 
-void FitpDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
+void FitpDeviceManager::doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
-
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(cmd->deviceID());
-	if (it == m_devices.end() || !it->second->paired()) {
+	if (it == m_devices.end() || !deviceCache()->paired(cmd->deviceID())) {
 		logger().warning(
 			"unpairing device that is not registered: "
 			+ cmd->deviceID().toString(),
 			__FILE__, __LINE__
 		);
-
-		result->setStatus(Result::Status::FAILED);
 		return;
 	}
 
 	FitpDeviceManager::EDID edid  = deriveEDID(cmd->deviceID());
 
 	if (!fitp_unpair(edid)) {
-		logger().error(
+		throw IllegalStateException(
 			"failed to unpair device "
-			+ cmd->deviceID().toString(),
-			__FILE__, __LINE__
-		);
-		result->setStatus(Result::Status::FAILED);
-		return;
+			+ cmd->deviceID().toString());
 	}
 
 	logger().notice(
@@ -200,38 +176,21 @@ void FitpDeviceManager::doUnpairCommand(
 		+ " was successfully unpaired"
 			__FILE__, __LINE__
 	);
+
+	deviceCache()->markUnpaired(cmd->deviceID());
 	m_devices.erase(cmd->deviceID());
-
-	result->setStatus(Result::Status::SUCCESS);
 }
 
-bool FitpDeviceManager::accept(const Command::Ptr cmd)
-{
-	if (cmd->is<GatewayListenCommand>()) {
-		return true;
-	}
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix()
-			   == DevicePrefix::PREFIX_FITPROTOCOL;
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix()
-			   == DevicePrefix::PREFIX_FITPROTOCOL;
-	}
-
-	return false;
-}
-
-void FitpDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
+void FitpDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
 {
 	if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
+		doListenCommand(cmd.cast<GatewayListenCommand>());
 	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
+		doUnpairCommand(cmd.cast<DeviceUnpairCommand>());
 	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
+		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>());
 	else
-		throw IllegalStateException("received unaccepted command: " + cmd->toString());
+		DeviceManager::handleGeneric(cmd, result);
 }
 
 void FitpDeviceManager::dispatchNewDevice(FitpDevice::Ptr device)
@@ -368,19 +327,11 @@ void FitpDeviceManager::initFitp()
 
 void FitpDeviceManager::loadDeviceList()
 {
-	set<DeviceID> deviceIDs;
-
-	try {
-		deviceIDs = deviceList(-1);
-	}
-	catch (const Poco::Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-		return;
-	}
+	set<DeviceID> deviceIDs = waitRemoteStatus(-1);
 
 	FastMutex::ScopedLock guard(m_lock);
 	for (auto &item : deviceIDs) {
-		FitpDevice::Ptr device = new FitpDevice(item, true);
+		FitpDevice::Ptr device = new FitpDevice(item);
 		m_devices.emplace(item, device);
 	}
 }
@@ -422,7 +373,7 @@ void FitpDeviceManager::processDataMsg(const vector<uint8_t> &data)
 
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(deviceID);
-	if (it != m_devices.end() && it->second->paired()) {
+	if (it != m_devices.end() && deviceCache()->paired(deviceID)) {
 		try {
 			const vector<uint8_t> &values = {data.begin() + FITP_DATA_OFFSET, data.end()};
 			SensorData sensorData = it->second->parseMessage(values, deviceID);
@@ -471,7 +422,7 @@ void FitpDeviceManager::processJoinMsg(const vector<uint8_t> &data)
 
 	FastMutex::ScopedLock guard(m_lock);
 	auto it = m_devices.find(deviceID);
-	if (it == m_devices.end() || !it->second->paired()) {
+	if (it == m_devices.end() || !deviceCache()->paired(deviceID)) {
 		FitpDevice::Ptr device;
 
 		switch (data[1]) {
@@ -533,7 +484,9 @@ void FitpDeviceManager::run()
 
 	fitp_set_nid((uint32_t) m_gatewayInfo->gatewayID().data());
 
-	while (!m_stop) {
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
 		vector<uint8_t> data;
 
 		fitp_received_data(data);
@@ -556,7 +509,7 @@ void FitpDeviceManager::stop()
 		fitp_joining_disable();
 		m_listening = false;
 	}
-	m_stop = true;
-	m_event.set();
+
+	DeviceManager::stop();
 }
 

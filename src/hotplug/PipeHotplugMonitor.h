@@ -1,5 +1,4 @@
-#ifndef BEEEON_PIPE_HOTPLUG_MONITOR_H
-#define BEEEON_PIPE_HOTPLUG_MONITOR_H
+#pragma once
 
 #include <list>
 #include <set>
@@ -108,5 +107,3 @@ private:
 };
 
 }
-
-#endif

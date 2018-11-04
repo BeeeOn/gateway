@@ -9,8 +9,7 @@ using namespace Poco;
 using namespace std;
 
 VirtualDevice::VirtualDevice():
-	m_refresh(5 * Timespan::SECONDS),
-	m_paired(false)
+	m_refresh(5 * Timespan::SECONDS)
 {
 }
 
@@ -21,11 +20,6 @@ VirtualDevice::~VirtualDevice()
 DeviceID VirtualDevice::deviceID() const
 {
 	return m_deviceID;
-}
-
-bool VirtualDevice::paired() const
-{
-	return m_paired;
 }
 
 list<ModuleType> VirtualDevice::moduleTypes() const
@@ -60,15 +54,16 @@ SensorData VirtualDevice::generate()
 	return data;
 }
 
-void VirtualDevice::modifyValue(
-	const ModuleID &moduleID, double value, Result::Ptr result)
+bool VirtualDevice::modifyValue(
+	const ModuleID &moduleID, double value)
 {
 	for (auto &item : m_modules) {
 		if (item->moduleID() == moduleID) {
-			item->modifyValue(value, result);
-			break;
+			return item->modifyValue(value);
 		}
 	}
+
+	return false;
 }
 
 Timespan VirtualDevice::refresh() const
@@ -93,11 +88,6 @@ void VirtualDevice::setDeviceId(const DeviceID &deviceId)
 void VirtualDevice::setVendorName(const string &vendorName)
 {
 	m_vendorName = vendorName;
-}
-
-void VirtualDevice::setPaired(bool paired)
-{
-	m_paired = paired;
 }
 
 void VirtualDevice::setProductName(const string &productName)

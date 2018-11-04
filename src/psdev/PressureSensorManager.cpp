@@ -10,11 +10,14 @@
 #include "model/SensorData.h"
 #include "model/SensorValue.h"
 #include "psdev/PressureSensorManager.h"
+#include "util/BlockingAsyncWork.h"
 #include "util/IncompleteTimestamp.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, PressureSensorManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &PressureSensorManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &PressureSensorManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &PressureSensorManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("refresh", &PressureSensorManager::setRefresh)
@@ -35,8 +38,11 @@ static const list<ModuleType> TYPES =
 	};
 
 PressureSensorManager::PressureSensorManager():
-	DeviceManager(DevicePrefix::PREFIX_PRESSURE_SENSOR),
-	m_paired(false),
+	DeviceManager(DevicePrefix::PREFIX_PRESSURE_SENSOR, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+	}),
 	m_refresh(15 * Timespan::SECONDS),
 	m_vendor("BeeeOn"),
 	m_unit("kPa")
@@ -51,77 +57,38 @@ void PressureSensorManager::run()
 {
 	poco_information(logger(), "pressure sensor started");
 
-	initialize();
+	StopControl::Run run(m_stopControl);
 
-	while(!m_stop) {
-		if (!m_paired) {
-			m_event.wait();
+	while(run) {
+		if (!deviceCache()->paired(pairedID())) {
+			run.waitStoppable(-1);
 			continue;
 		}
 
 		shipValue();
-		m_event.tryWait(m_refresh.totalMilliseconds());
+		run.waitStoppable(m_refresh);
 	}
 
 	poco_information(logger(), "pressure sensor finished");
-	m_stop = false;
 }
 
 void PressureSensorManager::stop()
 {
-	m_stop = true;
-	m_event.set();
+	DeviceManager::stop();
 }
 
-void PressureSensorManager::initialize()
+void PressureSensorManager::handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values)
 {
-	set<DeviceID> devices;
-	try {
-		devices = deviceList(-1);
-	}
-	catch (const Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-	}
-
-	if (devices.size() > 1) {
-		poco_warning(logger(),
-			"obtained more than one paired sensor: "
-			+ to_string(devices.size()));
-	}
-
-	if (devices.find(pairedID()) != devices.end())
-		m_paired = true;
+	DeviceManager::handleRemoteStatus(prefix, devices, values);
+	m_stopControl.requestWakeup();
 }
 
-bool PressureSensorManager::accept(const Command::Ptr cmd)
+AsyncWork<>::Ptr PressureSensorManager::startDiscovery(const Timespan &)
 {
-	if (cmd->is<GatewayListenCommand>())
-		return true;
-	if (cmd->is<DeviceAcceptCommand>())
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == DevicePrefix::PREFIX_PRESSURE_SENSOR;
-	if (cmd->is<DeviceUnpairCommand>())
-		return cmd->cast<DeviceUnpairCommand>().deviceID().prefix() == DevicePrefix::PREFIX_PRESSURE_SENSOR;
-
-	return false;
-}
-
-void PressureSensorManager::handle(const Command::Ptr cmd, Answer::Ptr answer)
-{
-	if (cmd->is<GatewayListenCommand>())
-		handleListenCommand(cmd->cast<GatewayListenCommand>(), answer);
-	else if (cmd->is<DeviceAcceptCommand>())
-		handleAcceptCommand(cmd->cast<DeviceAcceptCommand>(), answer);
-	else if (cmd->is<DeviceUnpairCommand>())
-		handleUnpairCommand(cmd->cast<DeviceUnpairCommand>(), answer);
-	else
-		throw IllegalStateException("received unaccepted command");
-}
-
-void PressureSensorManager::handleListenCommand(const GatewayListenCommand &, Answer::Ptr answer)
-{
-	Result::Ptr result = new Result(answer);
-
-	if (!m_paired) {
+	if (!deviceCache()->paired(pairedID())) {
 		dispatch(new NewDeviceCommand(
 			pairedID(),
 			m_vendor,
@@ -129,50 +96,48 @@ void PressureSensorManager::handleListenCommand(const GatewayListenCommand &, An
 			TYPES,
 			m_refresh));
 	}
-	result->setStatus(Result::Status::SUCCESS);
+
+	return BlockingAsyncWork<>::instance();
 }
 
-void PressureSensorManager::handleAcceptCommand(const DeviceAcceptCommand &cmd, Answer::Ptr answer)
+void PressureSensorManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 {
-	Result::Ptr result = new Result(answer);
+	if (cmd->deviceID() != pairedID())
+		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	if (cmd.deviceID() != pairedID()) {
-		poco_warning(logger(), "not accepting device with unknown id: "
-			+ cmd.deviceID().toString());
-		result->setStatus(Result::Status::FAILED);
-		return;
-	}
-
-	if (!m_paired) {
-		m_paired = true;
-		m_event.set();
+	if (!deviceCache()->paired(pairedID())) {
+		deviceCache()->markPaired(pairedID());
+		m_stopControl.requestWakeup();
 	}
 	else {
 		poco_warning(logger(), "ignoring accept of already paired device");
-	}
-
-	result->setStatus(Result::Status::SUCCESS);
-}
-
-void PressureSensorManager::handleUnpairCommand(const DeviceUnpairCommand &cmd, Answer::Ptr answer)
-{
-	Result::Ptr result = new Result(answer);
-
-	if (cmd.deviceID() != pairedID()) {
-		poco_warning(logger(), "not unpairing device with unknown id: "
-			+ cmd.deviceID().toString());
-		result->setStatus(Result::Status::FAILED);
 		return;
 	}
+	DeviceManager::handleAccept(cmd);
+}
 
-	if (m_paired) {
-		m_paired = false;
-		result->setStatus(Result::Status::SUCCESS);
+AsyncWork<set<DeviceID>>::Ptr PressureSensorManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &)
+{
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+
+	if (id != pairedID()) {
+		poco_warning(logger(), "not unpairing device with unknown id: "
+			+ id.toString());
+
+		return work;
+	}
+
+	if (deviceCache()->paired(pairedID())) {
+		deviceCache()->markUnpaired(pairedID());
+		work->setResult({id});
 	}
 	else {
 		poco_warning(logger(), "ignoring unpair of not paired device");
-		result->setStatus(Result::Status::FAILED);
 	}
+
+	return work;
 }
 
 void PressureSensorManager::setRefresh(const Timespan &refresh)

@@ -1,11 +1,11 @@
-#ifndef BEEEON_NEW_DEVICE_COMMAND_H
-#define BEEEON_NEW_DEVICE_COMMAND_H
+#pragma once
 
 #include <list>
 
 #include <Poco/Timespan.h>
 
 #include "core/Command.h"
+#include "model/DeviceDescription.h"
 #include "model/DeviceID.h"
 #include "model/ModuleType.h"
 
@@ -31,18 +31,13 @@ public:
 	Poco::Timespan refreshTime() const;
 
 	std::string toString() const override;
+	const DeviceDescription &description() const;
 
 protected:
 	~NewDeviceCommand();
 
 private:
-	DeviceID m_deviceID;
-	std::string m_vendor;
-	std::string m_productName;
-	std::list<ModuleType> m_dataTypes;
-	Poco::Timespan m_refreshTime;
+	DeviceDescription m_description;
 };
 
 }
-
-#endif

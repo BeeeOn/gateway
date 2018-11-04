@@ -2,18 +2,18 @@
 	<factory>
 		<instance name="main" class="BeeeOn::LoopRunner">
 			<add name="loops" ref="gwServerConnector" if-yes="${gws.enable}"/>
-			<add name="runnables" ref="pressureSensorManager" if-yes="${psdev.enable}" />
-			<add name="runnables" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
-			<add name="runnables" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
 			<add name="runnables" ref="testingCenter" if-yes="${testing.center.enable}" />
 			<add name="runnables" ref="hotplugMonitor" />
-			<add name="runnables" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
-			<add name="runnables" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}" />
-			<add name="runnables" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
-			<add name="runnables" ref="vptDeviceManager" if-yes="${vpt.enable}" />
-			<add name="runnables" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
-			<add name="runnables" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
 			<add name="runnables" ref="asyncExecutor" />
+			<add name="runnables" ref="mqttGWExporterClient" if-yes="${exporter.mqtt.enable}" />
+			<add name="runnables" ref="distributor" />
+			<add name="loops" ref="managersRunner" />
+			<add name="runnables" ref="deviceStatusFetcher" />
+		</instance>
+
+		<instance name="applicationInstanceChecker" class="BeeeOn::SingleInstanceChecker" init="early">
+			<set name="name" text="${application.instance.id}" />
+			<set name="mode" text="${application.instance.mode}" />
 		</instance>
 
 		<instance name="gatewayInfo" class="BeeeOn::GatewayInfo" init="early">
@@ -22,13 +22,12 @@
 			<set name="gatewayID" text="${gateway.id}" if-yes="${gateway.id.enable}"/>
 		</instance>
 
-		<instance name="distributor" class="BeeeOn::BasicDistributor">
-			<add name="exporter" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
-			<add name="exporter" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
-			<add name="exporter" ref="gwServerConnector" if-yes="${gws.enable}" />
-			<set name="executor" ref="asyncExecutor"/>
-			<add name="listener" ref="loggingCollector" if-yes="${testing.collector.enable}" />
-                        <add name="listener" ref="collector"/>
+		<instance name="distributor" class="BeeeOn::QueuingDistributor">
+			<add name="exporters" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
+			<add name="exporters" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
+			<add name="exporters" ref="gwServerConnector" if-yes="${gws.enable}" />
+			<set name="eventsExecutor" ref="asyncExecutor"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 		</instance>
 
 		<instance name="asyncExecutor" class="BeeeOn::SequentialAsyncExecutor">
@@ -43,84 +42,34 @@
 			<add name="handlers" ref="gwServerConnector" if-yes="${gws.enable}"/>
 			<add name="handlers" ref="testingCenter" if-yes="${testing.center.enable}"/>
 			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}"/>
-			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
+			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
+			<add name="handlers" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="handlers" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="handlers" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}"/>
 			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
 			<add name="handlers" ref="vptDeviceManager" if-yes="${vpt.enable}"/>
-			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
 			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
+			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}"/>
 		</instance>
 
-		<instance name="gwServerConnector" class="BeeeOn::GWServerConnector">
-			<set name="host" text="${gws.host}" />
-			<set name="port" number="${gws.port}" />
-			<set name="pollTimeout" time="${gws.pollTimeout}" />
-			<set name="receiveTimeout" time="${gws.receiveTimeout}" />
-			<set name="sendTimeout" time="${gws.sendTimeout}" />
-			<set name="retryConnectTimeout" time="${gws.retryConnectTimeout}" />
-			<set name="maxMessageSize" number="${gws.maxMessageSize}" />
-			<set name="gatewayInfo" ref="gatewayInfo" />
-			<set name="sslConfig" ref="gwsSSLClient" if-yes="${ssl.enable}"/>
-			<set name="commandDispatcher" ref="commandDispatcher"/>
-		</instance>
-
-		<instance name="gwsSSLClient" class="BeeeOn::SSLClient">
-			<set name="certificate" text="${ssl.certificate}" />
-			<set name="privateKey" text="${ssl.key}" />
-			<set name="caLocation" text="${ssl.authority}" />
-			<set name="verificationMode" text="${ssl.verify_level}" />
-			<set name="loadDefaultCA" text="false" />
-		</instance>
-
-		<instance name="udevMonitor" class="BeeeOn::UDevMonitor">
-			<set name="matches" list="bluetooth,tty" />
-			<add name="listeners" ref="bluetoothAvailability" if-yes="${bluetooth.enable}" />
-			<add name="listeners" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
-			<add name="listeners" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
-		</instance>
-
-		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
-			<set name="refresh" time="${psdev.refresh}" />
-			<set name="path" text="${psdev.path}" />
-			<set name="vendor" text="${psdev.vendor}" />
-			<set name="unit" text="${psdev.unit}" />
-			<set name="distributor" ref="distributor" />
+		<instance name="deviceStatusFetcher" class="BeeeOn::DeviceStatusFetcher">
+			<set name="idleDuration" time="30 m" />
+			<set name="waitTimeout" time="1 s" />
+			<set name="repeatTimeout" time="5 m" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
+			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}" />
+			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}" />
+			<add name="handlers" ref="pressureSensorManager" if-yes="${psdev.enable}" />
+			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}" />
+			<add name="handlers" ref="belkinwemoDeviceManager" if-yes="${belkinwemo.enable}" />
+			<add name="handlers" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}" />
+			<add name="handlers" ref="vptDeviceManager" if-yes="${vpt.enable}" />
+			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
+			<add name="handlers" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
+			<add name="handlers" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 		</instance>
-
-		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
-			<set name="httpTimeout" time="${belkinwemo.http.timeout}" />
-			<set name="upnpTimeout" time="${belkinwemo.upnp.timeout}" />
-			<set name="refresh" time="${belkinwemo.refresh}" />
-			<set name="distributor" ref="distributor" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-		</instance>
-
-		<instance name="virtualDeviceManager" class="BeeeOn::VirtualDeviceManager">
-			<set name="distributor" ref="distributor"/>
-			<set name="commandDispatcher" ref="commandDispatcher"/>
-			<set name="file" text="${vdev.ini}"/>
-		</instance>
-
-		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
-			<set name="wakeUpTime" time="${bluetooth.refresh}" />
-			<set name="modes" list="${bluetooth.modes}" />
-			<set name="distributor" ref="distributor" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="statisticsInterval" time="${bluetooth.statistics.interval}" />
-			<set name="executor" ref="asyncExecutor"/>
-			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
-                        <add name="listeners" ref="collector"/>
-		</instance>
-
-		<instance name="pipeHotplugMonitor" class="BeeeOn::PipeHotplugMonitor">
-			<set name="pipePath" text="${hotplug.pipe.path}" />
-		</instance>
-
-		<alias name="hotplugMonitor" ref="${hotplug.impl}Monitor" />
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
 			<set name="address" text="${testing.center.tcp.address}" />
@@ -147,81 +96,22 @@
 			<set name="algorithm" text="${credentials.crypto.algorithm}" />
 		</instance>
 
-		<instance name="jablotronDeviceManager" class="BeeeOn::JablotronDeviceManager">
-			<set name="distributor" ref="distributor" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-		</instance>
-
-		<instance name="vptDeviceManager" class="BeeeOn::VPTDeviceManager">
-			<set name="httpTimeout" time="${vpt.http.timeout}" />
-			<set name="pingTimeout" time="${vpt.ping.timeout}" />
-			<set name="refresh" time="${vpt.refresh}" />
-			<set name="interfaceBlackList" list="${vpt.netif.blacklist}" />
-			<set name="maxMsgSize" number="${vpt.max.msg.size}" />
-			<set name="path" text="${vpt.path}" />
-			<set name="port" number="${vpt.port}" />
-			<set name="minNetMask" text="${vpt.min.net.mask}" />
-			<set name="distributor" ref="distributor" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="gatewayInfo" ref="gatewayInfo" />
-			<set name="credentialsStorage" ref="credentialsStorage" />
-			<set name="cryptoConfig" ref="cryptoConfig" />
-		</instance>
-
-		<instance name="zwaveDeviceManager" class="BeeeOn::ZWaveDeviceManager">
-			<set name="userPath" text="${zwave.user.path}" />
-			<set name="configPath" text="${zwave.config.path}" />
-			<set name="pollInterval" time="${zwave.poll.interval}" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="distributor" ref="distributor" />
-			<set name="deviceInfoRegistry" ref="zwaveDeviceInfoRegistry" />
-			<set name="statisticsInterval" time="${zwave.statistics.interval}" />
-			<set name="executor" ref="asyncExecutor"/>
-			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
-                        <add name="listeners" ref="collector"/>
-		</instance>
-
-		<instance name="zwaveDeviceInfoRegistry" class="BeeeOn::GenericZWaveDeviceInfoRegistry">
-			<set name="defaultRegistry" ref="defaultZWaveDeviceInfoRegistry" />
-		</instance>
-
-		<instance name="defaultZWaveDeviceInfoRegistry" class="BeeeOn::DefaultZWaveDeviceInfoRegistry">
-		</instance>
-
 		<instance name="loggingCollector" class="BeeeOn::LoggingCollector" />
 
-		<instance name="philipsHueDeviceManager" class="BeeeOn::PhilipsHueDeviceManager">
-			<set name="httpTimeout" time="${philipshue.http.timeout}" />
-			<set name="upnpTimeout" time="${philipshue.upnp.timeout}" />
-			<set name="refresh" time="${philipshue.refresh}" />
-			<set name="distributor" ref="distributor" />
-			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="credentialsStorage" ref="credentialsStorage" />
+		<instance name="credentialsTool" class="BeeeOn::CredentialsTool">
 			<set name="cryptoConfig" ref="cryptoConfig" />
-			<set name="eventsExecutor" ref="asyncExecutor"/>
-			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<set name="storage" ref="credentialsStorage" />
+			<set name="cmd" text="${tool.credentials.cmd}" />
 		</instance>
 
-		<instance name="fitpDeviceManager" class="BeeeOn::FitpDeviceManager">
-			<set name="distributor" ref="distributor"/>
-			<set name="commandDispatcher" ref="commandDispatcher"/>
-			<set name="gatewayInfo" ref="gatewayInfo"/>
-			<set name="file" text="${fitp.config.path}"/>
-			<set name="noiseMin" number="${fitp.noise.min}"/>
-			<set name="noiseMax" number="${fitp.noise.max}"/>
-			<set name="bitrate" number="${fitp.bitrate}"/>
-			<set name="band" number="${fitp.band}"/>
-			<set name="channel" number="${fitp.channel}"/>
-			<set name="power" number="${fitp.power}"/>
-			<set name="txRetries" number="${fitp.tx.retries}"/>
+		<instance name="ramDeviceCache" class="BeeeOn::MemoryDeviceCache">
+			<set name="prepaired" list="" />
 		</instance>
 
-                <instance name="collector" class="BeeeOn::NemeaCollector">
-                    <set name="onExportInterface" text="u:event-onExport"/>
-                    <set name="onHCIStatsInterface" text="u:event-onHCIStats"/>
-                    <set name="onNodeStatsInterface" text="u:event-onNodeStats"/>
-                    <set name="onDriverStatsInterface" text="u:event-onDriverStats"/>
-                </instance>
+		<instance name="fsDeviceCache" class="BeeeOn::FilesystemDeviceCache">
+			<set name="cacheDir" text="${cache.devices.dir}" />
+		</instance>
 
+		<alias name="deviceCache" ref="${cache.devices.impl}DeviceCache" />
 	</factory>
 </system>

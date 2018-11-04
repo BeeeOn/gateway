@@ -1,5 +1,4 @@
-#ifndef BEEEON_VIRTUAL_DEVICE_MANAGER_H
-#define BEEEON_VIRTUAL_DEVICE_MANAGER_H
+#pragma once
 
 #include <queue>
 #include <string>
@@ -130,11 +129,6 @@ public:
 		const ModuleID &moduleID);
 
 	/**
-	 * Sets devices as paired according to the device list sent from server.
-	 */
-	void setPairedDevices();
-
-	/**
 	 * Plans devices that are in a map of virtual devices and are paired.
 	 */
 	void scheduleAllEntries();
@@ -157,16 +151,22 @@ public:
 	 */
 	void logDeviceParsed(VirtualDevice::Ptr device);
 
+	/**
+	 * @brief Reschedule virtual devices after updating the remote status.
+	 */
+	void handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const std::set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values) override;
+
 protected:
-	bool accept(const Command::Ptr cmd) override;
-	void handle(Command::Ptr cmd, Answer::Ptr answer) override;
+	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 
 	/**
 	 * Reacts to GatewayListenCommand. It sends NewDeviceCommand if
 	 * device is not paired.
 	 */
-	void doListenCommand(const GatewayListenCommand::Ptr,
-		const Answer::Ptr answer);
+	void doListenCommand(const GatewayListenCommand::Ptr);
 
 	/**
 	 * Reacts to DeviceAcceptCommand. Device has to be stored in map
@@ -174,23 +174,20 @@ protected:
 	 * are fulfilled, method inserts device into a calendar, it sets device
 	 * as paired and it plans next activation (data generation) of this device.
 	 */
-	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd);
 
 	/**
 	* Reacts to DeviceSetValueCommand. Device has to be in map of
 	* virtual devices, it has to be sensor and reaction has to be
 	* set to success.
 	*/
-	void doSetValueCommand(const DeviceSetValueCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doSetValueCommand(const DeviceSetValueCommand::Ptr cmd);
 
 	/**
 	* Reacts to DeviceUnpairCommand. Device has to be in map of
 	* virtual devices and it has to be paired.
 	*/
-	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd,
-		const Answer::Ptr answer);
+	void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd);
 
 private:
 	std::map<DeviceID, VirtualDevice::Ptr> m_virtualDevicesMap;
@@ -198,11 +195,8 @@ private:
 	std::priority_queue<VirtualDeviceEntry,
 		std::vector<VirtualDeviceEntry>,
 		VirtualDeviceEntryComparator> m_virtualDeviceQueue;
-	Poco::Event m_event;
 	bool m_requestDeviceList;
 	Poco::FastMutex m_lock;
 };
 
 }
-
-#endif

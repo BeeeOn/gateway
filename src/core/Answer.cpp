@@ -6,10 +6,11 @@
 using namespace BeeeOn;
 using namespace Poco;
 
-Answer::Answer(AnswerQueue &answerQueue):
+Answer::Answer(AnswerQueue &answerQueue, bool autoDispose):
 	m_answerQueue(answerQueue),
 	m_dirty(0),
-	m_handlers(0)
+	m_handlers(0),
+	m_autoDispose(autoDispose)
 {
 	answerQueue.add(this);
 }
@@ -28,7 +29,7 @@ bool Answer::isDirty() const
 
 Event &Answer::event()
 {
-	return m_answerQueue.event();
+	return m_notifyEvent;
 }
 
 bool Answer::isPending() const
@@ -87,9 +88,14 @@ int Answer::handlersCount() const
 void Answer::notifyUpdated()
 {
 	ScopedLock guard(*this);
+	Answer::Ptr answer = Answer::Ptr(this, true);
+
+	if (m_autoDispose && !isPending())
+		m_answerQueue.remove(answer);
 
 	setDirty(true);
 	event().set();
+	m_answerQueue.notifyUpdated();
 }
 
 Result::Ptr Answer::at(size_t position)

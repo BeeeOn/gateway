@@ -1,5 +1,4 @@
-#ifndef BEEEON_BLUETOOTH_DEVICE_H
-#define BEEEON_BLUETOOTH_DEVICE_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -50,5 +49,3 @@ private:
 };
 
 }
-
-#endif //BEEEON_BLUETOOTH_DEVICE_H

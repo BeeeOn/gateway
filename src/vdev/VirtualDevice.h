@@ -1,5 +1,4 @@
-#ifndef BEEEON_VIRTUAL_DEVICE_H
-#define BEEEON_VIRTUAL_DEVICE_H
+#pragma once
 
 #include <list>
 
@@ -32,9 +31,6 @@ public:
 	void setProductName(const std::string &productName);
 	std::string productName() const;
 
-	void setPaired(bool paired);
-	bool paired() const;
-
 	std::list<VirtualModule::Ptr> modules() const;
 	void addModule(const VirtualModule::Ptr virtualModule);
 	std::list<ModuleType> moduleTypes() const;
@@ -42,13 +38,12 @@ public:
 	void setRefresh(Poco::Timespan refresh);
 	Poco::Timespan refresh() const;
 
-	void modifyValue(
-		const ModuleID &moduleID, double value, Result::Ptr result);
+	bool modifyValue(
+		const ModuleID &moduleID, double value);
 	SensorData generate();
 
 private:
 	Poco::Timespan m_refresh;
-	bool m_paired;
 	std::string m_vendorName;
 	std::string m_productName;
 	std::list<VirtualModule::Ptr> m_modules;
@@ -56,5 +51,3 @@ private:
 };
 
 }
-
-#endif

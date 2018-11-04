@@ -1,581 +1,727 @@
+#include <vector>
+
+#include <Poco/Clock.h>
+#include <Poco/Message.h>
+#include <Poco/NumberFormatter.h>
+#include <Poco/NumberParser.h>
 #include <Poco/RegularExpression.h>
-#include <Poco/Thread.h>
 #include <Poco/StringTokenizer.h>
+#include <Poco/Thread.h>
 
 #include "commands/NewDeviceCommand.h"
 #include "core/CommandDispatcher.h"
 #include "di/Injectable.h"
-#include "io/AutoClose.h"
-#include "jablotron/JablotronDeviceAC88.h"
 #include "jablotron/JablotronDeviceManager.h"
 #include "hotplug/HotplugEvent.h"
-#include "util/LambdaTimerTask.h"
+#include "model/SensorData.h"
+#include "util/BlockingAsyncWork.h"
+#include "util/UnsafePtr.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, JablotronDeviceManager)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(HotplugListener)
+BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
+BEEEON_OBJECT_PROPERTY("deviceCache", &JablotronDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &JablotronDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &JablotronDeviceManager::setCommandDispatcher)
-BEEEON_OBJECT_PROPERTY("attemptsCount", &JablotronDeviceManager::setAttemptsCount)
-BEEEON_OBJECT_PROPERTY("retryTimeout", &JablotronDeviceManager::setRetryTimeout)
+BEEEON_OBJECT_PROPERTY("txBackOffFactory", &JablotronDeviceManager::setTxBackOffFactory)
+BEEEON_OBJECT_PROPERTY("unpairErasesSlot", &JablotronDeviceManager::setUnpairErasesSlot)
+BEEEON_OBJECT_PROPERTY("pgyEnrollGap", &JablotronDeviceManager::setPGYEnrollGap)
+BEEEON_OBJECT_PROPERTY("eraseAllOnProbe", &JablotronDeviceManager::setEraseAllOnProbe)
+BEEEON_OBJECT_PROPERTY("registerOnProbe", &JablotronDeviceManager::setRegisterOnProbe)
+BEEEON_OBJECT_PROPERTY("maxProbeAttempts", &JablotronDeviceManager::setMaxProbeAttempts)
+BEEEON_OBJECT_PROPERTY("probeTimeout", &JablotronDeviceManager::setProbeTimeout)
+BEEEON_OBJECT_PROPERTY("ioJoinTimeout", &JablotronDeviceManager::setIOJoinTimeout)
+BEEEON_OBJECT_PROPERTY("ioReadTimeout", &JablotronDeviceManager::setIOReadTimeout)
+BEEEON_OBJECT_PROPERTY("ioErrorSleep", &JablotronDeviceManager::setIOErrorSleep)
 BEEEON_OBJECT_END(BeeeOn, JablotronDeviceManager)
 
 using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
 
-static const string JABLOTRON_VENDOR_ID = "0403";
-static const string JABLOTRON_PRODUCT_ID = "6015";
-static const string VENDOR_NAME = "Jablotron";
-static const int BAUD_RATE = 57600;
-static const int MAX_DEVICES_IN_JABLOTRON = 32;
-static const int NUMBER_OF_RETRIES = 3;
-static const int MAX_NUMBER_FAILED_REPEATS = 10;
-static const int RESPONSE_WAIT_MSEC = 5000;
-static const int DEFAULT_PG_VALUE = 0;
-static const Timespan READ_TIMEOUT = 1 * Timespan::SECONDS;
-static const Timespan SLEEP_AFTER_FAILED = 1 * Timespan::SECONDS;
-static const Timespan DELAY_AFTER_SET_SWITCH = 1 * Timespan::SECONDS;
-static const Timespan DELAY_BEETWEEN_CYCLES = 300 * Timespan::MILLISECONDS;
-static const DeviceID DEFAULT_DEVICE_ID(DevicePrefix::PREFIX_JABLOTRON, 0);
+static const int MAX_GADGETS_COUNT = 32;
 
+static set<unsigned int> allSlots()
+{
+	set<unsigned int> slots;
+
+	for (unsigned int i = 0; i < MAX_GADGETS_COUNT; ++i)
+		slots.emplace(i);
+
+	return slots;
+}
+
+static const Timespan SHORT_TIMEOUT = 1 * Timespan::SECONDS;
+static const Timespan ERASE_ALL_TIMEOUT = 5 * Timespan::SECONDS;
+static const Timespan SCAN_SLOTS_TIMEOUT = 15 * Timespan::SECONDS;
+static const Timespan CONTROLLER_ERROR_SLEEP = 1 * Timespan::SECONDS;
+
+static const DeviceID PGX_ID = {DevicePrefix::PREFIX_JABLOTRON, 0x00ffffffffffff01};
+static const DeviceID PGY_ID = {DevicePrefix::PREFIX_JABLOTRON, 0x00ffffffffffff02};
+static const DeviceID SIREN_ID = {DevicePrefix::PREFIX_JABLOTRON, 0x00ffffffffffff03};
+
+static const ModuleID SIREN_ALARM_ID = 0;
+static const ModuleID SIREN_BEEP_ID = 1;
+
+static list<ModuleType> PG_MODULES = {
+	{ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
+};
+
+static list<ModuleType> SIREN_MODULES = {
+	{ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
+	{ModuleType::Type::TYPE_ENUM, {"SIREN_BEEPING"}, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
+};
+
+static string addressToString(const uint32_t address)
+{
+	return NumberFormatter::format0(address, 8)
+		+ " [" + NumberFormatter::formatHex(address, 6) + "]";
+}
 
 JablotronDeviceManager::JablotronDeviceManager():
-	DongleDeviceManager(DevicePrefix::PREFIX_JABLOTRON),
-	m_lastResponse(NONE),
-	m_isListen(false),
-	m_pgx(DEFAULT_DEVICE_ID, DEFAULT_PG_VALUE),
-	m_pgy(DEFAULT_DEVICE_ID, DEFAULT_PG_VALUE)
+	DeviceManager(DevicePrefix::PREFIX_JABLOTRON, {
+		typeid(GatewayListenCommand),
+		typeid(DeviceAcceptCommand),
+		typeid(DeviceUnpairCommand),
+		typeid(DeviceSetValueCommand),
+	}),
+	m_unpairErasesSlot(false),
+	m_pgyEnrollGap(4 * Timespan::SECONDS), // determined experimentally
+	m_pgx(false),
+	m_pgy(false),
+	m_alarm(false),
+	m_beep(JablotronController::BEEP_NONE)
 {
 }
 
-void JablotronDeviceManager::initJablotronDongle()
+void JablotronDeviceManager::setUnpairErasesSlot(bool erase)
 {
-	m_serial.setBaudRate(BAUD_RATE);
-	m_serial.setStopBits(SerialPort::StopBits::STOPBITS_1);
-	m_serial.setParity(SerialPort::Parity::PARITY_NONE);
-	m_serial.setDataBits(SerialPort::DataBits::DATABITS_8);
-	m_serial.setNonBlocking(true);
-
-	m_serial.setDevicePath(dongleName());
-	m_serial.open();
-	m_serial.flush();
+	m_unpairErasesSlot = erase;
 }
 
-void JablotronDeviceManager::dongleVersion()
+void JablotronDeviceManager::setTxBackOffFactory(BackOffFactory::Ptr factory)
 {
-	string message;
+	m_txBackOffFactory = factory;
+}
 
-	m_serial.write("\x1BWHO AM I?\n");
+void JablotronDeviceManager::setPGYEnrollGap(const Timespan &gap)
+{
+	if (gap < 0)
+		throw InvalidArgumentException("pgyEnrollGap must be non-negative");
 
-	if (nextMessage(message) != MessageType::DATA) {
-		logger().warning(
-			"unexpected response: " + message,
-			__FILE__, __LINE__);
+	m_pgyEnrollGap = gap;
+}
+
+void JablotronDeviceManager::setEraseAllOnProbe(bool erase)
+{
+	m_eraseAllOnProbe = erase;
+}
+
+void JablotronDeviceManager::setRegisterOnProbe(const list<string> &addresses)
+{
+	list<uint32_t> registerOnProbe;
+
+	for (const auto &address : addresses) {
+		registerOnProbe.emplace_back(
+			NumberParser::parseUnsigned(address));
+	}
+
+	m_registerOnProbe = registerOnProbe;
+}
+
+void JablotronDeviceManager::setMaxProbeAttempts(int count)
+{
+	m_controller.setMaxProbeAttempts(count);
+}
+
+void JablotronDeviceManager::setProbeTimeout(const Timespan &timeout)
+{
+	m_controller.setProbeTimeout(timeout);
+}
+
+void JablotronDeviceManager::setIOJoinTimeout(const Timespan &timeout)
+{
+	m_controller.setIOJoinTimeout(timeout);
+}
+
+void JablotronDeviceManager::setIOReadTimeout(const Timespan &timeout)
+{
+	m_controller.setIOReadTimeout(timeout);
+}
+
+void JablotronDeviceManager::setIOErrorSleep(const Timespan &delay)
+{
+	m_controller.setIOErrorSleep(delay);
+}
+
+DeviceID JablotronDeviceManager::buildID(uint32_t address)
+{
+	const auto primary = JablotronGadget::Info::primaryAddress(address);
+
+	return DeviceID(DevicePrefix::PREFIX_JABLOTRON, primary);
+}
+
+uint32_t JablotronDeviceManager::extractAddress(const DeviceID &id)
+{
+	return id.ident() & 0x0ffffff;
+}
+
+void JablotronDeviceManager::sleep(const Timespan &delay)
+{
+	const Clock started;
+
+	while (true) {
+		Timespan remaining = delay - started.elapsed();
+		if (remaining < 0)
+			return;
+
+		if (remaining < 1 * Timespan::MILLISECONDS)
+			remaining = 1 * Timespan::MILLISECONDS;
+
+		Thread::sleep(remaining.totalMilliseconds());
+	}
+}
+
+void JablotronDeviceManager::onAdd(const HotplugEvent &e)
+{
+	const auto dev = hotplugMatch(e);
+	if (dev.empty())
 		return;
-	}
 
-	if (wasTurrisDongleVersion(message)) {
-		logger().information(
-			"Jablotron Dongle version: "
-			+ message,
-		__FILE__, __LINE__);
-	}
-	else {
-		logger().warning(
-			"unknown dongle version: " + message,
-		__FILE__, __LINE__);
-	}
+	FastMutex::ScopedLock guard(m_lock);
+
+	m_controller.probe(dev);
+	initDongle();
+	syncSlots();
 }
 
-void JablotronDeviceManager::dongleAvailable()
+void JablotronDeviceManager::onRemove(const HotplugEvent &e)
 {
-	AutoClose<SerialPort> serial(m_serial);
-	m_devices.clear();
+	const auto dev = hotplugMatch(e);
+	if (dev.empty())
+		return;
 
-	initJablotronDongle();
-	dongleVersion();
-	jablotronProcess();
+	m_controller.release(dev);
+}
+
+string JablotronDeviceManager::hotplugMatch(const HotplugEvent &e)
+{
+	if (!e.properties()->has("tty.BEEEON_DONGLE"))
+		return "";
+
+	const auto &dongle = e.properties()->getString("tty.BEEEON_DONGLE");
+
+	if (dongle != "jablotron")
+		return "";
+
+	return e.node();
+}
+
+void JablotronDeviceManager::run()
+{
+	UnsafePtr<Thread>(Thread::current())->setName("reporting");
+
+	StopControl::Run run(m_stopControl);
+
+	while (run) {
+		try {
+			const auto report = m_controller.pollReport(-1);
+			if (!report)
+				continue;
+
+			if (logger().debug()) {
+				logger().debug(
+					"shipping report " + report.toString(),
+					__FILE__, __LINE__);
+			}
+
+			const auto id = buildID(report.address);
+
+			if (!deviceCache()->paired(id)) {
+				if (logger().debug()) {
+					logger().debug(
+						"skipping report from unpaired device " + id.toString(),
+						__FILE__, __LINE__);
+				}
+
+				continue;
+			}
+
+			shipReport(report);
+		}
+		BEEEON_CATCH_CHAIN(logger())
+	}
 }
 
 void JablotronDeviceManager::stop()
 {
-	DongleDeviceManager::stop();
-	m_listenTimer.cancel(true);
 	answerQueue().dispose();
+	DeviceManager::stop();
+	m_controller.dispose();
 }
 
-void JablotronDeviceManager::jablotronProcess()
+void JablotronDeviceManager::handleRemoteStatus(
+	const DevicePrefix &prefix,
+	const set<DeviceID> &devices,
+	const DeviceStatusHandler::DeviceValues &values)
 {
-	string message;
+	FastMutex::ScopedLock guard(m_lock);
 
-	setupDongleDevices();
-	loadDeviceList();
+	DeviceManager::handleRemoteStatus(prefix, devices, values);
+	syncSlots();
+}
 
-	while (!m_stop) {
-		MessageType response = nextMessage(message);
+vector<JablotronGadget> JablotronDeviceManager::readGadgets(
+		const Timespan &timeout)
+{
+	const Clock started;
+	vector<JablotronGadget> gadgets;
 
-		if (isResponse(response)) {
-			m_lastResponse = response;
-			m_responseRcv.set();
+	for (unsigned int i = 0; i < MAX_GADGETS_COUNT; ++i) {
+		Timespan remaining = timeout - started.elapsed();
+		if (remaining < 0)
+			throw TimeoutException("timeout exceeded while reading gadgets");
+
+		const auto address = m_controller.readSlot(i, remaining);
+		if (address.isNull()) {
+			if (logger().trace()) {
+				logger().trace(
+					"slot " + to_string(i) + " is empty",
+					__FILE__, __LINE__);
+			}
+
 			continue;
 		}
 
-		if (response != MessageType::DATA) {
+		const auto info = JablotronGadget::Info::resolve(address);
+		if (!info) {
 			logger().warning(
-				"unexpected response: " + message,
+				"unrecognized gadget address "
+				+ addressToString(address));
+		}
+
+		gadgets.emplace_back(JablotronGadget{i, address, info});
+	}
+
+	return gadgets;
+}
+
+void JablotronDeviceManager::scanSlots(
+		set<uint32_t> &registered,
+		set<unsigned int> &freeSlots,
+		set<unsigned int> &unknownSlots)
+{
+	registered.clear();
+	freeSlots = allSlots();
+	unknownSlots.clear();
+
+	for (const auto &gadget : readGadgets(SCAN_SLOTS_TIMEOUT)) {
+		freeSlots.erase(gadget.slot());
+
+		if (!gadget.info()) {
+			logger().warning(
+				"discovered registered unknown gadget: " + gadget.toString()
+				+ " " + buildID(gadget.address()).toString(),
 				__FILE__, __LINE__);
+
+			unknownSlots.emplace(gadget.slot());
 			continue;
 		}
 
-		DeviceID id = JablotronDevice::buildID(extractSerialNumber(message));
-		Mutex::ScopedLock guard(m_lock);
+		registered.emplace(gadget.address());
 
-		auto it = m_devices.find(id);
-		if (it != m_devices.end() && !it->second.isNull() && it->second->paired()) {
-			shipMessage(message, it->second);
-		}
-		else if (it != m_devices.end() && m_isListen) {
-			doNewDevice(id, it);
-		}
-		else {
-			logger().debug(
-				"device " + id.toString()
-				+ " is not paired",
-				__FILE__, __LINE__);
-		}
+		logger().information(
+			"discovered registered gadget: " + gadget.toString()
+			+ " " + buildID(gadget.address()).toString(),
+			__FILE__, __LINE__);
 	}
 }
 
-bool JablotronDeviceManager::accept(const Command::Ptr cmd)
+void JablotronDeviceManager::initDongle()
 {
-	if (cmd->is<DeviceSetValueCommand>())
-		return cmd->cast<DeviceSetValueCommand>().deviceID().prefix() == m_prefix;
-	else if (cmd->is<GatewayListenCommand>())
-		return true;
-	else if (cmd->is<DeviceUnpairCommand>()) {
-		auto it = m_devices.find(cmd->cast<DeviceUnpairCommand>().deviceID());
-		return it != m_devices.end();
-	}
-	else if (cmd->is<DeviceAcceptCommand>()) {
-		return cmd->cast<DeviceAcceptCommand>().deviceID().prefix() == m_prefix;
+	if (m_eraseAllOnProbe) {
+		logger().notice("erasing all slots after probe...");
+		m_controller.eraseSlots(ERASE_ALL_TIMEOUT);
 	}
 
-	return false;
-}
-
-void JablotronDeviceManager::handle(Command::Ptr cmd, Answer::Ptr answer)
-{
-	if (cmd->is<DeviceSetValueCommand>())
-		doSetValue(cmd.cast<DeviceSetValueCommand>(), answer);
-	else if (cmd->is<GatewayListenCommand>())
-		doListenCommand(cmd.cast<GatewayListenCommand>(), answer);
-	else if (cmd->is<DeviceUnpairCommand>())
-		doUnpairCommand(cmd.cast<DeviceUnpairCommand>(), answer);
-	else if (cmd->is<DeviceAcceptCommand>())
-		doDeviceAcceptCommand(cmd.cast<DeviceAcceptCommand>(), answer);
-	else
-		throw IllegalStateException("received unaccepted command");
-}
-
-void JablotronDeviceManager::doDeviceAcceptCommand(
-	const DeviceAcceptCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	Mutex::ScopedLock guard(m_lock);
-	Result::Ptr result = new Result(answer);
-
-	auto it = m_devices.find(cmd->deviceID());
-	if (it == m_devices.end()) {
-		logger().error(
-			"unknown " + cmd->deviceID().toString()
-			+ " device", __FILE__, __LINE__);
-
-		result->setStatus(Result::Status::FAILED);
-	} else {
-		it->second->setPaired(true);
-		result->setStatus(Result::Status::SUCCESS);
-	}
-}
-
-void JablotronDeviceManager::doUnpairCommand(
-	const DeviceUnpairCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	Result::Ptr result = new Result(answer);
-
-	Mutex::ScopedLock guard(m_lock);
-	auto it = m_devices.find(cmd->deviceID());
-
-	if (it != m_devices.end()) {
-		it->second = nullptr;
-	}
-	else {
-		logger().warning(
-			"attempt to unpair unknown device: "
-			+ cmd->deviceID().toString());
-	}
-
-	result->setStatus(Result::Status::SUCCESS);
-}
-
-void JablotronDeviceManager::doListenCommand(
-	const GatewayListenCommand::Ptr cmd, const Answer::Ptr answer)
-{
-	Result::Ptr result = new Result(answer);
-	result->setStatus(Result::Status::SUCCESS);
-
-	if (m_isListen)
+	if (m_registerOnProbe.empty())
 		return;
 
-	m_isListen = true;
+	logger().notice("registering slots after probe...");
 
-	LambdaTimerTask::Ptr task(new LambdaTimerTask([=]()
-	{
-		logger().debug("listen is done", __FILE__, __LINE__);
-		m_isListen = false;
+	set<uint32_t> registered;
+	set<unsigned int> freeSlots;
+	set<unsigned int> unknownSlots;
 
-		Mutex::ScopedLock guard(m_lock);
-		for (auto &device : m_devices) {
-			if (device.second.isNull())
-				continue;
+	scanSlots(registered, freeSlots, unknownSlots);
 
-			if (!device.second->paired())
-				device.second = nullptr;
+	for (const auto &address : m_registerOnProbe) {
+		if (registered.find(address) != registered.end()) {
+			logger().information(
+				addressToString(address) + " is already registered");
+			continue;
 		}
-	}));
 
-	m_listenTimer.schedule(
-		task,
-		Timestamp() + cmd->duration());
+		if (!freeSlots.empty()) {
+			registerGadget(freeSlots, address, SHORT_TIMEOUT);
+		}
+		else {
+			logger().warning("overwriting a non-free slot...");
+			registerGadget(unknownSlots, address, SHORT_TIMEOUT);
+		}
+	}
 }
 
-void JablotronDeviceManager::doNewDevice(const DeviceID &deviceID,
-	map<DeviceID, JablotronDevice::Ptr>::iterator &it)
+void JablotronDeviceManager::syncSlots()
 {
-	if (it->second.isNull()) {
-		try {
-			it->second = JablotronDevice::create(deviceID.ident());
-		}
-		catch (const InvalidArgumentException &ex) {
-			logger().log(ex, __FILE__, __LINE__);
-			return;
+	logger().information("syncing slots...");
+
+	set<uint32_t> registered;
+	set<unsigned int> freeSlots;
+	set<unsigned int> unknownSlots;
+
+	scanSlots(registered, freeSlots, unknownSlots);
+
+	const set<DeviceID> paired = deviceCache()->paired(prefix());
+
+	for (const auto &id : paired) {
+		if (id == PGX_ID || id == PGY_ID || id == SIREN_ID) {
+			// ignore, nothing to sync for those
+			continue;
 		}
 
-		it->second->setPaired(false);
+		const auto primary = extractAddress(id);
+		const auto secondary = JablotronGadget::Info::secondaryAddress(primary);
+
+		if (logger().debug()) {
+			logger().debug(
+				"try sync gadget " + addressToString(primary)
+				+ " (secondary: " + NumberFormatter::format0(secondary, 8) + "): "
+				+ id.toString(),
+				__FILE__, __LINE__);
+		}
+
+		if (registered.find(primary) == registered.end()) {
+			if (!freeSlots.empty()) {
+				registerGadget(freeSlots, primary, SHORT_TIMEOUT);
+			}
+			else {
+				logger().warning("overwriting a non-free slot...");
+				registerGadget(unknownSlots, primary, SHORT_TIMEOUT);
+			}
+		}
+		else {
+			if (logger().debug()) {
+				logger().debug(
+					"device " + id.toString() + " is already registered",
+					__FILE__, __LINE__);
+			}
+		}
+
+		if (primary == secondary) {
+			if (logger().debug()) {
+				logger().debug(
+					"device " + id.toString() + " is not dual, continue",
+					__FILE__, __LINE__);
+			}
+
+			continue;
+		}
+
+		if (registered.find(secondary) == registered.end()) {
+			if (!freeSlots.empty()) {
+				registerGadget(freeSlots, secondary, SHORT_TIMEOUT);
+			}
+			else {
+				logger().warning("overwriting a non-free slot...");
+				registerGadget(unknownSlots, primary, SHORT_TIMEOUT);
+			}
+		}
+	}
+}
+
+void JablotronDeviceManager::shipReport(const JablotronReport &report)
+{
+	const auto info = JablotronGadget::Info::resolve(report.address);
+	if (!info) {
+		logger().warning(
+			"unrecognized device by address "
+			+ addressToString(report.address));
+		return;
 	}
 
-	NewDeviceCommand::Ptr cmd =
-		new NewDeviceCommand(
-			it->second->deviceID(),
-			VENDOR_NAME,
-			it->second->name(),
-			it->second->moduleTypes(),
-			it->second->refreshTime()
-		);
+	const Timestamp now;
+	const auto values = info.parse(report);
 
+	if (!values.empty()) {
+		if (logger().debug()) {
+			logger().debug(
+				"shipping data from " + info.name(),
+				__FILE__, __LINE__);
+		}
+
+		ship({buildID(report.address), now, values});
+	}
+}
+
+void JablotronDeviceManager::registerGadget(
+		set<unsigned int> &freeSlots,
+		const uint32_t address,
+		const Timespan &timeout)
+{
+	const auto targetSlot = freeSlots.begin();
+	if (targetSlot == freeSlots.end()) {
+		throw IllegalStateException(
+			"no free slots available to register "
+			+ addressToString(address));
+	}
+
+	logger().information(
+		"registering address " + addressToString(address)
+		+ " at slot " + to_string(*targetSlot),
+		__FILE__, __LINE__);
+
+	m_controller.registerSlot(*targetSlot, address, timeout);
+	freeSlots.erase(targetSlot);
+}
+
+void JablotronDeviceManager::acceptGadget(const DeviceID &id)
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	set<uint32_t> registered;
+	set<unsigned int> freeSlots = allSlots();
+
+	for (const auto &gadget : readGadgets(SCAN_SLOTS_TIMEOUT)) {
+		registered.emplace(gadget.address());
+		freeSlots.erase(gadget.slot());
+	}
+
+	const auto address = extractAddress(id);
+
+	const auto it = registered.find(address);
+	if (it == registered.end())
+		registerGadget(freeSlots, address, SHORT_TIMEOUT);
+
+	const auto secondary = JablotronGadget::Info::secondaryAddress(address);
+
+	if (secondary != address) {
+		const auto it = registered.find(secondary);
+
+		if (it == registered.end())
+			registerGadget(freeSlots, secondary, SHORT_TIMEOUT);
+	}
+}
+
+void JablotronDeviceManager::enrollTX()
+{
+	m_controller.sendEnroll(SHORT_TIMEOUT);
+}
+
+void JablotronDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
+{
+	const auto id = cmd->deviceID();
+
+	if (id == PGX_ID || id == SIREN_ID) {
+		enrollTX();
+	}
+	else if (id == PGY_ID) {
+		enrollTX();
+		sleep(m_pgyEnrollGap);
+		enrollTX();
+	}
+	else {
+		acceptGadget(id);
+	}
+
+	DeviceManager::handleAccept(cmd);
+}
+
+void JablotronDeviceManager::newDevice(
+		const DeviceID &id,
+		const string &name,
+		const list<ModuleType> &types,
+		const Timespan &refreshTime)
+{
+	NewDeviceCommand::Ptr cmd = new NewDeviceCommand(
+		id, "Jablotron", name, types, refreshTime);
 	dispatch(cmd);
 }
 
-void JablotronDeviceManager::loadDeviceList()
+AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 {
-	set<DeviceID> deviceIDs = deviceList(-1);
+	const Clock started;
 
-	Mutex::ScopedLock guard(m_lock);
-	for (auto &id : deviceIDs) {
-		auto it = m_devices.find(id);
+	if (!deviceCache()->paired(PGX_ID))
+		newDevice(PGX_ID, "PGX", PG_MODULES, -1);
+	if (!deviceCache()->paired(PGY_ID))
+		newDevice(PGY_ID, "PGY", PG_MODULES, -1);
+	if (!deviceCache()->paired(SIREN_ID))
+		newDevice(SIREN_ID, "Siren", SIREN_MODULES, -1);
 
-		if (it != m_devices.end()) {
-			try {
-				it->second = JablotronDevice::create(id.ident());
-			}
-			catch (const InvalidArgumentException &ex) {
-				logger().log(ex, __FILE__, __LINE__);
-				continue;
-			}
+	FastMutex::ScopedLock guard(m_lock);
 
-			it->second->setPaired(true);
-		}
+	for (const auto &gadget : readGadgets(timeout)) {
+		if (!gadget.info())
+			continue;
+
+		const auto id = buildID(gadget.address());
+		const bool paired = deviceCache()->paired(id);
+
+		logger().information(
+			"gadget (" + string(paired? "paired" : "not-paired") + "): "
+			+ gadget.toString() + " " + id.toString(),
+			__FILE__, __LINE__);
+
+		if (paired)
+			continue;
+
+		if (gadget.isSecondary())
+			continue; // secondary devices are not reported
+
+		newDevice(id, gadget.info().name(),
+			gadget.info().modules, gadget.info().refreshTime);
 	}
 
-	obtainLastValue();
+	return BlockingAsyncWork<>::instance();
 }
 
-JablotronDeviceManager::MessageType JablotronDeviceManager::nextMessage(
-			string &message)
+void JablotronDeviceManager::unregisterGadget(
+		const DeviceID &id,
+		const Timespan &timeout)
 {
-	// find message between newline
-	// message example: \nAC-88 RELAY:1\n
-	const RegularExpression re("(?!\\n)[^\\n]*(?=\\n)");
-
-	while (!re.extract(m_buffer, message) && !m_stop) {
-		try {
-			m_buffer += m_serial.read(READ_TIMEOUT);
-		}
-		catch (const TimeoutException &ex) {
-			// avoid frozen state, allow to test m_stop time after time
-			continue;
-		}
-	}
-
-	// erase matched message from buffer + 2x newline
-	m_buffer.erase(0, message.size() + 2);
-	logger().trace("received data: " + message, __FILE__, __LINE__);
-
-	return messageType(message);
-}
-
-JablotronDeviceManager::MessageType JablotronDeviceManager::messageType(
-	const string &data)
-{
-	if (data == "OK")
-		return MessageType::OK;
-	else if (data == "ERROR")
-		return MessageType::ERROR;
-
-	return MessageType::DATA;
-}
-
-bool JablotronDeviceManager::wasTurrisDongleVersion(
-	const string &message) const
-{
-	const RegularExpression re("TURRIS DONGLE V[0-9].[0-9]*");
-	return re.match(message);
-}
-
-void JablotronDeviceManager::setupDongleDevices()
-{
-	string buffer;
-	for (int i = 0; i < MAX_DEVICES_IN_JABLOTRON; i++) {
-		Mutex::ScopedLock guard(m_lock);
-
-		// we need 2-digits long value (zero-prefixed when needed)
-		m_serial.write("\x1BGET SLOT:" + NumberFormatter::format0(i, 2) + "\n");
-
-		if (nextMessage(buffer) != MessageType::DATA) {
-			logger().error(
-				"unknown message: " + buffer,
-				__FILE__, __LINE__
-			);
-
-			continue;
-		}
-
-		// finding empty slot: SLOT:XX [--------]
-		RegularExpression re(".*[--------].*");
-		if (re.match(buffer)) {
-			logger().trace("empty slot", __FILE__, __LINE__);
-			continue;
-		}
-
-		try {
-			uint32_t serialNumber = extractSerialNumber(buffer);
-			DeviceID deviceID = JablotronDevice::buildID(serialNumber);
-
-			// create empty JablotronDevice
-			// after the obtain server device list, create JablotronDevice for paired devices
-			m_devices.emplace(deviceID, nullptr);
-
+	if (!m_unpairErasesSlot) {
+		if (logger().debug()) {
 			logger().debug(
-				"created device: " + to_string(serialNumber)
-				+ " from dongle", __FILE__, __LINE__);
-
-			if (JablotronDevice::create(serialNumber).cast<JablotronDeviceAC88>().isNull())
-				continue;
-
-			if (m_pgx.first == DEFAULT_DEVICE_ID)
-				m_pgx.first = deviceID;
-			else
-				m_pgy.first = deviceID;
-		}
-		catch (const InvalidArgumentException &ex) {
-			logger().log(ex, __FILE__, __LINE__);
-		}
-		catch (const SyntaxException &ex) {
-			logger().log(ex, __FILE__, __LINE__);
-		}
-	}
-}
-
-uint32_t JablotronDeviceManager::extractSerialNumber(const string &message)
-{
-	RegularExpression re("\\[([0-9]+)\\]");
-	vector<string> tmp;
-
-	if (re.split(message, tmp) == 2)
-		return NumberParser::parseUnsigned(tmp[1]);
-
-	throw InvalidArgumentException(
-		"invalid serial number string: " + message);
-}
-
-void JablotronDeviceManager::shipMessage(
-	const string &message, JablotronDevice::Ptr jablotronDevice)
-{
-	try {
-		ship(jablotronDevice->extractSensorData(message));
-	}
-	catch (const RangeException &ex) {
-		logger().error(
-			"unexpected token index in message: " + message,
-			__FILE__, __LINE__
-		);
-	}
-	catch (const Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
-	};
-}
-
-string JablotronDeviceManager::dongleMatch(const HotplugEvent &e)
-{
-	const string &productID = e.properties()
-		->getString("tty.ID_MODEL_ID", "");
-
-	const string &vendorID = e.properties()
-		->getString("tty.ID_VENDOR_ID", "");
-
-	if (e.subsystem() == "tty") {
-		if (vendorID == JABLOTRON_VENDOR_ID
-				&& productID == JABLOTRON_PRODUCT_ID)
-			return e.node();
-	}
-
-	return "";
-}
-
-/* Retransmission packet status is recommended to be done 3 times with
- * a minimum gap 200ms and 500ms maximum space (for an answer) - times
- * in the space, it is recommended to choose random.
- */
-bool JablotronDeviceManager::transmitMessage(const string &msg, bool autoResult)
-{
-	string message;
-
-	for (int i = 0; i < NUMBER_OF_RETRIES; i++) {
-		if (!m_serial.write(msg)) {
-			Thread::sleep(SLEEP_AFTER_FAILED.totalMilliseconds());
-			continue;
-		}
-
-		if (!autoResult) {
-			int i = 0;
-			while(!getResponse() && i < NUMBER_OF_RETRIES)
-				i++;
-		}
-
-		if (m_responseRcv.tryWait(RESPONSE_WAIT_MSEC)) {
-			if (m_lastResponse == ERROR) {
-				Thread::sleep(DELAY_BEETWEEN_CYCLES.totalMilliseconds());
-				continue;
-			}
-			Thread::sleep(DELAY_AFTER_SET_SWITCH.totalMilliseconds());
-			return true;
-		}
-		else {
-			poco_error(logger(), "no response received");
-			return false;
-		}
-	}
-
-	Thread::sleep(DELAY_AFTER_SET_SWITCH.totalMilliseconds());
-	return false;
-}
-
-bool JablotronDeviceManager::getResponse()
-{
-	string message;
-	MessageType response = nextMessage(message);
-
-	if (isResponse(response)) {
-		m_lastResponse = response;
-		m_responseRcv.set();
-		return true;
-	}
-
-	return false;
-}
-
-bool JablotronDeviceManager::isResponse(MessageType type)
-{
-	return type == OK || type == ERROR;
-}
-
-bool JablotronDeviceManager::modifyValue(
-			const DeviceID &deviceID, int value, bool autoResult)
-{
-	Mutex::ScopedLock guard(m_lock);
-
-	auto it = m_devices.find(deviceID);
-	if (it == m_devices.end()) {
-		throw NotFoundException(
-			"device " + deviceID.toString()
-			+ " not found");
-	}
-
-	if (it->second.cast<JablotronDeviceAC88>().isNull()) {
-		throw InvalidArgumentException(
-			"device " + it->first.toString()
-			+ " is not Jablotron AC-88");
-	}
-
-	if (!it->second->paired()) {
-		InvalidArgumentException(
-			"device " + it->first.toString()
-			+ " is not paired");
-	}
-
-	if (m_pgx.first == deviceID)
-		m_pgx.second = value;
-	else
-		m_pgy.second = value;
-
-	string modifyString = "\x1BTX ENROLL:0 PGX:" + to_string(m_pgx.second) +
-		" PGY:" + to_string(m_pgy.second) + " ALARM:0 BEEP:FAST\n";
-
-	return transmitMessage(modifyString, autoResult);
-}
-
-void JablotronDeviceManager::obtainLastValue()
-{
-	int value;
-	for (auto &device : m_devices) {
-		if (device.second.cast<JablotronDeviceAC88>().isNull())
-			continue;
-
-		if (!device.second->paired())
-			continue;
-
-		try {
-			value = lastValue(device.first, 0);
-		}
-		catch (const Exception &ex) {
-			logger().log(ex, __FILE__, __LINE__);
-			continue;
-		}
-
-		if (!modifyValue(device.first, value, false)) {
-			logger().warning(
-				"last value on device: " + device.first.toString()
-				+ " is not set",
+				"unregistering of gadgets from slots is disabled",
 				__FILE__, __LINE__);
 		}
+
+		return;
 	}
+
+	const uint32_t address = extractAddress(id);
+	const uint32_t secondary = JablotronGadget::Info::secondaryAddress(address);
+	bool done = false;
+
+	FastMutex::ScopedLock guard(m_lock);
+
+	for (const auto &gadget : readGadgets(timeout)) {
+		if (address != gadget.address() && secondary != gadget.address())
+			continue;
+
+		m_controller.unregisterSlot(gadget.slot(), SHORT_TIMEOUT);
+
+		logger().information(
+			"gadget " + gadget.toString()
+			+ " was unregistered from its slot");
+
+		done = true;
+	}
+
+	if (!done)
+		logger().warning("device " + id.toString() + " was not registered in any slot");
 }
 
-void JablotronDeviceManager::doSetValue(
-	DeviceSetValueCommand::Ptr cmd, Answer::Ptr answer)
+AsyncWork<set<DeviceID>>::Ptr JablotronDeviceManager::startUnpair(
+		const DeviceID &id,
+		const Timespan &timeout)
 {
-	Result::Ptr result = new Result(answer);
-	bool ret = false;
+	set<DeviceID> result;
 
-	try {
-		ret = modifyValue(cmd->deviceID(), cmd->value());
+	logger().information("unpairing device " + id.toString());
+
+	if (id == PGX_ID || id == PGY_ID || id == SIREN_ID) {
+		 // almost nothing to do, un-enroll does not exist
+		deviceCache()->markUnpaired(id);
+		result.emplace(id);
 	}
-	catch (const Exception &ex) {
-		logger().log(ex, __FILE__, __LINE__);
+	else {
+		unregisterGadget(id, timeout);
+		deviceCache()->markUnpaired(id);
+		result.emplace(id);
 	}
 
-	if (ret)
-		result->setStatus(Result::Status::SUCCESS);
-	else
-		result->setStatus(Result::Status::FAILED);
+	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
+	work->setResult(result);
+
+	return work;
+}
+
+AsyncWork<double>::Ptr JablotronDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Timespan &timeout)
+{
+	if (!deviceCache()->paired(id)) {
+		throw NotFoundException(
+			"no such device " + id.toString() + " is paired");
+	}
+
+	if (id != PGX_ID && id != PGY_ID && id != SIREN_ID) {
+		throw InvalidArgumentException(
+			"device " + id.toString() + " is not controllable");
+	}
+
+	if ((id == PGX_ID || id == PGY_ID) && module != ModuleID(0)) {
+		throw NotFoundException(
+			"no such controllable module " + module.toString()
+			+ " for device " + id.toString());
+	}
+
+	if (value < 0) {
+		throw InvalidArgumentException(
+			"invalid value for device "
+			+ id.toString() + ": " + to_string(value));
+	}
+
+	const auto v = static_cast<unsigned int>(value);
+
+	if (id == PGX_ID) {
+		m_pgx = v != 0;
+	}
+	else if (id == PGY_ID) {
+		m_pgy = v != 0;
+	}
+	else if (id == SIREN_ID) {
+		if (module == SIREN_ALARM_ID) {
+			m_alarm = v != 0;
+		}
+		else if (module != SIREN_BEEP_ID) {
+			throw NotFoundException(
+				"no such controllable module " + module.toString()
+				+ " for device " + id.toString());
+		}
+
+		switch (v) {
+		case 0:
+			m_beep = JablotronController::BEEP_NONE;
+			break;
+		case 1:
+			m_beep = JablotronController::BEEP_SLOW;
+			break;
+		case 2:
+			m_beep = JablotronController::BEEP_FAST;
+			break;
+		default:
+			throw InvalidArgumentException(
+				"invalid value for beep control: " + to_string(value));
+		}
+	}
+
+	BackOff::Ptr backoff = m_txBackOffFactory->create();
+	Timespan delay;
+
+	do {
+		m_controller.sendTX(m_pgx, m_pgy, m_alarm, m_beep, timeout);
+		delay = backoff->next();
+		sleep(delay);
+	} while (delay != BackOff::STOP);
+
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(static_cast<double>(v));
+	return work;
 }

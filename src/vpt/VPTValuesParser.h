@@ -1,5 +1,4 @@
-#ifndef GATEWAY_VPT_VALUES_PARSER_H
-#define GATEWAY_VPT_VALUES_PARSER_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -32,5 +31,3 @@ protected:
 };
 
 }
-
-#endif

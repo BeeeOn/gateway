@@ -58,7 +58,7 @@ uint32_t HciInfo::scoPackets() const
 
 uint32_t HciInfo::rxErrors() const
 {
-	return m_rxEvents;
+	return m_rxErrors;
 }
 
 uint32_t HciInfo::txErrors() const

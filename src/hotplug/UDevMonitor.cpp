@@ -91,7 +91,7 @@ void UDevMonitor::collectProperties(
 	const string &prefix = string(subsystem ? subsystem : "") + (subsystem ? "." : "");
 
 	struct udev_list_entry *attributes;
-	struct udev_list_entry *current;
+	struct udev_list_entry *current = NULL;
 
 	attributes = ::udev_device_get_properties_list_entry(dev);
 	udev_list_entry_foreach(current, attributes) {
@@ -153,7 +153,7 @@ void UDevMonitor::initialScan()
 		throwFromErrno("udev_enumerate_scan_devices");
 	}
 
-	struct udev_list_entry *devices = NULL;
+	struct udev_list_entry *devices;
 	struct udev_list_entry *current = NULL;
 	devices = ::udev_enumerate_get_list_entry(en);
 
@@ -256,16 +256,7 @@ struct udev_monitor *UDevMonitor::createMonitor()
 	try {
 		return doCreateMonitor();
 	}
-	catch (const Exception &e) {
-		logger().log(e, __FILE__, __LINE__);
-	}
-	catch (const exception &e) {
-		logger().critical(e.what(), __FILE__, __LINE__);
-	}
-	catch (...) {
-		logger().critical("failed to create udev_monitor",
-				  __FILE__, __LINE__);
-	}
+	BEEEON_CATCH_CHAIN(logger())
 
 	return NULL;
 }
@@ -287,16 +278,7 @@ void UDevMonitor::run()
 		try {
 			scanDevice(mon);
 		}
-		catch (const Exception &e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-		catch (const exception &e) {
-			logger().critical(e.what(), __FILE__, __LINE__);
-		}
-		catch (...) {
-			logger().critical("failed to scan devices",
-				  __FILE__, __LINE__);
-		}
+		BEEEON_CATCH_CHAIN(logger())
 	}
 
 	::udev_monitor_unref(mon);

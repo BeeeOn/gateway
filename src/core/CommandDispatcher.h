@@ -1,5 +1,4 @@
-#ifndef BEEEON_COMMAND_DISPATCHER_H
-#define BEEEON_COMMAND_DISPATCHER_H
+#pragma once
 
 #include <Poco/SharedPtr.h>
 
@@ -41,5 +40,3 @@ private:
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BEEEON_PHILIPS_HUE_LISTENER_H
-#define BEEEON_PHILIPS_HUE_LISTENER_H
+#pragma once
 
 #include <Poco/SharedPtr.h>
 
@@ -31,5 +30,3 @@ public:
 };
 
 }
-
-#endif

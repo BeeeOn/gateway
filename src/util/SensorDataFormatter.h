@@ -1,7 +1,8 @@
-#ifndef BEEEON_SENSOR_DATA_FORMATTER_H
-#define BEEEON_SENSOR_DATA_FORMATTER_H
+#pragma once
 
 #include <string>
+
+#include <Poco/SharedPtr.h>
 
 namespace BeeeOn {
 
@@ -9,6 +10,8 @@ class SensorData;
 
 class SensorDataFormatter {
 public:
+	typedef Poco::SharedPtr<SensorDataFormatter> Ptr;
+
 	SensorDataFormatter();
 	virtual ~SensorDataFormatter();
 
@@ -19,5 +22,3 @@ public:
 };
 
 }
-
-#endif // BEEEON_SENSOR_DATA_FORMATTER_H
