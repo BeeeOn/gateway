@@ -62,6 +62,7 @@
 			<set name="hciManager" ref="${bluetooth.hci.impl}HciManager" />
 			<set name="eventsExecutor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<add name="listeners" ref="collector"/>
 		</instance>
 
 		<instance name="bleSmartDeviceManager" class="BeeeOn::BLESmartDeviceManager">
@@ -144,6 +145,7 @@
 			<set name="networkKey" list="${zwave.ozw.networkKey}" />
 			<set name="executor" ref="asyncExecutor" />
 			<add name="listeners" ref="loggingCollector" />
+ 			<add name="listeners" ref="collector"/>
 		</instance>
 
 		<alias name="zwaveNetwork" ref="${zwave.impl}Network" />

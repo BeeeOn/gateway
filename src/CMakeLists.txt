@@ -10,6 +10,10 @@ find_library (POCO_JSON PocoJSON)
 find_library (POCO_XML PocoXML)
 find_library (PTHREAD pthread)
 
+find_library (LIBTRAP trap)
+find_library (UNIREC unirec)
+find_library (PCAP pcap)
+
 set(LIBS
 	${POCO_FOUNDATION}
 	${POCO_SSL}
@@ -19,6 +23,10 @@ set(LIBS
 	${POCO_JSON}
 	${POCO_XML}
 	${PTHREAD}
+    ${PCAP}
+    ${UNIREC}
+    ${LIBTRAP}
+
 )
 
 find_package (PkgConfig)
@@ -110,8 +118,10 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Exporter.cpp
 	${PROJECT_SOURCE_DIR}/core/ExporterQueue.cpp
 	${PROJECT_SOURCE_DIR}/core/FilesystemDeviceCache.cpp
+	${PROJECT_SOURCE_DIR}/core/fields.cpp
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
-	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
+    ${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
+    ${PROJECT_SOURCE_DIR}/core/NemeaCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp

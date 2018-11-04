@@ -28,6 +28,7 @@
 			<add name="exporters" ref="gwServerConnector" if-yes="${gws.enable}" />
 			<set name="eventsExecutor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<add name="listeners" ref="collector"/>
 		</instance>
 
 		<instance name="asyncExecutor" class="BeeeOn::SequentialAsyncExecutor">
@@ -52,6 +53,7 @@
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}"/>
+			<add name="listeners" ref="collector"/>
 		</instance>
 
 		<instance name="deviceStatusFetcher" class="BeeeOn::DeviceStatusFetcher">
@@ -97,6 +99,15 @@
 		</instance>
 
 		<instance name="loggingCollector" class="BeeeOn::LoggingCollector" />
+
+		<instance name="collector" class="BeeeOn::NemeaCollector">
+			<set name="onExportInterface" text="u:event-onExport"/>
+			<set name="onHCIStatsInterface" text="u:event-onHCIStats"/>
+			<set name="onNodeStatsInterface" text="u:event-onNodeStats"/>	
+			<set name="onDriverStatsInterface" text="u:event-onDriverStats"/>	
+			<set name="onNotificationInterface" text="u:event-onNotification"/>	
+			<set name="onDispatchInterface" text="u:event-onDispatch"/>	
+        </instance>
 
 		<instance name="credentialsTool" class="BeeeOn::CredentialsTool">
 			<set name="cryptoConfig" ref="cryptoConfig" />
