@@ -9,8 +9,8 @@ using namespace std;
 using namespace Poco;
 using namespace BeeeOn;
 
-static const Timespan REFRESH_TIME_9MIN = 9 * Timespan::MINUTES;
-static const Timespan REFRESH_TIME_NONE = -1;
+static const RefreshTime REFRESH_TIME_9MIN = RefreshTime::fromMinutes(9);
+static const RefreshTime REFRESH_TIME_NONE = RefreshTime::NONE;
 
 static const uint32_t RC86K_FIRST = 0x800000;
 static const uint32_t RC86K_LAST  = 0x87ffff;
@@ -122,7 +122,7 @@ JablotronGadget::Info JablotronGadget::Info::resolve(
 		return gadget;
 	}
 
-	static const Info invalid = {0, 0, NONE, -1, {}};
+	static const Info invalid = {0, 0, NONE, RefreshTime::NONE, {}};
 	return invalid;
 }
 

@@ -7,6 +7,7 @@
 #include <Poco/Timespan.h>
 
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 #include "model/SensorValue.h"
 #include "jablotron/JablotronReport.h"
 
@@ -40,7 +41,7 @@ public:
 		const uint32_t firstAddress;
 		const uint32_t lastAddress;
 		const Type type;
-		const Poco::Timespan refreshTime;
+		const RefreshTime refreshTime;
 		const std::list<ModuleType> modules;
 
 		operator bool() const;

@@ -15,6 +15,7 @@
 #include "jablotron/JablotronGadget.h"
 #include "jablotron/JablotronReport.h"
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 #include "util/BackOff.h"
 
 namespace BeeeOn {
@@ -184,7 +185,7 @@ protected:
 		const DeviceID &id,
 		const std::string &name,
 		const std::list<ModuleType> &types,
-		const Poco::Timespan &refreshTime);
+		const RefreshTime &refreshTime);
 
 	/**
 	 * @brief Accept gadget device to be paired.
