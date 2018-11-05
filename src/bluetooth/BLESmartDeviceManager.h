@@ -16,6 +16,7 @@
 #include "core/DongleDeviceManager.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "model/RefreshTime.h"
 #include "net/MACAddress.h"
 #include "util/AsyncWork.h"
 
@@ -146,7 +147,7 @@ private:
 
 	Poco::Timespan m_scanTimeout;
 	Poco::Timespan m_deviceTimeout;
-	Poco::Timespan m_refresh;
+	RefreshTime m_refresh;
 	HciInterfaceManager::Ptr m_hciManager;
 	HciInterface::Ptr m_hci;
 };
