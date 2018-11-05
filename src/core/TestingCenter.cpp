@@ -23,6 +23,7 @@
 #include "credentials/PinCredentials.h"
 #include "di/Injectable.h"
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 #include "net/MACAddress.h"
 #include "util/ArgsParser.h"
 
@@ -155,7 +156,7 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 			.id(DeviceID::parse(args[2]))
 			.type(args[3], args[4])
 			.modules(moduleTypes)
-			.refreshTime(NumberParser::parse(args[5]) * Timespan::SECONDS)
+			.refreshTime(RefreshTime::parse(args[5]))
 			.build();
 
 		return new NewDeviceCommand(description);
