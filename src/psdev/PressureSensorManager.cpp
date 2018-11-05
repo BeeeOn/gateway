@@ -43,7 +43,7 @@ PressureSensorManager::PressureSensorManager():
 		typeid(DeviceAcceptCommand),
 		typeid(DeviceUnpairCommand),
 	}),
-	m_refresh(15 * Timespan::SECONDS),
+	m_refresh(RefreshTime::fromSeconds(15)),
 	m_vendor("BeeeOn"),
 	m_unit("kPa")
 {
@@ -66,7 +66,7 @@ void PressureSensorManager::run()
 		}
 
 		shipValue();
-		run.waitStoppable(m_refresh);
+		run.waitStoppable(m_refresh.time());
 	}
 
 	poco_information(logger(), "pressure sensor finished");
@@ -147,7 +147,7 @@ void PressureSensorManager::setRefresh(const Timespan &refresh)
 	if (refresh < 0)
 		throw InvalidArgumentException("refresh time must be positive");
 
-	m_refresh = refresh;
+	m_refresh = RefreshTime::fromSeconds(refresh.totalSeconds());
 }
 
 void PressureSensorManager::setPath(const string &path)
