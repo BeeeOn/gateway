@@ -17,6 +17,7 @@
 #include "model/GatewayID.h"
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 #include "model/SensorData.h"
 #include "net/HTTPEntireResponse.h"
 #include "util/Loggable.h"
@@ -107,7 +108,7 @@ public:
 	/**
 	 * @brief Returns list of new device commands of all subdevices.
 	 */
-	std::vector<DeviceDescription> descriptions(const Poco::Timespan& refresh) const;
+	std::vector<DeviceDescription> descriptions(const RefreshTime& refresh) const;
 
 	/**
 	 * @brief Compares two VPTs based on DeviceID.
