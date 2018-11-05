@@ -9,7 +9,7 @@ using namespace Poco;
 using namespace std;
 
 VirtualDevice::VirtualDevice():
-	m_refresh(5 * Timespan::SECONDS)
+	m_refresh(RefreshTime::fromSeconds(5))
 {
 }
 
@@ -66,16 +66,16 @@ bool VirtualDevice::modifyValue(
 	return false;
 }
 
-Timespan VirtualDevice::refresh() const
+RefreshTime VirtualDevice::refresh() const
 {
 	return m_refresh;
 }
 
-void VirtualDevice::setRefresh(Timespan refresh)
+void VirtualDevice::setRefresh(const RefreshTime &refresh)
 {
-	if (refresh == 0)
+	if (refresh.isNone() || refresh.isDisabled())
 		throw InvalidArgumentException(
-			"invalid refresh: " + to_string(refresh.totalSeconds()));
+			"invalid refresh: " + refresh.toString());
 
 	m_refresh = refresh;
 }

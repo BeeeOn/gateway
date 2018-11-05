@@ -10,6 +10,7 @@
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 #include "model/SensorData.h"
 #include "vdev/VirtualModule.h"
 
@@ -35,15 +36,15 @@ public:
 	void addModule(const VirtualModule::Ptr virtualModule);
 	std::list<ModuleType> moduleTypes() const;
 
-	void setRefresh(Poco::Timespan refresh);
-	Poco::Timespan refresh() const;
+	void setRefresh(const RefreshTime &refresh);
+	RefreshTime refresh() const;
 
 	bool modifyValue(
 		const ModuleID &moduleID, double value);
 	SensorData generate();
 
 private:
-	Poco::Timespan m_refresh;
+	RefreshTime m_refresh;
 	std::string m_vendorName;
 	std::string m_productName;
 	std::list<VirtualModule::Ptr> m_modules;

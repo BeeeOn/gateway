@@ -74,7 +74,7 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 		+ ", paired: "
 		+ (deviceCache()->paired(device->deviceID()) ? "yes" : "no")
 		+ ", refresh: "
-		+ to_string(device->refresh().totalSeconds())
+		+ device->refresh().toString()
 		+ ", vendor: "
 		+ device->vendorName()
 		+ ", product: "
@@ -116,7 +116,7 @@ VirtualDevice::Ptr VirtualDeviceManager::parseDevice(
 	}
 
 	unsigned int refresh = cfg->getUInt("refresh", DEFAULT_REFRESH_SECS);
-	device->setRefresh(refresh * Timespan::SECONDS);
+	device->setRefresh(RefreshTime::fromSeconds(refresh));
 
 	if (cfg->getBool("paired", false))
 		deviceCache()->markPaired(id);
@@ -451,5 +451,5 @@ VirtualDevice::Ptr VirtualDeviceEntry::device() const
 
 Timestamp VirtualDeviceEntry::activationTime() const
 {
-	return inserted() + device()->refresh();
+	return inserted() + device()->refresh().time();
 }
