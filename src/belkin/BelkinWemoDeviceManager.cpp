@@ -40,7 +40,7 @@ BelkinWemoDeviceManager::BelkinWemoDeviceManager():
 		typeid(DeviceUnpairCommand),
 		typeid(DeviceSetValueCommand),
 	}),
-	m_refresh(5 * Timespan::SECONDS),
+	m_refresh(RefreshTime::fromSeconds(5)),
 	m_httpTimeout(3 * Timespan::SECONDS),
 	m_upnpTimeout(5 * Timespan::SECONDS)
 {
@@ -64,7 +64,7 @@ void BelkinWemoDeviceManager::run()
 
 		refreshPairedDevices();
 
-		Timespan sleepTime = m_refresh - now.elapsed();
+		Timespan sleepTime = m_refresh.time() - now.elapsed();
 		if (sleepTime > 0)
 			run.waitStoppable(sleepTime);
 	}
@@ -83,7 +83,7 @@ void BelkinWemoDeviceManager::setRefresh(const Timespan &refresh)
 	if (refresh.totalSeconds() <= 0)
 		throw InvalidArgumentException("refresh time must at least a second");
 
-	m_refresh = refresh;
+	m_refresh = RefreshTime::fromSeconds(refresh.totalSeconds());
 }
 
 void BelkinWemoDeviceManager::setUPnPTimeout(const Timespan &timeout)
