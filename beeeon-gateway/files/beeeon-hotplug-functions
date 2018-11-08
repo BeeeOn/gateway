@@ -1,0 +1,73 @@
+#! /bin/sh
+
+FIFO_PATH="/var/run/beeeon/gateway.hotplug"
+OUTPUT_DATA=""
+
+propagate_uevents()
+{
+	PARENT="/sys${3}"
+	DEVICE="/sys${3}/device"
+	if [[ -z $OUTPUT_DATA ]]; then
+		OUTPUT_DATA="ACTION=$ACTION
+SUBSYSTEM=${1}"
+	else
+		OUTPUT_DATA="ACTION=$ACTION
+SUBSYSTEM=${1}
+$OUTPUT_DATA"
+	fi
+	propagate_device_uevents "${DEVICE}" "${1}"
+	propagate_parent_uevents "${PARENT}" "${1}"
+}
+
+init_and_propagate_uevents()
+{
+	if [ ! -p "${FIFO_PATH}" ]; then
+		mkfifo "${FIFO_PATH}"
+	fi
+	OUTPUT_DATA=${4}
+	propagate_uevents "${1}" "${2}" "${3}"
+	propagate_lines "$OUTPUT_DATA"
+}
+
+propagate_device_uevents()
+{
+	UEVENT=${1}/uevent
+	#DEVICE_UEVENT=$(sed 's/^/'${2}'./;' $UEVENT)
+	DEVICE_UEVENT=$(cat $UEVENT)
+	OUTPUT_DATA="$OUTPUT_DATA
+$DEVICE_UEVENT"
+}
+
+propagate_parent_uevents()
+{
+	UEVENT=${1}/uevent
+	#PARENT_UEVENT=$(sed 's/^/'${2}'./;' $UEVENT)
+	PARENT_UEVENT=$(cat $UEVENT)
+	OUTPUT_DATA="$OUTPUT_DATA
+$PARENT_UEVENT"
+	UEVENT_CONTENT=$(cat $UEVENT)
+	if [[ -z "${UEVENT_CONTENT##*DEVNAME*}" ]] && [[ -z "${UEVENT_CONTENT##*MAJOR*}" ]] && [[ -z "${UEVENT_CONTENT##*MINOR*}" ]]; then
+		check_major_minor "$UEVENT" "${2}"
+	fi
+}
+
+check_major_minor()
+{
+	DEVICE_NAME=$(cat ${1} | grep "DEVNAME" | cut -c 9-)
+	MAJOR_NUMBER_ORIG=$(ls -l /dev | grep $DEVICE_NAME | tr -s ' ' | cut -f5 -d" " | tr -d ,)
+	MINOR_NUMBER_ORIG=$(ls -l /dev | grep $DEVICE_NAME | tr -s ' ' | cut -f6 -d" ")
+	MAJOR_NUMBER_HOTPLUG=$(cat ${1} | grep "MAJOR" | cut -c 7-)
+	MINOR_NUMBER_HOTPLUG=$(cat ${1} | grep "MINOR" | cut -c 7-)
+	if [ "$MAJOR_NUMBER_ORIG" = "$MAJOR_NUMBER_HOTPLUG" ] && [ "$MINOR_NUMBER_ORIG" = "$MINOR_NUMBER_HOTPLUG" ]; then
+		OUTPUT_DATA="$OUTPUT_DATA
+NODE=/dev/$DEVICE_NAME"
+	fi
+}
+
+propagate_lines()
+{
+	cat <<__EOF >"${FIFO_PATH}"
+${1}
+
+__EOF
+}

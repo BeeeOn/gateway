@@ -1,0 +1,86 @@
+From 6e48f6931887465b5fca25325656985dbf9fee21 Mon Sep 17 00:00:00 2001
+From: Jan Viktorin <iviktorin@fit.vutbr.cz>
+Date: Fri, 16 Nov 2018 16:41:48 +0100
+Subject: [gateway][PATCH 1/2] build: avoid linking gio and glib is not needed
+
+Currently, the gio and glib are only used by bluetooth over DBus.
+There is no reason to link against those libraries when bluetooth
+is disabled.
+
+Signed-off-by: Jan Viktorin <iviktorin@fit.vutbr.cz>
+---
+ src/CMakeLists.txt  | 16 ++++++++--------
+ test/CMakeLists.txt | 16 ++++++++--------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 2fb633fe8..24c809d1e 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -207,6 +207,14 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
+ 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
+ 			PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter -Wno-pedantic"
+ 		)
++
++		if(GLIB_LDFLAGS)
++			list(APPEND LIBS ${GLIB_LDFLAGS})
++		endif()
++
++		if(GIO_UNIX_LDFLAGS)
++			list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
++		endif()
+ 	endif()
+ 	add_library(BeeeOnBluetooth ${BLUETOOTH_SOURCES})
+ 	list(APPEND MODULE_LIBS BeeeOnBluetooth)
+@@ -432,14 +440,6 @@ if(BLUETOOTH)
+ list(APPEND LIBS ${BLUETOOTH})
+ endif()
+ 
+-if(GLIB_LDFLAGS)
+-list(APPEND LIBS ${GLIB_LDFLAGS})
+-endif()
+-
+-if(GIO_UNIX_LDFLAGS)
+-list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+-endif()
+-
+ target_link_libraries(beeeon-gateway
+ 		-Wl,--whole-archive
+ 		BeeeOnGateway
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 16bebe219..37b57b428 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -74,6 +74,14 @@ if(BLUETOOTH)
+ 		file(GLOB DBUS_BLUEZ_SOURCES
+ 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
+ 		)
++
++		if(GLIB_LDFLAGS)
++		list(APPEND LIBS ${GLIB_LDFLAGS})
++		endif()
++
++		if(GIO_UNIX_LDFLAGS)
++		list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
++		endif()
+ 	endif()
+ 
+ 	add_library(BeeeOnBluetoothTest ${BLUETOOTH_SOURCES} ${DBUS_BLUEZ_SOURCES})
+@@ -164,14 +172,6 @@ if (UDEV)
+ list(APPEND LIBS ${UDEV})
+ endif()
+ 
+-if(GLIB_LDFLAGS)
+-list(APPEND LIBS ${GLIB_LDFLAGS})
+-endif()
+-
+-if(GIO_UNIX_LDFLAGS)
+-list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+-endif()
+-
+ target_link_libraries(test-suite-gateway
+ 	-Wl,--whole-archive
+ 	BeeeOnGateway
+-- 
+2.18.0
+

@@ -1,0 +1,39 @@
+From 2fa4ece51a1c0d706af646938a4fef22007872a4 Mon Sep 17 00:00:00 2001
+From: Jan Viktorin <iviktorin@fit.vutbr.cz>
+Date: Fri, 16 Nov 2018 16:43:35 +0100
+Subject: [gateway][PATCH 2/2] build: link against bluetooth library only when
+ needed
+
+Signed-off-by: Jan Viktorin <iviktorin@fit.vutbr.cz>
+---
+ src/CMakeLists.txt | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 24c809d1e..490264d97 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -195,6 +195,9 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
+ 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
+ 		${PROJECT_SOURCE_DIR}/bluetooth/HciUtil.cpp
+ 	)
++
++	list(APPEND LIBS ${BLUETOOTH})
++
+ 	if(HAS_DBUS_BLUEZ)
+ 		list(APPEND BLUETOOTH_SOURCES
+ 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
+@@ -436,10 +439,6 @@ add_library(BeeeOnGateway ${SOURCES})
+ 
+ add_executable(beeeon-gateway main.cpp)
+ 
+-if(BLUETOOTH)
+-list(APPEND LIBS ${BLUETOOTH})
+-endif()
+-
+ target_link_libraries(beeeon-gateway
+ 		-Wl,--whole-archive
+ 		BeeeOnGateway
+-- 
+2.18.0
+

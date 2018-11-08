@@ -1,0 +1,44 @@
+From 67e2dc0b9e9567ddd9cd1d7772038ffb978c47d3 Mon Sep 17 00:00:00 2001
+From: Jan Viktorin <iviktorin@fit.vutbr.cz>
+Date: Tue, 11 Dec 2018 15:40:06 +0100
+Subject: [gateway][PATCH] build: make HciInfoReporter optional and independent
+
+Until recently, the HciInfoReporter could be include only when
+either BluetoothAvailabilityManager or BLEDeviceManager have
+been included. Now, it is possible to just include the Bluetooth
+infrastructure and enable the HciInfoReporter alone.
+
+Signed-off-by: Jan Viktorin <iviktorin@fit.vutbr.cz>
+---
+ CMakeLists.txt     | 1 +
+ src/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a748044c0..f2ac0801e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -27,6 +27,7 @@ option(ENABLE_UDEV "Enable support of udev" ON)
+ option(ENABLE_BELKIN_WEMO "Enable support of Belkin Wemo" ON)
+ option(ENABLE_BLUETOOTH_AVAILABILITY "Enable support of Bluetooth Availability" ON)
+ option(ENABLE_BLE_SMART "Enable support of Bluetooth Low Energy Smart" ON)
++option(ENABLE_HCI_INFO_REPORTER "Enable support for HciInfoReporter" ON)
+ option(ENABLE_JABLOTRON "Enable support of Jablotron" ON)
+ option(ENABLE_PHILIPS_HUE "Enable support of Philips Hue" ON)
+ option(ENABLE_VIRTUAL_DEVICES "Enable support of Virtual Devices" ON)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 97c1cc141..02e35b3b4 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -44,7 +44,7 @@ if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
+ 	set(HAS_DBUS_BLUEZ YES)
+ endif()
+ 
+-if(ENABLE_BLUETOOTH_AVAILABILITY OR ENABLE_BLE_SMART)
++if(ENABLE_BLUETOOTH_AVAILABILITY OR ENABLE_BLE_SMART OR ENABLE_HCI_INFO_REPORTER)
+ 	set(WANTS_BLUETOOTH YES)
+ endif()
+ 
+-- 
+2.19.1
+

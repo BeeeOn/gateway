@@ -1,0 +1,31 @@
+#! /bin/sh
+
+. /etc/hotplug.d/beeeon-hotplug-functions
+
+if [[ -n "$DEVPATH" ]] && [[ $ACTION == "add" ]]; then
+	if [ "$DEVTYPE" = "host" ]; then
+        	OUTPUT_LINES='bluetooth.BEEEON_DONGLE="bluetooth"'
+	fi
+	DEVICE_UEVENT="/sys$DEVPATH/device/uevent"
+	UEVENT_CONTENT=$(cat $DEVICE_UEVENT)
+	if [[ -z "${UEVENT_CONTENT##*PRODUCT*}" ]]; then
+		idVendor=$(cat $DEVICE_UEVENT | grep "PRODUCT" | cut -c 9-12)
+		idProduct=$(cat $DEVICE_UEVENT | grep "PRODUCT" | cut -c 14-17)
+		OUTPUT_LINES="$OUTPUT_LINES
+idVendor=$idVendor
+idProduct=$idProduct"
+	fi
+	init_and_propagate_uevents "$SUBSYSTEM" "$ACTION" "$DEVPATH" "$OUTPUT_LINES"
+fi
+
+if [[ $ACTION == "remove" ]]; then
+	OUTPUT_LINES="ACTION=remove
+SUBSYSTEM=$SUBSYSTEM
+NAME=$DEVICENAME
+DEVPATH=$DEVPATH"
+	if [ "$DEVTYPE" = "host" ]; then
+		OUTPUT_LINES="$OUTPUT_LINES
+bluetooth.BEEEON_DONGLE=\"bluetooth\""
+	fi
+	propagate_lines "$OUTPUT_LINES"
+fi

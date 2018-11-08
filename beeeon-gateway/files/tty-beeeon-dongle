@@ -1,0 +1,55 @@
+#! /bin/sh
+
+. /etc/hotplug.d/beeeon-hotplug-functions
+
+usb_vendor_id()
+{
+        awk -F'[=/]' '/^PRODUCT/ {print $2}' < "${1}" \
+        | sed -e 's/^.$/000&/' -e 's/^..$/00&/' -e 's/^...$/0&/'
+}
+
+usb_product_id()
+{
+        awk -F'[=/]' '/^PRODUCT/ {print $3}' < "${1}" \
+        | sed -e 's/^.$/000&/' -e 's/^..$/00&/' -e 's/^...$/0&/'
+}
+
+if [[ -n "$DEVPATH" ]] && [[ $SUBSYSTEM != "usb-serial" ]] && [[ $ACTION == "add" ]]; then
+        DEVICE_UEVENT="/sys$DEVPATH/device/uevent"
+        UEVENT_CONTENT=$(cat $DEVICE_UEVENT)
+        if [[ -z "${UEVENT_CONTENT##*PRODUCT*}" ]]; then
+                idVendor=`usb_vendor_id "${DEVICE_UEVENT}"`
+                idProduct=`usb_product_id "${DEVICE_UEVENT}"`
+				OUTPUT_DATA="idVendor=$idVendor
+idProduct=$idProduct"
+		case "${idVendor}-${idProduct}" in
+			"0403-6015")
+				OUTPUT_DATA="$OUTPUT_DATA
+tty.BEEEON_DONGLE=jablotron"
+				;;
+			"0658-0200")
+				OUTPUT_DATA="$OUTPUT_DATA
+tty.BEEEON_DONGLE=zwave"
+				;;
+		esac
+	fi
+	init_and_propagate_uevents "$SUBSYSTEM" "$ACTION" "$DEVPATH" "$OUTPUT_DATA"
+fi
+
+if [[ $SUBSYSTEM != "usb-serial" ]] && [[ $ACTION == "remove" ]]; then
+	if [ -n "$DEVNAME" ]; then
+		OUTPUT_DATA="DEVNAME=$DEVNAME
+NODE=/dev/$DEVNAME"
+	fi
+	if [ -n "$MAJOR" ]; then
+		OUTPUT_DATA="$OUTPUT_DATA
+MAJOR=$MAJOR
+MINOR=$MINOR"
+	fi
+	DATA_TO_OUTPUT="ACTION=remove
+SUBSYSTEM=$SUBSYSTEM
+DEVNAME=$DEVICENAME
+DEVPATH=$DEVPATH
+$OUTPUT_DATA"
+	propagate_lines "$DATA_TO_OUTPUT"
+fi

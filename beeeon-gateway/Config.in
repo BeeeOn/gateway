@@ -1,0 +1,278 @@
+menu "Configuration"
+	depends on PACKAGE_beeeon-gateway
+
+choice
+	prompt "Gateway Identity"
+
+config BEEEON_GATEWAY_ID_RANDOM
+	bool "random"
+	help
+	  BeeeOn Gateway ID would be generated during the build
+	  at random.
+
+config BEEEON_GATEWAY_ID_CUSTOM
+	bool "custom"
+	help
+	  BeeeOn Gateway ID is to be entered manually.
+
+config BEEEON_GATEWAY_ID_CERT
+	bool "from certificate"
+	help
+	  BeeeOn Gateway ID would be extracted from the given
+	  certificate. It is thus required to give a path to
+	  the gateway's private key, certificate and signing
+	  certification authority.
+
+endchoice
+
+config BEEEON_GATEWAY_ID_CUSTOM_VALUE
+	string "ID"
+	depends on BEEEON_GATEWAY_ID_CUSTOM
+	default "1254321374233360"
+	help
+	  The Gateway ID must be in the following decadic
+	  format: VDDD DDDD DDDD DDDC. The V is "version"
+	  and should be always 1. The series of D denotes
+	  the unique identification part. The C is the DAMM
+	  check sum digit.
+
+config BEEEON_GATEWAY_ID_CERT_FILE
+	string "Certificate file"
+	depends on BEEEON_GATEWAY_ID_CERT
+	help
+	  The certification should prove that the gateway's
+	  public key and ID are trusted by its signing CA.
+
+config BEEEON_GATEWAY_ID_CERT_PKEY
+	string "Private key file"
+	depends on BEEEON_GATEWAY_ID_CERT
+	help
+	  Private key of the BeeeOn Gateway.
+
+config BEEEON_GATEWAY_ID_CERT_AUTHORITY
+	string "CA public key"
+	depends on BEEEON_GATEWAY_ID_CERT
+	help
+	  The given file should represent the public key of CA
+	  that has signed the certificate of the gateway.
+
+config BEEEON_GATEWAY_GWS
+	bool "GWS connector"
+	default n
+	help
+	  Enable GWS connector, component to connect
+	  to the remote BeeeOn Server.
+
+config BEEEON_GATEWAY_GWS_HOST
+	string "GWS host"
+	depends on BEEEON_GATEWAY_GWS
+	default "" if !BEEEON_GATEWAY_GWS
+
+config BEEEON_GATEWAY_GWS_PORT
+	int "GWS port"
+	depends on BEEEON_GATEWAY_GWS
+	range 1 65535
+	default 8850
+
+endmenu
+
+menu "Modules"
+	depends on PACKAGE_beeeon-gateway
+
+config BEEEON_GATEWAY_USB_UART_RECOMMENDED
+	bool
+	default y if BEEEON_GATEWAY_ZWAVE
+	default y if BEEEON_GATEWAY_IQRF
+	default y if BEEEON_GATEWAY_JABLOTRON
+	default n
+
+config BEEEON_GATEWAY_HAS_KMOD_USB_ACM
+	bool
+	default y if PACKAGE_kmod-usb-acm
+	default n
+
+comment "You may need to select kmod-usb-acm to support UART-over-USB."
+	depends on BEEEON_GATEWAY_USB_UART_RECOMMENDED
+	depends on !BEEEON_GATEWAY_HAS_KMOD_USB_ACM
+
+config BEEEON_GATEWAY_BELKIN_WEMO
+	bool "Belkin Wemo"
+	default n
+	help
+	  Enable support of Belkin Wemo devices connected
+	  over LAN or WLAN.
+
+config BEEEON_GATEWAY_HAS_BLUEZ_DAEMON
+	bool
+	default y if PACKAGE_bluez-daemon
+	default n
+
+config BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+	bool
+	default y if PACKAGE_bluez-libs
+
+config BEEEON_GATEWAY_HAS_GLIB2
+	bool
+	default y if PACKAGE_glib2
+	default n
+
+config BEEEON_GATEWAY_BLE_SMART
+	bool "Bluetooth LE Smart"
+	depends on BEEEON_GATEWAY_HAS_GLIB2
+	depends on BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+	depends on BEEEON_GATEWAY_HAS_BLUEZ_DAEMON
+	default n
+	help
+	  Enable support of Bluetooth Low Energy Smart
+	  devices. It is possible to measure data or
+	  control certain devices.
+
+comment "BLE Smart requires bluez-daemon, bluez-lib and glib2"
+	depends on !BEEEON_GATEWAY_HAS_GLIB2
+	depends on !BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+	depends on !BEEEON_GATEWAY_HAS_BLUEZ_DAEMON
+
+config BEEEON_GATEWAY_BLUETOOTH_AVAILABILITY
+	bool "Bluetooth Availability"
+	depends on BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+	default n
+	help
+	  Enable support of availability detection module.
+	  It tells whether a Bluetooth device is available
+	  or not.
+
+comment "Bluetooth Availability requires bluez-libs"
+	depends on !BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+
+config BEEEON_GATEWAY_HCI_INFO_REPORTER
+	bool "HciInfo Reporter"
+	depends on BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+	default n
+	help
+	  Enable support of HciInfoReporter instance. It periodically
+	  reports information about HCI nodes available in the system.
+
+comment "HciInfo Reporter requires bluez-libs"
+	depends on !BEEEON_GATEWAY_HAS_BLUEZ_LIBS
+
+config BEEEON_GATEWAY_FITP
+	bool "BUT FIT IoT Protocol"
+	default n
+	help
+	  Enable support of the experimental FITP protocol
+	  develped at Brno University of Technology. This
+	  might require appropriate SPI drivers in the kernel.
+
+config BEEEON_GATEWAY_IQRF
+	bool "IQRF"
+	default n
+	help
+	  Enable support of IQRF. This might require appropriate
+	  USB or UART drivers in the kernel.
+
+config BEEEON_GATEWAY_JABLOTRON
+	bool "Jablotron Turris Gadgets"
+	default n
+	help
+	  Enable support of Turris Gadgets. This might require
+	  appropriate USB or UART drivers in the kernel.
+
+config BEEEON_GATEWAY_MQTT_EXPORTER
+	bool "Exporting data via MQTT"
+	default n
+	help
+	  Enable exporting data over MQTT via mosquitto.
+
+menu "MQTT Exporter settings"
+	depends on BEEEON_GATEWAY_MQTT_EXPORTER
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_HOST
+	string "MQTT host"
+	default "127.0.0.1"
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_PORT
+	int "MQTT port"
+	default 1883
+	range 1 65535
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_TOPIC
+	string "MQTT topic"
+	default "BeeeOnOut"
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_CLIENT_ID
+	string "MQTT client ID"
+	default "Gateway"
+
+endmenu
+
+config BEEEON_GATEWAY_PHILIPS_HUE
+	bool "Philips Hue"
+	default n
+	help
+	  Enable support of Philips Hue devices connected
+	  over LAN or WLAN.
+
+config BEEEON_GATEWAY_PRESSURE_SENSOR
+	bool "On-board pressure sensor"
+	default n
+	help
+	  Enable support of pressure sensor read from
+	  sysfs of the local system.
+
+config BEEEON_GATEWAY_PRESSURE_SENSOR_PATH
+	string "sysfs path to pressure sensor"
+	depends on BEEEON_GATEWAY_PRESSURE_SENSOR
+	default ""
+	help
+	  Path to the sysfs entry where the pressure input can
+	  be access and read. Example:
+
+	  /sys/devices/platform/soc@01c00000/1c2b400.i2c/i2c-2/2-0077/iio:device0/in_pressure_input
+
+config BEEEON_GATEWAY_VIRTUAL_DEVICES
+	bool "Virtual Devices (testing)"
+	default n
+	help
+	  Enable support of virtual devices. This feature
+	  is intended for testing. Virtual devices can
+	  emulate real sensors.
+
+config BEEEON_GATEWAY_VIRTUAL_DEVICES_CUSTOM_CONFIG
+	string "path to custom virtual-devices.ini"
+	depends on BEEEON_GATEWAY_VIRTUAL_DEVICES
+	default ""
+	help
+	  Path to a custom configuration file for virtual
+	  devices. Leave empty to use the default one.
+
+config BEEEON_GATEWAY_VPT
+	bool "Thermona VPT"
+	default n
+	help
+	  Enable support of Thermona VPT connected over
+	  LAN or WLAN.
+
+config BEEEON_GATEWAY_ZWAVE
+	bool "ZWave"
+	default n
+	help
+	  Enable support of Z-Wave. This might require appropriate
+	  USB or UART drivers in the kernel.
+
+config BEEEON_GATEWAY_TESTING_CENTER
+	bool "Testing Center (testing)"
+	default n
+	help
+	  Enable support for component TestingCenter which
+	  is useful for debugging. It opens a local TCP
+	  textual console at port 6000.
+
+config BEEEON_GATEWAY_TESTING_COLLECTOR
+	bool "Testing Collector (testing)"
+	default n
+	help
+	  Enable support for component LoggingCollector which
+	  is useful for debugging by looking for logs of some
+	  internal gateway events.
+
+endmenu
