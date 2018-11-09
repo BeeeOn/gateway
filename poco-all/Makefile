@@ -1,0 +1,67 @@
+#
+# Copyright (C) 2007-2016 OpenWrt.org
+# Copyright (C) 2017 Daniel Engberg <daniel.engberg.lists@pyret.net>
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=poco
+_PKG_NAME:=$(PKG_NAME)-all
+_PKG_VERSION:=1.9.0
+PKG_VERSION:=$(_PKG_VERSION)-all
+PKG_RELEASE:=1
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+PKG_SOURCE_URL:=http://pocoproject.org/releases/$(PKG_NAME)-$(_PKG_VERSION)
+PKG_HASH:=b6e33898588e74337efec4e8d8b9b277bb653b08318a79215f9aa4a3ff1ea9fd
+
+PKG_LICENSE:=BSL-1.0
+PKG_LICENSE_FILES:=LICENSE
+
+PKG_INSTALL:=1
+
+include $(INCLUDE_DIR)/package.mk
+
+define Package/poco-all
+  SECTION:=cesnet
+  CATEGORY:=CESNET
+  TITLE:=Poco C++ libraries
+  URL:=http://www.pocoproject.org/
+  DEPENDS:=+libstdcpp +libpthread +librt +libopenssl
+  MAINTAINER:=Jean-Michel Julien <jean-michel.julien@trilliantinc.com>
+  CONFLICTS:=poco
+endef
+
+define Package/poco-all/description
+  POrtable COmponents, a modern and powerful open source C++ class libraries
+  and frameworks for building network and internet-based applications that
+  run on desktop, server and embedded systems.
+endef
+
+CONFIGURE_ARGS += \
+	--config=Linux \
+	--no-tests \
+	--no-samples \
+	--no-fpenvironment \
+	--no-sharedmemory \
+	--no-wstring \
+	--typical \
+	--shared
+
+define Package/poco-all/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libPoco{Foundation,XML,JSON,Net,Util,Crypto,NetSSL,Encodings}.so* $(1)/usr/lib/
+endef
+
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/Poco $(1)/usr/include/
+
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libPoco{Foundation,XML,JSON,Net,Util,Crypto,NetSSL,Encodings}.so* $(1)/usr/lib/
+endef
+
+$(eval $(call BuildPackage,poco-all))

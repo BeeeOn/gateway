@@ -1,0 +1,11 @@
+--- a/configure
++++ b/configure
+@@ -238,6 +238,6 @@
+ 
+ 	*)
+-		showhelp
+-		exit 1
++#		showhelp
++#		exit 1
+ 		;;
+ 	esac
