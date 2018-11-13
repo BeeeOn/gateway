@@ -9,6 +9,7 @@
 #include <Poco/Timespan.h>
 
 #include "core/DeviceManager.h"
+#include "model/RefreshTime.h"
 #include "model/SensorValue.h"
 #include "util/DelayedAsyncWork.h"
 #include "zwave/ZWaveMapperRegistry.h"
@@ -76,8 +77,8 @@ public:
 
 		ZWaveMapperRegistry::Mapper::Ptr mapper() const;
 
-		void setRefresh(const Poco::Timespan &refresh);
-		Poco::Timespan refresh() const;
+		void setRefresh(const RefreshTime &refresh);
+		RefreshTime refresh() const;
 
 		/**
 		 * @returns list of types the devices provides to the BeeeOn system
@@ -94,7 +95,7 @@ public:
 	private:
 		ZWaveNode m_node;
 		ZWaveMapperRegistry::Mapper::Ptr m_mapper;
-		Poco::Timespan m_refresh;
+		RefreshTime m_refresh;
 	};
 
 	typedef std::map<DeviceID, Device> DeviceMap;

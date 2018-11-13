@@ -36,7 +36,7 @@ using namespace BeeeOn;
 
 ZWaveDeviceManager::Device::Device(const ZWaveNode &node):
 	m_node(node),
-	m_refresh(0)
+	m_refresh(RefreshTime::NONE)
 {
 }
 
@@ -86,12 +86,12 @@ ZWaveMapperRegistry::Mapper::Ptr ZWaveDeviceManager::Device::mapper() const
 	return m_mapper;
 }
 
-void ZWaveDeviceManager::Device::setRefresh(const Timespan &refresh)
+void ZWaveDeviceManager::Device::setRefresh(const RefreshTime &refresh)
 {
 	m_refresh = refresh;
 }
 
-Timespan ZWaveDeviceManager::Device::refresh() const
+RefreshTime ZWaveDeviceManager::Device::refresh() const
 {
 	return m_refresh;
 }
@@ -241,17 +241,17 @@ void ZWaveDeviceManager::processValue(const ZWaveNode::Value &value)
 	const auto &cc = value.commandClass();
 
 	if (cc.id() == ZWaveNode::CommandClass::WAKE_UP && cc.index() == 0) {
-		const auto time = value.asTime();
+		const auto refresh = RefreshTime::fromSeconds(value.asTime().totalSeconds());
 
 		if (logger().debug()) {
 			logger().debug(
 				"update refresh time of "
 				+ device.id().toString()
-				+ " to " + DateTimeFormatter::format(time),
+				+ " to " + refresh.toString(),
 				__FILE__, __LINE__);
 		}
 
-		device.setRefresh(time);
+		device.setRefresh(refresh);
 		return;
 	}
 

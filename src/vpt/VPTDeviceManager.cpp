@@ -48,7 +48,7 @@ VPTDeviceManager::VPTDeviceManager():
 		typeid(DeviceSetValueCommand),
 	}),
 	m_maxMsgSize(10000),
-	m_refresh(5 * Timespan::SECONDS),
+	m_refresh(RefreshTime::fromSeconds(5)),
 	m_httpTimeout(3 * Timespan::SECONDS),
 	m_pingTimeout(20 * Timespan::MILLISECONDS)
 {
@@ -70,7 +70,7 @@ void VPTDeviceManager::run()
 
 		shipFromDevices();
 
-		Timespan sleepTime = m_refresh - now.elapsed();
+		Timespan sleepTime = m_refresh.time() - now.elapsed();
 		if (sleepTime > 0) {
 			logger().debug("sleeping for " + to_string(sleepTime.totalMilliseconds()) + " ms",
 				__FILE__, __LINE__);
@@ -93,7 +93,7 @@ void VPTDeviceManager::setRefresh(const Timespan &refresh)
 	if (refresh.totalSeconds() <= 0)
 		throw InvalidArgumentException("refresh time must be at least 1 second");
 
-	m_refresh = refresh;
+	m_refresh = RefreshTime::fromSeconds(refresh.totalSeconds());
 }
 
 void VPTDeviceManager::setPingTimeout(const Timespan &timeout)

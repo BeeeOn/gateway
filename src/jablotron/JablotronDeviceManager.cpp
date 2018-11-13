@@ -544,17 +544,13 @@ void JablotronDeviceManager::newDevice(
 		const DeviceID &id,
 		const string &name,
 		const list<ModuleType> &types,
-		const Timespan &refreshTime)
+		const RefreshTime &refreshTime)
 {
 	auto builder = DeviceDescription::Builder()
 		.id(id)
 		.type("Jablotron", name)
-		.modules(types);
-
-	if (refreshTime < 0)
-		builder.noRefreshTime();
-	else
-		builder.refreshTime(refreshTime);
+		.modules(types)
+		.refreshTime(refreshTime);
 
 	dispatch(new NewDeviceCommand(builder.build()));
 }
@@ -564,11 +560,11 @@ AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 	const Clock started;
 
 	if (!deviceCache()->paired(PGX_ID))
-		newDevice(PGX_ID, "PGX", PG_MODULES, -1);
+		newDevice(PGX_ID, "PGX", PG_MODULES, RefreshTime::NONE);
 	if (!deviceCache()->paired(PGY_ID))
-		newDevice(PGY_ID, "PGY", PG_MODULES, -1);
+		newDevice(PGY_ID, "PGY", PG_MODULES, RefreshTime::NONE);
 	if (!deviceCache()->paired(SIREN_ID))
-		newDevice(SIREN_ID, "Siren", SIREN_MODULES, -1);
+		newDevice(SIREN_ID, "Siren", SIREN_MODULES, RefreshTime::NONE);
 
 	FastMutex::ScopedLock guard(m_lock);
 

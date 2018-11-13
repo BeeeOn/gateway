@@ -18,6 +18,7 @@
 #include "credentials/CredentialsStorage.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "model/RefreshTime.h"
 #include "util/AsyncWork.h"
 #include "util/CryptoConfig.h"
 #include "vpt/VPTDevice.h"
@@ -128,7 +129,7 @@ private:
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;
 
-	Poco::Timespan m_refresh;
+	RefreshTime m_refresh;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_pingTimeout;
 

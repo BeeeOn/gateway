@@ -12,6 +12,7 @@
 #include "core/DeviceManager.h"
 #include "model/DeviceID.h"
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 
 namespace BeeeOn {
 
@@ -87,7 +88,7 @@ private:
 	double convertToHPA(const double value);
 
 private:
-	Poco::Timespan m_refresh;
+	RefreshTime m_refresh;
 	std::string m_vendor;
 	std::string m_path;
 	std::string m_unit;

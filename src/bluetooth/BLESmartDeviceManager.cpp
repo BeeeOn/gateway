@@ -47,7 +47,7 @@ BLESmartDeviceManager::BLESmartDeviceManager():
 	}),
 	m_scanTimeout(10 * Timespan::SECONDS),
 	m_deviceTimeout(5 * Timespan::SECONDS),
-	m_refresh(30 * Timespan::SECONDS)
+	m_refresh(RefreshTime::fromSeconds(30))
 {
 	m_watchCallback = new HciInterface::WatchCallback(
 		[&](const MACAddress& address, vector<unsigned char>& data) {
@@ -76,7 +76,7 @@ void BLESmartDeviceManager::setRefresh(const Timespan &refresh)
 	if (refresh.totalSeconds() <= 0)
 		throw InvalidArgumentException("refresh time must at least a second");
 
-	m_refresh = refresh;
+	m_refresh = RefreshTime::fromSeconds(refresh.totalSeconds());
 }
 
 void BLESmartDeviceManager::setHciManager(HciInterfaceManager::Ptr manager)
@@ -95,7 +95,7 @@ void BLESmartDeviceManager::dongleAvailable()
 
 		refreshPairedDevices();
 
-		Timespan sleepTime = m_refresh - now.elapsed();
+		Timespan sleepTime = m_refresh.time() - now.elapsed();
 		m_stopControl.waitStoppable(sleepTime);
 	}
 

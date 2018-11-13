@@ -11,6 +11,7 @@
 #include "credentials/FileCredentialsStorage.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "model/RefreshTime.h"
 #include "net/MACAddress.h"
 #include "philips/PhilipsHueBridge.h"
 #include "philips/PhilipsHueBulb.h"
@@ -103,7 +104,7 @@ private:
 	std::map<MACAddress, PhilipsHueBridge::Ptr> m_bridges;
 	std::map<DeviceID, PhilipsHueBulb::Ptr> m_devices;
 
-	Poco::Timespan m_refresh;
+	RefreshTime m_refresh;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 

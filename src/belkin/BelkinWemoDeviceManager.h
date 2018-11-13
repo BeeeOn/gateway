@@ -15,6 +15,7 @@
 #include "core/DeviceManager.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
+#include "model/RefreshTime.h"
 #include "net/MACAddress.h"
 #include "util/AsyncWork.h"
 
@@ -87,7 +88,7 @@ private:
 	std::map<MACAddress, BelkinWemoLink::Ptr> m_links;
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 
-	Poco::Timespan m_refresh;
+	RefreshTime m_refresh;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 };

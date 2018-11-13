@@ -14,6 +14,7 @@
 #include "di/Injectable.h"
 #include "fitp/FitpDevice.h"
 #include "fitp/FitpDeviceManager.h"
+#include "model/RefreshTime.h"
 
 BEEEON_OBJECT_BEGIN(BeeeOn, FitpDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
@@ -52,7 +53,7 @@ using namespace std;
 #define FITP_DATA_OFFSET     6
 #define JOIN_REQUEST_LENGTH  6
 
-#define DEFAULT_REFRESH_TIME 60 * Timespan::SECONDS
+static const RefreshTime DEFAULT_REFRESH_TIME = RefreshTime::fromSeconds(60);
 
 #define PRODUCT_COORDINATOR "Temperature sensor"
 #define PRODUCT_END_DEVICE  "Temperature and humidity sensor"

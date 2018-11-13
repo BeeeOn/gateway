@@ -37,12 +37,12 @@ list<ModuleType> NewDeviceCommand::dataTypes() const
 
 bool NewDeviceCommand::supportsRefreshTime() const
 {
-	return m_description.refreshTime() < 0;
+	return !m_description.refreshTime().isNone();
 }
 
 Timespan NewDeviceCommand::refreshTime() const
 {
-	return m_description.refreshTime();
+	return m_description.refreshTime().time();
 }
 
 string NewDeviceCommand::toString() const

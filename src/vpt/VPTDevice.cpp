@@ -512,7 +512,7 @@ vector<SensorData> VPTDevice::requestValues()
 	return parser.parse(m_boilerId, response.getBody());
 }
 
-vector<DeviceDescription> VPTDevice::descriptions(const Timespan& refresh) const
+vector<DeviceDescription> VPTDevice::descriptions(const RefreshTime& refresh) const
 {
 	vector<DeviceDescription> vector;
 
