@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-31-g9b523c4</span>
+   &#160;<span id="projectnumber">v2018.07.1-43-ga657574</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -106,8 +106,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a8094fcf7985216d8eeeabffbd8b4e790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a036789a80805cc2cff1c6d5100b469e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">stop</a> () override</td></tr>
 <tr class="separator:a036789a80805cc2cff1c6d5100b469e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab89d5f39aaed9e678851c0a245f7dbe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab89d5f39aaed9e678851c0a245f7dbe"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setScanTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memitem:aab89d5f39aaed9e678851c0a245f7dbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>setScanTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="separator:aab89d5f39aaed9e678851c0a245f7dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafd9a2517e6958b8d318394415bb564e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd9a2517e6958b8d318394415bb564e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
@@ -404,6 +403,28 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 <p>Seeks for new devices on Bluetooth LE network. </p>
 <p>The process of identification device consists of two steps. In the first step, it is determined wheter the device name is in set of names of potentially supported device. If so, then the model id of device is obtained according to which the device is identified. </p>
 
+</div>
+</div>
+<a class="anchor" id="aab89d5f39aaed9e678851c0a245f7dbe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BLESmartDeviceManager::setScanTimeout </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">        m_watchCallback = <span class="keyword">new</span> HciInterface::WatchCallback(</div>
+<div class="line">                [&amp;](<span class="keyword">const</span> MACAddress&amp; address, vector&lt;unsigned char&gt;&amp; data) {</div>
+<div class="line">                        <a class="code" href="classBeeeOn_1_1BLESmartDeviceManager.html#a05542f9b9eee3a64386975beab6c7b87">processAsyncData</a>(address, data);</div>
+<div class="line">                })</div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDeviceManager_html_a05542f9b9eee3a64386975beab6c7b87"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDeviceManager.html#a05542f9b9eee3a64386975beab6c7b87">BeeeOn::BLESmartDeviceManager::processAsyncData</a></div><div class="ttdeci">void processAsyncData(const MACAddress &amp;address, std::vector&lt; unsigned char &gt; &amp;data)</div><div class="ttdoc">Processes the asynchronous data of the paired device. If the message is correct it is already shipped...</div><div class="ttdef"><b>Definition:</b> BLESmartDeviceManager.cpp:245</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1d48ec939e0009357c7536b0e8995266"></a>

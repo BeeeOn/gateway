@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-31-g9b523c4</span>
+   &#160;<span id="projectnumber">v2018.07.1-43-ga657574</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -63,120 +63,122 @@
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;model/SensorValue.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;util/DelayedAsyncWork.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;zwave/ZWaveMapperRegistry.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;zwave/ZWaveNetwork.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;zwave/ZWaveNode.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveDeviceManager.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html">ZWaveDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">   50</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> id() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                std::string product() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                std::string vendor() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a2c08940a3ec2b9d08b1f69782f9924c6">updateNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#ac176fd0bac535298150d5be7982a41f5">resolveMapper</a>(ZWaveMapperRegistry::Ptr registry);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                ZWaveMapperRegistry::Mapper::Ptr mapper() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordtype">void</span> setRefresh(<span class="keyword">const</span> Poco::Timespan &amp;refresh);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                Poco::Timespan refresh() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                std::list&lt;ModuleType&gt; <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#af34171d7db9cfda8cdceb2ea19c6b0c7">types</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <a class="code" href="classBeeeOn_1_1SensorValue.html">SensorValue</a> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a7a1ad76958f987659b6dd7e0c6b43302">convert</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                std::string toString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> m_node;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                ZWaveMapperRegistry::Mapper::Ptr m_mapper;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                Poco::Timespan m_refresh;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        };</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">typedef</span> std::map&lt;DeviceID, Device&gt; DeviceMap;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">typedef</span> std::map&lt;ZWaveNode::Identity, DeviceMap::iterator&gt; ZWaveNodeMap;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html">ZWaveDeviceManager</a>();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a56bd6154f0785ef4f0f6ff39985c8acd">setNetwork</a>(ZWaveNetwork::Ptr network);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a3de337814fcd4424426ba937d30a5911">setRegistry</a>(ZWaveMapperRegistry::Ptr registry);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#aca3c80e4f9a9f072afb139a738be65e7">setDispatchDuration</a>(<span class="keyword">const</span> Poco::Timespan &amp;duration);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a288b921a49855a0334d6df52d9055c29">setPollTimeout</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a58d5d063547b5bfd6c52d6556f380a71">run</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">stop</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a9993bbcd80847af9e570c5f875c6d07d">handleAccept</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;::Ptr</a> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">startDiscovery</a>(<span class="keyword">const</span> Poco::Timespan &amp;duration) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e">startUnpair</a>(</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        AsyncWork&lt;double&gt;::Ptr <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">startSetValue</a>(</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module,</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                        <span class="keyword">const</span> <span class="keywordtype">double</span> value,</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                        <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a91fff4b25df7a0a28a3c16d9f38b4773">dispatchUnpaired</a>();</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a47e39090545fa99bfe6c7280670fe4aa">dispatchDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;device, <span class="keywordtype">bool</span> enabled = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        std::set&lt;DeviceID&gt; <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a58574e8ccf90577e46162b20389fefa8">recentlyUnpaired</a>();</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a1f87e7706599d4c372e78cc7903cc477">processValue</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value);</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a54b576f5309e4b94a811714dc56bbabe">newNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="keywordtype">void</span> newNodeUnlocked(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a1af2181ef52f47405f8874ad82a8912e">updateNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab9456ea5de6ddd9fd6d12132c47c5100">removeNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#ad900641cba732da864887896f4b634ca">registerDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;device);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a10daf31ace189569b61f69e2a2549e61">unregisterDevice</a>(ZWaveNodeMap::iterator it);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#aac8eac118074412512a5396bf0c44d68">stopInclusion</a>();</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a975dd8acd230a5eb800edc69d0fa6615">stopRemoveNode</a>();</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        ZWaveNetwork::Ptr m_network;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        ZWaveMapperRegistry::Ptr m_registry;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        Poco::Timespan m_dispatchDuration;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        Poco::Timespan m_pollTimeout;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        DeviceMap m_devices;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        ZWaveNodeMap m_zwaveNodes;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        std::set&lt;DeviceID&gt; m_recentlyUnpaired;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        Poco::FastMutex m_lock;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        DelayedAsyncWork&lt;&gt;::Ptr m_inclusionWork;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <a class="code" href="classBeeeOn_1_1DelayedAsyncWork.html">DelayedAsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr m_removeNodeWork;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;};</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;model/RefreshTime.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;model/SensorValue.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;util/DelayedAsyncWork.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;zwave/ZWaveMapperRegistry.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;zwave/ZWaveNetwork.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;zwave/ZWaveNode.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveDeviceManager.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html">ZWaveDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">   51</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> id() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                std::string product() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                std::string vendor() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a2c08940a3ec2b9d08b1f69782f9924c6">updateNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#ac176fd0bac535298150d5be7982a41f5">resolveMapper</a>(ZWaveMapperRegistry::Ptr registry);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                ZWaveMapperRegistry::Mapper::Ptr mapper() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keywordtype">void</span> setRefresh(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refresh);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> refresh() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                std::list&lt;ModuleType&gt; <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#af34171d7db9cfda8cdceb2ea19c6b0c7">types</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <a class="code" href="classBeeeOn_1_1SensorValue.html">SensorValue</a> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a7a1ad76958f987659b6dd7e0c6b43302">convert</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                std::string toString() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> m_node;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                ZWaveMapperRegistry::Mapper::Ptr m_mapper;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> m_refresh;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        };</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">typedef</span> std::map&lt;DeviceID, Device&gt; DeviceMap;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keyword">typedef</span> std::map&lt;ZWaveNode::Identity, DeviceMap::iterator&gt; ZWaveNodeMap;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html">ZWaveDeviceManager</a>();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a56bd6154f0785ef4f0f6ff39985c8acd">setNetwork</a>(ZWaveNetwork::Ptr network);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a3de337814fcd4424426ba937d30a5911">setRegistry</a>(ZWaveMapperRegistry::Ptr registry);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#aca3c80e4f9a9f072afb139a738be65e7">setDispatchDuration</a>(<span class="keyword">const</span> Poco::Timespan &amp;duration);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a288b921a49855a0334d6df52d9055c29">setPollTimeout</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a58d5d063547b5bfd6c52d6556f380a71">run</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a9993bbcd80847af9e570c5f875c6d07d">handleAccept</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;::Ptr</a> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">startDiscovery</a>(<span class="keyword">const</span> Poco::Timespan &amp;duration) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e">startUnpair</a>(</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        AsyncWork&lt;double&gt;::Ptr <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">startSetValue</a>(</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module,</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                        <span class="keyword">const</span> <span class="keywordtype">double</span> value,</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                        <span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a91fff4b25df7a0a28a3c16d9f38b4773">dispatchUnpaired</a>();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a47e39090545fa99bfe6c7280670fe4aa">dispatchDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;device, <span class="keywordtype">bool</span> enabled = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        std::set&lt;DeviceID&gt; <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a58574e8ccf90577e46162b20389fefa8">recentlyUnpaired</a>();</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a1f87e7706599d4c372e78cc7903cc477">processValue</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode_1_1Value.html">ZWaveNode::Value</a> &amp;value);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a54b576f5309e4b94a811714dc56bbabe">newNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordtype">void</span> newNodeUnlocked(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a1af2181ef52f47405f8874ad82a8912e">updateNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node, <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1CommandSender.html#aaf881083d28284f9b4d5542f1d47899a">dispatch</a>);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab9456ea5de6ddd9fd6d12132c47c5100">removeNode</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveNode.html">ZWaveNode</a> &amp;node);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#ad900641cba732da864887896f4b634ca">registerDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> &amp;device);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">Device</a> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a10daf31ace189569b61f69e2a2549e61">unregisterDevice</a>(ZWaveNodeMap::iterator it);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#aac8eac118074412512a5396bf0c44d68">stopInclusion</a>();</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ZWaveDeviceManager.html#a975dd8acd230a5eb800edc69d0fa6615">stopRemoveNode</a>();</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        ZWaveNetwork::Ptr m_network;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        ZWaveMapperRegistry::Ptr m_registry;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        Poco::Timespan m_dispatchDuration;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        Poco::Timespan m_pollTimeout;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        DeviceMap m_devices;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        ZWaveNodeMap m_zwaveNodes;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        std::set&lt;DeviceID&gt; m_recentlyUnpaired;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        Poco::FastMutex m_lock;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        DelayedAsyncWork&lt;&gt;::Ptr m_inclusionWork;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <a class="code" href="classBeeeOn_1_1DelayedAsyncWork.html">DelayedAsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr m_removeNodeWork;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;};</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_1_1Device_html_a2c08940a3ec2b9d08b1f69782f9924c6"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a2c08940a3ec2b9d08b1f69782f9924c6">BeeeOn::ZWaveDeviceManager::Device::updateNode</a></div><div class="ttdeci">void updateNode(const ZWaveNode &amp;node)</div><div class="ttdoc">Update the underlying ZWaveNode instance by the given one. Their identities must match. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:60</div></div>
+<div class="ttc" id="classBeeeOn_1_1RefreshTime_html"><div class="ttname"><a href="classBeeeOn_1_1RefreshTime.html">BeeeOn::RefreshTime</a></div><div class="ttdoc">RefreshTime represents time of refreshing values from sensors. E.g. sensors are polled periodically o...</div><div class="ttdef"><b>Definition:</b> RefreshTime.h:24</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_1_1Device_html_ac176fd0bac535298150d5be7982a41f5"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#ac176fd0bac535298150d5be7982a41f5">BeeeOn::ZWaveDeviceManager::Device::resolveMapper</a></div><div class="ttdeci">bool resolveMapper(ZWaveMapperRegistry::Ptr registry)</div><div class="ttdoc">Try to resolve Mapper for this Device based on the ZWaveNode contents unless a mapper is already reso...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:75</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a56bd6154f0785ef4f0f6ff39985c8acd"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a56bd6154f0785ef4f0f6ff39985c8acd">BeeeOn::ZWaveDeviceManager::setNetwork</a></div><div class="ttdeci">void setNetwork(ZWaveNetwork::Ptr network)</div><div class="ttdoc">Configure ZWaveNetwork to be used by this manager. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:128</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a3de337814fcd4424426ba937d30a5911"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a3de337814fcd4424426ba937d30a5911">BeeeOn::ZWaveDeviceManager::setRegistry</a></div><div class="ttdeci">void setRegistry(ZWaveMapperRegistry::Ptr registry)</div><div class="ttdoc">Set registry that are able to resolve the Z-Wave devices specific features. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:133</div></div>
@@ -201,12 +203,12 @@
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a58d5d063547b5bfd6c52d6556f380a71"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a58d5d063547b5bfd6c52d6556f380a71">BeeeOn::ZWaveDeviceManager::run</a></div><div class="ttdeci">void run() override</div><div class="ttdoc">Run the loop that receives events from the configured ZWaveNetwork instance. The loop receives inform...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:154</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_af5556ff25587a08547e44d954bdce497"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">BeeeOn::ZWaveDeviceManager::startDiscovery</a></div><div class="ttdeci">AsyncWork::Ptr startDiscovery(const Poco::Timespan &amp;duration) override</div><div class="ttdoc">Starts device discovery process in a technology-specific way. This method is always called inside a c...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:422</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a1f87e7706599d4c372e78cc7903cc477"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a1f87e7706599d4c372e78cc7903cc477">BeeeOn::ZWaveDeviceManager::processValue</a></div><div class="ttdeci">void processValue(const ZWaveNode::Value &amp;value)</div><div class="ttdoc">Process a Z-Wave value received from the Z-Wave network. If there is a paired device for that value a...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:221</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html">BeeeOn::ZWaveDeviceManager</a></div><div class="ttdoc">ZWaveDeviceManager implements the logical layer on top of the ZWaveNetwork interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of ZWaveMapperRegistry::Mapper. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.h:43</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html">BeeeOn::ZWaveDeviceManager</a></div><div class="ttdoc">ZWaveDeviceManager implements the logical layer on top of the ZWaveNetwork interface. It adapts the Z-Wave specifics to the BeeeOn system with the help of ZWaveMapperRegistry::Mapper. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.h:44</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a1af2181ef52f47405f8874ad82a8912e"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a1af2181ef52f47405f8874ad82a8912e">BeeeOn::ZWaveDeviceManager::updateNode</a></div><div class="ttdeci">void updateNode(const ZWaveNode &amp;node, bool dispatch)</div><div class="ttdoc">If the given node is already registered, update information about it and if it is not paired...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:321</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a7b9be6c69c2342873ea82175a43e64bf"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">BeeeOn::ZWaveDeviceManager::startSetValue</a></div><div class="ttdeci">AsyncWork&lt; double &gt;::Ptr startSetValue(const DeviceID &amp;id, const ModuleID &amp;module, const double value, const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts set-value operation in a technology specific way. The method is always called inside a critica...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:552</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_aac8eac118074412512a5396bf0c44d68"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#aac8eac118074412512a5396bf0c44d68">BeeeOn::ZWaveDeviceManager::stopInclusion</a></div><div class="ttdeci">void stopInclusion()</div><div class="ttdoc">Helper method to stop the Z-Wave inclusion mode. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:522</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_a10daf31ace189569b61f69e2a2549e61"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#a10daf31ace189569b61f69e2a2549e61">BeeeOn::ZWaveDeviceManager::unregisterDevice</a></div><div class="ttdeci">Device unregisterDevice(ZWaveNodeMap::iterator it)</div><div class="ttdoc">Unregister the device pointed to by the iterator from being available to the BeeeOn system...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:385</div></div>
-<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_1_1Device_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">BeeeOn::ZWaveDeviceManager::Device</a></div><div class="ttdoc">High-level representation of a Z-Wave device. It enriches the ZWaveNode for information needed by the...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.h:50</div></div>
+<div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_1_1Device_html"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html">BeeeOn::ZWaveDeviceManager::Device</a></div><div class="ttdoc">High-level representation of a Z-Wave device. It enriches the ZWaveNode for information needed by the...</div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.h:51</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_ab0827462ce12a93fde8d47715a26a23e"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div><div class="ttdoc">Stop the polling loop. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:213</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>
 <div class="ttc" id="classBeeeOn_1_1ZWaveDeviceManager_html_ab9456ea5de6ddd9fd6d12132c47c5100"><div class="ttname"><a href="classBeeeOn_1_1ZWaveDeviceManager.html#ab9456ea5de6ddd9fd6d12132c47c5100">BeeeOn::ZWaveDeviceManager::removeNode</a></div><div class="ttdeci">void removeNode(const ZWaveNode &amp;node)</div><div class="ttdoc">The given node is considered to be unpaired, its cached data is deleted. </div><div class="ttdef"><b>Definition:</b> ZWaveDeviceManager.cpp:345</div></div>
