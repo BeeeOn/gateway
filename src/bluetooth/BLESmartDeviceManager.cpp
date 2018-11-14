@@ -387,8 +387,8 @@ void BLESmartDeviceManager::processNewDevice(BLESmartDevice::Ptr newDevice)
 {
 	ScopedLock<FastMutex> lock(m_devicesMutex);
 
-	auto it = m_devices.emplace(newDevice->deviceID(), newDevice);
-	if (!it.second)
+	m_devices.emplace(newDevice->deviceID(), newDevice);
+	if (deviceCache()->paired(newDevice->deviceID()))
 		return;
 
 	logger().debug("found device " + newDevice->deviceID().toString(),
