@@ -17,10 +17,16 @@ static const list<ModuleType> LIGHT_MODULE_TYPES = {
 	{ModuleType::Type::TYPE_COLOR, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
 };
 
-const string RevogiSmartCandle::LIGHT_NAME = "Delite-ED33";
+const set<string> RevogiSmartCandle::LIGHT_NAMES = {
+	"Delite-ED33",
+	"Delite-0870",
+};
 
-RevogiSmartCandle::RevogiSmartCandle(const MACAddress& address, const Timespan& timeout):
-	RevogiRGBLight(address, timeout, LIGHT_NAME, LIGHT_MODULE_TYPES)
+RevogiSmartCandle::RevogiSmartCandle(
+		const string& name,
+		const MACAddress& address,
+		const Timespan& timeout):
+	RevogiRGBLight(address, timeout, name, LIGHT_MODULE_TYPES)
 {
 }
 

@@ -91,8 +91,8 @@ RevogiDevice::Ptr RevogiDevice::createDevice(
 
 	if (modelID == RevogiSmartLite::LIGHT_NAME)
 		return new RevogiSmartLite(address, timeout);
-	else if (modelID == RevogiSmartCandle::LIGHT_NAME)
-		return new RevogiSmartCandle(address, timeout);
+	else if (RevogiSmartCandle::LIGHT_NAMES.find(modelID) != RevogiSmartCandle::LIGHT_NAMES.end())
+		return new RevogiSmartCandle(modelID, address, timeout);
 	else if (modelID == RevogiSmartPlug::PLUG_NAME)
 		return new RevogiSmartPlug(address, timeout);
 

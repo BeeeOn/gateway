@@ -134,8 +134,11 @@ public:
 
 class TestableRevogiSmartCandle : public RevogiSmartCandle {
 public:
-	TestableRevogiSmartCandle(const MACAddress& address, const Timespan& timeout):
-		RevogiSmartCandle(address, timeout)
+	TestableRevogiSmartCandle(
+			const string& name,
+			const MACAddress& address,
+			const Timespan& timeout):
+		RevogiSmartCandle(name, address, timeout)
 	{
 	}
 	using RevogiSmartCandle::parseValues;
@@ -680,7 +683,7 @@ void BLESmartDeviceTest::testRevogiSmartLiteParseTooShortMessage()
  */
 void BLESmartDeviceTest::testRevogiSmartCandleParseValidData()
 {
-	TestableRevogiSmartCandle light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	TestableRevogiSmartCandle light("Delite-ED33", MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values1 =
 		{0x0f, 0x0e, 0x04, 0x00, 0xff, 0xff, 0xff, 0xc8, 0x00, 0x00,
@@ -704,7 +707,7 @@ void BLESmartDeviceTest::testRevogiSmartCandleParseValidData()
  */
 void BLESmartDeviceTest::testRevogiSmartCandleParseTooLongMessage()
 {
-	TestableRevogiSmartCandle light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	TestableRevogiSmartCandle light("Delite-ED33", MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values =
 		{0x0f, 0x0e, 0x04, 0x00, 0xff, 0x00, 0xff, 0xc8, 0x00, 0x00,
@@ -720,7 +723,7 @@ void BLESmartDeviceTest::testRevogiSmartCandleParseTooLongMessage()
  */
 void BLESmartDeviceTest::testRevogiSmartCandleParseTooShortMessage()
 {
-	TestableRevogiSmartCandle light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	TestableRevogiSmartCandle light("Delite-ED33", MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values =
 		{0x00, 0xbb};
