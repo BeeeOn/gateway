@@ -222,8 +222,10 @@ void DBusHciInterface::unwatch(const MACAddress& address)
 	if (logger().debug())
 		logger().debug("unwatch the device " + address.toString(':'), __FILE__, __LINE__);
 
-	::g_signal_handler_disconnect(it->second.device().raw(), it->second.signalHandle());
+	GlibPtr<OrgBluezDevice1> device = it->second.device();
+	const auto handle = it->second.signalHandle();
 	m_watchedDevices.erase(address);
+	::g_signal_handler_disconnect(device.raw(), handle);
 }
 
 void DBusHciInterface::waitUntilPoweredChange(GlibPtr<OrgBluezAdapter1> adapter, const bool powered) const
