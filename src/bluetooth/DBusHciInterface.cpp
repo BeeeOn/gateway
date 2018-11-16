@@ -133,7 +133,12 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 
 	startDiscovery(m_adapter, "le");
 
-	m_resetCondition.tryWait(timeout);
+	if (m_resetCondition.tryWait(timeout)) {
+		if (logger().debug()) {
+			logger().debug("the lescan was terminated prematurely",
+				__FILE__, __LINE__);
+		}
+	}
 
 	ScopedLock<FastMutex> guard(foundDevices.first);
 	for (auto one : foundDevices.second) {
