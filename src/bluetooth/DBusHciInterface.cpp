@@ -77,7 +77,7 @@ void DBusHciInterface::down() const
 
 	ScopedLock<FastMutex> guard(m_statusMutex);
 
-	m_waitCondition.broadcast();
+	m_resetCondition.broadcast();
 
 	if (!::org_bluez_adapter1_get_powered(m_adapter.raw()))
 		return;
@@ -133,7 +133,7 @@ map<MACAddress, string> DBusHciInterface::lescan(const Timespan& timeout) const
 
 	startDiscovery(m_adapter, "le");
 
-	m_waitCondition.tryWait(timeout);
+	m_resetCondition.tryWait(timeout);
 
 	ScopedLock<FastMutex> guard(foundDevices.first);
 	for (auto one : foundDevices.second) {
