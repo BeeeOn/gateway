@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+
 #include <Poco/SharedPtr.h>
 
 #include "bluetooth/RevogiRGBLight.h"
@@ -14,10 +16,13 @@ class RevogiSmartCandle : public RevogiRGBLight {
 public:
 	typedef Poco::SharedPtr<RevogiSmartCandle> Ptr;
 
-	static const std::string LIGHT_NAME;
+	static const std::set<std::string> LIGHT_NAMES;
 
 public:
-	RevogiSmartCandle(const MACAddress& address, const Poco::Timespan& timeout);
+	RevogiSmartCandle(
+		const std::string& name,
+		const MACAddress& address,
+		const Poco::Timespan& timeout);
 	~RevogiSmartCandle();
 
 	void requestModifyState(
