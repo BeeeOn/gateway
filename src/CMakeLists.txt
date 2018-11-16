@@ -208,6 +208,14 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-gattcharacteristic1.c
 			PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter -Wno-pedantic"
 		)
+
+		if(GLIB_LDFLAGS)
+			list(APPEND LIBS ${GLIB_LDFLAGS})
+		endif()
+
+		if(GIO_UNIX_LDFLAGS)
+			list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+		endif()
 	endif()
 	add_library(BeeeOnBluetooth ${BLUETOOTH_SOURCES})
 	list(APPEND MODULE_LIBS BeeeOnBluetooth)
@@ -431,14 +439,6 @@ add_executable(beeeon-gateway main.cpp)
 
 if(BLUETOOTH)
 list(APPEND LIBS ${BLUETOOTH})
-endif()
-
-if(GLIB_LDFLAGS)
-list(APPEND LIBS ${GLIB_LDFLAGS})
-endif()
-
-if(GIO_UNIX_LDFLAGS)
-list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
 endif()
 
 target_link_libraries(beeeon-gateway
