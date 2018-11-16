@@ -196,6 +196,9 @@ if(BLUETOOTH AND WANTS_BLUETOOTH)
 		${PROJECT_SOURCE_DIR}/bluetooth/HciInterface.cpp
 		${PROJECT_SOURCE_DIR}/bluetooth/HciUtil.cpp
 	)
+
+	list(APPEND LIBS ${BLUETOOTH})
+
 	if(HAS_DBUS_BLUEZ)
 		list(APPEND BLUETOOTH_SOURCES
 			${PROJECT_BINARY_DIR}/bluetooth/org-bluez-adapter1.c
@@ -436,10 +439,6 @@ include_directories(
 add_library(BeeeOnGateway ${SOURCES})
 
 add_executable(beeeon-gateway main.cpp)
-
-if(BLUETOOTH)
-list(APPEND LIBS ${BLUETOOTH})
-endif()
 
 target_link_libraries(beeeon-gateway
 		-Wl,--whole-archive
