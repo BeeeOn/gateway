@@ -263,7 +263,7 @@ private:
 
 private:
 	std::string m_name;
-	mutable WaitCondition m_waitCondition;
+	mutable WaitCondition m_resetCondition;
 
 	GlibPtr<GMainLoop> m_loop;
 	Poco::RunnableAdapter<DBusHciInterface> m_loopThread;
