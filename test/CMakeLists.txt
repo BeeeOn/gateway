@@ -74,6 +74,14 @@ if(BLUETOOTH)
 		file(GLOB DBUS_BLUEZ_SOURCES
 			${PROJECT_SOURCE_DIR}/bluetooth/GlibPtrTest.cpp
 		)
+
+		if(GLIB_LDFLAGS)
+		list(APPEND LIBS ${GLIB_LDFLAGS})
+		endif()
+
+		if(GIO_UNIX_LDFLAGS)
+		list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
+		endif()
 	endif()
 
 	add_library(BeeeOnBluetoothTest ${BLUETOOTH_SOURCES} ${DBUS_BLUEZ_SOURCES})
@@ -162,14 +170,6 @@ endif()
 
 if (UDEV)
 list(APPEND LIBS ${UDEV})
-endif()
-
-if(GLIB_LDFLAGS)
-list(APPEND LIBS ${GLIB_LDFLAGS})
-endif()
-
-if(GIO_UNIX_LDFLAGS)
-list(APPEND LIBS ${GIO_UNIX_LDFLAGS})
 endif()
 
 target_link_libraries(test-suite-gateway
