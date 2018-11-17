@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-48-g1dd9206</span>
+   &#160;<span id="projectnumber">v2018.07.1-50-ge98e31e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -102,9 +102,9 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af88fc780d45ae55509478d90009b6288"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af88fc780d45ae55509478d90009b6288"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RevogiSmartCandle</b> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="separator:af88fc780d45ae55509478d90009b6288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a049265a131465df98b1f8fffc7d623ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a049265a131465df98b1f8fffc7d623ca"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>RevogiSmartCandle</b> (const std::string &amp;name, const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="separator:a049265a131465df98b1f8fffc7d623ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9f22d876e3e9636d8587ecbbc0a7782"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1RevogiSmartCandle.html#aa9f22d876e3e9636d8587ecbbc0a7782">requestModifyState</a> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value, const HciInterface::Ptr hci) override</td></tr>
 <tr class="memdesc:aa9f22d876e3e9636d8587ecbbc0a7782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the device module given by moduleID to a given value.  <a href="#aa9f22d876e3e9636d8587ecbbc0a7782">More...</a><br/></td></tr>
 <tr class="separator:aa9f22d876e3e9636d8587ecbbc0a7782"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,9 +145,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a22c7287c3ca4747c5bca362cd0fb6da6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22c7287c3ca4747c5bca362cd0fb6da6"></a>
-static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>LIGHT_NAME</b> = &quot;Delite-ED33&quot;</td></tr>
-<tr class="separator:a22c7287c3ca4747c5bca362cd0fb6da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5419d47453bf2b392678d92310a30b2e"><td class="memItemLeft" align="right" valign="top">static const std::set<br class="typebreak"/>
+&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>LIGHT_NAMES</b></td></tr>
+<tr class="separator:a5419d47453bf2b392678d92310a30b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -338,6 +338,31 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>V
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a152f6bda45a2094545da21df7e294595">BeeeOn::BLESmartDevice</a>.</p>
 
+</div>
+</div>
+<h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="a5419d47453bf2b392678d92310a30b2e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const set&lt; string &gt; RevogiSmartCandle::LIGHT_NAMES</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">        <span class="stringliteral">&quot;Delite-ED33&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;Delite-0870&quot;</span>,</div>
+<div class="line">}</div>
+</div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
