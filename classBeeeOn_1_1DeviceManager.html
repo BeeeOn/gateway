@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-57-g393bdb0</span>
+   &#160;<span id="projectnumber">v2018.07.1-59-g9822ddd</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -55,8 +55,7 @@
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pro-static-attribs">Static Protected Attributes</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::DeviceManager Class Reference</div>  </div>
 </div><!--header-->
@@ -138,7 +137,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:abd40493771aabb83d6ee3d85bf5dc542"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd40493771aabb83d6ee3d85bf5dc542">waitRemoteStatus</a> (const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:abd40493771aabb83d6ee3d85bf5dc542"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList()</a>.  <a href="#abd40493771aabb83d6ee3d85bf5dc542">More...</a><br/></td></tr>
+<tr class="memdesc:abd40493771aabb83d6ee3d85bf5dc542"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method deviceList().  <a href="#abd40493771aabb83d6ee3d85bf5dc542">More...</a><br/></td></tr>
 <tr class="separator:abd40493771aabb83d6ee3d85bf5dc542"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
 <tr class="separator:afd0a5e70736672b26a1669d2b11eaa73"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,10 +179,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a7aa94b73d5a590bf1ef77a504f7a14ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94e2b5abe52d5db31a0c4b28bcc52f80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a94e2b5abe52d5db31a0c4b28bcc52f80">ship</a> (const <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> &amp;sensorData)</td></tr>
 <tr class="separator:a94e2b5abe52d5db31a0c4b28bcc52f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a972d84056330e3cac75c4f932dc69160"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList</a> (const Poco::Timespan &amp;timeout=DEFAULT_REQUEST_TIMEOUT)</td></tr>
-<tr class="separator:a972d84056330e3cac75c4f932dc69160"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b16d5d76cbed4eace98430fb950ca66"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a8b16d5d76cbed4eace98430fb950ca66">lastValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const Poco::Timespan &amp;waitTime=DEFAULT_REQUEST_TIMEOUT)</td></tr>
-<tr class="separator:a8b16d5d76cbed4eace98430fb950ca66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39d625a519fb488eaddc38ad42b0791e"><td class="memItemLeft" align="right" valign="top">DeviceCache::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a39d625a519fb488eaddc38ad42b0791e">deviceCache</a> () const </td></tr>
 <tr class="separator:a39d625a519fb488eaddc38ad42b0791e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7ae734dddde1a3466a801fe23b18818"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1CancellableSet.html">CancellableSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#ae7ae734dddde1a3466a801fe23b18818">cancellable</a> ()</td></tr>
@@ -213,12 +208,6 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"></a>
 <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_stopControl</b></td></tr>
 <tr class="separator:a1ea9cbbb0aee2f7e356fe8a8c5f8bf3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
-Static Protected Attributes</h2></td></tr>
-<tr class="memitem:ac384766c0418d4e3b896b6de39e3ab18"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac384766c0418d4e3b896b6de39e3ab18"></a>
-static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_REQUEST_TIMEOUT</b></td></tr>
-<tr class="separator:ac384766c0418d4e3b896b6de39e3ab18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -368,31 +357,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>the underlying <a class="el" href="classBeeeOn_1_1DeviceCache.html" title="DeviceCache manages pairing status devices which allows to choose different caching strategies like: ...">DeviceCache</a> instance </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a972d84056330e3cac75c4f932dc69160"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; DeviceManager::deviceList </td>
-          <td>(</td>
-          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>timeout</em> = <code>DEFAULT_REQUEST_TIMEOUT</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Obtain device list from server, method is blocking/non-blocking. Type of blocking is divided on the basis of timeout. Blocking waiting returns device list from server and non-blocking waiting returns device list from server or TimeoutException. </p>
 
 </div>
 </div>
@@ -549,48 +513,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 
 <p>Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time. </p>
 <p>It uses the method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313" title="Starts device unpair process in a technology-specific way. This method is always called inside a crit...">startUnpair()</a> to initialize and start the unpairing process. The method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313" title="Starts device unpair process in a technology-specific way. This method is always called inside a crit...">startUnpair()</a> is always called exactly once at a time and until it finishes, no other unpair is started. </p>
-
-</div>
-</div>
-<a class="anchor" id="a8b16d5d76cbed4eace98430fb950ca66"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double DeviceManager::lastValue </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
-          <td class="paramname"><em>deviceID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
-          <td class="paramname"><em>moduleID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>waitTime</em> = <code>DEFAULT_REQUEST_TIMEOUT</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Obtain <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with Results which contains last measured value from server, method is blocking/non-blocking. Type of blocking is divided on the basis of timeout. Blocking waiting returns <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with last measured value result from server and non-blocking waiting returns <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> with last measured value result from server or TimeoutException.</p>
-<p>If <a class="el" href="classBeeeOn_1_1Answer.html">Answer</a> contains several Results, the first <a class="el" href="classBeeeOn_1_1Result.html">Result</a> SUCCESS will be selected. </p>
 
 </div>
 </div>
@@ -970,7 +892,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 </div><div class="memdoc">
 
-<p>Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method <a class="el" href="classBeeeOn_1_1DeviceManager.html#a972d84056330e3cac75c4f932dc69160">deviceList()</a>. </p>
+<p>Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method deviceList(). </p>
 <dl class="section return"><dt>Returns</dt><dd>list of paired devices as received from the remote status </dd></dl>
 
 </div>
