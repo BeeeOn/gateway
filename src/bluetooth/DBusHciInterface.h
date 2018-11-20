@@ -42,49 +42,98 @@ namespace BeeeOn {
  */
 class DBusHciInterface : public HciInterface, Loggable {
 public:
+	class Device;
 	friend class DBusHciConnection;
 
 	typedef Poco::SharedPtr<DBusHciInterface> Ptr;
 	typedef std::function<bool(const std::string& path)> PathFilter;
-	typedef std::pair<Poco::FastMutex, std::map<MACAddress, std::string>> ThreadSafeDevices;
+	typedef std::pair<Poco::FastMutex, std::map<MACAddress, Device>> ThreadSafeDevices;
 
 	/**
-	 * @brief The class is used to store necessary data about device, from
-	 * which the advertising data is processed, such as instance of device,
-	 * handle of signal and pointer to callback.
+	 * @brief The class represents the Bluetooth Low Energy device and
+	 * stores necessary data about device such as instance of device,
+	 * handle of signal and timestamp of last rssi update. Also the class
+	 * allows to store necessary data (signal handle, pointer to callback)
+	 * when the device is watched.
 	 */
-	class WatchedDevice {
+	class Device {
 	public:
-		WatchedDevice(
+		/**
+		 * @param rssiHandle handle of signal on which is connected
+		 * onDeviceRSSIChanged callback.
+		 */
+		Device(
 			const GlibPtr<OrgBluezDevice1> device,
-			const uint64_t signalHandle,
-			const Poco::SharedPtr<WatchCallback> callBack);
+			const uint64_t rssiHandle);
 
 		GlibPtr<OrgBluezDevice1> device() const
 		{
 			return m_device;
 		}
 
-		uint64_t signalHandle() const
+		uint64_t rssiHandle() const
 		{
-			return m_signalHandle;
+			return m_rssiHandle;
 		}
 
-		Poco::SharedPtr<WatchCallback> callBack() const
+		void updateLastSeen()
 		{
-			return m_callBack;
+			m_lastSeen = Poco::Timestamp();
 		}
+
+		Poco::Timestamp lastSeen() const
+		{
+			return m_lastSeen;
+		}
+
+		uint64_t watchHandle() const
+		{
+			return m_watchHandle;
+		}
+
+		void watch(
+			uint64_t watchHandle,
+			Poco::SharedPtr<WatchCallback> callBack)
+		{
+			m_watchHandle = watchHandle;
+			m_callBack = callBack;
+		}
+
+		void unwatch()
+		{
+			m_watchHandle = 0;
+			m_callBack = nullptr;
+		}
+
+		bool isWatched() const
+		{
+			return !m_callBack.isNull();
+		}
+
+		std::string name();
+		MACAddress macAddress();
+		int16_t rssi();
 
 	private:
 		GlibPtr<OrgBluezDevice1> m_device;
-		uint64_t m_signalHandle;
+		Poco::Timestamp m_lastSeen;
+		uint64_t m_rssiHandle;
+		uint64_t m_watchHandle;
 		Poco::SharedPtr<WatchCallback> m_callBack;
 	};
 
+
 	/**
 	 * @param name name of hci
+	 * @param leMaxAgeRssi maximum time from the rssi update of the
+	 * device to declare the device is available
+	 * @param leMaxUnavailabilityTime maximum LE device unavailability
+	 * time for device to be deleted
 	 */
-	DBusHciInterface(const std::string& name);
+	DBusHciInterface(
+		const std::string& name,
+		const Poco::Timespan& leMaxAgeRssi,
+		const Poco::Timespan& leMaxUnavailabilityTime);
 	~DBusHciInterface();
 
 	/**
@@ -110,11 +159,8 @@ public:
 
 	/**
 	 * @brief Scans the Bluetooth LE network and returns all available
-	 * devices. The method starts with the obtaining of all known devices
-	 * to Bluez deamon. Then the bluetooth adapter starts discovery of new
-	 * devices whitch extends collection of found devices. Availability of
-	 * device is determined by paramter RSSI. If the RSSI parametr changes
-	 * during the scan timeout device is available.
+	 * devices. The method returns devices whitch updated their RSSI
+	 * before the given time.
 	 */
 	std::map<MACAddress, std::string> lescan(
 		const Poco::Timespan &timeout) const override;
@@ -142,7 +188,8 @@ protected:
 
 	/**
 	 * @brief Callback handling the event of creating new device.
-	 * This is used during discovery of new devices.
+	 * The method adds the new device to m_devices and register
+	 * onDeviceRSSIChanged callback.
 	 */
 	static void onDBusObjectAdded(
 		GDBusObjectManager* objectManager,
@@ -216,6 +263,11 @@ private:
 		GlibPtr<GDBusObjectManager> objectManager) const;
 
 	/**
+	 * @brief Removes the unavailable devices for specific time except watched devices.
+	 */
+	void removeUnvailableDevices() const;
+
+	/**
 	 * @brief The purpose of the method is to run GMainLoop that handles
 	 * asynchronous events such as add new device during lescan() in separated thread.
 	 */
@@ -268,24 +320,32 @@ private:
 	GlibPtr<GMainLoop> m_loop;
 	Poco::RunnableAdapter<DBusHciInterface> m_loopThread;
 	Poco::Thread m_thread;
-	std::map<MACAddress, WatchedDevice> m_watchedDevices;
+	GlibPtr<GDBusObjectManager> m_objectManager;
+	uint64_t m_objectManagerHandle;
+	mutable ThreadSafeDevices m_devices;
 	mutable GlibPtr<OrgBluezAdapter1> m_adapter;
+	Poco::Timespan m_leMaxAgeRssi;
+	Poco::Timespan m_leMaxUnavailabilityTime;
 
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
 	mutable Poco::FastMutex m_discoveringMutex;
-	Poco::FastMutex m_watchMutex;
 };
 
 class DBusHciInterfaceManager : public HciInterfaceManager {
 public:
 	DBusHciInterfaceManager();
 
+	void setLeMaxAgeRssi(const Poco::Timespan& time);
+	void setLeMaxUnavailabilityTime(const Poco::Timespan& time);
+
 	HciInterface::Ptr lookup(const std::string &name) override;
 
 private:
 	Poco::FastMutex m_mutex;
 	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
+	Poco::Timespan m_leMaxAgeRssi;
+	Poco::Timespan m_leMaxUnavailabilityTime;
 };
 
 }

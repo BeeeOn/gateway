@@ -284,7 +284,7 @@ is available or unavailable, such event is distributed.
 
 * bluetooth.availability.refresh - interval of scanning the network and reporting results
 
-* bluetooth.availability.le.scan.time - time for a single LE scan when testing device availability
+* bluetooth.le.scanTime - time for a single LE scan when testing device availability
 
 ##### Jablotron
 
@@ -351,7 +351,7 @@ sensor available via sysfs.
 
 * blesmart.enable - enable the BLE Smart support
 
-* blesmart.scan.timeout - timeout of the Bluetooth Low Energy scan
+* bluetooth.le.scanTimeout - timeout of the Bluetooth Low Energy scan
 
 * blesmart.device.timeout - timeout of work with the device (connect, wait to load services, read/write request)
 
