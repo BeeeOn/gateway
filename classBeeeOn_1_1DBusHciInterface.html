@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-59-g9822ddd</span>
+   &#160;<span id="projectnumber">v2018.07.1-68-ge13ab69</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -79,8 +79,8 @@ Inheritance diagram for BeeeOn::DBusHciInterface:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface_1_1WatchedDevice.html">WatchedDevice</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The class is used to store necessary data about device, from which the advertising data is processed, such as instance of device, handle of signal and pointer to callback.  <a href="classBeeeOn_1_1DBusHciInterface_1_1WatchedDevice.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface_1_1Device.html">Device</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The class represents the Bluetooth Low Energy device and stores necessary data about device such as instance of device, handle of signal and timestamp of last rssi update. Also the class allows to store necessary data (signal handle, pointer to callback) when the device is watched.  <a href="classBeeeOn_1_1DBusHciInterface_1_1Device.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -93,11 +93,11 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef std::function&lt; bool(const <br class="typebreak"/>
 std::string &amp;path)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>PathFilter</b></td></tr>
 <tr class="separator:a138503c29a7ff54b688f490a64b11a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0483cdf74eeec0550c2cc5953ea5847b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0483cdf74eeec0550c2cc5953ea5847b"></a>
+<tr class="memitem:a5b1a3c3b54bb9743417ed0e0272bf350"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b1a3c3b54bb9743417ed0e0272bf350"></a>
 typedef std::pair<br class="typebreak"/>
 &lt; Poco::FastMutex, std::map<br class="typebreak"/>
-&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadSafeDevices</b></td></tr>
-<tr class="separator:a0483cdf74eeec0550c2cc5953ea5847b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, <a class="el" href="classBeeeOn_1_1DBusHciInterface_1_1Device.html">Device</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadSafeDevices</b></td></tr>
+<tr class="separator:a5b1a3c3b54bb9743417ed0e0272bf350"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classBeeeOn_1_1HciInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1HciInterface')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1HciInterface.html">BeeeOn::HciInterface</a></td></tr>
 <tr class="memitem:a5126bf1be08f148fb95cf50b92feb825 inherit pub_types_classBeeeOn_1_1HciInterface"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5126bf1be08f148fb95cf50b92feb825"></a>
 typedef Poco::SharedPtr<br class="typebreak"/>
@@ -111,8 +111,8 @@ typedef std::function&lt; void(const <br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aade1298255b9e2c10f94338fa8701b70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#aade1298255b9e2c10f94338fa8701b70">DBusHciInterface</a> (const std::string &amp;name)</td></tr>
-<tr class="separator:aade1298255b9e2c10f94338fa8701b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a236c7ffac5f59bfe1723ffa287617e32"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a236c7ffac5f59bfe1723ffa287617e32">DBusHciInterface</a> (const std::string &amp;name, const Poco::Timespan &amp;leMaxAgeRssi, const Poco::Timespan &amp;leMaxUnavailabilityTime)</td></tr>
+<tr class="separator:a236c7ffac5f59bfe1723ffa287617e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70688dfe4f2812148ff1f14f51af45e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a70688dfe4f2812148ff1f14f51af45e5">down</a> () const </td></tr>
 <tr class="memdesc:a70688dfe4f2812148ff1f14f51af45e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets hci interface down.  <a href="#a70688dfe4f2812148ff1f14f51af45e5">More...</a><br/></td></tr>
 <tr class="separator:a70688dfe4f2812148ff1f14f51af45e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,7 +130,7 @@ std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>,
 <tr class="separator:a4f1d662a2a90a8f2e9cf2fae364a7ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98317fd72f5ac3e4c9a5794204255754"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98317fd72f5ac3e4c9a5794204255754"></a>
 std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a98317fd72f5ac3e4c9a5794204255754">lescan</a> (const Poco::Timespan &amp;timeout) const override</td></tr>
-<tr class="memdesc:a98317fd72f5ac3e4c9a5794204255754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans the Bluetooth LE network and returns all available devices. The method starts with the obtaining of all known devices to Bluez deamon. Then the bluetooth adapter starts discovery of new devices whitch extends collection of found devices. Availability of device is determined by paramter RSSI. If the RSSI parametr changes during the scan timeout device is available. <br/></td></tr>
+<tr class="memdesc:a98317fd72f5ac3e4c9a5794204255754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans the Bluetooth LE network and returns all available devices. The method returns devices whitch updated their RSSI before the given time. <br/></td></tr>
 <tr class="separator:a98317fd72f5ac3e4c9a5794204255754"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7c75c936abb81d75f2c5faba1e354cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7c75c936abb81d75f2c5faba1e354cb"></a>
 <a class="el" href="classBeeeOn_1_1HciInfo.html">HciInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#af7c75c936abb81d75f2c5faba1e354cb">info</a> () const override</td></tr>
@@ -151,7 +151,7 @@ static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
 <tr class="separator:a9d137382c0077a80df3fe17ae920eb71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a255b1a00a2e5c0647f6042c241bc515b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a255b1a00a2e5c0647f6042c241bc515b"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a255b1a00a2e5c0647f6042c241bc515b">onDBusObjectAdded</a> (GDBusObjectManager *objectManager, GDBusObject *object, gpointer userData)</td></tr>
-<tr class="memdesc:a255b1a00a2e5c0647f6042c241bc515b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of creating new device. This is used during discovery of new devices. <br/></td></tr>
+<tr class="memdesc:a255b1a00a2e5c0647f6042c241bc515b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback handling the event of creating new device. The method adds the new device to m_devices and register onDeviceRSSIChanged callback. <br/></td></tr>
 <tr class="separator:a255b1a00a2e5c0647f6042c241bc515b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dd7894277ccf0e0d2fca0573bd1168e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0dd7894277ccf0e0d2fca0573bd1168e"></a>
 static gboolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a0dd7894277ccf0e0d2fca0573bd1168e">onDeviceRSSIChanged</a> (OrgBluezDevice1 *device, GVariant *properties, const gchar *const *invalidatedProperties, gpointer userData)</td></tr>
@@ -176,7 +176,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>DBusHciConnection</b
 <div class="textblock"><p>The class realizes communication with BlueZ deamon using D-Bus. It allows to find new BLE and Bluetooth Classic devices and send read/write requests. </p>
 <p>The class uses <a class="el" href="classBeeeOn_1_1BluezHciInterface.html">BluezHciInterface</a> to work with Bluetooth Classic devices and to retrieve hci info. It requires a running instance of the D-Bus service "org.bluez" to work wth BLE devices. Firstly it is needed to find BLE devices in a bluetooth network to create D-Bus device objects. Accessing the BLE devices is possible via D-Bus device objects (defined by path "/org/bluez/hci0/dev_FF_FF_FF_FF_FF_FF"). The D-Bus device objects provide methods to perform actions as connect, read, write and disconnect. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aade1298255b9e2c10f94338fa8701b70"></a>
+<a class="anchor" id="a236c7ffac5f59bfe1723ffa287617e32"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -184,14 +184,32 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>DBusHciConnection</b
           <td class="memname">DBusHciInterface::DBusHciInterface </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>name</em></td><td>)</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>leMaxAgeRssi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>leMaxUnavailabilityTime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>name of hci </td></tr>
+    <tr><td class="paramname">leMaxAgeRssi</td><td>maximum time from the rssi update of the device to declare the device is available </td></tr>
+    <tr><td class="paramname">leMaxUnavailabilityTime</td><td>maximum LE device unavailability time for device to be deleted </td></tr>
   </table>
   </dd>
 </dl>
