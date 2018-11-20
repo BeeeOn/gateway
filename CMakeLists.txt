@@ -73,8 +73,12 @@ install(FILES conf/syslog-ng/udp-relay.conf
 	DESTINATION etc/syslog-ng/conf.d)
 install(FILES systemd/beeeon-gateway.service
 	DESTINATION lib/systemd/system)
-install(DIRECTORY udev/rules.d
-	DESTINATION etc/udev)
+
+if(ENABLE_UDEV)
+	install(DIRECTORY udev/rules.d
+		DESTINATION etc/udev)
+endif()
+
 install(DIRECTORY
 	DESTINATION var/run/beeeon/gateway)
 install(DIRECTORY
