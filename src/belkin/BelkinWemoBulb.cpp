@@ -33,11 +33,16 @@ static list<ModuleType> BULB_MODULE_TYPES = {
 };
 
 BelkinWemoBulb::BelkinWemoBulb(const BelkinWemoLink::BulbID bulbId, const BelkinWemoLink::Ptr link):
-	BelkinWemoDevice(DeviceID(DevicePrefix::PREFIX_BELKIN_WEMO, bulbId & DeviceID::IDENT_MASK)),
+	BelkinWemoDevice(buildDeviceID(bulbId)),
 	m_bulbId(bulbId),
 	m_link(link)
 {
 	m_link->incrementCountOfBulbs();
+}
+
+DeviceID BelkinWemoBulb::buildDeviceID(const BelkinWemoLink::BulbID &id)
+{
+	return {DevicePrefix::PREFIX_BELKIN_WEMO, id & DeviceID::IDENT_MASK};
 }
 
 BelkinWemoBulb::~BelkinWemoBulb()
