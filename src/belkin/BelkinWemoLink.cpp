@@ -22,17 +22,19 @@ using namespace Poco::Net;
 using namespace Poco::XML;
 using namespace std;
 
-BelkinWemoLink::BelkinWemoLink(const Poco::Net::SocketAddress& address):
+BelkinWemoLink::BelkinWemoLink(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan &httpTimeout):
 	m_address(address),
-	m_countOfBulbs(0)
+	m_countOfBulbs(0),
+	m_httpTimeout(httpTimeout)
 {
 }
 
 BelkinWemoLink::Ptr BelkinWemoLink::buildDevice(const Poco::Net::SocketAddress& address,
 	const Timespan& timeout)
 {
-	BelkinWemoLink::Ptr link = new BelkinWemoLink(address);
-	link->m_httpTimeout = timeout;
+	BelkinWemoLink::Ptr link = new BelkinWemoLink(address, timeout);
 	link->requestDeviceInfo();
 
 	return link;

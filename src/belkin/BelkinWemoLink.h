@@ -27,7 +27,9 @@ public:
 	typedef uint64_t BulbID;
 
 private:
-	BelkinWemoLink(const Poco::Net::SocketAddress& address);
+	BelkinWemoLink(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan &httpTimeout);
 
 public:
 	/**
