@@ -50,7 +50,9 @@ private:
 	 * in specified timeout, Poco::TimeoutException is thrown.
 	 * @return MAC address of the device.
 	 */
-	MACAddress requestMacAddr() const;
+	static MACAddress requestMacAddr(
+		const Poco::URI &uri,
+		const Poco::Timespan &httpTimeout);
 
 	/**
 	 * @brief Called internally when constructing the instance.

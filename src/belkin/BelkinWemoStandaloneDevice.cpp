@@ -27,7 +27,9 @@ BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Tim
 	m_deviceId = buildDeviceID();
 }
 
-MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
+MACAddress BelkinWemoStandaloneDevice::requestMacAddr(
+		const URI &uri,
+		const Timespan &httpTimeout)
 {
 	HTTPRequest request;
 
@@ -57,7 +59,7 @@ MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
 	msg.prepare(request);
 
 	HTTPEntireResponse response = HTTPUtil::makeRequest(
-		request, m_uri, msg.toString(), m_httpTimeout);
+		request, uri, msg.toString(), httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -176,5 +178,5 @@ void BelkinWemoStandaloneDevice::setAddress(const SocketAddress& address)
 
 DeviceID BelkinWemoStandaloneDevice::buildDeviceID() const
 {
-	return {DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr()};
+	return {DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr(m_uri, m_httpTimeout)};
 }
