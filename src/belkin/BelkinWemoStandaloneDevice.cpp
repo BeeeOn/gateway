@@ -20,8 +20,9 @@ using namespace Poco::Net;
 using namespace Poco::XML;
 using namespace std;
 
-BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri):
-	m_uri(uri)
+BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Timespan &httpTimeout):
+	m_uri(uri),
+	m_httpTimeout(httpTimeout)
 {
 }
 

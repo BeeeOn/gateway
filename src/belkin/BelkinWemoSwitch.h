@@ -57,7 +57,9 @@ public:
 	bool operator==(const BelkinWemoSwitch& bws) const;
 
 protected:
-	BelkinWemoSwitch(const Poco::Net::SocketAddress& address);
+	BelkinWemoSwitch(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan &httpTimeout);
 };
 
 }

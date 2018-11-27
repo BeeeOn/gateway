@@ -23,7 +23,9 @@ public:
 	typedef Poco::SharedPtr<BelkinWemoDimmer> Ptr;
 
 private:
-	BelkinWemoDimmer(const Poco::Net::SocketAddress& address);
+	BelkinWemoDimmer(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan &httpTimeout);
 
 public:
 	/**

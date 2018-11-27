@@ -18,7 +18,9 @@ namespace BeeeOn {
  */
 class BelkinWemoStandaloneDevice : public BelkinWemoDevice {
 public:
-	BelkinWemoStandaloneDevice(const Poco::URI& uri);
+	BelkinWemoStandaloneDevice(
+		const Poco::URI& uri,
+		const Poco::Timespan &httpTimeout);
 
 	/**
 	 * @brief Prepares SOAP message containing GetMacAddr request
@@ -57,7 +59,7 @@ public:
 
 protected:
 	Poco::URI m_uri;
-	Poco::Timespan m_httpTimeout;
+	const Poco::Timespan m_httpTimeout;
 };
 
 }

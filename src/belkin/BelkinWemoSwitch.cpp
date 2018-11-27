@@ -20,8 +20,12 @@ using namespace Poco::Net;
 using namespace Poco::XML;
 using namespace std;
 
-BelkinWemoSwitch::BelkinWemoSwitch(const SocketAddress& address):
-	BelkinWemoStandaloneDevice(URI("http://" + address.toString() + "/upnp/control/basicevent1"))
+BelkinWemoSwitch::BelkinWemoSwitch(
+		const SocketAddress& address,
+		const Timespan &httpTimeout):
+	BelkinWemoStandaloneDevice(
+		URI("http://" + address.toString() + "/upnp/control/basicevent1"),
+		httpTimeout)
 {
 }
 
@@ -31,8 +35,7 @@ BelkinWemoSwitch::~BelkinWemoSwitch()
 
 BelkinWemoSwitch::Ptr BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	BelkinWemoSwitch::Ptr device = new BelkinWemoSwitch(address);
-	device->m_httpTimeout = timeout;
+	BelkinWemoSwitch::Ptr device = new BelkinWemoSwitch(address, timeout);
 	device->buildDeviceID();
 	return device;
 }
