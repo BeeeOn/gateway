@@ -104,3 +104,11 @@ string VirtualDevice::productName() const
 {
 	return m_productName;
 }
+
+void VirtualDevice::poll(Distributor::Ptr distributor)
+{
+	SensorData sensorData = generate();
+
+	if (!sensorData.isEmpty())
+		distributor->exportData(sensorData);
+}
