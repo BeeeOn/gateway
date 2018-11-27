@@ -37,9 +37,7 @@ BelkinWemoDimmer::BelkinWemoDimmer(
 
 BelkinWemoDimmer::Ptr BelkinWemoDimmer::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	BelkinWemoDimmer::Ptr device = new BelkinWemoDimmer(address, timeout);
-	device->buildDeviceID();
-	return device;
+	return new BelkinWemoDimmer(address, timeout);
 }
 
 bool BelkinWemoDimmer::requestModifyState(const ModuleID& moduleID, const double value)

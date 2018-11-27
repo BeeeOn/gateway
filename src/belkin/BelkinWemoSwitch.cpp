@@ -35,9 +35,7 @@ BelkinWemoSwitch::~BelkinWemoSwitch()
 
 BelkinWemoSwitch::Ptr BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	BelkinWemoSwitch::Ptr device = new BelkinWemoSwitch(address, timeout);
-	device->buildDeviceID();
-	return device;
+	return new BelkinWemoSwitch(address, timeout);
 }
 
 bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const double value)

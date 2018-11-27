@@ -51,6 +51,7 @@ public:
 	Poco::Net::SocketAddress address() const;
 	void setAddress(const Poco::Net::SocketAddress& address);
 
+private:
 	/**
 	 * @brief Called internally when constructing the instance.
 	 * Creates DeviceID based on Mac address of device.

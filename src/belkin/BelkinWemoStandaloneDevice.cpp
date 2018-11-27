@@ -24,6 +24,7 @@ BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Tim
 	m_uri(uri),
 	m_httpTimeout(httpTimeout)
 {
+	buildDeviceID();
 }
 
 MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
