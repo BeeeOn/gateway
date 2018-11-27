@@ -9,6 +9,8 @@
 			<add name="runnables" ref="distributor" />
 			<add name="loops" ref="managersRunner" />
 			<add name="runnables" ref="deviceStatusFetcher" />
+			<add name="runnables" ref="pollExecutor" />
+			<add name="runnables" ref="devicePoller" />
 		</instance>
 
 		<instance name="applicationInstanceChecker" class="BeeeOn::SingleInstanceChecker" init="early">
@@ -69,6 +71,14 @@
 			<add name="handlers" ref="bluetoothAvailability" if-yes="${bluetooth.availability.enable}" />
 			<add name="handlers" ref="jablotronDeviceManager" if-yes="${jablotron.enable}" />
 			<add name="handlers" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
+		</instance>
+
+		<instance name="pollExecutor" class="BeeeOn::SequentialAsyncExecutor">
+		</instance>
+
+		<instance name="devicePoller" class="BeeeOn::DevicePoller">
+			<set name="distributor" ref="distributor" />
+			<set name="pollExecutor" ref="pollExecutor" />
 		</instance>
 
 		<instance name="testingConsole" class="BeeeOn::TCPConsole">
