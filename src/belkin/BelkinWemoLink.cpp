@@ -29,15 +29,13 @@ BelkinWemoLink::BelkinWemoLink(
 	m_countOfBulbs(0),
 	m_httpTimeout(httpTimeout)
 {
+	requestDeviceInfo();
 }
 
 BelkinWemoLink::Ptr BelkinWemoLink::buildDevice(const Poco::Net::SocketAddress& address,
 	const Timespan& timeout)
 {
-	BelkinWemoLink::Ptr link = new BelkinWemoLink(address, timeout);
-	link->requestDeviceInfo();
-
-	return link;
+	return new BelkinWemoLink(address, timeout);
 }
 
 void BelkinWemoLink::requestDeviceInfo()
