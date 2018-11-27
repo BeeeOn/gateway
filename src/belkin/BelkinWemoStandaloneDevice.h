@@ -23,14 +23,6 @@ public:
 		const Poco::Timespan &httpTimeout);
 
 	/**
-	 * @brief Prepares SOAP message containing GetMacAddr request
-	 * and sends it to device via HTTP. If the device do not respond
-	 * in specified timeout, Poco::TimeoutException is thrown.
-	 * @return MAC address of the device.
-	 */
-	MACAddress requestMacAddr() const;
-
-	/**
 	 * @brief Prepares SOAP message containing GetBinaryState request
 	 * and sends it to device via HTTP. If the device do not respond
 	 * in specified timeout, Poco::TimeoutException is thrown.
@@ -52,6 +44,14 @@ public:
 	void setAddress(const Poco::Net::SocketAddress& address);
 
 private:
+	/**
+	 * @brief Prepares SOAP message containing GetMacAddr request
+	 * and sends it to device via HTTP. If the device do not respond
+	 * in specified timeout, Poco::TimeoutException is thrown.
+	 * @return MAC address of the device.
+	 */
+	MACAddress requestMacAddr() const;
+
 	/**
 	 * @brief Called internally when constructing the instance.
 	 * Creates DeviceID based on Mac address of device.
