@@ -21,10 +21,10 @@ using namespace Poco::XML;
 using namespace std;
 
 BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Timespan &httpTimeout):
+	BelkinWemoDevice(buildDeviceID()),
 	m_uri(uri),
 	m_httpTimeout(httpTimeout)
 {
-	m_deviceId = buildDeviceID();
 }
 
 MACAddress BelkinWemoStandaloneDevice::requestMacAddr(
