@@ -33,11 +33,6 @@ BelkinWemoSwitch::~BelkinWemoSwitch()
 {
 }
 
-BelkinWemoSwitch::Ptr BelkinWemoSwitch::buildDevice(const SocketAddress& address, const Timespan& timeout)
-{
-	return new BelkinWemoSwitch(address, timeout);
-}
-
 bool BelkinWemoSwitch::requestModifyState(const ModuleID& moduleID, const double value)
 {
 	if (moduleID != BELKIN_SWITCH_MODULE_ID)

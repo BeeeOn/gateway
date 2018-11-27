@@ -32,12 +32,6 @@ BelkinWemoLink::BelkinWemoLink(
 	requestDeviceInfo();
 }
 
-BelkinWemoLink::Ptr BelkinWemoLink::buildDevice(const Poco::Net::SocketAddress& address,
-	const Timespan& timeout)
-{
-	return new BelkinWemoLink(address, timeout);
-}
-
 void BelkinWemoLink::requestDeviceInfo()
 {
 	HTTPRequest request;

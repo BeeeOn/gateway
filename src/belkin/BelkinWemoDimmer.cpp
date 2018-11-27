@@ -35,11 +35,6 @@ BelkinWemoDimmer::BelkinWemoDimmer(
 {
 }
 
-BelkinWemoDimmer::Ptr BelkinWemoDimmer::buildDevice(const SocketAddress& address, const Timespan& timeout)
-{
-	return new BelkinWemoDimmer(address, timeout);
-}
-
 bool BelkinWemoDimmer::requestModifyState(const ModuleID& moduleID, const double value)
 {
 	switch (moduleID.value()) {
