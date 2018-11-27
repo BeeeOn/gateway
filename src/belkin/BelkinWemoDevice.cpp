@@ -7,10 +7,6 @@ using namespace Poco;
 using namespace Poco::XML;
 using namespace std;
 
-BelkinWemoDevice::BelkinWemoDevice()
-{
-}
-
 BelkinWemoDevice::BelkinWemoDevice(const DeviceID& id):
 	m_deviceId(id)
 {

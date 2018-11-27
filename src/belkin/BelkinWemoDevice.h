@@ -24,7 +24,6 @@ class BelkinWemoDevice : protected Loggable {
 public:
 	typedef Poco::SharedPtr<BelkinWemoDevice> Ptr;
 
-	BelkinWemoDevice();
 	BelkinWemoDevice(const DeviceID& id);
 	virtual ~BelkinWemoDevice();
 
