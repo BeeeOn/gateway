@@ -24,7 +24,7 @@ BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Tim
 	m_uri(uri),
 	m_httpTimeout(httpTimeout)
 {
-	buildDeviceID();
+	m_deviceId = buildDeviceID();
 }
 
 MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
@@ -174,7 +174,7 @@ void BelkinWemoStandaloneDevice::setAddress(const SocketAddress& address)
 	m_uri.setPort(address.port());
 }
 
-void BelkinWemoStandaloneDevice::buildDeviceID()
+DeviceID BelkinWemoStandaloneDevice::buildDeviceID() const
 {
-	m_deviceId = DeviceID(DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr());
+	return {DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr()};
 }

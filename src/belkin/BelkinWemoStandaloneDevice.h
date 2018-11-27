@@ -56,7 +56,7 @@ private:
 	 * @brief Called internally when constructing the instance.
 	 * Creates DeviceID based on Mac address of device.
 	 */
-	void buildDeviceID();
+	DeviceID buildDeviceID() const;
 
 protected:
 	Poco::URI m_uri;
