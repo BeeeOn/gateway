@@ -399,7 +399,7 @@ void VirtualDeviceManager::run()
 
 		SensorData sensorData = entry.device()->generate();
 		if (!sensorData.isEmpty()) {
-			ship(entry.device()->generate());
+			ship(sensorData);
 		}
 		else {
 			poco_debug(logger(), "received empty SensorData");
