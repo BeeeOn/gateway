@@ -22,10 +22,12 @@ using namespace std;
 
 BelkinWemoSwitch::BelkinWemoSwitch(
 		const SocketAddress& address,
-		const Timespan &httpTimeout):
+		const Timespan &httpTimeout,
+		const RefreshTime &refresh):
 	BelkinWemoStandaloneDevice(
 		URI("http://" + address.toString() + "/upnp/control/basicevent1"),
-		httpTimeout)
+		httpTimeout,
+		refresh)
 {
 }
 

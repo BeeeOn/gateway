@@ -32,8 +32,11 @@ static list<ModuleType> BULB_MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_BRIGHTNESS, {ModuleType::Attribute::ATTR_CONTROLLABLE})
 };
 
-BelkinWemoBulb::BelkinWemoBulb(const BelkinWemoLink::BulbID bulbId, const BelkinWemoLink::Ptr link):
-	BelkinWemoDevice(buildDeviceID(bulbId)),
+BelkinWemoBulb::BelkinWemoBulb(
+		const BelkinWemoLink::BulbID bulbId,
+		const BelkinWemoLink::Ptr link,
+		const RefreshTime &refresh):
+	BelkinWemoDevice(buildDeviceID(bulbId), refresh),
 	m_bulbId(bulbId),
 	m_link(link)
 {

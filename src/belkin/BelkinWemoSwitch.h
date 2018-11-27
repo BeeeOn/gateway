@@ -29,7 +29,8 @@ public:
 	 */ 
 	BelkinWemoSwitch(
 		const Poco::Net::SocketAddress& address,
-		const Poco::Timespan &httpTimeout);
+		const Poco::Timespan &httpTimeout,
+		const RefreshTime &refresh);
 
 	~BelkinWemoSwitch();
 

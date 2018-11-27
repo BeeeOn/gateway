@@ -293,7 +293,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches(const StopCo
 
 		BelkinWemoSwitch::Ptr newDevice;
 		try {
-			newDevice = new BelkinWemoSwitch(address, m_httpTimeout);
+			newDevice = new BelkinWemoSwitch(address, m_httpTimeout, m_refresh);
 		}
 		catch (const TimeoutException& e) {
 			logger().debug("found device has disconnected", __FILE__, __LINE__);
@@ -357,7 +357,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs(const StopControl
 		logger().notice("discovered link with " + to_string(bulbIDs.size()) + " Belkin Wemo Bulbs", __FILE__, __LINE__);
 
 		for (auto id : bulbIDs) {
-			BelkinWemoBulb::Ptr newDevice = new BelkinWemoBulb(id, link);
+			BelkinWemoBulb::Ptr newDevice = new BelkinWemoBulb(id, link, m_refresh);
 			devices.push_back(newDevice);
 
 			logger().information("discovered Belkin Wemo Bulb " + newDevice->deviceID().toString());
@@ -380,7 +380,7 @@ vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers(const StopCon
 
 		BelkinWemoDimmer::Ptr newDevice;
 		try {
-			newDevice = new BelkinWemoDimmer(address, m_httpTimeout);
+			newDevice = new BelkinWemoDimmer(address, m_httpTimeout, m_refresh);
 		}
 		catch (const TimeoutException& e) {
 			logger().debug("found device has disconnected", __FILE__, __LINE__);

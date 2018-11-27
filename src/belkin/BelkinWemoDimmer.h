@@ -30,8 +30,10 @@ public:
 	 */
 	BelkinWemoDimmer(
 		const Poco::Net::SocketAddress& address,
-		const Poco::Timespan &httpTimeout);
+		const Poco::Timespan &httpTimeout,
+		const RefreshTime &refresh);
 
+private:
 	/**
 	 * @brief Modifies the dimmer's given module to the given value.
 	 */
