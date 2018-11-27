@@ -13,6 +13,7 @@
 #include "belkin/BelkinWemoSwitch.h"
 #include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
+#include "core/PollingKeeper.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "model/RefreshTime.h"
@@ -42,6 +43,8 @@ public:
 
 	BelkinWemoDeviceManager();
 
+	void setDevicePoller(DevicePoller::Ptr poller);
+
 	void run() override;
 	void stop() override;
 
@@ -57,7 +60,6 @@ protected:
 		const DeviceID &id,
 		const Poco::Timespan &timeout) override;
 
-	void refreshPairedDevices();
 	void searchPairedDevices();
 
 	/**
@@ -89,6 +91,7 @@ private:
 	std::map<DeviceID, BelkinWemoDevice::Ptr> m_devices;
 
 	RefreshTime m_refresh;
+	PollingKeeper m_pollingKeeper;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
 };
