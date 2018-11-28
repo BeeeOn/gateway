@@ -95,7 +95,7 @@ void BluetoothAvailabilityManager::dongleAvailable()
 {
 	HciInterface::Ptr hci = m_hciManager->lookup(dongleName());
 
-	fetchDeviceList();
+	loadPairedDevices();
 
 	/*
 	 * Scanning of a single device.
@@ -305,15 +305,36 @@ AsyncWork<set<DeviceID>>::Ptr BluetoothAvailabilityManager::startUnpair(
 	return work;
 }
 
-void BluetoothAvailabilityManager::fetchDeviceList()
+void BluetoothAvailabilityManager::loadPairedDevices()
 {
-	set<DeviceID> idList = waitRemoteStatus(-1);
-
 	FastMutex::ScopedLock lock(m_lock);
 
 	m_deviceList.clear();
 
-	for (const auto &id : idList)
+	for (const auto &id : deviceCache()->paired(prefix()))
+		m_deviceList.emplace(id, BluetoothDevice(id));
+}
+
+void BluetoothAvailabilityManager::handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values)
+{
+	DeviceManager::handleRemoteStatus(prefix, devices, values);
+
+	if (this->prefix() != prefix)
+		return;
+
+	FastMutex::ScopedLock lock(m_lock);
+
+	for (auto it = m_deviceList.begin(); it != m_deviceList.end(); ) {
+		if (!deviceCache()->paired(it->first))
+			it = m_deviceList.erase(it);
+		else
+			++it;
+	}
+
+	for (const auto &id : deviceCache()->paired(prefix))
 		m_deviceList.emplace(id, BluetoothDevice(id));
 }
 

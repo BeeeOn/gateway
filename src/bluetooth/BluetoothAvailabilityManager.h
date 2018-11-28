@@ -60,6 +60,11 @@ public:
 	 */
 	void setHciManager(HciInterfaceManager::Ptr manager);
 
+	void handleRemoteStatus(
+		const DevicePrefix &prefix,
+		const std::set<DeviceID> &devices,
+		const DeviceStatusHandler::DeviceValues &values) override;
+
 protected:
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
@@ -87,7 +92,11 @@ private:
 
 	bool haveTimeForInactive(Poco::Timespan elapsedTime);
 
-	void fetchDeviceList();
+	/**
+	 * @brief Creates BluetoothDevice for every device known
+	 * to DeviceCache for BluetoothAvailabilityManager.
+	 */
+	void loadPairedDevices();
 
 	bool enoughTimeForScan(const Poco::Timestamp &startTime);
 
