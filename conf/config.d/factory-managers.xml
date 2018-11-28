@@ -48,6 +48,7 @@
 		<instance name="dbusHciManager" class="BeeeOn::DBusHciInterfaceManager">
 			<set name="leMaxAgeRssi" time="${bluetooth.le.maxAgeRssi}" />
 			<set name="leMaxUnavailabilityTime" time="7 d" />
+			<set name="classicArtificialAvaibilityTimeout" time="${bluetooth.classic.artificialAvaibilityTimeout}" />
 		</instance>
 
 		<instance name="bluetoothAvailability" class="BeeeOn::BluetoothAvailabilityManager">
