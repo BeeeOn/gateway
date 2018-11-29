@@ -327,7 +327,7 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs(const StopControl
 
 		PhilipsHueBridge::Ptr bridge;
 		try {
-			bridge = PhilipsHueBridge::buildDevice(address, m_httpTimeout);
+			bridge = new PhilipsHueBridge(address, m_httpTimeout);
 		}
 		catch (const TimeoutException& e) {
 			logger().debug("found device has disconnected", __FILE__, __LINE__);

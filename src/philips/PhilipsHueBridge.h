@@ -33,20 +33,14 @@ public:
 
 	static const Poco::Timespan SLEEP_BETWEEN_ATTEMPTS;
 
-private:
-	PhilipsHueBridge(
-		const Poco::Net::SocketAddress& address,
-		const Poco::Timespan& timeout);
-
-public:
 	/**
 	 * @brief Creates Philips Hue Bridge. If the device do not respond in
 	 * specified timeout, Poco::TimeoutException is thrown.
 	 * @param &address IP address and port where the device is listening.
 	 * @param &timeout HTTP timeout.
-	 * @return Philips Hue Bridge.
 	 */
-	static PhilipsHueBridge::Ptr buildDevice(const Poco::Net::SocketAddress& address,
+	PhilipsHueBridge(
+		const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& timeout);
 
 	/**

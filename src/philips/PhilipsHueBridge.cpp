@@ -38,11 +38,6 @@ PhilipsHueBridge::PhilipsHueBridge(
 	requestDeviceInfo();
 }
 
-PhilipsHueBridge::Ptr PhilipsHueBridge::buildDevice(const SocketAddress& address, const Timespan& timeout)
-{
-	return new PhilipsHueBridge(address, timeout);
-}
-
 /**
  * Example of request's body:
  * {
