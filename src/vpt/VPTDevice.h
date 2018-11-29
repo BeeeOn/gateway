@@ -68,8 +68,6 @@ public:
 		const Poco::Timespan& pingTimeout,
 		const GatewayID& id);
 
-	VPTDevice();
-
 	DeviceID boilerID() const;
 	Poco::Net::SocketAddress address() const;
 	void setAddress(const Poco::Net::SocketAddress& address);

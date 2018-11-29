@@ -121,10 +121,6 @@ VPTDevice::VPTDevice(
 	buildDeviceID();
 }
 
-VPTDevice::VPTDevice()
-{
-}
-
 DeviceID VPTDevice::boilerID() const
 {
 	return m_boilerId;
