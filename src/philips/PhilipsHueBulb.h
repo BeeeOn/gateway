@@ -48,7 +48,7 @@ protected:
 	int dimFromPercentage(const double percents);
 
 protected:
-	DeviceID m_deviceID;
+	const DeviceID m_deviceID;
 	uint32_t m_ordinalNumber;
 	PhilipsHueBridge::Ptr m_bridge;
 };
