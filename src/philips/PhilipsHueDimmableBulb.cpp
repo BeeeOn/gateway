@@ -22,8 +22,10 @@ static list<ModuleType> BULB_MODULE_TYPES = {
 		{ModuleType::Attribute::ATTR_CONTROLLABLE})
 };
 
-PhilipsHueDimmableBulb::PhilipsHueDimmableBulb(const uint32_t ordinalNumber,
-	const PhilipsHueBridge::BulbID bulbId, const PhilipsHueBridge::Ptr bridge):
+PhilipsHueDimmableBulb::PhilipsHueDimmableBulb(
+		const uint32_t ordinalNumber,
+		const PhilipsHueBridge::BulbID bulbId,
+		const PhilipsHueBridge::Ptr bridge):
 	PhilipsHueBulb(ordinalNumber, bulbId, bridge)
 {
 }
