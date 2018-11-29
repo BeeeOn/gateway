@@ -34,7 +34,9 @@ public:
 	static const Poco::Timespan SLEEP_BETWEEN_ATTEMPTS;
 
 private:
-	PhilipsHueBridge(const Poco::Net::SocketAddress& address);
+	PhilipsHueBridge(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan& timeout);
 
 public:
 	/**

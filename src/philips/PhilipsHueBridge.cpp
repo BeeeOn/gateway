@@ -28,16 +28,18 @@ using namespace std;
 
 const Timespan PhilipsHueBridge::SLEEP_BETWEEN_ATTEMPTS = 5 * Timespan::SECONDS;
 
-PhilipsHueBridge::PhilipsHueBridge(const SocketAddress& address):
+PhilipsHueBridge::PhilipsHueBridge(
+		const SocketAddress& address,
+		const Timespan& timeout):
 	m_address(address),
-	m_countOfBulbs(0)
+	m_countOfBulbs(0),
+	m_httpTimeout(timeout)
 {
 }
 
 PhilipsHueBridge::Ptr PhilipsHueBridge::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	PhilipsHueBridge::Ptr bridge = new PhilipsHueBridge(address);
-	bridge->m_httpTimeout = timeout;
+	PhilipsHueBridge::Ptr bridge = new PhilipsHueBridge(address, timeout);
 	bridge->requestDeviceInfo();
 
 	return bridge;
