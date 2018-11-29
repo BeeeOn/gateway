@@ -54,7 +54,11 @@ public:
 	};
 
 private:
-	VPTDevice(const Poco::Net::SocketAddress& address);
+	VPTDevice(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan& httpTimeout,
+		const Poco::Timespan& pingTimeout,
+		const GatewayID& id);
 
 public:
 	VPTDevice();
