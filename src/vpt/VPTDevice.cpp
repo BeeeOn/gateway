@@ -118,6 +118,7 @@ VPTDevice::VPTDevice(
 	m_httpTimeout(httpTimeout),
 	m_gatewayID(id)
 {
+	buildDeviceID();
 }
 
 VPTDevice::VPTDevice()
@@ -207,9 +208,7 @@ bool VPTDevice::operator==(const VPTDevice& other) const
 VPTDevice::Ptr VPTDevice::buildDevice(const SocketAddress& address,
 	const Timespan& httpTimeout, const Timespan& pingTimeout, const GatewayID& id)
 {
-	VPTDevice::Ptr device = new VPTDevice(address, httpTimeout, pingTimeout, id);
-	device->buildDeviceID();
-	return device;
+	return new VPTDevice(address, httpTimeout, pingTimeout, id);
 }
 
 void VPTDevice::buildDeviceID()
