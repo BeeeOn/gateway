@@ -80,8 +80,10 @@ public:
 	 * Poco::TimeoutException is thrown.
 	 * @return If the request was successful or not.
 	 */
-	bool requestModifyState(const uint32_t ordinalNumber,
-		const std::string& capability, const Poco::Dynamic::Var value);
+	bool requestModifyState(
+		const uint32_t ordinalNumber,
+		const std::string& capability,
+		const Poco::Dynamic::Var value);
 
 	/**
 	 * @brief Prepares GET HTTP request containing request state
@@ -122,8 +124,11 @@ private:
 	 */
 	void decrementCountOfBulbs();
 
-	HTTPEntireResponse sendRequest(Poco::Net::HTTPRequest& request, const std::string& message,
-		const Poco::Net::SocketAddress& address, const Poco::Timespan& timeout);
+	HTTPEntireResponse sendRequest(
+		Poco::Net::HTTPRequest& request,
+		const std::string& message,
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan& timeout);
 
 private:
 	Poco::Net::SocketAddress m_address;
