@@ -29,7 +29,10 @@ public:
 	 * @brief The DeviceID is created based on a bulb's 64-bit identifier,
 	 * where DevicePrefix is given on 8th byte.
 	 */
-	PhilipsHueBulb(const uint32_t ordinalNumber, const PhilipsHueBridge::BulbID bulbId, const PhilipsHueBridge::Ptr bridge);
+	PhilipsHueBulb(
+		const uint32_t ordinalNumber,
+		const PhilipsHueBridge::BulbID bulbId,
+		const PhilipsHueBridge::Ptr bridge);
 	~PhilipsHueBulb();
 
 	virtual bool requestModifyState(const ModuleID& moduleID, const double value) = 0;
