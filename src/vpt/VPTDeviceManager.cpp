@@ -351,7 +351,7 @@ vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices(const StopControl& stop)
 
 		VPTDevice::Ptr newDevice;
 		try {
-			newDevice = VPTDevice::buildDevice(address, m_httpTimeout,
+			newDevice = new VPTDevice(address, m_httpTimeout,
 				m_pingTimeout, m_gatewayInfo->gatewayID());
 		}
 		catch (Exception& e) {

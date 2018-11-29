@@ -205,12 +205,6 @@ bool VPTDevice::operator==(const VPTDevice& other) const
 	return other.boilerID() == m_boilerId;
 }
 
-VPTDevice::Ptr VPTDevice::buildDevice(const SocketAddress& address,
-	const Timespan& httpTimeout, const Timespan& pingTimeout, const GatewayID& id)
-{
-	return new VPTDevice(address, httpTimeout, pingTimeout, id);
-}
-
 void VPTDevice::buildDeviceID()
 {
 	HTTPRequest request;

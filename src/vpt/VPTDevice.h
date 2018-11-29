@@ -53,16 +53,6 @@ public:
 		SET
 	};
 
-private:
-	VPTDevice(
-		const Poco::Net::SocketAddress& address,
-		const Poco::Timespan& httpTimeout,
-		const Poco::Timespan& pingTimeout,
-		const GatewayID& id);
-
-public:
-	VPTDevice();
-
 	/**
 	 * @brief Connects to specified address to fetch information for creating VPT Device.
 	 * If the device do not respond in specified timeout, Poco::TimeoutException is thrown.
@@ -71,10 +61,14 @@ public:
 	 * @param pingTimeout ping timeout used to obtain the IP address of gateway's interface
 	 * from which the VPT is available.
 	 * @param id Gateway id used in generating of stamp.
-	 * @return VPTDevice.
 	 */
-	static VPTDevice::Ptr buildDevice(const Poco::Net::SocketAddress& address,
-		const Poco::Timespan& httpTimeout, const Poco::Timespan& pingTimeout, const GatewayID& id);
+	VPTDevice(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan& httpTimeout,
+		const Poco::Timespan& pingTimeout,
+		const GatewayID& id);
+
+	VPTDevice();
 
 	DeviceID boilerID() const;
 	Poco::Net::SocketAddress address() const;
