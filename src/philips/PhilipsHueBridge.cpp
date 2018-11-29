@@ -35,14 +35,12 @@ PhilipsHueBridge::PhilipsHueBridge(
 	m_countOfBulbs(0),
 	m_httpTimeout(timeout)
 {
+	requestDeviceInfo();
 }
 
 PhilipsHueBridge::Ptr PhilipsHueBridge::buildDevice(const SocketAddress& address, const Timespan& timeout)
 {
-	PhilipsHueBridge::Ptr bridge = new PhilipsHueBridge(address, timeout);
-	bridge->requestDeviceInfo();
-
-	return bridge;
+	return new PhilipsHueBridge(address, timeout);
 }
 
 /**
