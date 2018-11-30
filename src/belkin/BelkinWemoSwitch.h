@@ -21,17 +21,17 @@ class BelkinWemoSwitch : public BelkinWemoStandaloneDevice {
 public:
 	typedef Poco::SharedPtr<BelkinWemoSwitch> Ptr;
 
-	~BelkinWemoSwitch();
-
 	/**
 	 * @brief Creates belkin wemo switch. If the device is not on network
 	 * throws Poco::TimeoutException also in this case it is blocking.
 	 * @param &address IP address and port where the device is listening.
 	 * @param &timeout HTTP timeout.
-	 * @return Belkin WeMo Switch.
-	 */
-	static BelkinWemoSwitch::Ptr buildDevice(const Poco::Net::SocketAddress& address,
-		const Poco::Timespan& timeout);
+	 */ 
+	BelkinWemoSwitch(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan &httpTimeout);
+
+	~BelkinWemoSwitch();
 
 	/**
 	 * @brief It sets the switch to the given state.
@@ -55,9 +55,6 @@ public:
 	 * @brief It compares two switches based on DeviceID.
 	 */
 	bool operator==(const BelkinWemoSwitch& bws) const;
-
-protected:
-	BelkinWemoSwitch(const Poco::Net::SocketAddress& address);
 };
 
 }

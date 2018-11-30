@@ -26,17 +26,13 @@ static list<ModuleType> DIMMER_MODULE_TYPES = {
 	ModuleType(ModuleType::Type::TYPE_BRIGHTNESS, {ModuleType::Attribute::ATTR_CONTROLLABLE})
 };
 
-BelkinWemoDimmer::BelkinWemoDimmer(const SocketAddress& address):
-	BelkinWemoStandaloneDevice(URI("http://" + address.toString() + "/upnp/control/basicevent1"))
+BelkinWemoDimmer::BelkinWemoDimmer(
+		const SocketAddress& address,
+		const Timespan &httpTimeout):
+	BelkinWemoStandaloneDevice(
+		URI("http://" + address.toString() + "/upnp/control/basicevent1"),
+		httpTimeout)
 {
-}
-
-BelkinWemoDimmer::Ptr BelkinWemoDimmer::buildDevice(const SocketAddress& address, const Timespan& timeout)
-{
-	BelkinWemoDimmer::Ptr device = new BelkinWemoDimmer(address);
-	device->m_httpTimeout = timeout;
-	device->buildDeviceID();
-	return device;
 }
 
 bool BelkinWemoDimmer::requestModifyState(const ModuleID& moduleID, const double value)

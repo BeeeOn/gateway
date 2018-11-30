@@ -26,19 +26,15 @@ public:
 	typedef Poco::SharedPtr<BelkinWemoLink> Ptr;
 	typedef uint64_t BulbID;
 
-private:
-	BelkinWemoLink(const Poco::Net::SocketAddress& address);
-
-public:
 	/**
 	 * @brief Creates belkin wemo link. If the device do not respond in
 	 * specified timeout, Poco::TimeoutException is thrown.
 	 * @param &address IP address and port where the device is listening.
 	 * @param &timeout HTTP timeout.
-	 * @return Belkin WeMo Link.
 	 */
-	static BelkinWemoLink::Ptr buildDevice(const Poco::Net::SocketAddress& address,
-		const Poco::Timespan& timeout);
+	BelkinWemoLink(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan &httpTimeout);
 
 	/**
 	 * @brief Prepares SOAP message containing request device list

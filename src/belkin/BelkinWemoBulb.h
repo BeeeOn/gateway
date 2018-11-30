@@ -40,6 +40,7 @@ public:
 	BelkinWemoLink::Ptr link();
 
 private:
+	static DeviceID buildDeviceID(const BelkinWemoLink::BulbID &id);
 	int dimToPercentage(const double value);
 	int dimFromPercentage(const double percents);
 

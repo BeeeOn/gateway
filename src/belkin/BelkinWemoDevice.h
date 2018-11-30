@@ -24,7 +24,6 @@ class BelkinWemoDevice : protected Loggable {
 public:
 	typedef Poco::SharedPtr<BelkinWemoDevice> Ptr;
 
-	BelkinWemoDevice();
 	BelkinWemoDevice(const DeviceID& id);
 	virtual ~BelkinWemoDevice();
 
@@ -52,7 +51,7 @@ public:
 	static std::list<Poco::XML::Node*> findNodes(Poco::XML::NodeIterator& iterator, const std::string& name);
 
 protected:
-	DeviceID m_deviceId;
+	const DeviceID m_deviceId;
 	Poco::FastMutex m_lock;
 };
 

@@ -18,15 +18,9 @@ namespace BeeeOn {
  */
 class BelkinWemoStandaloneDevice : public BelkinWemoDevice {
 public:
-	BelkinWemoStandaloneDevice(const Poco::URI& uri);
-
-	/**
-	 * @brief Prepares SOAP message containing GetMacAddr request
-	 * and sends it to device via HTTP. If the device do not respond
-	 * in specified timeout, Poco::TimeoutException is thrown.
-	 * @return MAC address of the device.
-	 */
-	MACAddress requestMacAddr() const;
+	BelkinWemoStandaloneDevice(
+		const Poco::URI& uri,
+		const Poco::Timespan &httpTimeout);
 
 	/**
 	 * @brief Prepares SOAP message containing GetBinaryState request
@@ -49,15 +43,26 @@ public:
 	Poco::Net::SocketAddress address() const;
 	void setAddress(const Poco::Net::SocketAddress& address);
 
+private:
+	/**
+	 * @brief Prepares SOAP message containing GetMacAddr request
+	 * and sends it to device via HTTP. If the device do not respond
+	 * in specified timeout, Poco::TimeoutException is thrown.
+	 * @return MAC address of the device.
+	 */
+	static MACAddress requestMacAddr(
+		const Poco::URI &uri,
+		const Poco::Timespan &httpTimeout);
+
 	/**
 	 * @brief Called internally when constructing the instance.
 	 * Creates DeviceID based on Mac address of device.
 	 */
-	void buildDeviceID();
+	DeviceID buildDeviceID() const;
 
 protected:
 	Poco::URI m_uri;
-	Poco::Timespan m_httpTimeout;
+	const Poco::Timespan m_httpTimeout;
 };
 
 }

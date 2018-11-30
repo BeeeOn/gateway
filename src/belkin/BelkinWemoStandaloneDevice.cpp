@@ -20,12 +20,16 @@ using namespace Poco::Net;
 using namespace Poco::XML;
 using namespace std;
 
-BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri):
-	m_uri(uri)
+BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Timespan &httpTimeout):
+	BelkinWemoDevice(buildDeviceID()),
+	m_uri(uri),
+	m_httpTimeout(httpTimeout)
 {
 }
 
-MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
+MACAddress BelkinWemoStandaloneDevice::requestMacAddr(
+		const URI &uri,
+		const Timespan &httpTimeout)
 {
 	HTTPRequest request;
 
@@ -55,7 +59,7 @@ MACAddress BelkinWemoStandaloneDevice::requestMacAddr() const
 	msg.prepare(request);
 
 	HTTPEntireResponse response = HTTPUtil::makeRequest(
-		request, m_uri, msg.toString(), m_httpTimeout);
+		request, uri, msg.toString(), httpTimeout);
 
 	SecureXmlParser parser;
 	AutoPtr<Document> xmlDoc = parser.parse(response.getBody());
@@ -172,7 +176,7 @@ void BelkinWemoStandaloneDevice::setAddress(const SocketAddress& address)
 	m_uri.setPort(address.port());
 }
 
-void BelkinWemoStandaloneDevice::buildDeviceID()
+DeviceID BelkinWemoStandaloneDevice::buildDeviceID() const
 {
-	m_deviceId = DeviceID(DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr());
+	return {DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr(m_uri, m_httpTimeout)};
 }
