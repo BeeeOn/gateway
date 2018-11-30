@@ -23,8 +23,8 @@ public:
 	VirtualDevice();
 	~VirtualDevice();
 
-	void setDeviceId(const DeviceID &deviceId);
-	DeviceID deviceID() const;
+	void setID(const DeviceID &deviceId);
+	DeviceID id() const;
 
 	void setVendorName(const std::string &vendorName);
 	std::string vendorName() const;

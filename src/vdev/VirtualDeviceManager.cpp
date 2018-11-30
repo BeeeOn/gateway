@@ -46,14 +46,14 @@ VirtualDeviceManager::VirtualDeviceManager():
 void VirtualDeviceManager::registerDevice(
 	const VirtualDevice::Ptr device)
 {
-	if (!m_virtualDevicesMap.emplace(device->deviceID(), device).second) {
+	if (!m_virtualDevicesMap.emplace(device->id(), device).second) {
 		throw ExistsException("registering duplicate device: "
-			+ device->deviceID().toString());
+			+ device->id().toString());
 	}
 
 	logger().debug(
 		"registering new virtual device "
-		+ device->deviceID().toString(),
+		+ device->id().toString(),
 		__FILE__, __LINE__
 	);
 }
@@ -62,17 +62,17 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 {
 	logger().information(
 		"virtual device: "
-		+ device->deviceID().toString(),
+		+ device->id().toString(),
 		__FILE__, __LINE__
 	);
 
 	logger().debug(
 		"virtual device: "
-		+ device->deviceID().toString()
+		+ device->id().toString()
 		+ ", modules: "
 		+ to_string(device->modules().size())
 		+ ", paired: "
-		+ (deviceCache()->paired(device->deviceID()) ? "yes" : "no")
+		+ (deviceCache()->paired(device->id()) ? "yes" : "no")
 		+ ", refresh: "
 		+ device->refresh().toString()
 		+ ", vendor: "
@@ -85,7 +85,7 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 	for (auto &module : device->modules()) {
 		logger().trace(
 			"virtual device: "
-			+ device->deviceID().toString()
+			+ device->id().toString()
 			+ ", module: "
 			+ module->moduleID().toString()
 			+ ", type: "
@@ -102,17 +102,16 @@ VirtualDevice::Ptr VirtualDeviceManager::parseDevice(
 
 	DeviceID id = DeviceID::parse(cfg->getString("device_id"));
 	if (id.prefix() != DevicePrefix::PREFIX_VIRTUAL_DEVICE) {
-		device->setDeviceId(
-			DeviceID(DevicePrefix::PREFIX_VIRTUAL_DEVICE, id.ident()));
+		device->setID(DeviceID(DevicePrefix::PREFIX_VIRTUAL_DEVICE, id.ident()));
 
 		logger().warning(
 			"device prefix was wrong, overriding ID to "
-			+ device->deviceID().toString(),
+			+ device->id().toString(),
 			__FILE__, __LINE__
 		);
 	}
 	else {
-		device->setDeviceId(id);
+		device->setID(id);
 	}
 
 	unsigned int refresh = cfg->getUInt("refresh", DEFAULT_REFRESH_SECS);
@@ -208,7 +207,7 @@ void VirtualDeviceManager::installVirtualDevices()
 void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)
 {
 	const auto description = DeviceDescription::Builder()
-		.id(device->deviceID())
+		.id(device->id())
 		.type(device->vendorName(), device->productName())
 		.modules(device->moduleTypes())
 		.refreshTime(device->refresh())
@@ -363,10 +362,10 @@ void VirtualDeviceManager::run()
 		ScopedLockWithUnlock<FastMutex> guard(m_lock);
 		const VirtualDeviceEntry entry = m_virtualDeviceQueue.top();
 
-		if (!deviceCache()->paired(entry.device()->deviceID())) {
+		if (!deviceCache()->paired(entry.device()->id())) {
 			logger().debug(
 				"unpaired device "
-				+ entry.device()->deviceID().toString()
+				+ entry.device()->id().toString()
 				+ " was removed from queue",
 				__FILE__, __LINE__);
 			m_virtualDeviceQueue.pop();
@@ -380,7 +379,7 @@ void VirtualDeviceManager::run()
 			guard.unlock();
 			logger().debug(
 				"device "
-				+ entry.device()->deviceID().toString()
+				+ entry.device()->id().toString()
 				+ " will be activated in "
 				+ to_string(sleepTime.totalMilliseconds())
 				+ " milliseconds",
@@ -393,7 +392,7 @@ void VirtualDeviceManager::run()
 
 		logger().debug(
 			"device "
-			+ entry.device()->deviceID().toString()
+			+ entry.device()->id().toString()
 			+ " is being processed",
 			__FILE__, __LINE__);
 
