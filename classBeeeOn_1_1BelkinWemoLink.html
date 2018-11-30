@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-70-g5436da6</span>
+   &#160;<span id="projectnumber">v2018.07.1-83-g316ee49</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -54,7 +54,6 @@
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a>  </div>
   <div class="headertitle">
 <div class="title">BeeeOn::BelkinWemoLink Class Reference</div>  </div>
@@ -78,6 +77,9 @@ typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>BulbID</b
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ab65947161f0232fab5dae28b36d54b8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoLink.html#ab65947161f0232fab5dae28b36d54b8f">BelkinWemoLink</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout)</td></tr>
+<tr class="memdesc:ab65947161f0232fab5dae28b36d54b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates belkin wemo link. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#ab65947161f0232fab5dae28b36d54b8f">More...</a><br/></td></tr>
+<tr class="separator:ab65947161f0232fab5dae28b36d54b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1f9d5802479595edcd14763e1ef2aaa"><td class="memItemLeft" align="right" valign="top">std::list&lt; BelkinWemoLink::BulbID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoLink.html#ae1f9d5802479595edcd14763e1ef2aaa">requestDeviceList</a> ()</td></tr>
 <tr class="memdesc:ae1f9d5802479595edcd14763e1ef2aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares SOAP message containing request device list command and sends it to device via HTTP. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#ae1f9d5802479595edcd14763e1ef2aaa">More...</a><br/></td></tr>
 <tr class="separator:ae1f9d5802479595edcd14763e1ef2aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,12 +110,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a0fe8798edcb92302ab92d3ce994d3893"><td class="mdescLeft">&#160;</td><td class="mdescRight">It compares two links based on MAC address. <br/></td></tr>
 <tr class="separator:a0fe8798edcb92302ab92d3ce994d3893"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aef8298e78f4e37520383539e187577fe"><td class="memItemLeft" align="right" valign="top">static BelkinWemoLink::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoLink.html#aef8298e78f4e37520383539e187577fe">buildDevice</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:aef8298e78f4e37520383539e187577fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates belkin wemo link. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#aef8298e78f4e37520383539e187577fe">More...</a><br/></td></tr>
-<tr class="separator:aef8298e78f4e37520383539e187577fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:ae9b4eb44fcbc4f01ccc52b7a943bb459"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9b4eb44fcbc4f01ccc52b7a943bb459"></a>
@@ -122,16 +118,13 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoBulb</b></
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents Belkin WeMo Link. Provides functions to control the bulbs. It means turn on, turn off, modify dim, get state of bulb. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aef8298e78f4e37520383539e187577fe"></a>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ab65947161f0232fab5dae28b36d54b8f"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">BelkinWemoLink::Ptr BelkinWemoLink::buildDevice </td>
+          <td class="memname">BelkinWemoLink::BelkinWemoLink </td>
           <td>(</td>
           <td class="paramtype">const Poco::Net::SocketAddress &amp;&#160;</td>
           <td class="paramname"><em>address</em>, </td>
@@ -140,7 +133,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoBulb</b></
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>timeout</em>&#160;</td>
+          <td class="paramname"><em>httpTimeout</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -148,11 +141,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoBulb</b></
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Creates belkin wemo link. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. </p>
@@ -163,10 +151,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoBulb</b></
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Belkin WeMo Link. </dd></dl>
 
 </div>
 </div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ae1f9d5802479595edcd14763e1ef2aaa"></a>
 <div class="memitem">
 <div class="memproto">

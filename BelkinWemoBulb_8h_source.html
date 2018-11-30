@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-70-g5436da6</span>
+   &#160;<span id="projectnumber">v2018.07.1-83-g316ee49</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -85,20 +85,22 @@
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        BelkinWemoLink::Ptr link();</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">int</span> dimToPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">int</span> dimFromPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> percents);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        BelkinWemoLink::BulbID m_bulbId;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        BelkinWemoLink::Ptr m_link;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> buildDeviceID(<span class="keyword">const</span> BelkinWemoLink::BulbID &amp;<span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">int</span> dimToPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">int</span> dimFromPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> percents);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        BelkinWemoLink::BulbID m_bulbId;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        BelkinWemoLink::Ptr m_link;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html">BeeeOn::BelkinWemoDevice</a></div><div class="ttdoc">Abstract class representing generic BelkinWemo device. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.h:23</div></div>
 <div class="ttc" id="classBeeeOn_1_1SensorData_html"><div class="ttname"><a href="classBeeeOn_1_1SensorData.html">BeeeOn::SensorData</a></div><div class="ttdef"><b>Definition:</b> SensorData.h:20</div></div>
 <div class="ttc" id="classBeeeOn_1_1BelkinWemoBulb_html_aa28bde85a5b95ce5b63d1fdd412080cc"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoBulb.html#aa28bde85a5b95ce5b63d1fdd412080cc">BeeeOn::BelkinWemoBulb::BelkinWemoBulb</a></div><div class="ttdeci">BelkinWemoBulb(const BelkinWemoLink::BulbID bulbId, const BelkinWemoLink::Ptr link)</div><div class="ttdoc">The DeviceID is created based on a bulb&amp;#39;s 64-bit identifier, where DevicePrefix is given on 8th byte...</div><div class="ttdef"><b>Definition:</b> BelkinWemoBulb.cpp:35</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1BelkinWemoBulb_html"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoBulb.html">BeeeOn::BelkinWemoBulb</a></div><div class="ttdoc">The class represents Belkin WeMo Led Light Bulb. It works with Belkin WeMo Link it uses his methods t...</div><div class="ttdef"><b>Definition:</b> BelkinWemoBulb.h:22</div></div>
+<div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
