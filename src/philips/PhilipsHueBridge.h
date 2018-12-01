@@ -33,18 +33,14 @@ public:
 
 	static const Poco::Timespan SLEEP_BETWEEN_ATTEMPTS;
 
-private:
-	PhilipsHueBridge(const Poco::Net::SocketAddress& address);
-
-public:
 	/**
 	 * @brief Creates Philips Hue Bridge. If the device do not respond in
 	 * specified timeout, Poco::TimeoutException is thrown.
 	 * @param &address IP address and port where the device is listening.
 	 * @param &timeout HTTP timeout.
-	 * @return Philips Hue Bridge.
 	 */
-	static PhilipsHueBridge::Ptr buildDevice(const Poco::Net::SocketAddress& address,
+	PhilipsHueBridge(
+		const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& timeout);
 
 	/**
@@ -78,8 +74,10 @@ public:
 	 * Poco::TimeoutException is thrown.
 	 * @return If the request was successful or not.
 	 */
-	bool requestModifyState(const uint32_t ordinalNumber,
-		const std::string& capability, const Poco::Dynamic::Var value);
+	bool requestModifyState(
+		const uint32_t ordinalNumber,
+		const std::string& capability,
+		const Poco::Dynamic::Var value);
 
 	/**
 	 * @brief Prepares GET HTTP request containing request state
@@ -120,8 +118,11 @@ private:
 	 */
 	void decrementCountOfBulbs();
 
-	HTTPEntireResponse sendRequest(Poco::Net::HTTPRequest& request, const std::string& message,
-		const Poco::Net::SocketAddress& address, const Poco::Timespan& timeout);
+	HTTPEntireResponse sendRequest(
+		Poco::Net::HTTPRequest& request,
+		const std::string& message,
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan& timeout);
 
 private:
 	Poco::Net::SocketAddress m_address;

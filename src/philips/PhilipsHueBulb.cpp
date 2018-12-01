@@ -11,7 +11,10 @@ using namespace std;
 
 const double PhilipsHueBulb::MAX_DIM = 255;
 
-PhilipsHueBulb::PhilipsHueBulb(const uint32_t ordinalNumber, const PhilipsHueBridge::BulbID bulbId, const PhilipsHueBridge::Ptr bridge):
+PhilipsHueBulb::PhilipsHueBulb(
+		const uint32_t ordinalNumber,
+		const PhilipsHueBridge::BulbID bulbId,
+		const PhilipsHueBridge::Ptr bridge):
 	m_deviceID(DevicePrefix::PREFIX_PHILIPS_HUE, bulbId & DeviceID::IDENT_MASK),
 	m_ordinalNumber(ordinalNumber),
 	m_bridge(bridge)
