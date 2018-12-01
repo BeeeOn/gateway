@@ -108,13 +108,17 @@ const std::list<ModuleType> VPTDevice::BOILER_MODULE_TYPES = {
 const int VPTDevice::COUNT_OF_ZONES = 4;
 
 
-VPTDevice::VPTDevice(const SocketAddress& address):
-	m_address(address)
+VPTDevice::VPTDevice(
+		const Poco::Net::SocketAddress& address,
+		const Poco::Timespan& httpTimeout,
+		const Poco::Timespan& pingTimeout,
+		const GatewayID& id):
+	m_address(address),
+	m_pingTimeout(pingTimeout),
+	m_httpTimeout(httpTimeout),
+	m_gatewayID(id)
 {
-}
-
-VPTDevice::VPTDevice()
-{
+	buildDeviceID();
 }
 
 DeviceID VPTDevice::boilerID() const
@@ -195,17 +199,6 @@ void VPTDevice::stampVPT(const Action action)
 bool VPTDevice::operator==(const VPTDevice& other) const
 {
 	return other.boilerID() == m_boilerId;
-}
-
-VPTDevice::Ptr VPTDevice::buildDevice(const SocketAddress& address,
-	const Timespan& httpTimeout, const Timespan& pingTimeout, const GatewayID& id)
-{
-	VPTDevice::Ptr device = new VPTDevice(address);
-	device->m_httpTimeout = httpTimeout;
-	device->m_pingTimeout = pingTimeout;
-	device->m_gatewayID = id;
-	device->buildDeviceID();
-	return device;
 }
 
 void VPTDevice::buildDeviceID()
