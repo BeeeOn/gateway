@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
+   &#160;<span id="projectnumber">v2018.07.1-104-g6d7d161</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -77,6 +77,9 @@ Inheritance diagram for BeeeOn::VirtualDeviceManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:adfbb70c330288910ed8dd9dd8e020d7c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adfbb70c330288910ed8dd9dd8e020d7c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevicePoller</b> (DevicePoller::Ptr poller)</td></tr>
+<tr class="separator:adfbb70c330288910ed8dd9dd8e020d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a400054ca9dcbeef5996739b467206fb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a400054ca9dcbeef5996739b467206fb5"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</td></tr>
 <tr class="separator:a400054ca9dcbeef5996739b467206fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,10 +99,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <tr class="separator:a97e4a3f6a05e606f4efa1a86ccd8395e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fd571abbfed6e3f91f1b9471f0ac15a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a7fd571abbfed6e3f91f1b9471f0ac15a">scheduleAllEntries</a> ()</td></tr>
 <tr class="separator:a7fd571abbfed6e3f91f1b9471f0ac15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a878c6f366535a4a09540bba2585cee74"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a878c6f366535a4a09540bba2585cee74">isEmptyQueue</a> ()</td></tr>
-<tr class="separator:a878c6f366535a4a09540bba2585cee74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3e2696f84da0fa7985dbbcbf651e534"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#ad3e2696f84da0fa7985dbbcbf651e534">scheduleEntryUnlocked</a> (<a class="el" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> entry)</td></tr>
-<tr class="separator:ad3e2696f84da0fa7985dbbcbf651e534"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac05d0b8b0745dc7fdf7444ed3b57fbfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#ac05d0b8b0745dc7fdf7444ed3b57fbfd">logDeviceParsed</a> (VirtualDevice::Ptr device)</td></tr>
 <tr class="separator:ac05d0b8b0745dc7fdf7444ed3b57fbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd7d91ffa3d6bd1c873e476dd84b1fe8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd7d91ffa3d6bd1c873e476dd84b1fe8"></a>
@@ -431,22 +430,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 
 </div>
 </div>
-<a class="anchor" id="a878c6f366535a4a09540bba2585cee74"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool BeeeOn::VirtualDeviceManager::isEmptyQueue </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Checks if a queue of virtual devices is empty. </p>
-
-</div>
-</div>
 <a class="anchor" id="ac05d0b8b0745dc7fdf7444ed3b57fbfd"></a>
 <div class="memitem">
 <div class="memproto">
@@ -538,23 +521,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
       </table>
 </div><div class="memdoc">
 <p>Plans devices that are in a map of virtual devices and are paired. </p>
-
-</div>
-</div>
-<a class="anchor" id="ad3e2696f84da0fa7985dbbcbf651e534"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BeeeOn::VirtualDeviceManager::scheduleEntryUnlocked </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a>&#160;</td>
-          <td class="paramname"><em>entry</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Sets time when an entry was inserted into a queue and pushes this entry to the queue. </p>
 
 </div>
 </div>

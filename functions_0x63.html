@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
+   &#160;<span id="projectnumber">v2018.07.1-104-g6d7d161</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -92,11 +92,16 @@
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>cancel()
 : <a class="el" href="classBeeeOn_1_1AbstractSeeker.html#a7501b179a440811d936115753e12b201">BeeeOn::AbstractSeeker</a>
+, <a class="el" href="classBeeeOn_1_1DevicePoller.html#a12583eba2e6da40d21050fe84e59964a">BeeeOn::DevicePoller</a>
 , <a class="el" href="classBeeeOn_1_1BlockingAsyncWork.html#a196b9cb3c2447c1229afca08b2ffd963">BeeeOn::BlockingAsyncWork&lt; Result &gt;</a>
+, <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>
+, <a class="el" href="classBeeeOn_1_1Cancellable.html#a6e9ea1463250fe27dc762e22b812a4fc">BeeeOn::Cancellable</a>
+, <a class="el" href="classBeeeOn_1_1PollingKeeper.html#ad5994a87859d1796f65d3ee403525f6c">BeeeOn::PollingKeeper</a>
 , <a class="el" href="classBeeeOn_1_1CancellableSet.html#ae6ab604ca470258675cdcdd3084b69eb">BeeeOn::CancellableSet</a>
 , <a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html#a59a4f28f6108821553e63556a21e5f92">BeeeOn::DelayedAsyncWork&lt; Result &gt;</a>
-, <a class="el" href="classBeeeOn_1_1Cancellable.html#a6e9ea1463250fe27dc762e22b812a4fc">BeeeOn::Cancellable</a>
-, <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#a921a47b6f996bda44f908f6dfcbae682">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>
+</li>
+<li>cancelAll()
+: <a class="el" href="classBeeeOn_1_1PollingKeeper.html#a289ac30ede8fb2dd3c793e74a5b6d89b">BeeeOn::PollingKeeper</a>
 </li>
 <li>cancelIf()
 : <a class="el" href="classBeeeOn_1_1OZWCommand.html#a6f675a6cf815d9ab284c2a5bec00bb78">BeeeOn::OZWCommand</a>
@@ -156,6 +161,7 @@
 </li>
 <li>cleanup()
 : <a class="el" href="classBeeeOn_1_1OZWNetwork.html#aafb216f0007311c73dc25c32c19b90da">BeeeOn::OZWNetwork</a>
+, <a class="el" href="classBeeeOn_1_1DevicePoller.html#a1849264cd977718c4aaefc29d5ea237b">BeeeOn::DevicePoller</a>
 </li>
 <li>clear()
 : <a class="el" href="classBeeeOn_1_1StopControl.html#a6e21b1833d998f491fedc5cf855150d8">BeeeOn::StopControl</a>
@@ -208,8 +214,9 @@
 </li>
 <li>convert()
 : <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a66d35e6e5a13331131c2dac8363fe66f">BeeeOn::ZWaveMapperRegistry::Mapper</a>
-, <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#ab4878f35eab71bf73d45d1ae46d8622f">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
+, <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a852e4741107941941a59a883033bb199">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#a7a1ad76958f987659b6dd7e0c6b43302">BeeeOn::ZWaveDeviceManager::Device</a>
+, <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#ab4878f35eab71bf73d45d1ae46d8622f">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a23fe22aa65a7743dce1038fa836fbaa1">BeeeOn::ZWaveMapperRegistry::Mapper</a>
 </li>
 <li>convertStatus()
@@ -217,18 +224,18 @@
 </li>
 <li>count()
 : <a class="el" href="classBeeeOn_1_1DPACoordRemoveNodeResponse.html#ab96990f9d912a423aac7add60069ea27">BeeeOn::DPACoordRemoveNodeResponse</a>
-, <a class="el" href="classBeeeOn_1_1MultiException.html#af54929193451b85aa2c41f1613558dd8">BeeeOn::MultiException</a>
 , <a class="el" href="classBeeeOn_1_1DPACoordBondNodeResponse.html#aacf8fa4abe6e7c3c22d02f784b20032a">BeeeOn::DPACoordBondNodeResponse</a>
+, <a class="el" href="classBeeeOn_1_1MultiException.html#af54929193451b85aa2c41f1613558dd8">BeeeOn::MultiException</a>
 </li>
 <li>country()
 : <a class="el" href="classBeeeOn_1_1LocaleImpl.html#abc16f30fbfc56132a79a5b4a9f89d358">BeeeOn::LocaleImpl</a>
 , <a class="el" href="classBeeeOn_1_1SystemLocaleImpl.html#a506ba25f5987e3cfbd9c12e1a896a0ab">BeeeOn::SystemLocaleImpl</a>
 </li>
 <li>create()
-: <a class="el" href="classBeeeOn_1_1BackOffFactory.html#ada9688d204d1702aadb1d255dd394432">BeeeOn::BackOffFactory</a>
-, <a class="el" href="classBeeeOn_1_1NoTranslatorFactory.html#afa4868d36403724f38c84074355dadca">BeeeOn::NoTranslatorFactory</a>
+: <a class="el" href="classBeeeOn_1_1TranslatorFactory.html#a00135981a2a725f6a209af6236f189fc">BeeeOn::TranslatorFactory</a>
+, <a class="el" href="classBeeeOn_1_1BackOffFactory.html#ada9688d204d1702aadb1d255dd394432">BeeeOn::BackOffFactory</a>
 , <a class="el" href="classBeeeOn_1_1ExponentialBackOffFactory.html#a1ab4745d73a88d8fdf7067aad11cf9cd">BeeeOn::ExponentialBackOffFactory</a>
-, <a class="el" href="classBeeeOn_1_1TranslatorFactory.html#a00135981a2a725f6a209af6236f189fc">BeeeOn::TranslatorFactory</a>
+, <a class="el" href="classBeeeOn_1_1NoTranslatorFactory.html#afa4868d36403724f38c84074355dadca">BeeeOn::NoTranslatorFactory</a>
 , <a class="el" href="classBeeeOn_1_1RandomBackOffFactory.html#a2c783793e3f0618cbcef2416d07f1ad0">BeeeOn::RandomBackOffFactory</a>
 </li>
 <li>createDevice()

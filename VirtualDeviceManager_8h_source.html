@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
+   &#160;<span id="projectnumber">v2018.07.1-104-g6d7d161</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -62,124 +62,83 @@
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;Poco/Util/IniFileConfiguration.h&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;vdev/VirtualDevice.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VirtualDeviceEntry.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a>(VirtualDevice::Ptr <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html#ae7cb06dfe94b4df58ac2b23dd0515a3c">device</a>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html#adcf389fa0397d08d5e92715baeb823ad">setInserted</a>(<span class="keyword">const</span> Poco::Timestamp &amp;t);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        Poco::Timestamp <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html#a3a5dbf4704b2209c3065c316e41bf52c">inserted</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;core/PollingKeeper.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;vdev/VirtualDevice.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VirtualDeviceManager.html">   29</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html">VirtualDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html">VirtualDeviceManager</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">void</span> setDevicePoller(DevicePoller::Ptr poller);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        Poco::Timestamp <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html#a158eb2e218d5fd2a39b370717bff1bd1">activationTime</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#abad35caf4f63826d05b7b7920ca9e36f">setConfigFile</a>(<span class="keyword">const</span> std::string &amp;path);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        VirtualDevice::Ptr <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html#ae7cb06dfe94b4df58ac2b23dd0515a3c">device</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        Poco::Timestamp m_inserted;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        VirtualDevice::Ptr m_device;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html">   56</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html">VirtualDeviceEntryComparator</a> {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html#af3cb4c8104d31485a933cf7373cc5f9d">lessThan</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> &amp;deviceQueue1,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> &amp;deviceQueue2) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html#a329fe2609f389f5052508b13bd4a029b">   67</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html#a329fe2609f389f5052508b13bd4a029b">operator ()</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> &amp;deviceQueue1,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> &amp;deviceQueue2)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">        </span>{</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html#af3cb4c8104d31485a933cf7373cc5f9d">lessThan</a>(deviceQueue1, deviceQueue2);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1VirtualDeviceManager.html">   87</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html">VirtualDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html">VirtualDeviceManager</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">stop</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#abad35caf4f63826d05b7b7920ca9e36f">setConfigFile</a>(<span class="keyword">const</span> std::string &amp;path);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ad046c8d5f33e9cb7288d6887ed4a8f97">installVirtualDevices</a>();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ab4140905abc66dc9c08632a40eac581f">registerDevice</a>(<span class="keyword">const</span> VirtualDevice::Ptr virtualDevice);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a9fb1892ae468c4f712ae8e5c75ae157b">dispatchNewDevice</a>(VirtualDevice::Ptr device);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        VirtualDevice::Ptr <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ac0b0117724fe2ccc5d7019df5e30cb60">parseDevice</a>(</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                Poco::AutoPtr&lt;Poco::Util::AbstractConfiguration&gt; cfg);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        VirtualModule::Ptr <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a97e4a3f6a05e606f4efa1a86ccd8395e">parseModule</a>(</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                Poco::AutoPtr&lt;Poco::Util::AbstractConfiguration&gt; cfg,</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a7fd571abbfed6e3f91f1b9471f0ac15a">scheduleAllEntries</a>();</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a878c6f366535a4a09540bba2585cee74">isEmptyQueue</a>();</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ad3e2696f84da0fa7985dbbcbf651e534">scheduleEntryUnlocked</a>(<a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a> entry);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ac05d0b8b0745dc7fdf7444ed3b57fbfd">logDeviceParsed</a>(VirtualDevice::Ptr device);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#acd7d91ffa3d6bd1c873e476dd84b1fe8">handleRemoteStatus</a>(</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="code" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>,</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                <span class="keyword">const</span> std::set&lt;DeviceID&gt; &amp;devices,</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                <span class="keyword">const</span> DeviceStatusHandler::DeviceValues &amp;values) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#aef1f72b59fd1b00e7ffc42bc6a49f4ec">doListenCommand</a>(<span class="keyword">const</span> GatewayListenCommand::Ptr);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a972541ddd1470a46bf2865655dc17b72">doDeviceAcceptCommand</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a64d6e47526afd046babaa5113438fbd6">doSetValueCommand</a>(<span class="keyword">const</span> DeviceSetValueCommand::Ptr cmd);</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a1893cdc0dc1646b47886d79316a8dda3">doUnpairCommand</a>(<span class="keyword">const</span> DeviceUnpairCommand::Ptr cmd);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        std::map&lt;DeviceID, VirtualDevice::Ptr&gt; m_virtualDevicesMap;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        std::string m_configFile;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        std::priority_queue&lt;<a class="code" href="classBeeeOn_1_1VirtualDeviceEntry.html">VirtualDeviceEntry</a>,</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                std::vector&lt;VirtualDeviceEntry&gt;,</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                <a class="code" href="classBeeeOn_1_1VirtualDeviceEntryComparator.html">VirtualDeviceEntryComparator</a>&gt; m_virtualDeviceQueue;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordtype">bool</span> m_requestDeviceList;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        Poco::FastMutex m_lock;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;};</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ad046c8d5f33e9cb7288d6887ed4a8f97">installVirtualDevices</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ab4140905abc66dc9c08632a40eac581f">registerDevice</a>(<span class="keyword">const</span> VirtualDevice::Ptr virtualDevice);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a9fb1892ae468c4f712ae8e5c75ae157b">dispatchNewDevice</a>(VirtualDevice::Ptr device);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        VirtualDevice::Ptr <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ac0b0117724fe2ccc5d7019df5e30cb60">parseDevice</a>(</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                Poco::AutoPtr&lt;Poco::Util::AbstractConfiguration&gt; cfg);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        VirtualModule::Ptr <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a97e4a3f6a05e606f4efa1a86ccd8395e">parseModule</a>(</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                Poco::AutoPtr&lt;Poco::Util::AbstractConfiguration&gt; cfg,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a7fd571abbfed6e3f91f1b9471f0ac15a">scheduleAllEntries</a>();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#ac05d0b8b0745dc7fdf7444ed3b57fbfd">logDeviceParsed</a>(VirtualDevice::Ptr device);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#acd7d91ffa3d6bd1c873e476dd84b1fe8">handleRemoteStatus</a>(</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="code" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keyword">const</span> std::set&lt;DeviceID&gt; &amp;devices,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keyword">const</span> DeviceStatusHandler::DeviceValues &amp;values) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">handleGeneric</a>(<span class="keyword">const</span> Command::Ptr cmd, Result::Ptr result) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#aef1f72b59fd1b00e7ffc42bc6a49f4ec">doListenCommand</a>(<span class="keyword">const</span> GatewayListenCommand::Ptr);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a972541ddd1470a46bf2865655dc17b72">doDeviceAcceptCommand</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a64d6e47526afd046babaa5113438fbd6">doSetValueCommand</a>(<span class="keyword">const</span> DeviceSetValueCommand::Ptr cmd);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1VirtualDeviceManager.html#a1893cdc0dc1646b47886d79316a8dda3">doUnpairCommand</a>(<span class="keyword">const</span> DeviceUnpairCommand::Ptr cmd);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        std::map&lt;DeviceID, VirtualDevice::Ptr&gt; m_virtualDevicesMap;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        std::string m_configFile;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <a class="code" href="classBeeeOn_1_1PollingKeeper.html">PollingKeeper</a> m_pollingKeeper;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">bool</span> m_requestDeviceList;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        Poco::FastMutex m_lock;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;};</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a7fd571abbfed6e3f91f1b9471f0ac15a"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a7fd571abbfed6e3f91f1b9471f0ac15a">BeeeOn::VirtualDeviceManager::scheduleAllEntries</a></div><div class="ttdeci">void scheduleAllEntries()</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a972541ddd1470a46bf2865655dc17b72"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a972541ddd1470a46bf2865655dc17b72">BeeeOn::VirtualDeviceManager::doDeviceAcceptCommand</a></div><div class="ttdeci">void doDeviceAcceptCommand(const DeviceAcceptCommand::Ptr cmd)</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_ad3e2696f84da0fa7985dbbcbf651e534"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#ad3e2696f84da0fa7985dbbcbf651e534">BeeeOn::VirtualDeviceManager::scheduleEntryUnlocked</a></div><div class="ttdeci">void scheduleEntryUnlocked(VirtualDeviceEntry entry)</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntry_html"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntry.html">BeeeOn::VirtualDeviceEntry</a></div><div class="ttdef"><b>Definition:</b> VirtualDeviceManager.h:21</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_acd7d91ffa3d6bd1c873e476dd84b1fe8"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#acd7d91ffa3d6bd1c873e476dd84b1fe8">BeeeOn::VirtualDeviceManager::handleRemoteStatus</a></div><div class="ttdeci">void handleRemoteStatus(const DevicePrefix &amp;prefix, const std::set&lt; DeviceID &gt; &amp;devices, const DeviceStatusHandler::DeviceValues &amp;values) override</div><div class="ttdoc">Reschedule virtual devices after updating the remote status. </div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a9fb1892ae468c4f712ae8e5c75ae157b"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a9fb1892ae468c4f712ae8e5c75ae157b">BeeeOn::VirtualDeviceManager::dispatchNewDevice</a></div><div class="ttdeci">void dispatchNewDevice(VirtualDevice::Ptr device)</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntry_html_a3a5dbf4704b2209c3065c316e41bf52c"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntry.html#a3a5dbf4704b2209c3065c316e41bf52c">BeeeOn::VirtualDeviceEntry::inserted</a></div><div class="ttdeci">Poco::Timestamp inserted() const </div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_ab4140905abc66dc9c08632a40eac581f"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#ab4140905abc66dc9c08632a40eac581f">BeeeOn::VirtualDeviceManager::registerDevice</a></div><div class="ttdeci">void registerDevice(const VirtualDevice::Ptr virtualDevice)</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntryComparator_html_af3cb4c8104d31485a933cf7373cc5f9d"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntryComparator.html#af3cb4c8104d31485a933cf7373cc5f9d">BeeeOn::VirtualDeviceEntryComparator::lessThan</a></div><div class="ttdeci">bool lessThan(const VirtualDeviceEntry &amp;deviceQueue1, const VirtualDeviceEntry &amp;deviceQueue2) const </div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a64d6e47526afd046babaa5113438fbd6"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a64d6e47526afd046babaa5113438fbd6">BeeeOn::VirtualDeviceManager::doSetValueCommand</a></div><div class="ttdeci">void doSetValueCommand(const DeviceSetValueCommand::Ptr cmd)</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_ad046c8d5f33e9cb7288d6887ed4a8f97"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#ad046c8d5f33e9cb7288d6887ed4a8f97">BeeeOn::VirtualDeviceManager::installVirtualDevices</a></div><div class="ttdeci">void installVirtualDevices()</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_aef1f72b59fd1b00e7ffc42bc6a49f4ec"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#aef1f72b59fd1b00e7ffc42bc6a49f4ec">BeeeOn::VirtualDeviceManager::doListenCommand</a></div><div class="ttdeci">void doListenCommand(const GatewayListenCommand::Ptr)</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_ac0b0117724fe2ccc5d7019df5e30cb60"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#ac0b0117724fe2ccc5d7019df5e30cb60">BeeeOn::VirtualDeviceManager::parseDevice</a></div><div class="ttdeci">VirtualDevice::Ptr parseDevice(Poco::AutoPtr&lt; Poco::Util::AbstractConfiguration &gt; cfg)</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a1893cdc0dc1646b47886d79316a8dda3"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a1893cdc0dc1646b47886d79316a8dda3">BeeeOn::VirtualDeviceManager::doUnpairCommand</a></div><div class="ttdeci">void doUnpairCommand(const DeviceUnpairCommand::Ptr cmd)</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a97e4a3f6a05e606f4efa1a86ccd8395e"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a97e4a3f6a05e606f4efa1a86ccd8395e">BeeeOn::VirtualDeviceManager::parseModule</a></div><div class="ttdeci">VirtualModule::Ptr parseModule(Poco::AutoPtr&lt; Poco::Util::AbstractConfiguration &gt; cfg, const ModuleID &amp;moduleID)</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntry_html_adcf389fa0397d08d5e92715baeb823ad"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntry.html#adcf389fa0397d08d5e92715baeb823ad">BeeeOn::VirtualDeviceEntry::setInserted</a></div><div class="ttdeci">void setInserted(const Poco::Timestamp &amp;t)</div></div>
+<div class="ttc" id="classBeeeOn_1_1PollingKeeper_html"><div class="ttname"><a href="classBeeeOn_1_1PollingKeeper.html">BeeeOn::PollingKeeper</a></div><div class="ttdoc">PollingKeeper takes care of devices that are being polled. It cancels all polled devices it manages u...</div><div class="ttdef"><b>Definition:</b> PollingKeeper.h:15</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_afa8424652f31f5952a4ddd86f472625f"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">BeeeOn::VirtualDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntry_html_a158eb2e218d5fd2a39b370717bff1bd1"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntry.html#a158eb2e218d5fd2a39b370717bff1bd1">BeeeOn::VirtualDeviceEntry::activationTime</a></div><div class="ttdeci">Poco::Timestamp activationTime() const </div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html">BeeeOn::VirtualDeviceManager</a></div><div class="ttdef"><b>Definition:</b> VirtualDeviceManager.h:87</div></div>
+<div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html">BeeeOn::VirtualDeviceManager</a></div><div class="ttdef"><b>Definition:</b> VirtualDeviceManager.h:29</div></div>
 <div class="ttc" id="classBeeeOn_1_1Enum_html"><div class="ttname"><a href="classBeeeOn_1_1Enum.html">BeeeOn::Enum&lt; DevicePrefixEnum, DevicePrefixEnum::Raw, DevicePrefixNamesInitializer &gt;</a></div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a8d1fd225729c980b0e465458795485a0"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">BeeeOn::VirtualDeviceManager::handleGeneric</a></div><div class="ttdeci">void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></div><div class="ttdef"><b>Definition:</b> DeviceManager.h:48</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntry_html_ae7cb06dfe94b4df58ac2b23dd0515a3c"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntry.html#ae7cb06dfe94b4df58ac2b23dd0515a3c">BeeeOn::VirtualDeviceEntry::device</a></div><div class="ttdeci">VirtualDevice::Ptr device() const </div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_ac05d0b8b0745dc7fdf7444ed3b57fbfd"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#ac05d0b8b0745dc7fdf7444ed3b57fbfd">BeeeOn::VirtualDeviceManager::logDeviceParsed</a></div><div class="ttdeci">void logDeviceParsed(VirtualDevice::Ptr device)</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_a878c6f366535a4a09540bba2585cee74"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#a878c6f366535a4a09540bba2585cee74">BeeeOn::VirtualDeviceManager::isEmptyQueue</a></div><div class="ttdeci">bool isEmptyQueue()</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntryComparator_html"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntryComparator.html">BeeeOn::VirtualDeviceEntryComparator</a></div><div class="ttdef"><b>Definition:</b> VirtualDeviceManager.h:56</div></div>
-<div class="ttc" id="classBeeeOn_1_1VirtualDeviceEntryComparator_html_a329fe2609f389f5052508b13bd4a029b"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceEntryComparator.html#a329fe2609f389f5052508b13bd4a029b">BeeeOn::VirtualDeviceEntryComparator::operator()</a></div><div class="ttdeci">bool operator()(const VirtualDeviceEntry &amp;deviceQueue1, const VirtualDeviceEntry &amp;deviceQueue2) const </div><div class="ttdef"><b>Definition:</b> VirtualDeviceManager.h:67</div></div>
 <div class="ttc" id="classBeeeOn_1_1VirtualDeviceManager_html_abad35caf4f63826d05b7b7920ca9e36f"><div class="ttname"><a href="classBeeeOn_1_1VirtualDeviceManager.html#abad35caf4f63826d05b7b7920ca9e36f">BeeeOn::VirtualDeviceManager::setConfigFile</a></div><div class="ttdeci">void setConfigFile(const std::string &amp;path)</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceManager_html_a5409f8a69e76bd6b33b9b5ceffe18ba4"><div class="ttname"><a href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">BeeeOn::DeviceManager::prefix</a></div><div class="ttdeci">DevicePrefix prefix() const override</div><div class="ttdef"><b>Definition:</b> DeviceManager.cpp:32</div></div>
 </div><!-- fragment --></div><!-- contents -->

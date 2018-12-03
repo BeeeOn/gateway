@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
+   &#160;<span id="projectnumber">v2018.07.1-104-g6d7d161</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -58,6 +58,15 @@
 <div class="title">BeeeOn::VirtualDevice Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for BeeeOn::VirtualDevice:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classBeeeOn_1_1VirtualDevice.png" usemap="#BeeeOn::VirtualDevice_map" alt=""/>
+  <map id="BeeeOn::VirtualDevice_map" name="BeeeOn::VirtualDevice_map">
+<area href="classBeeeOn_1_1PollableDevice.html" title="PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti..." alt="BeeeOn::PollableDevice" shape="rect" coords="0,0,149,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -65,15 +74,19 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1VirtualDevice.html">VirtualDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:acb5b1def07ad029c21a59e2973c32021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1PollableDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1PollableDevice')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></td></tr>
+<tr class="memitem:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a554312c9f670af640410173bf929db12"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab29dbb5fce191e4ef9b73be18b8974c4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab29dbb5fce191e4ef9b73be18b8974c4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceId</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceId)</td></tr>
-<tr class="separator:ab29dbb5fce191e4ef9b73be18b8974c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b06245fc585a405c9723fb553093f72"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b06245fc585a405c9723fb553093f72"></a>
-<a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>deviceID</b> () const </td></tr>
-<tr class="separator:a7b06245fc585a405c9723fb553093f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb59c08c0195da5112d8d39d3f55308a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb59c08c0195da5112d8d39d3f55308a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setID</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceId)</td></tr>
+<tr class="separator:acb59c08c0195da5112d8d39d3f55308a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bab1aca61039749d7d4c391e600115c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDevice.html#a1bab1aca61039749d7d4c391e600115c">id</a> () const override</td></tr>
+<tr class="separator:a1bab1aca61039749d7d4c391e600115c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a096755f29f864c8e26e4a1b3b3f0d230"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a096755f29f864c8e26e4a1b3b3f0d230"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setVendorName</b> (const std::string &amp;vendorName)</td></tr>
 <tr class="separator:a096755f29f864c8e26e4a1b3b3f0d230"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,18 +109,50 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addModule</b> (const 
 std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>moduleTypes</b> () const </td></tr>
 <tr class="separator:ab0d6effd0d56a702fc5fab962705abdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41c7ec14dd05a06b9cfad267408a800a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41c7ec14dd05a06b9cfad267408a800a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setRefresh</b> (const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refresh)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setRefresh</b> (const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1VirtualDevice.html#a0b9de6c52372762084a6239951be2030">refresh</a>)</td></tr>
 <tr class="separator:a41c7ec14dd05a06b9cfad267408a800a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2b38b80bcfce3b98674cb978b535fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad2b38b80bcfce3b98674cb978b535fe"></a>
-<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><b>refresh</b> () const </td></tr>
-<tr class="separator:aad2b38b80bcfce3b98674cb978b535fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b9de6c52372762084a6239951be2030"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b9de6c52372762084a6239951be2030"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDevice.html#a0b9de6c52372762084a6239951be2030">refresh</a> () const override</td></tr>
+<tr class="memdesc:a0b9de6c52372762084a6239951be2030"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular period telling how often to call the method <a class="el" href="classBeeeOn_1_1PollableDevice.html#ad490bc1409ed2579ceea8bff5a7203ac" title="Perform polling for data and ship them via the given distributor. ">PollableDevice::poll()</a>. The refresh must contain a valid time. <br/></td></tr>
+<tr class="separator:a0b9de6c52372762084a6239951be2030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa661940536397e6ccc5832da00891467"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa661940536397e6ccc5832da00891467"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>modifyValue</b> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, double value)</td></tr>
 <tr class="separator:aa661940536397e6ccc5832da00891467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50c5297c7787f08b6b60054f0a0449cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50c5297c7787f08b6b60054f0a0449cf"></a>
 <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><b>generate</b> ()</td></tr>
 <tr class="separator:a50c5297c7787f08b6b60054f0a0449cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f1ea652956e9ad37004d9f73a6f9316"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f1ea652956e9ad37004d9f73a6f9316"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VirtualDevice.html#a1f1ea652956e9ad37004d9f73a6f9316">poll</a> (Distributor::Ptr distributor) override</td></tr>
+<tr class="memdesc:a1f1ea652956e9ad37004d9f73a6f9316"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform polling for data and ship them via the given distributor. <br/></td></tr>
+<tr class="separator:a1f1ea652956e9ad37004d9f73a6f9316"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1bab1aca61039749d7d4c391e600115c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> VirtualDevice::id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>ID of the device. </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1PollableDevice.html#a9e5c3f6f283809fc1540fff4066a0451">BeeeOn::PollableDevice</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/vdev/<a class="el" href="VirtualDevice_8h_source.html">VirtualDevice.h</a></li>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/vdev/VirtualDevice.cpp</li>
