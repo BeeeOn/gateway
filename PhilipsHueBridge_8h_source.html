@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-83-g316ee49</span>
+   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -82,74 +82,76 @@
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> Poco::Timespan SLEEP_BETWEEN_ATTEMPTS;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html">PhilipsHueBridge</a>(<span class="keyword">const</span> Poco::Net::SocketAddress&amp; address);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">static</span> PhilipsHueBridge::Ptr <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a372620ea73911ee552eba13349cf12fe">buildDevice</a>(<span class="keyword">const</span> Poco::Net::SocketAddress&amp; address,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a938d12b3999684d527225128e2223be2">authorize</a>(<span class="keyword">const</span> std::string&amp; deviceType = <span class="stringliteral">&quot;BeeeOn#gateway&quot;</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a3dd4ea15ab9259871e0ee3b2a81c6b67">requestSearchNewDevices</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        std::list&lt;std::pair&lt;std::string, std::pair&lt;uint32_t, PhilipsHueBridge::BulbID&gt;&gt;&gt; <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#ae783b6078630749df553fe32b3104aff">requestDeviceList</a>();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#ad3227fe8184dd9e0176464e116be5540">requestModifyState</a>(<span class="keyword">const</span> uint32_t ordinalNumber,</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keyword">const</span> std::string&amp; capability, <span class="keyword">const</span> Poco::Dynamic::Var value);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a487a0620e2500db80d2ae627690f43fb">requestDeviceState</a>(<span class="keyword">const</span> uint32_t ordinalNumber);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        Poco::Net::SocketAddress address() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordtype">void</span> setAddress(<span class="keyword">const</span> Poco::Net::SocketAddress&amp; address);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> macAddress() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        std::string username() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordtype">void</span> setCredentials(<span class="keyword">const</span> Poco::SharedPtr&lt;PasswordCredentials&gt; credential,</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="keyword">const</span> Poco::SharedPtr&lt;CryptoConfig&gt; config);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        uint32_t countOfBulbs();</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        Poco::FastMutex&amp; lock();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a5093f6299b235b877db10bdb99b8a1eb">PhilipsHueBridge</a>(</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keyword">const</span> Poco::Net::SocketAddress&amp; address,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a938d12b3999684d527225128e2223be2">authorize</a>(<span class="keyword">const</span> std::string&amp; deviceType = <span class="stringliteral">&quot;BeeeOn#gateway&quot;</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a3dd4ea15ab9259871e0ee3b2a81c6b67">requestSearchNewDevices</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        std::list&lt;std::pair&lt;std::string, std::pair&lt;uint32_t, PhilipsHueBridge::BulbID&gt;&gt;&gt; <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#ae783b6078630749df553fe32b3104aff">requestDeviceList</a>();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#ad3227fe8184dd9e0176464e116be5540">requestModifyState</a>(</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keyword">const</span> uint32_t ordinalNumber,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keyword">const</span> std::string&amp; capability,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keyword">const</span> Poco::Dynamic::Var value);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        std::string <a class="code" href="classBeeeOn_1_1PhilipsHueBridge.html#a487a0620e2500db80d2ae627690f43fb">requestDeviceState</a>(<span class="keyword">const</span> uint32_t ordinalNumber);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        Poco::Net::SocketAddress address() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordtype">void</span> setAddress(<span class="keyword">const</span> Poco::Net::SocketAddress&amp; address);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> macAddress() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        std::string username() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordtype">void</span> setCredentials(<span class="keyword">const</span> Poco::SharedPtr&lt;PasswordCredentials&gt; credential,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keyword">const</span> Poco::SharedPtr&lt;CryptoConfig&gt; config);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        uint32_t countOfBulbs();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        Poco::FastMutex&amp; lock();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBridgeInfo.html">PhilipsHueBridgeInfo</a> info();</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBridgeInfo.html">PhilipsHueBridgeInfo</a> info();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordtype">void</span> requestDeviceInfo();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        PhilipsHueBridge::BulbID decodeBulbID(<span class="keyword">const</span> std::string&amp; strBulbID) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordtype">void</span> incrementCountOfBulbs();</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordtype">void</span> decrementCountOfBulbs();</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <a class="code" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a> sendRequest(Poco::Net::HTTPRequest&amp; request, <span class="keyword">const</span> std::string&amp; message,</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="keyword">const</span> Poco::Net::SocketAddress&amp; address, <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        Poco::Net::SocketAddress m_address;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> m_macAddr;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        Poco::SharedPtr&lt;PasswordCredentials&gt; m_credential;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        Poco::SharedPtr&lt;CryptoConfig&gt; m_cryptoConfig;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        Poco::FastMutex m_lockCountOfBulbs;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordtype">int</span> m_countOfBulbs;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        Poco::FastMutex m_lock;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        Poco::Timespan m_httpTimeout;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;};</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a372620ea73911ee552eba13349cf12fe"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a372620ea73911ee552eba13349cf12fe">BeeeOn::PhilipsHueBridge::buildDevice</a></div><div class="ttdeci">static PhilipsHueBridge::Ptr buildDevice(const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;timeout)</div><div class="ttdoc">Creates Philips Hue Bridge. If the device do not respond in specified timeout, Poco::TimeoutException...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:37</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a3dd4ea15ab9259871e0ee3b2a81c6b67"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a3dd4ea15ab9259871e0ee3b2a81c6b67">BeeeOn::PhilipsHueBridge::requestSearchNewDevices</a></div><div class="ttdeci">void requestSearchNewDevices()</div><div class="ttdoc">Prepares POST HTTP request containing request to search new devices command and sends it to device vi...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:125</div></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordtype">void</span> requestDeviceInfo();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        PhilipsHueBridge::BulbID decodeBulbID(<span class="keyword">const</span> std::string&amp; strBulbID) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordtype">void</span> incrementCountOfBulbs();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordtype">void</span> decrementCountOfBulbs();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <a class="code" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a> sendRequest(</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                Poco::Net::HTTPRequest&amp; request,</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keyword">const</span> std::string&amp; message,</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="keyword">const</span> Poco::Net::SocketAddress&amp; address,</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        Poco::Net::SocketAddress m_address;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> m_macAddr;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        Poco::SharedPtr&lt;PasswordCredentials&gt; m_credential;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        Poco::SharedPtr&lt;CryptoConfig&gt; m_cryptoConfig;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        Poco::FastMutex m_lockCountOfBulbs;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordtype">int</span> m_countOfBulbs;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        Poco::FastMutex m_lock;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        Poco::Timespan m_httpTimeout;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;};</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a3dd4ea15ab9259871e0ee3b2a81c6b67"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a3dd4ea15ab9259871e0ee3b2a81c6b67">BeeeOn::PhilipsHueBridge::requestSearchNewDevices</a></div><div class="ttdeci">void requestSearchNewDevices()</div><div class="ttdoc">Prepares POST HTTP request containing request to search new devices command and sends it to device vi...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:120</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html">BeeeOn::PhilipsHueBridge</a></div><div class="ttdoc">The class represents Philips Hue Bridge. Provides functions to control the bulbs. It means turn on...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.h:27</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a487a0620e2500db80d2ae627690f43fb"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a487a0620e2500db80d2ae627690f43fb">BeeeOn::PhilipsHueBridge::requestDeviceState</a></div><div class="ttdeci">std::string requestDeviceState(const uint32_t ordinalNumber)</div><div class="ttdoc">Prepares GET HTTP request containing request state of proper device command and sends it to device vi...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:277</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a487a0620e2500db80d2ae627690f43fb"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a487a0620e2500db80d2ae627690f43fb">BeeeOn::PhilipsHueBridge::requestDeviceState</a></div><div class="ttdeci">std::string requestDeviceState(const uint32_t ordinalNumber)</div><div class="ttdoc">Prepares GET HTTP request containing request state of proper device command and sends it to device vi...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:274</div></div>
 <div class="ttc" id="classBeeeOn_1_1HTTPEntireResponse_html"><div class="ttname"><a href="classBeeeOn_1_1HTTPEntireResponse.html">BeeeOn::HTTPEntireResponse</a></div><div class="ttdef"><b>Definition:</b> HTTPEntireResponse.h:13</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_ae783b6078630749df553fe32b3104aff"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#ae783b6078630749df553fe32b3104aff">BeeeOn::PhilipsHueBridge::requestDeviceList</a></div><div class="ttdeci">std::list&lt; std::pair&lt; std::string, std::pair&lt; uint32_t, PhilipsHueBridge::BulbID &gt; &gt; &gt; requestDeviceList()</div><div class="ttdoc">Prepares GET HTTP request containing request device list command and sends it to device via HTTP...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:166</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_ae783b6078630749df553fe32b3104aff"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#ae783b6078630749df553fe32b3104aff">BeeeOn::PhilipsHueBridge::requestDeviceList</a></div><div class="ttdeci">std::list&lt; std::pair&lt; std::string, std::pair&lt; uint32_t, PhilipsHueBridge::BulbID &gt; &gt; &gt; requestDeviceList()</div><div class="ttdoc">Prepares GET HTTP request containing request device list command and sends it to device via HTTP...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:161</div></div>
 <div class="ttc" id="classBeeeOn_1_1MACAddress_html"><div class="ttname"><a href="classBeeeOn_1_1MACAddress.html">BeeeOn::MACAddress</a></div><div class="ttdef"><b>Definition:</b> MACAddress.h:8</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_ad3227fe8184dd9e0176464e116be5540"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#ad3227fe8184dd9e0176464e116be5540">BeeeOn::PhilipsHueBridge::requestModifyState</a></div><div class="ttdeci">bool requestModifyState(const uint32_t ordinalNumber, const std::string &amp;capability, const Poco::Dynamic::Var value)</div><div class="ttdoc">Prepares JSON message containing request modify state command of proper device and sends it to device...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:220</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_ad3227fe8184dd9e0176464e116be5540"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#ad3227fe8184dd9e0176464e116be5540">BeeeOn::PhilipsHueBridge::requestModifyState</a></div><div class="ttdeci">bool requestModifyState(const uint32_t ordinalNumber, const std::string &amp;capability, const Poco::Dynamic::Var value)</div><div class="ttdoc">Prepares JSON message containing request modify state command of proper device and sends it to device...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:215</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a5093f6299b235b877db10bdb99b8a1eb"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a5093f6299b235b877db10bdb99b8a1eb">BeeeOn::PhilipsHueBridge::PhilipsHueBridge</a></div><div class="ttdeci">PhilipsHueBridge(const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;timeout)</div><div class="ttdoc">Creates Philips Hue Bridge. If the device do not respond in specified timeout, Poco::TimeoutException...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:31</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueBulb_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBulb.html">BeeeOn::PhilipsHueBulb</a></div><div class="ttdoc">Abstract class representing generic Philips Hue bulb. </div><div class="ttdef"><b>Definition:</b> PhilipsHueBulb.h:22</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueBridgeInfo_html"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridgeInfo.html">BeeeOn::PhilipsHueBridgeInfo</a></div><div class="ttdef"><b>Definition:</b> PhilipsHueBridgeInfo.h:12</div></div>
-<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a938d12b3999684d527225128e2223be2"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a938d12b3999684d527225128e2223be2">BeeeOn::PhilipsHueBridge::authorize</a></div><div class="ttdeci">std::string authorize(const std::string &amp;deviceType=&quot;BeeeOn#gateway&quot;)</div><div class="ttdoc">Authorization of the gateway to Philips Hue Bridge. It starts by sending an HTTP authorization reques...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:72</div></div>
+<div class="ttc" id="classBeeeOn_1_1PhilipsHueBridge_html_a938d12b3999684d527225128e2223be2"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBridge.html#a938d12b3999684d527225128e2223be2">BeeeOn::PhilipsHueBridge::authorize</a></div><div class="ttdeci">std::string authorize(const std::string &amp;deviceType=&quot;BeeeOn#gateway&quot;)</div><div class="ttdoc">Authorization of the gateway to Philips Hue Bridge. It starts by sending an HTTP authorization reques...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBridge.cpp:67</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

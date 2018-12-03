@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-83-g316ee49</span>
+   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -76,31 +76,34 @@
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">double</span> MAX_DIM;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBulb.html#ac18a0cbd2aaa5ce6c866d8ea690d7065">PhilipsHueBulb</a>(<span class="keyword">const</span> uint32_t ordinalNumber, <span class="keyword">const</span> PhilipsHueBridge::BulbID bulbId, <span class="keyword">const</span> PhilipsHueBridge::Ptr bridge);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        ~<a class="code" href="classBeeeOn_1_1PhilipsHueBulb.html">PhilipsHueBulb</a>();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> requestModifyState(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value) = 0;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> requestState() = 0;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBulb.html#ac18a0cbd2aaa5ce6c866d8ea690d7065">PhilipsHueBulb</a>(</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">const</span> uint32_t ordinalNumber,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keyword">const</span> PhilipsHueBridge::BulbID bulbId,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keyword">const</span> PhilipsHueBridge::Ptr bridge);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        ~<a class="code" href="classBeeeOn_1_1PhilipsHueBulb.html">PhilipsHueBulb</a>();</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">virtual</span> std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">virtual</span> std::string name() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        Poco::FastMutex&amp; lock();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        PhilipsHueBridge::Ptr bridge();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBulbInfo.html">PhilipsHueBulbInfo</a> info();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> requestModifyState(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value) = 0;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> requestState() = 0;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">virtual</span> std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">virtual</span> std::string name() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        Poco::FastMutex&amp; lock();</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">int</span> dimToPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">int</span> dimFromPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> percents);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceID;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        uint32_t m_ordinalNumber;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        PhilipsHueBridge::Ptr m_bridge;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        PhilipsHueBridge::Ptr bridge();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="classBeeeOn_1_1PhilipsHueBulbInfo.html">PhilipsHueBulbInfo</a> info();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">int</span> dimToPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">int</span> dimFromPercentage(<span class="keyword">const</span> <span class="keywordtype">double</span> percents);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceID;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        uint32_t m_ordinalNumber;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        PhilipsHueBridge::Ptr m_bridge;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1SensorData_html"><div class="ttname"><a href="classBeeeOn_1_1SensorData.html">BeeeOn::SensorData</a></div><div class="ttdef"><b>Definition:</b> SensorData.h:20</div></div>
 <div class="ttc" id="classBeeeOn_1_1PhilipsHueBulb_html_ac18a0cbd2aaa5ce6c866d8ea690d7065"><div class="ttname"><a href="classBeeeOn_1_1PhilipsHueBulb.html#ac18a0cbd2aaa5ce6c866d8ea690d7065">BeeeOn::PhilipsHueBulb::PhilipsHueBulb</a></div><div class="ttdeci">PhilipsHueBulb(const uint32_t ordinalNumber, const PhilipsHueBridge::BulbID bulbId, const PhilipsHueBridge::Ptr bridge)</div><div class="ttdoc">The DeviceID is created based on a bulb&amp;#39;s 64-bit identifier, where DevicePrefix is given on 8th byte...</div><div class="ttdef"><b>Definition:</b> PhilipsHueBulb.cpp:14</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>

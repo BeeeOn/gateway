@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-83-g316ee49</span>
+   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -54,7 +54,6 @@
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#friends">Friends</a>  </div>
   <div class="headertitle">
@@ -88,6 +87,9 @@ typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>BulbID</b
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a5093f6299b235b877db10bdb99b8a1eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBridge.html#a5093f6299b235b877db10bdb99b8a1eb">PhilipsHueBridge</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memdesc:a5093f6299b235b877db10bdb99b8a1eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates Philips Hue Bridge. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#a5093f6299b235b877db10bdb99b8a1eb">More...</a><br/></td></tr>
+<tr class="separator:a5093f6299b235b877db10bdb99b8a1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a938d12b3999684d527225128e2223be2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBridge.html#a938d12b3999684d527225128e2223be2">authorize</a> (const std::string &amp;deviceType=&quot;BeeeOn#gateway&quot;)</td></tr>
 <tr class="memdesc:a938d12b3999684d527225128e2223be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Authorization of the gateway to Philips Hue Bridge. It starts by sending an HTTP authorization request. After that, the user has to press the button on the bridge at a certain time. This generates a username by which we can control the bridge.  <a href="#a938d12b3999684d527225128e2223be2">More...</a><br/></td></tr>
 <tr class="separator:a938d12b3999684d527225128e2223be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,12 +132,6 @@ Poco::FastMutex &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>lock
 <tr class="memitem:a8139412730a6db28e23cd448d0f10154"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8139412730a6db28e23cd448d0f10154"></a>
 <a class="el" href="classBeeeOn_1_1PhilipsHueBridgeInfo.html">PhilipsHueBridgeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><b>info</b> ()</td></tr>
 <tr class="separator:a8139412730a6db28e23cd448d0f10154"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a372620ea73911ee552eba13349cf12fe"><td class="memItemLeft" align="right" valign="top">static PhilipsHueBridge::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBridge.html#a372620ea73911ee552eba13349cf12fe">buildDevice</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a372620ea73911ee552eba13349cf12fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates Philips Hue Bridge. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#a372620ea73911ee552eba13349cf12fe">More...</a><br/></td></tr>
-<tr class="separator:a372620ea73911ee552eba13349cf12fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -187,7 +183,43 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents Philips Hue Bridge. Provides functions to control the bulbs. It means turn on, turn off, modify dim, get state of bulb. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5093f6299b235b877db10bdb99b8a1eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PhilipsHueBridge::PhilipsHueBridge </td>
+          <td>(</td>
+          <td class="paramtype">const Poco::Net::SocketAddress &amp;&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates Philips Hue Bridge. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">&amp;address</td><td>IP address and port where the device is listening. </td></tr>
+    <tr><td class="paramname">&amp;timeout</td><td>HTTP timeout. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a938d12b3999684d527225128e2223be2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -206,50 +238,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>Example of request's body: { "devicetype":"BeeeOn#gateway" }</p>
 <p>Example of successful response's body: [ { "success": { "username": "YTV2PIPXrtrnHFLafGQlcVyrcxSgNo8wv-NQPmVk" } } ]</p>
 <p>Example of failed response's body: [ { "error": { "type": 101, "address": "", "description": "link button not pressed" } } ] </p>
-
-</div>
-</div>
-<a class="anchor" id="a372620ea73911ee552eba13349cf12fe"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">PhilipsHueBridge::Ptr PhilipsHueBridge::buildDevice </td>
-          <td>(</td>
-          <td class="paramtype">const Poco::Net::SocketAddress &amp;&#160;</td>
-          <td class="paramname"><em>address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>timeout</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates Philips Hue Bridge. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">&amp;address</td><td>IP address and port where the device is listening. </td></tr>
-    <tr><td class="paramname">&amp;timeout</td><td>HTTP timeout. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Philips Hue Bridge. </dd></dl>
 
 </div>
 </div>

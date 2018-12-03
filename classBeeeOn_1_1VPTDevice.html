@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.07.1-83-g316ee49</span>
+   &#160;<span id="projectnumber">v2018.07.1-96-gb5d3229</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -89,6 +89,9 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a189ba51df97795cb2744845065e8dcb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a189ba51df97795cb2744845065e8dcb3">VPTDevice</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const Poco::Timespan &amp;pingTimeout, const <a class="el" href="classBeeeOn_1_1GatewayID.html">GatewayID</a> &amp;id)</td></tr>
+<tr class="memdesc:a189ba51df97795cb2744845065e8dcb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects to specified address to fetch information for creating VPT Device. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#a189ba51df97795cb2744845065e8dcb3">More...</a><br/></td></tr>
+<tr class="separator:a189ba51df97795cb2744845065e8dcb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ab2a1a9a98388397ca728bca6fcba10"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ab2a1a9a98388397ca728bca6fcba10"></a>
 <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>boilerID</b> () const </td></tr>
 <tr class="separator:a6ab2a1a9a98388397ca728bca6fcba10"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,9 +131,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a421a468d2618623367c3a0b3888f23af"><td class="memItemLeft" align="right" valign="top">static VPTDevice::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a421a468d2618623367c3a0b3888f23af">buildDevice</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const Poco::Timespan &amp;pingTimeout, const <a class="el" href="classBeeeOn_1_1GatewayID.html">GatewayID</a> &amp;id)</td></tr>
-<tr class="memdesc:a421a468d2618623367c3a0b3888f23af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects to specified address to fetch information for creating VPT Device. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#a421a468d2618623367c3a0b3888f23af">More...</a><br/></td></tr>
-<tr class="separator:a421a468d2618623367c3a0b3888f23af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83b07f4c88f29e96b21c398ed62a8739"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83b07f4c88f29e96b21c398ed62a8739"></a>
 static <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a83b07f4c88f29e96b21c398ed62a8739">createSubdeviceID</a> (const int zone, const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
 <tr class="memdesc:a83b07f4c88f29e96b21c398ed62a8739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> from VPT <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> and number of zone. <br/></td></tr>
@@ -218,16 +218,13 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents Thermona Regulator VPT LAN v1.0. It provides functions to control the VPT and to gather data from its sensors. Each VPT regulator consists of up to 4 zones and 1 boiler. This means one instance of <a class="el" href="classBeeeOn_1_1VPTDevice.html" title="The class represents Thermona Regulator VPT LAN v1.0. It provides functions to control the VPT and to...">VPTDevice</a> takes care of 5 devices. Each subdevice has own <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a421a468d2618623367c3a0b3888f23af"></a>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a189ba51df97795cb2744845065e8dcb3"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">VPTDevice::Ptr VPTDevice::buildDevice </td>
+          <td class="memname">VPTDevice::VPTDevice </td>
           <td>(</td>
           <td class="paramtype">const Poco::Net::SocketAddress &amp;&#160;</td>
           <td class="paramname"><em>address</em>, </td>
@@ -256,11 +253,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Connects to specified address to fetch information for creating VPT Device. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. </p>
@@ -273,10 +265,10 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classBeeeOn_1_1VPTDevice.html" title="The class represents Thermona Regulator VPT LAN v1.0. It provides functions to control the VPT and to...">VPTDevice</a>. </dd></dl>
 
 </div>
 </div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aad042bdd42b151ac58f2c4afa2a26066"></a>
 <div class="memitem">
 <div class="memproto">
