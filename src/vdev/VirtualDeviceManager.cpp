@@ -22,6 +22,7 @@ BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &VirtualDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("file", &VirtualDeviceManager::setConfigFile)
 BEEEON_OBJECT_PROPERTY("distributor", &VirtualDeviceManager::setDistributor)
+BEEEON_OBJECT_PROPERTY("devicePoller", &VirtualDeviceManager::setDevicePoller)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &VirtualDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_HOOK("done", &VirtualDeviceManager::installVirtualDevices)
 BEEEON_OBJECT_END(BeeeOn, VirtualDeviceManager)
@@ -43,17 +44,22 @@ VirtualDeviceManager::VirtualDeviceManager():
 {
 }
 
+void VirtualDeviceManager::setDevicePoller(DevicePoller::Ptr poller)
+{
+	m_pollingKeeper.setDevicePoller(poller);
+}
+
 void VirtualDeviceManager::registerDevice(
 	const VirtualDevice::Ptr device)
 {
-	if (!m_virtualDevicesMap.emplace(device->deviceID(), device).second) {
+	if (!m_virtualDevicesMap.emplace(device->id(), device).second) {
 		throw ExistsException("registering duplicate device: "
-			+ device->deviceID().toString());
+			+ device->id().toString());
 	}
 
 	logger().debug(
 		"registering new virtual device "
-		+ device->deviceID().toString(),
+		+ device->id().toString(),
 		__FILE__, __LINE__
 	);
 }
@@ -62,17 +68,17 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 {
 	logger().information(
 		"virtual device: "
-		+ device->deviceID().toString(),
+		+ device->id().toString(),
 		__FILE__, __LINE__
 	);
 
 	logger().debug(
 		"virtual device: "
-		+ device->deviceID().toString()
+		+ device->id().toString()
 		+ ", modules: "
 		+ to_string(device->modules().size())
 		+ ", paired: "
-		+ (deviceCache()->paired(device->deviceID()) ? "yes" : "no")
+		+ (deviceCache()->paired(device->id()) ? "yes" : "no")
 		+ ", refresh: "
 		+ device->refresh().toString()
 		+ ", vendor: "
@@ -85,7 +91,7 @@ void VirtualDeviceManager::logDeviceParsed(VirtualDevice::Ptr device)
 	for (auto &module : device->modules()) {
 		logger().trace(
 			"virtual device: "
-			+ device->deviceID().toString()
+			+ device->id().toString()
 			+ ", module: "
 			+ module->moduleID().toString()
 			+ ", type: "
@@ -102,17 +108,16 @@ VirtualDevice::Ptr VirtualDeviceManager::parseDevice(
 
 	DeviceID id = DeviceID::parse(cfg->getString("device_id"));
 	if (id.prefix() != DevicePrefix::PREFIX_VIRTUAL_DEVICE) {
-		device->setDeviceId(
-			DeviceID(DevicePrefix::PREFIX_VIRTUAL_DEVICE, id.ident()));
+		device->setID(DeviceID(DevicePrefix::PREFIX_VIRTUAL_DEVICE, id.ident()));
 
 		logger().warning(
 			"device prefix was wrong, overriding ID to "
-			+ device->deviceID().toString(),
+			+ device->id().toString(),
 			__FILE__, __LINE__
 		);
 	}
 	else {
-		device->setDeviceId(id);
+		device->setID(id);
 	}
 
 	unsigned int refresh = cfg->getUInt("refresh", DEFAULT_REFRESH_SECS);
@@ -208,7 +213,7 @@ void VirtualDeviceManager::installVirtualDevices()
 void VirtualDeviceManager::dispatchNewDevice(VirtualDevice::Ptr device)
 {
 	const auto description = DeviceDescription::Builder()
-		.id(device->deviceID())
+		.id(device->id())
 		.type(device->vendorName(), device->productName())
 		.modules(device->moduleTypes())
 		.refreshTime(device->refresh())
@@ -243,9 +248,8 @@ void VirtualDeviceManager::doDeviceAcceptCommand(
 		);
 	}
 
-	const VirtualDeviceEntry entry(it->second);
 	deviceCache()->markPaired(cmd->deviceID());
-	scheduleEntryUnlocked(entry);
+	m_pollingKeeper.schedule(it->second);
 }
 
 void VirtualDeviceManager::doUnpairCommand(
@@ -272,6 +276,7 @@ void VirtualDeviceManager::doUnpairCommand(
 	}
 
 	deviceCache()->markUnpaired(cmd->deviceID());
+	m_pollingKeeper.cancel(cmd->deviceID());
 }
 
 void VirtualDeviceManager::doSetValueCommand(
@@ -331,125 +336,29 @@ void VirtualDeviceManager::handleRemoteStatus(
 void VirtualDeviceManager::scheduleAllEntries()
 {
 	FastMutex::ScopedLock guard(m_lock);
-	for (auto &item : m_virtualDevicesMap) {
-		if (deviceCache()->paired(item.first)) {
-			const VirtualDeviceEntry entry(item.second);
-			scheduleEntryUnlocked(VirtualDeviceEntry(item.second));
-		}
-	}
-}
 
-bool VirtualDeviceManager::isEmptyQueue()
-{
-	FastMutex::ScopedLock guard(m_lock);
-	return m_virtualDeviceQueue.empty();
+	for (auto &item : m_virtualDevicesMap) {
+		if (deviceCache()->paired(item.first))
+			m_pollingKeeper.schedule(item.second);
+		else
+			m_pollingKeeper.cancel(item.first);
+	}
 }
 
 void VirtualDeviceManager::run()
 {
-	scheduleAllEntries();
-
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
-		if (isEmptyQueue()) {
-			logger().debug(
-				"empty queue of devices",
-				__FILE__, __LINE__);
-			run.waitStoppable(-1);
-			continue;
-		}
-
-		ScopedLockWithUnlock<FastMutex> guard(m_lock);
-		const VirtualDeviceEntry entry = m_virtualDeviceQueue.top();
-
-		if (!deviceCache()->paired(entry.device()->deviceID())) {
-			logger().debug(
-				"unpaired device "
-				+ entry.device()->deviceID().toString()
-				+ " was removed from queue",
-				__FILE__, __LINE__);
-			m_virtualDeviceQueue.pop();
-			continue;
-		}
-
-		Timestamp now;
-		const Timestamp &activationTime = entry.activationTime();
-		const Timespan sleepTime(activationTime - now);
-		if (sleepTime.totalMilliseconds() > 0) {
-			guard.unlock();
-			logger().debug(
-				"device "
-				+ entry.device()->deviceID().toString()
-				+ " will be activated in "
-				+ to_string(sleepTime.totalMilliseconds())
-				+ " milliseconds",
-				__FILE__, __LINE__);
-			run.waitStoppable(sleepTime);
-			continue;
-		}
-
-		m_virtualDeviceQueue.pop();
-
-		logger().debug(
-			"device "
-			+ entry.device()->deviceID().toString()
-			+ " is being processed",
-			__FILE__, __LINE__);
-
-		SensorData sensorData = entry.device()->generate();
-		if (!sensorData.isEmpty()) {
-			ship(entry.device()->generate());
-		}
-		else {
-			poco_debug(logger(), "received empty SensorData");
-		}
-
-		scheduleEntryUnlocked(entry);
+		scheduleAllEntries();
+		run.waitStoppable(DEFAULT_REFRESH_SECS * Timespan::SECONDS);
 	}
+
+	m_pollingKeeper.cancelAll();
 }
 
 void VirtualDeviceManager::stop()
 {
 	DeviceManager::stop();
 	answerQueue().dispose();
-}
-
-void VirtualDeviceManager::scheduleEntryUnlocked(VirtualDeviceEntry entry)
-{
-	entry.setInserted(Timestamp());
-	m_virtualDeviceQueue.push(entry);
-	m_stopControl.requestWakeup();
-}
-
-bool VirtualDeviceEntryComparator::lessThan(
-	const VirtualDeviceEntry &deviceQueue1,
-	const VirtualDeviceEntry &deviceQueue2) const
-{
-	return deviceQueue1.activationTime() > deviceQueue2.activationTime();
-}
-
-VirtualDeviceEntry::VirtualDeviceEntry(VirtualDevice::Ptr device)
-{
-	m_device = device;
-}
-
-void VirtualDeviceEntry::setInserted(const Timestamp &t)
-{
-	m_inserted = t;
-}
-
-Timestamp VirtualDeviceEntry::inserted() const
-{
-	return m_inserted;
-}
-
-VirtualDevice::Ptr VirtualDeviceEntry::device() const
-{
-	return m_device;
-}
-
-Timestamp VirtualDeviceEntry::activationTime() const
-{
-	return inserted() + device()->refresh().time();
 }

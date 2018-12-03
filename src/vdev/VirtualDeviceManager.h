@@ -8,68 +8,10 @@
 #include <Poco/Util/IniFileConfiguration.h>
 
 #include "core/DeviceManager.h"
+#include "core/PollingKeeper.h"
 #include "vdev/VirtualDevice.h"
 
 namespace BeeeOn {
-
-/**
- * Represents entry in a calendar. It contains time when entry
- * was inserted into the calendar and information about device.
- *
- * Note: Calendar serves for planning of data sending from modules.
- */
-class VirtualDeviceEntry {
-public:
-	VirtualDeviceEntry(VirtualDevice::Ptr device);
-
-	/**
-	* Sets time when entry was inserted into a calendar.
-	*/
-	void setInserted(const Poco::Timestamp &t);
-
-	/**
-	* Returns time when entry was inserted into a calendar.
-	*/
-	Poco::Timestamp inserted() const;
-
-	/**
-	* Returns time when entry (device) will be activated
-	* (when data will be sent).
-	 *
-	* activationTime = timeInserted + refreshTime
-	*/
-	Poco::Timestamp activationTime() const;
-
-	/**
-	* Returns information about device.
-	*/
-	VirtualDevice::Ptr device() const;
-
-private:
-	Poco::Timestamp m_inserted;
-	VirtualDevice::Ptr m_device;
-};
-
-/**
- * Ensures comparison of entries in a calendar.
- */
-class VirtualDeviceEntryComparator {
-public:
-	/**
-	* Returns entry with lower activation time.
-	*/
-	bool lessThan(const VirtualDeviceEntry &deviceQueue1,
-		const VirtualDeviceEntry &deviceQueue2) const;
-
-	/**
-	* Returns entry with lower activation time.
-	*/
-	bool operator ()(const VirtualDeviceEntry &deviceQueue1,
-		const VirtualDeviceEntry &deviceQueue2) const
-	{
-		return lessThan(deviceQueue1, deviceQueue2);
-	}
-};
 
 /**
  * Ensures configuration of virtual devices from configuration file
@@ -87,6 +29,8 @@ public:
 class VirtualDeviceManager : public DeviceManager {
 public:
 	VirtualDeviceManager();
+
+	void setDevicePoller(DevicePoller::Ptr poller);
 
 	void run() override;
 	void stop() override;
@@ -132,17 +76,6 @@ public:
 	 * Plans devices that are in a map of virtual devices and are paired.
 	 */
 	void scheduleAllEntries();
-
-	/**
-	 * Checks if a queue of virtual devices is empty.
-	 */
-	bool isEmptyQueue();
-
-	/**
-	 * Sets time when an entry was inserted into a queue and pushes
-	 * this entry to the queue.
-	 */
-	void scheduleEntryUnlocked(VirtualDeviceEntry entry);
 
 	/**
 	 * Logs information about loaded virtual devices and modules.
@@ -192,9 +125,7 @@ protected:
 private:
 	std::map<DeviceID, VirtualDevice::Ptr> m_virtualDevicesMap;
 	std::string m_configFile;
-	std::priority_queue<VirtualDeviceEntry,
-		std::vector<VirtualDeviceEntry>,
-		VirtualDeviceEntryComparator> m_virtualDeviceQueue;
+	PollingKeeper m_pollingKeeper;
 	bool m_requestDeviceList;
 	Poco::FastMutex m_lock;
 };

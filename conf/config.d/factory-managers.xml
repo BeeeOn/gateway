@@ -36,6 +36,7 @@
 
 		<instance name="virtualDeviceManager" class="BeeeOn::VirtualDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
+			<set name="devicePoller" ref="devicePoller"/>
 			<set name="distributor" ref="distributor"/>
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 			<set name="file" text="${vdev.ini}"/>

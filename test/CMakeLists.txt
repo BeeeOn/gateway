@@ -44,6 +44,7 @@ endif()
 file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/core/AnswerQueueTest.cpp
 	${PROJECT_SOURCE_DIR}/core/CommandDispatcherTest.cpp
+	${PROJECT_SOURCE_DIR}/core/DevicePollerTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcherTest.cpp
 	${PROJECT_SOURCE_DIR}/core/DongleDeviceManagerTest.cpp
 	${PROJECT_SOURCE_DIR}/core/ExporterQueueTest.cpp

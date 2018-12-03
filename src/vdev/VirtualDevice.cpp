@@ -17,7 +17,7 @@ VirtualDevice::~VirtualDevice()
 {
 }
 
-DeviceID VirtualDevice::deviceID() const
+DeviceID VirtualDevice::id() const
 {
 	return m_deviceID;
 }
@@ -44,7 +44,7 @@ list<VirtualModule::Ptr> VirtualDevice::modules() const
 SensorData VirtualDevice::generate()
 {
 	SensorData data;
-	data.setDeviceID(deviceID());
+	data.setDeviceID(id());
 
 	for (auto &item : m_modules) {
 		if (item->generatorEnabled())
@@ -80,7 +80,7 @@ void VirtualDevice::setRefresh(const RefreshTime &refresh)
 	m_refresh = refresh;
 }
 
-void VirtualDevice::setDeviceId(const DeviceID &deviceId)
+void VirtualDevice::setID(const DeviceID &deviceId)
 {
 	m_deviceID = deviceId;
 }
@@ -103,4 +103,12 @@ string VirtualDevice::vendorName() const
 string VirtualDevice::productName() const
 {
 	return m_productName;
+}
+
+void VirtualDevice::poll(Distributor::Ptr distributor)
+{
+	SensorData sensorData = generate();
+
+	if (!sensorData.isEmpty())
+		distributor->exportData(sensorData);
 }

@@ -103,6 +103,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/CommandSender.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceCache.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceManager.cpp
+	${PROJECT_SOURCE_DIR}/core/DevicePoller.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusFetcher.cpp
 	${PROJECT_SOURCE_DIR}/core/DeviceStatusHandler.cpp
 	${PROJECT_SOURCE_DIR}/core/Distributor.cpp
@@ -114,6 +115,8 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/GatewayInfo.cpp
 	${PROJECT_SOURCE_DIR}/core/LoggingCollector.cpp
 	${PROJECT_SOURCE_DIR}/core/MemoryDeviceCache.cpp
+	${PROJECT_SOURCE_DIR}/core/PollableDevice.cpp
+	${PROJECT_SOURCE_DIR}/core/PollingKeeper.cpp
 	${PROJECT_SOURCE_DIR}/core/PrefixCommand.cpp
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
