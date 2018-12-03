@@ -129,6 +129,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/credentials/PinCredentials.cpp
 	${PROJECT_SOURCE_DIR}/exporters/InMemoryQueuingStrategy.cpp
 	${PROJECT_SOURCE_DIR}/exporters/JournalQueuingStrategy.cpp
+	${PROJECT_SOURCE_DIR}/exporters/MqttExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/NamedPipeExporter.cpp
 	${PROJECT_SOURCE_DIR}/exporters/QueuingStrategy.cpp
 	${PROJECT_SOURCE_DIR}/exporters/RecoverableJournalQueuingStrategy.cpp
@@ -359,7 +360,6 @@ endif()
 
 if(MOSQUITTO_CPP)
 	file(GLOB MOSQUITTO_SUPPORT_SOURCES
-		${PROJECT_SOURCE_DIR}/exporters/MqttExporter.cpp
 		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
 		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)

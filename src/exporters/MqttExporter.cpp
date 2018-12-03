@@ -38,7 +38,7 @@ void MqttExporter::setTopic(const string &topic)
 	m_topic = topic;
 }
 
-void MqttExporter::setMqttClient(MosquittoClient::Ptr client)
+void MqttExporter::setMqttClient(MqttClient::Ptr client)
 {
 	m_mqtt = client;
 }
