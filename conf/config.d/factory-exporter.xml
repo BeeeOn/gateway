@@ -5,7 +5,7 @@
 			<set name="formatter" ref="${exporter.pipe.format}SensorDataFormatter" />
 		</instance>
 
-		<instance name="mosquittoExporter" class="BeeeOn::MosquittoExporter">
+		<instance name="mqttExporter" class="BeeeOn::MqttExporter">
 			<set name="mqttClient" ref="mqttGWExporterClient" />
 			<set name="topic" text="${exporter.mqtt.topic}" />
 			<set name="qos" number="${exporter.mqtt.qos}" />

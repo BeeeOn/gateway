@@ -3,17 +3,17 @@
 #include <Poco/Exception.h>
 
 #include "di/Injectable.h"
-#include "exporters/MosquittoExporter.h"
+#include "exporters/MqttExporter.h"
 #include "util/NullSensorDataFormatter.h"
 #include "util/SensorDataFormatter.h"
 
-BEEEON_OBJECT_BEGIN(BeeeOn, MosquittoExporter)
+BEEEON_OBJECT_BEGIN(BeeeOn, MqttExporter)
 BEEEON_OBJECT_CASTABLE(Exporter)
-BEEEON_OBJECT_PROPERTY("topic", &MosquittoExporter::setTopic)
-BEEEON_OBJECT_PROPERTY("qos", &MosquittoExporter::setQos)
-BEEEON_OBJECT_PROPERTY("formatter", &MosquittoExporter::setFormatter)
-BEEEON_OBJECT_PROPERTY("mqttClient", &MosquittoExporter::setMqttClient)
-BEEEON_OBJECT_END(BeeeOn, MosquittoExporter)
+BEEEON_OBJECT_PROPERTY("topic", &MqttExporter::setTopic)
+BEEEON_OBJECT_PROPERTY("qos", &MqttExporter::setQos)
+BEEEON_OBJECT_PROPERTY("formatter", &MqttExporter::setFormatter)
+BEEEON_OBJECT_PROPERTY("mqttClient", &MqttExporter::setMqttClient)
+BEEEON_OBJECT_END(BeeeOn, MqttExporter)
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -22,33 +22,33 @@ using namespace std;
 const static string DEFAULT_TOPIC = "BeeeOnOut";
 const static string DEFAULT_CLIENT_ID = "GatewayExporterClient";
 
-MosquittoExporter::MosquittoExporter():
+MqttExporter::MqttExporter():
 	m_topic(DEFAULT_TOPIC),
 	m_qos(MqttMessage::EXACTLY_ONCE),
 	m_clientID(DEFAULT_CLIENT_ID)
 {
 }
 
-MosquittoExporter::~MosquittoExporter()
+MqttExporter::~MqttExporter()
 {
 }
 
-void MosquittoExporter::setTopic(const string &topic)
+void MqttExporter::setTopic(const string &topic)
 {
 	m_topic = topic;
 }
 
-void MosquittoExporter::setMqttClient(MosquittoClient::Ptr client)
+void MqttExporter::setMqttClient(MosquittoClient::Ptr client)
 {
 	m_mqtt = client;
 }
 
-void MosquittoExporter::setFormatter(const SharedPtr<SensorDataFormatter> formatter)
+void MqttExporter::setFormatter(const SharedPtr<SensorDataFormatter> formatter)
 {
 	m_formatter = formatter;
 }
 
-bool MosquittoExporter::ship(const SensorData &data)
+bool MqttExporter::ship(const SensorData &data)
 {
 	MqttMessage msg = {
 		m_topic,
@@ -67,7 +67,7 @@ bool MosquittoExporter::ship(const SensorData &data)
 	return true;
 }
 
-void MosquittoExporter::setQos(const int qos)
+void MqttExporter::setQos(const int qos)
 {
 	switch (qos) {
 	case MqttMessage::MOST_ONCE:

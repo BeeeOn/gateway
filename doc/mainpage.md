@@ -235,7 +235,7 @@ that is controlled via a named pipe from some external sources.
 
 * exporter.pipe.format - output format (available: CSV, JSON)
 
-* exporter.mqtt.enable - enable the MosquittoExporter to be registered with the Distributor
+* exporter.mqtt.enable - enable the MqttExporter to be registered with the Distributor
 
 * exporter.mqtt.host - host where the MQTT broker is running
 

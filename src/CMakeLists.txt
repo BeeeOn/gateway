@@ -358,7 +358,7 @@ endif()
 
 if(MOSQUITTO_CPP)
 	file(GLOB MOSQUITTO_SUPPORT_SOURCES
-		${PROJECT_SOURCE_DIR}/exporters/MosquittoExporter.cpp
+		${PROJECT_SOURCE_DIR}/exporters/MqttExporter.cpp
 		${PROJECT_SOURCE_DIR}/net/GatewayMosquittoClient.cpp
 		${PROJECT_SOURCE_DIR}/net/MosquittoClient.cpp
 	)

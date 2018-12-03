@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <mosquittopp.h>
 
 #include <Poco/Logger.h>
 #include <Poco/SharedPtr.h>
@@ -14,12 +13,12 @@ namespace BeeeOn {
 
 class SensorDataFormatter;
 
-class MosquittoExporter :
+class MqttExporter :
 	public Exporter,
 	protected Loggable {
 public:
-	MosquittoExporter();
-	~MosquittoExporter();
+	MqttExporter();
+	~MqttExporter();
 
 	bool ship(const SensorData &data) override;
 
