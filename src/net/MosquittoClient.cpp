@@ -10,6 +10,7 @@
 
 BEEEON_OBJECT_BEGIN(BeeeOn, MosquittoClient)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
+BEEEON_OBJECT_CASTABLE(MqttClient)
 BEEEON_OBJECT_PROPERTY("port", &MosquittoClient::setPort)
 BEEEON_OBJECT_PROPERTY("host", &MosquittoClient::setHost)
 BEEEON_OBJECT_PROPERTY("clientID", &MosquittoClient::setClientID)

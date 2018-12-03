@@ -137,6 +137,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/hotplug/HotplugListener.cpp
 	${PROJECT_SOURCE_DIR}/hotplug/PipeHotplugMonitor.cpp
 	${PROJECT_SOURCE_DIR}/net/AbstractHTTPScanner.cpp
+	${PROJECT_SOURCE_DIR}/net/MqttClient.cpp
 	${PROJECT_SOURCE_DIR}/net/MqttMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/SOAPMessage.cpp
 	${PROJECT_SOURCE_DIR}/net/UPnP.cpp

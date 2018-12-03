@@ -14,7 +14,7 @@
 #include <mosquittopp.h>
 
 #include "loop/StoppableRunnable.h"
-#include "net/MqttMessage.h"
+#include "net/MqttClient.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
@@ -31,7 +31,8 @@ namespace BeeeOn {
 class MosquittoClient:
 	Loggable,
 	protected mosqpp::mosquittopp,
-	public StoppableRunnable {
+	public StoppableRunnable,
+	public MqttClient {
 public:
 	typedef Poco::SharedPtr<MosquittoClient> Ptr;
 
@@ -66,7 +67,7 @@ public:
 	/**
 	 * Publish a message on a given topic.
 	 */
-	void publish(const MqttMessage &msq);
+	void publish(const MqttMessage &msq) override;
 
 	/**
 	 * Waiting for a new message according to given timeout.
@@ -81,7 +82,7 @@ public:
 	 *  - negative - blocking
 	 *  - positive blocking with timeout
 	 */
-	MqttMessage receive(const Poco::Timespan &timeout);
+	MqttMessage receive(const Poco::Timespan &timeout) override;
 
 protected:
 	virtual std::string buildClientID() const;
