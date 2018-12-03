@@ -151,7 +151,6 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/util/ChecksumSensorDataParser.cpp
 	${PROJECT_SOURCE_DIR}/util/ColorBrightness.cpp
 	${PROJECT_SOURCE_DIR}/util/CSVSensorDataFormatter.cpp
-	${PROJECT_SOURCE_DIR}/util/DataWriter.cpp
 	${PROJECT_SOURCE_DIR}/util/Journal.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatter.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParser.cpp
