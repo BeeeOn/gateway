@@ -507,7 +507,6 @@ PhilipsHueDeviceManager::PhilipsHueSeeker::PhilipsHueSeeker(PhilipsHueDeviceMana
 
 void PhilipsHueDeviceManager::PhilipsHueSeeker::seekLoop(StopControl &control)
 {
-	Timestamp now;
 	StopControl::Run run(control);
 
 	while (remaining() > 0) {

@@ -442,7 +442,6 @@ BelkinWemoDeviceManager::BelkinWemoSeeker::BelkinWemoSeeker(BelkinWemoDeviceMana
 
 void BelkinWemoDeviceManager::BelkinWemoSeeker::seekLoop(StopControl &control)
 {
-	Timestamp now;
 	StopControl::Run run(control);
 
 	while (remaining() > 0) {
