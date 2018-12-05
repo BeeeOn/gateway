@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-6-g5cba511</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-10-g264d32e</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -65,9 +65,10 @@ Inheritance diagram for BeeeOn::GatewayMosquittoClient:</div>
  <div class="center">
   <img src="classBeeeOn_1_1GatewayMosquittoClient.png" usemap="#BeeeOn::GatewayMosquittoClient_map" alt=""/>
   <map id="BeeeOn::GatewayMosquittoClient_map" name="BeeeOn::GatewayMosquittoClient_map">
-<area href="classBeeeOn_1_1MosquittoClient.html" alt="BeeeOn::MosquittoClient" shape="rect" coords="208,112,406,136"/>
+<area href="classBeeeOn_1_1MosquittoClient.html" alt="BeeeOn::MosquittoClient" shape="rect" coords="312,112,510,136"/>
 <area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="0,56,198,80"/>
 <area href="classBeeeOn_1_1StoppableRunnable.html" alt="BeeeOn::StoppableRunnable" shape="rect" coords="416,56,614,80"/>
+<area href="classBeeeOn_1_1MqttClient.html" alt="BeeeOn::MqttClient" shape="rect" coords="624,56,822,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -100,10 +101,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setClientID</b> (cons
 <tr class="memitem:a4f0c96d8965bc5e6206f39bc36d90842 inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f0c96d8965bc5e6206f39bc36d90842"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>clientID</b> () const </td></tr>
 <tr class="separator:a4f0c96d8965bc5e6206f39bc36d90842 inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fc2d948583ca1f62a1368e74c30d59b inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1MosquittoClient.html#a2fc2d948583ca1f62a1368e74c30d59b">publish</a> (const <a class="el" href="classBeeeOn_1_1MqttMessage.html">MqttMessage</a> &amp;msq)</td></tr>
-<tr class="separator:a2fc2d948583ca1f62a1368e74c30d59b inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7fd16d0e34f6f7914b91aa9aa7ec289 inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1MqttMessage.html">MqttMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1MosquittoClient.html#af7fd16d0e34f6f7914b91aa9aa7ec289">receive</a> (const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="separator:af7fd16d0e34f6f7914b91aa9aa7ec289 inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad490bcbd8413ed247c9d646974e8c379 inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1MosquittoClient.html#ad490bcbd8413ed247c9d646974e8c379">publish</a> (const <a class="el" href="classBeeeOn_1_1MqttMessage.html">MqttMessage</a> &amp;msq) override</td></tr>
+<tr class="separator:ad490bcbd8413ed247c9d646974e8c379 inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ba580d274bef707d9eb3fd26c99562e inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1MqttMessage.html">MqttMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1MosquittoClient.html#a6ba580d274bef707d9eb3fd26c99562e">receive</a> (const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="separator:a6ba580d274bef707d9eb3fd26c99562e inherit pub_methods_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -112,6 +113,16 @@ Additional Inherited Members</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1MosquittoClient.html">MosquittoClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a94e83de49379a39e17725b95e1abd765 inherit pub_types_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1MqttClient"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1MqttClient')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1MqttClient.html">BeeeOn::MqttClient</a></td></tr>
+<tr class="memitem:a376883a5e4594072cbdebb0751a4050d inherit pub_types_classBeeeOn_1_1MqttClient"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a376883a5e4594072cbdebb0751a4050d"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1MqttClient.html">MqttClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a376883a5e4594072cbdebb0751a4050d inherit pub_types_classBeeeOn_1_1MqttClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_types_classBeeeOn_1_1MqttClient"><td colspan="2" onclick="javascript:toggleInherit('pro_types_classBeeeOn_1_1MqttClient')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="classBeeeOn_1_1MqttClient.html">BeeeOn::MqttClient</a></td></tr>
+<tr class="memitem:a376883a5e4594072cbdebb0751a4050d inherit pro_types_classBeeeOn_1_1MqttClient"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a376883a5e4594072cbdebb0751a4050d"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1MqttClient.html">MqttClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a376883a5e4594072cbdebb0751a4050d inherit pro_types_classBeeeOn_1_1MqttClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1MosquittoClient"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1MosquittoClient')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1MosquittoClient.html">BeeeOn::MosquittoClient</a></td></tr>
 <tr class="memitem:af8132ef0bf03096a3a48fa98cbfa845d inherit pro_methods_classBeeeOn_1_1MosquittoClient"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1MosquittoClient.html#af8132ef0bf03096a3a48fa98cbfa845d">connect</a> ()</td></tr>
 <tr class="separator:af8132ef0bf03096a3a48fa98cbfa845d inherit pro_methods_classBeeeOn_1_1MosquittoClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
