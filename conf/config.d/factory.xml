@@ -26,7 +26,7 @@
 
 		<instance name="distributor" class="BeeeOn::QueuingDistributor">
 			<add name="exporters" ref="namedPipeExporter" if-yes="${exporter.pipe.enable}"/>
-			<add name="exporters" ref="mosquittoExporter" if-yes="${exporter.mqtt.enable}"/>
+			<add name="exporters" ref="mqttExporter" if-yes="${exporter.mqtt.enable}"/>
 			<add name="exporters" ref="gwServerConnector" if-yes="${gws.enable}" />
 			<set name="eventsExecutor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />

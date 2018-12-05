@@ -1,25 +1,24 @@
 #pragma once
 
 #include <string>
-#include <mosquittopp.h>
 
 #include <Poco/Logger.h>
 #include <Poco/SharedPtr.h>
 
 #include "core/Exporter.h"
-#include "net/MosquittoClient.h"
+#include "net/MqttClient.h"
 #include "util/Loggable.h"
 
 namespace BeeeOn {
 
 class SensorDataFormatter;
 
-class MosquittoExporter :
+class MqttExporter :
 	public Exporter,
 	protected Loggable {
 public:
-	MosquittoExporter();
-	~MosquittoExporter();
+	MqttExporter();
+	~MqttExporter();
 
 	bool ship(const SensorData &data) override;
 
@@ -27,7 +26,7 @@ public:
 
 	void setQos(int qos);
 
-	void setMqttClient(MosquittoClient::Ptr client);
+	void setMqttClient(MqttClient::Ptr client);
 
 	void setFormatter(const Poco::SharedPtr<SensorDataFormatter> formatter);
 
@@ -36,7 +35,7 @@ private:
 	MqttMessage::QoS m_qos;
 	std::string m_clientID;
 	Poco::SharedPtr<SensorDataFormatter> m_formatter;
-	MosquittoClient::Ptr m_mqtt;
+	MqttClient::Ptr m_mqtt;
 };
 
 }
