@@ -19,7 +19,7 @@ UPnP::UPnP(const SocketAddress& address)
 
 list<SocketAddress> UPnP::discover(const Timespan& timeout, const string& deviceType)
 {
-	DatagramSocket socket;
+	DatagramSocket socket(m_multicastAddress.family());
 	socket.setBroadcast(true);
 
 	const string msg = "M-SEARCH * HTTP/1.1\r\n"
