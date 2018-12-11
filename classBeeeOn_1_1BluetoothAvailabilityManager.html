@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-10-g264d32e</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-15-gcf05ba1</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -101,6 +101,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setModes</b> (const s
 <tr class="separator:aa954fde0356e282d28e87c3141b6a8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91a34d7982d0e215accb9653faababd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a91a34d7982d0e215accb9653faababd6">setHciManager</a> (HciInterfaceManager::Ptr manager)</td></tr>
 <tr class="separator:a91a34d7982d0e215accb9653faababd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7265668e32aaa78a3fa98432db696371"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a7265668e32aaa78a3fa98432db696371">handleRemoteStatus</a> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &amp;devices, const DeviceStatusHandler::DeviceValues &amp;values) override</td></tr>
+<tr class="memdesc:a7265668e32aaa78a3fa98432db696371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle device status as understood by a remote server. All devices of a certain prefix are notified in this way.  <a href="#a7265668e32aaa78a3fa98432db696371">More...</a><br/></td></tr>
+<tr class="separator:a7265668e32aaa78a3fa98432db696371"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1DongleDeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DongleDeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html">BeeeOn::DongleDeviceManager</a></td></tr>
 <tr class="memitem:ac4f4c9369ac83af968be4383c308555f inherit pub_methods_classBeeeOn_1_1DongleDeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4f4c9369ac83af968be4383c308555f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DongleDeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
@@ -365,6 +368,51 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>The default implementation just returns true. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a55bd1836dac14a5a651b7eb7a3e9ce83">BeeeOn::DongleDeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7265668e32aaa78a3fa98432db696371"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BluetoothAvailabilityManager::handleRemoteStatus </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;&#160;</td>
+          <td class="paramname"><em>prefix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>paired</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DeviceStatusHandler::DeviceValues &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle device status as understood by a remote server. All devices of a certain prefix are notified in this way. </p>
+<p>The set of paired devices represents all paired devices of the common prefix. All missing devices should be threated as unpaired for that prefix. Also, the most recent status of certain devices can be passed this way. </p>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1DeviceStatusHandler.html#a55cd1e38505c33abe8947574f7d87475">BeeeOn::DeviceStatusHandler</a>.</p>
 
 </div>
 </div>
