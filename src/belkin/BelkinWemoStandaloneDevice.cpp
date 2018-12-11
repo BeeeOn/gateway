@@ -21,7 +21,7 @@ using namespace Poco::XML;
 using namespace std;
 
 BelkinWemoStandaloneDevice::BelkinWemoStandaloneDevice(const URI& uri, const Timespan &httpTimeout):
-	BelkinWemoDevice(buildDeviceID()),
+	BelkinWemoDevice(buildDeviceID(uri, httpTimeout)),
 	m_uri(uri),
 	m_httpTimeout(httpTimeout)
 {
@@ -176,7 +176,9 @@ void BelkinWemoStandaloneDevice::setAddress(const SocketAddress& address)
 	m_uri.setPort(address.port());
 }
 
-DeviceID BelkinWemoStandaloneDevice::buildDeviceID() const
+DeviceID BelkinWemoStandaloneDevice::buildDeviceID(
+		const URI& uri,
+		const Timespan& httpTimeout)
 {
-	return {DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr(m_uri, m_httpTimeout)};
+	return {DevicePrefix::PREFIX_BELKIN_WEMO, requestMacAddr(uri, httpTimeout)};
 }
