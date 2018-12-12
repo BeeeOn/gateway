@@ -62,6 +62,12 @@ file(GLOB TEST_SOURCES
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataFormatterTest.cpp
 	${PROJECT_SOURCE_DIR}/util/JSONSensorDataParserTest.cpp
 	${PROJECT_SOURCE_DIR}/util/XmlTypeMappingParserTest.cpp
+	${PROJECT_SOURCE_DIR}/server/AbstractGWSConnectorTest.cpp
+	${PROJECT_SOURCE_DIR}/server/MockGWSConnector.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSCommandHandlerTest.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSOptimisticExporterTest.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSQueuingExporterTest.cpp
+	${PROJECT_SOURCE_DIR}/server/GWSResenderTest.cpp
 )
 
 if(BLUETOOTH)

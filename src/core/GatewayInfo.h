@@ -17,6 +17,8 @@ namespace BeeeOn {
  */
 class GatewayInfo : public Loggable {
 public:
+	typedef Poco::SharedPtr<GatewayInfo> Ptr;
+
 	/**
 	 * Creates an uninitialized instance.
 	 */

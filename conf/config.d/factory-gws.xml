@@ -13,12 +13,80 @@
 			<set name="commandDispatcher" ref="commandDispatcher"/>
 		</instance>
 
+		<constant name="gws.queuingGwsExporter.enable"
+			yes-when="${exporter.gws.impl} == queuing" />
+
+		<instance name="gwsLoopRunner" class="BeeeOn::LoopRunner">
+			<add name="runnables" ref="gwsEventsExecutor" />
+			<add name="runnables" ref="gwsConnector" />
+			<add name="runnables" ref="gwsResender" />
+			<add name="runnables" ref="gwsCommandSender" />
+			<add name="runnables" ref="queuingGwsExporter" if-yes="${gws.queuingGwsExporter.enable}" />
+		</instance>
+
+		<instance name="gwsEventsExecutor" class="BeeeOn::SequentialAsyncExecutor">
+			<set name="stopTimeout" time="2 s" />
+		</instance>
+
+		<instance name="gwsConnector" class="BeeeOn::GWSConnectorImpl">
+			<set name="host" text="${gws.host}" />
+			<set name="port" number="${gws.port}" />
+			<set name="receiveTimeout" time="${gws.receiveTimeout}" />
+			<set name="sendTimeout" time="${gws.sendTimeout}" />
+			<set name="reconnectDelay" time="${gws.retryConnectTimeout}" />
+			<set name="keepAliveTimeout" time="${gws.keepAliveTimeout}" />
+			<set name="maxMessageSize" number="${gws.maxMessageSize}" />
+			<set name="outputsCount" number="${gws.outputsCount}" />
+			<set name="gatewayInfo" ref="gatewayInfo" />
+			<set name="priorityAssigner" ref="gwsPriorityAssigner" />
+			<set name="sslConfig" ref="gwsSSLClient" if-yes="${ssl.enable}" />
+			<set name="eventsExecutor" ref="gwsEventsExecutor" />
+			<add name="listeners" ref="gwsResender" />
+			<add name="listeners" ref="gwsCommandHandler" />
+			<add name="listeners" ref="gwsCommandSender" />
+			<add name="listeners" ref="gwsExporter" />
+		</instance>
+
 		<instance name="gwsSSLClient" class="BeeeOn::SSLClient">
 			<set name="certificate" text="${ssl.certificate}" />
 			<set name="privateKey" text="${ssl.key}" />
 			<set name="caLocation" text="${ssl.authority}" />
 			<set name="verificationMode" text="${ssl.verify_level}" />
 			<set name="loadDefaultCA" text="false" />
+		</instance>
+
+		<instance name="gwsFixedPriorityAssigner" class="BeeeOn::GWSFixedPriorityAssigner" />
+		<alias name="gwsPriorityAssigner" ref="gwsFixedPriorityAssigner" />
+
+		<instance name="optimisticGwsExporter" class="BeeeOn::GWSOptimisticExporter">
+			<set name="connector" ref="gwsConnector" />
+		</instance>
+
+		<instance name="queuingGwsExporter" class="BeeeOn::GWSQueuingExporter">
+			<set name="connector" ref="gwsConnector" />
+			<set name="queuingStrategy" ref="gwsQueuingStrategy" />
+			<set name="activeCount" number="${exporter.gws.activeCount}" />
+			<set name="acquireTimeout" time="5 s" />
+			<set name="saveFailedDelay" time="${gws.retryConnectTimeout}" />
+			<set name="saveThreshold" number="${exporter.gws.saveThreshold}" />
+			<set name="saveTimeout" time="${exporter.gws.saveTimeout}" />
+			<set name="strategyPriority" number="30" />
+		</instance>
+		<alias name="gwsExporter" ref="${exporter.gws.impl}GwsExporter" />
+
+		<instance name="gwsResender" class="BeeeOn::GWSResender">
+			<set name="connector" ref="gwsConnector" />
+			<set name="resendTimeout" time="${gws.resendTimeout}" />
+		</instance>
+
+		<instance name="gwsCommandHandler" class="BeeeOn::GWSCommandHandler">
+			<set name="connector" ref="gwsConnector" />
+		</instance>
+
+		<instance name="gwsCommandSender" class="BeeeOn::GWSCommandSender">
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="connector" ref="gwsConnector" />
+			<set name="unpairDuration" time="10 s" />
 		</instance>
 
 		<instance name="basicJournalQueuingStrategy0" class="BeeeOn::JournalQueuingStrategy">
