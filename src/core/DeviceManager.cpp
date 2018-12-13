@@ -11,6 +11,7 @@
 #include "core/PrefixCommand.h"
 #include "model/SensorData.h"
 #include "util/ClassInfo.h"
+#include "util/MultiException.h"
 
 using namespace BeeeOn;
 using namespace Poco;
@@ -244,6 +245,33 @@ set<DeviceID> DeviceManager::handleUnpair(const DeviceUnpairCommand::Ptr cmd)
 	return result;
 }
 
+AsyncWork<double>::Ptr DeviceManager::startSetValueByMode(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const OpMode &mode,
+		const Timespan &timeout)
+{
+	logger().information(
+		"starting set-value " + to_string(value)
+		+ " of " + id.toString() + " [" + module.toString() + "]"
+		+ " in mode " + mode.toString(),
+		__FILE__, __LINE__);
+
+	switch (mode.raw()) {
+	case OpMode::TRY_ONCE:
+		return startSetValue(id, module, value, timeout);
+
+	case OpMode::TRY_HARDER:
+		return startSetValueTryHarder(id, module, value, timeout);
+
+	case OpMode::REPEAT_ON_FAIL:
+		return startSetValueRepeatOnFail(id, module, value, timeout);
+	}
+
+	throw IllegalStateException("unimplemented operation mode " + mode.toString());
+}
+
 AsyncWork<double>::Ptr DeviceManager::startSetValue(
 		const DeviceID &,
 		const ModuleID &,
@@ -251,6 +279,50 @@ AsyncWork<double>::Ptr DeviceManager::startSetValue(
 		const Timespan &)
 {
 	throw NotImplementedException("generic set-value is not supported");
+}
+
+AsyncWork<double>::Ptr DeviceManager::startSetValueTryHarder(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Timespan &timeout)
+{
+	return startSetValue(id, module, value, timeout);
+}
+
+AsyncWork<double>::Ptr DeviceManager::startSetValueRepeatOnFail(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Timespan &timeout)
+{
+	const Clock started;
+	MultiException me;
+
+	while (!started.isElapsed(timeout.totalMicroseconds())) {
+		if (m_stopControl.shouldStop()) {
+			if (me.count() > 0)
+				break;
+
+			throw IllegalStateException(
+				"device manager stop has been requested during"
+				" set-value in mode repeat_on_fail");
+		}
+
+		try {
+			return startSetValue(id, module, value, timeout);
+		}
+		catch (const IOException &e) {
+			Loggable::logException(
+				logger(), Message::PRIO_WARNING, e, __FILE__, __LINE__);
+			me.caught(e);
+		}
+	}
+
+	poco_assert(me.count() > 0);
+
+	me.rethrow();
+	throw IllegalStateException("never happens");
 }
 
 void DeviceManager::handleSetValue(const DeviceSetValueCommand::Ptr cmd)
@@ -262,16 +334,11 @@ void DeviceManager::handleSetValue(const DeviceSetValueCommand::Ptr cmd)
 
 	const Timespan &timeout = checkDelayedOperation("set-value", started, duration);
 
-	logger().information(
-		"starting set-value " + to_string(cmd->value())
-		+ " of " + cmd->deviceID().toString()
-		+ " [" + cmd->moduleID().toString() + "]",
-		__FILE__, __LINE__);
-
-	auto operation = startSetValue(
+	auto operation = startSetValueByMode(
 		cmd->deviceID(),
 		cmd->moduleID(),
 		cmd->value(),
+		cmd->mode(),
 		timeout);
 	manageUntilFinished("set-value", operation, timeout);
 
