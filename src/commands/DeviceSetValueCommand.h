@@ -25,8 +25,11 @@ class DeviceSetValueCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceSetValueCommand> Ptr;
 
-	DeviceSetValueCommand(const DeviceID &deviceID, const ModuleID &moduleID,
-		const double value, const Poco::Timespan &timeout);
+	DeviceSetValueCommand(
+		const DeviceID &deviceID,
+		const ModuleID &moduleID,
+		const double value,
+		const Poco::Timespan &timeout);
 
 	ModuleID moduleID() const;
 	double value() const;
