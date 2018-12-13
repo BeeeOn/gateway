@@ -45,10 +45,15 @@ public:
 	 */
 	void cancelAll();
 
+	/**
+	 * @brief Lookup a device the PollingKeeper takes care of.
+	 */
+	PollableDevice::Ptr lookup(const DeviceID &id) const;
+
 private:
 	std::map<DeviceID, PollableDevice::Ptr> m_polled;
 	DevicePoller::Ptr m_devicePoller;
-	Poco::FastMutex m_lock;
+	mutable Poco::FastMutex m_lock;
 };
 
 }

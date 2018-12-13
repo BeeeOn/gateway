@@ -43,3 +43,16 @@ void PollingKeeper::cancelAll()
 
 	m_polled.clear();
 }
+
+PollableDevice::Ptr PollingKeeper::lookup(
+		const DeviceID &id) const
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	auto it = m_polled.find(id);
+
+	if (it == m_polled.end())
+		return {};
+
+	return it->second;
+}
