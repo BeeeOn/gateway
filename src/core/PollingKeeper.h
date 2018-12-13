@@ -2,6 +2,8 @@
 
 #include <map>
 
+#include <Poco/Mutex.h>
+
 #include "core/DevicePoller.h"
 #include "core/PollableDevice.h"
 
@@ -10,7 +12,7 @@ namespace BeeeOn {
 /**
  * @brief PollingKeeper takes care of devices that are being polled.
  * It cancels all polled devices it manages upon request or destruction
- * to avoid leaking unstopped polled devices. The class is NOT thread-safe.
+ * to avoid leaking unstopped polled devices.
  */
 class PollingKeeper {
 public:
@@ -46,6 +48,7 @@ public:
 private:
 	std::map<DeviceID, PollableDevice::Ptr> m_polled;
 	DevicePoller::Ptr m_devicePoller;
+	Poco::FastMutex m_lock;
 };
 
 }
