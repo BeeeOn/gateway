@@ -7,11 +7,13 @@ DeviceSetValueCommand::DeviceSetValueCommand(
 		const DeviceID &deviceID,
 		const ModuleID &moduleID,
 		const double value,
+		const OpMode &mode,
 		const Poco::Timespan &timeout) :
 	PrefixCommand(deviceID.prefix()),
 	m_deviceID(deviceID),
 	m_moduleID(moduleID),
 	m_value(value),
+	m_mode(mode),
 	m_timeout(timeout)
 {
 }
@@ -38,6 +40,11 @@ Poco::Timespan DeviceSetValueCommand::timeout() const
 DeviceID DeviceSetValueCommand::deviceID() const
 {
 	return m_deviceID;
+}
+
+OpMode DeviceSetValueCommand::mode() const
+{
+	return m_mode;
 }
 
 string DeviceSetValueCommand::toString() const

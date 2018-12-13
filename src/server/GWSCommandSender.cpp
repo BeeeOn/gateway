@@ -166,6 +166,7 @@ void GWSCommandSender::handleSetValue(GWSetValueRequest::Ptr request)
 		request->deviceID(),
 		request->moduleID(),
 		request->value(),
+		request->mode(),
 		request->timeout());
 
 	dispatch(command, request);

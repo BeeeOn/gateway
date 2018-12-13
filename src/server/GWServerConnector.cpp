@@ -661,6 +661,7 @@ void GWServerConnector::handleSetValueRequest(
 			request->deviceID(),
 			request->moduleID(),
 			request->value(),
+			request->mode(),
 			request->timeout());
 
 	dispatchServerCommand(command, request->id(), request->derive());
