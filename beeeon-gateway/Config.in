@@ -177,8 +177,17 @@ config BEEEON_GATEWAY_JABLOTRON
 	  Enable support of Turris Gadgets. This might require
 	  appropriate USB or UART drivers in the kernel.
 
+config BEEEON_GATEWAY_HAS_LIBMOSQUITTOPP
+	bool
+	default y if PACKAGE_libmosquittopp
+	default n
+
+comment "MQTT exporter requires libmosquittopp"
+	depends on !BEEEON_GATEWAY_HAS_LIBMOSQUITTOPP
+
 config BEEEON_GATEWAY_MQTT_EXPORTER
 	bool "Exporting data via MQTT"
+	depends on BEEEON_GATEWAY_HAS_LIBMOSQUITTOPP
 	default n
 	help
 	  Enable exporting data over MQTT via mosquitto.
