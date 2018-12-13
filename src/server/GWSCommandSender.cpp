@@ -2,6 +2,7 @@
 
 #include "commands/DeviceAcceptCommand.h"
 #include "commands/DeviceSetValueCommand.h"
+#include "commands/DeviceSearchCommand.h"
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "core/CommandDispatcher.h"
@@ -59,6 +60,9 @@ void GWSCommandSender::onRequest(GWRequest::Ptr request)
 		break;
 	case GWMessageType::LISTEN_REQUEST:
 		handleListen(request.cast<GWListenRequest>());
+		break;
+	case GWMessageType::SEARCH_REQUEST:
+		handleSearch(request.cast<GWSearchRequest>());
 		break;
 	case GWMessageType::SET_VALUE_REQUEST:
 		handleSetValue(request.cast<GWSetValueRequest>());
@@ -143,6 +147,15 @@ void GWSCommandSender::handleDeviceAccept(GWDeviceAcceptRequest::Ptr request)
 void GWSCommandSender::handleListen(GWListenRequest::Ptr request)
 {
 	GatewayListenCommand::Ptr command = new GatewayListenCommand(request->duration());
+	dispatch(command, request);
+}
+
+void GWSCommandSender::handleSearch(GWSearchRequest::Ptr request)
+{
+	DeviceSearchCommand::Ptr command = new DeviceSearchCommand(
+		request->devicePrefix(),
+		request->criteria(),
+		request->duration());
 	dispatch(command, request);
 }
 

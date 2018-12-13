@@ -5,6 +5,7 @@
 #include "core/CommandSender.h"
 #include "gwmessage/GWDeviceAcceptRequest.h"
 #include "gwmessage/GWListenRequest.h"
+#include "gwmessage/GWSearchRequest.h"
 #include "gwmessage/GWSetValueRequest.h"
 #include "gwmessage/GWUnpairRequest.h"
 #include "loop/StoppableRunnable.h"
@@ -55,6 +56,7 @@ public:
 protected:
 	void handleDeviceAccept(GWDeviceAcceptRequest::Ptr request);
 	void handleListen(GWListenRequest::Ptr request);
+	void handleSearch(GWSearchRequest::Ptr request);
 	void handleSetValue(GWSetValueRequest::Ptr request);
 	void handleUnpair(GWUnpairRequest::Ptr request);
 	void dispatch(Command::Ptr command, GWRequest::Ptr request);
