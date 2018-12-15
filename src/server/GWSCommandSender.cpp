@@ -122,6 +122,7 @@ void GWSCommandSender::run()
 void GWSCommandSender::respond(RequestAnswer::Ptr answer, bool failed)
 {
 	GWResponse::Ptr response = answer->request()->derive();
+	response->setAckExpected(true);
 
 	if (failed)
 		response->setStatus(GWResponse::Status::FAILED);
@@ -188,7 +189,8 @@ void GWSCommandSender::dispatch(Command::Ptr command, GWRequest::Ptr request)
 			__FILE__, __LINE__);
 	}
 
-	GWResponse::Ptr response = new GWResponse; // no acking here
+	GWResponse::Ptr response = request->derive();
+	response->setAckExpected(false);
 	response->setID(request->id());
 	response->setStatus(GWResponse::Status::ACCEPTED);
 	m_connector->send(response);
