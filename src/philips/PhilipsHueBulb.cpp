@@ -34,11 +34,6 @@ PhilipsHueBulb::~PhilipsHueBulb()
 	}
 }
 
-DeviceID PhilipsHueBulb::deviceID()
-{
-	return m_deviceID;
-}
-
 DeviceID PhilipsHueBulb::id() const
 {
 	return m_deviceID;

@@ -161,7 +161,7 @@ void PhilipsHueDeviceManager::refreshPairedDevices()
 		}
 		catch (Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
-			logger().warning("device " + device->deviceID().toString() +
+			logger().warning("device " + device->id().toString() +
 				" did not answer", __FILE__, __LINE__);
 		}
 	}
@@ -173,8 +173,8 @@ void PhilipsHueDeviceManager::searchPairedDevices()
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
-		if (deviceCache()->paired(device->deviceID()))
-			m_devices.emplace(device->deviceID(), device);
+		if (deviceCache()->paired(device->id()))
+			m_devices.emplace(device->id(), device);
 	}
 	lockBulb.unlock();
 }
@@ -401,7 +401,7 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs(const StopControl
 					bulb.second.first, bulb.second.second, bridge, m_refresh);
 				devices.push_back(newDevice);
 
-				logger().information("discovered Philips Hue Bulb " + newDevice->deviceID().toString(),
+				logger().information("discovered Philips Hue Bulb " + newDevice->id().toString(),
 					__FILE__, __LINE__);
 			}
 			else {
@@ -455,16 +455,16 @@ void PhilipsHueDeviceManager::processNewDevice(PhilipsHueBulb::Ptr newDevice)
 	/*
 	 * Finds out if the device is already added.
 	 */
-	auto it = m_devices.emplace(newDevice->deviceID(), newDevice);
+	auto it = m_devices.emplace(newDevice->id(), newDevice);
 
 	if (!it.second)
 		return;
 
-	logger().debug("found device " + newDevice->deviceID().toString(),
+	logger().debug("found device " + newDevice->id().toString(),
 		__FILE__, __LINE__);
 
 	const auto description = DeviceDescription::Builder()
-		.id(newDevice->deviceID())
+		.id(newDevice->id())
 		.type(PHILIPS_HUE_VENDOR, newDevice->name())
 		.modules(newDevice->moduleTypes())
 		.refreshTime(m_refresh)

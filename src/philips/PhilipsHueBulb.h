@@ -40,7 +40,6 @@ public:
 	virtual bool requestModifyState(const ModuleID& moduleID, const double value) = 0;
 	virtual SensorData requestState() = 0;
 
-	DeviceID deviceID();
 	DeviceID id() const override;
 	RefreshTime refresh() const override;
 	virtual std::list<ModuleType> moduleTypes() const = 0;
