@@ -108,7 +108,10 @@ private:
 
 	void shipStatusOf(const BluetoothDevice &device);
 
-	void sendNewDevice(const DeviceID &id, const std::string &name);
+	void sendNewDevice(
+		const DeviceID &id,
+		const MACAddress &address,
+		const std::string &name);
 
 	std::list<ModuleType> moduleTypes() const;
 

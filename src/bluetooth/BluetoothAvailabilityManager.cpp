@@ -364,7 +364,7 @@ void BluetoothAvailabilityManager::reportFoundDevices(
 			return;
 
 		if (!deviceCache()->paired(id))
-			sendNewDevice(id, scannedDevice.second);
+			sendNewDevice(id, scannedDevice.first, scannedDevice.second);
 	}
 }
 
@@ -420,7 +420,10 @@ void BluetoothAvailabilityManager::shipStatusOf(const BluetoothDevice &device)
 	ship(data);
 }
 
-void BluetoothAvailabilityManager::sendNewDevice(const DeviceID &id, const string &name)
+void BluetoothAvailabilityManager::sendNewDevice(
+		const DeviceID &id,
+		const MACAddress &address,
+		const string &name)
 {
 	logger().debug("new device: id = " + id.toString() + " name = " + name);
 
@@ -429,6 +432,7 @@ void BluetoothAvailabilityManager::sendNewDevice(const DeviceID &id, const strin
 		.type("Bluetooth Availability", name)
 		.modules(moduleTypes())
 		.noRefreshTime()
+		.macAddress(address)
 		.build();
 
 	dispatch(new NewDeviceCommand(description));
