@@ -448,6 +448,10 @@ void PhilipsHueDeviceManager::processNewDevice(PhilipsHueBulb::Ptr newDevice)
 		.type(PHILIPS_HUE_VENDOR, newDevice->name())
 		.modules(newDevice->moduleTypes())
 		.refreshTime(m_refresh)
+		.name(newDevice->info().name())
+		.firmware(newDevice->info().swVersion())
+		.ipAddress(newDevice->bridge()->address().host())
+		.macAddress(newDevice->bridge()->macAddress())
 		.build();
 
 	dispatch(new NewDeviceCommand(description));
