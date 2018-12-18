@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-35-gd07d6f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,7 +71,8 @@ Inheritance diagram for BeeeOn::BelkinWemoDevice:</div>
  <div class="center">
   <img src="classBeeeOn_1_1BelkinWemoDevice.png" usemap="#BeeeOn::BelkinWemoDevice_map" alt=""/>
   <map id="BeeeOn::BelkinWemoDevice_map" name="BeeeOn::BelkinWemoDevice_map">
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="122,0,357,24"/>
+<area href="classBeeeOn_1_1PollableDevice.html" title="PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti..." alt="BeeeOn::PollableDevice" shape="rect" coords="0,0,235,24"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="245,0,480,24"/>
 <area href="classBeeeOn_1_1BelkinWemoBulb.html" title="The class represents Belkin WeMo Led Light Bulb. It works with Belkin WeMo Link it uses his methods t..." alt="BeeeOn::BelkinWemoBulb" shape="rect" coords="0,112,235,136"/>
 <area href="classBeeeOn_1_1BelkinWemoStandaloneDevice.html" title="Abstract class representing generic BelkinWemo standalone device. The class implements sending messag..." alt="BeeeOn::BelkinWemoStandaloneDevice" shape="rect" coords="245,112,480,136"/>
 <area href="classBeeeOn_1_1BelkinWemoDimmer.html" title="The class represents Belkin WeMo Dimmer F7C059. Provides functions to control the switch..." alt="BeeeOn::BelkinWemoDimmer" shape="rect" coords="122,168,357,192"/>
@@ -85,21 +86,36 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:aa8b1e653edfbb5be55a8711bc5a44bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1PollableDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1PollableDevice')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></td></tr>
+<tr class="memitem:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a554312c9f670af640410173bf929db12"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac81668424f991a3bbf339f5ef9c997ff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac81668424f991a3bbf339f5ef9c997ff"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoDevice</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
-<tr class="separator:ac81668424f991a3bbf339f5ef9c997ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab0a96dfd25370a99c81d954c0795ba8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab0a96dfd25370a99c81d954c0795ba8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoDevice</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#ae5f9290cbcc67b2dc7b9b322c2cdc895">id</a>, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>)</td></tr>
+<tr class="separator:aab0a96dfd25370a99c81d954c0795ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70fd9a7cbbeed5ea1f9b57526594c13e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70fd9a7cbbeed5ea1f9b57526594c13e"></a>
 <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>deviceID</b> () const </td></tr>
 <tr class="separator:a70fd9a7cbbeed5ea1f9b57526594c13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f9290cbcc67b2dc7b9b322c2cdc895"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#ae5f9290cbcc67b2dc7b9b322c2cdc895">id</a> () const override</td></tr>
+<tr class="separator:ae5f9290cbcc67b2dc7b9b322c2cdc895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97234d876e95d20735e526c5f6e4eaf4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97234d876e95d20735e526c5f6e4eaf4"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a> () const override</td></tr>
+<tr class="memdesc:a97234d876e95d20735e526c5f6e4eaf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular period telling how often to call the method <a class="el" href="classBeeeOn_1_1PollableDevice.html#ad490bc1409ed2579ceea8bff5a7203ac" title="Perform polling for data and ship them via the given distributor. ">PollableDevice::poll()</a>. The refresh must contain a valid time. <br/></td></tr>
+<tr class="separator:a97234d876e95d20735e526c5f6e4eaf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a904f94ef0148df67d14902aa250744f3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a904f94ef0148df67d14902aa250744f3"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>requestModifyState</b> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value)=0</td></tr>
 <tr class="separator:a904f94ef0148df67d14902aa250744f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2859956317cf477e8ea3b9f9c1c37d0d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2859956317cf477e8ea3b9f9c1c37d0d"></a>
 virtual <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><b>requestState</b> ()=0</td></tr>
 <tr class="separator:a2859956317cf477e8ea3b9f9c1c37d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab486f3800710842a3a3b0e8c8926c223"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab486f3800710842a3a3b0e8c8926c223"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#ab486f3800710842a3a3b0e8c8926c223">poll</a> (Distributor::Ptr distributor) override</td></tr>
+<tr class="memdesc:ab486f3800710842a3a3b0e8c8926c223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform polling for data and ship them via the given distributor. <br/></td></tr>
+<tr class="separator:ab486f3800710842a3a3b0e8c8926c223"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6caa3945603353adafedbb7972c44828"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6caa3945603353adafedbb7972c44828"></a>
 virtual std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>moduleTypes</b> () const =0</td></tr>
 <tr class="separator:a6caa3945603353adafedbb7972c44828"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +143,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a25176231fdd776e59ec6a4cfb676cbbb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25176231fdd776e59ec6a4cfb676cbbb"></a>
 const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_deviceId</b></td></tr>
 <tr class="separator:a25176231fdd776e59ec6a4cfb676cbbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a041d314a4b8a5baf83dd0cd4106e98a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a041d314a4b8a5baf83dd0cd4106e98a7"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_refresh</b></td></tr>
+<tr class="separator:a041d314a4b8a5baf83dd0cd4106e98a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a68fa6926e0f07b963ae3c00ad5cc80"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a68fa6926e0f07b963ae3c00ad5cc80"></a>
 Poco::FastMutex&#160;</td><td class="memItemRight" valign="bottom"><b>m_lock</b></td></tr>
 <tr class="separator:a9a68fa6926e0f07b963ae3c00ad5cc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,7 +188,34 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class representing generic BelkinWemo device. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ae5f9290cbcc67b2dc7b9b322c2cdc895"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> BelkinWemoDevice::id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>ID of the device. </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1PollableDevice.html#a9e5c3f6f283809fc1540fff4066a0451">BeeeOn::PollableDevice</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/belkin/<a class="el" href="BelkinWemoDevice_8h_source.html">BelkinWemoDevice.h</a></li>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/belkin/BelkinWemoDevice.cpp</li>
 </ul>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-35-gd07d6f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -63,47 +63,58 @@
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/DOM/Node.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Poco/DOM/NodeIterator.h&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;model/ModuleType.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/SensorData.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1BelkinWemoDevice.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a> : <span class="keyword">protected</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;BelkinWemoDevice&gt; Ptr;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&amp; <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> requestModifyState(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value) = 0;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> requestState() = 0;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">virtual</span> std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> std::string name() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">virtual</span> Poco::FastMutex&amp; lock();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">static</span> Poco::XML::Node* <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#a7d8d364a4509f6cbdc29a6926c45f94a">findNode</a>(Poco::XML::NodeIterator&amp; iterator, <span class="keyword">const</span> std::string&amp; name);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">static</span> std::list&lt;Poco::XML::Node*&gt; <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#ae8e6a35d6e0327025da3f97627a8eae7">findNodes</a>(Poco::XML::NodeIterator&amp; iterator, <span class="keyword">const</span> std::string&amp; name);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceId;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        Poco::FastMutex m_lock;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;core/PollableDevice.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/ModuleType.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;model/SensorData.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1BelkinWemoDevice.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a>, <span class="keyword">protected</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;BelkinWemoDevice&gt; Ptr;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&amp; <span class="keywordtype">id</span>, <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#ae5f9290cbcc67b2dc7b9b322c2cdc895">id</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> requestModifyState(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value) = 0;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> requestState() = 0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#ab486f3800710842a3a3b0e8c8926c223">poll</a>(Distributor::Ptr distributor) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">virtual</span> std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">virtual</span> std::string name() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">virtual</span> Poco::FastMutex&amp; lock();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">static</span> Poco::XML::Node* <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#a7d8d364a4509f6cbdc29a6926c45f94a">findNode</a>(Poco::XML::NodeIterator&amp; iterator, <span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">static</span> std::list&lt;Poco::XML::Node*&gt; <a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#ae8e6a35d6e0327025da3f97627a8eae7">findNodes</a>(Poco::XML::NodeIterator&amp; iterator, <span class="keyword">const</span> std::string&amp; name);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html">BeeeOn::BelkinWemoDevice</a></div><div class="ttdoc">Abstract class representing generic BelkinWemo device. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.h:23</div></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceId;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> m_refresh;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        Poco::FastMutex m_lock;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html">BeeeOn::BelkinWemoDevice</a></div><div class="ttdoc">Abstract class representing generic BelkinWemo device. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.h:24</div></div>
+<div class="ttc" id="classBeeeOn_1_1RefreshTime_html"><div class="ttname"><a href="classBeeeOn_1_1RefreshTime.html">BeeeOn::RefreshTime</a></div><div class="ttdoc">RefreshTime represents time of refreshing values from sensors. E.g. sensors are polled periodically o...</div><div class="ttdef"><b>Definition:</b> RefreshTime.h:24</div></div>
 <div class="ttc" id="classBeeeOn_1_1SensorData_html"><div class="ttname"><a href="classBeeeOn_1_1SensorData.html">BeeeOn::SensorData</a></div><div class="ttdef"><b>Definition:</b> SensorData.h:20</div></div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_ae8e6a35d6e0327025da3f97627a8eae7"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#ae8e6a35d6e0327025da3f97627a8eae7">BeeeOn::BelkinWemoDevice::findNodes</a></div><div class="ttdeci">static std::list&lt; Poco::XML::Node * &gt; findNodes(Poco::XML::NodeIterator &amp;iterator, const std::string &amp;name)</div><div class="ttdoc">Finds all nodes with the given name and returns their values. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:50</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_ae8e6a35d6e0327025da3f97627a8eae7"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#ae8e6a35d6e0327025da3f97627a8eae7">BeeeOn::BelkinWemoDevice::findNodes</a></div><div class="ttdeci">static std::list&lt; Poco::XML::Node * &gt; findNodes(Poco::XML::NodeIterator &amp;iterator, const std::string &amp;name)</div><div class="ttdoc">Finds all nodes with the given name and returns their values. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:61</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_ab486f3800710842a3a3b0e8c8926c223"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#ab486f3800710842a3a3b0e8c8926c223">BeeeOn::BelkinWemoDevice::poll</a></div><div class="ttdeci">void poll(Distributor::Ptr distributor) override</div><div class="ttdoc">Perform polling for data and ship them via the given distributor. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:81</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_a7d8d364a4509f6cbdc29a6926c45f94a"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#a7d8d364a4509f6cbdc29a6926c45f94a">BeeeOn::BelkinWemoDevice::findNode</a></div><div class="ttdeci">static Poco::XML::Node * findNode(Poco::XML::NodeIterator &amp;iterator, const std::string &amp;name)</div><div class="ttdoc">Finds the first node with the given name and returns it&amp;#39;s value. When the value of node si empty retu...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:29</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_ae5f9290cbcc67b2dc7b9b322c2cdc895"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#ae5f9290cbcc67b2dc7b9b322c2cdc895">BeeeOn::BelkinWemoDevice::id</a></div><div class="ttdeci">DeviceID id() const override</div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:25</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_a7d8d364a4509f6cbdc29a6926c45f94a"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#a7d8d364a4509f6cbdc29a6926c45f94a">BeeeOn::BelkinWemoDevice::findNode</a></div><div class="ttdeci">static Poco::XML::Node * findNode(Poco::XML::NodeIterator &amp;iterator, const std::string &amp;name)</div><div class="ttdoc">Finds the first node with the given name and returns it&amp;#39;s value. When the value of node si empty retu...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:40</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>
+<div class="ttc" id="classBeeeOn_1_1PollableDevice_html"><div class="ttname"><a href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></div><div class="ttdoc">PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti...</div><div class="ttdef"><b>Definition:</b> PollableDevice.h:18</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_a97234d876e95d20735e526c5f6e4eaf4"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">BeeeOn::BelkinWemoDevice::refresh</a></div><div class="ttdeci">RefreshTime refresh() const override</div><div class="ttdoc">Regular period telling how often to call the method PollableDevice::poll(). The refresh must contain ...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

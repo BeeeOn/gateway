@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-35-gd07d6f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -69,9 +69,10 @@ Inheritance diagram for BeeeOn::BelkinWemoDimmer:</div>
  <div class="center">
   <img src="classBeeeOn_1_1BelkinWemoDimmer.png" usemap="#BeeeOn::BelkinWemoDimmer_map" alt=""/>
   <map id="BeeeOn::BelkinWemoDimmer_map" name="BeeeOn::BelkinWemoDimmer_map">
-<area href="classBeeeOn_1_1BelkinWemoStandaloneDevice.html" title="Abstract class representing generic BelkinWemo standalone device. The class implements sending messag..." alt="BeeeOn::BelkinWemoStandaloneDevice" shape="rect" coords="0,112,235,136"/>
-<area href="classBeeeOn_1_1BelkinWemoDevice.html" title="Abstract class representing generic BelkinWemo device. " alt="BeeeOn::BelkinWemoDevice" shape="rect" coords="0,56,235,80"/>
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="0,0,235,24"/>
+<area href="classBeeeOn_1_1BelkinWemoStandaloneDevice.html" title="Abstract class representing generic BelkinWemo standalone device. The class implements sending messag..." alt="BeeeOn::BelkinWemoStandaloneDevice" shape="rect" coords="122,112,357,136"/>
+<area href="classBeeeOn_1_1BelkinWemoDevice.html" title="Abstract class representing generic BelkinWemo device. " alt="BeeeOn::BelkinWemoDevice" shape="rect" coords="122,56,357,80"/>
+<area href="classBeeeOn_1_1PollableDevice.html" title="PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti..." alt="BeeeOn::PollableDevice" shape="rect" coords="0,0,235,24"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="245,0,480,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -86,33 +87,21 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html">BelkinWemoDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:aa8b1e653edfbb5be55a8711bc5a44bf3 inherit pub_types_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1PollableDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1PollableDevice')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></td></tr>
+<tr class="memitem:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a554312c9f670af640410173bf929db12"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab100e6a2ff9504cef5c28ffba670c602"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html#ab100e6a2ff9504cef5c28ffba670c602">BelkinWemoDimmer</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout)</td></tr>
-<tr class="memdesc:ab100e6a2ff9504cef5c28ffba670c602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates belkin wemo dimmer. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#ab100e6a2ff9504cef5c28ffba670c602">More...</a><br/></td></tr>
-<tr class="separator:ab100e6a2ff9504cef5c28ffba670c602"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84e22972b8e4ba13e2907cd731178af4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84e22972b8e4ba13e2907cd731178af4"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html#a84e22972b8e4ba13e2907cd731178af4">requestModifyState</a> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value) override</td></tr>
-<tr class="memdesc:a84e22972b8e4ba13e2907cd731178af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the dimmer's given module to the given value. <br/></td></tr>
-<tr class="separator:a84e22972b8e4ba13e2907cd731178af4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa66e2631d1e24015bf51ff5b2548acf8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html#aa66e2631d1e24015bf51ff5b2548acf8">requestState</a> () override</td></tr>
-<tr class="memdesc:aa66e2631d1e24015bf51ff5b2548acf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares SOAP message containing request state command and sends it to device via HTTP. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. Request current state of the device and return it as <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>.  <a href="#aa66e2631d1e24015bf51ff5b2548acf8">More...</a><br/></td></tr>
-<tr class="separator:aa66e2631d1e24015bf51ff5b2548acf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b5df5a014ec01854770f559db940fd3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b5df5a014ec01854770f559db940fd3"></a>
-std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>moduleTypes</b> () const override</td></tr>
-<tr class="separator:a5b5df5a014ec01854770f559db940fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6ed6f064e64c869aa2f7c0844165669"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6ed6f064e64c869aa2f7c0844165669"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const override</td></tr>
-<tr class="separator:aa6ed6f064e64c869aa2f7c0844165669"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa30a3f9c4cc0f4fe78ab4c396e9f6282"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa30a3f9c4cc0f4fe78ab4c396e9f6282"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html#aa30a3f9c4cc0f4fe78ab4c396e9f6282">operator==</a> (const <a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html">BelkinWemoDimmer</a> &amp;bw) const </td></tr>
-<tr class="memdesc:aa30a3f9c4cc0f4fe78ab4c396e9f6282"><td class="mdescLeft">&#160;</td><td class="mdescRight">It compares two switches based on <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>. <br/></td></tr>
-<tr class="separator:aa30a3f9c4cc0f4fe78ab4c396e9f6282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae389e9e44a5055a9c1ad712dc946512c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDimmer.html#ae389e9e44a5055a9c1ad712dc946512c">BelkinWemoDimmer</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>)</td></tr>
+<tr class="memdesc:ae389e9e44a5055a9c1ad712dc946512c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates belkin wemo dimmer. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#ae389e9e44a5055a9c1ad712dc946512c">More...</a><br/></td></tr>
+<tr class="separator:ae389e9e44a5055a9c1ad712dc946512c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1BelkinWemoStandaloneDevice.html">BeeeOn::BelkinWemoStandaloneDevice</a></td></tr>
-<tr class="memitem:ae2ff660a461af80d9c17d0f54926fae8 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2ff660a461af80d9c17d0f54926fae8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoStandaloneDevice</b> (const Poco::URI &amp;uri, const Poco::Timespan &amp;httpTimeout)</td></tr>
-<tr class="separator:ae2ff660a461af80d9c17d0f54926fae8 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a0b8af60a30358190fef3f634d0ab09 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a0b8af60a30358190fef3f634d0ab09"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoStandaloneDevice</b> (const Poco::URI &amp;uri, const Poco::Timespan &amp;httpTimeout, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>)</td></tr>
+<tr class="separator:a7a0b8af60a30358190fef3f634d0ab09 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a531da7cc7e0234bd0219c04de27edfa7 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a531da7cc7e0234bd0219c04de27edfa7"></a>
 <a class="el" href="classBeeeOn_1_1HTTPEntireResponse.html">HTTPEntireResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoStandaloneDevice.html#a531da7cc7e0234bd0219c04de27edfa7">requestBinaryState</a> () const </td></tr>
 <tr class="memdesc:a531da7cc7e0234bd0219c04de27edfa7 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares SOAP message containing GetBinaryState request and sends it to device via HTTP. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. <br/></td></tr>
@@ -127,12 +116,22 @@ Poco::Net::SocketAddress&#160;</td><td class="memItemRight" valign="bottom"><b>a
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setAddress</b> (const Poco::Net::SocketAddress &amp;address)</td></tr>
 <tr class="separator:ad5b4ffcceeb73768333d410b9ea725a2 inherit pub_methods_classBeeeOn_1_1BelkinWemoStandaloneDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1BelkinWemoDevice')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html">BeeeOn::BelkinWemoDevice</a></td></tr>
-<tr class="memitem:ac81668424f991a3bbf339f5ef9c997ff inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac81668424f991a3bbf339f5ef9c997ff"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoDevice</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
-<tr class="separator:ac81668424f991a3bbf339f5ef9c997ff inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab0a96dfd25370a99c81d954c0795ba8 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab0a96dfd25370a99c81d954c0795ba8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BelkinWemoDevice</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#ae5f9290cbcc67b2dc7b9b322c2cdc895">id</a>, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>)</td></tr>
+<tr class="separator:aab0a96dfd25370a99c81d954c0795ba8 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70fd9a7cbbeed5ea1f9b57526594c13e inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70fd9a7cbbeed5ea1f9b57526594c13e"></a>
 <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>deviceID</b> () const </td></tr>
 <tr class="separator:a70fd9a7cbbeed5ea1f9b57526594c13e inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f9290cbcc67b2dc7b9b322c2cdc895 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#ae5f9290cbcc67b2dc7b9b322c2cdc895">id</a> () const override</td></tr>
+<tr class="separator:ae5f9290cbcc67b2dc7b9b322c2cdc895 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97234d876e95d20735e526c5f6e4eaf4 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97234d876e95d20735e526c5f6e4eaf4"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a> () const override</td></tr>
+<tr class="memdesc:a97234d876e95d20735e526c5f6e4eaf4 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular period telling how often to call the method <a class="el" href="classBeeeOn_1_1PollableDevice.html#ad490bc1409ed2579ceea8bff5a7203ac" title="Perform polling for data and ship them via the given distributor. ">PollableDevice::poll()</a>. The refresh must contain a valid time. <br/></td></tr>
+<tr class="separator:a97234d876e95d20735e526c5f6e4eaf4 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab486f3800710842a3a3b0e8c8926c223 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab486f3800710842a3a3b0e8c8926c223"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html#ab486f3800710842a3a3b0e8c8926c223">poll</a> (Distributor::Ptr distributor) override</td></tr>
+<tr class="memdesc:ab486f3800710842a3a3b0e8c8926c223 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform polling for data and ship them via the given distributor. <br/></td></tr>
+<tr class="separator:ab486f3800710842a3a3b0e8c8926c223 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad317bda9db77c2289c337114d3605316 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad317bda9db77c2289c337114d3605316"></a>
 virtual Poco::FastMutex &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>lock</b> ()</td></tr>
 <tr class="separator:ad317bda9db77c2289c337114d3605316 inherit pub_methods_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,6 +192,9 @@ const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><b>m_htt
 <tr class="memitem:a25176231fdd776e59ec6a4cfb676cbbb inherit pro_attribs_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25176231fdd776e59ec6a4cfb676cbbb"></a>
 const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_deviceId</b></td></tr>
 <tr class="separator:a25176231fdd776e59ec6a4cfb676cbbb inherit pro_attribs_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a041d314a4b8a5baf83dd0cd4106e98a7 inherit pro_attribs_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a041d314a4b8a5baf83dd0cd4106e98a7"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_refresh</b></td></tr>
+<tr class="separator:a041d314a4b8a5baf83dd0cd4106e98a7 inherit pro_attribs_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a68fa6926e0f07b963ae3c00ad5cc80 inherit pro_attribs_classBeeeOn_1_1BelkinWemoDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a68fa6926e0f07b963ae3c00ad5cc80"></a>
 Poco::FastMutex&#160;</td><td class="memItemRight" valign="bottom"><b>m_lock</b></td></tr>
 <tr class="separator:a9a68fa6926e0f07b963ae3c00ad5cc80 inherit pro_attribs_classBeeeOn_1_1BelkinWemoDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,7 +202,7 @@ Poco::FastMutex&#160;</td><td class="memItemRight" valign="bottom"><b>m_lock</b>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents Belkin WeMo Dimmer F7C059. Provides functions to control the switch. It means turn on, turn off, modify brigtness, get state. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab100e6a2ff9504cef5c28ffba670c602"></a>
+<a class="anchor" id="ae389e9e44a5055a9c1ad712dc946512c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -214,7 +216,13 @@ Poco::FastMutex&#160;</td><td class="memItemRight" valign="bottom"><b>m_lock</b>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>httpTimeout</em>&#160;</td>
+          <td class="paramname"><em>httpTimeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;&#160;</td>
+          <td class="paramname"><em>refresh</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -232,35 +240,6 @@ Poco::FastMutex&#160;</td><td class="memItemRight" valign="bottom"><b>m_lock</b>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa66e2631d1e24015bf51ff5b2548acf8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> BelkinWemoDimmer::requestState </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Prepares SOAP message containing request state command and sends it to device via HTTP. If the device do not respond in specified timeout, Poco::TimeoutException is thrown. Request current state of the device and return it as <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>. </dd></dl>
-
-<p>Implements <a class="el" href="classBeeeOn_1_1BelkinWemoDevice.html">BeeeOn::BelkinWemoDevice</a>.</p>
 
 </div>
 </div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-35-gd07d6f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,29 +71,30 @@
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;BelkinWemoDimmer&gt; Ptr;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html#ab100e6a2ff9504cef5c28ffba670c602">BelkinWemoDimmer</a>(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html#ae389e9e44a5055a9c1ad712dc946512c">BelkinWemoDimmer</a>(</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keyword">const</span> Poco::Net::SocketAddress&amp; address,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;httpTimeout);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html#a84e22972b8e4ba13e2907cd731178af4">requestModifyState</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html#aa66e2631d1e24015bf51ff5b2548acf8">requestState</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        std::string name() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html#aa30a3f9c4cc0f4fe78ab4c396e9f6282">operator==</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html">BelkinWemoDimmer</a>&amp; bw) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;httpTimeout,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="code" href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">refresh</a>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">bool</span> requestModifyState(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID, <span class="keyword">const</span> <span class="keywordtype">double</span> value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> requestState() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        std::string name() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1BelkinWemoDimmer.html">BelkinWemoDimmer</a>&amp; bw) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1BelkinWemoDimmer_html"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDimmer.html">BeeeOn::BelkinWemoDimmer</a></div><div class="ttdoc">The class represents Belkin WeMo Dimmer F7C059. Provides functions to control the switch...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDimmer.h:21</div></div>
+<div class="ttc" id="classBeeeOn_1_1RefreshTime_html"><div class="ttname"><a href="classBeeeOn_1_1RefreshTime.html">BeeeOn::RefreshTime</a></div><div class="ttdoc">RefreshTime represents time of refreshing values from sensors. E.g. sensors are polled periodically o...</div><div class="ttdef"><b>Definition:</b> RefreshTime.h:24</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDimmer_html_ae389e9e44a5055a9c1ad712dc946512c"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDimmer.html#ae389e9e44a5055a9c1ad712dc946512c">BeeeOn::BelkinWemoDimmer::BelkinWemoDimmer</a></div><div class="ttdeci">BelkinWemoDimmer(const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const RefreshTime &amp;refresh)</div><div class="ttdoc">Creates belkin wemo dimmer. If the device do not respond in specified timeout, Poco::TimeoutException...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDimmer.cpp:29</div></div>
 <div class="ttc" id="classBeeeOn_1_1SensorData_html"><div class="ttname"><a href="classBeeeOn_1_1SensorData.html">BeeeOn::SensorData</a></div><div class="ttdef"><b>Definition:</b> SensorData.h:20</div></div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDimmer_html_aa66e2631d1e24015bf51ff5b2548acf8"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDimmer.html#aa66e2631d1e24015bf51ff5b2548acf8">BeeeOn::BelkinWemoDimmer::requestState</a></div><div class="ttdeci">SensorData requestState() override</div><div class="ttdoc">Prepares SOAP message containing request state command and sends it to device via HTTP...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDimmer.cpp:54</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDimmer_html_ab100e6a2ff9504cef5c28ffba670c602"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDimmer.html#ab100e6a2ff9504cef5c28ffba670c602">BeeeOn::BelkinWemoDimmer::BelkinWemoDimmer</a></div><div class="ttdeci">BelkinWemoDimmer(const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout)</div><div class="ttdoc">Creates belkin wemo dimmer. If the device do not respond in specified timeout, Poco::TimeoutException...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDimmer.cpp:29</div></div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDimmer_html_a84e22972b8e4ba13e2907cd731178af4"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDimmer.html#a84e22972b8e4ba13e2907cd731178af4">BeeeOn::BelkinWemoDimmer::requestModifyState</a></div><div class="ttdeci">bool requestModifyState(const ModuleID &amp;moduleID, const double value) override</div><div class="ttdoc">Modifies the dimmer&amp;#39;s given module to the given value. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDimmer.cpp:38</div></div>
-<div class="ttc" id="classBeeeOn_1_1BelkinWemoDimmer_html_aa30a3f9c4cc0f4fe78ab4c396e9f6282"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDimmer.html#aa30a3f9c4cc0f4fe78ab4c396e9f6282">BeeeOn::BelkinWemoDimmer::operator==</a></div><div class="ttdeci">bool operator==(const BelkinWemoDimmer &amp;bw) const </div><div class="ttdoc">It compares two switches based on DeviceID. </div><div class="ttdef"><b>Definition:</b> BelkinWemoDimmer.cpp:87</div></div>
 <div class="ttc" id="classBeeeOn_1_1BelkinWemoStandaloneDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoStandaloneDevice.html">BeeeOn::BelkinWemoStandaloneDevice</a></div><div class="ttdoc">Abstract class representing generic BelkinWemo standalone device. The class implements sending messag...</div><div class="ttdef"><b>Definition:</b> BelkinWemoStandaloneDevice.h:19</div></div>
+<div class="ttc" id="classBeeeOn_1_1BelkinWemoDevice_html_a97234d876e95d20735e526c5f6e4eaf4"><div class="ttname"><a href="classBeeeOn_1_1BelkinWemoDevice.html#a97234d876e95d20735e526c5f6e4eaf4">BeeeOn::BelkinWemoDevice::refresh</a></div><div class="ttdeci">RefreshTime refresh() const override</div><div class="ttdoc">Regular period telling how often to call the method PollableDevice::poll(). The refresh must contain ...</div><div class="ttdef"><b>Definition:</b> BelkinWemoDevice.cpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
