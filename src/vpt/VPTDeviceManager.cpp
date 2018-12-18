@@ -351,8 +351,13 @@ vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices(const StopControl& stop)
 
 		VPTDevice::Ptr newDevice;
 		try {
-			newDevice = new VPTDevice(address, m_httpTimeout,
-				m_pingTimeout, m_gatewayInfo->gatewayID());
+			newDevice = new VPTDevice(
+				address,
+				m_httpTimeout,
+				m_pingTimeout,
+				m_gatewayInfo->gatewayID(),
+				m_refresh,
+				deviceCache());
 		}
 		catch (Exception& e) {
 			logger().warning("found device has disconnected", __FILE__, __LINE__);
