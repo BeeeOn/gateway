@@ -129,11 +129,14 @@ public:
 	 * device to declare the device is available
 	 * @param leMaxUnavailabilityTime maximum LE device unavailability
 	 * time for device to be deleted
+	 * @param classicArtificialAvaibilityTimeout maximum time from the
+	 * last seen of the device to declare the device is available
 	 */
 	DBusHciInterface(
 		const std::string& name,
 		const Poco::Timespan& leMaxAgeRssi,
-		const Poco::Timespan& leMaxUnavailabilityTime);
+		const Poco::Timespan& leMaxUnavailabilityTime,
+		const Poco::Timespan& classicArtificialAvaibilityTimeout);
 	~DBusHciInterface();
 
 	/**
@@ -147,7 +150,9 @@ public:
 
 	/**
 	 * @brief Uses detect method of BluezHciInterface class to
-	 * check state of device with MACAddress.
+	 * check state of device with MACAddress. If the device is
+	 * unavailable and has been seen within a certain time
+	 * (m_classicUnavailableMaxAge), the method returns true.
 	 */
 	bool detect(const MACAddress &address) const override;
 
@@ -327,6 +332,10 @@ private:
 	Poco::Timespan m_leMaxAgeRssi;
 	Poco::Timespan m_leMaxUnavailabilityTime;
 
+	mutable std::map<MACAddress, Poco::Timestamp> m_seenClassicDevices;
+	Poco::Timespan m_classicArtificialAvaibilityTimeout;
+	mutable Poco::FastMutex m_classicMutex;
+
 	mutable Poco::Condition m_condition;
 	mutable Poco::FastMutex m_statusMutex;
 	mutable Poco::FastMutex m_discoveringMutex;
@@ -339,6 +348,12 @@ public:
 	void setLeMaxAgeRssi(const Poco::Timespan& time);
 	void setLeMaxUnavailabilityTime(const Poco::Timespan& time);
 
+	/**
+	 * @brief Sets the maximum time from the last seen of the Bluetooth Classic
+	 * device to declare the device is available.
+	 */
+	void setClassicArtificialAvaibilityTimeout(const Poco::Timespan& time);
+
 	HciInterface::Ptr lookup(const std::string &name) override;
 
 private:
@@ -346,6 +361,7 @@ private:
 	std::map<std::string, DBusHciInterface::Ptr> m_interfaces;
 	Poco::Timespan m_leMaxAgeRssi;
 	Poco::Timespan m_leMaxUnavailabilityTime;
+	Poco::Timespan m_classicArtificialAvaibilityTimeout;
 };
 
 }

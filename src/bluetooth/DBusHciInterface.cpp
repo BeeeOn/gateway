@@ -1,3 +1,4 @@
+#include <Poco/DateTimeFormatter.h>
 #include <Poco/Exception.h>
 #include <Poco/Logger.h>
 #include <Poco/NumberFormatter.h>
@@ -12,6 +13,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, DBusHciInterfaceManager)
 BEEEON_OBJECT_CASTABLE(HciInterfaceManager)
 BEEEON_OBJECT_PROPERTY("leMaxAgeRssi", &DBusHciInterfaceManager::setLeMaxAgeRssi)
 BEEEON_OBJECT_PROPERTY("leMaxUnavailabilityTime", &DBusHciInterfaceManager::setLeMaxUnavailabilityTime)
+BEEEON_OBJECT_PROPERTY("classicArtificialAvaibilityTimeout", &DBusHciInterfaceManager::setClassicArtificialAvaibilityTimeout)
 BEEEON_OBJECT_END(BeeeOn, DBusHciInterfaceManager)
 
 using namespace BeeeOn;
@@ -26,14 +28,17 @@ static uint16_t RSSI_DEVICE_UNAVAILABLE = 0;
 DBusHciInterface::DBusHciInterface(
 		const string& name,
 		const Timespan& leMaxAgeRssi,
-		const Timespan& leMaxUnavailabilityTime):
+		const Timespan& leMaxUnavailabilityTime,
+		const Timespan& classicArtificialAvaibilityTimeout):
 	m_name(name),
 	m_loopThread(*this, &DBusHciInterface::runLoop),
 	m_leMaxAgeRssi(leMaxAgeRssi),
-	m_leMaxUnavailabilityTime(leMaxUnavailabilityTime)
+	m_leMaxUnavailabilityTime(leMaxUnavailabilityTime),
+	m_classicArtificialAvaibilityTimeout(classicArtificialAvaibilityTimeout)
 {
 	poco_assert(leMaxAgeRssi > 0);
 	poco_assert(leMaxUnavailabilityTime > 0);
+	poco_assert(classicArtificialAvaibilityTimeout > 0);
 
 	m_adapter = retrieveBluezAdapter(createAdapterPath(m_name));
 	m_objectManager = createBluezObjectManager();
@@ -129,7 +134,34 @@ void DBusHciInterface::reset() const
 bool DBusHciInterface::detect(const MACAddress &address) const
 {
 	BluezHciInterface bluezHci(m_name);
-	return bluezHci.detect(address);
+	bool status = bluezHci.detect(address);
+
+	ScopedLock<FastMutex> guard(m_classicMutex);
+
+	auto it = m_seenClassicDevices.find(address);
+	if (it == m_seenClassicDevices.end()) {
+		if (status)
+			m_seenClassicDevices.emplace(address, Timestamp());
+
+		return status;
+	}
+
+	if (status) {
+		it->second.update();
+	}
+	else if (it->second.elapsed() <= m_classicArtificialAvaibilityTimeout.totalMicroseconds()) {
+		status = true;
+
+		if (logger().debug()) {
+			logger().debug(
+				"missing device " + address.toString(':') +
+				" is declared as available because it was seen " +
+				DateTimeFormatter::format(it->second, "%s") + " seconds ago",
+				__FILE__, __LINE__);
+		}
+	}
+
+	return status;
 }
 
 map<MACAddress, string> DBusHciInterface::scan() const
@@ -598,7 +630,8 @@ int16_t DBusHciInterface::Device::rssi()
 
 DBusHciInterfaceManager::DBusHciInterfaceManager():
 	m_leMaxAgeRssi(30 * Timespan::SECONDS),
-	m_leMaxUnavailabilityTime(7 * Timespan::DAYS)
+	m_leMaxUnavailabilityTime(7 * Timespan::DAYS),
+	m_classicArtificialAvaibilityTimeout(30 * Timespan::SECONDS)
 {
 }
 
@@ -620,6 +653,14 @@ void DBusHciInterfaceManager::setLeMaxUnavailabilityTime(const Poco::Timespan& t
 	m_leMaxUnavailabilityTime = time;
 }
 
+void DBusHciInterfaceManager::setClassicArtificialAvaibilityTimeout(const Timespan& time)
+{
+	if (time.totalSeconds() <= 0)
+		throw InvalidArgumentException("Classic artificial avaibility timeout must be at least a second");
+
+	m_classicArtificialAvaibilityTimeout = time;
+}
+
 HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 {
 	ScopedLock<FastMutex> guard(m_mutex);
@@ -628,8 +669,11 @@ HciInterface::Ptr DBusHciInterfaceManager::lookup(const string &name)
 	if (it != m_interfaces.end())
 		return it->second;
 
-	DBusHciInterface::Ptr newHci =
-		new DBusHciInterface(name, m_leMaxAgeRssi, m_leMaxUnavailabilityTime);
+	DBusHciInterface::Ptr newHci = new DBusHciInterface(
+		name,
+		m_leMaxAgeRssi,
+		m_leMaxUnavailabilityTime,
+		m_classicArtificialAvaibilityTimeout);
 	m_interfaces.emplace(name, newHci);
 	return newHci;
 }

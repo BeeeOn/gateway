@@ -264,6 +264,12 @@ After the initial setup, we have full control over all currently supported devic
 
 * belkinwemo.refresh - interval of polling the particular Belkin Wemo devices (seconds)
 
+##### Bluetooth DBus HCI configuration
+
+* bluetooth.le.maxAgeRssi - the time after which a Bluetooth LE device that is unavailable would be declared as unavailable
+
+* bluetooth.classic.artificialAvaibilityTimeout - the time after which a Bluetooth Classic device that is unavailable would be declared as unavailable
+
 ##### Bluetooth HCI statistics reporting
 
 The BeeeOn Gateway can periodically report statistics of HCI interfaces via the internal
