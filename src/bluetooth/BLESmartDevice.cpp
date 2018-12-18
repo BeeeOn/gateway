@@ -22,6 +22,11 @@ DeviceID BLESmartDevice::deviceID() const
 	return m_deviceId;
 }
 
+MACAddress BLESmartDevice::macAddress() const
+{
+	return m_address;
+}
+
 void BLESmartDevice::pair(
 		HciInterface::Ptr,
 		Poco::SharedPtr<HciInterface::WatchCallback>)
