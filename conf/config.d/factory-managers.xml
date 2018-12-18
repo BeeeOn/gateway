@@ -97,6 +97,7 @@
 
 		<instance name="vptDeviceManager" class="BeeeOn::VPTDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
+			<set name="devicePoller" ref="devicePoller" />
 			<set name="httpTimeout" time="${vpt.http.timeout}" />
 			<set name="pingTimeout" time="${vpt.ping.timeout}" />
 			<set name="refresh" time="${vpt.refresh}" />
