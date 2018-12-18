@@ -539,6 +539,7 @@ vector<DeviceDescription> VPTDevice::descriptions(const RefreshTime& refresh) co
 			.type(VPT_VENDOR, "Zone " + to_string(i))
 			.modules(VPTDevice::ZONE_MODULE_TYPES)
 			.refreshTime(refresh)
+			.ipAddress(m_address.host())
 			.build();
 
 		vector.push_back(description);
@@ -549,6 +550,7 @@ vector<DeviceDescription> VPTDevice::descriptions(const RefreshTime& refresh) co
 		.type(VPT_VENDOR, "Boiler")
 		.modules(VPTDevice::BOILER_MODULE_TYPES)
 		.refreshTime(refresh)
+		.ipAddress(m_address.host())
 		.build();
 
 	vector.push_back(description);
