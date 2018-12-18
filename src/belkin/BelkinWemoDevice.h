@@ -9,6 +9,7 @@
 #include <Poco/DOM/Node.h>
 #include <Poco/DOM/NodeIterator.h>
 
+#include "core/PollableDevice.h"
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
@@ -20,17 +21,21 @@ namespace BeeeOn {
 /**
  * @brief Abstract class representing generic BelkinWemo device.
  */
-class BelkinWemoDevice : protected Loggable {
+class BelkinWemoDevice : public PollableDevice, protected Loggable {
 public:
 	typedef Poco::SharedPtr<BelkinWemoDevice> Ptr;
 
-	BelkinWemoDevice(const DeviceID& id);
+	BelkinWemoDevice(const DeviceID& id, const RefreshTime &refresh);
 	virtual ~BelkinWemoDevice();
 
 	DeviceID deviceID() const;
+	DeviceID id() const override;
+
+	RefreshTime refresh() const override;
 
 	virtual bool requestModifyState(const ModuleID& moduleID, const double value) = 0;
 	virtual SensorData requestState() = 0;
+	void poll(Distributor::Ptr distributor) override;
 
 	virtual std::list<ModuleType> moduleTypes() const = 0;
 	virtual std::string name() const = 0;
@@ -52,6 +57,7 @@ public:
 
 protected:
 	const DeviceID m_deviceId;
+	RefreshTime m_refresh;
 	Poco::FastMutex m_lock;
 };
 

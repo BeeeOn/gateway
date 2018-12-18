@@ -7,8 +7,9 @@ using namespace Poco;
 using namespace Poco::XML;
 using namespace std;
 
-BelkinWemoDevice::BelkinWemoDevice(const DeviceID& id):
-	m_deviceId(id)
+BelkinWemoDevice::BelkinWemoDevice(const DeviceID& id, const RefreshTime &refresh):
+	m_deviceId(id),
+	m_refresh(refresh)
 {
 }
 
@@ -19,6 +20,16 @@ BelkinWemoDevice::~BelkinWemoDevice()
 DeviceID BelkinWemoDevice::deviceID() const
 {
 	return m_deviceId;
+}
+
+DeviceID BelkinWemoDevice::id() const
+{
+	return m_deviceId;
+}
+
+RefreshTime BelkinWemoDevice::refresh() const
+{
+	return m_refresh;
 }
 
 FastMutex& BelkinWemoDevice::lock()
@@ -65,4 +76,10 @@ list<Node*> BelkinWemoDevice::findNodes(NodeIterator& iterator, const string& na
 	}
 
 	return list;
+}
+
+void BelkinWemoDevice::poll(Distributor::Ptr distributor)
+{
+	FastMutex::ScopedLock guard(m_lock);
+	distributor->exportData(requestState());
 }

@@ -28,10 +28,12 @@ static list<ModuleType> DIMMER_MODULE_TYPES = {
 
 BelkinWemoDimmer::BelkinWemoDimmer(
 		const SocketAddress& address,
-		const Timespan &httpTimeout):
+		const Timespan &httpTimeout,
+		const RefreshTime &refresh):
 	BelkinWemoStandaloneDevice(
 		URI("http://" + address.toString() + "/upnp/control/basicevent1"),
-		httpTimeout)
+		httpTimeout,
+		refresh)
 {
 }
 

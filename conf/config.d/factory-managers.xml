@@ -27,6 +27,7 @@
 
 		<instance name="belkinwemoDeviceManager" class="BeeeOn::BelkinWemoDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
+			<set name="devicePoller" ref="devicePoller" />
 			<set name="httpTimeout" time="${belkinwemo.http.timeout}" />
 			<set name="upnpTimeout" time="${belkinwemo.upnp.timeout}" />
 			<set name="refresh" time="${belkinwemo.refresh}" />

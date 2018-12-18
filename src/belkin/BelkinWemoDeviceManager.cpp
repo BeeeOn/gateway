@@ -21,6 +21,7 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &BelkinWemoDeviceManager::setDeviceCache)
+BEEEON_OBJECT_PROPERTY("devicePoller", &BelkinWemoDeviceManager::setDevicePoller)
 BEEEON_OBJECT_PROPERTY("distributor", &BelkinWemoDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &BelkinWemoDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("upnpTimeout", &BelkinWemoDeviceManager::setUPnPTimeout)
@@ -46,6 +47,11 @@ BelkinWemoDeviceManager::BelkinWemoDeviceManager():
 {
 }
 
+void BelkinWemoDeviceManager::setDevicePoller(DevicePoller::Ptr poller)
+{
+	m_pollingKeeper.setDevicePoller(poller);
+}
+
 void BelkinWemoDeviceManager::run()
 {
 	logger().information("starting Belkin WeMo device manager", __FILE__, __LINE__);
@@ -58,17 +64,19 @@ void BelkinWemoDeviceManager::run()
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
-		Timestamp now;
-
 		eraseUnusedLinks();
 
-		refreshPairedDevices();
+		for (auto pair : m_devices) {
+			if (deviceCache()->paired(pair.second->id()))
+				m_pollingKeeper.schedule(pair.second);
+			else
+				m_pollingKeeper.cancel(pair.second->id());
+		}
 
-		Timespan sleepTime = m_refresh.time() - now.elapsed();
-		if (sleepTime > 0)
-			run.waitStoppable(sleepTime);
+		run.waitStoppable(m_refresh);
 	}
 
+	m_pollingKeeper.cancelAll();
 	logger().information("stopping Belkin WeMo device manager", __FILE__, __LINE__);
 }
 
@@ -100,35 +108,6 @@ void BelkinWemoDeviceManager::setHTTPTimeout(const Timespan &timeout)
 		throw InvalidArgumentException("http timeout time must be at least a second");
 
 	m_httpTimeout = timeout;
-}
-
-void BelkinWemoDeviceManager::refreshPairedDevices()
-{
-	vector<BelkinWemoDevice::Ptr> devices;
-
-	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
-	for (auto &id : deviceCache()->paired(prefix())) {
-		auto it = m_devices.find(id);
-		if (it == m_devices.end()) {
-			logger().warning("no such device: " + id.toString(), __FILE__, __LINE__);
-			continue;
-		}
-
-		devices.push_back(it->second);
-	}
-	lock.unlock();
-
-	for (auto &device : devices) {
-		try {
-			ScopedLock<FastMutex> guard(device->lock());
-			ship(device->requestState());
-		}
-		catch (Exception& e) {
-			logger().log(e, __FILE__, __LINE__);
-			logger().warning("device " + device->deviceID().toString() + " did not answer",
-				__FILE__, __LINE__);
-		}
-	}
 }
 
 void BelkinWemoDeviceManager::searchPairedDevices()
@@ -209,6 +188,7 @@ AsyncWork<set<DeviceID>>::Ptr BelkinWemoDeviceManager::startUnpair(
 	}
 	else {
 		deviceCache()->markUnpaired(id);
+		m_pollingKeeper.cancel(id);
 
 		auto itDevice = m_devices.find(id);
 		if (itDevice != m_devices.end())
@@ -229,6 +209,7 @@ void BelkinWemoDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	DeviceManager::handleAccept(cmd);
+	m_pollingKeeper.schedule(it->second);
 }
 
 void BelkinWemoDeviceManager::doSetValueCommand(const Command::Ptr cmd)
@@ -293,7 +274,7 @@ vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches(const StopCo
 
 		BelkinWemoSwitch::Ptr newDevice;
 		try {
-			newDevice = new BelkinWemoSwitch(address, m_httpTimeout);
+			newDevice = new BelkinWemoSwitch(address, m_httpTimeout, m_refresh);
 		}
 		catch (const TimeoutException& e) {
 			logger().debug("found device has disconnected", __FILE__, __LINE__);
@@ -357,7 +338,7 @@ vector<BelkinWemoBulb::Ptr> BelkinWemoDeviceManager::seekBulbs(const StopControl
 		logger().notice("discovered link with " + to_string(bulbIDs.size()) + " Belkin Wemo Bulbs", __FILE__, __LINE__);
 
 		for (auto id : bulbIDs) {
-			BelkinWemoBulb::Ptr newDevice = new BelkinWemoBulb(id, link);
+			BelkinWemoBulb::Ptr newDevice = new BelkinWemoBulb(id, link, m_refresh);
 			devices.push_back(newDevice);
 
 			logger().information("discovered Belkin Wemo Bulb " + newDevice->deviceID().toString());
@@ -380,7 +361,7 @@ vector<BelkinWemoDimmer::Ptr> BelkinWemoDeviceManager::seekDimmers(const StopCon
 
 		BelkinWemoDimmer::Ptr newDevice;
 		try {
-			newDevice = new BelkinWemoDimmer(address, m_httpTimeout);
+			newDevice = new BelkinWemoDimmer(address, m_httpTimeout, m_refresh);
 		}
 		catch (const TimeoutException& e) {
 			logger().debug("found device has disconnected", __FILE__, __LINE__);

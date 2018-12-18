@@ -20,7 +20,8 @@ class BelkinWemoStandaloneDevice : public BelkinWemoDevice {
 public:
 	BelkinWemoStandaloneDevice(
 		const Poco::URI& uri,
-		const Poco::Timespan &httpTimeout);
+		const Poco::Timespan &httpTimeout,
+		const RefreshTime &refresh);
 
 	/**
 	 * @brief Prepares SOAP message containing GetBinaryState request
