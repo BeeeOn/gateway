@@ -25,8 +25,9 @@ static list<ModuleType> BULB_MODULE_TYPES = {
 PhilipsHueDimmableBulb::PhilipsHueDimmableBulb(
 		const uint32_t ordinalNumber,
 		const PhilipsHueBridge::BulbID bulbId,
-		const PhilipsHueBridge::Ptr bridge):
-	PhilipsHueBulb(ordinalNumber, bulbId, bridge)
+		const PhilipsHueBridge::Ptr bridge,
+		const RefreshTime &refresh):
+	PhilipsHueBulb(ordinalNumber, bulbId, bridge, refresh)
 {
 }
 

@@ -23,7 +23,8 @@ public:
 	PhilipsHueDimmableBulb(
 		const uint32_t ordinalNumber,
 		const PhilipsHueBridge::BulbID bulbId,
-		const PhilipsHueBridge::Ptr bridge);
+		const PhilipsHueBridge::Ptr bridge,
+		const RefreshTime &refresh);
 
 	bool requestModifyState(const ModuleID& moduleID, const double value) override;
 	SensorData requestState() override;

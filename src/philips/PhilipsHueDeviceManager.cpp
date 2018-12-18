@@ -398,7 +398,7 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs(const StopControl
 		for (auto bulb : bulbs) {
 			if (bulb.first == "Dimmable light") {
 				PhilipsHueDimmableBulb::Ptr newDevice = new PhilipsHueDimmableBulb(
-					bulb.second.first, bulb.second.second, bridge);
+					bulb.second.first, bulb.second.second, bridge, m_refresh);
 				devices.push_back(newDevice);
 
 				logger().information("discovered Philips Hue Bulb " + newDevice->deviceID().toString(),
