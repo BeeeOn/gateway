@@ -14,10 +14,12 @@ const double PhilipsHueBulb::MAX_DIM = 255;
 PhilipsHueBulb::PhilipsHueBulb(
 		const uint32_t ordinalNumber,
 		const PhilipsHueBridge::BulbID bulbId,
-		const PhilipsHueBridge::Ptr bridge):
+		const PhilipsHueBridge::Ptr bridge,
+		const RefreshTime &refresh):
 	m_deviceID(DevicePrefix::PREFIX_PHILIPS_HUE, bulbId & DeviceID::IDENT_MASK),
 	m_ordinalNumber(ordinalNumber),
-	m_bridge(bridge)
+	m_bridge(bridge),
+	m_refresh(refresh)
 {
 	m_bridge->incrementCountOfBulbs();
 }
@@ -32,9 +34,14 @@ PhilipsHueBulb::~PhilipsHueBulb()
 	}
 }
 
-DeviceID PhilipsHueBulb::deviceID()
+DeviceID PhilipsHueBulb::id() const
 {
 	return m_deviceID;
+}
+
+RefreshTime PhilipsHueBulb::refresh() const
+{
+	return m_refresh;
 }
 
 FastMutex& PhilipsHueBulb::lock()
@@ -51,6 +58,12 @@ PhilipsHueBulbInfo PhilipsHueBulb::info()
 {
 	string response = m_bridge->requestDeviceState(m_ordinalNumber);
 	return PhilipsHueBulbInfo::buildBulbInfo(response);
+}
+
+void PhilipsHueBulb::poll(Distributor::Ptr distributor)
+{
+	FastMutex::ScopedLock guard(lock());
+	distributor->exportData(requestState());
 }
 
 int PhilipsHueBulb::dimToPercentage(const double value)

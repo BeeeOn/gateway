@@ -28,6 +28,7 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &PhilipsHueDeviceManager::setDeviceCache)
+BEEEON_OBJECT_PROPERTY("devicePoller", &PhilipsHueDeviceManager::setDevicePoller)
 BEEEON_OBJECT_PROPERTY("distributor", &PhilipsHueDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &PhilipsHueDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("upnpTimeout", &PhilipsHueDeviceManager::setUPnPTimeout)
@@ -72,17 +73,19 @@ void PhilipsHueDeviceManager::run()
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
-		Timestamp now;
-
 		eraseUnusedBridges();
 
-		refreshPairedDevices();
+		for (auto pair : m_devices) {
+			if (deviceCache()->paired(pair.second->id()))
+				m_pollingKeeper.schedule(pair.second);
+			else
+				m_pollingKeeper.cancel(pair.second->id());
+		}
 
-		Timespan sleepTime = m_refresh.time() - now.elapsed();
-		if (sleepTime > 0)
-			run.waitStoppable(sleepTime);
+		run.waitStoppable(m_refresh);
 	}
 
+	m_pollingKeeper.cancelAll();
 	logger().information("stopping Philips Hue device manager", __FILE__, __LINE__);
 }
 
@@ -90,6 +93,11 @@ void PhilipsHueDeviceManager::stop()
 {
 	DeviceManager::stop();
 	answerQueue().dispose();
+}
+
+void PhilipsHueDeviceManager::setDevicePoller(DevicePoller::Ptr poller)
+{
+	m_pollingKeeper.setDevicePoller(poller);
 }
 
 void PhilipsHueDeviceManager::setRefresh(const Timespan &refresh)
@@ -137,44 +145,14 @@ void PhilipsHueDeviceManager::registerListener(PhilipsHueListener::Ptr listener)
 	m_eventSource.addListener(listener);
 }
 
-void PhilipsHueDeviceManager::refreshPairedDevices()
-{
-	vector<PhilipsHueBulb::Ptr> devices;
-
-	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
-	for (auto &id : deviceCache()->paired(prefix())) {
-		auto it = m_devices.find(id);
-		if (it == m_devices.end()) {
-			logger().warning("no such device: " + id.toString(),
-				__FILE__, __LINE__);
-			continue;
-		}
-
-		devices.push_back(it->second);
-	}
-	lock.unlock();
-
-	for (auto &device : devices) {
-		try {
-			ScopedLock<FastMutex> guard(device->lock());
-			ship(device->requestState());
-		}
-		catch (Exception& e) {
-			logger().log(e, __FILE__, __LINE__);
-			logger().warning("device " + device->deviceID().toString() +
-				" did not answer", __FILE__, __LINE__);
-		}
-	}
-}
-
 void PhilipsHueDeviceManager::searchPairedDevices()
 {
 	vector<PhilipsHueBulb::Ptr> bulbs = seekBulbs(m_stopControl);
 
 	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
 	for (auto device : bulbs) {
-		if (deviceCache()->paired(device->deviceID()))
-			m_devices.emplace(device->deviceID(), device);
+		if (deviceCache()->paired(device->id()))
+			m_devices.emplace(device->id(), device);
 	}
 	lockBulb.unlock();
 }
@@ -241,6 +219,7 @@ AsyncWork<set<DeviceID>>::Ptr PhilipsHueDeviceManager::startUnpair(
 	}
 	else {
 		deviceCache()->markUnpaired(id);
+		m_pollingKeeper.cancel(id);
 
 		auto itDevice = m_devices.find(id);
 		if (itDevice != m_devices.end())
@@ -261,6 +240,7 @@ void PhilipsHueDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
 	DeviceManager::handleAccept(cmd);
+	m_pollingKeeper.schedule(it->second);
 }
 
 void PhilipsHueDeviceManager::doSetValueCommand(const Command::Ptr cmd)
@@ -398,10 +378,10 @@ vector<PhilipsHueBulb::Ptr> PhilipsHueDeviceManager::seekBulbs(const StopControl
 		for (auto bulb : bulbs) {
 			if (bulb.first == "Dimmable light") {
 				PhilipsHueDimmableBulb::Ptr newDevice = new PhilipsHueDimmableBulb(
-					bulb.second.first, bulb.second.second, bridge);
+					bulb.second.first, bulb.second.second, bridge, m_refresh);
 				devices.push_back(newDevice);
 
-				logger().information("discovered Philips Hue Bulb " + newDevice->deviceID().toString(),
+				logger().information("discovered Philips Hue Bulb " + newDevice->id().toString(),
 					__FILE__, __LINE__);
 			}
 			else {
@@ -455,16 +435,16 @@ void PhilipsHueDeviceManager::processNewDevice(PhilipsHueBulb::Ptr newDevice)
 	/*
 	 * Finds out if the device is already added.
 	 */
-	auto it = m_devices.emplace(newDevice->deviceID(), newDevice);
+	auto it = m_devices.emplace(newDevice->id(), newDevice);
 
 	if (!it.second)
 		return;
 
-	logger().debug("found device " + newDevice->deviceID().toString(),
+	logger().debug("found device " + newDevice->id().toString(),
 		__FILE__, __LINE__);
 
 	const auto description = DeviceDescription::Builder()
-		.id(newDevice->deviceID())
+		.id(newDevice->id())
 		.type(PHILIPS_HUE_VENDOR, newDevice->name())
 		.modules(newDevice->moduleTypes())
 		.refreshTime(m_refresh)

@@ -114,6 +114,7 @@
 
 		<instance name="philipsHueDeviceManager" class="BeeeOn::PhilipsHueDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
+			<set name="devicePoller" ref="devicePoller" />
 			<set name="httpTimeout" time="${philipshue.http.timeout}" />
 			<set name="upnpTimeout" time="${philipshue.upnp.timeout}" />
 			<set name="refresh" time="${philipshue.refresh}" />

@@ -8,6 +8,7 @@
 
 #include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
+#include "core/PollingKeeper.h"
 #include "credentials/FileCredentialsStorage.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
@@ -53,6 +54,7 @@ public:
 	void run() override;
 	void stop() override;
 
+	void setDevicePoller(DevicePoller::Ptr poller);
 	void setUPnPTimeout(const Poco::Timespan &timeout);
 	void setHTTPTimeout(const Poco::Timespan &timeout);
 	void setRefresh(const Poco::Timespan &refresh);
@@ -69,7 +71,6 @@ protected:
 		const DeviceID &id,
 		const Poco::Timespan &timeout) override;
 
-	void refreshPairedDevices();
 	void searchPairedDevices();
 
 	/**
@@ -104,6 +105,7 @@ private:
 	std::map<MACAddress, PhilipsHueBridge::Ptr> m_bridges;
 	std::map<DeviceID, PhilipsHueBulb::Ptr> m_devices;
 
+	PollingKeeper m_pollingKeeper;
 	RefreshTime m_refresh;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_upnpTimeout;
