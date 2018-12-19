@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -339,17 +339,17 @@
 <div class="line"><a name="l00324"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1DIWCast.html">  324</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> {</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="structBeeeOn_1_1DIWCast.html">DIWCast</a>();</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> wouldCast(<span class="keyword">const</span> std::type_info &amp;info) = 0;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isSame(<a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) = 0;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isSame(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) = 0;</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> cast(<span class="keywordtype">void</span> *raw, <span class="keywordtype">void</span> *dest) = 0;</div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> add(<a class="code" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *cast);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <span class="keyword">static</span> <a class="code" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *find(<span class="keyword">const</span> std::type_info &amp;info, <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <span class="keyword">static</span> <a class="code" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *find(<span class="keyword">const</span> std::type_info &amp;info, <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper);</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;};</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> From, <span class="keyword">typename</span> To&gt;</div>
 <div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1DIWCastImpl.html">  335</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBeeeOn_1_1DIWCastImpl.html">DIWCastImpl</a> final : <span class="keyword">public</span> <a class="code" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> {</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="structBeeeOn_1_1DIWCastImpl.html#a4bc36e0d5411cf55a5caaaac2f10d5a7">wouldCast</a>(<span class="keyword">const</span> std::type_info &amp;info) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="structBeeeOn_1_1DIWCastImpl.html#a61a1221f82174bd742fed3dad0cc8236">isSame</a>(<a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="structBeeeOn_1_1DIWCastImpl.html#a7a7542dc5692a06498b817e652f3493e">isSame</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structBeeeOn_1_1DIWCastImpl.html#a9bb6e4d00d9fc09ec4db413a96eed538">cast</a>(<span class="keywordtype">void</span> *raw, <span class="keywordtype">void</span> *dest) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        static_assert(</div>
@@ -391,11 +391,11 @@
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a>();</div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> *<a class="code" href="classBeeeOn_1_1DIWrapper.html#a65a972b0cdbe31ff3c5afc2a2ce3552b">raw</a>() = 0;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> *<a class="code" href="classBeeeOn_1_1DIWrapper.html#a63062810d4d80d2d3844e037d4d4dc32">raw</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;</div>
 <div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html#a9ca6954d2d3d0e10896f0bbdeea1ee92">referenceCount</a>() = 0;</div>
 <div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> std::type_info &amp;<a class="code" href="classBeeeOn_1_1DIWrapper.html#a8eb03d798fd23f837f140c00da325c23">type</a>() = 0;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> std::type_info &amp;<a class="code" href="classBeeeOn_1_1DIWrapper.html#aafaed3da1a6fa20e55ff50296f1c90d8">type</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> injectRef(<span class="keyword">const</span> std::string &amp;name,</div>
@@ -423,9 +423,9 @@
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;</div>
 <div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        Poco::SharedPtr&lt;T&gt; <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#aa79e35f03e85bcd88a7a5b0b6e0d5dbe">instance</a>();</div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keywordtype">void</span> *<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a1f48c439ea5e12194142b89a4aec99a5">raw</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keywordtype">void</span> *<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a40b9ad9748314e69a26fc27b62c5d862">raw</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">referenceCount</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        <span class="keyword">const</span> std::type_info &amp;<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#aee09cfe664ae686ca0c928937c102d09">type</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        <span class="keyword">const</span> std::type_info &amp;<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">type</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;<span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        <span class="keywordtype">void</span> injectRef(<span class="keyword">const</span> std::string &amp;name, <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) <span class="keyword">override</span>;</div>
@@ -614,9 +614,9 @@
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;}</div>
 <div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;</div>
 <div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> From, <span class="keyword">typename</span> To&gt;</div>
-<div class="line"><a name="l00653"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1DIWCastImpl.html#a61a1221f82174bd742fed3dad0cc8236">  653</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="structBeeeOn_1_1DIWCastImpl.html#a61a1221f82174bd742fed3dad0cc8236">DIWCastImpl&lt;From, To&gt;::isSame</a>(<a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</div>
+<div class="line"><a name="l00653"></a><span class="lineno"><a class="line" href="structBeeeOn_1_1DIWCastImpl.html#a7a7542dc5692a06498b817e652f3493e">  653</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="structBeeeOn_1_1DIWCastImpl.html#a7a7542dc5692a06498b817e652f3493e">DIWCastImpl&lt;From, To&gt;::isSame</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</div>
 <div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;{</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;        <span class="keywordflow">return</span> wrapper.<a class="code" href="classBeeeOn_1_1DIWrapper.html#a8eb03d798fd23f837f140c00da325c23">type</a>() == <span class="keyword">typeid</span>(From);</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;        <span class="keywordflow">return</span> wrapper.<a class="code" href="classBeeeOn_1_1DIWrapper.html#aafaed3da1a6fa20e55ff50296f1c90d8">type</a>() == <span class="keyword">typeid</span>(From);</div>
 <div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;}</div>
 <div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;</div>
 <div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> From, <span class="keyword">typename</span> To&gt;</div>
@@ -655,369 +655,370 @@
 <div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;}</div>
 <div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;</div>
 <div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00701"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#a1f48c439ea5e12194142b89a4aec99a5">  701</a></span>&#160;<span class="keywordtype">void</span> *<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a1f48c439ea5e12194142b89a4aec99a5">AbstractDIWrapper&lt;T&gt;::raw</a>()</div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;{</div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span>(&amp;m_instance);</div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;}</div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00707"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">  707</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">AbstractDIWrapper&lt;T&gt;::referenceCount</a>()</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;{</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;        <span class="keywordflow">return</span> m_instance.referenceCount();</div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;}</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00713"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#aee09cfe664ae686ca0c928937c102d09">  713</a></span>&#160;<span class="keyword">const</span> std::type_info &amp;<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#aee09cfe664ae686ca0c928937c102d09">AbstractDIWrapper&lt;T&gt;::type</a>()</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;{</div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">typeid</span>(T);</div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;}</div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Setter, <span class="keyword">typename</span> Target&gt;</div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html">AbstractDIWrapper&lt;T&gt;::injectGeneric</a>(</div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                Target &amp;value,</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;                <span class="keyword">const</span> std::string &amp;property)</div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;{</div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        <span class="keyword">auto</span> entry = m_method.find(name);</div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;        <span class="keywordflow">if</span> (entry == m_method.end()) {</div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;                <span class="keywordflow">throw</span> Poco::NotFoundException(<span class="stringliteral">&quot;missing &quot;</span></div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;                                + property + <span class="stringliteral">&quot; property &quot;</span></div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;                                + name + <span class="stringliteral">&quot; for type &quot;</span></div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;                                + <span class="keyword">typeid</span>(T).name());</div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;        }</div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;        Setter *setter = <span class="keyword">dynamic_cast&lt;</span>Setter *<span class="keyword">&gt;</span>(entry-&gt;second);</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        <span class="keywordflow">if</span> (setter == NULL) {</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;                <span class="keywordflow">throw</span> DIWWrongInputException(</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;                        <span class="stringliteral">&quot;injecting property &quot;</span></div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                        + property</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                        + <span class="stringliteral">&quot; via method &quot;</span></div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                        + entry-&gt;second-&gt;id());</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;        }</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;        setter-&gt;call(*<span class="keyword">this</span>, value);</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;}</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectRef(</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                DIWrapper &amp;wrapper)</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;{</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;        injectGeneric&lt;DIWRefSetter&gt;(name, wrapper, <span class="stringliteral">&quot;ref&quot;</span>);</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;}</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectNumber(</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                <span class="keywordtype">double</span> value)</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;{</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;        injectGeneric&lt;DIWNumberSetter&gt;(name, value, <span class="stringliteral">&quot;number&quot;</span>);</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;}</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectText(</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                <span class="keyword">const</span> std::string &amp;value)</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;{</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        injectGeneric&lt;DIWTextSetter&gt;(name, value, <span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;}</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectTime(</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;value)</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;{</div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        injectGeneric&lt;DIWTimeSetter&gt;(name, value, <span class="stringliteral">&quot;time&quot;</span>);</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;}</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;</div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectList(</div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                <span class="keyword">const</span> std::list&lt;Poco::Dynamic::Var&gt; &amp;value)</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;{</div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;        injectGeneric&lt;DIWListSetter&gt;(name, value, <span class="stringliteral">&quot;list&quot;</span>);</div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;}</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectMap(</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                <span class="keyword">const</span> std::map&lt;Poco::Dynamic::Var, Poco::Dynamic::Var&gt; &amp;value)</div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;{</div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;        injectGeneric&lt;DIWMapSetter&gt;(name, value, <span class="stringliteral">&quot;map&quot;</span>);</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;}</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::callHook(<span class="keyword">const</span> std::string &amp;name)</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;{</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;        <span class="keyword">auto</span> entry = m_method.find(name);</div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;        <span class="keywordflow">if</span> (entry == m_method.end())</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;                <span class="keywordflow">throw</span> Poco::NotFoundException(<span class="stringliteral">&quot;no such hook &quot;</span> + name);</div>
-<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;</div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        DIWHook &amp;handler = <span class="keyword">dynamic_cast&lt;</span>DIWHook &amp;<span class="keyword">&gt;</span>(*(entry-&gt;second));</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;        handler.call(*<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;}</div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;<span class="keywordtype">bool</span> AbstractDIWrapper&lt;T&gt;::hasHook(<span class="keyword">const</span> std::string &amp;name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;        <span class="keywordflow">return</span> m_method.find(name) != m_method.end();</div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;}</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00811"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#ad162507272fbe5883e46d8b66a074be0">  811</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#ad162507272fbe5883e46d8b66a074be0">AbstractDIWrapper&lt;T&gt;::installMethod</a>(<span class="keyword">const</span> std::string &amp;name, <a class="code" href="structBeeeOn_1_1DIWMethodHelper.html">DIWMethodHelper</a> *helper)</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;{</div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;        <span class="keywordflow">if</span> (m_method.find(name) != m_method.end()) {</div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;                <span class="keyword">delete</span> helper;</div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classBeeeOn_1_1DIWDuplicateException.html">DIWDuplicateException</a>(name, <span class="keyword">typeid</span>(*helper));</div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;        }</div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;        m_method[name] = helper;</div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;}</div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;</div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B, <span class="keyword">typename</span> I&gt;</div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html">AbstractDIWrapper&lt;T&gt;::setter</a>(</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(I *))</div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;{</div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;        installMethod(name, <span class="keyword">new</span> <a class="code" href="classBeeeOn_1_1DIWRawPtrSetter.html">DIWRawPtrSetter&lt;T, B, I&gt;</a>(setter));</div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;}</div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;</div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B, <span class="keyword">typename</span> I&gt;</div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(Poco::SharedPtr&lt;I&gt;))</div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;{</div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWSharedPtrSetter&lt;T, B, I&gt;(setter));</div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;}</div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keywordtype">int</span>))</div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;{</div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWIntSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;}</div>
-<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;</div>
-<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keywordtype">double</span>))</div>
-<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;{</div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWDoubleSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;}</div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keywordtype">bool</span>))</div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;{</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWBoolSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;}</div>
-<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;</div>
-<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> std::string &amp;))</div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;{</div>
-<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWStringSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;}</div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;</div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> <span class="keywordtype">char</span>))</div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;{</div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWCharSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;}</div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;</div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> Poco::Timespan &amp;))</div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;{</div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWTimespanSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;}</div>
-<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;</div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> std::list&lt;std::string&gt; &amp;))</div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;{</div>
-<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWStringListSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;}</div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> std::map&lt;std::string, std::string&gt; &amp;))</div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;{</div>
-<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWStringStringMapSetter&lt;T, B&gt;(setter));</div>
-<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;}</div>
-<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;</div>
-<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
-<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::hookHandler(</div>
-<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;                <span class="keywordtype">void</span> (B::*hook)())</div>
-<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;{</div>
-<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWHookHandler&lt;T, B&gt;(hook));</div>
-<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;}</div>
-<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;</div>
-<div class="line"><a name="l00914"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1DIWrapperFactory.html">  914</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1DIWrapperFactory.html">DIWrapperFactory</a> {</div>
-<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> *create() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;</div>
-<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> registerFactory(</div>
-<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;                <span class="keyword">const</span> std::string &amp;name, <a class="code" href="classBeeeOn_1_1DIWrapperFactory.html">DIWrapperFactory</a> &amp;factory);</div>
-<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1DIWrapperFactory.html">DIWrapperFactory</a> &amp;lookupFactory(<span class="keyword">const</span> std::string &amp;name);</div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> listFactories(std::list&lt;std::string&gt; &amp;names);</div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;};</div>
-<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;</div>
-<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;<span class="preprocessor">#define _BEEEON_VA_EXPAND(x) x</span></div>
-<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_COUNT_HELPER(_1, _2, _3, _4, _5, _6, _count, ...) _count</span></div>
-<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_COUNT(...) \</span></div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;<span class="preprocessor">        _BEEEON_VA_EXPAND(_BEEEON_VA_COUNT_HELPER(__VA_ARGS__, 6, 5, 4, 3, 2, 1))</span></div>
-<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_SELECT_CAT(name, count, ...)\</span></div>
-<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;<span class="preprocessor">        _BEEEON_VA_EXPAND(name##count(__VA_ARGS__))</span></div>
-<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_SELECT_HELPER(name, count, ...) \</span></div>
-<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT_CAT(name, count, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_SELECT(name, ...) \</span></div>
-<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT_HELPER(name, _BEEEON_VA_COUNT(__VA_ARGS__), __VA_ARGS__)</span></div>
-<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_IMPL(name, type)                  \</span></div>
-<div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;<span class="preprocessor">class name##Factory : public BeeeOn::DIWrapperFactory { \</span></div>
-<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;<span class="preprocessor">public:                                                 \</span></div>
-<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;<span class="preprocessor">        name##Factory()                                 \</span></div>
-<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;<span class="preprocessor">        {                                               \</span></div>
-<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;<span class="preprocessor">                BeeeOn::DIWrapperFactory                \</span></div>
-<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;<span class="preprocessor">                        ::registerFactory(#type, *this);\</span></div>
-<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;<span class="preprocessor">        }                                               \</span></div>
-<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;<span class="preprocessor">                                                        \</span></div>
-<div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;<span class="preprocessor">        BeeeOn::DIWrapper *create() const override      \</span></div>
-<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;<span class="preprocessor">        {                                               \</span></div>
-<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;<span class="preprocessor">                return new type##DIW;                   \</span></div>
-<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;<span class="preprocessor">        }                                               \</span></div>
-<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;<span class="preprocessor">};                                                      \</span></div>
-<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;<span class="preprocessor">static name##Factory name##Factory;</span></div>
-<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;<span class="preprocessor">#define BEEEON_WRAPPER(cls, wrapper) \</span></div>
-<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;<span class="preprocessor">        static_assert(                                         \</span></div>
-<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;<span class="preprocessor">                std::is_default_constructible&lt;cls&gt;::value,     \</span></div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;<span class="preprocessor">                #cls &quot; is missing a default constructor&quot;);     \</span></div>
-<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;<span class="preprocessor">        static_assert(                                         \</span></div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;<span class="preprocessor">                !std::is_polymorphic&lt;cls&gt;::value               \</span></div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;<span class="preprocessor">                ||                                             \</span></div>
-<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;<span class="preprocessor">                std::has_virtual_destructor&lt;cls&gt;::value,       \</span></div>
-<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;<span class="preprocessor">                #cls &quot; is missing a virtual destructor&quot;);      \</span></div>
-<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;<span class="preprocessor">        struct wrapper final : public AbstractDIWrapper&lt;cls&gt; { \</span></div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;<span class="preprocessor">                friend cls;                                    \</span></div>
-<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;<span class="preprocessor">                using Self = cls;                              \</span></div>
-<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;<span class="preprocessor">                wrapper()                                      \</span></div>
-<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;<span class="preprocessor">                {                                              \</span></div>
-<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;<span class="preprocessor">                        DIWCast::add(new DIWCastImpl&lt;cls, cls&gt;);</span></div>
-<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN1(cls) \</span></div>
-<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
-<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN2(ns1, cls) \</span></div>
-<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;<span class="preprocessor">namespace ns1 { \</span></div>
-<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
-<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN3(ns1, ns2, cls) \</span></div>
-<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;<span class="preprocessor">namespace ns1 { namespace ns2 { \</span></div>
-<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
-<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN4(ns1, ns2, ns3, cls) \</span></div>
-<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;<span class="preprocessor">namespace ns1 { namespace ns2 { namespace ns3 { \</span></div>
-<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
-<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN(...) \</span></div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT(BEEEON_OBJECT_BEGIN, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_CASTABLE(to) \</span></div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;<span class="preprocessor">        static_assert(                                  \</span></div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;<span class="preprocessor">                !std::is_same&lt;Self, to&gt;::value,         \</span></div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;<span class="preprocessor">                &quot;Redundant cast to itself for &quot; #to);   \</span></div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;<span class="preprocessor">        static_assert(                                  \</span></div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;<span class="preprocessor">                std::is_base_of&lt;to, Self&gt;::value,       \</span></div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;<span class="preprocessor">                &quot;Cannot cast to &quot; #to);                 \</span></div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;<span class="preprocessor">        static_assert(                                  \</span></div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;<span class="preprocessor">                std::has_virtual_destructor&lt;to&gt;::value, \</span></div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;<span class="preprocessor">                #to &quot; is missing a virtual destructor&quot;);\</span></div>
-<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;<span class="preprocessor">        DIWCast::add(new DIWCastImpl&lt;Self, to&gt;);</span></div>
-<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_PROPERTY(name, method) \</span></div>
-<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;<span class="preprocessor">        setter(name, method);</span></div>
-<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_REF(name, method) \</span></div>
-<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_REF&#39; macro is deprecated\&quot;&quot;) \</span></div>
-<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
-<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_NUMBER(name, method) \</span></div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_NUMBER&#39; macro is deprecated\&quot;&quot;) \</span></div>
-<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_TEXT(name, method) \</span></div>
-<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_TEXT&#39; macro is deprecated\&quot;&quot;) \</span></div>
-<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
-<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_TIME(name, method) \</span></div>
-<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_TIME&#39; macro is deprecated\&quot;&quot;) \</span></div>
-<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_LIST(name, method) \</span></div>
-<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_LIST&#39; macro is deprecated\&quot;&quot;) \</span></div>
-<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
-<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_MAP(name, method) \</span></div>
-<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_MAP&#39; macro is deprecated\&quot;&quot;) \</span></div>
-<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
-<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_HOOK(name, method) \</span></div>
-<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;<span class="preprocessor">        hookHandler(name, method);</span></div>
-<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END1(cls) \</span></div>
-<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;<span class="preprocessor">                }               \</span></div>
-<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;<span class="preprocessor">        };                      \</span></div>
-<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(cls, cls)</span></div>
-<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END2(ns1, cls) \</span></div>
-<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;<span class="preprocessor">                }                    \</span></div>
-<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;<span class="preprocessor">        };                           \</span></div>
-<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;<span class="preprocessor">}                                    \</span></div>
-<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(ns1##_##cls, ns1::cls)</span></div>
-<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END3(ns1, ns2, cls) \</span></div>
-<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;<span class="preprocessor">                }                         \</span></div>
-<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;<span class="preprocessor">        };                                \</span></div>
-<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;<span class="preprocessor">}}                                        \</span></div>
-<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(ns1##_##ns2##_##cls, ns1::ns2::cls)</span></div>
-<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END4(ns1, ns2, ns3, cls) \</span></div>
-<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;<span class="preprocessor">                }                              \</span></div>
-<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;<span class="preprocessor">        };                                     \</span></div>
-<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;<span class="preprocessor">}}}                                            \</span></div>
-<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(ns1##_##ns2##_##ns3##_##cls, ns1::ns2::ns3::cls)</span></div>
-<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END(...) \</span></div>
-<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT(BEEEON_OBJECT_END, __VA_ARGS__)</span></div>
-<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;}</div>
+<div class="line"><a name="l00701"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#a40b9ad9748314e69a26fc27b62c5d862">  701</a></span>&#160;<span class="keywordtype">void</span> *<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a40b9ad9748314e69a26fc27b62c5d862">AbstractDIWrapper&lt;T&gt;::raw</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;        <span class="keyword">auto</span> *<span class="keyword">self</span> = <span class="keyword">const_cast&lt;</span><a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html">AbstractDIWrapper&lt;T&gt;</a> *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span>(&amp;<span class="keyword">self</span>-&gt;m_instance);</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;}</div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00708"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">  708</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">AbstractDIWrapper&lt;T&gt;::referenceCount</a>()</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;{</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;        <span class="keywordflow">return</span> m_instance.referenceCount();</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;}</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00714"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">  714</a></span>&#160;<span class="keyword">const</span> std::type_info &amp;<a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">AbstractDIWrapper&lt;T&gt;::type</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">typeid</span>(T);</div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;}</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Setter, <span class="keyword">typename</span> Target&gt;</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html">AbstractDIWrapper&lt;T&gt;::injectGeneric</a>(</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;                Target &amp;value,</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;                <span class="keyword">const</span> std::string &amp;property)</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;{</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;        <span class="keyword">auto</span> entry = m_method.find(name);</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;        <span class="keywordflow">if</span> (entry == m_method.end()) {</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;                <span class="keywordflow">throw</span> Poco::NotFoundException(<span class="stringliteral">&quot;missing &quot;</span></div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;                                + property + <span class="stringliteral">&quot; property &quot;</span></div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;                                + name + <span class="stringliteral">&quot; for type &quot;</span></div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;                                + <span class="keyword">typeid</span>(T).name());</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;        }</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        Setter *setter = <span class="keyword">dynamic_cast&lt;</span>Setter *<span class="keyword">&gt;</span>(entry-&gt;second);</div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;        <span class="keywordflow">if</span> (setter == NULL) {</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;                <span class="keywordflow">throw</span> DIWWrongInputException(</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                        <span class="stringliteral">&quot;injecting property &quot;</span></div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                        + property</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                        + <span class="stringliteral">&quot; via method &quot;</span></div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                        + entry-&gt;second-&gt;id());</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;        }</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;        setter-&gt;call(*<span class="keyword">this</span>, value);</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;}</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectRef(</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;                DIWrapper &amp;wrapper)</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;{</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;        injectGeneric&lt;DIWRefSetter&gt;(name, wrapper, <span class="stringliteral">&quot;ref&quot;</span>);</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;}</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectNumber(</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                <span class="keywordtype">double</span> value)</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;{</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;        injectGeneric&lt;DIWNumberSetter&gt;(name, value, <span class="stringliteral">&quot;number&quot;</span>);</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;}</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectText(</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                <span class="keyword">const</span> std::string &amp;value)</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;{</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        injectGeneric&lt;DIWTextSetter&gt;(name, value, <span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;}</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectTime(</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;value)</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;{</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;        injectGeneric&lt;DIWTimeSetter&gt;(name, value, <span class="stringliteral">&quot;time&quot;</span>);</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;}</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectList(</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;                <span class="keyword">const</span> std::list&lt;Poco::Dynamic::Var&gt; &amp;value)</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;{</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;        injectGeneric&lt;DIWListSetter&gt;(name, value, <span class="stringliteral">&quot;list&quot;</span>);</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;}</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::injectMap(</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                <span class="keyword">const</span> std::map&lt;Poco::Dynamic::Var, Poco::Dynamic::Var&gt; &amp;value)</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;{</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;        injectGeneric&lt;DIWMapSetter&gt;(name, value, <span class="stringliteral">&quot;map&quot;</span>);</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;}</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::callHook(<span class="keyword">const</span> std::string &amp;name)</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;{</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;        <span class="keyword">auto</span> entry = m_method.find(name);</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;        <span class="keywordflow">if</span> (entry == m_method.end())</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;                <span class="keywordflow">throw</span> Poco::NotFoundException(<span class="stringliteral">&quot;no such hook &quot;</span> + name);</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;        DIWHook &amp;handler = <span class="keyword">dynamic_cast&lt;</span>DIWHook &amp;<span class="keyword">&gt;</span>(*(entry-&gt;second));</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;        handler.call(*<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;}</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;<span class="keywordtype">bool</span> AbstractDIWrapper&lt;T&gt;::hasHook(<span class="keyword">const</span> std::string &amp;name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;        <span class="keywordflow">return</span> m_method.find(name) != m_method.end();</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;}</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00812"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1AbstractDIWrapper.html#ad162507272fbe5883e46d8b66a074be0">  812</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html#ad162507272fbe5883e46d8b66a074be0">AbstractDIWrapper&lt;T&gt;::installMethod</a>(<span class="keyword">const</span> std::string &amp;name, <a class="code" href="structBeeeOn_1_1DIWMethodHelper.html">DIWMethodHelper</a> *helper)</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;{</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;        <span class="keywordflow">if</span> (m_method.find(name) != m_method.end()) {</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;                <span class="keyword">delete</span> helper;</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classBeeeOn_1_1DIWDuplicateException.html">DIWDuplicateException</a>(name, <span class="keyword">typeid</span>(*helper));</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;        }</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;        m_method[name] = helper;</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;}</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;</div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B, <span class="keyword">typename</span> I&gt;</div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1AbstractDIWrapper.html">AbstractDIWrapper&lt;T&gt;::setter</a>(</div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(I *))</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;{</div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;        installMethod(name, <span class="keyword">new</span> <a class="code" href="classBeeeOn_1_1DIWRawPtrSetter.html">DIWRawPtrSetter&lt;T, B, I&gt;</a>(setter));</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;}</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B, <span class="keyword">typename</span> I&gt;</div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(Poco::SharedPtr&lt;I&gt;))</div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;{</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWSharedPtrSetter&lt;T, B, I&gt;(setter));</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;}</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keywordtype">int</span>))</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;{</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWIntSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;}</div>
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keywordtype">double</span>))</div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;{</div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWDoubleSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;}</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;</div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keywordtype">bool</span>))</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;{</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWBoolSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;}</div>
+<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;</div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> std::string &amp;))</div>
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;{</div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWStringSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;}</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;</div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> <span class="keywordtype">char</span>))</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;{</div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWCharSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;}</div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;</div>
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> Poco::Timespan &amp;))</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;{</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWTimespanSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;}</div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;</div>
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> std::list&lt;std::string&gt; &amp;))</div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;{</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWStringListSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;}</div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;</div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::setter(</div>
+<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;                <span class="keywordtype">void</span> (B::*setter)(<span class="keyword">const</span> std::map&lt;std::string, std::string&gt; &amp;))</div>
+<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;{</div>
+<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWStringStringMapSetter&lt;T, B&gt;(setter));</div>
+<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;}</div>
+<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;</div>
+<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> B&gt;</div>
+<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;<span class="keywordtype">void</span> AbstractDIWrapper&lt;T&gt;::hookHandler(</div>
+<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;                <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;                <span class="keywordtype">void</span> (B::*hook)())</div>
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;{</div>
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;        installMethod(name, <span class="keyword">new</span> DIWHookHandler&lt;T, B&gt;(hook));</div>
+<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;}</div>
+<div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;</div>
+<div class="line"><a name="l00915"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1DIWrapperFactory.html">  915</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1DIWrapperFactory.html">DIWrapperFactory</a> {</div>
+<div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> *create() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;</div>
+<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> registerFactory(</div>
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;                <span class="keyword">const</span> std::string &amp;name, <a class="code" href="classBeeeOn_1_1DIWrapperFactory.html">DIWrapperFactory</a> &amp;factory);</div>
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;        <span class="keyword">static</span> <a class="code" href="classBeeeOn_1_1DIWrapperFactory.html">DIWrapperFactory</a> &amp;lookupFactory(<span class="keyword">const</span> std::string &amp;name);</div>
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> listFactories(std::list&lt;std::string&gt; &amp;names);</div>
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;};</div>
+<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;</div>
+<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;<span class="preprocessor">#define _BEEEON_VA_EXPAND(x) x</span></div>
+<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_COUNT_HELPER(_1, _2, _3, _4, _5, _6, _count, ...) _count</span></div>
+<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_COUNT(...) \</span></div>
+<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;<span class="preprocessor">        _BEEEON_VA_EXPAND(_BEEEON_VA_COUNT_HELPER(__VA_ARGS__, 6, 5, 4, 3, 2, 1))</span></div>
+<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_SELECT_CAT(name, count, ...)\</span></div>
+<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;<span class="preprocessor">        _BEEEON_VA_EXPAND(name##count(__VA_ARGS__))</span></div>
+<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_SELECT_HELPER(name, count, ...) \</span></div>
+<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT_CAT(name, count, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _BEEEON_VA_SELECT(name, ...) \</span></div>
+<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT_HELPER(name, _BEEEON_VA_COUNT(__VA_ARGS__), __VA_ARGS__)</span></div>
+<div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_IMPL(name, type)                  \</span></div>
+<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;<span class="preprocessor">class name##Factory : public BeeeOn::DIWrapperFactory { \</span></div>
+<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;<span class="preprocessor">public:                                                 \</span></div>
+<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;<span class="preprocessor">        name##Factory()                                 \</span></div>
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;<span class="preprocessor">        {                                               \</span></div>
+<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;<span class="preprocessor">                BeeeOn::DIWrapperFactory                \</span></div>
+<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;<span class="preprocessor">                        ::registerFactory(#type, *this);\</span></div>
+<div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;<span class="preprocessor">        }                                               \</span></div>
+<div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;<span class="preprocessor">                                                        \</span></div>
+<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;<span class="preprocessor">        BeeeOn::DIWrapper *create() const override      \</span></div>
+<div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;<span class="preprocessor">        {                                               \</span></div>
+<div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;<span class="preprocessor">                return new type##DIW;                   \</span></div>
+<div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;<span class="preprocessor">        }                                               \</span></div>
+<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;<span class="preprocessor">};                                                      \</span></div>
+<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;<span class="preprocessor">static name##Factory name##Factory;</span></div>
+<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;<span class="preprocessor">#define BEEEON_WRAPPER(cls, wrapper) \</span></div>
+<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;<span class="preprocessor">        static_assert(                                         \</span></div>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;<span class="preprocessor">                std::is_default_constructible&lt;cls&gt;::value,     \</span></div>
+<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;<span class="preprocessor">                #cls &quot; is missing a default constructor&quot;);     \</span></div>
+<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;<span class="preprocessor">        static_assert(                                         \</span></div>
+<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;<span class="preprocessor">                !std::is_polymorphic&lt;cls&gt;::value               \</span></div>
+<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;<span class="preprocessor">                ||                                             \</span></div>
+<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;<span class="preprocessor">                std::has_virtual_destructor&lt;cls&gt;::value,       \</span></div>
+<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;<span class="preprocessor">                #cls &quot; is missing a virtual destructor&quot;);      \</span></div>
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;<span class="preprocessor">        struct wrapper final : public AbstractDIWrapper&lt;cls&gt; { \</span></div>
+<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;<span class="preprocessor">                friend cls;                                    \</span></div>
+<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;<span class="preprocessor">                using Self = cls;                              \</span></div>
+<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;<span class="preprocessor">                wrapper()                                      \</span></div>
+<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;<span class="preprocessor">                {                                              \</span></div>
+<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;<span class="preprocessor">                        DIWCast::add(new DIWCastImpl&lt;cls, cls&gt;);</span></div>
+<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN1(cls) \</span></div>
+<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
+<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN2(ns1, cls) \</span></div>
+<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;<span class="preprocessor">namespace ns1 { \</span></div>
+<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
+<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN3(ns1, ns2, cls) \</span></div>
+<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;<span class="preprocessor">namespace ns1 { namespace ns2 { \</span></div>
+<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
+<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN4(ns1, ns2, ns3, cls) \</span></div>
+<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;<span class="preprocessor">namespace ns1 { namespace ns2 { namespace ns3 { \</span></div>
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;<span class="preprocessor">BEEEON_WRAPPER(cls, cls##DIW)</span></div>
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_BEGIN(...) \</span></div>
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT(BEEEON_OBJECT_BEGIN, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_CASTABLE(to) \</span></div>
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;<span class="preprocessor">        static_assert(                                  \</span></div>
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;<span class="preprocessor">                !std::is_same&lt;Self, to&gt;::value,         \</span></div>
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;<span class="preprocessor">                &quot;Redundant cast to itself for &quot; #to);   \</span></div>
+<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;<span class="preprocessor">        static_assert(                                  \</span></div>
+<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;<span class="preprocessor">                std::is_base_of&lt;to, Self&gt;::value,       \</span></div>
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;<span class="preprocessor">                &quot;Cannot cast to &quot; #to);                 \</span></div>
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;<span class="preprocessor">        static_assert(                                  \</span></div>
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;<span class="preprocessor">                std::has_virtual_destructor&lt;to&gt;::value, \</span></div>
+<div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;<span class="preprocessor">                #to &quot; is missing a virtual destructor&quot;);\</span></div>
+<div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;<span class="preprocessor">        DIWCast::add(new DIWCastImpl&lt;Self, to&gt;);</span></div>
+<div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_PROPERTY(name, method) \</span></div>
+<div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;<span class="preprocessor">        setter(name, method);</span></div>
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_REF(name, method) \</span></div>
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_REF&#39; macro is deprecated\&quot;&quot;) \</span></div>
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_NUMBER(name, method) \</span></div>
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_NUMBER&#39; macro is deprecated\&quot;&quot;) \</span></div>
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_TEXT(name, method) \</span></div>
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_TEXT&#39; macro is deprecated\&quot;&quot;) \</span></div>
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_TIME(name, method) \</span></div>
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_TIME&#39; macro is deprecated\&quot;&quot;) \</span></div>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_LIST(name, method) \</span></div>
+<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_LIST&#39; macro is deprecated\&quot;&quot;) \</span></div>
+<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
+<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_MAP(name, method) \</span></div>
+<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;<span class="preprocessor">        _Pragma (&quot;GCC warning \&quot;&#39;BEEEON_OBJECT_MAP&#39; macro is deprecated\&quot;&quot;) \</span></div>
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;<span class="preprocessor">        BEEEON_OBJECT_PROPERTY(name, method)</span></div>
+<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define BEEEON_OBJECT_HOOK(name, method) \</span></div>
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;<span class="preprocessor">        hookHandler(name, method);</span></div>
+<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END1(cls) \</span></div>
+<div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;<span class="preprocessor">                }               \</span></div>
+<div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;<span class="preprocessor">        };                      \</span></div>
+<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(cls, cls)</span></div>
+<div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END2(ns1, cls) \</span></div>
+<div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;<span class="preprocessor">                }                    \</span></div>
+<div class="line"><a name="l01027"></a><span class="lineno"> 1027</span>&#160;<span class="preprocessor">        };                           \</span></div>
+<div class="line"><a name="l01028"></a><span class="lineno"> 1028</span>&#160;<span class="preprocessor">}                                    \</span></div>
+<div class="line"><a name="l01029"></a><span class="lineno"> 1029</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(ns1##_##cls, ns1::cls)</span></div>
+<div class="line"><a name="l01030"></a><span class="lineno"> 1030</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01031"></a><span class="lineno"> 1031</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END3(ns1, ns2, cls) \</span></div>
+<div class="line"><a name="l01032"></a><span class="lineno"> 1032</span>&#160;<span class="preprocessor">                }                         \</span></div>
+<div class="line"><a name="l01033"></a><span class="lineno"> 1033</span>&#160;<span class="preprocessor">        };                                \</span></div>
+<div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;<span class="preprocessor">}}                                        \</span></div>
+<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(ns1##_##ns2##_##cls, ns1::ns2::cls)</span></div>
+<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END4(ns1, ns2, ns3, cls) \</span></div>
+<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;<span class="preprocessor">                }                              \</span></div>
+<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;<span class="preprocessor">        };                                     \</span></div>
+<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;<span class="preprocessor">}}}                                            \</span></div>
+<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;<span class="preprocessor">BEEEON_OBJECT_IMPL(ns1##_##ns2##_##ns3##_##cls, ns1::ns2::ns3::cls)</span></div>
+<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;<span class="preprocessor">#define BEEEON_OBJECT_END(...) \</span></div>
+<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;<span class="preprocessor">        _BEEEON_VA_SELECT(BEEEON_OBJECT_END, __VA_ARGS__)</span></div>
+<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1DIWrapper_html_a9ca6954d2d3d0e10896f0bbdeea1ee92"><div class="ttname"><a href="classBeeeOn_1_1DIWrapper.html#a9ca6954d2d3d0e10896f0bbdeea1ee92">BeeeOn::DIWrapper::referenceCount</a></div><div class="ttdeci">virtual int referenceCount()=0</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWWrongInputException_html"><div class="ttname"><a href="classBeeeOn_1_1DIWWrongInputException.html">BeeeOn::DIWWrongInputException</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:51</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_aee09cfe664ae686ca0c928937c102d09"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#aee09cfe664ae686ca0c928937c102d09">BeeeOn::AbstractDIWrapper::type</a></div><div class="ttdeci">const std::type_info &amp; type() override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:713</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_a3c7a2942c79b2472e02b189391f93362"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">BeeeOn::AbstractDIWrapper::referenceCount</a></div><div class="ttdeci">int referenceCount() override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:707</div></div>
-<div class="ttc" id="structBeeeOn_1_1DIWCastImpl_html_a61a1221f82174bd742fed3dad0cc8236"><div class="ttname"><a href="structBeeeOn_1_1DIWCastImpl.html#a61a1221f82174bd742fed3dad0cc8236">BeeeOn::DIWCastImpl::isSame</a></div><div class="ttdeci">bool isSame(DIWrapper &amp;wrapper) override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:653</div></div>
-<div class="ttc" id="classBeeeOn_1_1DIWrapperFactory_html"><div class="ttname"><a href="classBeeeOn_1_1DIWrapperFactory.html">BeeeOn::DIWrapperFactory</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:914</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_a3c7a2942c79b2472e02b189391f93362"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#a3c7a2942c79b2472e02b189391f93362">BeeeOn::AbstractDIWrapper::referenceCount</a></div><div class="ttdeci">int referenceCount() override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:708</div></div>
+<div class="ttc" id="classBeeeOn_1_1DIWrapperFactory_html"><div class="ttname"><a href="classBeeeOn_1_1DIWrapperFactory.html">BeeeOn::DIWrapperFactory</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:915</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html">BeeeOn::AbstractDIWrapper</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:429</div></div>
-<div class="ttc" id="classBeeeOn_1_1DependencyInjector_html"><div class="ttname"><a href="classBeeeOn_1_1DependencyInjector.html">BeeeOn::DependencyInjector</a></div><div class="ttdef"><b>Definition:</b> DependencyInjector.h:107</div></div>
+<div class="ttc" id="classBeeeOn_1_1DependencyInjector_html"><div class="ttname"><a href="classBeeeOn_1_1DependencyInjector.html">BeeeOn::DependencyInjector</a></div><div class="ttdef"><b>Definition:</b> DependencyInjector.h:110</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWTimeSetter_html"><div class="ttname"><a href="structBeeeOn_1_1DIWTimeSetter.html">BeeeOn::DIWTimeSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:124</div></div>
-<div class="ttc" id="classBeeeOn_1_1DIWrapper_html_a8eb03d798fd23f837f140c00da325c23"><div class="ttname"><a href="classBeeeOn_1_1DIWrapper.html#a8eb03d798fd23f837f140c00da325c23">BeeeOn::DIWrapper::type</a></div><div class="ttdeci">virtual const std::type_info &amp; type()=0</div></div>
+<div class="ttc" id="structBeeeOn_1_1DIWCastImpl_html_a7a7542dc5692a06498b817e652f3493e"><div class="ttname"><a href="structBeeeOn_1_1DIWCastImpl.html#a7a7542dc5692a06498b817e652f3493e">BeeeOn::DIWCastImpl::isSame</a></div><div class="ttdeci">bool isSame(const DIWrapper &amp;wrapper) override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:653</div></div>
+<div class="ttc" id="classBeeeOn_1_1DIWrapper_html_a63062810d4d80d2d3844e037d4d4dc32"><div class="ttname"><a href="classBeeeOn_1_1DIWrapper.html#a63062810d4d80d2d3844e037d4d4dc32">BeeeOn::DIWrapper::raw</a></div><div class="ttdeci">virtual void * raw() const =0</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWRawPtrSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWRawPtrSetter.html">BeeeOn::DIWRawPtrSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:232</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWTextSetter_html"><div class="ttname"><a href="structBeeeOn_1_1DIWTextSetter.html">BeeeOn::DIWTextSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:80</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWDuplicateException_html"><div class="ttname"><a href="classBeeeOn_1_1DIWDuplicateException.html">BeeeOn::DIWDuplicateException</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:25</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWRefSetter_html"><div class="ttname"><a href="structBeeeOn_1_1DIWRefSetter.html">BeeeOn::DIWRefSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:213</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWStringSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWStringSetter.html">BeeeOn::DIWStringSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:92</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWrapper_html"><div class="ttname"><a href="classBeeeOn_1_1DIWrapper.html">BeeeOn::DIWrapper</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:386</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_a40b9ad9748314e69a26fc27b62c5d862"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#a40b9ad9748314e69a26fc27b62c5d862">BeeeOn::AbstractDIWrapper::raw</a></div><div class="ttdeci">void * raw() const override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:701</div></div>
+<div class="ttc" id="classBeeeOn_1_1DIWrapper_html_aafaed3da1a6fa20e55ff50296f1c90d8"><div class="ttname"><a href="classBeeeOn_1_1DIWrapper.html#aafaed3da1a6fa20e55ff50296f1c90d8">BeeeOn::DIWrapper::type</a></div><div class="ttdeci">virtual const std::type_info &amp; type() const =0</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWBoolSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWBoolSetter.html">BeeeOn::DIWBoolSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:196</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWCast_html"><div class="ttname"><a href="structBeeeOn_1_1DIWCast.html">BeeeOn::DIWCast</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:324</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWDoubleSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWDoubleSetter.html">BeeeOn::DIWDoubleSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:181</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWCastImpl_html_a9bb6e4d00d9fc09ec4db413a96eed538"><div class="ttname"><a href="structBeeeOn_1_1DIWCastImpl.html#a9bb6e4d00d9fc09ec4db413a96eed538">BeeeOn::DIWCastImpl::cast</a></div><div class="ttdeci">void cast(void *raw, void *dest) override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:666</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWCharSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWCharSetter.html">BeeeOn::DIWCharSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:107</div></div>
 <div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_aa79e35f03e85bcd88a7a5b0b6e0d5dbe"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#aa79e35f03e85bcd88a7a5b0b6e0d5dbe">BeeeOn::AbstractDIWrapper::instance</a></div><div class="ttdeci">Poco::SharedPtr&lt; T &gt; instance()</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:695</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_a1f48c439ea5e12194142b89a4aec99a5"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#a1f48c439ea5e12194142b89a4aec99a5">BeeeOn::AbstractDIWrapper::raw</a></div><div class="ttdeci">void * raw() override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:701</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWCastImpl_html_a4bc36e0d5411cf55a5caaaac2f10d5a7"><div class="ttname"><a href="structBeeeOn_1_1DIWCastImpl.html#a4bc36e0d5411cf55a5caaaac2f10d5a7">BeeeOn::DIWCastImpl::wouldCast</a></div><div class="ttdeci">bool wouldCast(const std::type_info &amp;info) override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:644</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWStringListSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWStringListSetter.html">BeeeOn::DIWStringListSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:276</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWCastException_html"><div class="ttname"><a href="classBeeeOn_1_1DIWCastException.html">BeeeOn::DIWCastException</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:40</div></div>
@@ -1027,14 +1028,14 @@
 <div class="ttc" id="classBeeeOn_1_1DIWIntSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWIntSetter.html">BeeeOn::DIWIntSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:166</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWCastImpl_html"><div class="ttname"><a href="structBeeeOn_1_1DIWCastImpl.html">BeeeOn::DIWCastImpl</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:335</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWHookHandler_html"><div class="ttname"><a href="classBeeeOn_1_1DIWHookHandler.html">BeeeOn::DIWHookHandler</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:365</div></div>
-<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_ad162507272fbe5883e46d8b66a074be0"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#ad162507272fbe5883e46d8b66a074be0">BeeeOn::AbstractDIWrapper::installMethod</a></div><div class="ttdeci">void installMethod(const std::string &amp;name, DIWMethodHelper *helper)</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:811</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_ad162507272fbe5883e46d8b66a074be0"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#ad162507272fbe5883e46d8b66a074be0">BeeeOn::AbstractDIWrapper::installMethod</a></div><div class="ttdeci">void installMethod(const std::string &amp;name, DIWMethodHelper *helper)</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:812</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWStringStringMapSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWStringStringMapSetter.html">BeeeOn::DIWStringStringMapSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:303</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWMapSetter_html"><div class="ttname"><a href="structBeeeOn_1_1DIWMapSetter.html">BeeeOn::DIWMapSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:290</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWTimespanSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWTimespanSetter.html">BeeeOn::DIWTimespanSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:136</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWListSetter_html"><div class="ttname"><a href="structBeeeOn_1_1DIWListSetter.html">BeeeOn::DIWListSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:264</div></div>
 <div class="ttc" id="classBeeeOn_1_1DIWSharedPtrSetter_html"><div class="ttname"><a href="classBeeeOn_1_1DIWSharedPtrSetter.html">BeeeOn::DIWSharedPtrSetter</a></div><div class="ttdef"><b>Definition:</b> DIWrapper.h:250</div></div>
 <div class="ttc" id="structBeeeOn_1_1DIWMethodHelper_html_a636c21b4c345a854c8e88f93884bb890"><div class="ttname"><a href="structBeeeOn_1_1DIWMethodHelper.html#a636c21b4c345a854c8e88f93884bb890">BeeeOn::DIWMethodHelper::extractInstance</a></div><div class="ttdeci">static B &amp; extractInstance(DIWrapper &amp;w)</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:521</div></div>
-<div class="ttc" id="classBeeeOn_1_1DIWrapper_html_a65a972b0cdbe31ff3c5afc2a2ce3552b"><div class="ttname"><a href="classBeeeOn_1_1DIWrapper.html#a65a972b0cdbe31ff3c5afc2a2ce3552b">BeeeOn::DIWrapper::raw</a></div><div class="ttdeci">virtual void * raw()=0</div></div>
+<div class="ttc" id="classBeeeOn_1_1AbstractDIWrapper_html_a1c39a6d91b277837f0f24d29860be6a4"><div class="ttname"><a href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">BeeeOn::AbstractDIWrapper::type</a></div><div class="ttdeci">const std::type_info &amp; type() const override</div><div class="ttdef"><b>Definition:</b> DIWrapper.h:714</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

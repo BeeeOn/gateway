@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -66,7 +66,8 @@ Inheritance diagram for BeeeOn::DependencyInjector:</div>
  <div class="center">
   <img src="classBeeeOn_1_1DependencyInjector.png" usemap="#BeeeOn::DependencyInjector_map" alt=""/>
   <map id="BeeeOn::DependencyInjector_map" name="BeeeOn::DependencyInjector_map">
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="0,0,178,24"/>
+<area href="classBeeeOn_1_1DIFactory.html" title="Implementation of DIFactory can manage and create instances by name and automatically (usually based ..." alt="BeeeOn::DIFactory" shape="rect" coords="0,0,178,24"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="188,0,366,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -79,29 +80,42 @@ typedef std::map&lt; std::string, <br class="typebreak"/>
 <tr class="memitem:ad4d3826aa5393f176b8ef378fd0f6da7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4d3826aa5393f176b8ef378fd0f6da7"></a>
 typedef std::vector&lt; <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>WrapperVector</b></td></tr>
 <tr class="separator:ad4d3826aa5393f176b8ef378fd0f6da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1DIFactory"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1DIFactory')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1DIFactory.html">BeeeOn::DIFactory</a></td></tr>
+<tr class="memitem:a24fe2bc7fee4c1259685ece82fd8cc38 inherit pub_types_classBeeeOn_1_1DIFactory"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24fe2bc7fee4c1259685ece82fd8cc38"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1DIFactory.html">DIFactory</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a24fe2bc7fee4c1259685ece82fd8cc38 inherit pub_types_classBeeeOn_1_1DIFactory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a573a2f776f8e3ef1675619a49e86c2fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a573a2f776f8e3ef1675619a49e86c2fe"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DependencyInjector</b> (Poco::AutoPtr&lt; Poco::Util::AbstractConfiguration &gt; conf, const std::vector&lt; std::string &gt; &amp;libraryPaths={}, bool avoidEarly=false)</td></tr>
 <tr class="separator:a573a2f776f8e3ef1675619a49e86c2fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a592623c94e7e00b5be3e82ccdd1f58b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a592623c94e7e00b5be3e82ccdd1f58b2"></a>
-<a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>create</b> (const std::string &amp;name, bool disown=false)</td></tr>
-<tr class="separator:a592623c94e7e00b5be3e82ccdd1f58b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa994b8a632913467f6d2a7ffbc309727"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa994b8a632913467f6d2a7ffbc309727"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aa994b8a632913467f6d2a7ffbc309727"><td class="memTemplItemLeft" align="right" valign="top">Poco::SharedPtr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>create</b> (const std::string &amp;name, bool disown=false)</td></tr>
-<tr class="separator:aa994b8a632913467f6d2a7ffbc309727"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae801bd0f1ead456797e0546a5f52fb29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae801bd0f1ead456797e0546a5f52fb29"></a>
-<a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::string &amp;name)</td></tr>
-<tr class="separator:ae801bd0f1ead456797e0546a5f52fb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b2eb9357e736930caf2abf1ca37966f"><td class="memTemplParams" colspan="2"><a class="anchor" id="a6b2eb9357e736930caf2abf1ca37966f"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a6b2eb9357e736930caf2abf1ca37966f"><td class="memTemplItemLeft" align="right" valign="top">Poco::SharedPtr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>find</b> (const std::string &amp;name)</td></tr>
-<tr class="separator:a6b2eb9357e736930caf2abf1ca37966f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classBeeeOn_1_1DIFactory"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DIFactory')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DIFactory.html">BeeeOn::DIFactory</a></td></tr>
+<tr class="memitem:a43fae23d6025fb503c872b6143842ebe inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43fae23d6025fb503c872b6143842ebe"></a>
+<a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIFactory.html#a43fae23d6025fb503c872b6143842ebe">create</a> (const std::string &amp;name, bool detach=false)</td></tr>
+<tr class="memdesc:a43fae23d6025fb503c872b6143842ebe inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance by name. If detached is true, the memory of the returned <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> pointer MUST be explicitly deleted. Otherwise, each created instance is managed by the <a class="el" href="classBeeeOn_1_1DIFactory.html" title="Implementation of DIFactory can manage and create instances by name and automatically (usually based ...">DIFactory</a>. <br/></td></tr>
+<tr class="separator:a43fae23d6025fb503c872b6143842ebe inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c9631cb91f184b8d694e307dccc9e5a inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6c9631cb91f184b8d694e307dccc9e5a inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memTemplItemLeft" align="right" valign="top">Poco::SharedPtr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIFactory.html#a6c9631cb91f184b8d694e307dccc9e5a">create</a> (const std::string &amp;name, bool detach=false)</td></tr>
+<tr class="memdesc:a6c9631cb91f184b8d694e307dccc9e5a inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance by name and perform runtime cast to the target type if possible.  <a href="#a6c9631cb91f184b8d694e307dccc9e5a">More...</a><br/></td></tr>
+<tr class="separator:a6c9631cb91f184b8d694e307dccc9e5a inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bc0f8937c536e893a5a9b71fd668102 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIFactory.html#a1bc0f8937c536e893a5a9b71fd668102">find</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a1bc0f8937c536e893a5a9b71fd668102 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find an existing instance and return it.  <a href="#a1bc0f8937c536e893a5a9b71fd668102">More...</a><br/></td></tr>
+<tr class="separator:a1bc0f8937c536e893a5a9b71fd668102 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69aeb3ad069cbda21c91389333b81a75 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a69aeb3ad069cbda21c91389333b81a75 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memTemplItemLeft" align="right" valign="top">Poco::SharedPtr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIFactory.html#a69aeb3ad069cbda21c91389333b81a75">find</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a69aeb3ad069cbda21c91389333b81a75 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find an existing instance and cast it to the target type if possible.  <a href="#a69aeb3ad069cbda21c91389333b81a75">More...</a><br/></td></tr>
+<tr class="separator:a69aeb3ad069cbda21c91389333b81a75 inherit pub_methods_classBeeeOn_1_1DIFactory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_classBeeeOn_1_1DIFactory"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DIFactory')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DIFactory.html">BeeeOn::DIFactory</a></td></tr>
+<tr class="memitem:aa79c7aaf3b8785cc8781ee7594ccea57 inherit pro_methods_classBeeeOn_1_1DIFactory"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa79c7aaf3b8785cc8781ee7594ccea57"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa79c7aaf3b8785cc8781ee7594ccea57 inherit pro_methods_classBeeeOn_1_1DIFactory"><td class="memTemplItemLeft" align="right" valign="top">Poco::SharedPtr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIFactory.html#aa79c7aaf3b8785cc8781ee7594ccea57">cast</a> (<a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</td></tr>
+<tr class="memdesc:aa79c7aaf3b8785cc8781ee7594ccea57 inherit pro_methods_classBeeeOn_1_1DIFactory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast the wrapped instance to the target type. If the cast is not possible, throw an exception. <br/></td></tr>
+<tr class="separator:aa79c7aaf3b8785cc8781ee7594ccea57 inherit pro_methods_classBeeeOn_1_1DIFactory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:af89c60789e75cb07103e46d40a3ebb32 inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af89c60789e75cb07103e46d40a3ebb32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setupLogger</b> (Poco::Logger *logger=0) const </td></tr>

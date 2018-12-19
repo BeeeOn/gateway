@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,8 +71,8 @@ Inheritance diagram for BeeeOn::DIWCastImpl&lt; From, To &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4bc36e0d5411cf55a5caaaac2f10d5a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a4bc36e0d5411cf55a5caaaac2f10d5a7">wouldCast</a> (const std::type_info &amp;info) override</td></tr>
 <tr class="separator:a4bc36e0d5411cf55a5caaaac2f10d5a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61a1221f82174bd742fed3dad0cc8236"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a61a1221f82174bd742fed3dad0cc8236">isSame</a> (<a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) override</td></tr>
-<tr class="separator:a61a1221f82174bd742fed3dad0cc8236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a7542dc5692a06498b817e652f3493e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a7a7542dc5692a06498b817e652f3493e">isSame</a> (const <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper) override</td></tr>
+<tr class="separator:a7a7542dc5692a06498b817e652f3493e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bb6e4d00d9fc09ec4db413a96eed538"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a9bb6e4d00d9fc09ec4db413a96eed538">cast</a> (void *raw, void *dest) override</td></tr>
 <tr class="separator:a9bb6e4d00d9fc09ec4db413a96eed538"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -82,9 +82,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ae76bdc66379489975a07a416d4ee7698 inherit pub_static_methods_structBeeeOn_1_1DIWCast"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae76bdc66379489975a07a416d4ee7698"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>add</b> (<a class="el" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *cast)</td></tr>
 <tr class="separator:ae76bdc66379489975a07a416d4ee7698 inherit pub_static_methods_structBeeeOn_1_1DIWCast"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae042b011c581a2031bc21a27681c4503 inherit pub_static_methods_structBeeeOn_1_1DIWCast"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae042b011c581a2031bc21a27681c4503"></a>
-static <a class="el" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::type_info &amp;info, <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</td></tr>
-<tr class="separator:ae042b011c581a2031bc21a27681c4503 inherit pub_static_methods_structBeeeOn_1_1DIWCast"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad514c0c0bca672fd6505fe7898919139 inherit pub_static_methods_structBeeeOn_1_1DIWCast"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad514c0c0bca672fd6505fe7898919139"></a>
+static <a class="el" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::type_info &amp;info, const <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</td></tr>
+<tr class="separator:ad514c0c0bca672fd6505fe7898919139 inherit pub_static_methods_structBeeeOn_1_1DIWCast"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a9bb6e4d00d9fc09ec4db413a96eed538"></a>
@@ -121,13 +121,13 @@ template&lt;typename From , typename To &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>This is he most magical thing in the universe. We get two pointers we <em>know</em> they point to Poco::SharedPtr&lt;From&gt; and to Poco::SharedPtr&lt;To&gt; and do the cast by assigning them.</p>
-<p>This code can be executed only when <a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a4bc36e0d5411cf55a5caaaac2f10d5a7">wouldCast()</a> and <a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a61a1221f82174bd742fed3dad0cc8236">isSame()</a> return true. </p>
+<p>This code can be executed only when <a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a4bc36e0d5411cf55a5caaaac2f10d5a7">wouldCast()</a> and <a class="el" href="structBeeeOn_1_1DIWCastImpl.html#a7a7542dc5692a06498b817e652f3493e">isSame()</a> return true. </p>
 
 <p>Implements <a class="el" href="structBeeeOn_1_1DIWCast.html">BeeeOn::DIWCast</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a61a1221f82174bd742fed3dad0cc8236"></a>
+<a class="anchor" id="a7a7542dc5692a06498b817e652f3493e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -139,7 +139,7 @@ template&lt;typename From , typename To &gt; </div>
         <tr>
           <td class="memname">bool <a class="el" href="structBeeeOn_1_1DIWCastImpl.html">BeeeOn::DIWCastImpl</a>&lt; From, To &gt;::isSame </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;&#160;</td>
           <td class="paramname"><em>wrapper</em></td><td>)</td>
           <td></td>
         </tr>

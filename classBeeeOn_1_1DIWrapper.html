@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -72,12 +72,12 @@ Inheritance diagram for BeeeOn::DIWrapper:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a65a972b0cdbe31ff3c5afc2a2ce3552b"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIWrapper.html#a65a972b0cdbe31ff3c5afc2a2ce3552b">raw</a> ()=0</td></tr>
-<tr class="separator:a65a972b0cdbe31ff3c5afc2a2ce3552b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63062810d4d80d2d3844e037d4d4dc32"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIWrapper.html#a63062810d4d80d2d3844e037d4d4dc32">raw</a> () const =0</td></tr>
+<tr class="separator:a63062810d4d80d2d3844e037d4d4dc32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ca6954d2d3d0e10896f0bbdeea1ee92"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIWrapper.html#a9ca6954d2d3d0e10896f0bbdeea1ee92">referenceCount</a> ()=0</td></tr>
 <tr class="separator:a9ca6954d2d3d0e10896f0bbdeea1ee92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8eb03d798fd23f837f140c00da325c23"><td class="memItemLeft" align="right" valign="top">virtual const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIWrapper.html#a8eb03d798fd23f837f140c00da325c23">type</a> ()=0</td></tr>
-<tr class="separator:a8eb03d798fd23f837f140c00da325c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafaed3da1a6fa20e55ff50296f1c90d8"><td class="memItemLeft" align="right" valign="top">virtual const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DIWrapper.html#aafaed3da1a6fa20e55ff50296f1c90d8">type</a> () const =0</td></tr>
+<tr class="separator:aafaed3da1a6fa20e55ff50296f1c90d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -109,7 +109,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasHook</b> (
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface to wrapper around a target instance. This wrapper can be used to manage a collection of polymorphic wrappers around different objects. All wrappers are expected to manage the underlying instance via Poco::SharedPtr&lt;?&gt;. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a65a972b0cdbe31ff3c5afc2a2ce3552b"></a>
+<a class="anchor" id="a63062810d4d80d2d3844e037d4d4dc32"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -120,7 +120,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasHook</b> (
           <td class="memname">virtual void* BeeeOn::DIWrapper::raw </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -131,7 +131,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasHook</b> (
 </div><div class="memdoc">
 <p>Return pointer to Poco::SharedPtr&lt;?&gt; </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractDIWrapper.html#a1f48c439ea5e12194142b89a4aec99a5">BeeeOn::AbstractDIWrapper&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractDIWrapper.html#a40b9ad9748314e69a26fc27b62c5d862">BeeeOn::AbstractDIWrapper&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -161,7 +161,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasHook</b> (
 
 </div>
 </div>
-<a class="anchor" id="a8eb03d798fd23f837f140c00da325c23"></a>
+<a class="anchor" id="aafaed3da1a6fa20e55ff50296f1c90d8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -172,7 +172,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasHook</b> (
           <td class="memname">virtual const std::type_info&amp; BeeeOn::DIWrapper::type </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -183,7 +183,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasHook</b> (
 </div><div class="memdoc">
 <p>Return type of the underlying instance. This is typeid(?) from Poco::SharedPtr&lt;?&gt;. </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractDIWrapper.html#aee09cfe664ae686ca0c928937c102d09">BeeeOn::AbstractDIWrapper&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">BeeeOn::AbstractDIWrapper&lt; T &gt;</a>.</p>
 
 </div>
 </div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -75,9 +75,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a23a99952f672d9163b3590274ed84fdb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a23a99952f672d9163b3590274ed84fdb"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>wouldCast</b> (const std::type_info &amp;info)=0</td></tr>
 <tr class="separator:a23a99952f672d9163b3590274ed84fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3121cde9ebe23e2c4048c7b2aa34528f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3121cde9ebe23e2c4048c7b2aa34528f"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isSame</b> (<a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)=0</td></tr>
-<tr class="separator:a3121cde9ebe23e2c4048c7b2aa34528f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d4f6d13368f51a3f81e3f16042156d1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d4f6d13368f51a3f81e3f16042156d1"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isSame</b> (const <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)=0</td></tr>
+<tr class="separator:a1d4f6d13368f51a3f81e3f16042156d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ca7878d7f5b78867cddb765f120b3b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ca7878d7f5b78867cddb765f120b3b8"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>cast</b> (void *raw, void *dest)=0</td></tr>
 <tr class="separator:a8ca7878d7f5b78867cddb765f120b3b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -87,9 +87,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ae76bdc66379489975a07a416d4ee7698"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae76bdc66379489975a07a416d4ee7698"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>add</b> (<a class="el" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *cast)</td></tr>
 <tr class="separator:ae76bdc66379489975a07a416d4ee7698"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae042b011c581a2031bc21a27681c4503"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae042b011c581a2031bc21a27681c4503"></a>
-static <a class="el" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::type_info &amp;info, <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</td></tr>
-<tr class="separator:ae042b011c581a2031bc21a27681c4503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad514c0c0bca672fd6505fe7898919139"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad514c0c0bca672fd6505fe7898919139"></a>
+static <a class="el" href="structBeeeOn_1_1DIWCast.html">DIWCast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::type_info &amp;info, const <a class="el" href="classBeeeOn_1_1DIWrapper.html">DIWrapper</a> &amp;wrapper)</td></tr>
+<tr class="separator:ad514c0c0bca672fd6505fe7898919139"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface to a casting implementation. There is also a static registry of possible casts so anybody can access it. All casts register by DIWCast::add() are automatically deleted on exit. </p>

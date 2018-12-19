@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -81,6 +81,11 @@ Public Types</h2></td></tr>
 <tr class="memitem:a3996df69a25bb26d5b8c59c1160acbc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3996df69a25bb26d5b8c59c1160acbc2"></a>
 typedef Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1Tool.html">Tool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a3996df69a25bb26d5b8c59c1160acbc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1StoppableLoop"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1StoppableLoop')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1StoppableLoop.html">BeeeOn::StoppableLoop</a></td></tr>
+<tr class="memitem:a7a0b9a5da3cff3f1d6485c0e6517e343 inherit pub_types_classBeeeOn_1_1StoppableLoop"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a0b9a5da3cff3f1d6485c0e6517e343"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1StoppableLoop.html">StoppableLoop</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a7a0b9a5da3cff3f1d6485c0e6517e343 inherit pub_types_classBeeeOn_1_1StoppableLoop"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -116,8 +121,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a1801a8a358aad68c1f5fb7ab32c98219"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe7742d2bd8732859cb7a2c4f283e3ce"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Tool.html#abe7742d2bd8732859cb7a2c4f283e3ce">command</a> () const </td></tr>
 <tr class="separator:abe7742d2bd8732859cb7a2c4f283e3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6079866f840890be8682265c278a02a"><td class="memItemLeft" align="right" valign="top">Poco::Event &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Tool.html#ac6079866f840890be8682265c278a02a">event</a> ()</td></tr>
-<tr class="separator:ac6079866f840890be8682265c278a02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8424a9265ad77f6168f974186c547e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Tool.html#aa8424a9265ad77f6168f974186c547e6">stopControl</a> ()</td></tr>
+<tr class="separator:aa8424a9265ad77f6168f974186c547e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1Loggable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1Loggable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></td></tr>
 <tr class="memitem:af89c60789e75cb07103e46d40a3ebb32 inherit pro_methods_classBeeeOn_1_1Loggable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af89c60789e75cb07103e46d40a3ebb32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setupLogger</b> (Poco::Logger *logger=0) const </td></tr>
@@ -182,30 +187,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>original command line </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ac6079866f840890be8682265c278a02a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Poco::Event &amp; Tool::event </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>event used to signalize wakeup from a long running process (I/O), it is used by <a class="el" href="classBeeeOn_1_1Tool.html#a290079ac6723376aa9e59f4641c25af9">stop()</a> </dd></dl>
 
 </div>
 </div>
@@ -369,6 +350,30 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>Request the tool thread to stop. This can be useful especially when it is doing some long running procedure (I/O). Otherwise, a tool usually exits quickly (unless configured repeatable). </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1StoppableLoop.html#a50e52efb08f8d789d4a6b2815931b047">BeeeOn::StoppableLoop</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa8424a9265ad77f6168f974186c547e6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp; Tool::stopControl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>underlying <a class="el" href="classBeeeOn_1_1StopControl.html" title="StopControl implements the stop mechanism generically. ">StopControl</a> instance. </dd></dl>
 
 </div>
 </div>

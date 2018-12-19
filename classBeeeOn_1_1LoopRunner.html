@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-49-ga22f6d3</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -53,6 +53,7 @@
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
@@ -76,14 +77,26 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper around <a class="el" href="classBeeeOn_1_1StoppableLoop.html">StoppableLoop</a> that allows to stop it from inside a thread.  <a href="classBeeeOn_1_1LoopRunner_1_1Stopper.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a20d6cef54954b364c85cd16e5ec68b2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20d6cef54954b364c85cd16e5ec68b2d"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1LoopRunner.html">LoopRunner</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a20d6cef54954b364c85cd16e5ec68b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1StoppableLoop"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1StoppableLoop')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1StoppableLoop.html">BeeeOn::StoppableLoop</a></td></tr>
+<tr class="memitem:a7a0b9a5da3cff3f1d6485c0e6517e343 inherit pub_types_classBeeeOn_1_1StoppableLoop"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a0b9a5da3cff3f1d6485c0e6517e343"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1StoppableLoop.html">StoppableLoop</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a7a0b9a5da3cff3f1d6485c0e6517e343 inherit pub_types_classBeeeOn_1_1StoppableLoop"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa6353a3d066586e5f5723b8c34ffeb0f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6353a3d066586e5f5723b8c34ffeb0f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addRunnable</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1StoppableRunnable.html">StoppableRunnable</a> &gt; runnable)</td></tr>
-<tr class="separator:aa6353a3d066586e5f5723b8c34ffeb0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa687e436c28acc0f04e914fde034bdd5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa687e436c28acc0f04e914fde034bdd5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addLoop</b> (Poco::SharedPtr&lt; <a class="el" href="classBeeeOn_1_1StoppableLoop.html">StoppableLoop</a> &gt; loop)</td></tr>
-<tr class="separator:aa687e436c28acc0f04e914fde034bdd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae30ce494c516d9c2c3f487b730795a06"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae30ce494c516d9c2c3f487b730795a06"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addRunnable</b> (StoppableRunnable::Ptr runnable)</td></tr>
+<tr class="separator:ae30ce494c516d9c2c3f487b730795a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6651685f21f6b8785baffcb234c4cac4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6651685f21f6b8785baffcb234c4cac4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addLoop</b> (StoppableLoop::Ptr loop)</td></tr>
+<tr class="separator:a6651685f21f6b8785baffcb234c4cac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ec4e20a8d6d7c789c5bd33bb5e834fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ec4e20a8d6d7c789c5bd33bb5e834fa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setAutoStart</b> (bool enable)</td></tr>
 <tr class="separator:a8ec4e20a8d6d7c789c5bd33bb5e834fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
