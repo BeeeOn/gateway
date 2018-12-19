@@ -19,6 +19,7 @@ BEEEON_OBJECT_CASTABLE(StoppableRunnable)
 BEEEON_OBJECT_CASTABLE(CommandHandler)
 BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &VPTDeviceManager::setDeviceCache)
+BEEEON_OBJECT_PROPERTY("devicePoller", &VPTDeviceManager::setDevicePoller)
 BEEEON_OBJECT_PROPERTY("distributor", &VPTDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &VPTDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("refresh", &VPTDeviceManager::setRefresh)
@@ -66,18 +67,17 @@ void VPTDeviceManager::run()
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
-		Timestamp now;
-
-		shipFromDevices();
-
-		Timespan sleepTime = m_refresh.time() - now.elapsed();
-		if (sleepTime > 0) {
-			logger().debug("sleeping for " + to_string(sleepTime.totalMilliseconds()) + " ms",
-				__FILE__, __LINE__);
-			run.waitStoppable(sleepTime);
+		for (auto pair : m_devices) {
+			if (isAnySubdevicePaired(pair.second))
+				m_pollingKeeper.schedule(pair.second);
+			else
+				m_pollingKeeper.cancel(pair.second->id());
 		}
+
+		run.waitStoppable(m_refresh);
 	}
 
+	m_pollingKeeper.cancelAll();
 	logger().information("stopping VPT device manager");
 }
 
@@ -86,6 +86,11 @@ void VPTDeviceManager::stop()
 	m_scanner.cancel();
 	DeviceManager::stop();
 	answerQueue().dispose();
+}
+
+void VPTDeviceManager::setDevicePoller(DevicePoller::Ptr poller)
+{
+	m_pollingKeeper.setDevicePoller(poller);
 }
 
 void VPTDeviceManager::setRefresh(const Timespan &refresh)
@@ -162,47 +167,6 @@ void VPTDeviceManager::setCryptoConfig(SharedPtr<CryptoConfig> config)
 	m_cryptoConfig = config;
 }
 
-void VPTDeviceManager::shipFromDevices()
-{
-	set<VPTDevice::Ptr> devices;
-
-	ScopedLockWithUnlock<FastMutex> lock(m_pairedMutex);
-	for (auto &id : deviceCache()->paired(prefix())) {
-		DeviceID realVPTId = VPTDevice::omitSubdeviceFromDeviceID(id);
-		auto itDevice = m_devices.find(realVPTId);
-
-		if (itDevice == m_devices.end()) {
-			logger().warning("no such device: " + id.toString(), __FILE__, __LINE__);
-			continue;
-		}
-
-		auto it = devices.find(m_devices.at(realVPTId));
-		if (it == devices.end())
-			devices.insert(m_devices.at(realVPTId));
-	}
-	lock.unlock();
-
-	for (auto device : devices) {
-		vector<SensorData> data;
-		try {
-			ScopedLock<FastMutex> guard(device->lock());
-			data = device->requestValues();
-		}
-		catch (const Exception& e) {
-			logger().log(e, __FILE__, __LINE__);
-			logger().warning("device " + device->boilerID().toString() + " did not answer",
-				__FILE__, __LINE__);
-			continue;
-		}
-
-		ScopedLock<FastMutex> guard(m_pairedMutex);
-		for (auto &one : data) {
-			if (deviceCache()->paired(one.deviceID()))
-				ship(one);
-		}
-	}
-}
-
 void VPTDeviceManager::searchPairedDevices()
 {
 	vector<VPTDevice::Ptr> devices = seekDevices(m_stopControl);
@@ -273,8 +237,10 @@ AsyncWork<set<DeviceID>>::Ptr VPTDeviceManager::startUnpair(
 		deviceCache()->markUnpaired(id);
 
 		DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(id);
-		if (noSubdevicePaired(tmpID))
+		if (noSubdevicePaired(tmpID)) {
 			m_devices.erase(tmpID);
+			m_pollingKeeper.cancel(tmpID);
+		}
 
 		work->setResult({id});
 	}
@@ -293,10 +259,10 @@ void VPTDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 	/*
 	 * The password is searched only when the first subdevice is accepted.
 	 */
-	if (noSubdevicePaired(VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()))) {
+	DeviceID tmpID = VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID());
+	if (noSubdevicePaired(tmpID)) {
 		try {
-			string password = findPassword(
-				VPTDevice::omitSubdeviceFromDeviceID(cmd->deviceID()));
+			string password = findPassword(tmpID);
 
 			ScopedLock<FastMutex> guard(it->second->lock());
 			it->second->setPassword(password);
@@ -304,6 +270,8 @@ void VPTDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 		catch (NotFoundException& e) {
 			logger().log(e, __FILE__, __LINE__);
 		}
+
+		m_pollingKeeper.schedule(it->second);
 	}
 
 	DeviceManager::handleAccept(cmd);
@@ -351,8 +319,13 @@ vector<VPTDevice::Ptr> VPTDeviceManager::seekDevices(const StopControl& stop)
 
 		VPTDevice::Ptr newDevice;
 		try {
-			newDevice = new VPTDevice(address, m_httpTimeout,
-				m_pingTimeout, m_gatewayInfo->gatewayID());
+			newDevice = new VPTDevice(
+				address,
+				m_httpTimeout,
+				m_pingTimeout,
+				m_gatewayInfo->gatewayID(),
+				m_refresh,
+				deviceCache());
 		}
 		catch (Exception& e) {
 			logger().warning("found device has disconnected", __FILE__, __LINE__);

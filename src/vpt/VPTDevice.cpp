@@ -112,13 +112,27 @@ VPTDevice::VPTDevice(
 		const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& httpTimeout,
 		const Poco::Timespan& pingTimeout,
-		const GatewayID& id):
+		const GatewayID& id,
+		const RefreshTime& refresh,
+		const DeviceCache::Ptr deviceCache):
 	m_address(address),
+	m_refresh(refresh),
 	m_pingTimeout(pingTimeout),
 	m_httpTimeout(httpTimeout),
-	m_gatewayID(id)
+	m_gatewayID(id),
+	m_deviceCache(deviceCache)
 {
 	buildDeviceID();
+}
+
+DeviceID VPTDevice::id() const
+{
+	return m_boilerId;
+}
+
+RefreshTime VPTDevice::refresh() const
+{
+	return m_refresh;
 }
 
 DeviceID VPTDevice::boilerID() const
@@ -144,6 +158,16 @@ void VPTDevice::setPassword(const string& pwd)
 FastMutex& VPTDevice::lock()
 {
 	return m_lock;
+}
+
+void VPTDevice::poll(Distributor::Ptr distributor)
+{
+	FastMutex::ScopedLock guard(m_lock);
+
+	for (auto one : requestValues()) {
+		if (m_deviceCache->paired(one.deviceID()))
+			distributor->exportData(one);
+	}
 }
 
 string VPTDevice::generateStamp(const Action action)

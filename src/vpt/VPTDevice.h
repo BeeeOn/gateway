@@ -12,6 +12,8 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 
+#include "core/DeviceCache.h"
+#include "core/PollableDevice.h"
 #include "model/DeviceDescription.h"
 #include "model/DeviceID.h"
 #include "model/GatewayID.h"
@@ -31,7 +33,7 @@ namespace BeeeOn {
  * This means one instance of VPTDevice takes care of 5 devices. Each subdevice
  * has own DeviceID.
  */
-class VPTDevice : protected Loggable {
+class VPTDevice : public PollableDevice, protected Loggable {
 public:
 	typedef Poco::SharedPtr<VPTDevice> Ptr;
 
@@ -66,13 +68,19 @@ public:
 		const Poco::Net::SocketAddress& address,
 		const Poco::Timespan& httpTimeout,
 		const Poco::Timespan& pingTimeout,
-		const GatewayID& id);
+		const GatewayID& id,
+		const RefreshTime& refresh,
+		const DeviceCache::Ptr deviceCache);
 
+	DeviceID id() const override;
+	RefreshTime refresh() const override;
 	DeviceID boilerID() const;
 	Poco::Net::SocketAddress address() const;
 	void setAddress(const Poco::Net::SocketAddress& address);
 	void setPassword(const std::string& pwd);
 	Poco::FastMutex& lock();
+
+	void poll(Distributor::Ptr distributor) override;
 
 	/**
 	 * @brief Creates a stamp that consists of gateway id, IP address of gateway's interface
@@ -165,11 +173,14 @@ private:
 	Poco::Net::SocketAddress m_address;
 	std::string m_password;
 
+	RefreshTime m_refresh;
 	Poco::Timespan m_pingTimeout;
 	Poco::Timespan m_httpTimeout;
 
 	GatewayID m_gatewayID;
 	Poco::FastMutex m_lock;
+
+	DeviceCache::Ptr m_deviceCache;
 };
 
 }

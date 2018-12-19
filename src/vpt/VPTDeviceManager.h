@@ -14,6 +14,7 @@
 #include "commands/NewDeviceCommand.h"
 #include "core/AbstractSeeker.h"
 #include "core/DeviceManager.h"
+#include "core/PollingKeeper.h"
 #include "core/GatewayInfo.h"
 #include "credentials/CredentialsStorage.h"
 #include "loop/StopControl.h"
@@ -54,6 +55,7 @@ public:
 	void run() override;
 	void stop() override;
 
+	void setDevicePoller(DevicePoller::Ptr poller);
 	void setRefresh(const Poco::Timespan &refresh);
 	void setPingTimeout(const Poco::Timespan &timeout);
 	void setHTTPTimeout(const Poco::Timespan &timeout);
@@ -73,12 +75,6 @@ protected:
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
 			const DeviceID &id,
 			const Poco::Timespan &timeout) override;
-
-	/**
-	 * @brief Gathers SensorData from devices and
-	 * ships them.
-	 */
-	void shipFromDevices();
 
 	/**
 	 * @brief Initialized search of paired devices
@@ -129,6 +125,7 @@ private:
 	uint32_t m_maxMsgSize;
 	Poco::FastMutex m_pairedMutex;
 
+	PollingKeeper m_pollingKeeper;
 	RefreshTime m_refresh;
 	Poco::Timespan m_httpTimeout;
 	Poco::Timespan m_pingTimeout;
