@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -72,8 +72,9 @@ Inheritance diagram for BeeeOn::PhilipsHueBulb:</div>
  <div class="center">
   <img src="classBeeeOn_1_1PhilipsHueBulb.png" usemap="#BeeeOn::PhilipsHueBulb_map" alt=""/>
   <map id="BeeeOn::PhilipsHueBulb_map" name="BeeeOn::PhilipsHueBulb_map">
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="0,0,203,24"/>
-<area href="classBeeeOn_1_1PhilipsHueDimmableBulb.html" title="The class represents dimmable Philips Hue bulb. " alt="BeeeOn::PhilipsHueDimmableBulb" shape="rect" coords="0,112,203,136"/>
+<area href="classBeeeOn_1_1PollableDevice.html" title="PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti..." alt="BeeeOn::PollableDevice" shape="rect" coords="0,0,203,24"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="213,0,416,24"/>
+<area href="classBeeeOn_1_1PhilipsHueDimmableBulb.html" title="The class represents dimmable Philips Hue bulb. " alt="BeeeOn::PhilipsHueDimmableBulb" shape="rect" coords="106,112,309,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -83,22 +84,30 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html">PhilipsHueBulb</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:ae16cb207b5f4f2eadb895cfe4485e336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1PollableDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1PollableDevice')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></td></tr>
+<tr class="memitem:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a554312c9f670af640410173bf929db12"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac18a0cbd2aaa5ce6c866d8ea690d7065"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac18a0cbd2aaa5ce6c866d8ea690d7065"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#ac18a0cbd2aaa5ce6c866d8ea690d7065">PhilipsHueBulb</a> (const uint32_t ordinalNumber, const PhilipsHueBridge::BulbID bulbId, const PhilipsHueBridge::Ptr bridge)</td></tr>
-<tr class="memdesc:ac18a0cbd2aaa5ce6c866d8ea690d7065"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> is created based on a bulb's 64-bit identifier, where DevicePrefix is given on 8th byte. <br/></td></tr>
-<tr class="separator:ac18a0cbd2aaa5ce6c866d8ea690d7065"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16aef8213e19365b7096f655f28ff586"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a16aef8213e19365b7096f655f28ff586"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#a16aef8213e19365b7096f655f28ff586">PhilipsHueBulb</a> (const uint32_t ordinalNumber, const PhilipsHueBridge::BulbID bulbId, const PhilipsHueBridge::Ptr bridge, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#a590fb8ed8696d91680028956c95668ca">refresh</a>)</td></tr>
+<tr class="memdesc:a16aef8213e19365b7096f655f28ff586"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> is created based on a bulb's 64-bit identifier, where DevicePrefix is given on 8th byte. <br/></td></tr>
+<tr class="separator:a16aef8213e19365b7096f655f28ff586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5177dc287cd31d1e2fadd09a61f5f1a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5177dc287cd31d1e2fadd09a61f5f1a"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>requestModifyState</b> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value)=0</td></tr>
 <tr class="separator:ae5177dc287cd31d1e2fadd09a61f5f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd9257d867c342bdbb2c0ce31f156c5b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd9257d867c342bdbb2c0ce31f156c5b"></a>
 virtual <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><b>requestState</b> ()=0</td></tr>
 <tr class="separator:afd9257d867c342bdbb2c0ce31f156c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f610f1e54df45e0d81777562d925f1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f610f1e54df45e0d81777562d925f1d"></a>
-<a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>deviceID</b> ()</td></tr>
-<tr class="separator:a3f610f1e54df45e0d81777562d925f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf0fa3401e8ed46db0048bea83d2f9c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#abf0fa3401e8ed46db0048bea83d2f9c4">id</a> () const override</td></tr>
+<tr class="separator:abf0fa3401e8ed46db0048bea83d2f9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a590fb8ed8696d91680028956c95668ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a590fb8ed8696d91680028956c95668ca"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#a590fb8ed8696d91680028956c95668ca">refresh</a> () const override</td></tr>
+<tr class="memdesc:a590fb8ed8696d91680028956c95668ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular period telling how often to call the method <a class="el" href="classBeeeOn_1_1PollableDevice.html#ad490bc1409ed2579ceea8bff5a7203ac" title="Perform polling for data and ship them via the given distributor. ">PollableDevice::poll()</a>. The refresh must contain a valid time. <br/></td></tr>
+<tr class="separator:a590fb8ed8696d91680028956c95668ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3bc586e5bf24bce6feab9eba10c9ac0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3bc586e5bf24bce6feab9eba10c9ac0"></a>
 virtual std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>moduleTypes</b> () const =0</td></tr>
 <tr class="separator:ac3bc586e5bf24bce6feab9eba10c9ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,6 +123,10 @@ PhilipsHueBridge::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>brid
 <tr class="memitem:aac254ed38aafedbd828632c1a70ab996"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac254ed38aafedbd828632c1a70ab996"></a>
 <a class="el" href="classBeeeOn_1_1PhilipsHueBulbInfo.html">PhilipsHueBulbInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><b>info</b> ()</td></tr>
 <tr class="separator:aac254ed38aafedbd828632c1a70ab996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add6335f94d4a6ce196ba7181c6fc90f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="add6335f94d4a6ce196ba7181c6fc90f7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueBulb.html#add6335f94d4a6ce196ba7181c6fc90f7">poll</a> (Distributor::Ptr distributor) override</td></tr>
+<tr class="memdesc:add6335f94d4a6ce196ba7181c6fc90f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform polling for data and ship them via the given distributor. <br/></td></tr>
+<tr class="separator:add6335f94d4a6ce196ba7181c6fc90f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -154,6 +167,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>m_ordinalNumber</
 <tr class="memitem:aa94f8fea9bc69ab57d670a8478f639e6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa94f8fea9bc69ab57d670a8478f639e6"></a>
 PhilipsHueBridge::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>m_bridge</b></td></tr>
 <tr class="separator:aa94f8fea9bc69ab57d670a8478f639e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fcf45fa9ef0c4318d65af6770719cc9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8fcf45fa9ef0c4318d65af6770719cc9"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_refresh</b></td></tr>
+<tr class="separator:a8fcf45fa9ef0c4318d65af6770719cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -180,7 +196,34 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class representing generic Philips Hue bulb. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="abf0fa3401e8ed46db0048bea83d2f9c4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> PhilipsHueBulb::id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>ID of the device. </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1PollableDevice.html#a9e5c3f6f283809fc1540fff4066a0451">BeeeOn::PollableDevice</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/philips/<a class="el" href="PhilipsHueBulb_8h_source.html">PhilipsHueBulb.h</a></li>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/src/philips/PhilipsHueBulb.cpp</li>
 </ul>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -92,6 +92,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <tr class="separator:aaba72f1e6e014da55b58434e8fd8839b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4dd110ff9a7c2294f448a8daa203f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ab4dd110ff9a7c2294f448a8daa203f0b">stop</a> () override</td></tr>
 <tr class="separator:ab4dd110ff9a7c2294f448a8daa203f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f9f4d40da4a225db8c52e873a0b0c62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f9f4d40da4a225db8c52e873a0b0c62"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevicePoller</b> (DevicePoller::Ptr poller)</td></tr>
+<tr class="separator:a5f9f4d40da4a225db8c52e873a0b0c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8a020122a103208f4666b1e4d4c111a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8a020122a103208f4666b1e4d4c111a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setRefresh</b> (const Poco::Timespan &amp;refresh)</td></tr>
 <tr class="separator:aa8a020122a103208f4666b1e4d4c111a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,10 +173,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
  &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a36af3e994b74cb545025df2380309e9b">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="memdesc:a36af3e994b74cb545025df2380309e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a36af3e994b74cb545025df2380309e9b">More...</a><br/></td></tr>
 <tr class="separator:a36af3e994b74cb545025df2380309e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b7e3522a65411693c8ea80f8b8124b4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b7e3522a65411693c8ea80f8b8124b4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a1b7e3522a65411693c8ea80f8b8124b4">shipFromDevices</a> ()</td></tr>
-<tr class="memdesc:a1b7e3522a65411693c8ea80f8b8124b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gathers <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> from devices and ships them. <br/></td></tr>
-<tr class="separator:a1b7e3522a65411693c8ea80f8b8124b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae24d1e02cb54a1ec80f2453b16853879"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae24d1e02cb54a1ec80f2453b16853879"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ae24d1e02cb54a1ec80f2453b16853879">searchPairedDevices</a> ()</td></tr>
 <tr class="memdesc:ae24d1e02cb54a1ec80f2453b16853879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialized search of paired devices that were obtained by deviceList(). <br/></td></tr>

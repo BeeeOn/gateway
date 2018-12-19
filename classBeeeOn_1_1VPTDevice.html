@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,7 +71,8 @@ Inheritance diagram for BeeeOn::VPTDevice:</div>
  <div class="center">
   <img src="classBeeeOn_1_1VPTDevice.png" usemap="#BeeeOn::VPTDevice_map" alt=""/>
   <map id="BeeeOn::VPTDevice_map" name="BeeeOn::VPTDevice_map">
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="0,0,128,24"/>
+<area href="classBeeeOn_1_1PollableDevice.html" title="PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti..." alt="BeeeOn::PollableDevice" shape="rect" coords="0,0,149,24"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="159,0,308,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -86,12 +87,23 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1VPTDevice.html">VPTDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a5093fc9614af89c21cee4f1416bd6bd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1PollableDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1PollableDevice')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></td></tr>
+<tr class="memitem:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a554312c9f670af640410173bf929db12"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a189ba51df97795cb2744845065e8dcb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a189ba51df97795cb2744845065e8dcb3">VPTDevice</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const Poco::Timespan &amp;pingTimeout, const <a class="el" href="classBeeeOn_1_1GatewayID.html">GatewayID</a> &amp;id)</td></tr>
-<tr class="memdesc:a189ba51df97795cb2744845065e8dcb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects to specified address to fetch information for creating VPT Device. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#a189ba51df97795cb2744845065e8dcb3">More...</a><br/></td></tr>
-<tr class="separator:a189ba51df97795cb2744845065e8dcb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dc0c124e165c97e837f21ea51b36fd8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a0dc0c124e165c97e837f21ea51b36fd8">VPTDevice</a> (const Poco::Net::SocketAddress &amp;address, const Poco::Timespan &amp;httpTimeout, const Poco::Timespan &amp;pingTimeout, const <a class="el" href="classBeeeOn_1_1GatewayID.html">GatewayID</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#a88b36835759844ff5a043f44f6234dad">id</a>, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#ae0c2736b513d3f87277b7fdc8507a039">refresh</a>, const DeviceCache::Ptr deviceCache)</td></tr>
+<tr class="memdesc:a0dc0c124e165c97e837f21ea51b36fd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects to specified address to fetch information for creating VPT Device. If the device do not respond in specified timeout, Poco::TimeoutException is thrown.  <a href="#a0dc0c124e165c97e837f21ea51b36fd8">More...</a><br/></td></tr>
+<tr class="separator:a0dc0c124e165c97e837f21ea51b36fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88b36835759844ff5a043f44f6234dad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a88b36835759844ff5a043f44f6234dad">id</a> () const override</td></tr>
+<tr class="separator:a88b36835759844ff5a043f44f6234dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0c2736b513d3f87277b7fdc8507a039"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae0c2736b513d3f87277b7fdc8507a039"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#ae0c2736b513d3f87277b7fdc8507a039">refresh</a> () const override</td></tr>
+<tr class="memdesc:ae0c2736b513d3f87277b7fdc8507a039"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular period telling how often to call the method <a class="el" href="classBeeeOn_1_1PollableDevice.html#ad490bc1409ed2579ceea8bff5a7203ac" title="Perform polling for data and ship them via the given distributor. ">PollableDevice::poll()</a>. The refresh must contain a valid time. <br/></td></tr>
+<tr class="separator:ae0c2736b513d3f87277b7fdc8507a039"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ab2a1a9a98388397ca728bca6fcba10"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ab2a1a9a98388397ca728bca6fcba10"></a>
 <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>boilerID</b> () const </td></tr>
 <tr class="separator:a6ab2a1a9a98388397ca728bca6fcba10"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,6 +119,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setPassword</b> (cons
 <tr class="memitem:acd130232ac7e223072ccbf3b039a4a5b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd130232ac7e223072ccbf3b039a4a5b"></a>
 Poco::FastMutex &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>lock</b> ()</td></tr>
 <tr class="separator:acd130232ac7e223072ccbf3b039a4a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a00c9a9f9f1e8e6e7f18505ebe2ce9f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a00c9a9f9f1e8e6e7f18505ebe2ce9f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a4a00c9a9f9f1e8e6e7f18505ebe2ce9f">poll</a> (Distributor::Ptr distributor) override</td></tr>
+<tr class="memdesc:a4a00c9a9f9f1e8e6e7f18505ebe2ce9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform polling for data and ship them via the given distributor. <br/></td></tr>
+<tr class="separator:a4a00c9a9f9f1e8e6e7f18505ebe2ce9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e59168d78896bff2274d7751be5bba7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e59168d78896bff2274d7751be5bba7"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a7e59168d78896bff2274d7751be5bba7">generateStamp</a> (const Action action)</td></tr>
 <tr class="memdesc:a7e59168d78896bff2274d7751be5bba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a stamp that consists of gateway id, IP address of gateway's interface from whitch the VPT is available, time, and action. <br/></td></tr>
@@ -115,13 +131,13 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a767ebc6070d8c1b43d83c81428c06801">stampVPT</a> (const Action action)</td></tr>
 <tr class="memdesc:a767ebc6070d8c1b43d83c81428c06801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends stamp with aciton to the VPT. It serves to verify that the gateway communicates with the VPT. <br/></td></tr>
 <tr class="separator:a767ebc6070d8c1b43d83c81428c06801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad042bdd42b151ac58f2c4afa2a26066"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#aad042bdd42b151ac58f2c4afa2a26066">requestModifyState</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> module, const double value)</td></tr>
+<tr class="memitem:aad042bdd42b151ac58f2c4afa2a26066"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#aad042bdd42b151ac58f2c4afa2a26066">requestModifyState</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#a88b36835759844ff5a043f44f6234dad">id</a>, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> module, const double value)</td></tr>
 <tr class="separator:aad042bdd42b151ac58f2c4afa2a26066"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f96662d8648713cbaa76b28fd52b05e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a7f96662d8648713cbaa76b28fd52b05e">requestValues</a> ()</td></tr>
 <tr class="memdesc:a7f96662d8648713cbaa76b28fd52b05e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gathers data from all sensors of subdevices.  <a href="#a7f96662d8648713cbaa76b28fd52b05e">More...</a><br/></td></tr>
 <tr class="separator:a7f96662d8648713cbaa76b28fd52b05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad108f629665ef9e01d012c225e8a017e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad108f629665ef9e01d012c225e8a017e"></a>
-std::vector&lt; <a class="el" href="classBeeeOn_1_1DeviceDescription.html">DeviceDescription</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#ad108f629665ef9e01d012c225e8a017e">descriptions</a> (const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refresh) const </td></tr>
+std::vector&lt; <a class="el" href="classBeeeOn_1_1DeviceDescription.html">DeviceDescription</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#ad108f629665ef9e01d012c225e8a017e">descriptions</a> (const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#ae0c2736b513d3f87277b7fdc8507a039">refresh</a>) const </td></tr>
 <tr class="memdesc:ad108f629665ef9e01d012c225e8a017e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns list of new device commands of all subdevices. <br/></td></tr>
 <tr class="separator:ad108f629665ef9e01d012c225e8a017e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe773bd5a627fec97b0e780c1d195d95"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe773bd5a627fec97b0e780c1d195d95"></a>
@@ -132,15 +148,15 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a83b07f4c88f29e96b21c398ed62a8739"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83b07f4c88f29e96b21c398ed62a8739"></a>
-static <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a83b07f4c88f29e96b21c398ed62a8739">createSubdeviceID</a> (const int zone, const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
+static <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a83b07f4c88f29e96b21c398ed62a8739">createSubdeviceID</a> (const int zone, const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#a88b36835759844ff5a043f44f6234dad">id</a>)</td></tr>
 <tr class="memdesc:a83b07f4c88f29e96b21c398ed62a8739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> from VPT <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> and number of zone. <br/></td></tr>
 <tr class="separator:a83b07f4c88f29e96b21c398ed62a8739"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa33a54488a5aa8406baaf9b0146e3227"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa33a54488a5aa8406baaf9b0146e3227"></a>
-static <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#aa33a54488a5aa8406baaf9b0146e3227">omitSubdeviceFromDeviceID</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
+static <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#aa33a54488a5aa8406baaf9b0146e3227">omitSubdeviceFromDeviceID</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#a88b36835759844ff5a043f44f6234dad">id</a>)</td></tr>
 <tr class="memdesc:aa33a54488a5aa8406baaf9b0146e3227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> of real VPT. <br/></td></tr>
 <tr class="separator:aa33a54488a5aa8406baaf9b0146e3227"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1835a29e9c22ee9c0a4430466a223a71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1835a29e9c22ee9c0a4430466a223a71"></a>
-static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a1835a29e9c22ee9c0a4430466a223a71">extractSubdeviceFromDeviceID</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
+static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1VPTDevice.html#a1835a29e9c22ee9c0a4430466a223a71">extractSubdeviceFromDeviceID</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<a class="el" href="classBeeeOn_1_1VPTDevice.html#a88b36835759844ff5a043f44f6234dad">id</a>)</td></tr>
 <tr class="memdesc:a1835a29e9c22ee9c0a4430466a223a71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts subdevice number from <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>. <br/></td></tr>
 <tr class="separator:a1835a29e9c22ee9c0a4430466a223a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b673256c4eca12b22be5c2d8284dd02"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b673256c4eca12b22be5c2d8284dd02"></a>
@@ -219,7 +235,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents Thermona Regulator VPT LAN v1.0. It provides functions to control the VPT and to gather data from its sensors. Each VPT regulator consists of up to 4 zones and 1 boiler. This means one instance of <a class="el" href="classBeeeOn_1_1VPTDevice.html" title="The class represents Thermona Regulator VPT LAN v1.0. It provides functions to control the VPT and to...">VPTDevice</a> takes care of 5 devices. Each subdevice has own <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a189ba51df97795cb2744845065e8dcb3"></a>
+<a class="anchor" id="a0dc0c124e165c97e837f21ea51b36fd8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -245,7 +261,19 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classBeeeOn_1_1GatewayID.html">GatewayID</a> &amp;&#160;</td>
-          <td class="paramname"><em>id</em>&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;&#160;</td>
+          <td class="paramname"><em>refresh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DeviceCache::Ptr&#160;</td>
+          <td class="paramname"><em>deviceCache</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -269,6 +297,32 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a88b36835759844ff5a043f44f6234dad"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> VPTDevice::id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>ID of the device. </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1PollableDevice.html#a9e5c3f6f283809fc1540fff4066a0451">BeeeOn::PollableDevice</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aad042bdd42b151ac58f2c4afa2a26066"></a>
 <div class="memitem">
 <div class="memproto">

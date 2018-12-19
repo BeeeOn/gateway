@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-38-g710db6a</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc1-45-g42ce0f2</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -93,6 +93,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> () override</
 <tr class="separator:a8243890b7c6868075a83f77006790e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a733173bef96753cffbc4058833e575a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">stop</a> () override</td></tr>
 <tr class="separator:a733173bef96753cffbc4058833e575a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b7214789217b20d54b40584b9603fbe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b7214789217b20d54b40584b9603fbe"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevicePoller</b> (DevicePoller::Ptr poller)</td></tr>
+<tr class="separator:a0b7214789217b20d54b40584b9603fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b61912aff2fcd460263ba0b152db8c2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b61912aff2fcd460263ba0b152db8c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setUPnPTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="separator:a7b61912aff2fcd460263ba0b152db8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,9 +168,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
  &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="memdesc:a3414f89b277e758fa30ee60584208614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a3414f89b277e758fa30ee60584208614">More...</a><br/></td></tr>
 <tr class="separator:a3414f89b277e758fa30ee60584208614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66643e7e857315f1cfd628f28169307a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66643e7e857315f1cfd628f28169307a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>refreshPairedDevices</b> ()</td></tr>
-<tr class="separator:a66643e7e857315f1cfd628f28169307a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa171883020fd7f9efc2d9f9fb406278d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa171883020fd7f9efc2d9f9fb406278d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>searchPairedDevices</b> ()</td></tr>
 <tr class="separator:aa171883020fd7f9efc2d9f9fb406278d"><td class="memSeparator" colspan="2">&#160;</td></tr>
