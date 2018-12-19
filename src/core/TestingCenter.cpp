@@ -115,11 +115,11 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 
 		const auto prefix = DevicePrefix::parse(args[2]);
 		if (args[3] == "ip")
-			return new DeviceSearchCommand(prefix, IPAddress::parse(args[4]), timeout);
+			return new DeviceSearchCommand(prefix, {IPAddress::parse(args[4])}, timeout);
 		if (args[3] == "mac")
-			return new DeviceSearchCommand(prefix, MACAddress::parse(args[4]), timeout);
+			return new DeviceSearchCommand(prefix, {MACAddress::parse(args[4])}, timeout);
 		if (args[3] == "serial")
-			return new DeviceSearchCommand(prefix, NumberParser::parseUnsigned(args[4]), timeout);
+			return new DeviceSearchCommand(prefix, {NumberParser::parseUnsigned(args[4])}, timeout);
 
 		throw InvalidArgumentException("unknown search type: " + args[3]);
 	}

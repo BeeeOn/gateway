@@ -9,62 +9,47 @@ using namespace BeeeOn;
 
 DeviceSearchCommand::DeviceSearchCommand(
 		const DevicePrefix &prefix,
-		const IPAddress &address,
+		const DeviceCriteria &criteria,
 		const Timespan &duration):
 	PrefixCommand(prefix),
-	m_ipAddress(address),
+	m_criteria(criteria),
 	m_duration(duration)
 {
 }
 
-DeviceSearchCommand::DeviceSearchCommand(
-		const DevicePrefix &prefix,
-		const MACAddress &address,
-		const Timespan &duration):
-	PrefixCommand(prefix),
-	m_macAddress(address),
-	m_duration(duration)
+DeviceCriteria DeviceSearchCommand::criteria() const
 {
-}
-
-DeviceSearchCommand::DeviceSearchCommand(
-		const DevicePrefix &prefix,
-		const uint64_t serialNumber,
-		const Timespan &duration):
-	PrefixCommand(prefix),
-	m_serialNumber(serialNumber),
-	m_duration(duration)
-{
+	return m_criteria;
 }
 
 bool DeviceSearchCommand::hasIPAddress() const
 {
-	return !m_ipAddress.isNull();
+	return m_criteria.hasIPAddress();
 }
 
 Poco::Net::IPAddress DeviceSearchCommand::ipAddress() const
 {
-	return m_ipAddress;
+	return m_criteria.ipAddress();
 }
 
 bool DeviceSearchCommand::hasMACAddress() const
 {
-	return !m_macAddress.isNull();
+	return m_criteria.hasMACAddress();
 }
 
 MACAddress DeviceSearchCommand::macAddress() const
 {
-	return m_macAddress;
+	return m_criteria.macAddress();
 }
 
 bool DeviceSearchCommand::hasSerialNumber() const
 {
-	return !m_serialNumber.isNull();
+	return m_criteria.hasSerialNumber();
 }
 
 uint64_t DeviceSearchCommand::serialNumber() const
 {
-	return m_serialNumber;
+	return m_criteria.serialNumber();
 }
 
 Timespan DeviceSearchCommand::duration() const
@@ -74,16 +59,8 @@ Timespan DeviceSearchCommand::duration() const
 
 string DeviceSearchCommand::toString() const
 {
-	const auto repr = name()
+	return name()
 		+ " " + prefix().toString();
-		+ " " + to_string(m_duration.totalSeconds());
-
-	if (!m_ipAddress.isNull())
-		return repr + ": " + m_ipAddress.value().toString();
-	if (!m_macAddress.isNull())
-		return repr + ": " + m_macAddress.value().toString();
-	if (!m_serialNumber.isNull())
-		return repr + ": " + to_string(m_serialNumber.value());
-
-	throw IllegalStateException("no search criteria");
+		+ " " + to_string(m_duration.totalSeconds())
+		+ ": " + m_criteria.toString();
 }

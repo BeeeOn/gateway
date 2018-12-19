@@ -18,6 +18,7 @@
 #include "core/CommandSender.h"
 #include "core/Exporter.h"
 #include "core/GatewayInfo.h"
+#include "gwmessage/GWAck.h"
 #include "gwmessage/GWDeviceAcceptRequest.h"
 #include "gwmessage/GWListenRequest.h"
 #include "gwmessage/GWMessage.h"

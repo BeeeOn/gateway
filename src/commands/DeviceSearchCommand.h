@@ -8,6 +8,7 @@
 #include <Poco/Net/IPAddress.h>
 
 #include "core/PrefixCommand.h"
+#include "model/DeviceCriteria.h"
 #include "model/DevicePrefix.h"
 #include "net/MACAddress.h"
 
@@ -29,16 +30,10 @@ public:
 
 	DeviceSearchCommand(
 		const DevicePrefix &prefix,
-		const Poco::Net::IPAddress &address,
+		const DeviceCriteria &criteria,
 		const Poco::Timespan &duration);
-	DeviceSearchCommand(
-		const DevicePrefix &prefix,
-		const MACAddress &address,
-		const Poco::Timespan &duration);
-	DeviceSearchCommand(
-		const DevicePrefix &prefix,
-		const uint64_t serialNumber,
-		const Poco::Timespan &duration);
+
+	DeviceCriteria criteria() const;
 
 	bool hasIPAddress() const;
 	Poco::Net::IPAddress ipAddress() const;
@@ -54,9 +49,7 @@ public:
 	std::string toString() const override;
 
 private:
-	Poco::Nullable<Poco::Net::IPAddress> m_ipAddress;
-	Poco::Nullable<MACAddress> m_macAddress;
-	Poco::Nullable<uint64_t> m_serialNumber;
+	DeviceCriteria m_criteria;
 	Poco::Timespan m_duration;
 };
 
