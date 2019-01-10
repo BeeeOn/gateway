@@ -151,7 +151,7 @@ void BLESmartDeviceManager::refreshPairedDevices()
 
 	for (auto &device : devices) {
 		try {
-			ship(device->requestState(m_hci));
+			ship(device->requestState());
 		}
 		catch (const NotImplementedException& e) {
 			// Some devices do not support getting the actual values.
@@ -212,7 +212,7 @@ void BLESmartDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 	if (it == m_devices.end())
 		throw NotFoundException("accept: " + cmd->deviceID().toString());
 
-	it->second->pair(m_hci, m_watchCallback);
+	it->second->pair(m_watchCallback);
 
 	DeviceManager::handleAccept(cmd);
 }
@@ -230,7 +230,7 @@ AsyncWork<double>::Ptr BLESmartDeviceManager::startSetValue(
 		throw NotFoundException("set-value: " + id.toString());
 
 	m_hci->up();
-	it->second->requestModifyState(module, value, m_hci);
+	it->second->requestModifyState(module, value);
 
 	if (logger().debug()) {
 		logger().debug("success to change state of device " + id.toString(),
@@ -286,7 +286,7 @@ void BLESmartDeviceManager::seekPairedDevices(
 		BLESmartDevice::Ptr newDevice;
 		try {
 			newDevice = createDevice(device.first);
-			newDevice->pair(m_hci, m_watchCallback);
+			newDevice->pair(m_watchCallback);
 		}
 		catch (const Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
@@ -364,19 +364,19 @@ BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& addres
 
 	string modelID = {modelIDRaw.begin(), modelIDRaw.end()};
 	if (BeeWiSmartClim::match(modelID))
-		newDevice = new BeeWiSmartClim(address, m_deviceTimeout);
+		newDevice = new BeeWiSmartClim(address, m_deviceTimeout, m_hci);
 	else if (BeeWiSmartMotion::match(modelID))
-		newDevice = new BeeWiSmartMotion(address, m_deviceTimeout, conn);
+		newDevice = new BeeWiSmartMotion(address, m_deviceTimeout, m_hci, conn);
 	else if (BeeWiSmartDoor::match(modelID))
-		newDevice = new BeeWiSmartDoor(address, m_deviceTimeout, conn);
+		newDevice = new BeeWiSmartDoor(address, m_deviceTimeout, m_hci, conn);
 	else if (BeeWiSmartWatt::match(modelID))
-		newDevice = new BeeWiSmartWatt(address, m_deviceTimeout, conn);
+		newDevice = new BeeWiSmartWatt(address, m_deviceTimeout, m_hci, conn);
 	else if (BeeWiSmartLite::match(modelID))
-		newDevice = new BeeWiSmartLite(address, m_deviceTimeout);
+		newDevice = new BeeWiSmartLite(address, m_deviceTimeout, m_hci);
 	else if (TabuLumenSmartLite::match(modelID))
-		newDevice = new TabuLumenSmartLite(address, m_deviceTimeout);
+		newDevice = new TabuLumenSmartLite(address, m_deviceTimeout, m_hci);
 	else if (RevogiDevice::match(modelID))
-		newDevice = RevogiDevice::createDevice(address, m_deviceTimeout, conn);
+		newDevice = RevogiDevice::createDevice(address, m_deviceTimeout, m_hci, conn);
 	else
 		throw NotFoundException("device " + modelID + "not supported");
 

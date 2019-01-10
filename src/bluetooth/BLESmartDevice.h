@@ -30,8 +30,12 @@ public:
 	/**
 	 * @param &address MAC address of the device
 	 * @param &timeout timeout of actions as connect, read, write
+	 * @param hci reference to HCI
 	 */
-	BLESmartDevice(const MACAddress& address, const Poco::Timespan& timeout);
+	BLESmartDevice(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci);
 	virtual ~BLESmartDevice();
 
 	DeviceID deviceID() const;
@@ -48,7 +52,6 @@ public:
 	 * it do not have any effect.
 	 */
 	virtual void pair(
-		HciInterface::Ptr hci,
 		Poco::SharedPtr<HciInterface::WatchCallback> callback);
 
 	/**
@@ -60,8 +63,7 @@ public:
 	 */
 	virtual void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci);
+		const double value);
 
 	/**
 	 * @brief Obtains the actual state of the device.
@@ -70,7 +72,7 @@ public:
 	 * @throws NotImplementedException if the device does not support
 	 * obtaining of its state.
 	 */
-	virtual SensorData requestState(const HciInterface::Ptr hci);
+	virtual SensorData requestState();
 
 	/**
 	 * @brief Transforms advertising data to SensorData.

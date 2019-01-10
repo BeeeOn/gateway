@@ -25,8 +25,9 @@ const set<string> RevogiSmartCandle::LIGHT_NAMES = {
 RevogiSmartCandle::RevogiSmartCandle(
 		const string& name,
 		const MACAddress& address,
-		const Timespan& timeout):
-	RevogiRGBLight(address, timeout, name, LIGHT_MODULE_TYPES)
+		const Timespan& timeout,
+		const HciInterface::Ptr hci):
+	RevogiRGBLight(address, timeout, name, LIGHT_MODULE_TYPES, hci)
 {
 }
 
@@ -36,12 +37,11 @@ RevogiSmartCandle::~RevogiSmartCandle()
 
 void RevogiSmartCandle::requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci)
+		const double value)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	vector<unsigned char> actualSetting = conn->notifiedWrite(
 		ACTUAL_VALUES_GATT, WRITE_VALUES_GATT, NOTIFY_DATA, m_timeout);
 

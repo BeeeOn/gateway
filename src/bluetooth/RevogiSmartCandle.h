@@ -22,13 +22,13 @@ public:
 	RevogiSmartCandle(
 		const std::string& name,
 		const MACAddress& address,
-		const Poco::Timespan& timeout);
+		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci);
 	~RevogiSmartCandle();
 
 	void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci) override;
+		const double value) override;
 
 protected:
 	/**

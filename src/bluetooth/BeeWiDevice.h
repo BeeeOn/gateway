@@ -35,7 +35,8 @@ public:
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
 		const std::string& productName,
-		const std::list<ModuleType>& moduleTypes);
+		const std::list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci);
 
 	~BeeWiDevice();
 
@@ -44,7 +45,6 @@ public:
 	std::string productName() const override;
 
 	void pair(
-		HciInterface::Ptr hci,
 		Poco::SharedPtr<HciInterface::WatchCallback> callback) override;
 
 protected:

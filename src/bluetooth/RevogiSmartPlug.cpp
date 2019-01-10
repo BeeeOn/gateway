@@ -23,8 +23,11 @@ static const list<ModuleType> PLUG_MODULE_TYPES = {
 
 const string RevogiSmartPlug::PLUG_NAME = "MeterPlug-F19F";
 
-RevogiSmartPlug::RevogiSmartPlug(const MACAddress& address, const Timespan& timeout):
-	RevogiDevice(address, timeout, PLUG_NAME, PLUG_MODULE_TYPES)
+RevogiSmartPlug::RevogiSmartPlug(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const HciInterface::Ptr hci):
+	RevogiDevice(address, timeout, PLUG_NAME, PLUG_MODULE_TYPES, hci)
 {
 }
 
@@ -34,8 +37,7 @@ RevogiSmartPlug::~RevogiSmartPlug()
 
 void RevogiSmartPlug::requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci)
+		const double value)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
@@ -45,7 +47,7 @@ void RevogiSmartPlug::requestModifyState(
 	unsigned char inVal = value == 0 ? 0x00 : 0x01;
 	unsigned char checksum = inVal + 4;
 
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	sendWriteRequest(conn, {inVal, 0, 0}, checksum);
 }
 

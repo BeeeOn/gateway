@@ -35,13 +35,15 @@ public:
 		COLOR = 0x13
 	};
 
-	BeeWiSmartLite(const MACAddress& address, const Poco::Timespan& timeout);
+	BeeWiSmartLite(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci);
 	~BeeWiSmartLite();
 
 	void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci) override;
+		const double value) override;
 
 	/**
 	* <pre>

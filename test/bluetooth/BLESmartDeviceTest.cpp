@@ -85,7 +85,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(BLESmartDeviceTest);
 class TestableBeeWiSmartMotion: public BeeWiSmartMotion {
 public:
 	TestableBeeWiSmartMotion(const MACAddress& address, const Timespan& timeout):
-		BeeWiSmartMotion(address, timeout)
+		BeeWiSmartMotion(address, timeout, {})
 	{
 	}
 };
@@ -93,7 +93,7 @@ public:
 class TestableBeeWiSmartDoor: public BeeWiSmartDoor {
 public:
 	TestableBeeWiSmartDoor(const MACAddress& address, const Timespan& timeout):
-		BeeWiSmartDoor(address, timeout)
+		BeeWiSmartDoor(address, timeout, {})
 	{
 	}
 };
@@ -101,7 +101,7 @@ public:
 class TestableBeeWiSmartWatt: public BeeWiSmartWatt {
 public:
 	TestableBeeWiSmartWatt(const MACAddress& address, const Timespan& timeout):
-		BeeWiSmartWatt(address, timeout)
+		BeeWiSmartWatt(address, timeout, {})
 	{
 	}
 	using BeeWiSmartWatt::parseValues;
@@ -110,7 +110,7 @@ public:
 class TestableBeeWiSmartLite : public BeeWiSmartLite {
 public:
 	TestableBeeWiSmartLite(const MACAddress& address, const Timespan& timeout):
-		BeeWiSmartLite(address, timeout)
+		BeeWiSmartLite(address, timeout, {})
 	{
 	}
 	using BeeWiSmartLite::brightnessToPercentages;
@@ -122,7 +122,7 @@ public:
 class TestableRevogiSmartLite : public RevogiSmartLite {
 public:
 	TestableRevogiSmartLite(const MACAddress& address, const Timespan& timeout):
-		RevogiSmartLite(address, timeout)
+		RevogiSmartLite(address, timeout, {})
 	{
 	}
 	using RevogiSmartLite::brightnessFromPercents;
@@ -138,7 +138,7 @@ public:
 			const string& name,
 			const MACAddress& address,
 			const Timespan& timeout):
-		RevogiSmartCandle(name, address, timeout)
+		RevogiSmartCandle(name, address, timeout, {})
 	{
 	}
 	using RevogiSmartCandle::parseValues;
@@ -147,7 +147,7 @@ public:
 class TestableRevogiSmartPlug: public RevogiSmartPlug {
 public:
 	TestableRevogiSmartPlug(const MACAddress& address, const Timespan& timeout):
-		RevogiSmartPlug(address, timeout)
+		RevogiSmartPlug(address, timeout, {})
 	{
 	}
 	using RevogiSmartPlug::parseValues;
@@ -158,7 +158,7 @@ public:
  */
 void BLESmartDeviceTest::testBeeWiSmartClimParseValidData()
 {
-	BeeWiSmartClim sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	BeeWiSmartClim sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0, {});
 
 	vector<unsigned char> values1 =
 		{0x05, 0x00, 0xc8, 0x00, 0x00, 0x3c, 0x00, 0x00, 0x00, 0x00, 0x64};
@@ -187,7 +187,7 @@ void BLESmartDeviceTest::testBeeWiSmartClimParseValidData()
  */
 void BLESmartDeviceTest::testBeeWiSmartClimParseTooLongMessage()
 {
-	BeeWiSmartClim sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	BeeWiSmartClim sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0, {});
 
 	vector<unsigned char> values =
 		{0x05, 0x00, 0xcd, 0xff, 0x00, 0x64, 0x00, 0x00, 0x00, 0x00, 0x3c, 0x00};
@@ -202,7 +202,7 @@ void BLESmartDeviceTest::testBeeWiSmartClimParseTooLongMessage()
  */
 void BLESmartDeviceTest::testBeeWiSmartClimParseTooShortMessage()
 {
-	BeeWiSmartClim sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	BeeWiSmartClim sensor(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0, {});
 
 	vector<unsigned char> values = {0x00, 0x00};
 	CPPUNIT_ASSERT_THROW_MESSAGE(
@@ -394,7 +394,7 @@ void BLESmartDeviceTest::testBeeWiSmartWattParseTooShortMessage()
  */
 void BLESmartDeviceTest::testBeeWiSmartLiteParseValidData()
 {
-	BeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	TestableBeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values1 =
 		{0x06, 0x03, 0x01, 0x08, 0x22, 0x00, 0x00, 0xff};
@@ -418,7 +418,7 @@ void BLESmartDeviceTest::testBeeWiSmartLiteParseValidData()
  */
 void BLESmartDeviceTest::testBeeWiSmartLiteParseTooLongMessage()
 {
-	BeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	TestableBeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values =
 		{0x06, 0x03, 0x00, 0x08, 0xbb, 0xff, 0xff, 0x00, 0x00};
@@ -433,7 +433,7 @@ void BLESmartDeviceTest::testBeeWiSmartLiteParseTooLongMessage()
  */
 void BLESmartDeviceTest::testBeeWiSmartLiteParseTooShortMessage()
 {
-	BeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
+	TestableBeeWiSmartLite light(MACAddress::parse("FF:FF:FF:FF:FF:FF"), 0);
 
 	vector<unsigned char> values =
 		{0x00, 0xbb};

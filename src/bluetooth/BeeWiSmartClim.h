@@ -18,7 +18,10 @@ public:
 	static const std::string NAME;
 
 public:
-	BeeWiSmartClim(const MACAddress& address, const Poco::Timespan& timeout);
+	BeeWiSmartClim(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci);
 	~BeeWiSmartClim();
 
 	/**

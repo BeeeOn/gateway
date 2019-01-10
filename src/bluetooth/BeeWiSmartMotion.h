@@ -22,12 +22,16 @@ protected:
 	/**
 	 * The intention of this constructor is only for testing.
 	 */
-	BeeWiSmartMotion(const MACAddress& address, const Poco::Timespan& timeout);
+	BeeWiSmartMotion(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci);
 
 public:
 	BeeWiSmartMotion(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 	~BeeWiSmartMotion();
 

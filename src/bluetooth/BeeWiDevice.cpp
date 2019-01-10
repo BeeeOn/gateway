@@ -15,8 +15,9 @@ BeeWiDevice::BeeWiDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
 		const string& productName,
-		const list<ModuleType>& moduleTypes):
-	BLESmartDevice(address, timeout),
+		const list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci):
+	BLESmartDevice(address, timeout, hci),
 	m_productName(productName),
 	m_moduleTypes(moduleTypes),
 	m_paired(false)
@@ -46,13 +47,11 @@ string BeeWiDevice::productName() const
 }
 
 void BeeWiDevice::pair(
-		HciInterface::Ptr hci,
 		Poco::SharedPtr<HciInterface::WatchCallback> callback)
 {
 	if (m_paired.value() == true)
 		return;
 
-	m_hci = hci;
 	m_hci->watch(m_address, callback);
 	m_paired = true;
 }

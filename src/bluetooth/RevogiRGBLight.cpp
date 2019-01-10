@@ -17,8 +17,9 @@ RevogiRGBLight::RevogiRGBLight(
 		const MACAddress& address,
 		const Timespan& timeout,
 		const string& productName,
-		const list<ModuleType>& moduleTypes):
-	RevogiDevice(address, timeout, productName, moduleTypes)
+		const list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci):
+	RevogiDevice(address, timeout, productName, moduleTypes, hci)
 {
 }
 

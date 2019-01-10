@@ -20,8 +20,11 @@ static list<ModuleType> SENSOR_MODULE_TYPES = {
 
 const string BeeWiSmartClim::NAME = "BeeWi SmartClim";
 
-BeeWiSmartClim::BeeWiSmartClim(const MACAddress& address, const Timespan& timeout):
-	BeeWiDevice(address, timeout, NAME, SENSOR_MODULE_TYPES)
+BeeWiSmartClim::BeeWiSmartClim(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const HciInterface::Ptr hci):
+	BeeWiDevice(address, timeout, NAME, SENSOR_MODULE_TYPES, hci)
 {
 }
 

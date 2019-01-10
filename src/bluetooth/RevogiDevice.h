@@ -56,7 +56,8 @@ public:
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
 		const std::string& productName,
-		const std::list<ModuleType>& moduleTypes);
+		const std::list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci);
 
 	~RevogiDevice();
 
@@ -69,7 +70,7 @@ public:
 	 * it to SensorData by particular implementation of the method
 	 * parseValues().
 	 */
-	SensorData requestState(const HciInterface::Ptr hci) override;
+	SensorData requestState() override;
 
 	/**
 	 * @brief The method returns true if the model ID of the device
@@ -86,6 +87,7 @@ public:
 	static RevogiDevice::Ptr createDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 
 protected:
