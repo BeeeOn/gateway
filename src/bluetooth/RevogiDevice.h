@@ -70,13 +70,6 @@ public:
 	void poll(Distributor::Ptr distributor) override;
 
 	/**
-	 * @brief Retrieve the actual setting of the device and transform
-	 * it to SensorData by particular implementation of the method
-	 * parseValues().
-	 */
-	SensorData requestState() override;
-
-	/**
 	 * @brief The method returns true if the model ID of the device
 	 * may be model ID of some Revogi device.
 	 *

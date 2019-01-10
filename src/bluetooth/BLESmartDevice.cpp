@@ -59,11 +59,6 @@ void BLESmartDevice::requestModifyState(
 	throw NotImplementedException(__func__ );
 }
 
-SensorData BLESmartDevice::requestState()
-{
-	throw NotImplementedException(__func__ );
-}
-
 SensorData BLESmartDevice::parseAdvertisingData(
 		const std::vector<unsigned char>&) const
 {

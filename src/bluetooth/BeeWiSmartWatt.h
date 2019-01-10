@@ -57,7 +57,6 @@ public:
 	void requestModifyState(
 		const ModuleID& moduleID,
 		const double value) override;
-	SensorData requestState() override;
 
 	/**
 	 * <pre>

@@ -78,15 +78,6 @@ public:
 		const double value);
 
 	/**
-	 * @brief Obtains the actual state of the device.
-	 * @throws IOException in case of communication failure.
-	 * @throws ProtocolException in case of bad received message.
-	 * @throws NotImplementedException if the device does not support
-	 * obtaining of its state.
-	 */
-	virtual SensorData requestState();
-
-	/**
 	 * @brief Transforms advertising data to SensorData.
 	 * @throws ProtocolException in case of bad received advertising data.
 	 * @throws NotImplementedException if the device does not support

@@ -59,7 +59,12 @@ bool BeeWiSmartWatt::pollable() const
 
 void BeeWiSmartWatt::poll(Distributor::Ptr distributor)
 {
-	distributor->exportData(requestState());
+	SynchronizedObject::ScopedLock guard(*this);
+
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
+	vector<unsigned char> data = conn->read(ACTUAL_VALUES);
+
+	distributor->exportData(parseValues(data));
 }
 
 void BeeWiSmartWatt::requestModifyState(
@@ -94,16 +99,6 @@ void BeeWiSmartWatt::requestModifyState(
 
 	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	conn->write(characteristics, data);
-}
-
-SensorData BeeWiSmartWatt::requestState()
-{
-	SynchronizedObject::ScopedLock guard(*this);
-
-	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
-	vector<unsigned char> data = conn->read(ACTUAL_VALUES);
-
-	return parseValues(data);
 }
 
 SensorData BeeWiSmartWatt::parseAdvertisingData(

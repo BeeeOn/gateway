@@ -54,18 +54,13 @@ bool RevogiDevice::pollable() const
 
 void RevogiDevice::poll(Distributor::Ptr distributor)
 {
-	distributor->exportData(requestState());
-}
-
-SensorData RevogiDevice::requestState()
-{
 	SynchronizedObject::ScopedLock guard(*this);
 
 	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	vector<unsigned char> values = conn->notifiedWrite(
 		ACTUAL_VALUES_GATT, WRITE_VALUES_GATT, NOTIFY_DATA, m_timeout);
 
-	return parseValues(values);
+	distributor->exportData(parseValues(values));
 }
 
 void RevogiDevice::sendWriteRequest(
