@@ -123,7 +123,7 @@ FastMutex& BelkinWemoBulb::lock()
 	return m_link->lock();
 }
 
-BelkinWemoLink::Ptr BelkinWemoBulb::link()
+BelkinWemoLink::Ptr BelkinWemoBulb::link() const
 {
 	return m_link;
 }
