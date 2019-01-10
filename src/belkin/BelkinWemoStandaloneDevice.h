@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 #include <Poco/URI.h>
 #include <Poco/Net/SocketAddress.h>
@@ -18,6 +19,8 @@ namespace BeeeOn {
  */
 class BelkinWemoStandaloneDevice : public BelkinWemoDevice {
 public:
+	typedef Poco::SharedPtr<BelkinWemoStandaloneDevice> Ptr;
+
 	BelkinWemoStandaloneDevice(
 		const Poco::URI& uri,
 		const Poco::Timespan &httpTimeout,
