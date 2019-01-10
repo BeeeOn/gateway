@@ -34,6 +34,7 @@ public:
 	BeeWiDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const std::string& productName,
 		const std::list<ModuleType>& moduleTypes,
 		const HciInterface::Ptr hci);

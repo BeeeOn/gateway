@@ -25,6 +25,7 @@ public:
 		const Poco::Timespan& timeout,
 		const std::string& productName,
 		const std::list<ModuleType>& moduleTypes,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci);
 	~RevogiRGBLight();
 

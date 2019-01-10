@@ -38,6 +38,7 @@ public:
 	BeeWiSmartLite(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci);
 	~BeeWiSmartLite();
 

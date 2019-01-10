@@ -33,8 +33,9 @@ const string TabuLumenSmartLite::VENDOR_NAME = "Tabu Lumen";
 TabuLumenSmartLite::TabuLumenSmartLite(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	BLESmartDevice(address, timeout, hci),
+	BLESmartDevice(address, timeout, refresh, hci),
 	m_colorBrightness(MAX_COLOR_ELEMENT, MAX_COLOR_ELEMENT, MAX_COLOR_ELEMENT, MAX_COLOR_ELEMENT)
 {
 }

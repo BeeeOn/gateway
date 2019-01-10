@@ -23,8 +23,9 @@ const string BeeWiSmartClim::NAME = "BeeWi SmartClim";
 BeeWiSmartClim::BeeWiSmartClim(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	BeeWiDevice(address, timeout, NAME, SENSOR_MODULE_TYPES, hci)
+	BeeWiDevice(address, timeout, refresh, NAME, SENSOR_MODULE_TYPES, hci)
 {
 }
 

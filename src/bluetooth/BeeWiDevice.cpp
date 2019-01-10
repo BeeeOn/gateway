@@ -14,10 +14,11 @@ const string BeeWiDevice::VENDOR_NAME = "BeeWi";
 BeeWiDevice::BeeWiDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const string& productName,
 		const list<ModuleType>& moduleTypes,
 		const HciInterface::Ptr hci):
-	BLESmartDevice(address, timeout, hci),
+	BLESmartDevice(address, timeout, refresh, hci),
 	m_productName(productName),
 	m_moduleTypes(moduleTypes),
 	m_paired(false)

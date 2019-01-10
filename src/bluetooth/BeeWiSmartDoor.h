@@ -25,12 +25,14 @@ protected:
 	BeeWiSmartDoor(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci);
 
 public:
 	BeeWiSmartDoor(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 	~BeeWiSmartDoor();

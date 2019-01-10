@@ -37,8 +37,9 @@ const string BeeWiSmartLite::NAME = "BeeWi SmartLite";
 BeeWiSmartLite::BeeWiSmartLite(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	BeeWiDevice(address, timeout, NAME, LIGHT_MODULE_TYPES, hci)
+	BeeWiDevice(address, timeout, refresh, NAME, LIGHT_MODULE_TYPES, hci)
 {
 }
 

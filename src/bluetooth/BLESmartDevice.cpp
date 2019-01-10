@@ -9,10 +9,12 @@ using namespace Poco;
 BLESmartDevice::BLESmartDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
 	m_deviceId(DevicePrefix::PREFIX_BLE_SMART, address),
 	m_address(address),
 	m_timeout(timeout),
+	m_refresh(refresh),
 	m_hci(hci)
 {
 }
@@ -21,9 +23,14 @@ BLESmartDevice::~BLESmartDevice()
 {
 }
 
-DeviceID BLESmartDevice::deviceID() const
+DeviceID BLESmartDevice::id() const
 {
 	return m_deviceId;
+}
+
+RefreshTime BLESmartDevice::refresh() const
+{
+	return m_refresh;
 }
 
 MACAddress BLESmartDevice::macAddress() const
@@ -31,8 +38,17 @@ MACAddress BLESmartDevice::macAddress() const
 	return m_address;
 }
 
+bool BLESmartDevice::pollable() const
+{
+	return false;
+}
+
 void BLESmartDevice::pair(
 		Poco::SharedPtr<HciInterface::WatchCallback>)
+{
+}
+
+void BLESmartDevice::poll(Distributor::Ptr)
 {
 }
 

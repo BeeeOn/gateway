@@ -18,10 +18,11 @@ const vector<unsigned char> RevogiDevice::NOTIFY_DATA = {
 RevogiDevice::RevogiDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const string& productName,
 		const list<ModuleType>& moduleTypes,
 		const HciInterface::Ptr hci):
-	BLESmartDevice(address, timeout, hci),
+	BLESmartDevice(address, timeout, refresh, hci),
 	m_productName(productName),
 	m_moduleTypes(moduleTypes)
 {
@@ -30,7 +31,6 @@ RevogiDevice::RevogiDevice(
 RevogiDevice::~RevogiDevice()
 {
 }
-
 
 list<ModuleType> RevogiDevice::moduleTypes() const
 {
@@ -45,6 +45,16 @@ string RevogiDevice::vendor() const
 string RevogiDevice::productName() const
 {
 	return m_productName;
+}
+
+bool RevogiDevice::pollable() const
+{
+	return true;
+}
+
+void RevogiDevice::poll(Distributor::Ptr distributor)
+{
+	distributor->exportData(requestState());
 }
 
 SensorData RevogiDevice::requestState()
@@ -85,6 +95,7 @@ bool RevogiDevice::match(const string& modelID)
 RevogiDevice::Ptr RevogiDevice::createDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn)
 {
@@ -92,11 +103,11 @@ RevogiDevice::Ptr RevogiDevice::createDevice(
 	string modelID(data.begin(), data.end());
 
 	if (modelID == RevogiSmartLite::LIGHT_NAME)
-		return new RevogiSmartLite(address, timeout, hci);
+		return new RevogiSmartLite(address, timeout, refresh, hci);
 	else if (RevogiSmartCandle::LIGHT_NAMES.find(modelID) != RevogiSmartCandle::LIGHT_NAMES.end())
-		return new RevogiSmartCandle(modelID, address, timeout, hci);
+		return new RevogiSmartCandle(modelID, address, timeout, refresh, hci);
 	else if (modelID == RevogiSmartPlug::PLUG_NAME)
-		return new RevogiSmartPlug(address, timeout, hci);
+		return new RevogiSmartPlug(address, timeout, refresh, hci);
 
 	throw NotFoundException("device " + modelID + " not supported");
 }

@@ -31,23 +31,35 @@ const string BeeWiSmartWatt::NAME = "BeeWi Smart Watt";
 BeeWiSmartWatt::BeeWiSmartWatt(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	BeeWiDevice(address, timeout, NAME, DEVICE_MODULE_TYPES, hci)
+	BeeWiDevice(address, timeout, refresh, NAME, DEVICE_MODULE_TYPES, hci)
 {
 }
 
 BeeWiSmartWatt::BeeWiSmartWatt(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn):
-	BeeWiDevice(address, timeout, NAME, DEVICE_MODULE_TYPES, hci)
+	BeeWiDevice(address, timeout, refresh, NAME, DEVICE_MODULE_TYPES, hci)
 {
 	initLocalTime(conn);
 }
 
 BeeWiSmartWatt::~BeeWiSmartWatt()
 {
+}
+
+bool BeeWiSmartWatt::pollable() const
+{
+	return true;
+}
+
+void BeeWiSmartWatt::poll(Distributor::Ptr distributor)
+{
+	distributor->exportData(requestState());
 }
 
 void BeeWiSmartWatt::requestModifyState(

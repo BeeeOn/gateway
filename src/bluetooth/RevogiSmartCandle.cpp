@@ -26,8 +26,9 @@ RevogiSmartCandle::RevogiSmartCandle(
 		const string& name,
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	RevogiRGBLight(address, timeout, name, LIGHT_MODULE_TYPES, hci)
+	RevogiRGBLight(address, timeout, name, LIGHT_MODULE_TYPES, refresh, hci)
 {
 }
 

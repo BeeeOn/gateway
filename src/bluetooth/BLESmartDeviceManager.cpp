@@ -159,7 +159,7 @@ void BLESmartDeviceManager::refreshPairedDevices()
 		}
 		catch (const Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
-			logger().warning("failed to obtain data from device " + device->deviceID().toString(),
+			logger().warning("failed to obtain data from device " + device->id().toString(),
 				__FILE__, __LINE__);
 		}
 	}
@@ -294,10 +294,10 @@ void BLESmartDeviceManager::seekPairedDevices(
 		}
 
 		ScopedLock<FastMutex> lock(m_devicesMutex);
-		m_devices.emplace(newDevice->deviceID(), newDevice);
+		m_devices.emplace(newDevice->id(), newDevice);
 		devices.push_back(newDevice);
 
-		logger().information("found " + newDevice->productName() + " " + newDevice->deviceID().toString(),
+		logger().information("found " + newDevice->productName() + " " + newDevice->id().toString(),
 			__FILE__, __LINE__);
 	}
 }
@@ -342,7 +342,7 @@ void BLESmartDeviceManager::seekDevices(vector<BLESmartDevice::Ptr>& foundDevice
 		}
 		foundDevices.push_back(newDevice);
 
-		logger().information("found " + newDevice->productName() + " " + newDevice->deviceID().toString(),
+		logger().information("found " + newDevice->productName() + " " + newDevice->id().toString(),
 			__FILE__, __LINE__);
 	}
 }
@@ -364,19 +364,19 @@ BLESmartDevice::Ptr BLESmartDeviceManager::createDevice(const MACAddress& addres
 
 	string modelID = {modelIDRaw.begin(), modelIDRaw.end()};
 	if (BeeWiSmartClim::match(modelID))
-		newDevice = new BeeWiSmartClim(address, m_deviceTimeout, m_hci);
+		newDevice = new BeeWiSmartClim(address, m_deviceTimeout, m_refresh, m_hci);
 	else if (BeeWiSmartMotion::match(modelID))
-		newDevice = new BeeWiSmartMotion(address, m_deviceTimeout, m_hci, conn);
+		newDevice = new BeeWiSmartMotion(address, m_deviceTimeout, m_refresh, m_hci, conn);
 	else if (BeeWiSmartDoor::match(modelID))
-		newDevice = new BeeWiSmartDoor(address, m_deviceTimeout, m_hci, conn);
+		newDevice = new BeeWiSmartDoor(address, m_deviceTimeout, m_refresh, m_hci, conn);
 	else if (BeeWiSmartWatt::match(modelID))
-		newDevice = new BeeWiSmartWatt(address, m_deviceTimeout, m_hci, conn);
+		newDevice = new BeeWiSmartWatt(address, m_deviceTimeout, m_refresh, m_hci, conn);
 	else if (BeeWiSmartLite::match(modelID))
-		newDevice = new BeeWiSmartLite(address, m_deviceTimeout, m_hci);
+		newDevice = new BeeWiSmartLite(address, m_deviceTimeout, m_refresh, m_hci);
 	else if (TabuLumenSmartLite::match(modelID))
-		newDevice = new TabuLumenSmartLite(address, m_deviceTimeout, m_hci);
+		newDevice = new TabuLumenSmartLite(address, m_deviceTimeout, m_refresh, m_hci);
 	else if (RevogiDevice::match(modelID))
-		newDevice = RevogiDevice::createDevice(address, m_deviceTimeout, m_hci, conn);
+		newDevice = RevogiDevice::createDevice(address, m_deviceTimeout, m_refresh, m_hci, conn);
 	else
 		throw NotFoundException("device " + modelID + "not supported");
 
@@ -387,17 +387,17 @@ void BLESmartDeviceManager::processNewDevice(BLESmartDevice::Ptr newDevice)
 {
 	ScopedLock<FastMutex> lock(m_devicesMutex);
 
-	m_devices.emplace(newDevice->deviceID(), newDevice);
-	if (deviceCache()->paired(newDevice->deviceID()))
+	m_devices.emplace(newDevice->id(), newDevice);
+	if (deviceCache()->paired(newDevice->id()))
 		return;
 
-	logger().debug("found device " + newDevice->deviceID().toString(),
+	logger().debug("found device " + newDevice->id().toString(),
 		__FILE__, __LINE__);
 
 	auto types = newDevice->moduleTypes();
 
 	const auto description = DeviceDescription::Builder()
-		.id(newDevice->deviceID())
+		.id(newDevice->id())
 		.type(newDevice->vendor(), newDevice->productName())
 		.modules(types)
 		.refreshTime(m_refresh)

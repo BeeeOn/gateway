@@ -36,6 +36,7 @@ public:
 	TabuLumenSmartLite(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci);
 	~TabuLumenSmartLite();
 

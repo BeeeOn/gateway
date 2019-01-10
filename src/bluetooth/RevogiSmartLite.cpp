@@ -33,8 +33,9 @@ const string RevogiSmartLite::LIGHT_NAME = "Delite-1748";
 RevogiSmartLite::RevogiSmartLite(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	RevogiRGBLight(address, timeout, LIGHT_NAME, LIGHT_MODULE_TYPES, hci)
+	RevogiRGBLight(address, timeout, LIGHT_NAME, LIGHT_MODULE_TYPES, refresh, hci)
 {
 }
 

@@ -9,9 +9,11 @@
 #include <Poco/Timespan.h>
 
 #include "bluetooth/HciInterface.h"
+#include "core/PollableDevice.h"
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
 #include "model/ModuleType.h"
+#include "model/RefreshTime.h"
 #include "model/SensorData.h"
 #include "net/MACAddress.h"
 #include "util/Loggable.h"
@@ -22,6 +24,7 @@ namespace BeeeOn {
  * @brief Abstract class representing generic Bluetooth Low Energy smart device.
  */
 class BLESmartDevice :
+	public PollableDevice,
 	protected Poco::SynchronizedObject,
 	protected Loggable {
 public:
@@ -35,10 +38,12 @@ public:
 	BLESmartDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci);
 	virtual ~BLESmartDevice();
 
-	DeviceID deviceID() const;
+	DeviceID id() const override;
+	RefreshTime refresh() const override;
 	MACAddress macAddress() const;
 
 	virtual std::list<ModuleType> moduleTypes() const = 0;
@@ -53,6 +58,13 @@ public:
 	 */
 	virtual void pair(
 		Poco::SharedPtr<HciInterface::WatchCallback> callback);
+
+	/**
+	 * @brief Returns true if the device is pollable, otherwise false.
+	 */
+	virtual bool pollable() const;
+
+	void poll(Distributor::Ptr distributor) override;
 
 	/**
 	 * @brief Modifies the device module given by moduleID to a given
@@ -87,6 +99,7 @@ protected:
 	DeviceID m_deviceId;
 	MACAddress m_address;
 	Poco::Timespan m_timeout;
+	RefreshTime m_refresh;
 
 	HciInterface::Ptr m_hci;
 };

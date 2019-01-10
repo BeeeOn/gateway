@@ -26,8 +26,9 @@ const string RevogiSmartPlug::PLUG_NAME = "MeterPlug-F19F";
 RevogiSmartPlug::RevogiSmartPlug(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci):
-	RevogiDevice(address, timeout, PLUG_NAME, PLUG_MODULE_TYPES, hci)
+	RevogiDevice(address, timeout, refresh, PLUG_NAME, PLUG_MODULE_TYPES, hci)
 {
 }
 

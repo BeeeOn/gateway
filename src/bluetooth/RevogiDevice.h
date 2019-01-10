@@ -55,6 +55,7 @@ public:
 	RevogiDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const std::string& productName,
 		const std::list<ModuleType>& moduleTypes,
 		const HciInterface::Ptr hci);
@@ -64,6 +65,9 @@ public:
 	std::list<ModuleType> moduleTypes() const override;
 	std::string vendor() const override;
 	std::string productName() const override;
+
+	bool pollable() const override;
+	void poll(Distributor::Ptr distributor) override;
 
 	/**
 	 * @brief Retrieve the actual setting of the device and transform
@@ -87,6 +91,7 @@ public:
 	static RevogiDevice::Ptr createDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 

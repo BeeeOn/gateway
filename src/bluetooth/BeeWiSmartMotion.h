@@ -25,12 +25,14 @@ protected:
 	BeeWiSmartMotion(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci);
 
 public:
 	BeeWiSmartMotion(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 	~BeeWiSmartMotion();
