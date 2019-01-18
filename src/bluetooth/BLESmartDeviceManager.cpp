@@ -29,6 +29,7 @@ BEEEON_OBJECT_PROPERTY("hciManager", &BLESmartDeviceManager::setHciManager)
 BEEEON_OBJECT_PROPERTY("scanTimeout", &BLESmartDeviceManager::setScanTimeout)
 BEEEON_OBJECT_PROPERTY("deviceTimeout", &BLESmartDeviceManager::setDeviceTimeout)
 BEEEON_OBJECT_PROPERTY("refresh", &BLESmartDeviceManager::setRefresh)
+BEEEON_OBJECT_PROPERTY("numberOfExaminationThreads", &BLESmartDeviceManager::setNumberOfExaminationThreads)
 BEEEON_OBJECT_PROPERTY("attemptsCount", &BLESmartDeviceManager::setAttemptsCount)
 BEEEON_OBJECT_PROPERTY("retryTimeout", &BLESmartDeviceManager::setRetryTimeout)
 BEEEON_OBJECT_END(BeeeOn, BLESmartDeviceManager)
@@ -48,7 +49,8 @@ BLESmartDeviceManager::BLESmartDeviceManager():
 	}),
 	m_scanTimeout(10 * Timespan::SECONDS),
 	m_deviceTimeout(5 * Timespan::SECONDS),
-	m_refresh(RefreshTime::fromSeconds(30))
+	m_refresh(RefreshTime::fromSeconds(30)),
+	m_numberOfExaminationThreads(3)
 {
 	m_watchCallback = new HciInterface::WatchCallback(
 		[&](const MACAddress& address, vector<unsigned char>& data) {
@@ -83,6 +85,15 @@ void BLESmartDeviceManager::setRefresh(const Timespan &refresh)
 		throw InvalidArgumentException("refresh time must at least a second");
 
 	m_refresh = RefreshTime::fromSeconds(refresh.totalSeconds());
+}
+
+void BLESmartDeviceManager::setNumberOfExaminationThreads(
+		const int numberOfExaminationThreads)
+{
+	if (numberOfExaminationThreads <= 0)
+		throw InvalidArgumentException("number of examination threads must be at least one");
+
+	m_numberOfExaminationThreads = numberOfExaminationThreads;
 }
 
 void BLESmartDeviceManager::setHciManager(HciInterfaceManager::Ptr manager)
@@ -321,14 +332,64 @@ void BLESmartDeviceManager::seekDevices(vector<BLESmartDevice::Ptr>& foundDevice
 	}
 	lock.unlock();
 
-	examineBatchOfDevices(
-		newDevices,
-		foundDevices,
-		stop);
+	FastMutex foundDevicesMutex;
+	if (newDevices.size() <= 1) {
+		examineBatchOfDevices(
+			newDevices,
+			foundDevicesMutex,
+			foundDevices,
+			stop);
+	}
+	else {
+		threadedExaminationOfDevices(
+			newDevices,
+			foundDevicesMutex,
+			foundDevices,
+			stop);
+	}
+}
+
+void BLESmartDeviceManager::threadedExaminationOfDevices(
+		const map<MACAddress, string>& devices,
+		FastMutex& foundDevicesMutex,
+		vector<BLESmartDevice::Ptr>& foundDevices,
+		const StopControl& stop)
+{
+	uint32_t numberOfThreads = m_numberOfExaminationThreads;
+	if (devices.size() < m_numberOfExaminationThreads)
+		numberOfThreads = devices.size();
+
+	vector<map<MACAddress, string>> splitDevices(numberOfThreads);
+	vector<SharedPtr<Thread>> threads;
+
+	uint32_t i = 0;
+	for (const auto &device : devices) {
+		splitDevices.at(i % numberOfThreads).emplace(device);
+		i++;
+	}
+
+	for (const auto &batchDevices : splitDevices) {
+		SharedPtr<Thread> thread = new Thread;
+		threads.push_back(thread);
+
+		thread->startFunc(
+			[&]() {
+				examineBatchOfDevices(
+					batchDevices,
+					foundDevicesMutex,
+					foundDevices,
+					stop);
+			}
+		);
+	}
+
+	for (auto thread : threads)
+		thread->join();
 }
 
 void BLESmartDeviceManager::examineBatchOfDevices(
 		const map<MACAddress, string>& devices,
+		FastMutex& foundDevicesMutex,
 		vector<BLESmartDevice::Ptr>& foundDevices,
 		const StopControl& stop)
 {
@@ -348,6 +409,8 @@ void BLESmartDeviceManager::examineBatchOfDevices(
 			logger().log(e, __FILE__, __LINE__);
 			continue;
 		}
+
+		ScopedLock<FastMutex> guard(foundDevicesMutex);
 		foundDevices.push_back(newDevice);
 
 		logger().information("found " + newDevice->productName() + " " + newDevice->id().toString(),
