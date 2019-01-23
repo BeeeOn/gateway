@@ -309,19 +309,32 @@ void BLESmartDeviceManager::seekDevices(vector<BLESmartDevice::Ptr>& foundDevice
 	logger().information("found " + to_string(devices.size()) + " BLE device(s)",
 		__FILE__, __LINE__);
 
+	// Only a new devices are examined.
+	ScopedLockWithUnlock<FastMutex> lock(m_devicesMutex);
+	map<MACAddress, string> newDevices;
+	for (const auto &device : devices) {
+		auto it = m_devices.find(DeviceID(DevicePrefix::PREFIX_BLE_SMART, device.first));
+		if (it != m_devices.end())
+			foundDevices.emplace_back(it->second);
+		else
+			newDevices.emplace(device);
+	}
+	lock.unlock();
+
+	examineBatchOfDevices(
+		newDevices,
+		foundDevices,
+		stop);
+}
+
+void BLESmartDeviceManager::examineBatchOfDevices(
+		const map<MACAddress, string>& devices,
+		vector<BLESmartDevice::Ptr>& foundDevices,
+		const StopControl& stop)
+{
 	for (const auto &device : devices) {
 		if (stop.shouldStop())
 			break;
-
-		ScopedLockWithUnlock<FastMutex> lock(m_devicesMutex);
-		auto it = m_devices.find(DeviceID(DevicePrefix::PREFIX_BLE_SMART, device.first));
-		if (it != m_devices.end()) {
-			foundDevices.push_back(it->second);
-			logger().information("found " + device.second + " " + it->first.toString(),
-				__FILE__, __LINE__);
-			continue;
-		}
-		lock.unlock();
 
 		BLESmartDevice::Ptr newDevice;
 		try {

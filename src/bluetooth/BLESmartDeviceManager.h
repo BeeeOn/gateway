@@ -127,6 +127,16 @@ protected:
 		const StopControl& stop);
 
 	/**
+	 * @brief Finds out if the given devices are supported. In the
+	 * positive case, a specific instance of the device is created
+	 * for it.
+	 */
+	void examineBatchOfDevices(
+		const std::map<MACAddress, std::string>& devices,
+		std::vector<BLESmartDevice::Ptr>& foundDevices,
+		const StopControl& stop);
+
+	/**
 	 * @brief Creates BLE device based on its Model ID.
 	 */
 	BLESmartDevice::Ptr createDevice(const MACAddress& address) const;
