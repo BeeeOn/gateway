@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-52-g502c051</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -84,6 +84,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a150433da2f7580810e733382153953bb"><td class="memTemplParams" colspan="2">template&lt;typename... Rest&gt; </td></tr>
 <tr class="memitem:a150433da2f7580810e733382153953bb"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Translator.html#a150433da2f7580810e733382153953bb">format</a> (const std::string &amp;key, const std::string &amp;def, const Rest &amp;...rest)</td></tr>
 <tr class="separator:a150433da2f7580810e733382153953bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0228b558c2d11f399368562327afd01f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1Translator.html#a0228b558c2d11f399368562327afd01f">vformat</a> (const std::string &amp;key, const std::string &amp;def, const std::vector&lt; Poco::Dynamic::Var &gt; &amp;args)</td></tr>
+<tr class="separator:a0228b558c2d11f399368562327afd01f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -256,6 +258,47 @@ template&lt;typename... Rest&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Format the message identified by given key. This method should be used only for translations where it is sure that the translation exists otherwise a messy string could be returned easily. The method calls formatImpl internally. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0228b558c2d11f399368562327afd01f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string BeeeOn::Translator::vformat </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>def</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; Poco::Dynamic::Var &gt; &amp;&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Format the message identified by given key. If the key is not found, it returns the given def formatted via <a class="el" href="classBeeeOn_1_1Translator.html#a7582d38d85e381869b92b051d915ff6c">formatFallback()</a>. The method calls formatImpl internally. </p>
 
 </div>
 </div>

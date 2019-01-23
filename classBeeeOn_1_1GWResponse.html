@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-52-g502c051</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -73,9 +73,9 @@ Inheritance diagram for BeeeOn::GWResponse:</div>
   <map id="BeeeOn::GWResponse_map" name="BeeeOn::GWResponse_map">
 <area href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent..." alt="BeeeOn::GWMessage" shape="rect" coords="312,0,510,24"/>
 <area href="classBeeeOn_1_1GWDeviceListResponse.html" title="Represents a message sent byt the server to the gateway as a response to the GWDeviceListRequest. " alt="BeeeOn::GWDeviceListResponse" shape="rect" coords="0,112,198,136"/>
-<area href="classBeeeOn_1_1GWLastValueResponse.html" title="Represents a message sent by the server to the gateway as a response to the GWLastValueRequest. " alt="BeeeOn::GWLastValueResponse" shape="rect" coords="208,112,406,136"/>
+<area href="classBeeeOn_1_1GWLastValueResponse.html" title="Deprecated. Represents a message sent by the server to the gateway as a response to the GWLastValueRe..." alt="BeeeOn::GWLastValueResponse" shape="rect" coords="208,112,406,136"/>
 <area href="classBeeeOn_1_1GWResponseWithAck.html" title="Deprecated. Represents a response to a request message (subclass of a GWRequest), that requires ackno..." alt="BeeeOn::GWResponseWithAck" shape="rect" coords="416,112,614,136"/>
-<area href="classBeeeOn_1_1GWUnpairResponse.html" alt="BeeeOn::GWUnpairResponse" shape="rect" coords="624,112,822,136"/>
+<area href="classBeeeOn_1_1GWUnpairResponse.html" title="The unpair process might under certain circumstances unpair a different device then intended..." alt="BeeeOn::GWUnpairResponse" shape="rect" coords="624,112,822,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -83,7 +83,8 @@ Inheritance diagram for BeeeOn::GWResponse:</div>
 Public Types</h2></td></tr>
 <tr class="memitem:ad594924be839414190d5b33702acfc53"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1GWResponse.html#ad594924be839414190d5b33702acfc53">Status</a> { <a class="el" href="classBeeeOn_1_1GWResponse.html#ad594924be839414190d5b33702acfc53a1e275c8638dfb703ef7c1c6bc4384bee">ACCEPTED</a>, 
 <a class="el" href="classBeeeOn_1_1GWResponse.html#ad594924be839414190d5b33702acfc53a5c6929e462cc5bddc5f270bee58e86dc">SUCCESS</a>, 
-<a class="el" href="classBeeeOn_1_1GWResponse.html#ad594924be839414190d5b33702acfc53aec6c2ea1ee6a416441f50c2e398d085b">FAILED</a>
+<a class="el" href="classBeeeOn_1_1GWResponse.html#ad594924be839414190d5b33702acfc53aec6c2ea1ee6a416441f50c2e398d085b">FAILED</a>, 
+<a class="el" href="classBeeeOn_1_1GWResponse.html#ad594924be839414190d5b33702acfc53aeb3264de20e22f80a7fb25ef3ef475f8">SUCCESS_PARTIAL</a>
  }</td></tr>
 <tr class="separator:ad594924be839414190d5b33702acfc53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bdf4d075522f5ce48e92be1947430e9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bdf4d075522f5ce48e92be1947430e9"></a>
@@ -170,8 +171,32 @@ Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>js
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a response to a request message (subclass of a <a class="el" href="classBeeeOn_1_1GWRequest.html" title="Abstract class representing a request message. The GWRequest can not be used alone, but it must be inherited by a specific request object. ">GWRequest</a>). The <a class="el" href="classBeeeOn_1_1GWResponse.html" title="Represents a response to a request message (subclass of a GWRequest). The GWResponse can be used alon...">GWResponse</a> can be used alone as a generic response or inherited by a more specific response object. </p>
-<p>The <a class="el" href="classBeeeOn_1_1GWResponse.html" title="Represents a response to a request message (subclass of a GWRequest). The GWResponse can be used alon...">GWResponse</a> contains unique identifier intended to match a response to a proper request. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<p>The <a class="el" href="classBeeeOn_1_1GWResponse.html" title="Represents a response to a request message (subclass of a GWRequest). The GWResponse can be used alon...">GWResponse</a> contains unique identifier intended to match a response to a proper request.</p>
+<p>The entry "status" is currently represented as integer. It is however possible to use also string representation, any of:</p>
+<ul>
+<li>"accepted" (0)</li>
+<li>"success" (1)</li>
+<li>"failed" (2)</li>
+<li>"success_partial" (3)</li>
+</ul>
+<p>The string representation should be preferred over numbers. The integer representation is treated as obsolete.</p>
+<p>Each response can have an optional entry "ack_expected" of type bool. If its value is true then the response is expected to be acknowladged explicitly by a <a class="el" href="classBeeeOn_1_1GWAck.html" title="Represents an acknowledgement, that a response of the given id and status has been really delivered...">GWAck</a> message. Unless it is acknowladged this way, the client considers such response to be undelivered and may decide to retransmit the response.</p>
+<p>An example (generic) response: </p>
+<pre>
+{
+  "id": "b036b7f7-47a1-4bea-9fa3-6024e8263dcd",
+  "message_type": "generic_response",
+  "status": "success"
+}
+</pre><p>An example (generic) response requiring acknowladge: </p>
+<pre>
+{
+  "id": "b036b7f7-47a1-4bea-9fa3-6024e8263dcd",
+  "message_type": "generic_response",
+  "status": "failed",
+  "ack_expected": true
+}
+</pre> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="ad594924be839414190d5b33702acfc53"></a>
 <div class="memitem">
 <div class="memproto">
@@ -190,6 +215,9 @@ Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>js
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="ad594924be839414190d5b33702acfc53aec6c2ea1ee6a416441f50c2e398d085b"></a>FAILED</em>&nbsp;</td><td class="fielddoc">
 <p>Request failed. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ad594924be839414190d5b33702acfc53aeb3264de20e22f80a7fb25ef3ef475f8"></a>SUCCESS_PARTIAL</em>&nbsp;</td><td class="fielddoc">
+<p>Request has generally succeeded but there were some non-fatal errors or warnings. </p>
 </td></tr>
 </table>
 

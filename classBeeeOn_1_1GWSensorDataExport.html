@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-52-g502c051</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -143,8 +143,30 @@ Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>js
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a message sent by the gateway to the server intended to export measured sensor data. </p>
-<p>The <a class="el" href="classBeeeOn_1_1GWSensorDataExport.html" title="Represents a message sent by the gateway to the server intended to export measured sensor data...">GWSensorDataExport</a> contains unique identifier intended to match a proper <a class="el" href="classBeeeOn_1_1GWSensorDataConfirm.html" title="Represents message sent by the server to the gateway intended to confirm, that the server accepted ex...">GWSensorDataConfirm</a> (confirmation, that the server accepted exported measured sensor data). After the <a class="el" href="classBeeeOn_1_1GWSensorDataExport.html" title="Represents a message sent by the gateway to the server intended to export measured sensor data...">GWSensorDataExport</a> is sent, the gateway expect a confirmation with the given id. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<p>The <a class="el" href="classBeeeOn_1_1GWSensorDataExport.html" title="Represents a message sent by the gateway to the server intended to export measured sensor data...">GWSensorDataExport</a> contains unique identifier intended to match a proper <a class="el" href="classBeeeOn_1_1GWSensorDataConfirm.html" title="Represents message sent by the server to the gateway intended to confirm, that the server accepted ex...">GWSensorDataConfirm</a> (confirmation, that the server accepted exported measured sensor data). After the <a class="el" href="classBeeeOn_1_1GWSensorDataExport.html" title="Represents a message sent by the gateway to the server intended to export measured sensor data...">GWSensorDataExport</a> is sent, the gateway expect a confirmation with the given id.</p>
+<p>An example message: </p>
+<pre>
+{
+  "id": "9990944f-e53d-47dd-8b46-a797c8ccec10",
+  "message_type": "sensor_data_export",
+  "data": {
+    {
+      "device_id": "0xa300000000000001",
+      "timestamp": 1538575474123012,
+      "values": [
+        {
+          "module_id": 0,
+          "value": 25.6
+        },
+        {
+          "module_id": 1,
+          "value": 100.0
+        }
+      ]
+    }
+  }
+}
+</pre> </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/<a class="el" href="GWSensorDataExport_8h_source.html">GWSensorDataExport.h</a></li>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/GWSensorDataExport.cpp</li>
 </ul>

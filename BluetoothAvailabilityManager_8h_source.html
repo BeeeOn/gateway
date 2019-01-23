@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-52-g502c051</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -141,28 +141,31 @@
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">void</span> shipStatusOf(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1BluetoothDevice.html">BluetoothDevice</a> &amp;device);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordtype">void</span> sendNewDevice(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>, <span class="keyword">const</span> std::string &amp;name);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> createDeviceID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;numMac) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> createLEDeviceID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;numMac) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        Poco::RunnableAdapter&lt;BluetoothAvailabilityManager&gt; m_listenThread;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        Poco::Timespan m_wakeUpTime;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        Poco::Timespan m_leScanTime;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        Poco::Thread m_thread;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        std::map&lt;DeviceID, BluetoothDevice&gt; m_deviceList;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        Poco::FastMutex m_lock;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        Poco::FastMutex m_scanLock;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        HciInterfaceManager::Ptr m_hciManager;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        Poco::Timespan m_listenTime;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordtype">int</span> m_mode;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        std::map&lt;MACAddress, std::string&gt; m_leScanCache;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordtype">void</span> sendNewDevice(</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address,</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <span class="keyword">const</span> std::string &amp;name);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> createDeviceID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;numMac) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> createLEDeviceID(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;numMac) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        Poco::RunnableAdapter&lt;BluetoothAvailabilityManager&gt; m_listenThread;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        Poco::Timespan m_wakeUpTime;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        Poco::Timespan m_leScanTime;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        Poco::Thread m_thread;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        std::map&lt;DeviceID, BluetoothDevice&gt; m_deviceList;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        Poco::FastMutex m_lock;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        Poco::FastMutex m_scanLock;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        HciInterfaceManager::Ptr m_hciManager;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        Poco::Timespan m_listenTime;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordtype">int</span> m_mode;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        std::map&lt;MACAddress, std::string&gt; m_leScanCache;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;};</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
 <div class="ttc" id="classBeeeOn_1_1FailDetector_html"><div class="ttname"><a href="classBeeeOn_1_1FailDetector.html">BeeeOn::FailDetector</a></div><div class="ttdef"><b>Definition:</b> FailDetector.h:8</div></div>
 <div class="ttc" id="classBeeeOn_1_1BluetoothAvailabilityManager_html_a7265668e32aaa78a3fa98432db696371"><div class="ttname"><a href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a7265668e32aaa78a3fa98432db696371">BeeeOn::BluetoothAvailabilityManager::handleRemoteStatus</a></div><div class="ttdeci">void handleRemoteStatus(const DevicePrefix &amp;prefix, const std::set&lt; DeviceID &gt; &amp;devices, const DeviceStatusHandler::DeviceValues &amp;values) override</div><div class="ttdoc">Handle device status as understood by a remote server. All devices of a certain prefix are notified i...</div><div class="ttdef"><b>Definition:</b> BluetoothAvailabilityManager.cpp:318</div></div>
 <div class="ttc" id="classBeeeOn_1_1BluetoothAvailabilityManager_html"><div class="ttname"><a href="classBeeeOn_1_1BluetoothAvailabilityManager.html">BeeeOn::BluetoothAvailabilityManager</a></div><div class="ttdef"><b>Definition:</b> BluetoothAvailabilityManager.h:22</div></div>
@@ -180,7 +183,7 @@
 <div class="ttc" id="classBeeeOn_1_1HotplugEvent_html"><div class="ttname"><a href="classBeeeOn_1_1HotplugEvent.html">BeeeOn::HotplugEvent</a></div><div class="ttdef"><b>Definition:</b> HotplugEvent.h:10</div></div>
 <div class="ttc" id="classBeeeOn_1_1BluetoothAvailabilityManager_html_a6d7b023c1fc910893d284836ecae6a2d"><div class="ttname"><a href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager::startDiscovery</a></div><div class="ttdeci">AsyncWork::Ptr startDiscovery(const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts device discovery process in a technology-specific way. This method is always called inside a c...</div><div class="ttdef"><b>Definition:</b> BluetoothAvailabilityManager.cpp:286</div></div>
 <div class="ttc" id="classBeeeOn_1_1DongleDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DongleDeviceManager.html">BeeeOn::DongleDeviceManager</a></div><div class="ttdef"><b>Definition:</b> DongleDeviceManager.h:14</div></div>
-<div class="ttc" id="classBeeeOn_1_1BluetoothAvailabilityManager_html_a91a34d7982d0e215accb9653faababd6"><div class="ttname"><a href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a91a34d7982d0e215accb9653faababd6">BeeeOn::BluetoothAvailabilityManager::setHciManager</a></div><div class="ttdeci">void setHciManager(HciInterfaceManager::Ptr manager)</div><div class="ttdef"><b>Definition:</b> BluetoothAvailabilityManager.cpp:459</div></div>
+<div class="ttc" id="classBeeeOn_1_1BluetoothAvailabilityManager_html_a91a34d7982d0e215accb9653faababd6"><div class="ttname"><a href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a91a34d7982d0e215accb9653faababd6">BeeeOn::BluetoothAvailabilityManager::setHciManager</a></div><div class="ttdeci">void setHciManager(HciInterfaceManager::Ptr manager)</div><div class="ttdef"><b>Definition:</b> BluetoothAvailabilityManager.cpp:463</div></div>
 <div class="ttc" id="classBeeeOn_1_1BluetoothAvailabilityManager_html_a3fef9aaef3fa4a0e95f95bcfc72d04e9"><div class="ttname"><a href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a3fef9aaef3fa4a0e95f95bcfc72d04e9">BeeeOn::BluetoothAvailabilityManager::notifyDongleRemoved</a></div><div class="ttdeci">void notifyDongleRemoved() override</div><div class="ttdoc">The default implementation does nothing. </div><div class="ttdef"><b>Definition:</b> BluetoothAvailabilityManager.cpp:151</div></div>
 <div class="ttc" id="classBeeeOn_1_1BluetoothDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BluetoothDevice.html">BeeeOn::BluetoothDevice</a></div><div class="ttdef"><b>Definition:</b> BluetoothDevice.h:16</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>

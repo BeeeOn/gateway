@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>BeeeOn Gateway: BeeeOn::GWPingRequest Class Reference</title>
+<title>BeeeOn Gateway: BeeeOn::GWNoticeRequest Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-52-g502c051</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -47,7 +47,7 @@
   </div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>BeeeOn</b></li><li class="navelem"><a class="el" href="classBeeeOn_1_1GWPingRequest.html">GWPingRequest</a></li>  </ul>
+<li class="navelem"><b>BeeeOn</b></li><li class="navelem"><a class="el" href="classBeeeOn_1_1GWNoticeRequest.html">GWNoticeRequest</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -55,31 +55,31 @@
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">BeeeOn::GWPingRequest Class Reference</div>  </div>
+<div class="title">BeeeOn::GWNoticeRequest Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Represents a message to check connectivity. It is primary intended to be sent by the server to the gateway.  
- <a href="classBeeeOn_1_1GWPingRequest.html#details">More...</a></p>
+<p><a class="el" href="classBeeeOn_1_1GWNoticeRequest.html" title="GWNoticeRequest allows a gateway to send a notice about something that happen. It can report progress...">GWNoticeRequest</a> allows a gateway to send a notice about something that happen. It can report progress information, error details, hints, etc. Each notice is defined by the following properties:  
+ <a href="classBeeeOn_1_1GWNoticeRequest.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="GWPingRequest_8h_source.html">GWPingRequest.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="GWNoticeRequest_8h_source.html">GWNoticeRequest.h</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for BeeeOn::GWPingRequest:</div>
+Inheritance diagram for BeeeOn::GWNoticeRequest:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classBeeeOn_1_1GWPingRequest.png" usemap="#BeeeOn::GWPingRequest_map" alt=""/>
-  <map id="BeeeOn::GWPingRequest_map" name="BeeeOn::GWPingRequest_map">
-<area href="classBeeeOn_1_1GWRequest.html" title="Abstract class representing a request message. The GWRequest can not be used alone, but it must be inherited by a specific request object. " alt="BeeeOn::GWRequest" shape="rect" coords="0,56,153,80"/>
-<area href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent..." alt="BeeeOn::GWMessage" shape="rect" coords="0,0,153,24"/>
+  <img src="classBeeeOn_1_1GWNoticeRequest.png" usemap="#BeeeOn::GWNoticeRequest_map" alt=""/>
+  <map id="BeeeOn::GWNoticeRequest_map" name="BeeeOn::GWNoticeRequest_map">
+<area href="classBeeeOn_1_1GWRequest.html" title="Abstract class representing a request message. The GWRequest can not be used alone, but it must be inherited by a specific request object. " alt="BeeeOn::GWRequest" shape="rect" coords="0,56,164,80"/>
+<area href="classBeeeOn_1_1GWMessage.html" title="The GWMessage is abstract class representing messages (including their contents), that are being sent..." alt="BeeeOn::GWMessage" shape="rect" coords="0,0,164,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:abb20d1bf2a6c83a1663e17d703bc66cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb20d1bf2a6c83a1663e17d703bc66cd"></a>
+<tr class="memitem:a647a0e8858836ab66e811264137f8ac7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a647a0e8858836ab66e811264137f8ac7"></a>
 typedef Poco::SharedPtr<br class="typebreak"/>
-&lt; <a class="el" href="classBeeeOn_1_1GWPingRequest.html">GWPingRequest</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
-<tr class="separator:abb20d1bf2a6c83a1663e17d703bc66cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+&lt; <a class="el" href="classBeeeOn_1_1GWNoticeRequest.html">GWNoticeRequest</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a647a0e8858836ab66e811264137f8ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classBeeeOn_1_1GWRequest"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1GWRequest')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1GWRequest.html">BeeeOn::GWRequest</a></td></tr>
 <tr class="memitem:ad39bed62083f32241011f760ce473a7c inherit pub_types_classBeeeOn_1_1GWRequest"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad39bed62083f32241011f760ce473a7c"></a>
 typedef Poco::SharedPtr<br class="typebreak"/>
@@ -93,9 +93,33 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad9f081c3d2e4d195c40ca148f41731a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9f081c3d2e4d195c40ca148f41731a9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GWPingRequest</b> (const Poco::JSON::Object::Ptr object)</td></tr>
-<tr class="separator:ad9f081c3d2e4d195c40ca148f41731a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d554b461e657957debc9f7860563f0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d554b461e657957debc9f7860563f0c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GWNoticeRequest</b> (const Poco::JSON::Object::Ptr object)</td></tr>
+<tr class="separator:a1d554b461e657957debc9f7860563f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb9361f579de0a9efb53e88e31944088"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb9361f579de0a9efb53e88e31944088"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setAt</b> (const Poco::Timestamp &amp;at)</td></tr>
+<tr class="separator:aeb9361f579de0a9efb53e88e31944088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50598d8996eda3bd805b2d9f05c00376"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50598d8996eda3bd805b2d9f05c00376"></a>
+Poco::Timestamp&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> () const </td></tr>
+<tr class="separator:a50598d8996eda3bd805b2d9f05c00376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29f0b3587e4ea00287ea74f981a67ac2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29f0b3587e4ea00287ea74f981a67ac2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setSeverity</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">Severity</a> &amp;severity)</td></tr>
+<tr class="separator:a29f0b3587e4ea00287ea74f981a67ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf04491c2382379b2e1f8c3da23be962"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf04491c2382379b2e1f8c3da23be962"></a>
+<a class="el" href="classBeeeOn_1_1Enum.html">Severity</a>&#160;</td><td class="memItemRight" valign="bottom"><b>severity</b> () const </td></tr>
+<tr class="separator:adf04491c2382379b2e1f8c3da23be962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa433773eee4566888631adc7bffca5f6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa433773eee4566888631adc7bffca5f6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setKey</b> (const std::string &amp;key)</td></tr>
+<tr class="separator:aa433773eee4566888631adc7bffca5f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0ac69827e06be172afb2345640193d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef0ac69827e06be172afb2345640193d"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>key</b> () const </td></tr>
+<tr class="separator:aef0ac69827e06be172afb2345640193d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae742a2720407cd6806ca506389c31639"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae742a2720407cd6806ca506389c31639"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setContext</b> (const Poco::JSON::Object::Ptr context)</td></tr>
+<tr class="separator:ae742a2720407cd6806ca506389c31639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af74d06b4e9475dbc8b3f6162463b1fda"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af74d06b4e9475dbc8b3f6162463b1fda"></a>
+Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>context</b> () const </td></tr>
+<tr class="separator:af74d06b4e9475dbc8b3f6162463b1fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1GWRequest"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1GWRequest')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1GWRequest.html">BeeeOn::GWRequest</a></td></tr>
 <tr class="memitem:aecd440815304133167ffcbc7a3dfbe3e inherit pub_methods_classBeeeOn_1_1GWRequest"><td class="memTemplParams" colspan="2"><a class="anchor" id="aecd440815304133167ffcbc7a3dfbe3e"></a>
 template&lt;typename T &gt; </td></tr>
@@ -161,11 +185,31 @@ Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>js
 <tr class="separator:ae326ca726a9ed7a0c97afa6e7054ccce inherit pro_methods_classBeeeOn_1_1GWMessage"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents a message to check connectivity. It is primary intended to be sent by the server to the gateway. </p>
-<p>Response to this message is always generic response <a class="el" href="classBeeeOn_1_1GWResponse.html" title="Represents a response to a request message (subclass of a GWRequest). The GWResponse can be used alon...">GWResponse</a> with status SUCCESS or nothing. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
-<li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/<a class="el" href="GWPingRequest_8h_source.html">GWPingRequest.h</a></li>
-<li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/GWPingRequest.cpp</li>
+<div class="textblock"><p><a class="el" href="classBeeeOn_1_1GWNoticeRequest.html" title="GWNoticeRequest allows a gateway to send a notice about something that happen. It can report progress...">GWNoticeRequest</a> allows a gateway to send a notice about something that happen. It can report progress information, error details, hints, etc. Each notice is defined by the following properties: </p>
+<ul>
+<li>at - time when the message (or source event) has occoured</li>
+<li>severity - describes importance of the message: info, warn or error</li>
+<li>key - key that defines the message (intended to be translated to client)</li>
+<li>context - context that can be used to construct the client message</li>
+</ul>
+<p>All message should be designed with multi-locale environment in mind. Thus, the key and context are kept separately and should be tranformed to the appropriate user message on the presentation layer.</p>
+<p>An example message: </p>
+<pre>
+{
+  "id": "603a5085-1b00-4c5e-ac70-dde674a49b0c",
+  "message_type": "notice_request",
+  "at": 1546882536019124,
+  "severity": "info",
+  "key": "press_button_on_device",
+  "context": {
+    "device_id": "0xa3123456abcd01234",
+    "gateway_id": "12437773180129",
+    "button": "red"
+  }
+}
+</pre> </div><hr/>The documentation for this class was generated from the following files:<ul>
+<li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/<a class="el" href="GWNoticeRequest_8h_source.html">GWNoticeRequest.h</a></li>
+<li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/GWNoticeRequest.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

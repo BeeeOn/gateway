@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc1-52-g502c051</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -120,6 +120,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setTimeout</b> (const
 <tr class="memitem:a202f3877144c68947d82b14210ad0477"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a202f3877144c68947d82b14210ad0477"></a>
 Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><b>timeout</b> () const </td></tr>
 <tr class="separator:a202f3877144c68947d82b14210ad0477"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e8a06737fdc20a98a751920fa6e71ed"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e8a06737fdc20a98a751920fa6e71ed"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setMode</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">OpMode</a> &amp;mode)</td></tr>
+<tr class="separator:a2e8a06737fdc20a98a751920fa6e71ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2562d92fe2e1ff49d60c63640a78a081"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2562d92fe2e1ff49d60c63640a78a081"></a>
+<a class="el" href="classBeeeOn_1_1Enum.html">OpMode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mode</b> () const </td></tr>
+<tr class="separator:a2562d92fe2e1ff49d60c63640a78a081"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1GWRequest"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1GWRequest')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1GWRequest.html">BeeeOn::GWRequest</a></td></tr>
 <tr class="memitem:aecd440815304133167ffcbc7a3dfbe3e inherit pub_methods_classBeeeOn_1_1GWRequest"><td class="memTemplParams" colspan="2"><a class="anchor" id="aecd440815304133167ffcbc7a3dfbe3e"></a>
 template&lt;typename T &gt; </td></tr>
@@ -186,8 +192,18 @@ Poco::JSON::Object::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>js
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a message sent by the server to the gateway, intended to change state of an active module on the device. </p>
-<p>The message contains an identification of the device and its module, a value to be set and a timeout for which the value must be set or the operation end with failed. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<p>The message contains an identification of the device and its module, a value to be set and a timeout for which the value must be set or the operation end with failed.</p>
+<p>An example message: </p>
+<pre>
+{
+  "id": "a507755f-793f-4067-89bf-533fb73b6a41",
+  "message_type": "set_value_request",
+  "device_id": "0xa300000000000001",
+  "module_id": "0",
+  "timeout": 30,
+  "value": 1.0
+}
+</pre> </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/<a class="el" href="GWSetValueRequest_8h_source.html">GWSetValueRequest.h</a></li>
 <li>/var/lib/jenkins/workspace/beeeon-gateway-master/base/src/gwmessage/GWSetValueRequest.cpp</li>
 </ul>
