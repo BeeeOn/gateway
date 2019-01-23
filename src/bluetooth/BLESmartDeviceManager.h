@@ -76,6 +76,7 @@ public:
 	void setScanTimeout(const Poco::Timespan &timeout);
 	void setDeviceTimeout(const Poco::Timespan &timeout);
 	void setRefresh(const Poco::Timespan &refresh);
+	void setNumberOfExaminationThreads(const int numberOfExaminationThreads);
 	void setHciManager(HciInterfaceManager::Ptr manager);
 
 protected:
@@ -127,6 +128,28 @@ protected:
 		const StopControl& stop);
 
 	/**
+	 * @brief Splits the map of devices into smaller maps whose number
+	 * is determined by the attribute m_numberOfExaminationThreads.
+	 * These maps of devices are then examines in the seperated threads.
+	 */
+	void threadedExaminationOfDevices(
+		const std::map<MACAddress, std::string>& devices,
+		Poco::FastMutex& foundDevicesMutex,
+		std::vector<BLESmartDevice::Ptr>& foundDevices,
+		const StopControl& stop);
+
+	/**
+	 * @brief Finds out if the given devices are supported. In the
+	 * positive case, a specific instance of the device is created
+	 * for it.
+	 */
+	void examineBatchOfDevices(
+		const std::map<MACAddress, std::string>& devices,
+		Poco::FastMutex& foundDevicesMutex,
+		std::vector<BLESmartDevice::Ptr>& foundDevices,
+		const StopControl& stop);
+
+	/**
 	 * @brief Creates BLE device based on its Model ID.
 	 */
 	BLESmartDevice::Ptr createDevice(const MACAddress& address) const;
@@ -142,6 +165,7 @@ private:
 	Poco::Timespan m_scanTimeout;
 	Poco::Timespan m_deviceTimeout;
 	RefreshTime m_refresh;
+	uint32_t m_numberOfExaminationThreads;
 	HciInterfaceManager::Ptr m_hciManager;
 	HciInterface::Ptr m_hci;
 };
