@@ -33,7 +33,11 @@ private:
 	};
 
 public:
-	TabuLumenSmartLite(const MACAddress& address, const Poco::Timespan& timeout);
+	TabuLumenSmartLite(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci);
 	~TabuLumenSmartLite();
 
 	std::list<ModuleType> moduleTypes() const override;
@@ -42,8 +46,7 @@ public:
 
 	void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci) override;
+		const double value) override;
 
 	static bool match(const std::string& modelID);
 

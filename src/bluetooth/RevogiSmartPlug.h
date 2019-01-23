@@ -18,13 +18,16 @@ public:
 	static const std::string PLUG_NAME;
 
 public:
-	RevogiSmartPlug(const MACAddress& address, const Poco::Timespan& timeout);
+	RevogiSmartPlug(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci);
 	~RevogiSmartPlug();
 
 	void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci) override;
+		const double value) override;
 
 protected:
 	/**

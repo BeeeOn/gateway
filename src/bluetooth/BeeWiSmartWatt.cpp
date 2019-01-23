@@ -28,16 +28,22 @@ const UUID BeeWiSmartWatt::ON_OFF = UUID("a8b3ff04-4834-4051-89d0-3de95cddd318")
 const UUID BeeWiSmartWatt::LIGHT_ON_OFF = UUID("a8b3ff06-4834-4051-89d0-3de95cddd318");
 const string BeeWiSmartWatt::NAME = "BeeWi Smart Watt";
 
-BeeWiSmartWatt::BeeWiSmartWatt(const MACAddress& address, const Timespan& timeout):
-	BeeWiDevice(address, timeout, NAME, DEVICE_MODULE_TYPES)
+BeeWiSmartWatt::BeeWiSmartWatt(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci):
+	BeeWiDevice(address, timeout, refresh, NAME, DEVICE_MODULE_TYPES, hci)
 {
 }
 
 BeeWiSmartWatt::BeeWiSmartWatt(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn):
-	BeeWiDevice(address, timeout, NAME, DEVICE_MODULE_TYPES)
+	BeeWiDevice(address, timeout, refresh, NAME, DEVICE_MODULE_TYPES, hci)
 {
 	initLocalTime(conn);
 }
@@ -46,10 +52,24 @@ BeeWiSmartWatt::~BeeWiSmartWatt()
 {
 }
 
+bool BeeWiSmartWatt::pollable() const
+{
+	return true;
+}
+
+void BeeWiSmartWatt::poll(Distributor::Ptr distributor)
+{
+	SynchronizedObject::ScopedLock guard(*this);
+
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
+	vector<unsigned char> data = conn->read(ACTUAL_VALUES);
+
+	distributor->exportData(parseValues(data));
+}
+
 void BeeWiSmartWatt::requestModifyState(
 	const ModuleID& moduleID,
-	const double value,
-	HciInterface::Ptr hci)
+	const double value)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
@@ -77,18 +97,8 @@ void BeeWiSmartWatt::requestModifyState(
 		throw IllegalStateException("invalid module ID: " + to_string(moduleID.value()));
 	}
 
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	conn->write(characteristics, data);
-}
-
-SensorData BeeWiSmartWatt::requestState(const HciInterface::Ptr hci)
-{
-	SynchronizedObject::ScopedLock guard(*this);
-
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
-	vector<unsigned char> data = conn->read(ACTUAL_VALUES);
-
-	return parseValues(data);
 }
 
 SensorData BeeWiSmartWatt::parseAdvertisingData(

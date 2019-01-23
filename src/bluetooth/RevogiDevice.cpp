@@ -18,9 +18,11 @@ const vector<unsigned char> RevogiDevice::NOTIFY_DATA = {
 RevogiDevice::RevogiDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
 		const string& productName,
-		const list<ModuleType>& moduleTypes):
-	BLESmartDevice(address, timeout),
+		const list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci):
+	BLESmartDevice(address, timeout, refresh, hci),
 	m_productName(productName),
 	m_moduleTypes(moduleTypes)
 {
@@ -29,7 +31,6 @@ RevogiDevice::RevogiDevice(
 RevogiDevice::~RevogiDevice()
 {
 }
-
 
 list<ModuleType> RevogiDevice::moduleTypes() const
 {
@@ -46,15 +47,20 @@ string RevogiDevice::productName() const
 	return m_productName;
 }
 
-SensorData RevogiDevice::requestState(const HciInterface::Ptr hci)
+bool RevogiDevice::pollable() const
+{
+	return true;
+}
+
+void RevogiDevice::poll(Distributor::Ptr distributor)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	vector<unsigned char> values = conn->notifiedWrite(
 		ACTUAL_VALUES_GATT, WRITE_VALUES_GATT, NOTIFY_DATA, m_timeout);
 
-	return parseValues(values);
+	distributor->exportData(parseValues(values));
 }
 
 void RevogiDevice::sendWriteRequest(
@@ -84,17 +90,19 @@ bool RevogiDevice::match(const string& modelID)
 RevogiDevice::Ptr RevogiDevice::createDevice(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn)
 {
 	vector<unsigned char> data = conn->read(UUID_DEVICE_NAME);
 	string modelID(data.begin(), data.end());
 
 	if (modelID == RevogiSmartLite::LIGHT_NAME)
-		return new RevogiSmartLite(address, timeout);
+		return new RevogiSmartLite(address, timeout, refresh, hci);
 	else if (RevogiSmartCandle::LIGHT_NAMES.find(modelID) != RevogiSmartCandle::LIGHT_NAMES.end())
-		return new RevogiSmartCandle(modelID, address, timeout);
+		return new RevogiSmartCandle(modelID, address, timeout, refresh, hci);
 	else if (modelID == RevogiSmartPlug::PLUG_NAME)
-		return new RevogiSmartPlug(address, timeout);
+		return new RevogiSmartPlug(address, timeout, refresh, hci);
 
 	throw NotFoundException("device " + modelID + " not supported");
 }

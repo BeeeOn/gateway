@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 
+#include <Poco/AtomicCounter.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 #include <Poco/UUID.h>
@@ -33,8 +34,10 @@ public:
 	BeeWiDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const std::string& productName,
-		const std::list<ModuleType>& moduleTypes);
+		const std::list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci);
 
 	~BeeWiDevice();
 
@@ -43,7 +46,6 @@ public:
 	std::string productName() const override;
 
 	void pair(
-		HciInterface::Ptr hci,
 		Poco::SharedPtr<HciInterface::WatchCallback> callback) override;
 
 protected:
@@ -58,6 +60,7 @@ protected:
 private:
 	std::string m_productName;
 	std::list<ModuleType> m_moduleTypes;
+	Poco::AtomicCounter m_paired;
 };
 
 }

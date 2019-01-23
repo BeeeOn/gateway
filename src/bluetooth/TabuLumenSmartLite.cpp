@@ -30,8 +30,12 @@ const vector<uint8_t> TabuLumenSmartLite::XOR_KEY = {
 const string TabuLumenSmartLite::LIGHT_NAME = "TL 100S Smart Light";
 const string TabuLumenSmartLite::VENDOR_NAME = "Tabu Lumen";
 
-TabuLumenSmartLite::TabuLumenSmartLite(const MACAddress& address, const Timespan& timeout):
-	BLESmartDevice(address, timeout),
+TabuLumenSmartLite::TabuLumenSmartLite(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci):
+	BLESmartDevice(address, timeout, refresh, hci),
 	m_colorBrightness(MAX_COLOR_ELEMENT, MAX_COLOR_ELEMENT, MAX_COLOR_ELEMENT, MAX_COLOR_ELEMENT)
 {
 }
@@ -57,22 +61,21 @@ std::string TabuLumenSmartLite::vendor() const
 
 void TabuLumenSmartLite::requestModifyState(
 	const ModuleID& moduleID,
-	const double value,
-	const HciInterface::Ptr hci)
+	const double value)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
 	switch (moduleID.value()) {
 	case ON_OFF_MODULE_ID: {
-		modifyStatus(value, hci);
+		modifyStatus(value, m_hci);
 		break;
 	}
 	case BRIGHTNESS_MODULE_ID: {
-		modifyBrightness(value, hci);
+		modifyBrightness(value, m_hci);
 		break;
 	}
 	case COLOR_MODULE_ID: {
-		modifyColor(value, hci);
+		modifyColor(value, m_hci);
 		break;
 	}
 	default:

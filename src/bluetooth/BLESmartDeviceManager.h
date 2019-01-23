@@ -14,6 +14,7 @@
 #include "commands/DeviceSetValueCommand.h"
 #include "core/AbstractSeeker.h"
 #include "core/DongleDeviceManager.h"
+#include "core/PollingKeeper.h"
 #include "loop/StopControl.h"
 #include "model/DeviceID.h"
 #include "model/RefreshTime.h"
@@ -71,6 +72,7 @@ public:
 	bool dongleMissing() override;
 	void stop() override;
 
+	void setDevicePoller(DevicePoller::Ptr poller);
 	void setScanTimeout(const Poco::Timespan &timeout);
 	void setDeviceTimeout(const Poco::Timespan &timeout);
 	void setRefresh(const Poco::Timespan &refresh);
@@ -93,13 +95,6 @@ protected:
 		const Poco::Timespan &timeout) override;
 
 	/**
-	 * @brief In the first step, it tries to find not found paired
-	 * devices and then requests the actual state of all found paired
-	 * devices.
-	 */
-	void refreshPairedDevices();
-
-	/**
 	 * @brief Clears m_devices.
 	 */
 	void eraseAllDevices();
@@ -116,9 +111,7 @@ protected:
 	 * @brief Tries to find not found paired devices. Each found device
 	 * is added to parametr devices and attribute m_devices.
 	 */
-	void seekPairedDevices(
-		const std::set<DeviceID> pairedDevices,
-		std::vector<BLESmartDevice::Ptr>& devices);
+	void seekPairedDevices();
 
 	/**
 	 * @brief Seeks for new devices on Bluetooth LE network.
@@ -145,6 +138,7 @@ private:
 	std::map<DeviceID, BLESmartDevice::Ptr> m_devices;
 	Poco::SharedPtr<HciInterface::WatchCallback> m_watchCallback;
 
+	PollingKeeper m_pollingKeeper;
 	Poco::Timespan m_scanTimeout;
 	Poco::Timespan m_deviceTimeout;
 	RefreshTime m_refresh;

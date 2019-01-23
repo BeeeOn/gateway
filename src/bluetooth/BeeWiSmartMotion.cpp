@@ -17,16 +17,22 @@ static list<ModuleType> SENSOR_MODULE_TYPES = {
 
 const string BeeWiSmartMotion::NAME = "BeeWi Smart Motion";
 
-BeeWiSmartMotion::BeeWiSmartMotion(const MACAddress& address, const Timespan& timeout):
-	BeeWiDevice(address, timeout, NAME, SENSOR_MODULE_TYPES)
+BeeWiSmartMotion::BeeWiSmartMotion(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci):
+	BeeWiDevice(address, timeout, refresh, NAME, SENSOR_MODULE_TYPES, hci)
 {
 }
 
 BeeWiSmartMotion::BeeWiSmartMotion(
 		const MACAddress& address,
 		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn):
-	BeeWiDevice(address, timeout, NAME, SENSOR_MODULE_TYPES)
+	BeeWiDevice(address, timeout, refresh, NAME, SENSOR_MODULE_TYPES, hci)
 {
 	initLocalTime(conn);
 }

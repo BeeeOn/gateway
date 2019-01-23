@@ -30,8 +30,12 @@ static const list<ModuleType> LIGHT_MODULE_TYPES = {
 
 const string RevogiSmartLite::LIGHT_NAME = "Delite-1748";
 
-RevogiSmartLite::RevogiSmartLite(const MACAddress& address, const Timespan& timeout):
-	RevogiRGBLight(address, timeout, LIGHT_NAME, LIGHT_MODULE_TYPES)
+RevogiSmartLite::RevogiSmartLite(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci):
+	RevogiRGBLight(address, timeout, LIGHT_NAME, LIGHT_MODULE_TYPES, refresh, hci)
 {
 }
 
@@ -41,12 +45,11 @@ RevogiSmartLite::~RevogiSmartLite()
 
 void RevogiSmartLite::requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci)
+		const double value)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	vector<unsigned char> actualSetting = conn->notifiedWrite(
 		ACTUAL_VALUES_GATT, WRITE_VALUES_GATT, NOTIFY_DATA, m_timeout);
 

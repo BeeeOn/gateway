@@ -55,8 +55,10 @@ public:
 	RevogiDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
 		const std::string& productName,
-		const std::list<ModuleType>& moduleTypes);
+		const std::list<ModuleType>& moduleTypes,
+		const HciInterface::Ptr hci);
 
 	~RevogiDevice();
 
@@ -64,12 +66,8 @@ public:
 	std::string vendor() const override;
 	std::string productName() const override;
 
-	/**
-	 * @brief Retrieve the actual setting of the device and transform
-	 * it to SensorData by particular implementation of the method
-	 * parseValues().
-	 */
-	SensorData requestState(const HciInterface::Ptr hci) override;
+	bool pollable() const override;
+	void poll(Distributor::Ptr distributor) override;
 
 	/**
 	 * @brief The method returns true if the model ID of the device
@@ -86,6 +84,8 @@ public:
 	static RevogiDevice::Ptr createDevice(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 
 protected:

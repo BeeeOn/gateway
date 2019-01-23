@@ -17,13 +17,16 @@ public:
 	static const std::string LIGHT_NAME;
 
 public:
-	RevogiSmartLite(const MACAddress& address, const Poco::Timespan& timeout);
+	RevogiSmartLite(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci);
 	~RevogiSmartLite();
 
 	void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci) override;
+		const double value) override;
 
 protected:
 	void modifyStatus(const double value, const HciConnection::Ptr conn);

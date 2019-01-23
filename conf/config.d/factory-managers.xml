@@ -71,6 +71,7 @@
 
 		<instance name="bleSmartDeviceManager" class="BeeeOn::BLESmartDeviceManager">
 			<set name="deviceCache" ref="deviceCache" />
+			<set name="devicePoller" ref="devicePoller" />
 			<set name="scanTimeout" time="${bluetooth.le.scanTime}" />
 			<set name="deviceTimeout" time="${blesmart.device.timeout}" />
 			<set name="refresh" time="${blesmart.refresh}" />

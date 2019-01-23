@@ -34,8 +34,12 @@ const UUID BeeWiSmartLite::ACTUAL_VALUES = UUID("a8b3fff2-4834-4051-89d0-3de95cd
 const UUID BeeWiSmartLite::WRITE_VALUES = UUID("a8b3fff1-4834-4051-89d0-3de95cddd318");
 const string BeeWiSmartLite::NAME = "BeeWi SmartLite";
 
-BeeWiSmartLite::BeeWiSmartLite(const MACAddress& address, const Timespan& timeout):
-	BeeWiDevice(address, timeout, NAME, LIGHT_MODULE_TYPES)
+BeeWiSmartLite::BeeWiSmartLite(
+		const MACAddress& address,
+		const Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci):
+	BeeWiDevice(address, timeout, refresh, NAME, LIGHT_MODULE_TYPES, hci)
 {
 }
 
@@ -45,8 +49,7 @@ BeeWiSmartLite::~BeeWiSmartLite()
 
 void BeeWiSmartLite::requestModifyState(
 	const ModuleID& moduleID,
-	const double value,
-	HciInterface::Ptr hci)
+	const double value)
 {
 	SynchronizedObject::ScopedLock guard(*this);
 
@@ -90,7 +93,7 @@ void BeeWiSmartLite::requestModifyState(
 	data.push_back(0x0d);
 	data.push_back(0x0a);
 
-	HciConnection::Ptr conn = hci->connect(m_address, m_timeout);
+	HciConnection::Ptr conn = m_hci->connect(m_address, m_timeout);
 	conn->write(WRITE_VALUES, data);
 }
 

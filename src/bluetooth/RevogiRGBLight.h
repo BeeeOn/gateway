@@ -24,7 +24,9 @@ public:
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
 		const std::string& productName,
-		const std::list<ModuleType>& moduleTypes);
+		const std::list<ModuleType>& moduleTypes,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci);
 	~RevogiRGBLight();
 
 protected:

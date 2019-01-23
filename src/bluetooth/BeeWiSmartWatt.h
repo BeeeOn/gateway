@@ -36,20 +36,27 @@ protected:
 	/**
 	 * The intention of this constructor is only for testing.
 	 */
-	BeeWiSmartWatt(const MACAddress& address, const Poco::Timespan& timeout);
+	BeeWiSmartWatt(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const RefreshTime& refersh,
+		const HciInterface::Ptr hci);
 
 public:
 	BeeWiSmartWatt(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refersh,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 	~BeeWiSmartWatt();
 
+	bool pollable() const override;
+	void poll(Distributor::Ptr distributor) override;
+
 	void requestModifyState(
 		const ModuleID& moduleID,
-		const double value,
-		const HciInterface::Ptr hci) override;
-	SensorData requestState(const HciInterface::Ptr hci) override;
+		const double value) override;
 
 	/**
 	 * <pre>

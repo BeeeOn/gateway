@@ -22,12 +22,18 @@ protected:
 	/**
 	 * The intention of this constructor is only for testing.
 	 */
-	BeeWiSmartDoor(const MACAddress& address, const Poco::Timespan& timeout);
+	BeeWiSmartDoor(
+		const MACAddress& address,
+		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci);
 
 public:
 	BeeWiSmartDoor(
 		const MACAddress& address,
 		const Poco::Timespan& timeout,
+		const RefreshTime& refresh,
+		const HciInterface::Ptr hci,
 		HciConnection::Ptr conn);
 	~BeeWiSmartDoor();
 
