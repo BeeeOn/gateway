@@ -27,7 +27,6 @@ size_t GWSFixedPriorityAssigner::assignPriority(const GWMessage::Ptr message)
 	case GWMessageType::LISTEN_REQUEST:
 	case GWMessageType::NEW_DEVICE_REQUEST:
 	case GWMessageType::NEW_DEVICE_GROUP_REQUEST:
-	case GWMessageType::PING_REQUEST:
 	case GWMessageType::SET_VALUE_REQUEST:
 	case GWMessageType::UNPAIR_REQUEST:
 		return REQUEST_PRIORITY;

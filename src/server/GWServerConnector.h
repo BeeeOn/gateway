@@ -23,7 +23,6 @@
 #include "gwmessage/GWListenRequest.h"
 #include "gwmessage/GWMessage.h"
 #include "gwmessage/GWMessage.h"
-#include "gwmessage/GWPingRequest.h"
 #include "gwmessage/GWRequest.h"
 #include "gwmessage/GWResponse.h"
 #include "gwmessage/GWSensorDataConfirm.h"
