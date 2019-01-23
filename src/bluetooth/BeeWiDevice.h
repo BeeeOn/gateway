@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 
+#include <Poco/AtomicCounter.h>
 #include <Poco/SharedPtr.h>
 #include <Poco/Timespan.h>
 #include <Poco/UUID.h>
@@ -58,6 +59,7 @@ protected:
 private:
 	std::string m_productName;
 	std::list<ModuleType> m_moduleTypes;
+	Poco::AtomicCounter m_paired;
 };
 
 }
