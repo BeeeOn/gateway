@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-23-gabc8cdc</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -106,7 +106,11 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a8094fcf7985216d8eeeabffbd8b4e790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a036789a80805cc2cff1c6d5100b469e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">stop</a> () override</td></tr>
 <tr class="separator:a036789a80805cc2cff1c6d5100b469e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab89d5f39aaed9e678851c0a245f7dbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>setScanTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
+<tr class="memitem:a7d013cd9a3c3d20baa8f55200c6f9764"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d013cd9a3c3d20baa8f55200c6f9764"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevicePoller</b> (DevicePoller::Ptr poller)</td></tr>
+<tr class="separator:a7d013cd9a3c3d20baa8f55200c6f9764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab89d5f39aaed9e678851c0a245f7dbe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab89d5f39aaed9e678851c0a245f7dbe"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setScanTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="separator:aab89d5f39aaed9e678851c0a245f7dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafd9a2517e6958b8d318394415bb564e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd9a2517e6958b8d318394415bb564e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceTimeout</b> (const Poco::Timespan &amp;timeout)</td></tr>
@@ -114,6 +118,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setDeviceTimeout</b> 
 <tr class="memitem:a09225d8876eb57fe6dbf307870544890"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09225d8876eb57fe6dbf307870544890"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setRefresh</b> (const Poco::Timespan &amp;refresh)</td></tr>
 <tr class="separator:a09225d8876eb57fe6dbf307870544890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a392d1076822c339c02b860a914db11e0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a392d1076822c339c02b860a914db11e0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setNumberOfExaminationThreads</b> (const int numberOfExaminationThreads)</td></tr>
+<tr class="separator:a392d1076822c339c02b860a914db11e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a312c9685ba877ceb5e7da10b2f1e7ec3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a312c9685ba877ceb5e7da10b2f1e7ec3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setHciManager</b> (HciInterfaceManager::Ptr manager)</td></tr>
 <tr class="separator:a312c9685ba877ceb5e7da10b2f1e7ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,10 +206,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a557bcc34684e09588c0d0b3711092cd8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a557bcc34684e09588c0d0b3711092cd8">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="memdesc:a557bcc34684e09588c0d0b3711092cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#a557bcc34684e09588c0d0b3711092cd8">More...</a><br/></td></tr>
 <tr class="separator:a557bcc34684e09588c0d0b3711092cd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab078f07ba3ed0446f108c981d8ced828"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab078f07ba3ed0446f108c981d8ced828"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#ab078f07ba3ed0446f108c981d8ced828">refreshPairedDevices</a> ()</td></tr>
-<tr class="memdesc:ab078f07ba3ed0446f108c981d8ced828"><td class="mdescLeft">&#160;</td><td class="mdescRight">In the first step, it tries to find not found paired devices and then requests the actual state of all found paired devices. <br/></td></tr>
-<tr class="separator:ab078f07ba3ed0446f108c981d8ced828"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5a5dde876c47f56e637fb66a1576fe7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5a5dde876c47f56e637fb66a1576fe7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#ae5a5dde876c47f56e637fb66a1576fe7">eraseAllDevices</a> ()</td></tr>
 <tr class="memdesc:ae5a5dde876c47f56e637fb66a1576fe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears m_devices. <br/></td></tr>
@@ -211,13 +214,21 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a05542f9b9eee3a64386975beab6c7b87">processAsyncData</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, std::vector&lt; unsigned char &gt; &amp;data)</td></tr>
 <tr class="memdesc:a05542f9b9eee3a64386975beab6c7b87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the asynchronous data of the paired device. If the message is correct it is already shipped to server. <br/></td></tr>
 <tr class="separator:a05542f9b9eee3a64386975beab6c7b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa956330d3ad4855ddeee3f65aee0f00c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa956330d3ad4855ddeee3f65aee0f00c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#aa956330d3ad4855ddeee3f65aee0f00c">seekPairedDevices</a> (const std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt; pairedDevices, std::vector&lt; BLESmartDevice::Ptr &gt; &amp;devices)</td></tr>
-<tr class="memdesc:aa956330d3ad4855ddeee3f65aee0f00c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find not found paired devices. Each found device is added to parametr devices and attribute m_devices. <br/></td></tr>
-<tr class="separator:aa956330d3ad4855ddeee3f65aee0f00c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfb40f64509cff65c4c89749d79cd905"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfb40f64509cff65c4c89749d79cd905"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#abfb40f64509cff65c4c89749d79cd905">seekPairedDevices</a> ()</td></tr>
+<tr class="memdesc:abfb40f64509cff65c4c89749d79cd905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find not found paired devices. Each found device is added to parametr devices and attribute m_devices. <br/></td></tr>
+<tr class="separator:abfb40f64509cff65c4c89749d79cd905"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa808ea7f6c1897b24312525f4c864b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#afa808ea7f6c1897b24312525f4c864b6">seekDevices</a> (std::vector&lt; BLESmartDevice::Ptr &gt; &amp;foundDevices, const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">stop</a>)</td></tr>
 <tr class="memdesc:afa808ea7f6c1897b24312525f4c864b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Seeks for new devices on Bluetooth LE network.  <a href="#afa808ea7f6c1897b24312525f4c864b6">More...</a><br/></td></tr>
 <tr class="separator:afa808ea7f6c1897b24312525f4c864b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1159f8b13a982b2daad7012a8e3acc99"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1159f8b13a982b2daad7012a8e3acc99"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1159f8b13a982b2daad7012a8e3acc99">threadedExaminationOfDevices</a> (const std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, std::string &gt; &amp;devices, Poco::FastMutex &amp;foundDevicesMutex, std::vector&lt; BLESmartDevice::Ptr &gt; &amp;foundDevices, const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">stop</a>)</td></tr>
+<tr class="memdesc:a1159f8b13a982b2daad7012a8e3acc99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits the map of devices into smaller maps whose number is determined by the attribute m_numberOfExaminationThreads. These maps of devices are then examines in the seperated threads. <br/></td></tr>
+<tr class="separator:a1159f8b13a982b2daad7012a8e3acc99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50958b2542ee38fd99a3f543dca92441"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50958b2542ee38fd99a3f543dca92441"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a50958b2542ee38fd99a3f543dca92441">examineBatchOfDevices</a> (const std::map&lt; <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>, std::string &gt; &amp;devices, Poco::FastMutex &amp;foundDevicesMutex, std::vector&lt; BLESmartDevice::Ptr &gt; &amp;foundDevices, const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">stop</a>)</td></tr>
+<tr class="memdesc:a50958b2542ee38fd99a3f543dca92441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds out if the given devices are supported. In the positive case, a specific instance of the device is created for it. <br/></td></tr>
+<tr class="separator:a50958b2542ee38fd99a3f543dca92441"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a217f7896bdbf8a0f824cda5aef5c5973"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a217f7896bdbf8a0f824cda5aef5c5973"></a>
 BLESmartDevice::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a217f7896bdbf8a0f824cda5aef5c5973">createDevice</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address) const </td></tr>
 <tr class="memdesc:a217f7896bdbf8a0f824cda5aef5c5973"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates BLE device based on its Model ID. <br/></td></tr>
@@ -405,28 +416,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>Seeks for new devices on Bluetooth LE network. </p>
 <p>The process of identification device consists of two steps. In the first step, it is determined wheter the device name is in set of names of potentially supported device. If so, then the model id of device is obtained according to which the device is identified. </p>
 
-</div>
-</div>
-<a class="anchor" id="aab89d5f39aaed9e678851c0a245f7dbe"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BLESmartDeviceManager::setScanTimeout </td>
-          <td>(</td>
-          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>timeout</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">        m_watchCallback = <span class="keyword">new</span> HciInterface::WatchCallback(</div>
-<div class="line">                [&amp;](<span class="keyword">const</span> MACAddress&amp; address, vector&lt;unsigned char&gt;&amp; data) {</div>
-<div class="line">                        <a class="code" href="classBeeeOn_1_1BLESmartDeviceManager.html#a05542f9b9eee3a64386975beab6c7b87">processAsyncData</a>(address, data);</div>
-<div class="line">                })</div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDeviceManager_html_a05542f9b9eee3a64386975beab6c7b87"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDeviceManager.html#a05542f9b9eee3a64386975beab6c7b87">BeeeOn::BLESmartDeviceManager::processAsyncData</a></div><div class="ttdeci">void processAsyncData(const MACAddress &amp;address, std::vector&lt; unsigned char &gt; &amp;data)</div><div class="ttdoc">Processes the asynchronous data of the paired device. If the message is correct it is already shipped...</div><div class="ttdef"><b>Definition:</b> BLESmartDeviceManager.cpp:245</div></div>
-</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1d48ec939e0009357c7536b0e8995266"></a>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-23-gabc8cdc</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -97,6 +97,9 @@
 <li>temperature()
 : <a class="el" href="structBeeeOn_1_1JablotronReport.html#a858534282aa4a545fe01f3b3c244bc2a">BeeeOn::JablotronReport</a>
 </li>
+<li>threadedExaminationOfDevices()
+: <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1159f8b13a982b2daad7012a8e3acc99">BeeeOn::BLESmartDeviceManager</a>
+</li>
 <li>timeOfFailure()
 : <a class="el" href="classBeeeOn_1_1FailDetector.html#a3e998e2f06614dca20cd97466c731ff3">BeeeOn::FailDetector</a>
 </li>
@@ -107,10 +110,10 @@
 : <a class="el" href="classBeeeOn_1_1GWMessage.html#a66a4b545e58fce30b7b67e3135d16677">BeeeOn::GWMessage</a>
 </li>
 <li>toDPAString()
-: <a class="el" href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">BeeeOn::DPARequest</a>
+: <a class="el" href="classBeeeOn_1_1DPAMessage.html#a1dfaa3641772bcbf6c9b2a032c1238fd">BeeeOn::DPAMessage</a>
+, <a class="el" href="classBeeeOn_1_1DPARequest.html#a77df29c851639514d9cbb97d1b4c5cb9">BeeeOn::DPARequest</a>
 , <a class="el" href="classBeeeOn_1_1DPAResponse.html#abb4353572fdbdbc18fc453faec0490c2">BeeeOn::DPAResponse</a>
 , <a class="el" href="classBeeeOn_1_1DPABatchRequest.html#a1a718d4c3f2aac2e17a4b9b9f74ce0b5">BeeeOn::DPABatchRequest</a>
-, <a class="el" href="classBeeeOn_1_1DPAMessage.html#a1dfaa3641772bcbf6c9b2a032c1238fd">BeeeOn::DPAMessage</a>
 </li>
 <li>toMilliseconds()
 : <a class="el" href="classBeeeOn_1_1WaitCondition.html#a07aa1bdf7d03884a1f75dc5decd291a6">BeeeOn::WaitCondition</a>
@@ -119,7 +122,8 @@
 : <a class="el" href="classBeeeOn_1_1ServerAnswer.html#a211fe28e4c4551852796f9f1b62214b8">BeeeOn::ServerAnswer</a>
 </li>
 <li>toString()
-: <a class="el" href="classBeeeOn_1_1DeviceUnpairCommand.html#ab56810bd1a784f88ffdfa32ae6975506">BeeeOn::DeviceUnpairCommand</a>
+: <a class="el" href="classBeeeOn_1_1DeviceSetValueCommand.html#a21f9cb10cb57f62507a70f2a64697263">BeeeOn::DeviceSetValueCommand</a>
+, <a class="el" href="classBeeeOn_1_1DeviceUnpairCommand.html#ab56810bd1a784f88ffdfa32ae6975506">BeeeOn::DeviceUnpairCommand</a>
 , <a class="el" href="classBeeeOn_1_1GatewayListenCommand.html#aaf572b93942747dc459b24f1cda045e4">BeeeOn::GatewayListenCommand</a>
 , <a class="el" href="classBeeeOn_1_1NewDeviceCommand.html#ac1f9c3cea7244729ca55f25f53ba3936">BeeeOn::NewDeviceCommand</a>
 , <a class="el" href="classBeeeOn_1_1ServerDeviceListCommand.html#a635a5bd2d49dd7f77d770f579475761a">BeeeOn::ServerDeviceListCommand</a>
@@ -127,14 +131,13 @@
 , <a class="el" href="classBeeeOn_1_1Command.html#a38f9f75618fbee0bbd48f7e3e66fc6bf">BeeeOn::Command</a>
 , <a class="el" href="classBeeeOn_1_1IQRFJsonMessage.html#a374d038534d1aed97f1f5928b358933f">BeeeOn::IQRFJsonMessage</a>
 , <a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html#a57a0e5ff24df50d8e531fca2ba700477">BeeeOn::IQRFJsonRequest</a>
+, <a class="el" href="classBeeeOn_1_1SystemLocaleImpl.html#a7925fe00f569abfe7d9be32d0480eee6">BeeeOn::SystemLocaleImpl</a>
 , <a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a512eabc6e755551b3534d4af8915e78c">BeeeOn::IQRFJsonResponse</a>
 , <a class="el" href="structBeeeOn_1_1JablotronReport.html#a0e8e6d95c6290b2a84b29b2a165cd8fe">BeeeOn::JablotronReport</a>
-, <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html#af7247cb32b762c461c9851e76b59f0eb">BeeeOn::DeviceAcceptCommand</a>
 , <a class="el" href="classBeeeOn_1_1GWMessage.html#a96727e57e350fe23dd3f70143d909ff1">BeeeOn::GWMessage</a>
+, <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html#af7247cb32b762c461c9851e76b59f0eb">BeeeOn::DeviceAcceptCommand</a>
 , <a class="el" href="classBeeeOn_1_1LocaleImpl.html#a0842a3d85d24a93de07c579b67e91b88">BeeeOn::LocaleImpl</a>
 , <a class="el" href="classBeeeOn_1_1DeviceSearchCommand.html#ac6fbebd77f201f7d97eae0cbae123c5f">BeeeOn::DeviceSearchCommand</a>
-, <a class="el" href="classBeeeOn_1_1SystemLocaleImpl.html#a7925fe00f569abfe7d9be32d0480eee6">BeeeOn::SystemLocaleImpl</a>
-, <a class="el" href="classBeeeOn_1_1DeviceSetValueCommand.html#a21f9cb10cb57f62507a70f2a64697263">BeeeOn::DeviceSetValueCommand</a>
 </li>
 <li>traceOf()
 : <a class="el" href="classBeeeOn_1_1Throwable.html#af830d3cc2d71e274fdd2338b9f4cd742">BeeeOn::Throwable</a>
@@ -146,12 +149,12 @@
 : <a class="el" href="classBeeeOn_1_1SAXHelper.html#a1b4d02778409288fd9bfaf4755dcaf90">BeeeOn::SAXHelper</a>
 </li>
 <li>tryJoin()
-: <a class="el" href="classBeeeOn_1_1AbstractSeeker.html#a4c95fd276b7295ab068decaa34319229">BeeeOn::AbstractSeeker</a>
-, <a class="el" href="classBeeeOn_1_1Joiner.html#a5c678a641d926c0cce0e790c9c82324c">BeeeOn::Joiner</a>
-, <a class="el" href="classBeeeOn_1_1AnyAsyncWork.html#aae5df64670bb5f5a706c4f52676467ae">BeeeOn::AnyAsyncWork</a>
-, <a class="el" href="classBeeeOn_1_1BlockingAsyncWork.html#a06187a03c7f89cbb1a1a1c3917cf6069">BeeeOn::BlockingAsyncWork&lt; Result &gt;</a>
-, <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>
+: <a class="el" href="classBeeeOn_1_1ThreadWrapperAsyncWork.html#aeef11320594993b8c772d07f593e7163">BeeeOn::ThreadWrapperAsyncWork&lt; Result &gt;</a>
 , <a class="el" href="classBeeeOn_1_1DelayedAsyncWork.html#a1e41a7e691797c34660b2b18f56882b9">BeeeOn::DelayedAsyncWork&lt; Result &gt;</a>
+, <a class="el" href="classBeeeOn_1_1AbstractSeeker.html#a4c95fd276b7295ab068decaa34319229">BeeeOn::AbstractSeeker</a>
+, <a class="el" href="classBeeeOn_1_1AnyAsyncWork.html#aae5df64670bb5f5a706c4f52676467ae">BeeeOn::AnyAsyncWork</a>
+, <a class="el" href="classBeeeOn_1_1Joiner.html#a5c678a641d926c0cce0e790c9c82324c">BeeeOn::Joiner</a>
+, <a class="el" href="classBeeeOn_1_1BlockingAsyncWork.html#a06187a03c7f89cbb1a1a1c3917cf6069">BeeeOn::BlockingAsyncWork&lt; Result &gt;</a>
 </li>
 <li>tryParse()
 : <a class="el" href="classBeeeOn_1_1TimespanParser.html#a1d537ddf575f6156a693223dc2b12999">BeeeOn::TimespanParser</a>
@@ -167,15 +170,15 @@
 </li>
 <li>type()
 : <a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html#a5e919b0505a0dd0640e0881975e927cc">BeeeOn::OZWNotificationEvent</a>
-, <a class="el" href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">BeeeOn::AbstractDIWrapper&lt; T &gt;</a>
 , <a class="el" href="classBeeeOn_1_1GWMessage.html#a04716b2a051596a13ab3936937b2cb1e">BeeeOn::GWMessage</a>
 , <a class="el" href="classBeeeOn_1_1DIWrapper.html#aafaed3da1a6fa20e55ff50296f1c90d8">BeeeOn::DIWrapper</a>
 , <a class="el" href="classBeeeOn_1_1OZWCommand.html#a4ad417d5689a1a66eb29dd45f73bf42f">BeeeOn::OZWCommand</a>
+, <a class="el" href="classBeeeOn_1_1AbstractDIWrapper.html#a1c39a6d91b277837f0f24d29860be6a4">BeeeOn::AbstractDIWrapper&lt; T &gt;</a>
 </li>
 <li>types()
-: <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a6d9aa3db5e07266e29f8853305e67d77">BeeeOn::ZWaveMapperRegistry::Mapper</a>
-, <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a54560095bf2bfb125d9b8f4f5a37d95d">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
+: <a class="el" href="classBeeeOn_1_1GenericZWaveMapperRegistry_1_1GenericMapper.html#a54560095bf2bfb125d9b8f4f5a37d95d">BeeeOn::GenericZWaveMapperRegistry::GenericMapper</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager_1_1Device.html#af34171d7db9cfda8cdceb2ea19c6b0c7">BeeeOn::ZWaveDeviceManager::Device</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveMapperRegistry_1_1Mapper.html#a6d9aa3db5e07266e29f8853305e67d77">BeeeOn::ZWaveMapperRegistry::Mapper</a>
 </li>
 </ul>
 </div><!-- contents -->

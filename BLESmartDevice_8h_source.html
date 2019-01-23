@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-23-gabc8cdc</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -63,65 +63,79 @@
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;Poco/Timespan.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;bluetooth/HciInterface.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;model/ModuleType.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/SensorData.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;net/MACAddress.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;core/PollableDevice.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;model/ModuleID.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;model/ModuleType.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;model/RefreshTime.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;model/SensorData.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;net/MACAddress.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;util/Loggable.h&quot;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1BLESmartDevice.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1BLESmartDevice.html">BLESmartDevice</a> :</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">protected</span> Poco::SynchronizedObject,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">protected</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;BLESmartDevice&gt; Ptr;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#adc55718807c42a3a15b79e9a580bcaea">BLESmartDevice</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>&amp; address, <span class="keyword">const</span> Poco::Timespan&amp; timeout);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1BLESmartDevice.html">BLESmartDevice</a>();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> deviceID() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> macAddress() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">virtual</span> std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">virtual</span> std::string productName() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">virtual</span> std::string vendor() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a1adb01d0f1e05f1ed63ca7c21a895ccb">pair</a>(</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                HciInterface::Ptr hci,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                Poco::SharedPtr&lt;HciInterface::WatchCallback&gt; callback);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a152f6bda45a2094545da21df7e294595">requestModifyState</a>(</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> value,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keyword">const</span> HciInterface::Ptr hci);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#aa50f84012020a3279ee01010805b7809">requestState</a>(<span class="keyword">const</span> HciInterface::Ptr hci);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">parseAdvertisingData</a>(</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; data) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceId;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> m_address;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        Poco::Timespan m_timeout;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1BLESmartDevice.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1BLESmartDevice.html">BLESmartDevice</a> :</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a>,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">protected</span> Poco::SynchronizedObject,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">protected</span> <a class="code" href="classBeeeOn_1_1Loggable.html">Loggable</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">typedef</span> Poco::SharedPtr&lt;BLESmartDevice&gt; Ptr;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a6337c42129bae0fb15e62d2d65ec29fd">BLESmartDevice</a>(</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>&amp; address,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keyword">const</span> Poco::Timespan&amp; timeout,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&amp; <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#ad85eee5cc83449cf56327242e58641c4">refresh</a>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keyword">const</span> HciInterface::Ptr hci);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classBeeeOn_1_1BLESmartDevice.html">BLESmartDevice</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#ac9c985135e9efa391af60bf86b9d2bd6">id</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#ad85eee5cc83449cf56327242e58641c4">refresh</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> macAddress() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">virtual</span> std::list&lt;ModuleType&gt; moduleTypes() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">virtual</span> std::string productName() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">virtual</span> std::string vendor() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#ab87f14ee05cb48a8597a41829a3997ac">pair</a>(</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                Poco::SharedPtr&lt;HciInterface::WatchCallback&gt; callback);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a5477aaab94725f412ed06ee46ade9e81">pollable</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a43cf03d950115764de5babc112e69496">poll</a>(Distributor::Ptr distributor) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a927b42ede4983e1b4dad375be8149f85">requestModifyState</a>(</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1ModuleID.html">ModuleID</a>&amp; moduleID,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classBeeeOn_1_1SensorData.html">SensorData</a> <a class="code" href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">parseAdvertisingData</a>(</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keyword">const</span> std::vector&lt;unsigned char&gt;&amp; data) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        HciInterface::Ptr m_hci;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a181f558b848f7b33f0e30b02d11beddb"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">BeeeOn::BLESmartDevice::parseAdvertisingData</a></div><div class="ttdeci">virtual SensorData parseAdvertisingData(const std::vector&lt; unsigned char &gt; &amp;data) const </div><div class="ttdoc">Transforms advertising data to SensorData. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:49</div></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> m_deviceId;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> m_address;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        Poco::Timespan m_timeout;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <a class="code" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> m_refresh;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        HciInterface::Ptr m_hci;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a181f558b848f7b33f0e30b02d11beddb"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">BeeeOn::BLESmartDevice::parseAdvertisingData</a></div><div class="ttdeci">virtual SensorData parseAdvertisingData(const std::vector&lt; unsigned char &gt; &amp;data) const </div><div class="ttdoc">Transforms advertising data to SensorData. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:62</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a5477aaab94725f412ed06ee46ade9e81"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a5477aaab94725f412ed06ee46ade9e81">BeeeOn::BLESmartDevice::pollable</a></div><div class="ttdeci">virtual bool pollable() const </div><div class="ttdoc">Returns true if the device is pollable, otherwise false. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:41</div></div>
+<div class="ttc" id="classBeeeOn_1_1RefreshTime_html"><div class="ttname"><a href="classBeeeOn_1_1RefreshTime.html">BeeeOn::RefreshTime</a></div><div class="ttdoc">RefreshTime represents time of refreshing values from sensors. E.g. sensors are polled periodically o...</div><div class="ttdef"><b>Definition:</b> RefreshTime.h:24</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a927b42ede4983e1b4dad375be8149f85"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a927b42ede4983e1b4dad375be8149f85">BeeeOn::BLESmartDevice::requestModifyState</a></div><div class="ttdeci">virtual void requestModifyState(const ModuleID &amp;moduleID, const double value)</div><div class="ttdoc">Modifies the device module given by moduleID to a given value. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:55</div></div>
 <div class="ttc" id="classBeeeOn_1_1SensorData_html"><div class="ttname"><a href="classBeeeOn_1_1SensorData.html">BeeeOn::SensorData</a></div><div class="ttdef"><b>Definition:</b> SensorData.h:20</div></div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a1adb01d0f1e05f1ed63ca7c21a895ccb"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a1adb01d0f1e05f1ed63ca7c21a895ccb">BeeeOn::BLESmartDevice::pair</a></div><div class="ttdeci">virtual void pair(HciInterface::Ptr hci, Poco::SharedPtr&lt; HciInterface::WatchCallback &gt; callback)</div><div class="ttdoc">When the device supports processing of advertising data, it should call a watch() on the given HciInt...</div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:30</div></div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_aa50f84012020a3279ee01010805b7809"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#aa50f84012020a3279ee01010805b7809">BeeeOn::BLESmartDevice::requestState</a></div><div class="ttdeci">virtual SensorData requestState(const HciInterface::Ptr hci)</div><div class="ttdoc">Obtains the actual state of the device. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:44</div></div>
 <div class="ttc" id="classBeeeOn_1_1MACAddress_html"><div class="ttname"><a href="classBeeeOn_1_1MACAddress.html">BeeeOn::MACAddress</a></div><div class="ttdef"><b>Definition:</b> MACAddress.h:8</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_ad85eee5cc83449cf56327242e58641c4"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#ad85eee5cc83449cf56327242e58641c4">BeeeOn::BLESmartDevice::refresh</a></div><div class="ttdeci">RefreshTime refresh() const override</div><div class="ttdoc">Regular period telling how often to call the method PollableDevice::poll(). The refresh must contain ...</div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:31</div></div>
 <div class="ttc" id="classBeeeOn_1_1ModuleID_html"><div class="ttname"><a href="classBeeeOn_1_1ModuleID.html">BeeeOn::ModuleID</a></div><div class="ttdef"><b>Definition:</b> ModuleID.h:12</div></div>
 <div class="ttc" id="classBeeeOn_1_1Loggable_html"><div class="ttname"><a href="classBeeeOn_1_1Loggable.html">BeeeOn::Loggable</a></div><div class="ttdef"><b>Definition:</b> Loggable.h:19</div></div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_adc55718807c42a3a15b79e9a580bcaea"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#adc55718807c42a3a15b79e9a580bcaea">BeeeOn::BLESmartDevice::BLESmartDevice</a></div><div class="ttdeci">BLESmartDevice(const MACAddress &amp;address, const Poco::Timespan &amp;timeout)</div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:9</div></div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html">BeeeOn::BLESmartDevice</a></div><div class="ttdoc">Abstract class representing generic Bluetooth Low Energy smart device. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.h:24</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a6337c42129bae0fb15e62d2d65ec29fd"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a6337c42129bae0fb15e62d2d65ec29fd">BeeeOn::BLESmartDevice::BLESmartDevice</a></div><div class="ttdeci">BLESmartDevice(const MACAddress &amp;address, const Poco::Timespan &amp;timeout, const RefreshTime &amp;refresh, const HciInterface::Ptr hci)</div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:9</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a43cf03d950115764de5babc112e69496"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a43cf03d950115764de5babc112e69496">BeeeOn::BLESmartDevice::poll</a></div><div class="ttdeci">void poll(Distributor::Ptr distributor) override</div><div class="ttdoc">Perform polling for data and ship them via the given distributor. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:51</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_ac9c985135e9efa391af60bf86b9d2bd6"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#ac9c985135e9efa391af60bf86b9d2bd6">BeeeOn::BLESmartDevice::id</a></div><div class="ttdeci">DeviceID id() const override</div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:26</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html">BeeeOn::BLESmartDevice</a></div><div class="ttdoc">Abstract class representing generic Bluetooth Low Energy smart device. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.h:26</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceID_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceID.html">BeeeOn::DeviceID</a></div><div class="ttdef"><b>Definition:</b> DeviceID.h:17</div></div>
-<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_a152f6bda45a2094545da21df7e294595"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#a152f6bda45a2094545da21df7e294595">BeeeOn::BLESmartDevice::requestModifyState</a></div><div class="ttdeci">virtual void requestModifyState(const ModuleID &amp;moduleID, const double value, const HciInterface::Ptr hci)</div><div class="ttdoc">Modifies the device module given by moduleID to a given value. </div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:36</div></div>
+<div class="ttc" id="classBeeeOn_1_1PollableDevice_html"><div class="ttname"><a href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></div><div class="ttdoc">PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti...</div><div class="ttdef"><b>Definition:</b> PollableDevice.h:18</div></div>
+<div class="ttc" id="classBeeeOn_1_1BLESmartDevice_html_ab87f14ee05cb48a8597a41829a3997ac"><div class="ttname"><a href="classBeeeOn_1_1BLESmartDevice.html#ab87f14ee05cb48a8597a41829a3997ac">BeeeOn::BLESmartDevice::pair</a></div><div class="ttdeci">virtual void pair(Poco::SharedPtr&lt; HciInterface::WatchCallback &gt; callback)</div><div class="ttdoc">When the device supports processing of advertising data, it should call a watch() on the given HciInt...</div><div class="ttdef"><b>Definition:</b> BLESmartDevice.cpp:46</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

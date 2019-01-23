@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-15-gdde14d6</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-23-gabc8cdc</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -70,7 +70,8 @@ Inheritance diagram for BeeeOn::BLESmartDevice:</div>
  <div class="center">
   <img src="classBeeeOn_1_1BLESmartDevice.png" usemap="#BeeeOn::BLESmartDevice_map" alt=""/>
   <map id="BeeeOn::BLESmartDevice_map" name="BeeeOn::BLESmartDevice_map">
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="1146,0,1327,24"/>
+<area href="classBeeeOn_1_1PollableDevice.html" title="PollableDevice is a device that is necessary to poll regularly for data. The polling can take some ti..." alt="BeeeOn::PollableDevice" shape="rect" coords="859,0,1040,24"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="1241,0,1422,24"/>
 <area href="classBeeeOn_1_1BeeWiDevice.html" title="Abstract class for BeeWi devices. Some BeeWi devices need to set the time to stop blinking..." alt="BeeeOn::BeeWiDevice" shape="rect" coords="382,112,563,136"/>
 <area href="classBeeeOn_1_1RevogiDevice.html" title="Abstract class for Revogi devices. " alt="BeeeOn::RevogiDevice" shape="rect" coords="1050,112,1231,136"/>
 <area href="classBeeeOn_1_1TabuLumenSmartLite.html" title="The class represents Tabu Lumen TL 100S Smart Light. It allows to control all its modules..." alt="BeeeOn::TabuLumenSmartLite" shape="rect" coords="1241,112,1422,136"/>
@@ -92,14 +93,22 @@ Public Types</h2></td></tr>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1BLESmartDevice.html">BLESmartDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a519c6216c876849a1fd2b11d265ed46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1PollableDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1PollableDevice')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1PollableDevice.html">BeeeOn::PollableDevice</a></td></tr>
+<tr class="memitem:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a554312c9f670af640410173bf929db12"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1PollableDevice.html">PollableDevice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a554312c9f670af640410173bf929db12 inherit pub_types_classBeeeOn_1_1PollableDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adc55718807c42a3a15b79e9a580bcaea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#adc55718807c42a3a15b79e9a580bcaea">BLESmartDevice</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="separator:adc55718807c42a3a15b79e9a580bcaea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af497c698f04cc9e9eb0b46030d01592f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af497c698f04cc9e9eb0b46030d01592f"></a>
-<a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>deviceID</b> () const </td></tr>
-<tr class="separator:af497c698f04cc9e9eb0b46030d01592f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6337c42129bae0fb15e62d2d65ec29fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a6337c42129bae0fb15e62d2d65ec29fd">BLESmartDevice</a> (const <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a> &amp;address, const Poco::Timespan &amp;timeout, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;<a class="el" href="classBeeeOn_1_1BLESmartDevice.html#ad85eee5cc83449cf56327242e58641c4">refresh</a>, const HciInterface::Ptr hci)</td></tr>
+<tr class="separator:a6337c42129bae0fb15e62d2d65ec29fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9c985135e9efa391af60bf86b9d2bd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#ac9c985135e9efa391af60bf86b9d2bd6">id</a> () const override</td></tr>
+<tr class="separator:ac9c985135e9efa391af60bf86b9d2bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad85eee5cc83449cf56327242e58641c4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad85eee5cc83449cf56327242e58641c4"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#ad85eee5cc83449cf56327242e58641c4">refresh</a> () const override</td></tr>
+<tr class="memdesc:ad85eee5cc83449cf56327242e58641c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular period telling how often to call the method <a class="el" href="classBeeeOn_1_1PollableDevice.html#ad490bc1409ed2579ceea8bff5a7203ac" title="Perform polling for data and ship them via the given distributor. ">PollableDevice::poll()</a>. The refresh must contain a valid time. <br/></td></tr>
+<tr class="separator:ad85eee5cc83449cf56327242e58641c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a334c6537e4b8ed4e19d731a93871c419"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a334c6537e4b8ed4e19d731a93871c419"></a>
 <a class="el" href="classBeeeOn_1_1MACAddress.html">MACAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><b>macAddress</b> () const </td></tr>
 <tr class="separator:a334c6537e4b8ed4e19d731a93871c419"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,16 +121,21 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>produc
 <tr class="memitem:a1d9bee7c22321741a5886d39a7870459"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d9bee7c22321741a5886d39a7870459"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>vendor</b> () const =0</td></tr>
 <tr class="separator:a1d9bee7c22321741a5886d39a7870459"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1adb01d0f1e05f1ed63ca7c21a895ccb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1adb01d0f1e05f1ed63ca7c21a895ccb"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a1adb01d0f1e05f1ed63ca7c21a895ccb">pair</a> (HciInterface::Ptr hci, Poco::SharedPtr&lt; HciInterface::WatchCallback &gt; callback)</td></tr>
-<tr class="memdesc:a1adb01d0f1e05f1ed63ca7c21a895ccb"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the device supports processing of advertising data, it should call a watch() on the given <a class="el" href="classBeeeOn_1_1HciInterface.html">HciInterface</a> in this method and a unwatch() in the destructor. When the method is re-called it do not have any effect. <br/></td></tr>
-<tr class="separator:a1adb01d0f1e05f1ed63ca7c21a895ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a152f6bda45a2094545da21df7e294595"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a152f6bda45a2094545da21df7e294595">requestModifyState</a> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value, const HciInterface::Ptr hci)</td></tr>
-<tr class="memdesc:a152f6bda45a2094545da21df7e294595"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the device module given by moduleID to a given value.  <a href="#a152f6bda45a2094545da21df7e294595">More...</a><br/></td></tr>
-<tr class="separator:a152f6bda45a2094545da21df7e294595"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa50f84012020a3279ee01010805b7809"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#aa50f84012020a3279ee01010805b7809">requestState</a> (const HciInterface::Ptr hci)</td></tr>
-<tr class="memdesc:aa50f84012020a3279ee01010805b7809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains the actual state of the device.  <a href="#aa50f84012020a3279ee01010805b7809">More...</a><br/></td></tr>
-<tr class="separator:aa50f84012020a3279ee01010805b7809"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab87f14ee05cb48a8597a41829a3997ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab87f14ee05cb48a8597a41829a3997ac"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#ab87f14ee05cb48a8597a41829a3997ac">pair</a> (Poco::SharedPtr&lt; HciInterface::WatchCallback &gt; callback)</td></tr>
+<tr class="memdesc:ab87f14ee05cb48a8597a41829a3997ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the device supports processing of advertising data, it should call a watch() on the given <a class="el" href="classBeeeOn_1_1HciInterface.html">HciInterface</a> in this method and a unwatch() in the destructor. When the method is re-called it do not have any effect. <br/></td></tr>
+<tr class="separator:ab87f14ee05cb48a8597a41829a3997ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5477aaab94725f412ed06ee46ade9e81"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5477aaab94725f412ed06ee46ade9e81"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a5477aaab94725f412ed06ee46ade9e81">pollable</a> () const </td></tr>
+<tr class="memdesc:a5477aaab94725f412ed06ee46ade9e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the device is pollable, otherwise false. <br/></td></tr>
+<tr class="separator:a5477aaab94725f412ed06ee46ade9e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43cf03d950115764de5babc112e69496"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43cf03d950115764de5babc112e69496"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a43cf03d950115764de5babc112e69496">poll</a> (Distributor::Ptr distributor) override</td></tr>
+<tr class="memdesc:a43cf03d950115764de5babc112e69496"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform polling for data and ship them via the given distributor. <br/></td></tr>
+<tr class="separator:a43cf03d950115764de5babc112e69496"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927b42ede4983e1b4dad375be8149f85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a927b42ede4983e1b4dad375be8149f85">requestModifyState</a> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value)</td></tr>
+<tr class="memdesc:a927b42ede4983e1b4dad375be8149f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the device module given by moduleID to a given value.  <a href="#a927b42ede4983e1b4dad375be8149f85">More...</a><br/></td></tr>
+<tr class="separator:a927b42ede4983e1b4dad375be8149f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a181f558b848f7b33f0e30b02d11beddb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1BLESmartDevice.html#a181f558b848f7b33f0e30b02d11beddb">parseAdvertisingData</a> (const std::vector&lt; unsigned char &gt; &amp;data) const </td></tr>
 <tr class="memdesc:a181f558b848f7b33f0e30b02d11beddb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms advertising data to <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>.  <a href="#a181f558b848f7b33f0e30b02d11beddb">More...</a><br/></td></tr>
 <tr class="separator:a181f558b848f7b33f0e30b02d11beddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +151,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a817fc9584364b65d67d8b6bbf08ff3be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a817fc9584364b65d67d8b6bbf08ff3be"></a>
 Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><b>m_timeout</b></td></tr>
 <tr class="separator:a817fc9584364b65d67d8b6bbf08ff3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a188507c68d133979ba56993376d720a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a188507c68d133979ba56993376d720a3"></a>
+<a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_refresh</b></td></tr>
+<tr class="separator:a188507c68d133979ba56993376d720a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ff150bfc91858d8c186f1a5ba0e06ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ff150bfc91858d8c186f1a5ba0e06ca"></a>
 HciInterface::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>m_hci</b></td></tr>
 <tr class="separator:a3ff150bfc91858d8c186f1a5ba0e06ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,7 +197,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class representing generic Bluetooth Low Energy smart device. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="adc55718807c42a3a15b79e9a580bcaea"></a>
+<a class="anchor" id="a6337c42129bae0fb15e62d2d65ec29fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -194,7 +211,19 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
-          <td class="paramname"><em>timeout</em>&#160;</td>
+          <td class="paramname"><em>timeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;&#160;</td>
+          <td class="paramname"><em>refresh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const HciInterface::Ptr&#160;</td>
+          <td class="paramname"><em>hci</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -207,6 +236,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
   <table class="params">
     <tr><td class="paramname">&amp;address</td><td>MAC address of the device </td></tr>
     <tr><td class="paramname">&amp;timeout</td><td>timeout of actions as connect, read, write </td></tr>
+    <tr><td class="paramname">hci</td><td>reference to HCI </td></tr>
   </table>
   </dd>
 </dl>
@@ -214,6 +244,32 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac9c985135e9efa391af60bf86b9d2bd6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> BLESmartDevice::id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>ID of the device. </dd></dl>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1PollableDevice.html#a9e5c3f6f283809fc1540fff4066a0451">BeeeOn::PollableDevice</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a181f558b848f7b33f0e30b02d11beddb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +305,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 
 </div>
 </div>
-<a class="anchor" id="a152f6bda45a2094545da21df7e294595"></a>
+<a class="anchor" id="a927b42ede4983e1b4dad375be8149f85"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -266,13 +322,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const double&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const HciInterface::Ptr&#160;</td>
-          <td class="paramname"><em>hci</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -296,43 +346,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BeeWiSmartWatt.html#af470df2180d82ae7f4de55f6191d7fcc">BeeeOn::BeeWiSmartWatt</a>, <a class="el" href="classBeeeOn_1_1TabuLumenSmartLite.html#aff33d30525598ea8bfdb94724e5417f0">BeeeOn::TabuLumenSmartLite</a>, <a class="el" href="classBeeeOn_1_1BeeWiSmartLite.html#a5d167b71abd4ee0806bff5669db302a1">BeeeOn::BeeWiSmartLite</a>, <a class="el" href="classBeeeOn_1_1RevogiSmartCandle.html#aa9f22d876e3e9636d8587ecbbc0a7782">BeeeOn::RevogiSmartCandle</a>, <a class="el" href="classBeeeOn_1_1RevogiSmartPlug.html#a296d0d689ce85930718139f1d6671738">BeeeOn::RevogiSmartPlug</a>, and <a class="el" href="classBeeeOn_1_1RevogiSmartLite.html#a247eeb6319a617cff0b6b3f4b24d6d8c">BeeeOn::RevogiSmartLite</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa50f84012020a3279ee01010805b7809"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> BLESmartDevice::requestState </td>
-          <td>(</td>
-          <td class="paramtype">const HciInterface::Ptr&#160;</td>
-          <td class="paramname"><em>hci</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Obtains the actual state of the device. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">IOException</td><td>in case of communication failure. </td></tr>
-    <tr><td class="paramname">ProtocolException</td><td>in case of bad received message. </td></tr>
-    <tr><td class="paramname">NotImplementedException</td><td>if the device does not support obtaining of its state. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1RevogiDevice.html#a297bf5b0dc1dc4f2653a79469d0ad21a">BeeeOn::RevogiDevice</a>, and <a class="el" href="classBeeeOn_1_1BeeWiSmartWatt.html#aed7fc4074d5bdaedf48ff0be6cd1349c">BeeeOn::BeeWiSmartWatt</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BeeWiSmartWatt.html#afd89301c5237203a378a2db86d0e3f80">BeeeOn::BeeWiSmartWatt</a>, <a class="el" href="classBeeeOn_1_1TabuLumenSmartLite.html#aee843bc5eac4dfdeca5de5af93b0a1a9">BeeeOn::TabuLumenSmartLite</a>, <a class="el" href="classBeeeOn_1_1BeeWiSmartLite.html#a10bb89c5d7f0b1316f4562a89aed32fa">BeeeOn::BeeWiSmartLite</a>, <a class="el" href="classBeeeOn_1_1RevogiSmartCandle.html#af24fb11018be884ec745591d86daba1b">BeeeOn::RevogiSmartCandle</a>, <a class="el" href="classBeeeOn_1_1RevogiSmartPlug.html#a3acf0a19b48a9fbc26cd7bcdfa850ecc">BeeeOn::RevogiSmartPlug</a>, and <a class="el" href="classBeeeOn_1_1RevogiSmartLite.html#a90497f8200a55dee67722459800d155c">BeeeOn::RevogiSmartLite</a>.</p>
 
 </div>
 </div>
