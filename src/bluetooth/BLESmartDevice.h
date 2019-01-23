@@ -35,6 +35,7 @@ public:
 	virtual ~BLESmartDevice();
 
 	DeviceID deviceID() const;
+	MACAddress macAddress() const;
 
 	virtual std::list<ModuleType> moduleTypes() const = 0;
 	virtual std::string productName() const = 0;

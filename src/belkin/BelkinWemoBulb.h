@@ -40,7 +40,7 @@ public:
 	std::string name() const override;
 	Poco::FastMutex& lock() override;
 
-	BelkinWemoLink::Ptr link();
+	BelkinWemoLink::Ptr link() const;
 
 private:
 	static DeviceID buildDeviceID(const BelkinWemoLink::BulbID &id);

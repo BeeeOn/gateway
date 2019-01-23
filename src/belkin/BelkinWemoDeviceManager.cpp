@@ -405,7 +405,19 @@ void BelkinWemoDeviceManager::processNewDevice(BelkinWemoDevice::Ptr newDevice)
 	logger().debug("found device " + newDevice->deviceID().toString(),
 		__FILE__, __LINE__);
 
-	const auto description = DeviceDescription::Builder()
+	auto builder = DeviceDescription::Builder();
+
+	const auto standalone = newDevice.cast<BelkinWemoStandaloneDevice>();
+	if (!standalone.isNull())
+		builder.ipAddress(standalone->address().host());
+
+	const auto bulb = newDevice.cast<BelkinWemoBulb>();
+	if (!bulb.isNull()) {
+		builder.ipAddress(bulb->link()->address().host());
+		builder.macAddress(bulb->link()->macAddress());
+	}
+
+	const auto description = builder
 		.id(newDevice->deviceID())
 		.type(BELKIN_WEMO_VENDOR, newDevice->name())
 		.modules(newDevice->moduleTypes())

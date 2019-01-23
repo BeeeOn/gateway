@@ -401,6 +401,7 @@ void BLESmartDeviceManager::processNewDevice(BLESmartDevice::Ptr newDevice)
 		.type(newDevice->vendor(), newDevice->productName())
 		.modules(types)
 		.refreshTime(m_refresh)
+		.macAddress(newDevice->macAddress())
 		.build();
 
 	dispatch(new NewDeviceCommand(description));

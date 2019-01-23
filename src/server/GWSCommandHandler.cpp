@@ -57,15 +57,7 @@ void GWSCommandHandler::handle(Command::Ptr cmd, Answer::Ptr answer)
 void GWSCommandHandler::handleNewDevice(NewDeviceCommand::Ptr cmd, Answer::Ptr answer)
 {
 	GWNewDeviceRequest::Ptr request = new GWNewDeviceRequest;
-	request->setDeviceID(cmd->deviceID());
-	request->setProductName(cmd->productName());
-	request->setVendor(cmd->vendor());
-	request->setModuleTypes(cmd->dataTypes());
-
-	if (cmd->supportsRefreshTime())
-		request->setRefreshTime(cmd->refreshTime());
-	else
-		request->setRefreshTime(-1);
+	request->setDeviceDescription(cmd->description());
 
 	sendRequest(request, new Result(answer));
 }
