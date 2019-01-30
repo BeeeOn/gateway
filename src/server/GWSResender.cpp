@@ -3,7 +3,6 @@
 #include <Poco/Logger.h>
 
 #include "di/Injectable.h"
-#include "gwmessage/GWResponseWithAck.h"
 #include "gwmessage/GWSensorDataConfirm.h"
 #include "gwmessage/GWSensorDataExport.h"
 #include "server/GWSResender.h"
@@ -209,7 +208,7 @@ void GWSResender::onAck(const GWAck::Ptr ack)
 	if (it == m_refs.end())
 		return;
 
-	GWResponseWithAck::Ptr response = it->second->second.cast<GWResponseWithAck>();
+	GWResponse::Ptr response = it->second->second.cast<GWResponse>();
 	if (response.isNull()) {
 		logger().warning(
 			"attempt to ack message of type "
@@ -253,8 +252,10 @@ bool GWSResender::resendable(const GWMessage::Ptr message) const
 	if (!message.cast<GWRequest>().isNull())
 		return true;
 
-	if (!message.cast<GWResponseWithAck>().isNull())
-		return true;
+	if (message.cast<GWResponse>()) {
+		GWResponse::Ptr response = message.cast<GWResponse>();
+		return response->ackExpected();
+	}
 
 	if (!message.cast<GWSensorDataExport>().isNull())
 		return true;
