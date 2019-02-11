@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-27-g57de3cb</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-38-g98f3c12</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -90,6 +90,12 @@
 &#160;
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>obtainPeripheralInfo()
+: <a class="el" href="classBeeeOn_1_1IQRFDevice.html#aa929adad5aa0d3884825f565e5f9590a">BeeeOn::IQRFDevice</a>
+</li>
+<li>obtainValues()
+: <a class="el" href="classBeeeOn_1_1IQRFDevice.html#a6c8591dcc70fdd740bf0138031ca5f91">BeeeOn::IQRFDevice</a>
+</li>
 <li>omitSubdeviceFromDeviceID()
 : <a class="el" href="classBeeeOn_1_1VPTDevice.html#aa33a54488a5aa8406baaf9b0146e3227">BeeeOn::VPTDevice</a>
 </li>
@@ -102,9 +108,9 @@
 , <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a444639595c09faaf8c0df64405aab014">BeeeOn::OZWNetwork</a>
 </li>
 <li>onBridgeStats()
-: <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#a685910292923fb9ef592a5ee2597788c">BeeeOn::PhilipsHueListener</a>
-, <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a30734aa654562ebc7deb6e3c1a82529b">BeeeOn::AbstractCollector</a>
+: <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a30734aa654562ebc7deb6e3c1a82529b">BeeeOn::AbstractCollector</a>
 , <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a7961839aacc1ffb7cf1527adcac86e53">BeeeOn::LoggingCollector</a>
+, <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#a685910292923fb9ef592a5ee2597788c">BeeeOn::PhilipsHueListener</a>
 </li>
 <li>onBulbStats()
 : <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a10ba5f0fdb6b23db5496198dfe65b041">BeeeOn::AbstractCollector</a>
@@ -112,9 +118,9 @@
 , <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#af1ea6dc5601ad2dd8505297b6ce1660c">BeeeOn::PhilipsHueListener</a>
 </li>
 <li>onConnected()
-: <a class="el" href="classBeeeOn_1_1GWSListener.html#af6af80fe559104f7ac4d7fd825ceaa86">BeeeOn::GWSListener</a>
+: <a class="el" href="classBeeeOn_1_1GWSQueuingExporter.html#acb6b5e159d8d048762acb572174ce775">BeeeOn::GWSQueuingExporter</a>
+, <a class="el" href="classBeeeOn_1_1GWSListener.html#af6af80fe559104f7ac4d7fd825ceaa86">BeeeOn::GWSListener</a>
 , <a class="el" href="classBeeeOn_1_1GWSOptimisticExporter.html#a1960c8a27dd3ded96ab188a73bdc26c1">BeeeOn::GWSOptimisticExporter</a>
-, <a class="el" href="classBeeeOn_1_1GWSQueuingExporter.html#acb6b5e159d8d048762acb572174ce775">BeeeOn::GWSQueuingExporter</a>
 </li>
 <li>onDBusObjectAdded()
 : <a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a255b1a00a2e5c0647f6042c241bc515b">BeeeOn::DBusHciInterface</a>
@@ -148,9 +154,9 @@
 , <a class="el" href="classBeeeOn_1_1LoggingCollector.html#aec37eaafc460c73dfce3c614cd1c2d45">BeeeOn::LoggingCollector</a>
 </li>
 <li>onNodeStats()
-: <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9e5700c5d2ef6b0a3fe90a09ce97cb94">BeeeOn::ZWaveListener</a>
-, <a class="el" href="classBeeeOn_1_1AbstractCollector.html#ab308084c5940ca7ba9450335ca75d449">BeeeOn::AbstractCollector</a>
+: <a class="el" href="classBeeeOn_1_1AbstractCollector.html#ab308084c5940ca7ba9450335ca75d449">BeeeOn::AbstractCollector</a>
 , <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a7c523864fdee4e5a422e91909602dee4">BeeeOn::LoggingCollector</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveListener.html#a9e5700c5d2ef6b0a3fe90a09ce97cb94">BeeeOn::ZWaveListener</a>
 </li>
 <li>onNotification()
 : <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a4c5845bf7bf432987cc50d7095b2406c">BeeeOn::AbstractCollector</a>
@@ -161,16 +167,16 @@
 <li>onOther()
 : <a class="el" href="classBeeeOn_1_1GWSListener.html#a3fa16123516cddf53462e0c918ccf1cb">BeeeOn::GWSListener</a>
 , <a class="el" href="classBeeeOn_1_1GWSOptimisticExporter.html#a10cd1403474f008ec62c5019e23ae00d">BeeeOn::GWSOptimisticExporter</a>
-, <a class="el" href="classBeeeOn_1_1GWSResender.html#acc03eea33feb30b099e25d85d8fb99a3">BeeeOn::GWSResender</a>
 , <a class="el" href="classBeeeOn_1_1GWSQueuingExporter.html#ab1d7328df4cc1e650844fc947a38e7e5">BeeeOn::GWSQueuingExporter</a>
+, <a class="el" href="classBeeeOn_1_1GWSResender.html#acc03eea33feb30b099e25d85d8fb99a3">BeeeOn::GWSResender</a>
 </li>
 <li>onRemove()
-: <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a07efe48a6b00a72b49e51fd4588fafc0">BeeeOn::HciInfoReporter</a>
-, <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9a968363c7be60a30e5fb4735d79d36b">BeeeOn::OZWNetwork</a>
+: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a9a968363c7be60a30e5fb4735d79d36b">BeeeOn::OZWNetwork</a>
+, <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a07efe48a6b00a72b49e51fd4588fafc0">BeeeOn::HciInfoReporter</a>
 </li>
 <li>onRequest()
-: <a class="el" href="classBeeeOn_1_1GWSListener.html#a53cd01b303c05a3e6cc10cb260b20ad2">BeeeOn::GWSListener</a>
-, <a class="el" href="classBeeeOn_1_1GWSCommandSender.html#a01a838995149be26f12d26352b46cd7e">BeeeOn::GWSCommandSender</a>
+: <a class="el" href="classBeeeOn_1_1GWSCommandSender.html#a01a838995149be26f12d26352b46cd7e">BeeeOn::GWSCommandSender</a>
+, <a class="el" href="classBeeeOn_1_1GWSListener.html#a53cd01b303c05a3e6cc10cb260b20ad2">BeeeOn::GWSListener</a>
 </li>
 <li>onResponse()
 : <a class="el" href="classBeeeOn_1_1GWSCommandHandler.html#a639d096f7173c4b1f37b05c7234d507d">BeeeOn::GWSCommandHandler</a>
@@ -178,15 +184,15 @@
 , <a class="el" href="classBeeeOn_1_1GWSResender.html#ad1fa435d87960eb1fd2a94123d6bef0c">BeeeOn::GWSResender</a>
 </li>
 <li>onSent()
-: <a class="el" href="classBeeeOn_1_1GWSListener.html#a0ae58d92489928a023a4ad0456956946">BeeeOn::GWSListener</a>
-, <a class="el" href="classBeeeOn_1_1GWSResender.html#addab80fbc703ce71d0e496c2da669628">BeeeOn::GWSResender</a>
+: <a class="el" href="classBeeeOn_1_1GWSResender.html#addab80fbc703ce71d0e496c2da669628">BeeeOn::GWSResender</a>
+, <a class="el" href="classBeeeOn_1_1GWSListener.html#a0ae58d92489928a023a4ad0456956946">BeeeOn::GWSListener</a>
 </li>
 <li>onStopLoop()
 : <a class="el" href="classBeeeOn_1_1DBusHciInterface.html#a9d137382c0077a80df3fe17ae920eb71">BeeeOn::DBusHciInterface</a>
 </li>
 <li>onTrySend()
-: <a class="el" href="classBeeeOn_1_1GWSListener.html#ad3e87df7d8a2b488598c0c9efd8d3b6a">BeeeOn::GWSListener</a>
-, <a class="el" href="classBeeeOn_1_1GWSResender.html#a2ae6da8d87ee3ab1fdde6f61add177bf">BeeeOn::GWSResender</a>
+: <a class="el" href="classBeeeOn_1_1GWSResender.html#a2ae6da8d87ee3ab1fdde6f61add177bf">BeeeOn::GWSResender</a>
+, <a class="el" href="classBeeeOn_1_1GWSListener.html#ad3e87df7d8a2b488598c0c9efd8d3b6a">BeeeOn::GWSListener</a>
 </li>
 <li>open()
 : <a class="el" href="classBeeeOn_1_1SerialPort.html#a8255d49e78dc544ec3588e5cff5cdf9f">BeeeOn::SerialPort</a>
@@ -198,8 +204,8 @@
 : <a class="el" href="classBeeeOn_1_1StreamConsole.html#abf030ee5c86dcc0a1bf578d43cb50cd1">BeeeOn::StreamConsole</a>
 </li>
 <li>operator bool()
-: <a class="el" href="structBeeeOn_1_1JablotronReport.html#aa12355860916bb105355251e99cc957a">BeeeOn::JablotronReport</a>
-, <a class="el" href="classBeeeOn_1_1StopControl_1_1Run.html#a9fcad8384dd252e6f582ceb72470fd91">BeeeOn::StopControl::Run</a>
+: <a class="el" href="classBeeeOn_1_1StopControl_1_1Run.html#a9fcad8384dd252e6f582ceb72470fd91">BeeeOn::StopControl::Run</a>
+, <a class="el" href="structBeeeOn_1_1JablotronReport.html#aa12355860916bb105355251e99cc957a">BeeeOn::JablotronReport</a>
 </li>
 <li>operator!()
 : <a class="el" href="structBeeeOn_1_1JablotronReport.html#add37cba37c3f5128215dea4f80a7e8ee">BeeeOn::JablotronReport</a>
@@ -208,9 +214,9 @@
 : <a class="el" href="classBeeeOn_1_1GlibPtr.html#a9df9d4c12469d08fd09c5f186d9c51e6">BeeeOn::GlibPtr&lt; T &gt;</a>
 </li>
 <li>operator==()
-: <a class="el" href="classBeeeOn_1_1BelkinWemoSwitch.html#a67e5eadbe1724be9a78cb0e5aa93bc48">BeeeOn::BelkinWemoSwitch</a>
+: <a class="el" href="classBeeeOn_1_1BelkinWemoLink.html#a0fe8798edcb92302ab92d3ce994d3893">BeeeOn::BelkinWemoLink</a>
+, <a class="el" href="classBeeeOn_1_1BelkinWemoSwitch.html#a67e5eadbe1724be9a78cb0e5aa93bc48">BeeeOn::BelkinWemoSwitch</a>
 , <a class="el" href="classBeeeOn_1_1VPTDevice.html#afe773bd5a627fec97b0e780c1d195d95">BeeeOn::VPTDevice</a>
-, <a class="el" href="classBeeeOn_1_1BelkinWemoLink.html#a0fe8798edcb92302ab92d3ce994d3893">BeeeOn::BelkinWemoLink</a>
 </li>
 <li>operator[]()
 : <a class="el" href="classBeeeOn_1_1OZWNetwork_1_1OZWNode.html#a666894e4b5149aac113b344bc636d9a8">BeeeOn::OZWNetwork::OZWNode</a>

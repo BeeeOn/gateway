@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-27-g57de3cb</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-38-g98f3c12</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -244,7 +244,22 @@
 <li>blesmart.enable - enable the BLE Smart support</li>
 <li>bluetooth.le.scanTimeout - timeout of the Bluetooth Low Energy scan</li>
 <li>blesmart.device.timeout - timeout of work with the device (connect, wait to load services, read/write request)</li>
-<li>blesmart.refresh - interval of polling the particular BLE Smart devices (seconds) </li>
+<li>blesmart.refresh - interval of polling the particular BLE Smart devices (seconds)</li>
+</ul>
+<h4>IQRF</h4>
+<ul>
+<li>iqrf.enable - enable the IQRF support</li>
+<li>iqrf.subscribeTopic - topic where receive JSON messages from IQRF Daemon</li>
+<li>iqrf.publishTopic - topic where to advertise JSON messages for IQRF Daemon</li>
+<li>iqrf.receiveTimeout - timeout of IQRF DPA requests</li>
+<li>iqrf.refreshTime - interval of obtaining measured values from IQRF devices (seconds)</li>
+<li>iqrf.refreshTimePeripheralInfo - interval of obtaining peripheral info (RSSI, battery) from IQRF devices (seconds)</li>
+<li>iqrf.devicesRetryTimeout - interval between attempts to communicate with IQRF devices</li>
+<li>iqrf.coordinatorReset - controllers to be reset once connected</li>
+<li>iqrf.mqtt.host - host where the MQTT broker is running</li>
+<li>iqrf.mqtt.port - port where the MQTT broker is running</li>
+<li>iqrf.mqtt.qos - MQTT QoS specification</li>
+<li>iqrf.mqtt.clientID - name of the MQTT client </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->

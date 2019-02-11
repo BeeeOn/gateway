@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2018.12.1-rc2-27-g57de3cb</span>
+   &#160;<span id="projectnumber">v2018.12.1-rc2-38-g98f3c12</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -71,8 +71,9 @@ Inheritance diagram for BeeeOn::DongleDeviceManager:</div>
 <area href="classBeeeOn_1_1DeviceStatusHandler.html" title="DeviceStatusHandler represents a class that can process status of a set of devices. This is useful when fetching pairing state from a remote server. " alt="BeeeOn::DeviceStatusHandler" shape="rect" coords="478,56,707,80"/>
 <area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="717,56,946,80"/>
 <area href="classBeeeOn_1_1StoppableRunnable.html" alt="BeeeOn::StoppableRunnable" shape="rect" coords="956,56,1185,80"/>
-<area href="classBeeeOn_1_1BLESmartDeviceManager.html" title="The class implements the work with Bluetooth Low Energy devices. Allows us to process and execute the..." alt="BeeeOn::BLESmartDeviceManager" shape="rect" coords="478,224,707,248"/>
-<area href="classBeeeOn_1_1BluetoothAvailabilityManager.html" alt="BeeeOn::BluetoothAvailabilityManager" shape="rect" coords="717,224,946,248"/>
+<area href="classBeeeOn_1_1BLESmartDeviceManager.html" title="The class implements the work with Bluetooth Low Energy devices. Allows us to process and execute the..." alt="BeeeOn::BLESmartDeviceManager" shape="rect" coords="358,224,587,248"/>
+<area href="classBeeeOn_1_1BluetoothAvailabilityManager.html" alt="BeeeOn::BluetoothAvailabilityManager" shape="rect" coords="597,224,826,248"/>
+<area href="classBeeeOn_1_1IQRFDeviceManager.html" title="IQRFDeviceManager implements work with IQRF devices. IQRF Daemon (third party application) is used fo..." alt="BeeeOn::IQRFDeviceManager" shape="rect" coords="836,224,1065,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -298,7 +299,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>The main execution loop that is to be run while the appropriate dongle is available. When the dongle is disconnected during the execution, the method must throw an exception (a good choice is Poco::IOException).</p>
 <p>When the method returns normally, the <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html">DongleDeviceManager</a> finishes its main loop and exits the thread. </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a68e88ecc66be5a206d4ea1ca2ce6c3fa">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a389ac592529fa071a806f076cd9eac66">BeeeOn::BluetoothAvailabilityManager</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a75a82da175965c7a998c51d124d9cd8c">BeeeOn::IQRFDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a68e88ecc66be5a206d4ea1ca2ce6c3fa">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a389ac592529fa071a806f076cd9eac66">BeeeOn::BluetoothAvailabilityManager</a>.</p>
 
 </div>
 </div>
@@ -325,7 +326,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </div><div class="memdoc">
 <p>Called when <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a0eac8644aaeced8ebf7d42299d1e607d">dongleAvailable()</a> fails multiple times (according to the <a class="el" href="classBeeeOn_1_1FailDetector.html">FailDetector</a> instance). The default implementation just sleeps for a while. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#aad4564d469fe81cfffdf9e8020c813e8">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ad41cb5c1a3ef465865f7bacab70143c0">BeeeOn::BluetoothAvailabilityManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a56811d6fb857bd5082c33480e7e99a40">BeeeOn::IQRFDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#aad4564d469fe81cfffdf9e8020c813e8">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ad41cb5c1a3ef465865f7bacab70143c0">BeeeOn::BluetoothAvailabilityManager</a>.</p>
 
 </div>
 </div>
@@ -353,7 +354,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>If the event represents an appropriate dongle, it should return its name or path that can be used for its access.</p>
 <p>If the event represents an inappropriate device, it returns an empty string. </p>
 
-<p>Implemented in <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a0691ba38e0d7d09680b6f3058e164588">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#af270b549e213bdb818d61f1468cf79fe">BeeeOn::BluetoothAvailabilityManager</a>.</p>
+<p>Implemented in <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a356d9b14c8ec57d66651ec987db79ef2">BeeeOn::IQRFDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a0691ba38e0d7d09680b6f3058e164588">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#af270b549e213bdb818d61f1468cf79fe">BeeeOn::BluetoothAvailabilityManager</a>.</p>
 
 </div>
 </div>
@@ -457,7 +458,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>The default implementation does nothing. </p>
 <p>This method is called when a dongle removal has been detected via the onRemove() call. The derived class can reimplement this method to make sure all its threads are finished. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a67402da2df5959d61da54877239ee4e5">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a3fef9aaef3fa4a0e95f95bcfc72d04e9">BeeeOn::BluetoothAvailabilityManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a226b28b412ef58d6b9e559694876d2bf">BeeeOn::IQRFDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a67402da2df5959d61da54877239ee4e5">BeeeOn::BLESmartDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a3fef9aaef3fa4a0e95f95bcfc72d04e9">BeeeOn::BluetoothAvailabilityManager</a>.</p>
 
 </div>
 </div>
@@ -519,6 +520,8 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>A generic stop implementation to be used by most <a class="el" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> implementations. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">BeeeOn::DeviceManager</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a78f048227428c6a89787fb2d22169c6d">BeeeOn::IQRFDeviceManager</a>.</p>
 
 </div>
 </div>
