@@ -185,7 +185,7 @@ void MosquittoClient::setSubTopics(const list<string> &subTopics)
 {
 	for (const auto &topic : subTopics) {
 		const auto it = m_subTopics.emplace(topic);
-		if (it.second) {
+		if (!it.second) {
 			logger().warning(
 				"duplicated subscription topic "
 				+ topic,
