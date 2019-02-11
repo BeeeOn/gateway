@@ -147,14 +147,16 @@ if(BLUETOOTH AND ENABLE_BLE_SMART)
 	list(APPEND TEST_MODULE_LIBS BeeeOnBLE BeeeOnBLETest)
 endif()
 
-if (ENABLE_IQRF)
+if (ENABLE_IQRF AND MOSQUITTO_CPP)
 	file(GLOB IQRF_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/iqrf/DPAIQHomeProtocolTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponseTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequestTest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessageTest.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFTypeMappingParserTest.cpp
 	)
 	add_library(BeeeOnIQRFTest ${IQRF_TEST_SOURCES})
-	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest)
+	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest BeeeOnMosquitto)
 endif()
 
 include_directories(

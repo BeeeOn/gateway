@@ -415,12 +415,20 @@ endif()
 
 if (ENABLE_IQRF)
 	file(GLOB IQRF_SOURCES
+		${PROJECT_SOURCE_DIR}/iqrf/DPAIQHomeProtocol.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/DPAMappedProtocol.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAMessage.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/DPAProtocol.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPARequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/DPAResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFDevice.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonMessage.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFJsonResponse.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFMqttConnector.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFTypeMappingParser.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFUtil.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondNodeRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordClearAllBondsRequest.cpp

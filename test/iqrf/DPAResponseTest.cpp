@@ -128,6 +128,10 @@ void DPAResponseTest::testParsePeripheralInfoResponse()
 	CPPUNIT_ASSERT_EQUAL(int8_t(-118), peripheralInfoMin->rssi());
 	CPPUNIT_ASSERT_EQUAL(int8_t(11), peripheralInfoMax->rssi());
 
+	CPPUNIT_ASSERT_EQUAL(77, peripheralInfo->rssiPercentage());
+	CPPUNIT_ASSERT_EQUAL(0, peripheralInfoMin->rssiPercentage());
+	CPPUNIT_ASSERT_EQUAL(100, peripheralInfoMax->rssiPercentage());
+
 	CPPUNIT_ASSERT_EQUAL(2.72, peripheralInfo->supplyVoltage());
 	CPPUNIT_ASSERT_EQUAL(2.06, round(peripheralInfoMin->supplyVoltage() * 100.0) / 100.0);
 	CPPUNIT_ASSERT_EQUAL(3.84, round(peripheralInfoMax->supplyVoltage() * 100.0) / 100.0);
