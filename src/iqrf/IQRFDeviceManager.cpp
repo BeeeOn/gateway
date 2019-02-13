@@ -40,6 +40,7 @@ BEEEON_OBJECT_PROPERTY("protocols", &IQRFDeviceManager::registerDPAProtocol)
 BEEEON_OBJECT_PROPERTY("mqttConnector", &IQRFDeviceManager::setMqttConnector)
 BEEEON_OBJECT_PROPERTY("devicesRetryTimeout", &IQRFDeviceManager::setIQRFDevicesRetryTimeout)
 BEEEON_OBJECT_PROPERTY("coordinatorReset", &IQRFDeviceManager::setCoordinatorReset)
+BEEEON_OBJECT_PROPERTY("deviceCache", &IQRFDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("devicePoller", &IQRFDeviceManager::setDevicePoller)
 BEEEON_OBJECT_END(BeeeOn, IQRFDeviceManager)
 

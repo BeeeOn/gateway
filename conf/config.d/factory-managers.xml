@@ -229,6 +229,7 @@
 			<set name="refreshTimePeripheralInfo" time="${iqrf.refreshTimePeripheralInfo}" />
 			<set name="devicesRetryTimeout" time="${iqrf.devicesRetryTimeout}" />
 			<set name="coordinatorReset" text="${iqrf.coordinatorReset}" />
+			<set name="deviceCache" ref="deviceCache" />
 			<set name="devicePoller" ref="devicePoller" />
 			<set name="protocols" ref="iqHomeDPAProtocol" />
 		</instance>
