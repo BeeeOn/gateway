@@ -2,3 +2,6 @@ SUBSYSTEM=="tty", ATTRS{idVendor}=="1de6", ATTRS{idProduct}=="0002", ENV{BEEEON_
 
 # recognize IQRF controller connected via SPI on board NanoPi NEO Plus2
 DEVPATH=="/devices/platform/soc/1c68000.spi/spi_master/spi0/spi0.0", ENV{BEEEON_DONGLE}="iqrf"
+
+# recognize IQRF controller connected via tty adapter KON-RASP-01 on board Raspberry Pi 3 Model B
+DEVPATH=="/devices/platform/soc/3f201000.serial/tty/ttyAMA0", ENV{BEEEON_DONGLE}="iqrf"
