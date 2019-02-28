@@ -56,14 +56,10 @@ void BelkinWemoDeviceManager::run()
 {
 	logger().information("starting Belkin WeMo device manager", __FILE__, __LINE__);
 
-	set<DeviceID> paired = waitRemoteStatus(-1);
-
-	if (paired.size() > 0)
-		searchPairedDevices();
-
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
+		searchPairedDevices();
 		eraseUnusedLinks();
 
 		for (auto pair : m_devices) {
@@ -112,32 +108,39 @@ void BelkinWemoDeviceManager::setHTTPTimeout(const Timespan &timeout)
 
 void BelkinWemoDeviceManager::searchPairedDevices()
 {
+	set<DeviceID> pairedDevices;
+	ScopedLockWithUnlock<FastMutex> guard(m_pairedMutex);
+	for (auto &id : deviceCache()->paired(prefix())) {
+		auto it = m_devices.find(id);
+		if (it == m_devices.end())
+			pairedDevices.insert(id);
+	}
+	guard.unlock();
+
+	if (pairedDevices.size() <= 0)
+		return;
+
+	logger().information("discovering of paired devices...", __FILE__, __LINE__);
+
 	vector<BelkinWemoSwitch::Ptr> switches = seekSwitches(m_stopControl);
-
-	ScopedLockWithUnlock<FastMutex> lockSwitch(m_pairedMutex);
-	for (auto device : switches) {
-		if (deviceCache()->paired(device->deviceID()))
-			m_devices.emplace(device->deviceID(), device);
-	}
-	lockSwitch.unlock();
-
 	vector<BelkinWemoBulb::Ptr> bulbs = seekBulbs(m_stopControl);
-
-	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
-	for (auto device : bulbs) {
-		if (deviceCache()->paired(device->deviceID()))
-			m_devices.emplace(device->deviceID(), device);
-	}
-	lockBulb.unlock();
-
 	vector<BelkinWemoDimmer::Ptr> dimmers = seekDimmers(m_stopControl);
 
-	ScopedLockWithUnlock<FastMutex> lockDimmer(m_pairedMutex);
-	for (auto device : dimmers) {
-		if (deviceCache()->paired(device->deviceID()))
-			m_devices.emplace(device->deviceID(), device);
+	vector<BelkinWemoDevice::Ptr> foundDevices;
+	foundDevices.insert(foundDevices.end(), switches.begin(), switches.end());
+	foundDevices.insert(foundDevices.end(), bulbs.begin(), bulbs.end());
+	foundDevices.insert(foundDevices.end(), dimmers.begin(), dimmers.end());
+
+	ScopedLock<FastMutex> lock(m_pairedMutex);
+	for (const auto &device : foundDevices) {
+		if (pairedDevices.find(device->id()) == pairedDevices.end())
+			continue;
+
+		m_devices.emplace(device->id(), device);
+
+		logger().information("found " + device->name() + " " + device->id().toString(),
+			__FILE__, __LINE__);
 	}
-	lockDimmer.unlock();
 }
 
 void BelkinWemoDeviceManager::eraseUnusedLinks()
