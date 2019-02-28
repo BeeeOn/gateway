@@ -65,14 +65,10 @@ void PhilipsHueDeviceManager::run()
 {
 	logger().information("starting Philips Hue device manager", __FILE__, __LINE__);
 
-	set<DeviceID> paired = waitRemoteStatus(-1);
-
-	if (paired.size() > 0)
-		searchPairedDevices();
-
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
+		searchPairedDevices();
 		eraseUnusedBridges();
 
 		for (auto pair : m_devices) {
@@ -147,14 +143,32 @@ void PhilipsHueDeviceManager::registerListener(PhilipsHueListener::Ptr listener)
 
 void PhilipsHueDeviceManager::searchPairedDevices()
 {
-	vector<PhilipsHueBulb::Ptr> bulbs = seekBulbs(m_stopControl);
-
-	ScopedLockWithUnlock<FastMutex> lockBulb(m_pairedMutex);
-	for (auto device : bulbs) {
-		if (deviceCache()->paired(device->id()))
-			m_devices.emplace(device->id(), device);
+	set<DeviceID> pairedDevices;
+	ScopedLockWithUnlock<FastMutex> guard(m_pairedMutex);
+	for (auto &id : deviceCache()->paired(prefix())) {
+		auto it = m_devices.find(id);
+		if (it == m_devices.end())
+			pairedDevices.insert(id);
 	}
-	lockBulb.unlock();
+	guard.unlock();
+
+	if (pairedDevices.size() <= 0)
+		return;
+
+	logger().information("discovering of paired devices...", __FILE__, __LINE__);
+
+	vector<PhilipsHueBulb::Ptr> foundBulbs = seekBulbs(m_stopControl);
+
+	ScopedLock<FastMutex> lock(m_pairedMutex);
+	for (const auto &device : foundBulbs) {
+		if (pairedDevices.find(device->id()) == pairedDevices.end())
+			continue;
+
+		m_devices.emplace(device->id(), device);
+
+		logger().information("found " + device->name() + " " + device->id().toString(),
+			__FILE__, __LINE__);
+	}
 }
 
 void PhilipsHueDeviceManager::eraseUnusedBridges()
