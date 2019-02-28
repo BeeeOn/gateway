@@ -59,14 +59,11 @@ void VPTDeviceManager::run()
 {
 	logger().information("starting VPT device manager");
 
-	set<DeviceID> paired = waitRemoteStatus(-1);
-
-	if (paired.size() > 0)
-		searchPairedDevices();
-
 	StopControl::Run run(m_stopControl);
 
 	while (run) {
+		searchPairedDevices();
+
 		for (auto pair : m_devices) {
 			if (isAnySubdevicePaired(pair.second))
 				m_pollingKeeper.schedule(pair.second);
@@ -169,25 +166,40 @@ void VPTDeviceManager::setCryptoConfig(SharedPtr<CryptoConfig> config)
 
 void VPTDeviceManager::searchPairedDevices()
 {
-	vector<VPTDevice::Ptr> devices = seekDevices(m_stopControl);
+	set<DeviceID> pairedDevices;
+	ScopedLockWithUnlock<FastMutex> guard(m_pairedMutex);
+	for (auto &id : deviceCache()->paired(prefix())) {
+		auto it = m_devices.find(VPTDevice::omitSubdeviceFromDeviceID(id));
+		if (it == m_devices.end())
+			pairedDevices.insert(VPTDevice::omitSubdeviceFromDeviceID(id));
+	}
+	guard.unlock();
+
+	if (pairedDevices.size() <= 0)
+		return;
+
+	logger().information("discovering of paired devices...", __FILE__, __LINE__);
+
+	vector<VPTDevice::Ptr> foundDevices = seekDevices(m_stopControl);
 
 	ScopedLock<FastMutex> lock(m_pairedMutex);
-	for (auto device : devices) {
-		if (isAnySubdevicePaired(device)) {
-			auto it = m_devices.emplace(device->boilerID(), device);
-			if (!it.second)
-				continue;
+	for (auto device : foundDevices) {
+		if (pairedDevices.find(device->id()) == pairedDevices.end())
+			continue;
 
-			try {
-				string password = findPassword(device->boilerID());
+		m_devices.emplace(device->id(), device);
+		try {
+			string password = findPassword(device->boilerID());
 
-				ScopedLock<FastMutex> guard(device->lock());
-				device->setPassword(password);
-			}
-			catch (NotFoundException& e) {
-				logger().log(e, __FILE__, __LINE__);
-			}
+			ScopedLock<FastMutex> guard(device->lock());
+			device->setPassword(password);
 		}
+		catch (NotFoundException& e) {
+			logger().log(e, __FILE__, __LINE__);
+		}
+
+		logger().information("found " + device->id().toString(),
+			__FILE__, __LINE__);
 	}
 }
 
