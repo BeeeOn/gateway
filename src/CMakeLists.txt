@@ -38,6 +38,10 @@ find_library (MOSQUITTO_CPP mosquittopp)
 find_library (BLUETOOTH bluetooth)
 find_package(OpenZWave)
 
+find_library (LIBTRAP trap)
+find_library (UNIREC unirec)
+find_library (PCAP pcap)
+
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
@@ -447,6 +451,22 @@ if (ENABLE_IQRF)
 	list(APPEND MODULE_LIBS BeeeOnIQRF)
 else()
 	message(STATUS "IQRF support is disabled")
+endif()
+
+if(LIBTRAP AND UNIREC AND PCAP AND ENABLE_NEMEA)
+	file(GLOB NEMEA_SOURCES
+		${PROJECT_SOURCE_DIR}/nemea/fields.cpp
+		${PROJECT_SOURCE_DIR}/nemea/NemeaCollector.cpp
+	)
+	list(APPEND LIBS
+		${PCAP}
+		${UNIREC}
+		${LIBTRAP}
+	)
+	add_library(BeeeOnNemea ${NEMEA_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnNemea)
+else()
+	message(STATUS "Nemea features support is disabled")
 endif()
 
 configure_file(core/Version.cpp.in ${PROJECT_BINARY_DIR}/core/Version.cpp)
