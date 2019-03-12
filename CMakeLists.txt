@@ -38,6 +38,7 @@ option(ENABLE_PRESSURE_SENSOR "Enable support of internal air pressure sensor" O
 option(ENABLE_FITP "Enable support of FITP" ON)
 option(ENABLE_IQRF "Enable support of IQRF" ON)
 option(ENABLE_TESTS "Enable build of unit tests" ON)
+option(ENABLE_NEMEA "Enable nemea collector" OFF)
 
 add_subdirectory(src)
 add_subdirectory(base)
