@@ -90,10 +90,15 @@ static Command::Ptr parseCommand(TestingCenter::ActionContext &context)
 		if (args.size() >= 6)
 			timeout = Timespan(NumberParser::parse(args[5]) * Timespan::MILLISECONDS);
 
+		OpMode mode = OpMode::TRY_ONCE;
+		if (args.size() >= 7)
+			mode = OpMode::parse(args[6]);
+
 		return new DeviceSetValueCommand(
 			DeviceID::parse(args[2]),
 			ModuleID::parse(args[3]),
 			NumberParser::parseFloat(args[4]),
+			mode,
 			timeout
 		);
 	}
@@ -188,7 +193,7 @@ static void commandAction(TestingCenter::ActionContext &context)
 		console.print("usage: command <name> [<args>...]");
 		console.print("names:");
 		console.print("  unpair <device-id>");
-		console.print("  set-value <device-id> <module-id> <value> [<timeout>]");
+		console.print("  set-value <device-id> <module-id> <value> [<timeout> [<mode>]]");
 		console.print("  listen [<timeout>]");
 		console.print("  search <device-prefix> ip|mac|serial <criteria> [<timeout>]");
 		console.print("  list-devices <device-prefix>");

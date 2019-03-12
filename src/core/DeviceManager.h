@@ -241,6 +241,38 @@ protected:
 			const Poco::Timespan &timeout);
 
 	/**
+	 * @brief Call an implementation of startSetValue() based on the
+	 * given operation mode.
+	 */
+	AsyncWork<double>::Ptr startSetValueByMode(
+			const DeviceID &id,
+			const ModuleID &module,
+			const double value,
+			const OpMode &mode,
+			const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Default implementation just calls startSetValue().
+	 */
+	virtual AsyncWork<double>::Ptr startSetValueTryHarder(
+			const DeviceID &id,
+			const ModuleID &module,
+			const double value,
+			const Poco::Timespan &timeout);
+
+	/**
+	 * @brief Default implementation calls startSetValue() again
+	 * if a Poco::IOException is thrown until timeout exceeds. However,
+	 * due to asynchronous behaviour, this way of repeating on fail might
+	 * be inappropriate.
+	 */
+	virtual AsyncWork<double>::Ptr startSetValueRepeatOnFail(
+			const DeviceID &id,
+			const ModuleID &module,
+			const double value,
+			const Poco::Timespan &timeout);
+
+	/**
 	 * @brief Implements handling of the set-value command in a generic way.
 	 * The method ensures that only 1 thread can execute set-value process
 	 * at a time. If the set-value operation succeeds, it ships the set value.

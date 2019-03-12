@@ -5,6 +5,7 @@
 #include "core/PrefixCommand.h"
 #include "model/DeviceID.h"
 #include "model/ModuleID.h"
+#include "model/OpMode.h"
 
 namespace BeeeOn {
 
@@ -25,13 +26,18 @@ class DeviceSetValueCommand : public PrefixCommand {
 public:
 	typedef Poco::AutoPtr<DeviceSetValueCommand> Ptr;
 
-	DeviceSetValueCommand(const DeviceID &deviceID, const ModuleID &moduleID,
-		const double value, const Poco::Timespan &timeout);
+	DeviceSetValueCommand(
+		const DeviceID &deviceID,
+		const ModuleID &moduleID,
+		const double value,
+		const OpMode &mode,
+		const Poco::Timespan &timeout);
 
 	ModuleID moduleID() const;
 	double value() const;
 	Poco::Timespan timeout() const;
 	DeviceID deviceID() const;
+	OpMode mode() const;
 
 	std::string toString() const override;
 
@@ -42,6 +48,7 @@ private:
 	DeviceID m_deviceID;
 	ModuleID m_moduleID;
 	double m_value;
+	OpMode m_mode;
 	Poco::Timespan m_timeout;
 };
 
