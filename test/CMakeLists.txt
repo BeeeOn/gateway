@@ -35,6 +35,10 @@ find_library (MOSQUITTO_CPP mosquittopp)
 find_library (BLUETOOTH bluetooth)
 find_package(OpenZWave)
 
+find_library (LIBTRAP trap)
+find_library (UNIREC unirec)
+find_library (PCAP pcap)
+
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
 	include_directories(${GLIB_INCLUDE_DIRS})
@@ -157,6 +161,14 @@ if (ENABLE_IQRF AND MOSQUITTO_CPP)
 	)
 	add_library(BeeeOnIQRFTest ${IQRF_TEST_SOURCES})
 	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest BeeeOnMosquitto)
+endif()
+
+if(LIBTRAP AND UNIREC AND PCAP AND ENABLE_NEMEA)
+	list(APPEND LIBS
+		${PCAP}
+		${UNIREC}
+		${LIBTRAP}
+	)
 endif()
 
 include_directories(
