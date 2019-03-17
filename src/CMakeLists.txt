@@ -205,6 +205,7 @@ endif()
 
 if(ENABLE_VEKTIVA)
     file(GLOB VEKTIVA_SOURCES
+		${PROJECT_SOURCE_DIR}/vektiva/VektivaSmarwi.cpp
 		${PROJECT_SOURCE_DIR}/vektiva/VektivaSmarwiStatus.cpp
 	)
     add_library(BeeeOnVektiva ${VEKTIVA_SOURCES})
