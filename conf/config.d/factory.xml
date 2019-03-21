@@ -30,6 +30,7 @@
 			<add name="exporters" ref="gwServerConnector" if-yes="${gws.enable}" />
 			<set name="eventsExecutor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<add name="listeners" ref="nemeaCollector" if-yes="${nemea.collector.enable}" />
 		</instance>
 
 		<instance name="asyncExecutor" class="BeeeOn::SequentialAsyncExecutor">
@@ -109,6 +110,13 @@
 		</instance>
 
 		<instance name="loggingCollector" class="BeeeOn::LoggingCollector" />
+
+		<instance name="nemeaCollector" class="BeeeOn::NemeaCollector" >
+			<set name="onExportInterface" text="u:beeeOnEvent-export"/>
+			<set name="onHCIStatsInterface" text="u:beeeOnEvent-HCIStats"/>
+			<set name="onNodeStatsInterface" text="u:beeeOnEvent-nodeStats"/>
+			<set name="onDriverStatsInterface" text="u:beeeOnEvent-driverStats"/>
+		</instance>
 
 		<instance name="credentialsTool" class="BeeeOn::CredentialsTool">
 			<set name="cryptoConfig" ref="cryptoConfig" />
