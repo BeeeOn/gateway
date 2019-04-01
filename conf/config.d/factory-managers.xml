@@ -16,6 +16,9 @@
 			<add name="runnables" ref="iqrfMqttClient" if-yes="${iqrf.enable}" />
 			<add name="runnables" ref="iqrfDeviceManager" if-yes="${iqrf.enable}" />
 			<add name="runnables" ref="iqrfMqttConnector" if-yes="${iqrf.enable}" />
+			<add name="runnables" ref="vektivaDeviceManager" if-yes="${vektiva.enable}" />
+			<add name="runnables" ref="vektivaMqttClient" if-yes="${vektiva.enable}" />
+			<add name="runnables" ref="vektivaStatusMqttClient" if-yes="${vektiva.enable}" />
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
@@ -222,6 +225,20 @@
 			<set name="gatewayInfo" ref="gatewayInfo" />
 		</instance>
 
+		<instance name="vektivaStatusMqttClient" class="BeeeOn::MosquittoClient">
+			<set name="host" text="${vektiva.mqtt.host}" />
+			<set name="port" number="${vektiva.mqtt.port}" />
+			<set name="clientID" text="${vektiva.mqtt.statusClientID}" />
+			<set name="subTopics" list="${vektiva.subscribeTopics}" />
+		</instance>
+
+		<instance name="vektivaMqttClient" class="BeeeOn::MosquittoClient">
+			<set name="host" text="${vektiva.mqtt.host}" />
+			<set name="port" number="${vektiva.mqtt.port}" />
+			<set name="clientID" text="${vektiva.mqtt.clientID}" />
+			<set name="subTopics" list="${vektiva.subscribeTopics}" />
+		</instance>
+
 		<instance name="iqrfDeviceManager" class="BeeeOn::IQRFDeviceManager">
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
@@ -234,6 +251,15 @@
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="devicePoller" ref="devicePoller" />
 			<set name="protocols" ref="iqHomeDPAProtocol" />
+		</instance>
+
+		<instance name="vektivaDeviceManager" class="BeeeOn::VektivaDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="mqttClient" ref="vektivaMqttClient" />
+			<set name="mqttStatusClient" ref="vektivaStatusMqttClient" />
+			<set name="receiveTimeout" time="${vektiva.receiveTimeout}" />
 		</instance>
 
 		<instance name="iqrfMqttConnector" class="BeeeOn::IQRFMqttConnector">
