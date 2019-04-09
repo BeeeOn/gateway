@@ -284,4 +284,10 @@ config BEEEON_GATEWAY_TESTING_COLLECTOR
 	  is useful for debugging by looking for logs of some
 	  internal gateway events.
 
+config BEEEON_GATEWAY_NEMEA
+	bool "Collecting & exporting data with NemeaCollector"
+	default y
+	help
+	  Enable usage of NemeaCollector.
+
 endmenu

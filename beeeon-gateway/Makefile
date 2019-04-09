@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2016, 2017, Brno University of Technology
+# Copyright (c) 2016 - 2019, Brno University of Technology
 #
 # This is free software, licensed under the BSD-3-Clause.
 #
@@ -10,13 +10,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=beeeon-gateway
-PKG_VERSION:=v2018.07.1
+PKG_VERSION:=v2019.6.1-rc1
 PKG_RELEASE:=1
 INIT_SCRIPT_NAME:=$(PKG_NAME)
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/BeeeOn/gateway.git
-PKG_SOURCE_VERSION:=9535495ca000af8d05f421ceb6f3d385cad38328
+PKG_SOURCE_VERSION:=121ee0766bda0bacd6248e6c527f5fa49601f704
 
 PKG_BUILD_PARALLEL:=1
 CMAKE_INSTALL:=1
@@ -41,7 +41,8 @@ CMAKE_OPTIONS += \
 	-DENABLE_VIRTUAL_DEVICES=$(if $(CONFIG_BEEEON_GATEWAY_VIRTUAL_DEVICES),ON,OFF) \
 	-DENABLE_VPT=$(if $(CONFIG_BEEEON_GATEWAY_VPT),ON,OFF) \
 	-DENABLE_ZWAVE=$(if $(CONFIG_BEEEON_GATEWAY_ZWAVE),ON,OFF) \
-	-DENABLE_TESTING_CENTER=$(if $(CONFIG_BEEEON_GATEWAY_TESTING_CENTER),ON,OFF)
+	-DENABLE_TESTING_CENTER=$(if $(CONFIG_BEEEON_GATEWAY_TESTING_CENTER),ON,OFF) \
+	-DENABLE_NEMEA=$(if $(CONFIG_BEEEON_GATEWAY_NEMEA),ON,OFF)
 
 TARGET_CXXFLAGS += -DPOCO_NO_FPENVIRONMENT
 
@@ -76,12 +77,16 @@ ifeq ($(CONFIG_BEEEON_GATEWAY_MQTT_EXPORTER),y)
 _IPKG_DEPENDS += +libmosquittopp
 endif
 
+ifeq ($(CONFIG_BEEEON_GATEWAY_NEMEA),y)
+_IPKG_DEPENDS += +nemea-framework +libpcap
+endif
+
 define Package/beeeon-gateway
 	TITLE:=BeeeOn Gateway
 	SECTION:=cesnet
 	CATEGORY:=CESNET
 	DEPENDS:=+poco-all
-	MAINTAINER:=Jan Viktorin <iviktorin@fit.vutbr.cz>
+	MAINTAINER:=David Bednařík <xbedna62@stud.fit.vutbr.cz>
 
 	DEPENDS += +BEEEON_GATEWAY_ZWAVE:libopenzwave
 	DEPENDS += +BEEEON_GATEWAY_ZWAVE:openzwave-config
@@ -139,6 +144,9 @@ BEEEON_GATEWAY_MODULE_DISABLE += $(if $(CONFIG_BEEEON_GATEWAY_TESTING_COLLECTOR)
 
 BEEEON_GATEWAY_MODULE_ENABLE += $(if $(CONFIG_BEEEON_GATEWAY_GWS),gws)
 BEEEON_GATEWAY_MODULE_DISABLE += $(if $(CONFIG_BEEEON_GATEWAY_GWS),,gws)
+
+BEEEON_GATEWAY_MODULE_ENABLE += $(if $(CONFIG_BEEEON_GATEWAY_NEMEA),nemea.collector)
+BEEEON_GATEWAY_MODULE_DISABLE += $(if $(CONFIG_BEEEON_GATEWAY_NEMEA),,nemea.collector)
 
 # Generate random BeeeOn Gateway ID
 ifeq ($(CONFIG_BEEEON_GATEWAY_ID_RANDOM),y)
@@ -204,7 +212,9 @@ define Package/beeeon-gateway/install
 		$(PKG_INSTALL_DIR)/usr/etc/beeeon/gateway/virtual-devices.ini)
 
 	echo hotplug.impl = pipeHotplug \
-		> $(PKG_INSTALL_DIR)/usr/etc/beeeon/gateway/config.d/x-hotplug.properties
+		>> $(PKG_INSTALL_DIR)/usr/etc/beeeon/gateway/config.d/x-hotplug.properties
+	echo hotplug.pipe.path = /var/run/beeeon/gateway.hotplug \
+		>> $(PKG_INSTALL_DIR)/usr/etc/beeeon/gateway/config.d/x-hotplug.properties
 
 	$(RM) $(PKG_INSTALL_DIR)/usr/etc/beeeon/gateway/config.d/x-modules.properties
 	$(foreach module,$(BEEEON_GATEWAY_MODULE_ENABLE),\
