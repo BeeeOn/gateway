@@ -19,11 +19,19 @@ $OUTPUT_DATA"
 	propagate_parent_uevents "${PARENT}" "${1}"
 }
 
-init_and_propagate_uevents()
+ensure_pipe_existence()
 {
 	if [ ! -p "${FIFO_PATH}" ]; then
+		if [ -f "${FIFO_PATH}" ]; then
+			rm -f "${FIFO_PATH}"
+		fi
 		mkfifo "${FIFO_PATH}"
 	fi
+}
+
+init_and_propagate_uevents()
+{
+	ensure_pipe_existence
 	OUTPUT_DATA=${4}
 	propagate_uevents "${1}" "${2}" "${3}"
 	propagate_lines "$OUTPUT_DATA"
@@ -66,6 +74,7 @@ NODE=/dev/$DEVICE_NAME"
 
 propagate_lines()
 {
+	ensure_pipe_existence
 	cat <<__EOF >"${FIFO_PATH}"
 ${1}
 
