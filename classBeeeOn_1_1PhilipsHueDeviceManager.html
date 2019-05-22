@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-18-g121ee07</span>
+   &#160;<span id="projectnumber">v2019.1.1-22-ged5e13d</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -155,8 +155,6 @@ static const Poco::Timespan&#160;</td><td class="memItemRight" valign="bottom"><
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a19641de3e889b059f04f649c99c7ccaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result) override</td></tr>
-<tr class="separator:a19641de3e889b059f04f649c99c7ccaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dfc985682448c19e7c9858768ee680a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3dfc985682448c19e7c9858768ee680a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3dfc985682448c19e7c9858768ee680a">handleAccept</a> (const DeviceAcceptCommand::Ptr cmd) override</td></tr>
 <tr class="memdesc:a3dfc985682448c19e7c9858768ee680a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic handler of the <a class="el" href="classBeeeOn_1_1DeviceAcceptCommand.html">DeviceAcceptCommand</a>. It might be helpful to override this method in case we need to make some technology-specific check of the device to be accepted. The default implementation simply marks the given device as paired. <br/></td></tr>
@@ -168,6 +166,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
  &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">startUnpair</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const Poco::Timespan &amp;timeout) override</td></tr>
 <tr class="memdesc:a3414f89b277e758fa30ee60584208614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts device unpair process in a technology-specific way. This method is always called inside a critical section and so its implementation does not have to be thread-safe nor reentrant (unless it cooperates with other threads itself).  <a href="#a3414f89b277e758fa30ee60584208614">More...</a><br/></td></tr>
 <tr class="separator:a3414f89b277e758fa30ee60584208614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a952f313b44310ce64564e68e88d0ea1d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a952f313b44310ce64564e68e88d0ea1d">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timeout) override</td></tr>
+<tr class="memdesc:a952f313b44310ce64564e68e88d0ea1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#a952f313b44310ce64564e68e88d0ea1d">More...</a><br/></td></tr>
+<tr class="separator:a952f313b44310ce64564e68e88d0ea1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa171883020fd7f9efc2d9f9fb406278d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa171883020fd7f9efc2d9f9fb406278d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>searchPairedDevices</b> ()</td></tr>
 <tr class="separator:aa171883020fd7f9efc2d9f9fb406278d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,13 +176,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>searchPairedDevices</
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a7ddaf94f71dcf269535019db5a2b351a">eraseUnusedBridges</a> ()</td></tr>
 <tr class="memdesc:a7ddaf94f71dcf269535019db5a2b351a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the bridges which don't care any bulb. <br/></td></tr>
 <tr class="separator:a7ddaf94f71dcf269535019db5a2b351a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60f3af0d5d538a27d85063311d971181"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60f3af0d5d538a27d85063311d971181"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a60f3af0d5d538a27d85063311d971181">doSetValueCommand</a> (const Command::Ptr cmd)</td></tr>
-<tr class="memdesc:a60f3af0d5d538a27d85063311d971181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the set value command. <br/></td></tr>
-<tr class="separator:a60f3af0d5d538a27d85063311d971181"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00620c9bc86452f6ea7c3e9aaca90046"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a00620c9bc86452f6ea7c3e9aaca90046">modifyValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value)</td></tr>
-<tr class="memdesc:a00620c9bc86452f6ea7c3e9aaca90046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the proper device's module to given value.  <a href="#a00620c9bc86452f6ea7c3e9aaca90046">More...</a><br/></td></tr>
-<tr class="separator:a00620c9bc86452f6ea7c3e9aaca90046"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a874d0d9b54654b6f3b64d2e9301d987c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a874d0d9b54654b6f3b64d2e9301d987c"></a>
 std::vector&lt; PhilipsHueBulb::Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>seekBulbs</b> (const <a class="el" href="classBeeeOn_1_1StopControl.html">StopControl</a> &amp;<a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">stop</a>)</td></tr>
 <tr class="separator:a874d0d9b54654b6f3b64d2e9301d987c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,6 +195,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>fireBulbStatistics</b
 <tr class="memitem:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd40493771aabb83d6ee3d85bf5dc542">waitRemoteStatus</a> (const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="memdesc:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method deviceList().  <a href="#abd40493771aabb83d6ee3d85bf5dc542">More...</a><br/></td></tr>
 <tr class="separator:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric</a> (const Command::Ptr cmd, Result::Ptr result)</td></tr>
+<tr class="separator:afd0a5e70736672b26a1669d2b11eaa73 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a0239fe377b5928e3bbf5986f15017916">handleListen</a> (const GatewayListenCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the listen command in a generic way. The method ensures that only 1 thread can execute the discovery process at a time.  <a href="#a0239fe377b5928e3bbf5986f15017916">More...</a><br/></td></tr>
 <tr class="separator:a0239fe377b5928e3bbf5986f15017916 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,9 +216,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd80dc1d719797f57e7c854426855beb">handleUnpair</a> (const DeviceUnpairCommand::Ptr cmd)</td></tr>
 <tr class="memdesc:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements handling of the unpair command in a generic way. The method ensures that only 1 thread can execute the unpair process at a time.  <a href="#abd80dc1d719797f57e7c854426855beb">More...</a><br/></td></tr>
 <tr class="separator:abd80dc1d719797f57e7c854426855beb inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a460e34e2891288c80c2a18adb4aa7d inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d">startSetValue</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const Poco::Timespan &amp;timeout)</td></tr>
-<tr class="memdesc:a2a460e34e2891288c80c2a18adb4aa7d inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself).  <a href="#a2a460e34e2891288c80c2a18adb4aa7d">More...</a><br/></td></tr>
-<tr class="separator:a2a460e34e2891288c80c2a18adb4aa7d inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af614a226d72c864ed7aafe9007ed3431 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af614a226d72c864ed7aafe9007ed3431"></a>
 <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#af614a226d72c864ed7aafe9007ed3431">startSetValueByMode</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;module, const double value, const <a class="el" href="classBeeeOn_1_1Enum.html">OpMode</a> &amp;mode, const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="memdesc:af614a226d72c864ed7aafe9007ed3431 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call an implementation of <a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d" title="Starts set-value operation in a technology specific way. The method is always called inside a critica...">startSetValue()</a> based on the given operation mode. <br/></td></tr>
@@ -318,86 +311,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class implements the work with Philips Hue bulbs. Allows us to process and execute the commands from server. It means modify state of proper bulb. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a19641de3e889b059f04f649c99c7ccaa"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PhilipsHueDeviceManager::handleGeneric </td>
-          <td>(</td>
-          <td class="paramtype">const Command::Ptr&#160;</td>
-          <td class="paramname"><em>cmd</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Result::Ptr&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Generic implementation of the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a>. If any device manager needs to override the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a> method, it is more desirable to override <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">handleGeneric()</a>. </p>
-
-<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">BeeeOn::DeviceManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a00620c9bc86452f6ea7c3e9aaca90046"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PhilipsHueDeviceManager::modifyValue </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
-          <td class="paramname"><em>deviceID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
-          <td class="paramname"><em>moduleID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets the proper device's module to given value. </p>
-<dl class="section return"><dt>Returns</dt><dd>If the setting was successfull or not. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a3069546597cdb7b1b3746017209590b2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -424,6 +337,57 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>The purpose of this call is to initialize and start the discovery process which might be a non-blocking operation. The caller uses the provided <a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;</a> instance to wait until it finishes or to cancel it earlier if needed. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">BeeeOn::DeviceManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a952f313b44310ce64564e68e88d0ea1d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBeeeOn_1_1AsyncWork.html">AsyncWork</a>&lt; double &gt;::Ptr PhilipsHueDeviceManager::startSetValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Poco::Timespan &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself). </p>
+<p>The set-value process might a be a non-blocking operation. The value set by the set-value is expected as a result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d">BeeeOn::DeviceManager</a>.</p>
 
 </div>
 </div>

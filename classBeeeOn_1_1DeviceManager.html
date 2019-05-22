@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-18-g121ee07</span>
+   &#160;<span id="projectnumber">v2019.1.1-22-ged5e13d</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -453,7 +453,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 </div><div class="memdoc">
 <p>Generic implementation of the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a>. If any device manager needs to override the <a class="el" href="classBeeeOn_1_1DeviceManager.html#af37056670e4209fa7d272d26943203aa">handle()</a> method, it is more desirable to override <a class="el" href="classBeeeOn_1_1DeviceManager.html#afd0a5e70736672b26a1669d2b11eaa73">handleGeneric()</a>. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a7c08d69eb9748fa9be0ade5adcf0ce2d">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">BeeeOn::VirtualDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a40f7e75703a0e72df31bf6600dc595c3">BeeeOn::VPTDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a19641de3e889b059f04f649c99c7ccaa">BeeeOn::PhilipsHueDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a87c359cfbc177a35ab43cb2b10779f2e">BeeeOn::BelkinWemoDeviceManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a7c08d69eb9748fa9be0ade5adcf0ce2d">BeeeOn::FitpDeviceManager</a>, <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#a8d1fd225729c980b0e465458795485a0">BeeeOn::VirtualDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a40f7e75703a0e72df31bf6600dc595c3">BeeeOn::VPTDeviceManager</a>.</p>
 
 </div>
 </div>
@@ -821,7 +821,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>logException</
 <p>Starts set-value operation in a technology specific way. The method is always called inside a critical section and so its implementation does not have to be thread-save nor reentrant (unless it cooperates with other threads itself). </p>
 <p>The set-value process might a be a non-blocking operation. The value set by the set-value is expected as a result of the returned <a class="el" href="classBeeeOn_1_1AsyncWork.html" title="AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). ">AsyncWork</a> instance. </p>
 
-<p>Reimplemented in <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a06a5aa5675e6d3082c05111e584e6935">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">BeeeOn::ZWaveDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a557bcc34684e09588c0d0b3711092cd8">BeeeOn::BLESmartDeviceManager</a>.</p>
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a06a5aa5675e6d3082c05111e584e6935">BeeeOn::JablotronDeviceManager</a>, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">BeeeOn::ZWaveDeviceManager</a>, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a557bcc34684e09588c0d0b3711092cd8">BeeeOn::BLESmartDeviceManager</a>, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a952f313b44310ce64564e68e88d0ea1d">BeeeOn::PhilipsHueDeviceManager</a>, and <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a5a9ff190644265a5149183e5b55710e5">BeeeOn::BelkinWemoDeviceManager</a>.</p>
 
 </div>
 </div>
