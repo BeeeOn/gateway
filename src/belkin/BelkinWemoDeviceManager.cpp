@@ -160,16 +160,6 @@ void BelkinWemoDeviceManager::eraseUnusedLinks()
 	}
 }
 
-void BelkinWemoDeviceManager::handleGeneric(const Command::Ptr cmd, Result::Ptr result)
-{
-	if (cmd->is<DeviceSetValueCommand>()) {
-		doSetValueCommand(cmd);
-	}
-	else {
-		DeviceManager::handleGeneric(cmd, result);
-	}
-}
-
 AsyncWork<>::Ptr BelkinWemoDeviceManager::startDiscovery(const Timespan &timeout)
 {
 	BelkinWemoSeeker::Ptr seeker = new BelkinWemoSeeker(*this, timeout);
@@ -215,53 +205,32 @@ void BelkinWemoDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 	m_pollingKeeper.schedule(it->second);
 }
 
-void BelkinWemoDeviceManager::doSetValueCommand(const Command::Ptr cmd)
+AsyncWork<double>::Ptr BelkinWemoDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Timespan &timeout)
 {
-	DeviceSetValueCommand::Ptr cmdSet = cmd.cast<DeviceSetValueCommand>();
+	ScopedLock<FastMutex> lock(m_pairedMutex, timeout.totalMilliseconds());
 
-	if (!modifyValue(cmdSet->deviceID(), cmdSet->moduleID(), cmdSet->value())) {
+	auto it = m_devices.find(id);
+	if (it == m_devices.end())
+		throw NotFoundException("set-value: " + id.toString());
+
+	ScopedLock<FastMutex> guard(it->second->lock());
+	if (!it->second->requestModifyState(module, value)) {
 		throw IllegalStateException(
-				"set-value: " + cmdSet->deviceID().toString());
+				"set-value: " + id.toString());
 	}
 
-	logger().debug("success to change state of device " + cmdSet->deviceID().toString(),
-		__FILE__, __LINE__);
-
-	try {
-		SensorData data;
-		data.setDeviceID(cmdSet->deviceID());
-		data.insertValue({cmdSet->moduleID(), cmdSet->value()});
-		ship(data);
-	}
-	BEEEON_CATCH_CHAIN(logger());
-}
-
-bool BelkinWemoDeviceManager::modifyValue(const DeviceID& deviceID,
-	const ModuleID& moduleID, const double value)
-{
-	FastMutex::ScopedLock lock(m_pairedMutex);
-
-	try {
-		auto it = m_devices.find(deviceID);
-		if (it == m_devices.end()) {
-			logger().warning("no such device: " + deviceID.toString(), __FILE__, __LINE__);
-			return false;
-		}
-		else {
-			ScopedLock<FastMutex> guard(it->second->lock());
-			return it->second->requestModifyState(moduleID, value);
-		}
-	}
-	catch (const Exception& e) {
-		logger().log(e, __FILE__, __LINE__);
-		logger().warning("failed to change state of device " + deviceID.toString(),
+	if (logger().debug()) {
+		logger().debug("success to change state of device " + id.toString(),
 			__FILE__, __LINE__);
 	}
-	catch (...) {
-		logger().critical("unexpected exception", __FILE__, __LINE__);
-	}
 
-	return false;
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(value);
+	return work;
 }
 
 vector<BelkinWemoSwitch::Ptr> BelkinWemoDeviceManager::seekSwitches(const StopControl& stop)

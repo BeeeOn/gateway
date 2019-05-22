@@ -53,11 +53,15 @@ public:
 	void setRefresh(const Poco::Timespan &refresh);
 
 protected:
-	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
 		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
+	AsyncWork<double>::Ptr startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
 		const Poco::Timespan &timeout) override;
 
 	void searchPairedDevices();
@@ -66,16 +70,6 @@ protected:
 	 * @brief Erases the links which don't care any bulb.
 	 */
 	void eraseUnusedLinks();
-
-	/**
-	 * @brief Processes the device set value command.
-	 */
-	void doSetValueCommand(const Command::Ptr cmd);
-	/**
-	 * @brief Sets the proper device's module to given value.
-	 * @return If the setting was successfull or not.
-	 */
-	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
 	std::vector<BelkinWemoSwitch::Ptr> seekSwitches(const StopControl& stop);
 	std::vector<BelkinWemoBulb::Ptr> seekBulbs(const StopControl& stop);
