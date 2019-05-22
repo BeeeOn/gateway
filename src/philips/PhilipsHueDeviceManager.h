@@ -64,11 +64,15 @@ public:
 	void registerListener(PhilipsHueListener::Ptr listener);
 
 protected:
-	void handleGeneric(const Command::Ptr cmd, Result::Ptr result) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
 		const DeviceID &id,
+		const Poco::Timespan &timeout) override;
+	AsyncWork<double>::Ptr startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
 		const Poco::Timespan &timeout) override;
 
 	void searchPairedDevices();
@@ -77,17 +81,6 @@ protected:
 	 * @brief Erases the bridges which don't care any bulb.
 	 */
 	void eraseUnusedBridges();
-
-	/**
-	 * @brief Processes the set value command.
-	 */
-	void doSetValueCommand(const Command::Ptr cmd);
-
-	/**
-	 * @brief Sets the proper device's module to given value.
-	 * @return If the setting was successfull or not.
-	 */
-	bool modifyValue(const DeviceID& deviceID, const ModuleID& moduleID, const double value);
 
 	std::vector<PhilipsHueBulb::Ptr> seekBulbs(const StopControl& stop);
 
