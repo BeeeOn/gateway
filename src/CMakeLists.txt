@@ -203,6 +203,18 @@ else()
 	message(STATUS "Belkin Wemo support is disabled")
 endif()
 
+if(ENABLE_VEKTIVA)
+    file(GLOB VEKTIVA_SOURCES
+		${PROJECT_SOURCE_DIR}/vektiva/VektivaDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/vektiva/VektivaSmarwi.cpp
+		${PROJECT_SOURCE_DIR}/vektiva/VektivaSmarwiStatus.cpp
+	)
+    add_library(BeeeOnVektiva ${VEKTIVA_SOURCES})
+    list(APPEND MODULE_LIBS BeeeOnVektiva)
+else()
+    message(STATUS "Vektiva support is disabled")
+endif()
+
 if(BLUETOOTH AND WANTS_BLUETOOTH)
 	file(GLOB BLUETOOTH_SOURCES
 		${PROJECT_SOURCE_DIR}/bluetooth/BluezHciInterface.cpp

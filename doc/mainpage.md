@@ -292,6 +292,32 @@ is available or unavailable, such event is distributed.
 
 * bluetooth.le.scanTime - time for a single LE scan when testing device availability
 
+##### Vektiva Smarwi
+
+Smarwi's initial set up by the BeeeOn Gateway application is not supported in
+the current version of the application. Configuration must be made by connecting
+to the access point created by Smarwi and fill in the correct credentials
+to the Wi-Fi network and specify the MQTT broker that Smarwi should connect to.
+Once Smarwi is on the same network as the BeeeOn Gateway application and
+is connected to the same broker as BeeeOn Gateway is connected to,
+the device can be controlled.
+
+* vektiva.enable - enable the Vektiva support
+
+* vektiva.subscribeTopics - topics that Vektiva's MQTT client is subscribed to
+
+* vektiva.receiveTimeout - timeout of receiving an MQTT message
+
+* vektiva.mqtt.host - the address of the MQTT broker
+
+* vektiva.mqtt.port - port of the MQTT broker
+
+* vektiva.mqtt.qos - MQTT QoS specification
+
+* vektiva.mqtt.clientID - ID of the first MQTT client
+
+* vektiva.mqtt.statusClientID - ID of the second MQTT client
+
 ##### Jablotron
 
 * jablotron.enable - enable the Jablotron support

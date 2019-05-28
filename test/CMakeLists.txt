@@ -151,6 +151,14 @@ if(BLUETOOTH AND ENABLE_BLE_SMART)
 	list(APPEND TEST_MODULE_LIBS BeeeOnBLE BeeeOnBLETest)
 endif()
 
+if (ENABLE_VEKTIVA)
+	file(GLOB VEKTIVA_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/vektiva/VektivaSmarwiTest.cpp
+	)
+	add_library(BeeeOnVektivaTest ${VEKTIVA_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnVektiva BeeeOnVektivaTest)
+endif()
+
 if (ENABLE_IQRF AND MOSQUITTO_CPP)
 	file(GLOB IQRF_TEST_SOURCES
 		${PROJECT_SOURCE_DIR}/iqrf/DPAIQHomeProtocolTest.cpp
