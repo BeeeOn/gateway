@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-22-ged5e13d</span>
+   &#160;<span id="projectnumber">v2019.1.1-30-gfd32471</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -198,6 +198,18 @@
 <li>bluetooth.availability.modes - list of bluetooth modes to enable (available: classic, le)</li>
 <li>bluetooth.availability.refresh - interval of scanning the network and reporting results</li>
 <li>bluetooth.le.scanTime - time for a single LE scan when testing device availability</li>
+</ul>
+<h5>Vektiva Smarwi</h5>
+<p>Smarwi's initial set up by the BeeeOn Gateway application is not supported in the current version of the application. Configuration must be made by connecting to the access point created by Smarwi and fill in the correct credentials to the Wi-Fi network and specify the MQTT broker that Smarwi should connect to. Once Smarwi is on the same network as the BeeeOn Gateway application and is connected to the same broker as BeeeOn Gateway is connected to, the device can be controlled.</p>
+<ul>
+<li>vektiva.enable - enable the Vektiva support</li>
+<li>vektiva.subscribeTopics - topics that Vektiva's MQTT client is subscribed to</li>
+<li>vektiva.receiveTimeout - timeout of receiving an MQTT message</li>
+<li>vektiva.mqtt.host - the address of the MQTT broker</li>
+<li>vektiva.mqtt.port - port of the MQTT broker</li>
+<li>vektiva.mqtt.qos - MQTT QoS specification</li>
+<li>vektiva.mqtt.clientID - ID of the first MQTT client</li>
+<li>vektiva.mqtt.statusClientID - ID of the second MQTT client</li>
 </ul>
 <h5>Jablotron</h5>
 <ul>
