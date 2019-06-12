@@ -19,6 +19,8 @@
 			<add name="runnables" ref="vektivaDeviceManager" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="vektivaMqttClient" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="vektivaStatusMqttClient" if-yes="${vektiva.enable}" />
+			<add name="runnables" ref="sonoffDeviceManager" if-yes="${sonoff.enable}" />
+			<add name="runnables" ref="sonoffMqttClient" if-yes="${sonoff.enable}" />
 		</instance>
 
 		<instance name="pressureSensorManager" class="BeeeOn::PressureSensorManager">
@@ -269,6 +271,21 @@
 
 		<instance name="iqHomeDPAProtocol" class="BeeeOn::DPAIQHomeProtocol" >
 			<set name="typesMapping" text="${iqrf.typesMapping.path}" />
+		</instance>
+
+		<instance name="sonoffMqttClient" class="BeeeOn::MosquittoClient">
+			<set name="host" text="${sonoff.mqtt.host}" />
+			<set name="port" number="${sonoff.mqtt.port}" />
+			<set name="clientID" text="${sonoff.mqtt.clientID}" />
+			<set name="subTopics" list="${sonoff.subscribeTopics}" />
+		</instance>
+
+		<instance name="sonoffDeviceManager" class="BeeeOn::SonoffDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="mqttClient" ref="sonoffMqttClient" />
+			<set name="maxLastSeen" time="${sonoff.maxLastSeen}" />
 		</instance>
 	</factory>
 </system>

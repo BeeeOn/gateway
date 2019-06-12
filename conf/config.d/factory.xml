@@ -49,6 +49,7 @@
 			<add name="handlers" ref="bleSmartDeviceManager" if-yes="${blesmart.enable}" />
 			<add name="handlers" ref="jablotronDeviceManager" if-yes="${jablotron.enable}"/>
 			<add name="handlers" ref="philipsHueDeviceManager" if-yes="${philipshue.enable}"/>
+			<add name="handlers" ref="sonoffDeviceManager" if-yes="${sonoff.enable}"/>
 			<add name="handlers" ref="virtualDeviceManager" if-yes="${vdev.enable}"/>
 			<add name="handlers" ref="vektivaDeviceManager" if-yes="${vektiva.enable}"/>
 			<add name="handlers" ref="vptDeviceManager" if-yes="${vpt.enable}"/>
