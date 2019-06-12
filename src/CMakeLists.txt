@@ -465,6 +465,16 @@ else()
 	message(STATUS "IQRF support is disabled")
 endif()
 
+if(ENABLE_SONOFF)
+	file(GLOB SONOFF_SOURCES
+		${PROJECT_SOURCE_DIR}/sonoff/SonoffDevice.cpp
+	)
+	add_library(BeeeOnSonoff ${SONOFF_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnSonoff)
+else()
+	message(STATUS "Sonoff support is disabled")
+endif()
+
 if(LIBTRAP AND UNIREC AND PCAP AND ENABLE_NEMEA)
 	file(GLOB NEMEA_SOURCES
 		${PROJECT_SOURCE_DIR}/nemea/fields.cpp
