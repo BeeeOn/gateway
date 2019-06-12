@@ -468,6 +468,7 @@ endif()
 if(ENABLE_SONOFF)
 	file(GLOB SONOFF_SOURCES
 		${PROJECT_SOURCE_DIR}/sonoff/SonoffDevice.cpp
+		${PROJECT_SOURCE_DIR}/sonoff/SonoffDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/sonoff/SonoffSC.cpp
 	)
 	add_library(BeeeOnSonoff ${SONOFF_SOURCES})
