@@ -40,14 +40,17 @@ void IQRFJsonMessageTest::testCreateRequest()
 	msg->setTimeout(10 * Timespan::SECONDS);
 
 	CPPUNIT_ASSERT_EQUAL(
-		jsonReformat(R"({
-			"ctype": "dpa",
-			"msgid": "111",
-			"type": "raw",
-			"request": "00.11.12.13.14",
-			"response": "",
-			"timeout": 10000
-		})"),
+  R"({
+  "mType" : "iqrfRaw",
+  "data" : {
+    "msgId" : "111",
+    "timeout" : 10000,
+    "req" : {
+      "rData" : "00.11.12.13.14"
+    },
+    "returnVerbose" : true
+  }
+})",
 		msg->toString()
 	);
 }
@@ -56,14 +59,26 @@ void IQRFJsonMessageTest::testParseResponse()
 {
 	IQRFJsonMessage::Ptr msg = IQRFJsonMessage::parse(
 		R"({
-			"ctype": "dpa",
-			"msgid": "111",
-			"type": "raw",
-			"request": "00.11.12.13.14",
-			"response": "00.11.12.13.14.15",
-			"timeout": 10000,
-			"status": "ERROR_TIMEOUT"
-	})");
+			"mType": "iqrfRaw",
+			"data": {
+				"msgId": "111",
+				"timeout": 10000,
+				"rsp": {
+					"rData": "00.11.12.13.14.15"
+				},
+				"raw": [{
+					"request": "00.11.12.13.14",
+					"requestTs": "",
+					"confirmation": "",
+					"confirmationTs": "",
+					"response": "00.11.12.13.14.15",
+					"responseTs": ""
+				}],
+				"insId": "iqrfgd2-1",
+				"statusStr": "ERROR_TIMEOUT",
+				"status": 11
+			}
+		})");
 
 	auto request = msg.cast<IQRFJsonResponse>();
 
