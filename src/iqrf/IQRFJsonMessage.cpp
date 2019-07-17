@@ -20,53 +20,66 @@ IQRFJsonMessage::~IQRFJsonMessage()
 {
 }
 
-IQRFJsonMessage::Ptr IQRFJsonMessage::parse(const string &data)
+IQRFJsonMessage::Ptr IQRFJsonMessage::parse(const string &message)
 {
-	JSON::Object::Ptr json = JsonUtil::parse(data);
+	JSON::Object::Ptr json = JsonUtil::parse(message);
 
 	string id;
-	string request;
 	Timespan timeout;
+	JSON::Object::Ptr data;
 
-	if (!json->has("msgid"))
-		InvalidArgumentException("missing msgid attribute");
+	if (json->has("data"))
+		data = json->getObject("data");
+	else
+		InvalidArgumentException("missing data object");
 
-	if (!json->has("timeout"))
+	if (!data->has("msgId"))
+		InvalidArgumentException("missing msgId attribute");
+
+	if (!data->has("timeout"))
 		InvalidArgumentException("missing timeout attribute");
 
-	if (!json->has("request"))
-		InvalidArgumentException("missing request attribute");
+	id = data->getValue<string>("msgId");
 
-	id = json->getValue<string>("msgid");
 	timeout = NumberParser::parseUnsigned(
-		json->getValue<string>("timeout")) * Timespan::MILLISECONDS;
-	request = json->getValue<string>("request");
+		data->getValue<string>("timeout")) * Timespan::MILLISECONDS;
 
-	if (json->has("response")) {
+	if (data->has("rsp")) {
 		IQRFJsonResponse::Ptr jsonResponse = new IQRFJsonResponse;
 
 		jsonResponse->setMessageID(id);
 		jsonResponse->setTimeout(timeout);
-		jsonResponse->setRequest(request);
-		jsonResponse->setResponse(json->getValue<string>("response"));
-		if (json->has("status")) {
-			jsonResponse->setErrorCode(
-				IQRFJsonResponse::DpaError::parse(
-					json->getValue<string>("status")
-				)
-			);
-		}
+
+		JSON::Object::Ptr raw_array = data->getArray("raw")->getObject(0);
+
+		IQRFJsonResponse::RawData raw = IQRFJsonResponse::RawData();
+		raw.request = raw_array->getValue<string>("request");
+		raw.requestTs = raw_array->getValue<string>("requestTs");
+		raw.confirmation = raw_array->getValue<string>("confirmation");
+		raw.confirmationTs = raw_array->getValue<string>("confirmationTs");
+		raw.response = raw_array->getValue<string>("response");
+		raw.responseTs = raw_array->getValue<string>("responseTs");
+
+		jsonResponse->setRawData(raw);
+
+		jsonResponse->setStatus(
+			data->getValue<string>("statusStr"),
+			data->getValue<int>("status"));
+		jsonResponse->setGWIdentification(data->getValue<string>("insId"));
 
 		return jsonResponse;
 	}
+	else if (data->has("req")) {
+		IQRFJsonRequest::Ptr jsonRequest = new IQRFJsonRequest;
 
-	IQRFJsonRequest::Ptr jsonRequest = new IQRFJsonRequest;
+		jsonRequest->setMessageID(id);
+		jsonRequest->setTimeout(timeout);
+		jsonRequest->setRequest(data->getObject("req")->getValue<string>("rData"));
 
-	jsonRequest->setMessageID(id);
-	jsonRequest->setTimeout(timeout);
-	jsonRequest->setRequest(request);
+		return jsonRequest;
+	}
 
-	return jsonRequest;
+	throw InvalidArgumentException("invalid message type");
 }
 
 void IQRFJsonMessage::setTimeout(const Timespan &timeout)
