@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-30-gfd32471</span>
+   &#160;<span id="projectnumber">v2019.1.1-34-g7328b43</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -62,13 +62,22 @@
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:abcd9051c758ccde70fa33fec0714972d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Raw</b> { <br/>
-&#160;&#160;<b>ERROR_FAIL</b>, 
-<b>ERROR_IFACE</b>, 
-<b>ERROR_NADR</b>, 
+&#160;&#160;<b>STATUS_NO_ERROR</b>, 
+<b>ERROR_FAIL</b>, 
+<b>ERROR_PCMD</b>, 
 <b>ERROR_PNUM</b>, 
 <br/>
-&#160;&#160;<b>ERROR_TIMEOUT</b>, 
-<b>STATUS_NO_ERROR</b>
+&#160;&#160;<b>ERROR_ADDR</b>, 
+<b>ERROR_DATA_LEN</b>, 
+<b>ERROR_DATA</b>, 
+<b>ERROR_HWPID</b>, 
+<br/>
+&#160;&#160;<b>ERROR_NADR</b>, 
+<b>ERROR_IFACE_CUSTOM_HANDLER</b>, 
+<b>ERROR_MISSING_CUSTOM_DPA_HANDLER</b>, 
+<b>ERROR_TIMEOUT</b>, 
+<br/>
+&#160;&#160;<b>STATUS_CONFIRMATION</b> = 0xFF
 <br/>
  }</td></tr>
 <tr class="separator:abcd9051c758ccde70fa33fec0714972d"><td class="memSeparator" colspan="2">&#160;</td></tr>

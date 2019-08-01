@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-30-gfd32471</span>
+   &#160;<span id="projectnumber">v2019.1.1-34-g7328b43</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -74,6 +74,9 @@ Inheritance diagram for BeeeOn::IQRFJsonResponse:</div>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBeeeOn_1_1IQRFJsonResponse_1_1DpaErrorEnum.html">DpaErrorEnum</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBeeeOn_1_1IQRFJsonResponse_1_1RawData.html">RawData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure corresponds to the composition of the field contained within the message data-&gt;raw <a href="https://apidocs.iqrf.org/iqrf-gateway-daemon/json/#iqrf/iqrfRaw-response-1-0-0.json">https://apidocs.iqrf.org/iqrf-gateway-daemon/json/#iqrf/iqrfRaw-response-1-0-0.json</a>.  <a href="structBeeeOn_1_1IQRFJsonResponse_1_1RawData.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -102,6 +105,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8b2e6616f24fbfd30839208968878e33"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b2e6616f24fbfd30839208968878e33"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>response</b> () const </td></tr>
 <tr class="separator:a8b2e6616f24fbfd30839208968878e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b5c8475a321bed16808aadc185e9de7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a3b5c8475a321bed16808aadc185e9de7">setRawData</a> (const <a class="el" href="structBeeeOn_1_1IQRFJsonResponse_1_1RawData.html">RawData</a> &amp;raw)</td></tr>
+<tr class="separator:a3b5c8475a321bed16808aadc185e9de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a512eabc6e755551b3534d4af8915e78c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a512eabc6e755551b3534d4af8915e78c">toString</a> () override</td></tr>
 <tr class="separator:a512eabc6e755551b3534d4af8915e78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79f73669e3daabc01793f7b7a6e59091"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1Enum.html">DpaError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a79f73669e3daabc01793f7b7a6e59091">errorCode</a> () const </td></tr>
@@ -109,12 +114,15 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>response</b> (
 <tr class="memitem:a4783c87197d09dbe5b0eae54a743418d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4783c87197d09dbe5b0eae54a743418d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setErrorCode</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DpaError</a> &amp;errCode)</td></tr>
 <tr class="separator:a4783c87197d09dbe5b0eae54a743418d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classBeeeOn_1_1IQRFJsonRequest"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1IQRFJsonRequest')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html">BeeeOn::IQRFJsonRequest</a></td></tr>
-<tr class="memitem:aba52ecc561326cb0fe81e65a9bf59962 inherit pub_methods_classBeeeOn_1_1IQRFJsonRequest"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html#aba52ecc561326cb0fe81e65a9bf59962">setRequest</a> (const std::string &amp;request)</td></tr>
-<tr class="separator:aba52ecc561326cb0fe81e65a9bf59962 inherit pub_methods_classBeeeOn_1_1IQRFJsonRequest"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae12407739242b292a09589ea72e0f4d inherit pub_methods_classBeeeOn_1_1IQRFJsonRequest"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae12407739242b292a09589ea72e0f4d"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>request</b> () const </td></tr>
-<tr class="separator:aae12407739242b292a09589ea72e0f4d inherit pub_methods_classBeeeOn_1_1IQRFJsonRequest"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f83d3ee7c61592b37a0a3ee72e461e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a0f83d3ee7c61592b37a0a3ee72e461e7">setStatus</a> (const std::string &amp;statString, int statNum)</td></tr>
+<tr class="separator:a0f83d3ee7c61592b37a0a3ee72e461e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf7102602fb0ff182f2909a068f75613"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#abf7102602fb0ff182f2909a068f75613">setGWIdentification</a> (const std::string &amp;identification)</td></tr>
+<tr class="separator:abf7102602fb0ff182f2909a068f75613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2071d47dc44d67c0f452e96fa9a713ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a2071d47dc44d67c0f452e96fa9a713ac">setRequest</a> (const std::string &amp;request) override</td></tr>
+<tr class="separator:a2071d47dc44d67c0f452e96fa9a713ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaece354adec4e93bc1cefe9fd737c0de"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaece354adec4e93bc1cefe9fd737c0de"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>request</b> () const override</td></tr>
+<tr class="separator:aaece354adec4e93bc1cefe9fd737c0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1IQRFJsonMessage"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1IQRFJsonMessage')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1IQRFJsonMessage.html">BeeeOn::IQRFJsonMessage</a></td></tr>
 <tr class="memitem:a2136a78474c2b99d9ab0ea3ae0e221b4 inherit pub_methods_classBeeeOn_1_1IQRFJsonMessage"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2136a78474c2b99d9ab0ea3ae0e221b4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setMessageID</b> (const std::string &amp;id)</td></tr>
@@ -152,6 +160,82 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="abf7102602fb0ff182f2909a068f75613"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void IQRFJsonResponse::setGWIdentification </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>identification</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">identification</td><td>IQRF GW daemon instance identification </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a3b5c8475a321bed16808aadc185e9de7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void IQRFJsonResponse::setRawData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structBeeeOn_1_1IQRFJsonResponse_1_1RawData.html">RawData</a> &amp;&#160;</td>
+          <td class="paramname"><em>raw</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raw</td><td>Content of raw data array inside JSON data object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a2071d47dc44d67c0f452e96fa9a713ac"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void IQRFJsonResponse::setRequest </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>request</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>contains hex values separated by dot. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html#aba52ecc561326cb0fe81e65a9bf59962">BeeeOn::IQRFJsonRequest</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a0ca83d15e562fe79b3dc94bc36792edf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -168,6 +252,39 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">response</td><td>contains hex values separated by dot. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a0f83d3ee7c61592b37a0a3ee72e461e7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void IQRFJsonResponse::setStatus </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>statString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>statNum</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stat_string</td><td>GW daemon API status in string form </td></tr>
+    <tr><td class="paramname">stat_num</td><td>GW daemon API status </td></tr>
   </table>
   </dd>
 </dl>

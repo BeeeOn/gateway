@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-30-gfd32471</span>
+   &#160;<span id="projectnumber">v2019.1.1-34-g7328b43</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -83,10 +83,10 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aba52ecc561326cb0fe81e65a9bf59962"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html#aba52ecc561326cb0fe81e65a9bf59962">setRequest</a> (const std::string &amp;request)</td></tr>
+<tr class="memitem:aba52ecc561326cb0fe81e65a9bf59962"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html#aba52ecc561326cb0fe81e65a9bf59962">setRequest</a> (const std::string &amp;request)</td></tr>
 <tr class="separator:aba52ecc561326cb0fe81e65a9bf59962"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae12407739242b292a09589ea72e0f4d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae12407739242b292a09589ea72e0f4d"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>request</b> () const </td></tr>
+virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>request</b> () const </td></tr>
 <tr class="separator:aae12407739242b292a09589ea72e0f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57a0e5ff24df50d8e531fca2ba700477"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFJsonRequest.html#a57a0e5ff24df50d8e531fca2ba700477">toString</a> () override</td></tr>
 <tr class="separator:a57a0e5ff24df50d8e531fca2ba700477"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,6 +114,9 @@ Additional Inherited Members</h2></td></tr>
 <a class="anchor" id="aba52ecc561326cb0fe81e65a9bf59962"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IQRFJsonRequest::setRequest </td>
@@ -123,6 +126,11 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -130,6 +138,8 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1IQRFJsonResponse.html#a2071d47dc44d67c0f452e96fa9a713ac">BeeeOn::IQRFJsonResponse</a>.</p>
 
 </div>
 </div>
@@ -153,7 +163,10 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Converts all data to one JSON string. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Converts all data to one JSON string.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>[OPTIONAL] It is necessary to keep the correct order of elements inside JSON. otherwise, some DPA messages such as bindings do not work </dd>
+<dd>
+Based on documentation of APIv2, <a href="https://apidocs.iqrf.org/iqrf-gateway-daemon/json/#iqrf/iqrfRaw-request-1-0-0.json">https://apidocs.iqrf.org/iqrf-gateway-daemon/json/#iqrf/iqrfRaw-request-1-0-0.json</a> </dd></dl>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1IQRFJsonMessage.html#a374d038534d1aed97f1f5928b358933f">BeeeOn::IQRFJsonMessage</a>.</p>
 
