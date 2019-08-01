@@ -1,5 +1,9 @@
 #include "iqrf/IQRFJsonRequest.h"
 
+#ifndef JSON_PRESERVE_KEY_ORDER
+#define JSON_PRESERVE_KEY_ORDER 1
+#endif
+
 using namespace BeeeOn;
 using namespace Poco;
 using namespace std;
@@ -21,16 +25,22 @@ void IQRFJsonRequest::setRequest(const string &request)
 
 string IQRFJsonRequest::toString()
 {
-	JSON::Object::Ptr json = new JSON::Object;
+	JSON::Object::Ptr root = new JSON::Object(JSON_PRESERVE_KEY_ORDER);
+	JSON::Object::Ptr data = new JSON::Object(JSON_PRESERVE_KEY_ORDER);
+	JSON::Object::Ptr request = new JSON::Object(JSON_PRESERVE_KEY_ORDER);
 
-	json->set("ctype", "dpa");
-	json->set("type", "raw");
+	root->set("mType", "iqrfRaw");
 
-	json->set("msgid", messageID());
-	json->set("timeout", static_cast<int>(timeout().totalMilliseconds()));
-	json->set("request", m_request);
+	data->set("msgId", messageID());
+	data->set("timeout", static_cast<int>(timeout().totalMilliseconds()));
 
-	json->set("response", "");
+	// DPA datagram
+	request->set("rData", m_request);
+	data->set("req",request);
 
-	return Dynamic::Var::toString(json);
+	data->set("returnVerbose", true);
+
+	root->set("data", data);
+
+	return Dynamic::Var::toString(root);
 }
