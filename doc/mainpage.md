@@ -414,3 +414,29 @@ sensor available via sysfs.
 * iqrf.mqtt.qos - MQTT QoS specification
 
 * iqrf.mqtt.clientID - name of the MQTT client
+
+##### Sonoff
+
+Sonoff's initial set up by the BeeeOn Gateway application is not supported in
+the current version of the application. Configuration must be made by connecting
+to the access point created by Sonoff device and fill in the correct credentials
+to the Wi-Fi network and specify the MQTT broker that Sonoff device should connect to.
+Once Sonoff device is on the same network as the BeeeOn Gateway application and
+is connected to the same broker as BeeeOn Gateway is connected to, the device can
+be controlled. In order for the BeeeOn Gateway to be able to retrieve data from Sonoff SC,
+it is necessary to upload the custom firmware available at https://github.com/xbedna62/SonoffSC_firmware.git
+to the Sonoff SC.
+
+* sonoff.enable - enable the Sonoff support
+
+* sonoff.maxLastSeen - the maximal device idle time to report the device to server
+
+* sonoff.subscribeTopics - topics that Sonoff's MQTT client is subscribed to
+
+* sonoff.mqtt.host - the address of the MQTT broker
+
+* sonoff.mqtt.port - port of the MQTT broker
+
+* sonoff.mqtt.qos - MQTT QoS specification
+
+* sonoff.mqtt.clientID - ID of the MQTT client
