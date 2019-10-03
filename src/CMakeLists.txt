@@ -221,6 +221,7 @@ if(ZMQ AND ENABLE_CONRAD)
 		${PROJECT_SOURCE_DIR}/conrad/ConradDevice.cpp
 		${PROJECT_SOURCE_DIR}/conrad/WirelessShutterContact.cpp
 		${PROJECT_SOURCE_DIR}/conrad/PowerMeterSwitch.cpp
+		${PROJECT_SOURCE_DIR}/conrad/RadiatorThermostat.cpp
 	)
     add_library(BeeeOnConrad ${CONRAD_SOURCES})
     list(APPEND MODULE_LIBS BeeeOnConrad)
