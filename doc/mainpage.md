@@ -440,3 +440,16 @@ to the Sonoff SC.
 * sonoff.mqtt.qos - MQTT QoS specification
 
 * sonoff.mqtt.clientID - ID of the MQTT client
+
+##### Conrad
+
+Configuraton of Conrad device support. It requires running conrad-interface application.
+How to get and install the interface is mentioned at https://github.com/pepa-cz/conrad-interface.
+Conrad device manager communicates with the interface using ZeroMQ networking library (https://zeromq.org)
+through tcp sockets available on ports 7778 (commands) an 7779 (events).
+
+* conrad.enable - enable Conrad devices support
+
+* conrad.cmdZmqIface - command ZMQ interface, typically tcp://localhost:7778
+
+* conrad.eventZmqIface - event ZMQ interface, typically tcp://localhost:7779

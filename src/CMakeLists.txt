@@ -41,6 +41,7 @@ find_package(OpenZWave)
 find_library (LIBTRAP trap)
 find_library (UNIREC unirec)
 find_library (PCAP pcap)
+find_library (ZMQ zmq)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND AND GDBUS_CODEGEN AND BLUEZ_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -213,6 +214,21 @@ if(ENABLE_VEKTIVA)
     list(APPEND MODULE_LIBS BeeeOnVektiva)
 else()
     message(STATUS "Vektiva support is disabled")
+endif()
+
+if(ZMQ AND ENABLE_CONRAD)
+    file(GLOB CONRAD_SOURCES
+		${PROJECT_SOURCE_DIR}/conrad/ConradDeviceManager.cpp
+		${PROJECT_SOURCE_DIR}/conrad/ConradDevice.cpp
+		${PROJECT_SOURCE_DIR}/conrad/WirelessShutterContact.cpp
+		${PROJECT_SOURCE_DIR}/conrad/PowerMeterSwitch.cpp
+		${PROJECT_SOURCE_DIR}/conrad/RadiatorThermostat.cpp
+	)
+    add_library(BeeeOnConrad ${CONRAD_SOURCES})
+    list(APPEND MODULE_LIBS BeeeOnConrad)
+    list(APPEND LIBS ${ZMQ})
+else()
+    message(STATUS "Conrad support is disabled")
 endif()
 
 if(BLUETOOTH AND WANTS_BLUETOOTH)

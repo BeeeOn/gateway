@@ -17,6 +17,7 @@
 			<add name="runnables" ref="iqrfDeviceManager" if-yes="${iqrf.enable}" />
 			<add name="runnables" ref="iqrfMqttConnector" if-yes="${iqrf.enable}" />
 			<add name="runnables" ref="vektivaDeviceManager" if-yes="${vektiva.enable}" />
+			<add name="runnables" ref="conradDeviceManager" if-yes="${conrad.enable}" />
 			<add name="runnables" ref="vektivaMqttClient" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="vektivaStatusMqttClient" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="sonoffDeviceManager" if-yes="${sonoff.enable}" />
@@ -262,6 +263,14 @@
 			<set name="mqttClient" ref="vektivaMqttClient" />
 			<set name="mqttStatusClient" ref="vektivaStatusMqttClient" />
 			<set name="receiveTimeout" time="${vektiva.receiveTimeout}" />
+		</instance>
+
+		<instance name="conradDeviceManager" class="BeeeOn::ConradDeviceManager">
+			<set name="deviceCache" ref="deviceCache" />
+			<set name="distributor" ref="distributor" />
+			<set name="commandDispatcher" ref="commandDispatcher" />
+			<set name="cmdZmqIface" text="${conrad.cmdZmqIface}" />
+			<set name="eventZmqIface" text="${conrad.eventZmqIface}" />
 		</instance>
 
 		<instance name="iqrfMqttConnector" class="BeeeOn::IQRFMqttConnector">
