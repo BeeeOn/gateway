@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.1.1-34-g7328b43</span>
+   &#160;<span id="projectnumber">v2019.7.1-14-g859f31f</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -271,7 +271,25 @@
 <li>iqrf.mqtt.host - host where the MQTT broker is running</li>
 <li>iqrf.mqtt.port - port where the MQTT broker is running</li>
 <li>iqrf.mqtt.qos - MQTT QoS specification</li>
-<li>iqrf.mqtt.clientID - name of the MQTT client </li>
+<li>iqrf.mqtt.clientID - name of the MQTT client</li>
+</ul>
+<h5>Sonoff</h5>
+<p>Sonoff's initial set up by the BeeeOn Gateway application is not supported in the current version of the application. Configuration must be made by connecting to the access point created by Sonoff device and fill in the correct credentials to the Wi-Fi network and specify the MQTT broker that Sonoff device should connect to. Once Sonoff device is on the same network as the BeeeOn Gateway application and is connected to the same broker as BeeeOn Gateway is connected to, the device can be controlled. In order for the BeeeOn Gateway to be able to retrieve data from Sonoff SC, it is necessary to upload the custom firmware available at <a href="https://github.com/xbedna62/SonoffSC_firmware.git">https://github.com/xbedna62/SonoffSC_firmware.git</a> to the Sonoff SC.</p>
+<ul>
+<li>sonoff.enable - enable the Sonoff support</li>
+<li>sonoff.maxLastSeen - the maximal device idle time to report the device to server</li>
+<li>sonoff.subscribeTopics - topics that Sonoff's MQTT client is subscribed to</li>
+<li>sonoff.mqtt.host - the address of the MQTT broker</li>
+<li>sonoff.mqtt.port - port of the MQTT broker</li>
+<li>sonoff.mqtt.qos - MQTT QoS specification</li>
+<li>sonoff.mqtt.clientID - ID of the MQTT client</li>
+</ul>
+<h5>Conrad</h5>
+<p>Configuraton of Conrad device support. It requires running conrad-interface application. How to get and install the interface is mentioned at <a href="https://github.com/pepa-cz/conrad-interface">https://github.com/pepa-cz/conrad-interface</a>. Conrad device manager communicates with the interface using ZeroMQ networking library (<a href="https://zeromq.org">https://zeromq.org</a>) through tcp sockets available on ports 7778 (commands) an 7779 (events).</p>
+<ul>
+<li>conrad.enable - enable Conrad devices support</li>
+<li>conrad.cmdZmqIface - command ZMQ interface, typically tcp://localhost:7778</li>
+<li>conrad.eventZmqIface - event ZMQ interface, typically tcp://localhost:7779 </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
