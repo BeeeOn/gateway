@@ -37,88 +37,107 @@
  *
  */
 
-#include <string>
-
+#include "core/AbstractCollector.h"
 #include <libtrap/trap.h>
 #include <unirec/unirec.h>
+#include <string>
 
-#include "core/AbstractCollector.h"
+using namespace std;
 
 namespace BeeeOn {
-/*
-* Subclass for NemeaCollector
-* Handle necessary information of libtrap and unirec for every event
-*/
-class EventMetaData{
-public:
-	// Default constructor
-	EventMetaData();
-	// Defaut destructor
-	~EventMetaData();
+    /*
+    * Subclass for NemeaCollector
+    * Handle necessary information of libtrap and unirec for every event
+    */
+    class EventMetaData{
+    public:
+        // Default constructor
+        EventMetaData();
+        // Defaut destructor
+        ~EventMetaData();
 
-	trap_ctx_t *ctx;         // Trap context
-	ur_template_t *utmpl;    // Unirec template
-	void *udata;             // Unirec data
-	char *uerr;              // Unirec error
-	std::string onEventInterface; // Name of trap output interface
-	std::string ufields;          // Field names in unirec message
-};
+        trap_ctx_t *ctx;         // Trap context
+        ur_template_t *utmpl;    // Unirec template
+        void *udata;             // Unirec data
+        char *uerr;              // Unirec error
+        string onEventInterface; // Name of trap output interface
+        string ufields;          // Field names in unirec message
+    };
 
-/*
-* NemeaCollector class for collecting data for statistics and analysis purposes
-*/
-class NemeaCollector : public AbstractCollector {
-public:
-	// Default constructor
+
+    /*
+    * NemeaCollector class for collecting data for statistics and analysis purposes
+    */
+    class NemeaCollector : public AbstractCollector {
+    public:
+        // Default constructor
 	NemeaCollector();
-	// Default destructor
+        // Default destructor
 	~NemeaCollector();
 
-	/*
-	* Events inherited from AbstractCollector
-	*/
-	/**
-	* Process data values from sensors
-	* \param[in] data BeeeOn class for sensor data
-	*/
-	void onExport (const SensorData &data) override;
-	/**
-	* Process data from Z-Wave interface
-	* \param[in] even BeeeOn class for Z-Wave interface statistics
-	*/
-	void onDriverStats (const ZWaveDriverEvent &event) override;
-	/**
-	* Process data from every Z-Wave node
-	* \param[in] event BeeeOn class for Z-Wave node statistics
-	*/
-	void onNodeStats (const ZWaveNodeEvent &event) override;
-	/**
-	* Process data from BLE interface
-	* \param[in] info BeeeOn class for BLE interface statistics
-	*/
-	void onHciStats (const HciInfo &info) override;
+        /*
+        * Events inherited from AbstractCollector
+        */
+        /**
+        * Process data values from sensors
+        * \param[in] data BeeeOn class for sensor data
+        */
+        void onExport (const SensorData &data) override;
+        /**
+        * Process data from Z-Wave interface
+        * \param[in] even BeeeOn class for Z-Wave interface statistics
+        */
+        void onDriverStats (const ZWaveDriverEvent &event) override;
+        /**
+        * Process data from every Z-Wave node
+        * \param[in] event BeeeOn class for Z-Wave node statistics
+        */
+        void onNodeStats (const ZWaveNodeEvent &event) override;
+        /**
+        * Process data from BLE interface
+        * \param[in] info BeeeOn class for BLE interface statistics
+        */
+        void onHciStats (const HciInfo &info) override;
 
-	/*
-	* Setters for input data specified in the file factory.xml
-	* Each event has its own setter
-	* Each setter receives name of trap output interface as input param
-	*/
-	void setOnExport (const std::string &interface);
-	void setOnHCIStats (const std::string &interface);
-	void setOnNodeStats (const std::string &interface);
-	void setOnDriverStats (const std::string &interface);
+        /**
+        * Process data from OZW notification event
+        * \param[in] info BeeeOn class for OZW notification statistics
+        */
+    	void onNotification(const OZWNotificationEvent &event) override;
 
-	/*
-	* Responsible for output interface initialization
-	* \param[in] interfaceMetaInfo Instace of class EventMetaData which handle meta information for one event
-	*/
-	void initInterface(EventMetaData& interfaceMetaInfo);
+        /**
+        * Process data from BeeeOn control commands
+        * \param[in] info BeeeOn class for control commands
+        */
+        void onDispatch(const Command::Ptr cmd) override;
 
-private:
-	// EventMetaData instance for each event
-	EventMetaData onExportMetaInfo;
-	EventMetaData onHCIStatsMetaInfo;
-	EventMetaData onNodeStatsMetaInfo;
-	EventMetaData onDriverStatsMetaInfo;
-};
+        /*
+        * Setters for input data specified in the file factory.xml
+        * Each event has its own setter
+        * Each setter receives parameter value as input param
+        */
+        void setOnExport (const string &interface);
+        void setOnHCIStats (const string &interface);
+        void setOnNodeStats (const string &interface);
+        void setOnDriverStats (const string &interface);
+        void setOnNotification (const string &interface);
+        void setOnDispatch (const string &interface);
+        void setExportGwID (const string &gwID);
+
+        /*
+        * Responsible for output interface initialization
+        * \param[in] interfaceMetaInfo Instace of class EventMetaData which handle meta information for one event
+        */
+        void initInterface(EventMetaData& interfaceMetaInfo);
+
+    private:
+        // EventMetaData instance for each event
+        EventMetaData onExportMetaInfo;
+        EventMetaData onHCIStatsMetaInfo;
+        EventMetaData onNodeStatsMetaInfo;
+        EventMetaData onDriverStatsMetaInfo;
+        EventMetaData onNotificationMetaInfo;
+        EventMetaData onDispatchMetaInfo;
+        int exportGwID; // ID to identify data from this gateway
+    };
 }
