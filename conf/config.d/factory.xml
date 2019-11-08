@@ -59,6 +59,7 @@
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 			<add name="handlers" ref="fitpDeviceManager" if-yes="${fitp.enable}"/>
 			<add name="handlers" ref="zwaveDeviceManager" if-yes="${zwave.enable}"/>
+			<add name="listeners" ref="nemeaCollector" if-yes="${nemea.collector.enable}" />
 		</instance>
 
 		<instance name="deviceStatusFetcher" class="BeeeOn::DeviceStatusFetcher">
@@ -121,6 +122,9 @@
 			<set name="onHCIStatsInterface" text="u:beeeOnEvent-HCIStats"/>
 			<set name="onNodeStatsInterface" text="u:beeeOnEvent-nodeStats"/>
 			<set name="onDriverStatsInterface" text="u:beeeOnEvent-driverStats"/>
+			<set name="onNotificationInterface" text="u:beeeOnEvent-notification"/>
+			<set name="onDispatchInterface" text="u:beeeOnEvent-dispatch"/>
+			<set name="exportGwID" text="1101"/>
 		</instance>
 
 		<instance name="credentialsTool" class="BeeeOn::CredentialsTool">
