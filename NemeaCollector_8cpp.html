@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.7.1-14-g859f31f</span>
+   &#160;<span id="projectnumber">v2019.7.1-17-gbc1548a</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -57,30 +57,32 @@
 
 <p>Collect BeeeOn events and send them to the NEMEA.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br/>
-<code>#include &lt;string&gt;</code><br/>
+<div class="textblock"><code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;iostream&gt;</code><br/>
 <code>#include &lt;Poco/Timestamp.h&gt;</code><br/>
-<code>#include &quot;bluetooth/HciInfo.h&quot;</code><br/>
+<code>#include &quot;<a class="el" href="NemeaCollector_8h_source.html">nemea/NemeaCollector.h</a>&quot;</code><br/>
 <code>#include &quot;di/Injectable.h&quot;</code><br/>
 <code>#include &quot;model/DeviceID.h&quot;</code><br/>
 <code>#include &quot;model/SensorData.h&quot;</code><br/>
-<code>#include &quot;nemea/fields.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="NemeaCollector_8h_source.html">nemea/NemeaCollector.h</a>&quot;</code><br/>
-<code>#include &quot;zwave/ZWaveDriverEvent.h&quot;</code><br/>
-<code>#include &quot;zwave/ZWaveNodeEvent.h&quot;</code><br/>
+<code>#include &quot;bluetooth/HciInfo.h&quot;</code><br/>
+<code>#include &quot;util/Occasionally.h&quot;</code><br/>
+<code>#include &lt;Poco/NumberFormatter.h&gt;</code><br/>
+<code>#include &lt;libtrap/trap.h&gt;</code><br/>
+<code>#include &lt;unirec/unirec.h&gt;</code><br/>
+<code>#include &quot;fields.h&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a6d69e13ee1de9440062d3bd22dc5910c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d69e13ee1de9440062d3bd22dc5910c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>BEEEON_OBJECT_CASTABLE</b> (DistributorListener) BEEEON_OBJECT_CASTABLE(ZWaveListener) BEEEON_OBJECT_CASTABLE(HciListener) BEEEON_OBJECT_PROPERTY(&quot;onExportInterface&quot;</td></tr>
 <tr class="separator:a6d69e13ee1de9440062d3bd22dc5910c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc1bd77fb67920ecb72644e908125c4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc1bd77fb67920ecb72644e908125c4a"></a>
-&amp;NemeaCollector::setOnExport&#160;</td><td class="memItemRight" valign="bottom"><b>BEEEON_OBJECT_PROPERTY</b> (&quot;onHCIStatsInterface&quot;,&amp;NemeaCollector::setOnHCIStats) BEEEON_OBJECT_PROPERTY(&quot;onNodeStatsInterface&quot;</td></tr>
-<tr class="separator:acc1bd77fb67920ecb72644e908125c4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac19afc5ed2b4c44a1c4d9e0cdbfb0c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac19afc5ed2b4c44a1c4d9e0cdbfb0c3"></a>
+<tr class="memitem:af60295440b8c6d76bf956e921e999eba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af60295440b8c6d76bf956e921e999eba"></a>
+&amp;NemeaCollector::setOnExport&#160;</td><td class="memItemRight" valign="bottom"><b>BEEEON_OBJECT_PROPERTY</b> (&quot;onHCIStatsInterface&quot;,&amp;NemeaCollector::setOnHCIStats) BEEEON_OBJECT_PROPERTY(&quot;onDispatchInterface&quot;</td></tr>
+<tr class="separator:af60295440b8c6d76bf956e921e999eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a730c90d027ee453190d22fec26d8f259"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a730c90d027ee453190d22fec26d8f259"></a>
 &amp;NemeaCollector::setOnExport <br class="typebreak"/>
-&amp;NemeaCollector::setOnNodeStats&#160;</td><td class="memItemRight" valign="bottom"><b>BEEEON_OBJECT_PROPERTY</b> (&quot;onDriverStatsInterface&quot;,&amp;NemeaCollector::setOnDriverStats) using namespace BeeeOn</td></tr>
-<tr class="separator:aac19afc5ed2b4c44a1c4d9e0cdbfb0c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+&amp;NemeaCollector::setOnDispatch&#160;</td><td class="memItemRight" valign="bottom"><b>BEEEON_OBJECT_PROPERTY</b> (&quot;exportGwID&quot;,&amp;NemeaCollector::setExportGwID) using namespace BeeeOn</td></tr>
+<tr class="separator:a730c90d027ee453190d22fec26d8f259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Collect BeeeOn events and send them to the NEMEA. </p>
