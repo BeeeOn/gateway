@@ -132,13 +132,15 @@
 #define F_txScos_T   double
 #define F_writeCount   63
 #define F_writeCount_T   double
-#define F_alert_desc   64
+#define F_EVENT_TYPE   64
+#define F_EVENT_TYPE_T   double
+#define F_alert_desc   65
 #define F_alert_desc_T   char
-#define F_cmd   65
+#define F_cmd   66
 #define F_cmd_T   char
-#define F_profile_key   66
+#define F_profile_key   67
 #define F_profile_key_T   char
-#define F_ur_key   67
+#define F_ur_key   68
 #define F_ur_key_T   char
 
 extern uint16_t ur_last_id;

@@ -270,6 +270,7 @@ void NemeaCollector::onNotification(const OZWNotificationEvent &event){
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_INDEX, event.valueID().GetIndex());
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_TYPE, event.valueID().GetType());
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_BYTE, event.byte());
+    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_EVENT_TYPE, event.type());
 
     // Send out recived data
     trap_ctx_send(onNotificationMetaInfo.ctx, 0, onNotificationMetaInfo.udata, ur_rec_size(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata));
@@ -329,7 +330,7 @@ void NemeaCollector::setOnDriverStats(const string& interface) {}
 #ifdef HAVE_OPENZWAVE
 void NemeaCollector::setOnNotification(const string& interface) {
     onNotificationMetaInfo.onEventInterface = interface;
-    onNotificationMetaInfo.ufields = "TIME,DEV_ADDR,homeID,nodeID,GENRE,CMDCLASS,INSTANCE,INDEX,TYPE,BYTE";
+    onNotificationMetaInfo.ufields = "TIME,DEV_ADDR,homeID,nodeID,GENRE,CMDCLASS,INSTANCE,INDEX,TYPE,BYTE,EVENT_TYPE";
     initInterface(onNotificationMetaInfo);
 }
 #else
