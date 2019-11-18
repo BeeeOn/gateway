@@ -67,6 +67,7 @@ char *ur_field_names_static[] = {
 (char *)   "txErrors",
 (char *)   "txScos",
 (char *)   "writeCount",
+(char *)   "EVENT_TYPE",
 (char *)   "alert_desc",
 (char *)   "cmd",
 (char *)   "profile_key",
@@ -137,6 +138,7 @@ short ur_field_sizes_static[] = {
    8, /* txErrors */
    8, /* txScos */
    8, /* writeCount */
+   8, /* EVENT_TYPE */
    -1, /* alert_desc */
    -1, /* cmd */
    -1, /* profile_key */
@@ -207,10 +209,11 @@ ur_field_type_t ur_field_types_static[] = {
    UR_TYPE_DOUBLE, /* txErrors */
    UR_TYPE_DOUBLE, /* txScos */
    UR_TYPE_DOUBLE, /* writeCount */
+   UR_TYPE_DOUBLE, /* EVENT_TYPE */
    UR_TYPE_STRING, /* alert_desc */
    UR_TYPE_STRING, /* cmd */
    UR_TYPE_STRING, /* profile_key */
    UR_TYPE_STRING, /* ur_key */
 };
-ur_static_field_specs_t UR_FIELD_SPECS_STATIC = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 68};
-ur_field_specs_t ur_field_specs = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 68, 68, 68, NULL, UR_UNINITIALIZED};
+ur_static_field_specs_t UR_FIELD_SPECS_STATIC = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 69};
+ur_field_specs_t ur_field_specs = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 69, 69, 69, NULL, UR_UNINITIALIZED};
