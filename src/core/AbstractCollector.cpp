@@ -37,3 +37,7 @@ void AbstractCollector::onBridgeStats(const PhilipsHueBridgeInfo &)
 void AbstractCollector::onDispatch(const Command::Ptr)
 {
 }
+
+void AbstractCollector::onReceiveDPA(const IQRFEvent &)
+{
+}
