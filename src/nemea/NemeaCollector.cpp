@@ -57,6 +57,10 @@
 #include "zwave/OZWNotificationEvent.h"
 #endif
 
+#ifdef HAVE_IQRF
+#include "iqrf/IQRFEvent.h"
+#endif
+
 #include <libtrap/trap.h>
 #include <unirec/unirec.h>
 #include "fields.h"
@@ -66,6 +70,7 @@ BEEEON_OBJECT_BEGIN(BeeeOn, NemeaCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)       // Interface name for DependencyInjector
 BEEEON_OBJECT_CASTABLE(ZWaveListener)             // Interface name for DependencyInjector
 BEEEON_OBJECT_CASTABLE(HciListener) 	          // Interface name for DependencyInjector
+BEEEON_OBJECT_CASTABLE(IQRFListener)              // Interface name for DependencyInjector
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
 BEEEON_OBJECT_PROPERTY("onExportInterface", &NemeaCollector::setOnExport)  // Member function for input param defined in the file factory.xml
 BEEEON_OBJECT_PROPERTY("onHCIStatsInterface", &NemeaCollector::setOnHCIStats) // Member function for input param defined in the file factory.xml
@@ -75,6 +80,9 @@ BEEEON_OBJECT_PROPERTY("onDriverStatsInterface", &NemeaCollector::setOnDriverSta
 #endif
 #ifdef HAVE_OPENZWAVE
 BEEEON_OBJECT_PROPERTY("onNotificationInterface", &NemeaCollector::setOnNotification) // Member function for input param defined in the file factory.xml
+#endif
+#ifdef HAVE_IQRF
+BEEEON_OBJECT_PROPERTY("onReceiveDPAInterface", &NemeaCollector::setOnReceiveDPA) // Member function for input param defined in the file factory.xml
 #endif
 BEEEON_OBJECT_PROPERTY("onDispatchInterface", &NemeaCollector::setOnDispatch) // Member function for input param defined in the file factory.xml
 BEEEON_OBJECT_PROPERTY("exportGwID", &NemeaCollector::setExportGwID) // Member function for input param defined in the file factory.xml
@@ -279,6 +287,29 @@ void NemeaCollector::onNotification(const OZWNotificationEvent &event){
 void NemeaCollector::onNotification(const OZWNotificationEvent &event){}
 #endif
 
+#ifdef HAVE_IQRF
+void NemeaCollector::onReceiveDPA(const IQRFEvent &event)
+{
+    // Catch current timestamp
+    Poco::Timestamp now;
+    ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
+
+    // Insert data into the unirec record
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_DEV_ADDR, event.networkAddress());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TYPE, event.direction());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_cmd, event.commandCode());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_INDEX, event.peripheralNumber());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_txBytes, event.size());
+
+    // Send out received data immediately
+    trap_ctx_send(onReceiveDPAMetaInfo.ctx, 0, onReceiveDPAMetaInfo.udata, ur_rec_size(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata));
+    trap_ctx_send_flush(onReceiveDPAMetaInfo.ctx,0);
+}
+#else
+void NemeaCollector::onReceiveDPA(const IQRFEvent &event){}
+#endif
+
 void NemeaCollector::onDispatch(const Command::Ptr cmd){
     // Catch current timestamp
     Poco::Timestamp now;
@@ -335,6 +366,17 @@ void NemeaCollector::setOnNotification(const string& interface) {
 }
 #else
 void NemeaCollector::setOnNotification(const string& interface) {}
+#endif
+
+#ifdef HAVE_IQRF
+void NemeaCollector::setOnReceiveDPA(const string& interface)
+{
+    onReceiveDPAMetaInfo.onEventInterface = interface;
+    onReceiveDPAMetaInfo.ufields = "TIME,DEV_ADDR,TYPE,cmd,INDEX,txBytes";
+    initInterface(onReceiveDPAMetaInfo);
+}
+#else
+void NemeaCollector::setOnReceiveDPA(const string& interface){}
 #endif
 
 void NemeaCollector::setOnDispatch(const string& interface) {

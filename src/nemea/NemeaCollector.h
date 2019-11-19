@@ -106,6 +106,12 @@ namespace BeeeOn {
     	void onNotification(const OZWNotificationEvent &event) override;
 
         /**
+        * Process data from IQRF interface
+        * \param[in] info BeeeOn class for IQRF statistics
+        */
+        void onReceiveDPA(const BeeeOn::IQRFEvent&) override;
+
+        /**
         * Process data from BeeeOn control commands
         * \param[in] info BeeeOn class for control commands
         */
@@ -121,6 +127,7 @@ namespace BeeeOn {
         void setOnNodeStats (const string &interface);
         void setOnDriverStats (const string &interface);
         void setOnNotification (const string &interface);
+        void setOnReceiveDPA(const string &interface);
         void setOnDispatch (const string &interface);
         void setExportGwID (const string &gwID);
 
@@ -137,6 +144,7 @@ namespace BeeeOn {
         EventMetaData onNodeStatsMetaInfo;
         EventMetaData onDriverStatsMetaInfo;
         EventMetaData onNotificationMetaInfo;
+        EventMetaData onReceiveDPAMetaInfo;
         EventMetaData onDispatchMetaInfo;
         int exportGwID; // ID to identify data from this gateway
     };
