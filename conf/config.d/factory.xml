@@ -122,6 +122,7 @@
 			<set name="onHCIStatsInterface" text="u:beeeOnEvent-HCIStats"/>
 			<set name="onNodeStatsInterface" text="u:beeeOnEvent-nodeStats"/>
 			<set name="onDriverStatsInterface" text="u:beeeOnEvent-driverStats"/>
+			<set name="onReceiveDPAInterface" text="u:beeeOnEvent-receiveDPA"/>
 			<set name="onNotificationInterface" text="u:beeeOnEvent-notification"/>
 			<set name="onDispatchInterface" text="u:beeeOnEvent-dispatch"/>
 			<set name="exportGwID" text="1101"/>

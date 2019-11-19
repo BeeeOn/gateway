@@ -254,6 +254,9 @@
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="devicePoller" ref="devicePoller" />
 			<set name="protocols" ref="iqHomeDPAProtocol" />
+			<set name="eventsExecutor" ref="asyncExecutor"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<add name="listeners" ref="nemeaCollector" if-yes="${nemea.collector.enable}" />
 		</instance>
 
 		<instance name="vektivaDeviceManager" class="BeeeOn::VektivaDeviceManager">
