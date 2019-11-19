@@ -306,7 +306,8 @@ IQRFDevice::Ptr IQRFDeviceManager::tryObtainDeviceInfo(
 			node,
 			protocol,
 			m_refreshTime,
-			m_refreshTimePeripheralInfo);
+			m_refreshTimePeripheralInfo,
+			&m_eventFirer);
 	device->probe(methodTimeout);
 
 	return device;

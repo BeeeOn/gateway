@@ -9,6 +9,7 @@
 #include "core/PollableDevice.h"
 #include "iqrf/DPAMessage.h"
 #include "iqrf/DPAProtocol.h"
+#include "iqrf/IQRFEventFirer.h"
 #include "iqrf/IQRFMqttConnector.h"
 #include "model/DeviceID.h"
 #include "model/ModuleType.h"
@@ -37,7 +38,8 @@ public:
 		DPAMessage::NetworkAddress address,
 		DPAProtocol::Ptr protocol,
 		const RefreshTime &refreshTime,
-		const RefreshTime &refreshTimePeripheralInfo);
+		const RefreshTime &refreshTimePeripheralInfo,
+		IQRFEventFirer::Ptr eventFirer);
 
 	/**
 	 * @returns identification of node in the IQRF network.
@@ -99,13 +101,13 @@ public:
 	/**
 	 * @return SensorData from values measured by the sensor.
 	 */
-	SensorData obtainValues() const;
+	SensorData obtainValues();
 
 	/**
 	 * @return SensorData from peripheral info (battery and RSSI)
 	 * of the sensor.
 	 */
-	SensorData obtainPeripheralInfo() const;
+	SensorData obtainPeripheralInfo();
 
 private:
 	/**
@@ -157,6 +159,8 @@ private:
 	uint16_t m_HWPID;
 	std::string m_vendorName;
 	std::string m_productName;
+
+	IQRFEventFirer::Ptr m_eventFirer;
 };
 
 }

@@ -21,7 +21,8 @@ IQRFDevice::IQRFDevice(
 		DPAMessage::NetworkAddress address,
 		DPAProtocol::Ptr protocol,
 		const RefreshTime &refreshTime,
-		const RefreshTime &refreshTimePeripheralInfo):
+		const RefreshTime &refreshTimePeripheralInfo,
+		IQRFEventFirer::Ptr eventFirer):
 	m_connector(connector),
 	m_receiveTimeout(receiveTimeout),
 	m_address(address),
@@ -30,7 +31,8 @@ IQRFDevice::IQRFDevice(
 	m_refreshTimePeripheralInfo(refreshTimePeripheralInfo),
 	m_remainingValueTime(0),
 	m_remainingPeripheralInfoTime(0),
-	m_remaining(1 * Timespan::SECONDS)
+	m_remaining(1 * Timespan::SECONDS),
+	m_eventFirer(eventFirer)
 {
 }
 
@@ -163,12 +165,16 @@ uint16_t IQRFDevice::detectNodeHWPID(
 			"received timeout is less than maximum timeout of method");
 	}
 
+	m_eventFirer->fireDPAStatistics(m_protocol->pingRequest(m_address));
+
 	const IQRFJsonResponse::Ptr response =
 		IQRFUtil::makeRequest(
 			m_connector,
 			m_protocol->pingRequest(m_address),
 			m_receiveTimeout
 		);
+
+	m_eventFirer->fireDPAStatistics(DPAResponse::fromRaw(response->response()));
 
 	return DPAResponse::fromRaw(response->response())->HWPID();
 }
@@ -183,14 +189,20 @@ uint32_t IQRFDevice::detectMID(const Timespan &methodTimeout)
 			"received timeout is less than maximum timeout of method");
 	}
 
+	DPARequest::Ptr dpaPeripheralInfo = new DPAOSPeripheralInfoRequest(m_address);
+	m_eventFirer->fireDPAStatistics(dpaPeripheralInfo);
+
 	const IQRFJsonResponse::Ptr response =
 		IQRFUtil::makeRequest(
 			m_connector,
-			new DPAOSPeripheralInfoRequest(m_address),
+			dpaPeripheralInfo,
 			m_receiveTimeout
 		);
 
 	const DPAResponse::Ptr dpa = DPAResponse::fromRaw(response->response());
+
+	m_eventFirer->fireDPAStatistics(dpa);
+
 	return dpa.cast<DPAOSPeripheralInfoResponse>()->mid();
 }
 
@@ -208,12 +220,16 @@ list<ModuleType> IQRFDevice::detectModules(const Timespan &methodTimeout)
 			"received timeout is less than maximum timeout of method");
 	}
 
+	m_eventFirer->fireDPAStatistics(m_protocol->dpaModulesRequest(m_address));
+
 	const IQRFJsonResponse::Ptr response =
 		IQRFUtil::makeRequest(
 			m_connector,
 			m_protocol->dpaModulesRequest(m_address),
 			m_receiveTimeout
 		);
+
+	m_eventFirer->fireDPAStatistics(DPAResponse::fromRaw(response->response()));
 
 	return m_protocol->extractModules(
 		DPAResponse::fromRaw(response->response())
@@ -236,6 +252,8 @@ DPAProtocol::ProductInfo IQRFDevice::detectProductInfo(
 			"received timeout is less than maximum timeout of method");
 	}
 
+	m_eventFirer->fireDPAStatistics(m_protocol->dpaProductInfoRequest(m_address));
+
 	const IQRFJsonResponse::Ptr response =
 		IQRFUtil::makeRequest(
 			m_connector,
@@ -244,19 +262,28 @@ DPAProtocol::ProductInfo IQRFDevice::detectProductInfo(
 		);
 
 	const DPAResponse::Ptr dpa = DPAResponse::fromRaw(response->response());
+
+	m_eventFirer->fireDPAStatistics(dpa);
+
 	return m_protocol->extractProductInfo(dpa->peripheralData(), m_HWPID);
 }
 
-SensorData IQRFDevice::obtainValues() const
+SensorData IQRFDevice::obtainValues()
 {
+	DPARequest::Ptr dpaValueRequest = m_protocol->dpaValueRequest(m_address, m_modules);
+
+	m_eventFirer->fireDPAStatistics(dpaValueRequest);
+
 	const IQRFJsonResponse::Ptr valueResponse =
 		IQRFUtil::makeRequest(
 			m_connector,
-			m_protocol->dpaValueRequest(m_address, m_modules),
+			dpaValueRequest,
 			m_receiveTimeout
 		);
 	DPAResponse::Ptr dpaValue =
 		DPAResponse::fromRaw(valueResponse->response());
+
+	m_eventFirer->fireDPAStatistics(dpaValue);
 
 	SensorData sensorData =
 		m_protocol->parseValue(
@@ -268,19 +295,24 @@ SensorData IQRFDevice::obtainValues() const
 	return sensorData;
 }
 
-SensorData IQRFDevice::obtainPeripheralInfo() const
+SensorData IQRFDevice::obtainPeripheralInfo()
 {
 	ModuleID batteryID = batteryModuleID();
 	ModuleID rssiID = rssiModuleID();
 
-	const IQRFJsonResponse::Ptr peripheralResponse =
+	DPARequest::Ptr dpaPeripheralInfo = new DPAOSPeripheralInfoRequest(m_address);
+	m_eventFirer->fireDPAStatistics(dpaPeripheralInfo);
+
+	IQRFJsonResponse::Ptr peripheralResponse =
 		IQRFUtil::makeRequest(
 			m_connector,
-			new DPAOSPeripheralInfoRequest(m_address),
+			dpaPeripheralInfo,
 			m_receiveTimeout
 		);
 	DPAOSPeripheralInfoResponse::Ptr dpaPeripheral =
 		DPAResponse::fromRaw(peripheralResponse->response()).cast<DPAOSPeripheralInfoResponse>();
+
+	m_eventFirer->fireDPAStatistics(static_cast<DPAResponse::Ptr>(dpaPeripheral));
 
 	SensorData sensorData;
 	sensorData.setDeviceID(id());
