@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.7.1-19-g275cb51</span>
+   &#160;<span id="projectnumber">v2019.7.1-30-g5552caf</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -63,13 +63,14 @@ Inheritance diagram for BeeeOn::LoggingCollector:</div>
  <div class="center">
   <img src="classBeeeOn_1_1LoggingCollector.png" usemap="#BeeeOn::LoggingCollector_map" alt=""/>
   <map id="BeeeOn::LoggingCollector_map" name="BeeeOn::LoggingCollector_map">
-<area href="classBeeeOn_1_1AbstractCollector.html" title="The class represents a collector of events occuring inside the Gateway. It implements all available l..." alt="BeeeOn::AbstractCollector" shape="rect" coords="470,56,695,80"/>
-<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="705,56,930,80"/>
+<area href="classBeeeOn_1_1AbstractCollector.html" title="The class represents a collector of events occuring inside the Gateway. It implements all available l..." alt="BeeeOn::AbstractCollector" shape="rect" coords="587,56,812,80"/>
+<area href="classBeeeOn_1_1Loggable.html" alt="BeeeOn::Loggable" shape="rect" coords="822,56,1047,80"/>
 <area href="classBeeeOn_1_1HciListener.html" alt="BeeeOn::HciListener" shape="rect" coords="0,0,225,24"/>
 <area href="classBeeeOn_1_1DistributorListener.html" title="Interface to report events occuring in Distributor. " alt="BeeeOn::DistributorListener" shape="rect" coords="235,0,460,24"/>
 <area href="classBeeeOn_1_1PhilipsHueListener.html" alt="BeeeOn::PhilipsHueListener" shape="rect" coords="470,0,695,24"/>
 <area href="classBeeeOn_1_1ZWaveListener.html" alt="BeeeOn::ZWaveListener" shape="rect" coords="705,0,930,24"/>
 <area href="classBeeeOn_1_1CommandDispatcherListener.html" alt="BeeeOn::CommandDispatcherListener" shape="rect" coords="940,0,1165,24"/>
+<area href="classBeeeOn_1_1IQRFListener.html" alt="BeeeOn::IQRFListener" shape="rect" coords="1175,0,1400,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -91,6 +92,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7961839aacc1ffb7cf1527adcac86e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a766ced1c52cf5196cb7bbecd28f62679"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoggingCollector.html#a766ced1c52cf5196cb7bbecd28f62679">onDispatch</a> (const Command::Ptr cmd) override</td></tr>
 <tr class="separator:a766ced1c52cf5196cb7bbecd28f62679"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c720288d4fc2524568bb3ecf9dfef25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1LoggingCollector.html#a0c720288d4fc2524568bb3ecf9dfef25">onReceiveDPA</a> (const <a class="el" href="classBeeeOn_1_1IQRFEvent.html">IQRFEvent</a> &amp;info) override</td></tr>
+<tr class="separator:a0c720288d4fc2524568bb3ecf9dfef25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -119,6 +122,11 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1CommandDispatcherListener.html">CommandDispatcherListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a35db280d7f94e0b0359e12c6f2cea590 inherit pub_types_classBeeeOn_1_1CommandDispatcherListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1IQRFListener"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1IQRFListener')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1IQRFListener.html">BeeeOn::IQRFListener</a></td></tr>
+<tr class="memitem:ac6fabf888fc76946b64386f321b5adda inherit pub_types_classBeeeOn_1_1IQRFListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6fabf888fc76946b64386f321b5adda"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1IQRFListener.html">IQRFListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:ac6fabf888fc76946b64386f321b5adda inherit pub_types_classBeeeOn_1_1IQRFListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a7961839aacc1ffb7cf1527adcac86e53"></a>
@@ -334,6 +342,33 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 <p>Empty implementation to be overrided if needed. </p>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a4c5845bf7bf432987cc50d7095b2406c">BeeeOn::AbstractCollector</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0c720288d4fc2524568bb3ecf9dfef25"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LoggingCollector::onReceiveDPA </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1IQRFEvent.html">IQRFEvent</a> &amp;&#160;</td>
+          <td class="paramname"><em>info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Empty implementation to be overrided if needed. </p>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a214772d5629d0250933fbf4cd1be4bb7">BeeeOn::AbstractCollector</a>.</p>
 
 </div>
 </div>

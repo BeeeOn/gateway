@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.7.1-19-g275cb51</span>
+   &#160;<span id="projectnumber">v2019.7.1-30-g5552caf</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -112,6 +112,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setMqttConnector</b> 
 <tr class="memitem:adc89ff27e7ebd658ffbc42749d9a6a91"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc89ff27e7ebd658ffbc42749d9a6a91"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDevicePoller</b> (DevicePoller::Ptr poller)</td></tr>
 <tr class="separator:adc89ff27e7ebd658ffbc42749d9a6a91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6028bdd50c61792ae52938bd073e53f6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6028bdd50c61792ae52938bd073e53f6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setEventsExecutor</b> (AsyncExecutor::Ptr executor)</td></tr>
+<tr class="separator:a6028bdd50c61792ae52938bd073e53f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15dcc79c98b15d6beef6983b5c802808"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15dcc79c98b15d6beef6983b5c802808"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>registerListener</b> (IQRFListener::Ptr listener)</td></tr>
+<tr class="separator:a15dcc79c98b15d6beef6983b5c802808"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a356d9b14c8ec57d66651ec987db79ef2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a356d9b14c8ec57d66651ec987db79ef2"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a356d9b14c8ec57d66651ec987db79ef2">dongleMatch</a> (const <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> &amp;e) override</td></tr>
 <tr class="memdesc:a356d9b14c8ec57d66651ec987db79ef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recognizes compatible dongle by testing <a class="el" href="classBeeeOn_1_1HotplugEvent.html">HotplugEvent</a> property as <code>iqrf.BEEEON_DONGLE = iqrf</code>. <br/></td></tr>

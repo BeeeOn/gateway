@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.7.1-19-g275cb51</span>
+   &#160;<span id="projectnumber">v2019.7.1-30-g5552caf</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -88,9 +88,9 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad0c5133323edf26fa54d3505de349341"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0c5133323edf26fa54d3505de349341"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>IQRFDevice</b> (IQRFMqttConnector::Ptr connector, const Poco::Timespan &amp;receiveTimeout, DPAMessage::NetworkAddress address, DPAProtocol::Ptr <a class="el" href="classBeeeOn_1_1IQRFDevice.html#adb7205f8071a03608da7b2b717b93cbb">protocol</a>, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refreshTime, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refreshTimePeripheralInfo)</td></tr>
-<tr class="separator:ad0c5133323edf26fa54d3505de349341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f7da9406b81d76b4b9448b13db92cb6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f7da9406b81d76b4b9448b13db92cb6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>IQRFDevice</b> (IQRFMqttConnector::Ptr connector, const Poco::Timespan &amp;receiveTimeout, DPAMessage::NetworkAddress address, DPAProtocol::Ptr <a class="el" href="classBeeeOn_1_1IQRFDevice.html#adb7205f8071a03608da7b2b717b93cbb">protocol</a>, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refreshTime, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refreshTimePeripheralInfo, IQRFEventFirer::Ptr eventFirer)</td></tr>
+<tr class="separator:a2f7da9406b81d76b4b9448b13db92cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a614f796c28460ef9434b9e2a6bbd6656"><td class="memItemLeft" align="right" valign="top">DPAMessage::NetworkAddress&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#a614f796c28460ef9434b9e2a6bbd6656">networkAddress</a> () const </td></tr>
 <tr class="separator:a614f796c28460ef9434b9e2a6bbd6656"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d21d7735167aab774b5c0f6bc1c6d62"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#a8d21d7735167aab774b5c0f6bc1c6d62">mid</a> () const </td></tr>
@@ -133,10 +133,10 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#a71abb36ac27e310a97e41b435ec269fe">probe</a> (const Poco::Timespan &amp;methodTimeout)</td></tr>
 <tr class="memdesc:a71abb36ac27e310a97e41b435ec269fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Probes information about IQRF device in a network. <br/></td></tr>
 <tr class="separator:a71abb36ac27e310a97e41b435ec269fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c8591dcc70fdd740bf0138031ca5f91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#a6c8591dcc70fdd740bf0138031ca5f91">obtainValues</a> () const </td></tr>
-<tr class="separator:a6c8591dcc70fdd740bf0138031ca5f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa929adad5aa0d3884825f565e5f9590a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#aa929adad5aa0d3884825f565e5f9590a">obtainPeripheralInfo</a> () const </td></tr>
-<tr class="separator:aa929adad5aa0d3884825f565e5f9590a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcb2ea6685b6b0dc4e674c80ba80f2ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#afcb2ea6685b6b0dc4e674c80ba80f2ba">obtainValues</a> ()</td></tr>
+<tr class="separator:afcb2ea6685b6b0dc4e674c80ba80f2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a397fc8e5da835223a53e168aebcd17c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1IQRFDevice.html#a397fc8e5da835223a53e168aebcd17c6">obtainPeripheralInfo</a> ()</td></tr>
+<tr class="separator:a397fc8e5da835223a53e168aebcd17c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classBeeeOn_1_1IQRFDevice.html" title="IQRFDevice represents information about a particular device from the IQRF network. Each IQRF device is identified by network address. Network address is a unique identifier in IQRF network. Each IQRF device has IQRF transceiver. The MID (Module ID) is globally unique. Each IQRF device can communicate using own or general protocol. ">IQRFDevice</a> represents information about a particular device from the IQRF network. Each IQRF device is identified by network address. Network address is a unique identifier in IQRF network. Each IQRF device has IQRF transceiver. The MID (Module ID) is globally unique. Each IQRF device can communicate using own or general protocol. </p>
@@ -224,7 +224,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="aa929adad5aa0d3884825f565e5f9590a"></a>
+<a class="anchor" id="a397fc8e5da835223a53e168aebcd17c6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -232,7 +232,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="memname"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> IQRFDevice::obtainPeripheralInfo </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -240,7 +240,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a6c8591dcc70fdd740bf0138031ca5f91"></a>
+<a class="anchor" id="afcb2ea6685b6b0dc4e674c80ba80f2ba"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -248,7 +248,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="memname"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a> IQRFDevice::obtainValues </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

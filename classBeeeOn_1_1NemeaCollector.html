@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.7.1-19-g275cb51</span>
+   &#160;<span id="projectnumber">v2019.7.1-30-g5552caf</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -63,12 +63,13 @@ Inheritance diagram for BeeeOn::NemeaCollector:</div>
  <div class="center">
   <img src="classBeeeOn_1_1NemeaCollector.png" usemap="#BeeeOn::NemeaCollector_map" alt=""/>
   <map id="BeeeOn::NemeaCollector_map" name="BeeeOn::NemeaCollector_map">
-<area href="classBeeeOn_1_1AbstractCollector.html" title="The class represents a collector of events occuring inside the Gateway. It implements all available l..." alt="BeeeOn::AbstractCollector" shape="rect" coords="470,56,695,80"/>
+<area href="classBeeeOn_1_1AbstractCollector.html" title="The class represents a collector of events occuring inside the Gateway. It implements all available l..." alt="BeeeOn::AbstractCollector" shape="rect" coords="587,56,812,80"/>
 <area href="classBeeeOn_1_1HciListener.html" alt="BeeeOn::HciListener" shape="rect" coords="0,0,225,24"/>
 <area href="classBeeeOn_1_1DistributorListener.html" title="Interface to report events occuring in Distributor. " alt="BeeeOn::DistributorListener" shape="rect" coords="235,0,460,24"/>
 <area href="classBeeeOn_1_1PhilipsHueListener.html" alt="BeeeOn::PhilipsHueListener" shape="rect" coords="470,0,695,24"/>
 <area href="classBeeeOn_1_1ZWaveListener.html" alt="BeeeOn::ZWaveListener" shape="rect" coords="705,0,930,24"/>
 <area href="classBeeeOn_1_1CommandDispatcherListener.html" alt="BeeeOn::CommandDispatcherListener" shape="rect" coords="940,0,1165,24"/>
+<area href="classBeeeOn_1_1IQRFListener.html" alt="BeeeOn::IQRFListener" shape="rect" coords="1175,0,1400,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -84,6 +85,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a17768dc598ede834eafb66bda2d5f8de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b4b07097521be8f5f495c3d742edce9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1NemeaCollector.html#a4b4b07097521be8f5f495c3d742edce9">onNotification</a> (const <a class="el" href="classBeeeOn_1_1OZWNotificationEvent.html">OZWNotificationEvent</a> &amp;event) override</td></tr>
 <tr class="separator:a4b4b07097521be8f5f495c3d742edce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12dfb3e82aa32c5e95e7688128ce8a0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1NemeaCollector.html#a12dfb3e82aa32c5e95e7688128ce8a0c">onReceiveDPA</a> (const <a class="el" href="classBeeeOn_1_1IQRFEvent.html">BeeeOn::IQRFEvent</a> &amp;) override</td></tr>
+<tr class="separator:a12dfb3e82aa32c5e95e7688128ce8a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07af8006ca2a9c86154e7c7da4a25e46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1NemeaCollector.html#a07af8006ca2a9c86154e7c7da4a25e46">onDispatch</a> (const Command::Ptr cmd) override</td></tr>
 <tr class="separator:a07af8006ca2a9c86154e7c7da4a25e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6db6e288999161188b0ecb23fab2d97"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6db6e288999161188b0ecb23fab2d97"></a>
@@ -101,6 +104,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setOnDriverStats</b> 
 <tr class="memitem:a38e30dff33c032b37d2a92a7321bfb40"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38e30dff33c032b37d2a92a7321bfb40"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setOnNotification</b> (const string &amp;interface)</td></tr>
 <tr class="separator:a38e30dff33c032b37d2a92a7321bfb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b807b16abc251e85369c293c41f7f29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b807b16abc251e85369c293c41f7f29"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setOnReceiveDPA</b> (const string &amp;interface)</td></tr>
+<tr class="separator:a4b807b16abc251e85369c293c41f7f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51b152be5dce8d56a3df78cdc066aae0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a51b152be5dce8d56a3df78cdc066aae0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setOnDispatch</b> (const string &amp;interface)</td></tr>
 <tr class="separator:a51b152be5dce8d56a3df78cdc066aae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +149,11 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1CommandDispatcherListener.html">CommandDispatcherListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:a35db280d7f94e0b0359e12c6f2cea590 inherit pub_types_classBeeeOn_1_1CommandDispatcherListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1IQRFListener"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1IQRFListener')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1IQRFListener.html">BeeeOn::IQRFListener</a></td></tr>
+<tr class="memitem:ac6fabf888fc76946b64386f321b5adda inherit pub_types_classBeeeOn_1_1IQRFListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6fabf888fc76946b64386f321b5adda"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1IQRFListener.html">IQRFListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:ac6fabf888fc76946b64386f321b5adda inherit pub_types_classBeeeOn_1_1IQRFListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a07af8006ca2a9c86154e7c7da4a25e46"></a>
@@ -340,6 +351,39 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 </dl>
 
 <p>Reimplemented from <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a4c5845bf7bf432987cc50d7095b2406c">BeeeOn::AbstractCollector</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12dfb3e82aa32c5e95e7688128ce8a0c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NemeaCollector::onReceiveDPA </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1IQRFEvent.html">BeeeOn::IQRFEvent</a> &amp;&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Process data from IQRF interface </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">info</td><td>BeeeOn class for IQRF statistics </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classBeeeOn_1_1AbstractCollector.html#a214772d5629d0250933fbf4cd1be4bb7">BeeeOn::AbstractCollector</a>.</p>
 
 </div>
 </div>
