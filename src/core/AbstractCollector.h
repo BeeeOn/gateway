@@ -5,6 +5,7 @@
 #include "core/DistributorListener.h"
 #include "philips/PhilipsHueListener.h"
 #include "zwave/ZWaveListener.h"
+#include "iqrf/IQRFListener.h"
 
 namespace BeeeOn {
 
@@ -19,7 +20,8 @@ class AbstractCollector :
 	public DistributorListener,
 	public PhilipsHueListener,
 	public ZWaveListener,
-	public CommandDispatcherListener {
+	public CommandDispatcherListener,
+	public IQRFListener {
 public:
 	virtual ~AbstractCollector();
 
@@ -62,6 +64,11 @@ public:
 	 * Empty implementation to be overrided if needed.
 	 */
 	void onDispatch(const Command::Ptr cmd) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
+	void onReceiveDPA(const IQRFEvent &info) override;
 };
 
 }

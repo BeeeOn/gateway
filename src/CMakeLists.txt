@@ -461,6 +461,9 @@ if (ENABLE_IQRF)
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFMqttConnector.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFTypeMappingParser.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/IQRFUtil.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFEvent.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFEventFirer.cpp
+		${PROJECT_SOURCE_DIR}/iqrf/IQRFListener.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondNodeRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordBondedNodesRequest.cpp
 		${PROJECT_SOURCE_DIR}/iqrf/request/DPACoordClearAllBondsRequest.cpp
@@ -477,6 +480,7 @@ if (ENABLE_IQRF)
 	)
 	add_library(BeeeOnIQRF ${IQRF_SOURCES})
 	list(APPEND MODULE_LIBS BeeeOnIQRF)
+	add_definitions(-DHAVE_IQRF=1)
 else()
 	message(STATUS "IQRF support is disabled")
 endif()

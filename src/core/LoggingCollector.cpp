@@ -6,6 +6,7 @@
 #include "bluetooth/HciInfo.h"
 #include "core/LoggingCollector.h"
 #include "di/Injectable.h"
+#include "iqrf/IQRFEvent.h"
 #include "model/SensorData.h"
 #include "philips/PhilipsHueBulbInfo.h"
 #include "philips/PhilipsHueBridgeInfo.h"
@@ -20,12 +21,17 @@
 #include "zwave/OZWNotificationEvent.h"
 #endif
 
+#ifdef HAVE_IQRF
+#include "iqrf/IQRFEvent.h"
+#endif
+
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
 BEEEON_OBJECT_CASTABLE(ZWaveListener)
 BEEEON_OBJECT_CASTABLE(HciListener)
 BEEEON_OBJECT_CASTABLE(PhilipsHueListener)
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
+BEEEON_OBJECT_CASTABLE(IQRFListener)
 BEEEON_OBJECT_END(BeeeOn, LoggingCollector)
 
 using namespace std;
@@ -216,6 +222,21 @@ void LoggingCollector::onBulbStats(const PhilipsHueBulbInfo &)
 }
 
 void LoggingCollector::onBridgeStats(const PhilipsHueBridgeInfo &)
+{
+}
+#endif
+
+
+#ifdef HAVE_IQRF
+void LoggingCollector::onReceiveDPA(const IQRFEvent &info)
+{
+	logger().information("IQRF event: from address: "
+			+ to_string(info.networkAddress())
+			+ " payload size: "
+			+ to_string(info.payload().size()));
+}
+#else
+void LoggingCollector::onReceiveDPA(const IQRFEvent &info)
 {
 }
 #endif

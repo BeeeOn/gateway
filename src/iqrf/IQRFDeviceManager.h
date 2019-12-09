@@ -15,6 +15,8 @@
 #include "iqrf/DPAMessage.h"
 #include "iqrf/DPAProtocol.h"
 #include "iqrf/IQRFDevice.h"
+#include "iqrf/IQRFEventFirer.h"
+#include "iqrf/IQRFListener.h"
 #include "iqrf/IQRFMqttConnector.h"
 #include "model/RefreshTime.h"
 
@@ -67,6 +69,9 @@ public:
 
 	void setMqttConnector(IQRFMqttConnector::Ptr connector);
 	void setDevicePoller(DevicePoller::Ptr poller);
+
+	void setEventsExecutor(AsyncExecutor::Ptr executor);
+	void registerListener(IQRFListener::Ptr listener);
 
 	/**
 	 * @brief Recognizes compatible dongle by testing HotplugEvent
@@ -187,6 +192,8 @@ private:
 	Poco::Timespan m_receiveTimeout;
 	Poco::Timespan m_devicesRetryTimeout;
 	Poco::AtomicCounter m_bondingMode;
+
+	IQRFEventFirer m_eventFirer;
 };
 
 }

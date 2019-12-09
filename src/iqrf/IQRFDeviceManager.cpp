@@ -42,6 +42,8 @@ BEEEON_OBJECT_PROPERTY("devicesRetryTimeout", &IQRFDeviceManager::setIQRFDevices
 BEEEON_OBJECT_PROPERTY("coordinatorReset", &IQRFDeviceManager::setCoordinatorReset)
 BEEEON_OBJECT_PROPERTY("deviceCache", &IQRFDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("devicePoller", &IQRFDeviceManager::setDevicePoller)
+BEEEON_OBJECT_PROPERTY("eventsExecutor", &IQRFDeviceManager::setEventsExecutor)
+BEEEON_OBJECT_PROPERTY("listeners", &IQRFDeviceManager::registerListener)
 BEEEON_OBJECT_END(BeeeOn, IQRFDeviceManager)
 
 using namespace BeeeOn;
@@ -129,6 +131,16 @@ void IQRFDeviceManager::setDevicePoller(DevicePoller::Ptr poller)
 	m_pollingKeeper.setDevicePoller(poller);
 }
 
+void IQRFDeviceManager::setEventsExecutor(AsyncExecutor::Ptr executor)
+{
+	m_eventFirer.setAsyncExecutor(executor);
+}
+
+void IQRFDeviceManager::registerListener(IQRFListener::Ptr listener)
+{
+	m_eventFirer.addListener(listener);
+}
+
 void IQRFDeviceManager::stop()
 {
 	answerQueue().dispose();
@@ -191,9 +203,12 @@ void IQRFDeviceManager::coordinatorResetProcess()
 		"start of coordinator reset",
 		__FILE__, __LINE__);
 
+	DPARequest::Ptr dpaClearAllBonds = new DPACoordClearAllBondsRequest;
+	m_eventFirer.fireDPAStatistics(dpaClearAllBonds);
+
 	IQRFUtil::makeRequest(
 		m_connector,
-		new DPACoordClearAllBondsRequest,
+		dpaClearAllBonds,
 		m_receiveTimeout
 	);
 
@@ -291,7 +306,8 @@ IQRFDevice::Ptr IQRFDeviceManager::tryObtainDeviceInfo(
 			node,
 			protocol,
 			m_refreshTime,
-			m_refreshTimePeripheralInfo);
+			m_refreshTimePeripheralInfo,
+			&m_eventFirer);
 	device->probe(methodTimeout);
 
 	return device;
@@ -305,16 +321,21 @@ set<uint8_t> IQRFDeviceManager::obtainBondedNodes(
 			"received timeout is less than maximum timeout of method");
 	}
 
+	DPARequest::Ptr dpaBondedNodes = new DPACoordBondedNodesRequest;
+	m_eventFirer.fireDPAStatistics(dpaBondedNodes);
+
 	const IQRFJsonResponse::Ptr response =
 		IQRFUtil::makeRequest(
 			m_connector,
-			new DPACoordBondedNodesRequest,
+			dpaBondedNodes,
 			m_receiveTimeout
 		);
 
-	const DPACoordBondedNodesResponse::Ptr bondedNodes =
+	DPACoordBondedNodesResponse::Ptr bondedNodes =
 		DPAResponse::fromRaw(
 			response->response()).cast<DPACoordBondedNodesResponse>();
+
+	m_eventFirer.fireDPAStatistics(static_cast<DPAResponse::Ptr>(bondedNodes));
 
 	logger().information(
 		"bonded nodes on the coordinator: "
@@ -366,11 +387,15 @@ DPAProtocol::Ptr IQRFDeviceManager::detectNodeProtocol(
 		}
 
 		try {
+			m_eventFirer.fireDPAStatistics(protocol->pingRequest(node));
+
 			response = IQRFUtil::makeRequest(
 				m_connector,
 				protocol->pingRequest(node),
 				m_receiveTimeout
 			);
+
+			m_eventFirer.fireDPAStatistics(DPAResponse::fromRaw(response->response()));
 
 			if (logger().debug()) {
 				logger().debug(
@@ -495,11 +520,18 @@ AsyncWork<set<DeviceID>>::Ptr IQRFDeviceManager::startUnpair(
 	m_pollingKeeper.cancel(id);
 
 	DPABatchRequest::Ptr request = new DPABatchRequest(address);
-	request->append(new DPANodeRemoveBondRequest(address));
-	request->append(new DPAOSRestartRequest(address));
+
+	DPARequest::Ptr dpaRemoveBond = new DPANodeRemoveBondRequest(address);
+	DPARequest::Ptr dpaRestartDevice = new DPAOSRestartRequest(address);
+
+	request->append(dpaRemoveBond);
+	request->append(dpaRestartDevice);
 
 	while (!started.isElapsed(timeout.totalMicroseconds())) {
 		try {
+			m_eventFirer.fireDPAStatistics(dpaRemoveBond);
+			m_eventFirer.fireDPAStatistics(dpaRestartDevice);
+
 			IQRFUtil::makeRequest(
 				m_connector,
 				request,
@@ -525,9 +557,12 @@ AsyncWork<set<DeviceID>>::Ptr IQRFDeviceManager::startUnpair(
 	MultiException me;
 	while (!started.isElapsed(timeout.totalMicroseconds())) {
 		try {
+			DPARequest::Ptr dpaRemoveNode = new DPACoordRemoveNodeRequest(address);
+			m_eventFirer.fireDPAStatistics(dpaRemoveNode);
+
 			IQRFUtil::makeRequest(
 				m_connector,
-				new DPACoordRemoveNodeRequest(address),
+				dpaRemoveNode,
 				m_receiveTimeout
 			);
 
@@ -572,19 +607,27 @@ IQRFDevice::Ptr IQRFDeviceManager::bondNewDevice(
 			+ to_string(timeout.totalSeconds()) + " s)",
 			__FILE__, __LINE__);
 
+	DPARequest::Ptr dpaBondRequest = new DPACoordBondNodeRequest;
+	m_eventFirer.fireDPAStatistics(dpaBondRequest);
+
 	const IQRFJsonResponse::Ptr bondNodeResponse =
 		IQRFUtil::makeRequest(
 			m_connector,
-			new DPACoordBondNodeRequest,
+			dpaBondRequest,
 			timeout
 		);
+
+	m_eventFirer.fireDPAStatistics(DPAResponse::fromRaw(bondNodeResponse->response()));
 
 	if (logger().debug())
 		logger().debug("run discovery new device", __FILE__, __LINE__);
 
+	DPARequest::Ptr dpaDiscoveryRequest = new DPACoordDiscoveryRequest;
+	m_eventFirer.fireDPAStatistics(dpaDiscoveryRequest);
+
 	IQRFUtil::makeRequest(
 		m_connector,
-		new DPACoordDiscoveryRequest,
+		dpaDiscoveryRequest,
 		timeout
 	);
 
