@@ -173,27 +173,27 @@ void NemeaCollector::onDriverStats(const ZWaveDriverEvent &event)
     // Insert data into the unirec record
     ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_TIME, timestamp);
     ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_DEV_ADDR, exportGwID);
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_SOFCount, event.SOFCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_ACKWaiting, event.ACKWaiting());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_readAborts, event.readAborts());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_badChecksum, event.badChecksum());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_readCount, event.readCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_writeCount, event.writeCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_CANCount, event.CANCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_NAKCount, event.NAKCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_ACKCount, event.ACKCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_OOFCount, event.OOFCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_dropped, event.dropped());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_retries, event.retries());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_callbacks, event.callbacks());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_badroutes, event.badroutes());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_noACK, event.noACK());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_netBusy, event.netBusy());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_notIdle, event.notIdle());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_nonDelivery, event.nonDelivery());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_routedBusy, event.routedBusy());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_broadcastReadCount, event.broadcastReadCount());
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_broadcastWriteCount, event.broadcastWriteCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_SOF_COUNT, event.SOFCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_ACK_WAITING, event.ACKWaiting());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_READ_ABORTS, event.readAborts());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_BAD_CHECKSUM, event.badChecksum());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_READ_COUNT, event.readCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_WRITE_COUNT, event.writeCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_CAN_COUNT, event.CANCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_NAK_COUNT, event.NAKCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_ACK_COUNT, event.ACKCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_OOF_COUNT, event.OOFCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_DROPPED, event.dropped());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_RETRIES, event.retries());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_CALLBACKS, event.callbacks());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_BAD_ROUTES, event.badroutes());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_NO_ACK, event.noACK());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_NET_BUSY, event.netBusy());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_NOT_IDLE, event.notIdle());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_NON_DELIVERY, event.nonDelivery());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_ROUTED_BUSY, event.routedBusy());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_BROADCAST_READ_COUNT, event.broadcastReadCount());
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_BROADCAST_WRITE_COUNT, event.broadcastWriteCount());
 
     // Send out recived data
     trap_ctx_send(onDriverStatsMetaInfo.ctx, 0, onDriverStatsMetaInfo.udata, ur_rec_size(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata));
@@ -207,16 +207,16 @@ void NemeaCollector::onNodeStats(const ZWaveNodeEvent &event)
 
     // Insert data into the unirec record
     ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_TIME, timestamp);
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_sentCount, event.sentCount());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_sentFailed, event.sentFailed());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_receivedCount, event.receivedCount());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_receiveDuplications, event.receiveDuplications());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_receiveUnsolicited, event.receiveUnsolicited());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_lastRequestRTT, event.lastRequestRTT());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_lastResponseRTT, event.lastResponseRTT());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_averageRequestRTT, event.averageRequestRTT());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_averageResponseRTT, event.sentCount());
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_quality, event.quality());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_SENT_COUNT, event.sentCount());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_SENT_FAILED, event.sentFailed());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_RECEIVED_COUNT, event.receivedCount());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_RECEIVE_DUPLICATIONS, event.receiveDuplications());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_RECEIVE_UNSOLICITED, event.receiveUnsolicited());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_LAST_REQUEST_RTT, event.lastRequestRTT());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_LAST_RESPONSE_RTT, event.lastResponseRTT());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_AVERAGE_REQUEST_RTT, event.averageRequestRTT());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_AVERAGE_RESPONSE_RTT, event.sentCount());
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_QUALITY, event.quality());
     ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_DEV_ADDR, event.nodeID());
 
     // Send out received data
@@ -237,21 +237,21 @@ void NemeaCollector::onHciStats(const HciInfo &event){
     // Insert data into the unirec record
     ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TIME, timestamp);
     ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_DEV_ADDR, exportGwID);
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_address, event.address());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_aclPackets, event.aclPackets());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_aclMtu, event.aclMtu());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_scoMtu, event.scoMtu());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_scoPackets, event.scoPackets());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_rxErrors, event.rxErrors());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_txErrors, event.txErrors());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_rxEvents, event.rxEvents());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_txCmds, event.txCmds());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_rxAcls, event.rxAcls());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_txAcls, event.txAcls());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_rxScos, event.rxScos());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_txScos, event.txScos());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_rxBytes, event.rxBytes());
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_txBytes, event.txBytes());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_ADDRESS, event.address());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_ACL_PACKETS, event.aclPackets());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_ACL_MTU, event.aclMtu());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_SCO_MTU, event.scoMtu());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_SCO_PACKETS, event.scoPackets());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_RX_ERRORS, event.rxErrors());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TX_ERRORS, event.txErrors());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_RX_EVENTS, event.rxEvents());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TX_CMDS, event.txCmds());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_RX_ACLS, event.rxAcls());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TX_ACLS, event.txAcls());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_RX_SCOS, event.rxScos());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TX_SCOS, event.txScos());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_RX_BYTES, event.rxBytes());
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TX_BYTES, event.txBytes());
 
     // Send out recived data
     trap_ctx_send(onHCIStatsMetaInfo.ctx, 0, onHCIStatsMetaInfo.udata, ur_rec_size(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata));
@@ -270,8 +270,8 @@ void NemeaCollector::onNotification(const OZWNotificationEvent &event){
     // Insert data into the unirec record
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_TIME, timestamp);
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_DEV_ADDR, exportGwID);
-    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_homeID, event.homeID());
-    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_nodeID, event.nodeID());
+    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_HOME_ID, event.homeID());
+    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_NODE_ID, event.nodeID());
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_GENRE, event.valueID().GetGenre());
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_CMDCLASS, event.valueID().GetCommandClassId());
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_INSTANCE, event.valueID().GetInstance());
@@ -298,9 +298,9 @@ void NemeaCollector::onReceiveDPA(const IQRFEvent &event)
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TIME, timestamp);
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_DEV_ADDR, event.networkAddress());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TYPE, event.direction());
-    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_cmd, event.commandCode());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_MESSAGE_TYPE, event.commandCode());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_INDEX, event.peripheralNumber());
-    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_txBytes, event.size());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_SIZE, event.size());
 
     // Send out received data immediately
     trap_ctx_send(onReceiveDPAMetaInfo.ctx, 0, onReceiveDPAMetaInfo.udata, ur_rec_size(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata));
@@ -318,7 +318,7 @@ void NemeaCollector::onDispatch(const Command::Ptr cmd){
     // Insert data into the unirec record
     ur_set(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_TIME, timestamp);
     ur_set(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_DEV_ADDR, exportGwID);
-    ur_set_string(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_cmd, cmd->toString().c_str());
+    ur_set_string(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_CMD, cmd->toString().c_str());
 
     // Send out recived data
     trap_ctx_send(onDispatchMetaInfo.ctx, 0, onDispatchMetaInfo.udata, ur_rec_size(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata));
@@ -333,7 +333,7 @@ void NemeaCollector::setOnExport(const string& interface) {
 #ifdef HAVE_HCI
 void NemeaCollector::setOnHCIStats(const string& interface) {
     onHCIStatsMetaInfo.onEventInterface = interface;
-    onHCIStatsMetaInfo.ufields = "TIME,DEV_ADDR,address,aclPackets,scoMtu,scoPackets,rxErrors,txErrors,rxEvents, txCmds,rxAcls,txAcls,rxScos,txScos,rxBytes,txBytes";
+    onHCIStatsMetaInfo.ufields = "TIME,DEV_ADDR,ADDRESS,ACL_PACKETS,SCO_MTU,SCO_PACKETS,RX_ERRORS,TX_ERRORS,RX_EVENTS, TX_CMDS,TX_ACLS,TX_ACLS,TX_SCOS,TX_SCOS,TX_BYTES,TX_BYTES";
     initInterface(onHCIStatsMetaInfo);
 }
 #else
@@ -344,13 +344,13 @@ void NemeaCollector::setOnHCIStats(const string& interface) {}
 #ifdef HAVE_ZWAVE
 void NemeaCollector::setOnNodeStats(const string& interface) {
     onNodeStatsMetaInfo.onEventInterface = interface;
-    onNodeStatsMetaInfo.ufields = "TIME,DEV_ADDR,sentCount,sentFailed,receivedCount,receiveDuplications,receiveUnsolicited,lastRequestRTT,lastResponseRTT,averageRequestRTT,averageResponseRTT,quality";
+    onNodeStatsMetaInfo.ufields = "TIME,DEV_ADDR,SENT_COUNT,SENT_FAILED,RECEIVED_COUNT,RECEIVE_DUPLICATIONS,RECEIVE_UNSOLICITED,LAST_REQUEST_RTT,LAST_RESPONSE_RTT,AVERAGE_REQUEST_RTT,AVERAGE_RESPONSE_RTT,QUALITY";
     initInterface(onNodeStatsMetaInfo);
 }
 
 void NemeaCollector::setOnDriverStats(const string& interface) {
     onDriverStatsMetaInfo.onEventInterface = interface;
-    onDriverStatsMetaInfo.ufields = "TIME,DEV_ADDR,SOFCount,ACKWaiting,readAborts,badChecksum,readCount,writeCount,CANCount,NAKCount,ACKCount,OOFCount,dropped,retries,callbacks,badroutes,noACK,netBusy,notIdle,nonDelivery,routedBusy,broadcastReadCount,broadcastWriteCount";
+    onDriverStatsMetaInfo.ufields = "TIME,DEV_ADDR,SOF_COUNT,ACK_WAITING,READ_ABORTS,BAD_CHECKSUM,READ_COUNT,WRITE_COUNT,CAN_COUNT,NAK_COUNT,ACK_COUNT,OOF_COUNT,DROPPED,RETRIES,CALLBACKS,BAD_ROUTES,NO_ACK,NET_BUSY,NOT_IDLE,NON_DELIVERY,ROUTED_BUSY,BROADCAST_READ_COUNT,BROADCAST_WRITE_COUNT";
     initInterface(onDriverStatsMetaInfo);
 }
 #else
@@ -361,7 +361,7 @@ void NemeaCollector::setOnDriverStats(const string& interface) {}
 #ifdef HAVE_OPENZWAVE
 void NemeaCollector::setOnNotification(const string& interface) {
     onNotificationMetaInfo.onEventInterface = interface;
-    onNotificationMetaInfo.ufields = "TIME,DEV_ADDR,homeID,nodeID,GENRE,CMDCLASS,INSTANCE,INDEX,TYPE,BYTE,EVENT_TYPE";
+    onNotificationMetaInfo.ufields = "TIME,DEV_ADDR,HOME_ID,NODE_ID,GENRE,CMDCLASS,INSTANCE,INDEX,TYPE,BYTE,EVENT_TYPE";
     initInterface(onNotificationMetaInfo);
 }
 #else
@@ -372,7 +372,7 @@ void NemeaCollector::setOnNotification(const string& interface) {}
 void NemeaCollector::setOnReceiveDPA(const string& interface)
 {
     onReceiveDPAMetaInfo.onEventInterface = interface;
-    onReceiveDPAMetaInfo.ufields = "TIME,DEV_ADDR,TYPE,cmd,INDEX,txBytes";
+    onReceiveDPAMetaInfo.ufields = "TIME,DEV_ADDR,TYPE,MESSAGE_TYPE,INDEX,SIZE";
     initInterface(onReceiveDPAMetaInfo);
 }
 #else
@@ -381,7 +381,7 @@ void NemeaCollector::setOnReceiveDPA(const string& interface){}
 
 void NemeaCollector::setOnDispatch(const string& interface) {
     onDispatchMetaInfo.onEventInterface = interface;
-    onDispatchMetaInfo.ufields = "TIME,DEV_ADDR,cmd";
+    onDispatchMetaInfo.ufields = "TIME,DEV_ADDR,CMD";
     initInterface(onDispatchMetaInfo);
 }
 
