@@ -41,3 +41,7 @@ void AbstractCollector::onDispatch(const Command::Ptr)
 void AbstractCollector::onReceiveDPA(const IQRFEvent &)
 {
 }
+
+void AbstractCollector::onConradMessage(const ConradEvent &)
+{
+}

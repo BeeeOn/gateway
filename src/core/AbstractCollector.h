@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bluetooth/HciListener.h"
+#include "conrad/ConradListener.h"
 #include "core/CommandDispatcherListener.h"
 #include "core/DistributorListener.h"
 #include "iqrf/IQRFListener.h"
@@ -21,7 +22,8 @@ class AbstractCollector :
 	public PhilipsHueListener,
 	public ZWaveListener,
 	public CommandDispatcherListener,
-	public IQRFListener {
+	public IQRFListener,
+	public ConradListener {
 public:
 	virtual ~AbstractCollector();
 
@@ -69,6 +71,11 @@ public:
 	 * Empty implementation to be overrided if needed.
 	 */
 	void onReceiveDPA(const IQRFEvent &info) override;
+
+	/**
+	 * Empty implementation to be overrided if needed.
+	 */
+	void onConradMessage(const ConradEvent &info) override;
 };
 
 }
