@@ -8,8 +8,11 @@
 
 #include "core/DeviceManager.h"
 #include "conrad/ConradDevice.h"
+#include "conrad/ConradListener.h"
 #include "model/DeviceID.h"
+#include "util/AsyncExecutor.h"
 #include "util/BlockingAsyncWork.h"
+#include "util/EventSource.h"
 #include "util/JsonUtil.h"
 
 namespace BeeeOn {
@@ -37,6 +40,10 @@ public:
 	 */
 	void setEventZmqIface(const std::string &eventZmqIface);
 
+	void setEventsExecutor(AsyncExecutor::Ptr executor);
+
+	void registerListener(ConradListener::Ptr listener);
+
 protected:
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
@@ -60,12 +67,19 @@ protected:
 	 */
 	void createNewDeviceUnlocked(const DeviceID &deviceID, const std::string &type);
 
+	/**
+	* @brief Transforms received/sent message into ConradEvent and fires it.
+	*/
+	void fireMessage(DeviceID const &deviceID, const Poco::JSON::Object::Ptr message);
+
 private:
 	Poco::URI m_cmdZmqIface;
 	Poco::URI m_eventZmqIface;
 
 	Poco::FastMutex m_devicesMutex;
 	std::map<DeviceID, ConradDevice::Ptr> m_devices;
+
+	EventSource<ConradListener> m_eventSource;
 };
 
 }
