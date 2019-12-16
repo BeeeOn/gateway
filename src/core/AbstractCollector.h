@@ -3,9 +3,9 @@
 #include "bluetooth/HciListener.h"
 #include "core/CommandDispatcherListener.h"
 #include "core/DistributorListener.h"
+#include "iqrf/IQRFListener.h"
 #include "philips/PhilipsHueListener.h"
 #include "zwave/ZWaveListener.h"
-#include "iqrf/IQRFListener.h"
 
 namespace BeeeOn {
 
