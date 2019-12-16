@@ -112,6 +112,12 @@ namespace BeeeOn {
         void onReceiveDPA(const BeeeOn::IQRFEvent&) override;
 
         /**
+        * Process data from Conrad interface
+        * \param[in] info BeeeOn class for Conrad statistics
+        */
+        void onConradMessage(const BeeeOn::ConradEvent&) override;
+
+        /**
         * Process data from BeeeOn control commands
         * \param[in] info BeeeOn class for control commands
         */
@@ -128,6 +134,7 @@ namespace BeeeOn {
         void setOnDriverStats (const string &interface);
         void setOnNotification (const string &interface);
         void setOnReceiveDPA(const string &interface);
+        void setOnConradMessage (const string &interface);
         void setOnDispatch (const string &interface);
         void setExportGwID (const string &gwID);
 
@@ -145,6 +152,7 @@ namespace BeeeOn {
         EventMetaData onDriverStatsMetaInfo;
         EventMetaData onNotificationMetaInfo;
         EventMetaData onReceiveDPAMetaInfo;
+        EventMetaData onConradMessageMetaInfo;
         EventMetaData onDispatchMetaInfo;
         int exportGwID; // ID to identify data from this gateway
     };
