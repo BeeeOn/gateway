@@ -224,10 +224,12 @@ if(ZMQ AND ENABLE_CONRAD)
 		${PROJECT_SOURCE_DIR}/conrad/WirelessShutterContact.cpp
 		${PROJECT_SOURCE_DIR}/conrad/PowerMeterSwitch.cpp
 		${PROJECT_SOURCE_DIR}/conrad/RadiatorThermostat.cpp
+		${PROJECT_SOURCE_DIR}/conrad/ConradEvent.cpp
 	)
 	add_library(BeeeOnConrad ${CONRAD_SOURCES})
 	list(APPEND MODULE_LIBS BeeeOnConrad)
 	list(APPEND LIBS ${ZMQ})
+	add_definitions(-DHAVE_CONRAD=1)
 else()
 	message(STATUS "Conrad support is disabled")
 endif()
