@@ -126,6 +126,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingExporter.cpp
+	${PROJECT_SOURCE_DIR}/conrad/ConradListener.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTool.cpp
