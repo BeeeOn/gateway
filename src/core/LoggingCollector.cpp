@@ -24,6 +24,10 @@
 #include "iqrf/IQRFEvent.h"
 #endif
 
+#ifdef HAVE_CONRAD
+#include "conrad/ConradEvent.h"
+#endif
+
 BEEEON_OBJECT_BEGIN(BeeeOn, LoggingCollector)
 BEEEON_OBJECT_CASTABLE(DistributorListener)
 BEEEON_OBJECT_CASTABLE(ZWaveListener)
@@ -31,6 +35,7 @@ BEEEON_OBJECT_CASTABLE(HciListener)
 BEEEON_OBJECT_CASTABLE(PhilipsHueListener)
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
 BEEEON_OBJECT_CASTABLE(IQRFListener)
+BEEEON_OBJECT_CASTABLE(ConradListener)
 BEEEON_OBJECT_END(BeeeOn, LoggingCollector)
 
 using namespace std;
@@ -236,6 +241,27 @@ void LoggingCollector::onReceiveDPA(const IQRFEvent &info)
 }
 #else
 void LoggingCollector::onReceiveDPA(const IQRFEvent &)
+{
+}
+#endif
+
+#ifdef HAVE_CONRAD
+void LoggingCollector::onConradMessage(const ConradEvent &info)
+{
+	logger().information("Conrad message: device id: "
+			+ info.id().toString()
+			+ " type: "
+			+ info.event()
+			+ " with rssi: "
+			+ to_string(info.rssi())
+			+ " payload size: "
+			+ to_string(info.channels().length())
+			+ " state: "
+			+ info.protState()
+			);
+}
+#else
+void LoggingCollector::onConradMessage(const ConradEvent &info)
 {
 }
 #endif
