@@ -45,6 +45,7 @@ char *ur_field_names_static[] = {
 (char *)   "RECEIVE_UNSOLICITED",
 (char *)   "RETRIES",
 (char *)   "ROUTED_BUSY",
+(char *)   "RSSI",
 (char *)   "RX_ACLS",
 (char *)   "RX_BYTES",
 (char *)   "RX_ERRORS",
@@ -65,8 +66,12 @@ char *ur_field_names_static[] = {
 (char *)   "TYPE",
 (char *)   "VALUE",
 (char *)   "WRITE_COUNT",
+(char *)   "CHANNELS",
 (char *)   "CMD",
+(char *)   "EVENT",
+(char *)   "MSG_TYPE",
 (char *)   "PAYLOAD",
+(char *)   "PROT_STATE",
 };
 short ur_field_sizes_static[] = {
    8, /* ACK_COUNT */
@@ -111,6 +116,7 @@ short ur_field_sizes_static[] = {
    8, /* RECEIVE_UNSOLICITED */
    8, /* RETRIES */
    8, /* ROUTED_BUSY */
+   8, /* RSSI */
    8, /* RX_ACLS */
    8, /* RX_BYTES */
    8, /* RX_ERRORS */
@@ -131,8 +137,12 @@ short ur_field_sizes_static[] = {
    8, /* TYPE */
    8, /* VALUE */
    8, /* WRITE_COUNT */
+   -1, /* CHANNELS */
    -1, /* CMD */
+   -1, /* EVENT */
+   -1, /* MSG_TYPE */
    -1, /* PAYLOAD */
+   -1, /* PROT_STATE */
 };
 ur_field_type_t ur_field_types_static[] = {
    UR_TYPE_DOUBLE, /* ACK_COUNT */
@@ -177,6 +187,7 @@ ur_field_type_t ur_field_types_static[] = {
    UR_TYPE_DOUBLE, /* RECEIVE_UNSOLICITED */
    UR_TYPE_DOUBLE, /* RETRIES */
    UR_TYPE_DOUBLE, /* ROUTED_BUSY */
+   UR_TYPE_DOUBLE, /* RSSI */
    UR_TYPE_DOUBLE, /* RX_ACLS */
    UR_TYPE_DOUBLE, /* RX_BYTES */
    UR_TYPE_DOUBLE, /* RX_ERRORS */
@@ -197,8 +208,12 @@ ur_field_type_t ur_field_types_static[] = {
    UR_TYPE_DOUBLE, /* TYPE */
    UR_TYPE_DOUBLE, /* VALUE */
    UR_TYPE_DOUBLE, /* WRITE_COUNT */
+   UR_TYPE_STRING, /* CHANNELS */
    UR_TYPE_STRING, /* CMD */
+   UR_TYPE_STRING, /* EVENT */
+   UR_TYPE_STRING, /* MSG_TYPE */
    UR_TYPE_BYTES, /* PAYLOAD */
+   UR_TYPE_STRING, /* PROT_STATE */
 };
-ur_static_field_specs_t UR_FIELD_SPECS_STATIC = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 64};
-ur_field_specs_t ur_field_specs = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 64, 64, 64, NULL, UR_UNINITIALIZED};
+ur_static_field_specs_t UR_FIELD_SPECS_STATIC = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 69};
+ur_field_specs_t ur_field_specs = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 69, 69, 69, NULL, UR_UNINITIALIZED};
