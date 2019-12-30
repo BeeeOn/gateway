@@ -3,217 +3,217 @@
 #include "fields.h"
 
 char *ur_field_names_static[] = {
-(char *)   "ACKCount",
-(char *)   "ACKWaiting",
+(char *)   "ACK_COUNT",
+(char *)   "ACK_WAITING",
+(char *)   "ACL_MTU",
+(char *)   "ACL_PACKETS",
+(char *)   "ADDRESS",
+(char *)   "AVERAGE",
+(char *)   "AVERAGE_REQUEST_RTT",
+(char *)   "AVERAGE_RESPONSE_RTT",
+(char *)   "BAD_CHECKSUM",
+(char *)   "BAD_ROUTES",
+(char *)   "BROADCAST_READ_COUNT",
+(char *)   "BROADCAST_WRITE_COUNT",
 (char *)   "BYTE",
-(char *)   "CANCount",
+(char *)   "CALLBACKS",
+(char *)   "CAN_COUNT",
 (char *)   "CMDCLASS",
+(char *)   "DEV_ADDR",
+(char *)   "DROPPED",
+(char *)   "EVENT_TYPE",
 (char *)   "GENRE",
 (char *)   "GW_ID",
-(char *)   "DEV_ADDR",
+(char *)   "HOME_ID",
 (char *)   "INDEX",
 (char *)   "INSTANCE",
-(char *)   "NAKCount",
-(char *)   "OOFCount",
-(char *)   "SOFCount",
+(char *)   "LAST_REQUEST_RTT",
+(char *)   "LAST_RESPONSE_RTT",
+(char *)   "MESSAGE_TYPE",
+(char *)   "NAK_COUNT",
+(char *)   "NET_BUSY",
+(char *)   "NO_ACK",
+(char *)   "NODE_ID",
+(char *)   "NON_DELIVERY",
+(char *)   "NOT_IDLE",
+(char *)   "OOF_COUNT",
+(char *)   "QUALITY",
+(char *)   "READ_ABORTS",
+(char *)   "READ_COUNT",
+(char *)   "RECEIVED_COUNT",
+(char *)   "RECEIVE_DUPLICATIONS",
+(char *)   "RECEIVE_UNSOLICITED",
+(char *)   "RETRIES",
+(char *)   "ROUTED_BUSY",
+(char *)   "RSSI",
+(char *)   "RX_ACLS",
+(char *)   "RX_BYTES",
+(char *)   "RX_ERRORS",
+(char *)   "RX_EVENTS",
+(char *)   "RX_SCOS",
+(char *)   "SCO_MTU",
+(char *)   "SCO_PACKETS",
+(char *)   "SENT_COUNT",
+(char *)   "SENT_FAILED",
+(char *)   "SIZE",
+(char *)   "SOF_COUNT",
 (char *)   "TIME",
+(char *)   "TX_ACLS",
+(char *)   "TX_BYTES",
+(char *)   "TX_CMDS",
+(char *)   "TX_ERRORS",
+(char *)   "TX_SCOS",
 (char *)   "TYPE",
 (char *)   "VALUE",
-(char *)   "aclMtu",
-(char *)   "aclPackets",
-(char *)   "address",
-(char *)   "average",
-(char *)   "averageRequestRTT",
-(char *)   "averageResponseRTT",
-(char *)   "badChecksum",
-(char *)   "badroutes",
-(char *)   "broadcastReadCount",
-(char *)   "broadcastWriteCount",
-(char *)   "callbacks",
-(char *)   "dropped",
-(char *)   "err_value",
-(char *)   "homeID",
-(char *)   "lastRequestRTT",
-(char *)   "lastResponseRTT",
-(char *)   "moving_average",
-(char *)   "moving_median",
-(char *)   "moving_variance",
-(char *)   "netBusy",
-(char *)   "noACK",
-(char *)   "nodeID",
-(char *)   "nonDelivery",
-(char *)   "notIdle",
-(char *)   "profile_value",
-(char *)   "quality",
-(char *)   "readAborts",
-(char *)   "readCount",
-(char *)   "receiveDuplications",
-(char *)   "receiveUnsolicited",
-(char *)   "receivedCount",
-(char *)   "retries",
-(char *)   "routedBusy",
-(char *)   "rxAcls",
-(char *)   "rxBytes",
-(char *)   "rxErrors",
-(char *)   "rxEvents",
-(char *)   "rxScos",
-(char *)   "scoMtu",
-(char *)   "scoPackets",
-(char *)   "sentCount",
-(char *)   "sentFailed",
-(char *)   "txAcls",
-(char *)   "txBytes",
-(char *)   "txCmds",
-(char *)   "txErrors",
-(char *)   "txScos",
-(char *)   "writeCount",
-(char *)   "EVENT_TYPE",
-(char *)   "alert_desc",
-(char *)   "cmd",
-(char *)   "profile_key",
-(char *)   "ur_key",
+(char *)   "WRITE_COUNT",
+(char *)   "CHANNELS",
+(char *)   "CMD",
+(char *)   "EVENT",
+(char *)   "MSG_TYPE",
+(char *)   "PAYLOAD",
+(char *)   "PROT_STATE",
 };
 short ur_field_sizes_static[] = {
-   8, /* ACKCount */
-   8, /* ACKWaiting */
+   8, /* ACK_COUNT */
+   8, /* ACK_WAITING */
+   8, /* ACL_MTU */
+   8, /* ACL_PACKETS */
+   8, /* ADDRESS */
+   8, /* AVERAGE */
+   8, /* AVERAGE_REQUEST_RTT */
+   8, /* AVERAGE_RESPONSE_RTT */
+   8, /* BAD_CHECKSUM */
+   8, /* BAD_ROUTES */
+   8, /* BROADCAST_READ_COUNT */
+   8, /* BROADCAST_WRITE_COUNT */
    8, /* BYTE */
-   8, /* CANCount */
+   8, /* CALLBACKS */
+   8, /* CAN_COUNT */
    8, /* CMDCLASS */
+   8, /* DEV_ADDR */
+   8, /* DROPPED */
+   8, /* EVENT_TYPE */
    8, /* GENRE */
    8, /* GW_ID */
-   8, /* DEV_ADDR */
+   8, /* HOME_ID */
    8, /* INDEX */
    8, /* INSTANCE */
-   8, /* NAKCount */
-   8, /* OOFCount */
-   8, /* SOFCount */
+   8, /* LAST_REQUEST_RTT */
+   8, /* LAST_RESPONSE_RTT */
+   8, /* MESSAGE_TYPE */
+   8, /* NAK_COUNT */
+   8, /* NET_BUSY */
+   8, /* NO_ACK */
+   8, /* NODE_ID */
+   8, /* NON_DELIVERY */
+   8, /* NOT_IDLE */
+   8, /* OOF_COUNT */
+   8, /* QUALITY */
+   8, /* READ_ABORTS */
+   8, /* READ_COUNT */
+   8, /* RECEIVED_COUNT */
+   8, /* RECEIVE_DUPLICATIONS */
+   8, /* RECEIVE_UNSOLICITED */
+   8, /* RETRIES */
+   8, /* ROUTED_BUSY */
+   8, /* RSSI */
+   8, /* RX_ACLS */
+   8, /* RX_BYTES */
+   8, /* RX_ERRORS */
+   8, /* RX_EVENTS */
+   8, /* RX_SCOS */
+   8, /* SCO_MTU */
+   8, /* SCO_PACKETS */
+   8, /* SENT_COUNT */
+   8, /* SENT_FAILED */
+   8, /* SIZE */
+   8, /* SOF_COUNT */
    8, /* TIME */
+   8, /* TX_ACLS */
+   8, /* TX_BYTES */
+   8, /* TX_CMDS */
+   8, /* TX_ERRORS */
+   8, /* TX_SCOS */
    8, /* TYPE */
    8, /* VALUE */
-   8, /* aclMtu */
-   8, /* aclPackets */
-   8, /* address */
-   8, /* average */
-   8, /* averageRequestRTT */
-   8, /* averageResponseRTT */
-   8, /* badChecksum */
-   8, /* badroutes */
-   8, /* broadcastReadCount */
-   8, /* broadcastWriteCount */
-   8, /* callbacks */
-   8, /* dropped */
-   8, /* err_value */
-   8, /* homeID */
-   8, /* lastRequestRTT */
-   8, /* lastResponseRTT */
-   8, /* moving_average */
-   8, /* moving_median */
-   8, /* moving_variance */
-   8, /* netBusy */
-   8, /* noACK */
-   8, /* nodeID */
-   8, /* nonDelivery */
-   8, /* notIdle */
-   8, /* profile_value */
-   8, /* quality */
-   8, /* readAborts */
-   8, /* readCount */
-   8, /* receiveDuplications */
-   8, /* receiveUnsolicited */
-   8, /* receivedCount */
-   8, /* retries */
-   8, /* routedBusy */
-   8, /* rxAcls */
-   8, /* rxBytes */
-   8, /* rxErrors */
-   8, /* rxEvents */
-   8, /* rxScos */
-   8, /* scoMtu */
-   8, /* scoPackets */
-   8, /* sentCount */
-   8, /* sentFailed */
-   8, /* txAcls */
-   8, /* txBytes */
-   8, /* txCmds */
-   8, /* txErrors */
-   8, /* txScos */
-   8, /* writeCount */
-   8, /* EVENT_TYPE */
-   -1, /* alert_desc */
-   -1, /* cmd */
-   -1, /* profile_key */
-   -1, /* ur_key */
+   8, /* WRITE_COUNT */
+   -1, /* CHANNELS */
+   -1, /* CMD */
+   -1, /* EVENT */
+   -1, /* MSG_TYPE */
+   -1, /* PAYLOAD */
+   -1, /* PROT_STATE */
 };
 ur_field_type_t ur_field_types_static[] = {
-   UR_TYPE_DOUBLE, /* ACKCount */
-   UR_TYPE_DOUBLE, /* ACKWaiting */
+   UR_TYPE_DOUBLE, /* ACK_COUNT */
+   UR_TYPE_DOUBLE, /* ACK_WAITING */
+   UR_TYPE_DOUBLE, /* ACL_MTU */
+   UR_TYPE_DOUBLE, /* ACL_PACKETS */
+   UR_TYPE_DOUBLE, /* ADDRESS */
+   UR_TYPE_DOUBLE, /* AVERAGE */
+   UR_TYPE_DOUBLE, /* AVERAGE_REQUEST_RTT */
+   UR_TYPE_DOUBLE, /* AVERAGE_RESPONSE_RTT */
+   UR_TYPE_DOUBLE, /* BAD_CHECKSUM */
+   UR_TYPE_DOUBLE, /* BAD_ROUTES */
+   UR_TYPE_DOUBLE, /* BROADCAST_READ_COUNT */
+   UR_TYPE_DOUBLE, /* BROADCAST_WRITE_COUNT */
    UR_TYPE_DOUBLE, /* BYTE */
-   UR_TYPE_DOUBLE, /* CANCount */
+   UR_TYPE_DOUBLE, /* CALLBACKS */
+   UR_TYPE_DOUBLE, /* CAN_COUNT */
    UR_TYPE_DOUBLE, /* CMDCLASS */
-   UR_TYPE_DOUBLE, /* GENRE */
-   UR_TYPE_UINT64, /* GW_ID */
    UR_TYPE_UINT64, /* DEV_ADDR */
+   UR_TYPE_DOUBLE, /* DROPPED */
+   UR_TYPE_DOUBLE, /* EVENT_TYPE */
+   UR_TYPE_DOUBLE, /* GENRE */
+   UR_TYPE_DOUBLE, /* GW_ID */
+   UR_TYPE_DOUBLE, /* HOME_ID */
    UR_TYPE_DOUBLE, /* INDEX */
    UR_TYPE_DOUBLE, /* INSTANCE */
-   UR_TYPE_DOUBLE, /* NAKCount */
-   UR_TYPE_DOUBLE, /* OOFCount */
-   UR_TYPE_DOUBLE, /* SOFCount */
+   UR_TYPE_DOUBLE, /* LAST_REQUEST_RTT */
+   UR_TYPE_DOUBLE, /* LAST_RESPONSE_RTT */
+   UR_TYPE_DOUBLE, /* MESSAGE_TYPE */
+   UR_TYPE_DOUBLE, /* NAK_COUNT */
+   UR_TYPE_DOUBLE, /* NET_BUSY */
+   UR_TYPE_DOUBLE, /* NO_ACK */
+   UR_TYPE_DOUBLE, /* NODE_ID */
+   UR_TYPE_DOUBLE, /* NON_DELIVERY */
+   UR_TYPE_DOUBLE, /* NOT_IDLE */
+   UR_TYPE_DOUBLE, /* OOF_COUNT */
+   UR_TYPE_DOUBLE, /* QUALITY */
+   UR_TYPE_DOUBLE, /* READ_ABORTS */
+   UR_TYPE_DOUBLE, /* READ_COUNT */
+   UR_TYPE_DOUBLE, /* RECEIVED_COUNT */
+   UR_TYPE_DOUBLE, /* RECEIVE_DUPLICATIONS */
+   UR_TYPE_DOUBLE, /* RECEIVE_UNSOLICITED */
+   UR_TYPE_DOUBLE, /* RETRIES */
+   UR_TYPE_DOUBLE, /* ROUTED_BUSY */
+   UR_TYPE_DOUBLE, /* RSSI */
+   UR_TYPE_DOUBLE, /* RX_ACLS */
+   UR_TYPE_DOUBLE, /* RX_BYTES */
+   UR_TYPE_DOUBLE, /* RX_ERRORS */
+   UR_TYPE_DOUBLE, /* RX_EVENTS */
+   UR_TYPE_DOUBLE, /* RX_SCOS */
+   UR_TYPE_DOUBLE, /* SCO_MTU */
+   UR_TYPE_DOUBLE, /* SCO_PACKETS */
+   UR_TYPE_DOUBLE, /* SENT_COUNT */
+   UR_TYPE_DOUBLE, /* SENT_FAILED */
+   UR_TYPE_DOUBLE, /* SIZE */
+   UR_TYPE_DOUBLE, /* SOF_COUNT */
    UR_TYPE_TIME, /* TIME */
+   UR_TYPE_DOUBLE, /* TX_ACLS */
+   UR_TYPE_DOUBLE, /* TX_BYTES */
+   UR_TYPE_DOUBLE, /* TX_CMDS */
+   UR_TYPE_DOUBLE, /* TX_ERRORS */
+   UR_TYPE_DOUBLE, /* TX_SCOS */
    UR_TYPE_DOUBLE, /* TYPE */
    UR_TYPE_DOUBLE, /* VALUE */
-   UR_TYPE_DOUBLE, /* aclMtu */
-   UR_TYPE_DOUBLE, /* aclPackets */
-   UR_TYPE_DOUBLE, /* address */
-   UR_TYPE_DOUBLE, /* average */
-   UR_TYPE_DOUBLE, /* averageRequestRTT */
-   UR_TYPE_DOUBLE, /* averageResponseRTT */
-   UR_TYPE_DOUBLE, /* badChecksum */
-   UR_TYPE_DOUBLE, /* badroutes */
-   UR_TYPE_DOUBLE, /* broadcastReadCount */
-   UR_TYPE_DOUBLE, /* broadcastWriteCount */
-   UR_TYPE_DOUBLE, /* callbacks */
-   UR_TYPE_DOUBLE, /* dropped */
-   UR_TYPE_DOUBLE, /* err_value */
-   UR_TYPE_DOUBLE, /* homeID */
-   UR_TYPE_DOUBLE, /* lastRequestRTT */
-   UR_TYPE_DOUBLE, /* lastResponseRTT */
-   UR_TYPE_DOUBLE, /* moving_average */
-   UR_TYPE_DOUBLE, /* moving_median */
-   UR_TYPE_DOUBLE, /* moving_variance */
-   UR_TYPE_DOUBLE, /* netBusy */
-   UR_TYPE_DOUBLE, /* noACK */
-   UR_TYPE_DOUBLE, /* nodeID */
-   UR_TYPE_DOUBLE, /* nonDelivery */
-   UR_TYPE_DOUBLE, /* notIdle */
-   UR_TYPE_DOUBLE, /* profile_value */
-   UR_TYPE_DOUBLE, /* quality */
-   UR_TYPE_DOUBLE, /* readAborts */
-   UR_TYPE_DOUBLE, /* readCount */
-   UR_TYPE_DOUBLE, /* receiveDuplications */
-   UR_TYPE_DOUBLE, /* receiveUnsolicited */
-   UR_TYPE_DOUBLE, /* receivedCount */
-   UR_TYPE_DOUBLE, /* retries */
-   UR_TYPE_DOUBLE, /* routedBusy */
-   UR_TYPE_DOUBLE, /* rxAcls */
-   UR_TYPE_DOUBLE, /* rxBytes */
-   UR_TYPE_DOUBLE, /* rxErrors */
-   UR_TYPE_DOUBLE, /* rxEvents */
-   UR_TYPE_DOUBLE, /* rxScos */
-   UR_TYPE_DOUBLE, /* scoMtu */
-   UR_TYPE_DOUBLE, /* scoPackets */
-   UR_TYPE_DOUBLE, /* sentCount */
-   UR_TYPE_DOUBLE, /* sentFailed */
-   UR_TYPE_DOUBLE, /* txAcls */
-   UR_TYPE_DOUBLE, /* txBytes */
-   UR_TYPE_DOUBLE, /* txCmds */
-   UR_TYPE_DOUBLE, /* txErrors */
-   UR_TYPE_DOUBLE, /* txScos */
-   UR_TYPE_DOUBLE, /* writeCount */
-   UR_TYPE_DOUBLE, /* EVENT_TYPE */
-   UR_TYPE_STRING, /* alert_desc */
-   UR_TYPE_STRING, /* cmd */
-   UR_TYPE_STRING, /* profile_key */
-   UR_TYPE_STRING, /* ur_key */
+   UR_TYPE_DOUBLE, /* WRITE_COUNT */
+   UR_TYPE_STRING, /* CHANNELS */
+   UR_TYPE_STRING, /* CMD */
+   UR_TYPE_STRING, /* EVENT */
+   UR_TYPE_STRING, /* MSG_TYPE */
+   UR_TYPE_BYTES, /* PAYLOAD */
+   UR_TYPE_STRING, /* PROT_STATE */
 };
 ur_static_field_specs_t UR_FIELD_SPECS_STATIC = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 69};
 ur_field_specs_t ur_field_specs = {ur_field_names_static, ur_field_sizes_static, ur_field_types_static, 69, 69, 69, NULL, UR_UNINITIALIZED};
