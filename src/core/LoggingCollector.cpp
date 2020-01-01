@@ -6,7 +6,6 @@
 #include "bluetooth/HciInfo.h"
 #include "core/LoggingCollector.h"
 #include "di/Injectable.h"
-#include "iqrf/IQRFEvent.h"
 #include "model/SensorData.h"
 #include "philips/PhilipsHueBulbInfo.h"
 #include "philips/PhilipsHueBridgeInfo.h"
@@ -236,7 +235,7 @@ void LoggingCollector::onReceiveDPA(const IQRFEvent &info)
 			+ to_string(info.payload().size()));
 }
 #else
-void LoggingCollector::onReceiveDPA(const IQRFEvent &info)
+void LoggingCollector::onReceiveDPA(const IQRFEvent &)
 {
 }
 #endif
