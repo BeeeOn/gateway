@@ -299,8 +299,9 @@ void NemeaCollector::onReceiveDPA(const IQRFEvent &event)
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_DEV_ADDR, event.networkAddress());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TYPE, event.direction());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_MESSAGE_TYPE, event.commandCode());
-    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_INDEX, event.peripheralNumber());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_SIZE, event.size());
+    ur_set_var(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_PAYLOAD, reinterpret_cast<char*>(event.payload().data()), event.payload().size());
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_INDEX, event.peripheralNumber());
 
     // Send out received data immediately
     trap_ctx_send(onReceiveDPAMetaInfo.ctx, 0, onReceiveDPAMetaInfo.udata, ur_rec_size(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata));
@@ -372,7 +373,7 @@ void NemeaCollector::setOnNotification(const string& interface) {}
 void NemeaCollector::setOnReceiveDPA(const string& interface)
 {
     onReceiveDPAMetaInfo.onEventInterface = interface;
-    onReceiveDPAMetaInfo.ufields = "TIME,DEV_ADDR,TYPE,MESSAGE_TYPE,INDEX,SIZE";
+    onReceiveDPAMetaInfo.ufields = "TIME,DEV_ADDR,TYPE,MESSAGE_TYPE,SIZE,PAYLOAD,INDEX";
     initInterface(onReceiveDPAMetaInfo);
 }
 #else
