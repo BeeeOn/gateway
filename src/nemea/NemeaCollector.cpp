@@ -152,7 +152,7 @@ void NemeaCollector::onExport(const SensorData &data) {
     // Insert data into the unirec record
     for (auto const &module: data){
         ur_set(onExportMetaInfo.utmpl, onExportMetaInfo.udata, F_VALUE, module.value());
-        ur_set(onExportMetaInfo.utmpl, onExportMetaInfo.udata, F_TIME, timestamp);
+        ur_set(onExportMetaInfo.utmpl, onExportMetaInfo.udata, F_TIMESTAMP, timestamp);
         ur_set(onExportMetaInfo.utmpl, onExportMetaInfo.udata, F_DEV_ADDR, data.deviceID()+sensor_valueID_cnt);
 
         // Change ID for multiple virtual sensors -> the are using the same id now
@@ -171,7 +171,7 @@ void NemeaCollector::onDriverStats(const ZWaveDriverEvent &event)
     ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
 
     // Insert data into the unirec record
-    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_TIMESTAMP, timestamp);
     ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_DEV_ADDR, exportGwID);
     ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_SOF_COUNT, event.SOFCount());
     ur_set(onDriverStatsMetaInfo.utmpl, onDriverStatsMetaInfo.udata, F_ACK_WAITING, event.ACKWaiting());
@@ -206,7 +206,7 @@ void NemeaCollector::onNodeStats(const ZWaveNodeEvent &event)
     ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
 
     // Insert data into the unirec record
-    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_TIMESTAMP, timestamp);
     ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_SENT_COUNT, event.sentCount());
     ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_SENT_FAILED, event.sentFailed());
     ur_set(onNodeStatsMetaInfo.utmpl, onNodeStatsMetaInfo.udata, F_RECEIVED_COUNT, event.receivedCount());
@@ -235,7 +235,7 @@ void NemeaCollector::onHciStats(const HciInfo &event){
     ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
 
     // Insert data into the unirec record
-    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_TIMESTAMP, timestamp);
     ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_DEV_ADDR, exportGwID);
     ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_ADDRESS, event.address());
     ur_set(onHCIStatsMetaInfo.utmpl, onHCIStatsMetaInfo.udata, F_ACL_PACKETS, event.aclPackets());
@@ -268,7 +268,7 @@ void NemeaCollector::onNotification(const OZWNotificationEvent &event){
     ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
 
     // Insert data into the unirec record
-    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_TIMESTAMP, timestamp);
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_DEV_ADDR, exportGwID);
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_HOME_ID, event.homeID());
     ur_set(onNotificationMetaInfo.utmpl, onNotificationMetaInfo.udata, F_NODE_ID, event.nodeID());
@@ -295,7 +295,7 @@ void NemeaCollector::onReceiveDPA(const IQRFEvent &event)
     ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
 
     // Insert data into the unirec record
-    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TIMESTAMP, timestamp);
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_DEV_ADDR, event.networkAddress());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_TYPE, event.direction());
     ur_set(onReceiveDPAMetaInfo.utmpl, onReceiveDPAMetaInfo.udata, F_MESSAGE_TYPE, event.commandCode());
@@ -316,7 +316,7 @@ void NemeaCollector::onDispatch(const Command::Ptr cmd){
     ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
 
     // Insert data into the unirec record
-    ur_set(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_TIMESTAMP, timestamp);
     ur_set(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_DEV_ADDR, exportGwID);
     ur_set_string(onDispatchMetaInfo.utmpl, onDispatchMetaInfo.udata, F_CMD, cmd->toString().c_str());
 
@@ -326,14 +326,14 @@ void NemeaCollector::onDispatch(const Command::Ptr cmd){
 
 void NemeaCollector::setOnExport(const string& interface) {
     onExportMetaInfo.onEventInterface = interface;
-    onExportMetaInfo.ufields = "TIME,DEV_ADDR,VALUE";
+    onExportMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,VALUE";
     initInterface(onExportMetaInfo);
 }
 
 #ifdef HAVE_HCI
 void NemeaCollector::setOnHCIStats(const string& interface) {
     onHCIStatsMetaInfo.onEventInterface = interface;
-    onHCIStatsMetaInfo.ufields = "TIME,DEV_ADDR,ADDRESS,ACL_PACKETS,SCO_MTU,SCO_PACKETS,RX_ERRORS,TX_ERRORS,RX_EVENTS, TX_CMDS,TX_ACLS,TX_ACLS,TX_SCOS,TX_SCOS,TX_BYTES,TX_BYTES";
+    onHCIStatsMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,ADDRESS,ACL_PACKETS,SCO_MTU,SCO_PACKETS,RX_ERRORS,TX_ERRORS,RX_EVENTS, TX_CMDS,TX_ACLS,TX_ACLS,TX_SCOS,TX_SCOS,TX_BYTES,TX_BYTES";
     initInterface(onHCIStatsMetaInfo);
 }
 #else
@@ -344,13 +344,13 @@ void NemeaCollector::setOnHCIStats(const string& interface) {}
 #ifdef HAVE_ZWAVE
 void NemeaCollector::setOnNodeStats(const string& interface) {
     onNodeStatsMetaInfo.onEventInterface = interface;
-    onNodeStatsMetaInfo.ufields = "TIME,DEV_ADDR,SENT_COUNT,SENT_FAILED,RECEIVED_COUNT,RECEIVE_DUPLICATIONS,RECEIVE_UNSOLICITED,LAST_REQUEST_RTT,LAST_RESPONSE_RTT,AVERAGE_REQUEST_RTT,AVERAGE_RESPONSE_RTT,QUALITY";
+    onNodeStatsMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,SENT_COUNT,SENT_FAILED,RECEIVED_COUNT,RECEIVE_DUPLICATIONS,RECEIVE_UNSOLICITED,LAST_REQUEST_RTT,LAST_RESPONSE_RTT,AVERAGE_REQUEST_RTT,AVERAGE_RESPONSE_RTT,QUALITY";
     initInterface(onNodeStatsMetaInfo);
 }
 
 void NemeaCollector::setOnDriverStats(const string& interface) {
     onDriverStatsMetaInfo.onEventInterface = interface;
-    onDriverStatsMetaInfo.ufields = "TIME,DEV_ADDR,SOF_COUNT,ACK_WAITING,READ_ABORTS,BAD_CHECKSUM,READ_COUNT,WRITE_COUNT,CAN_COUNT,NAK_COUNT,ACK_COUNT,OOF_COUNT,DROPPED,RETRIES,CALLBACKS,BAD_ROUTES,NO_ACK,NET_BUSY,NOT_IDLE,NON_DELIVERY,ROUTED_BUSY,BROADCAST_READ_COUNT,BROADCAST_WRITE_COUNT";
+    onDriverStatsMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,SOF_COUNT,ACK_WAITING,READ_ABORTS,BAD_CHECKSUM,READ_COUNT,WRITE_COUNT,CAN_COUNT,NAK_COUNT,ACK_COUNT,OOF_COUNT,DROPPED,RETRIES,CALLBACKS,BAD_ROUTES,NO_ACK,NET_BUSY,NOT_IDLE,NON_DELIVERY,ROUTED_BUSY,BROADCAST_READ_COUNT,BROADCAST_WRITE_COUNT";
     initInterface(onDriverStatsMetaInfo);
 }
 #else
@@ -361,7 +361,7 @@ void NemeaCollector::setOnDriverStats(const string& interface) {}
 #ifdef HAVE_OPENZWAVE
 void NemeaCollector::setOnNotification(const string& interface) {
     onNotificationMetaInfo.onEventInterface = interface;
-    onNotificationMetaInfo.ufields = "TIME,DEV_ADDR,HOME_ID,NODE_ID,GENRE,CMDCLASS,INSTANCE,INDEX,TYPE,BYTE,EVENT_TYPE";
+    onNotificationMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,HOME_ID,NODE_ID,GENRE,CMDCLASS,INSTANCE,INDEX,TYPE,BYTE,EVENT_TYPE";
     initInterface(onNotificationMetaInfo);
 }
 #else
@@ -372,7 +372,7 @@ void NemeaCollector::setOnNotification(const string& interface) {}
 void NemeaCollector::setOnReceiveDPA(const string& interface)
 {
     onReceiveDPAMetaInfo.onEventInterface = interface;
-    onReceiveDPAMetaInfo.ufields = "TIME,DEV_ADDR,TYPE,MESSAGE_TYPE,INDEX,SIZE";
+    onReceiveDPAMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,TYPE,MESSAGE_TYPE,INDEX,SIZE";
     initInterface(onReceiveDPAMetaInfo);
 }
 #else
@@ -381,7 +381,7 @@ void NemeaCollector::setOnReceiveDPA(const string& interface){}
 
 void NemeaCollector::setOnDispatch(const string& interface) {
     onDispatchMetaInfo.onEventInterface = interface;
-    onDispatchMetaInfo.ufields = "TIME,DEV_ADDR,CMD";
+    onDispatchMetaInfo.ufields = "TIMESTAMP,DEV_ADDR,CMD";
     initInterface(onDispatchMetaInfo);
 }
 
