@@ -126,6 +126,7 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/core/Result.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingDistributor.cpp
 	${PROJECT_SOURCE_DIR}/core/QueuingExporter.cpp
+	${PROJECT_SOURCE_DIR}/conrad/ConradListener.cpp
 	${PROJECT_SOURCE_DIR}/credentials/Credentials.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsStorage.cpp
 	${PROJECT_SOURCE_DIR}/credentials/CredentialsTool.cpp
@@ -218,18 +219,20 @@ else()
 endif()
 
 if(ZMQ AND ENABLE_CONRAD)
-    file(GLOB CONRAD_SOURCES
+	file(GLOB CONRAD_SOURCES
 		${PROJECT_SOURCE_DIR}/conrad/ConradDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/conrad/ConradDevice.cpp
 		${PROJECT_SOURCE_DIR}/conrad/WirelessShutterContact.cpp
 		${PROJECT_SOURCE_DIR}/conrad/PowerMeterSwitch.cpp
 		${PROJECT_SOURCE_DIR}/conrad/RadiatorThermostat.cpp
+		${PROJECT_SOURCE_DIR}/conrad/ConradEvent.cpp
 	)
-    add_library(BeeeOnConrad ${CONRAD_SOURCES})
-    list(APPEND MODULE_LIBS BeeeOnConrad)
-    list(APPEND LIBS ${ZMQ})
+	add_library(BeeeOnConrad ${CONRAD_SOURCES})
+	list(APPEND MODULE_LIBS BeeeOnConrad)
+	list(APPEND LIBS ${ZMQ})
+	add_definitions(-DHAVE_CONRAD=1)
 else()
-    message(STATUS "Conrad support is disabled")
+	message(STATUS "Conrad support is disabled")
 endif()
 
 if(BLUETOOTH AND WANTS_BLUETOOTH)

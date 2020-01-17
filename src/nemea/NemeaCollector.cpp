@@ -61,6 +61,10 @@
 #include "iqrf/IQRFEvent.h"
 #endif
 
+#ifdef HAVE_CONRAD
+#include "conrad/ConradEvent.h"
+#endif
+
 #include <libtrap/trap.h>
 #include <unirec/unirec.h>
 #include "fields.h"
@@ -71,6 +75,7 @@ BEEEON_OBJECT_CASTABLE(DistributorListener)       // Interface name for Dependen
 BEEEON_OBJECT_CASTABLE(ZWaveListener)             // Interface name for DependencyInjector
 BEEEON_OBJECT_CASTABLE(HciListener) 	          // Interface name for DependencyInjector
 BEEEON_OBJECT_CASTABLE(IQRFListener)              // Interface name for DependencyInjector
+BEEEON_OBJECT_CASTABLE(ConradListener)              // Interface name for DependencyInjector
 BEEEON_OBJECT_CASTABLE(CommandDispatcherListener)
 BEEEON_OBJECT_PROPERTY("onExportInterface", &NemeaCollector::setOnExport)  // Member function for input param defined in the file factory.xml
 BEEEON_OBJECT_PROPERTY("onHCIStatsInterface", &NemeaCollector::setOnHCIStats) // Member function for input param defined in the file factory.xml
@@ -83,6 +88,9 @@ BEEEON_OBJECT_PROPERTY("onNotificationInterface", &NemeaCollector::setOnNotifica
 #endif
 #ifdef HAVE_IQRF
 BEEEON_OBJECT_PROPERTY("onReceiveDPAInterface", &NemeaCollector::setOnReceiveDPA) // Member function for input param defined in the file factory.xml
+#endif
+#ifdef HAVE_CONRAD
+BEEEON_OBJECT_PROPERTY("onConradMessageInterface", &NemeaCollector::setOnConradMessage) // Member function for input param defined in the file factory.xml
 #endif
 BEEEON_OBJECT_PROPERTY("onDispatchInterface", &NemeaCollector::setOnDispatch) // Member function for input param defined in the file factory.xml
 BEEEON_OBJECT_PROPERTY("exportGwID", &NemeaCollector::setExportGwID) // Member function for input param defined in the file factory.xml
@@ -311,6 +319,31 @@ void NemeaCollector::onReceiveDPA(const IQRFEvent &event)
 void NemeaCollector::onReceiveDPA(const IQRFEvent &event){}
 #endif
 
+#ifdef HAVE_CONRAD
+void NemeaCollector::onConradMessage(const ConradEvent &event)
+{
+    // Catch current timestamp
+    Poco::Timestamp now;
+    ur_time_t timestamp = ur_time_from_sec_usec(now.epochTime(),now.epochMicroseconds());
+
+    // Insert data into the unirec record
+    ur_set(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_TIME, timestamp);
+    ur_set(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_DEV_ADDR, event.id());
+    ur_set(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_RSSI, event.rssi());
+    ur_set_string(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_EVENT, event.event().c_str());
+    ur_set_string(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_MSG_TYPE, event.type().c_str());
+    ur_set_string(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_PROT_STATE, event.protState().c_str());
+    ur_set_string(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_PAYLOAD, event.raw().c_str());
+    ur_set_string(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata, F_CHANNELS, event.channels().c_str());
+
+    // Send out received data immediately
+    trap_ctx_send(onConradMessageMetaInfo.ctx, 0, onConradMessageMetaInfo.udata, ur_rec_size(onConradMessageMetaInfo.utmpl, onConradMessageMetaInfo.udata));
+    trap_ctx_send_flush(onConradMessageMetaInfo.ctx,0);
+}
+#else
+void NemeaCollector::onConradMessage(const ConradEvent &event){}
+#endif
+
 void NemeaCollector::onDispatch(const Command::Ptr cmd){
     // Catch current timestamp
     Poco::Timestamp now;
@@ -378,6 +411,17 @@ void NemeaCollector::setOnReceiveDPA(const string& interface)
 }
 #else
 void NemeaCollector::setOnReceiveDPA(const string& interface){}
+#endif
+
+#ifdef HAVE_CONRAD
+void NemeaCollector::setOnConradMessage(const string& interface)
+{
+    onConradMessageMetaInfo.onEventInterface = interface;
+    onConradMessageMetaInfo.ufields = "TIME,DEV_ADDR,RSSI,EVENT,MSG_TYPE,PROT_STATE,PAYLOAD,CHANNELS";
+    initInterface(onConradMessageMetaInfo);
+}
+#else
+void NemeaCollector::setOnConradMessage(const string& interface){}
 #endif
 
 void NemeaCollector::setOnDispatch(const string& interface) {

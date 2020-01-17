@@ -21,6 +21,7 @@ public:
 	void onBridgeStats(const PhilipsHueBridgeInfo &info) override;
 	void onDispatch(const Command::Ptr cmd) override;
 	void onReceiveDPA(const IQRFEvent &info) override;
+	void onConradMessage(const ConradEvent &info) override;
 
 private:
 	Poco::AtomicCounter m_seenData;

@@ -6,6 +6,7 @@
 #include "commands/NewDeviceCommand.h"
 #include "commands/GatewayListenCommand.h"
 #include "conrad/ConradDeviceManager.h"
+#include "conrad/ConradEvent.h"
 #include "conrad/PowerMeterSwitch.h"
 #include "conrad/RadiatorThermostat.h"
 #include "conrad/WirelessShutterContact.h"
@@ -27,6 +28,8 @@ BEEEON_OBJECT_PROPERTY("distributor", &ConradDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &ConradDeviceManager::setCommandDispatcher)
 BEEEON_OBJECT_PROPERTY("cmdZmqIface", &ConradDeviceManager::setCmdZmqIface)
 BEEEON_OBJECT_PROPERTY("eventZmqIface", &ConradDeviceManager::setEventZmqIface)
+BEEEON_OBJECT_PROPERTY("eventsExecutor", &ConradDeviceManager::setEventsExecutor)
+BEEEON_OBJECT_PROPERTY("listeners", &ConradDeviceManager::registerListener)
 BEEEON_OBJECT_END(BeeeOn, ConradDeviceManager)
 
 using namespace BeeeOn;
@@ -52,6 +55,16 @@ void ConradDeviceManager::setCmdZmqIface(const string &cmdZmqIface)
 void ConradDeviceManager::setEventZmqIface(const string &eventZmqIface)
 {
 	m_eventZmqIface = URI(eventZmqIface);
+}
+
+void ConradDeviceManager::setEventsExecutor(AsyncExecutor::Ptr executor)
+{
+	m_eventSource.setAsyncExecutor(executor);
+}
+
+void ConradDeviceManager::registerListener(ConradListener::Ptr listener)
+{
+	m_eventSource.addListener(listener);
 }
 
 void ConradDeviceManager::run()
@@ -98,6 +111,8 @@ void ConradDeviceManager::processMessage(const string &message)
 		logger().debug("Event " + object->getValue<string>("event") +
 			" from " + deviceID.toString(), __FILE__, __LINE__);
 	}
+
+	fireMessage(deviceID, object);
 
 	ScopedLock<FastMutex> lock(m_devicesMutex);
 
@@ -232,6 +247,8 @@ Object::Ptr ConradDeviceManager::sendCmdRequest(const string &request)
 	void *requester = zmq_socket (context, ZMQ_REQ);
 	zmq_connect(requester, m_cmdZmqIface.toString().c_str());
 
+	fireMessage(DeviceID(),JsonUtil::parse(request));
+
 	char buffer[RSP_BUFFER_SIZE];
 	zmq_send(requester, request.c_str(), request.length(), 0);
 	zmq_recv(requester, buffer, RSP_BUFFER_SIZE, 0);
@@ -240,4 +257,18 @@ Object::Ptr ConradDeviceManager::sendCmdRequest(const string &request)
 	zmq_ctx_destroy(context);
 
 	return JsonUtil::parse(string(buffer));
+}
+
+void ConradDeviceManager::fireMessage(
+	DeviceID const &deviceID,
+	const JSON::Object::Ptr message)
+{
+	try {
+		ConradEvent event = ConradEvent::parse(deviceID, message);
+		m_eventSource.fireEvent(event, &ConradListener::onConradMessage);
+	}
+	catch (Exception& e) {
+		logger().warning("failed to obtain information from message");
+		logger().log(e, __FILE__, __LINE__);
+	}
 }

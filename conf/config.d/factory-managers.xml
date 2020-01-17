@@ -274,6 +274,9 @@
 			<set name="commandDispatcher" ref="commandDispatcher" />
 			<set name="cmdZmqIface" text="${conrad.cmdZmqIface}" />
 			<set name="eventZmqIface" text="${conrad.eventZmqIface}" />
+			<set name="eventsExecutor" ref="asyncExecutor"/>
+			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
+			<add name="listeners" ref="nemeaCollector" if-yes="${nemea.collector.enable}" />
 		</instance>
 
 		<instance name="iqrfMqttConnector" class="BeeeOn::IQRFMqttConnector">
