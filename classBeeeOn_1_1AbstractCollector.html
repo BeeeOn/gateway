@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.9.1-10-gaa1a876</span>
+   &#160;<span id="projectnumber">v2019.9.1-20-g27bc592</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -74,8 +74,9 @@ Inheritance diagram for BeeeOn::AbstractCollector:</div>
 <area href="classBeeeOn_1_1ZWaveListener.html" alt="BeeeOn::ZWaveListener" shape="rect" coords="705,0,930,24"/>
 <area href="classBeeeOn_1_1CommandDispatcherListener.html" alt="BeeeOn::CommandDispatcherListener" shape="rect" coords="940,0,1165,24"/>
 <area href="classBeeeOn_1_1IQRFListener.html" alt="BeeeOn::IQRFListener" shape="rect" coords="1175,0,1400,24"/>
-<area href="classBeeeOn_1_1LoggingCollector.html" alt="BeeeOn::LoggingCollector" shape="rect" coords="470,112,695,136"/>
-<area href="classBeeeOn_1_1NemeaCollector.html" alt="BeeeOn::NemeaCollector" shape="rect" coords="705,112,930,136"/>
+<area href="classBeeeOn_1_1ConradListener.html" alt="BeeeOn::ConradListener" shape="rect" coords="1410,0,1635,24"/>
+<area href="classBeeeOn_1_1LoggingCollector.html" alt="BeeeOn::LoggingCollector" shape="rect" coords="587,112,812,136"/>
+<area href="classBeeeOn_1_1NemeaCollector.html" alt="BeeeOn::NemeaCollector" shape="rect" coords="822,112,1047,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -99,6 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac8eb2951628a5b0c75638ef0c4ac9328"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a214772d5629d0250933fbf4cd1be4bb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#a214772d5629d0250933fbf4cd1be4bb7">onReceiveDPA</a> (const <a class="el" href="classBeeeOn_1_1IQRFEvent.html">IQRFEvent</a> &amp;info) override</td></tr>
 <tr class="separator:a214772d5629d0250933fbf4cd1be4bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecdfaac331f5184516786c1989105c9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1AbstractCollector.html#aecdfaac331f5184516786c1989105c9a">onConradMessage</a> (const <a class="el" href="classBeeeOn_1_1ConradEvent.html">ConradEvent</a> &amp;info) override</td></tr>
+<tr class="separator:aecdfaac331f5184516786c1989105c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -132,6 +135,11 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 typedef Poco::SharedPtr<br class="typebreak"/>
 &lt; <a class="el" href="classBeeeOn_1_1IQRFListener.html">IQRFListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
 <tr class="separator:ac6fabf888fc76946b64386f321b5adda inherit pub_types_classBeeeOn_1_1IQRFListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classBeeeOn_1_1ConradListener"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classBeeeOn_1_1ConradListener')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classBeeeOn_1_1ConradListener.html">BeeeOn::ConradListener</a></td></tr>
+<tr class="memitem:a70da708f1828f2f2c8bd70f0aecfac6b inherit pub_types_classBeeeOn_1_1ConradListener"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70da708f1828f2f2c8bd70f0aecfac6b"></a>
+typedef Poco::SharedPtr<br class="typebreak"/>
+&lt; <a class="el" href="classBeeeOn_1_1ConradListener.html">ConradListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b></td></tr>
+<tr class="separator:a70da708f1828f2f2c8bd70f0aecfac6b inherit pub_types_classBeeeOn_1_1ConradListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class represents a collector of events occuring inside the Gateway. It implements all available listeners that can potentially provide some interesting events about the Gateway and the connected sensors. </p>
@@ -191,6 +199,35 @@ typedef Poco::SharedPtr<br class="typebreak"/>
 <p>Implements <a class="el" href="classBeeeOn_1_1PhilipsHueListener.html#af1ea6dc5601ad2dd8505297b6ce1660c">BeeeOn::PhilipsHueListener</a>.</p>
 
 <p>Reimplemented in <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a9c03f9eb064817edb2aacfd35d5e6882">BeeeOn::LoggingCollector</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aecdfaac331f5184516786c1989105c9a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AbstractCollector::onConradMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classBeeeOn_1_1ConradEvent.html">ConradEvent</a> &amp;&#160;</td>
+          <td class="paramname"><em>info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Empty implementation to be overrided if needed. </p>
+
+<p>Implements <a class="el" href="classBeeeOn_1_1ConradListener.html#a57174968ecf7180608bfd45d54ef6a63">BeeeOn::ConradListener</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classBeeeOn_1_1NemeaCollector.html#a718e967a9dbb207bacb6cc7e01989b54">BeeeOn::NemeaCollector</a>, and <a class="el" href="classBeeeOn_1_1LoggingCollector.html#a063814fd8bc6bdb6378c43f49f78aa43">BeeeOn::LoggingCollector</a>.</p>
 
 </div>
 </div>

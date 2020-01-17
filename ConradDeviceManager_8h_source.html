@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.9.1-10-gaa1a876</span>
+   &#160;<span id="projectnumber">v2019.9.1-20-g27bc592</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -62,52 +62,65 @@
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;core/DeviceManager.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;conrad/ConradDevice.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;util/BlockingAsyncWork.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;util/JsonUtil.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ConradDeviceManager.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ConradDeviceManager.html">ConradDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html">ConradDeviceManager</a>();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a60102fe3ce9d8306c5a9060e64410cda">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;conrad/ConradListener.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;model/DeviceID.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;util/AsyncExecutor.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;util/BlockingAsyncWork.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;util/EventSource.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;util/JsonUtil.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>BeeeOn {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classBeeeOn_1_1ConradDeviceManager.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classBeeeOn_1_1ConradDeviceManager.html">ConradDeviceManager</a> : <span class="keyword">public</span> <a class="code" href="classBeeeOn_1_1DeviceManager.html">DeviceManager</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html">ConradDeviceManager</a>();</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a0794824d4e3153786231a9c2e853ae31">setCmdZmqIface</a>(<span class="keyword">const</span> std::string &amp;cmdZmqIface);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a4b2f87d353bbe1ee485682f0a2ed1e20">setEventZmqIface</a>(<span class="keyword">const</span> std::string &amp;eventZmqIface);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;::Ptr</a> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#ab798a6e01b2fe869ff5e10398c9bb6a9">startDiscovery</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a0b309d9757881044d0f17fbcf45c9e9e">startUnpair</a>(</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#acf53a8ebac182e3f687331234408e01a">handleAccept</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">void</span> run() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a60102fe3ce9d8306c5a9060e64410cda">stop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a0794824d4e3153786231a9c2e853ae31">setCmdZmqIface</a>(<span class="keyword">const</span> std::string &amp;cmdZmqIface);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a4b2f87d353bbe1ee485682f0a2ed1e20">setEventZmqIface</a>(<span class="keyword">const</span> std::string &amp;eventZmqIface);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">void</span> setEventsExecutor(AsyncExecutor::Ptr executor);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span> registerListener(ConradListener::Ptr listener);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        Poco::JSON::Object::Ptr <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a6d20c17d9097f4acdf050bf60840fced">sendCmdRequest</a>(<span class="keyword">const</span> std::string &amp;request);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a048fe30672b94fbf16b595592607787a">processMessage</a>(<span class="keyword">const</span> std::string &amp;message);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a7ac0513192fca294f9c0027da108d606">createNewDeviceUnlocked</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, <span class="keyword">const</span> std::string &amp;type);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        Poco::URI m_cmdZmqIface;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        Poco::URI m_eventZmqIface;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        Poco::FastMutex m_devicesMutex;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        std::map&lt;DeviceID, ConradDevice::Ptr&gt; m_devices;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;&gt;::Ptr</a> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#ab798a6e01b2fe869ff5e10398c9bb6a9">startDiscovery</a>(<span class="keyword">const</span> Poco::Timespan &amp;timeout) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classBeeeOn_1_1AsyncWork.html">AsyncWork&lt;std::set&lt;DeviceID&gt;</a>&gt;::Ptr <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a0b309d9757881044d0f17fbcf45c9e9e">startUnpair</a>(</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;<span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keyword">const</span> Poco::Timespan &amp;) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#acf53a8ebac182e3f687331234408e01a">handleAccept</a>(<span class="keyword">const</span> DeviceAcceptCommand::Ptr cmd) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        Poco::JSON::Object::Ptr <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a6d20c17d9097f4acdf050bf60840fced">sendCmdRequest</a>(<span class="keyword">const</span> std::string &amp;request);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a048fe30672b94fbf16b595592607787a">processMessage</a>(<span class="keyword">const</span> std::string &amp;message);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a7ac0513192fca294f9c0027da108d606">createNewDeviceUnlocked</a>(<span class="keyword">const</span> <a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, <span class="keyword">const</span> std::string &amp;type);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classBeeeOn_1_1ConradDeviceManager.html#a8f484691d3bc27b13bfc7aafff1424a7">fireMessage</a>(<a class="code" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> <span class="keyword">const</span> &amp;deviceID, <span class="keyword">const</span> Poco::JSON::Object::Ptr message);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        Poco::URI m_cmdZmqIface;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        Poco::URI m_eventZmqIface;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        Poco::FastMutex m_devicesMutex;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        std::map&lt;DeviceID, ConradDevice::Ptr&gt; m_devices;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <a class="code" href="classBeeeOn_1_1EventSource.html">EventSource&lt;ConradListener&gt;</a> m_eventSource;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a8f484691d3bc27b13bfc7aafff1424a7"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a8f484691d3bc27b13bfc7aafff1424a7">BeeeOn::ConradDeviceManager::fireMessage</a></div><div class="ttdeci">void fireMessage(DeviceID const &amp;deviceID, const Poco::JSON::Object::Ptr message)</div><div class="ttdoc">Transforms received/sent message into ConradEvent and fires it. </div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a60102fe3ce9d8306c5a9060e64410cda"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a60102fe3ce9d8306c5a9060e64410cda">BeeeOn::ConradDeviceManager::stop</a></div><div class="ttdeci">void stop() override</div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a0794824d4e3153786231a9c2e853ae31"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a0794824d4e3153786231a9c2e853ae31">BeeeOn::ConradDeviceManager::setCmdZmqIface</a></div><div class="ttdeci">void setCmdZmqIface(const std::string &amp;cmdZmqIface)</div><div class="ttdoc">Sets command ZMQ interface. </div></div>
+<div class="ttc" id="classBeeeOn_1_1EventSource_html"><div class="ttname"><a href="classBeeeOn_1_1EventSource.html">BeeeOn::EventSource</a></div><div class="ttdoc">EventSource implements common logic for firing events to listeners. </div><div class="ttdef"><b>Definition:</b> EventSource.h:24</div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_ab798a6e01b2fe869ff5e10398c9bb6a9"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#ab798a6e01b2fe869ff5e10398c9bb6a9">BeeeOn::ConradDeviceManager::startDiscovery</a></div><div class="ttdeci">AsyncWork::Ptr startDiscovery(const Poco::Timespan &amp;timeout) override</div><div class="ttdoc">Starts device discovery process in a technology-specific way. This method is always called inside a c...</div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a6d20c17d9097f4acdf050bf60840fced"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a6d20c17d9097f4acdf050bf60840fced">BeeeOn::ConradDeviceManager::sendCmdRequest</a></div><div class="ttdeci">Poco::JSON::Object::Ptr sendCmdRequest(const std::string &amp;request)</div><div class="ttdoc">Send request via ZMQ conrad interface and returns response. </div></div>
 <div class="ttc" id="classBeeeOn_1_1AsyncWork_html"><div class="ttname"><a href="classBeeeOn_1_1AsyncWork.html">BeeeOn::AsyncWork</a></div><div class="ttdoc">AsyncWork is an interface allowing to wait until an asynchronous operation finishes. It is also possible to force-stop it by calling cancel(). </div><div class="ttdef"><b>Definition:</b> AsyncWork.h:21</div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a048fe30672b94fbf16b595592607787a"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a048fe30672b94fbf16b595592607787a">BeeeOn::ConradDeviceManager::processMessage</a></div><div class="ttdeci">void processMessage(const std::string &amp;message)</div><div class="ttdoc">Processes the incoming ZMQ message, which means creating a new device or sending the gathered data to...</div></div>
-<div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html">BeeeOn::ConradDeviceManager</a></div><div class="ttdoc">The class implements the work with Conrad devices. Allows us to process and execute the commands from...</div><div class="ttdef"><b>Definition:</b> ConradDeviceManager.h:23</div></div>
+<div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html">BeeeOn::ConradDeviceManager</a></div><div class="ttdoc">The class implements the work with Conrad devices. Allows us to process and execute the commands from...</div><div class="ttdef"><b>Definition:</b> ConradDeviceManager.h:26</div></div>
 <div class="ttc" id="classBeeeOn_1_1DeviceManager_html"><div class="ttname"><a href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></div><div class="ttdef"><b>Definition:</b> DeviceManager.h:48</div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a7ac0513192fca294f9c0027da108d606"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a7ac0513192fca294f9c0027da108d606">BeeeOn::ConradDeviceManager::createNewDeviceUnlocked</a></div><div class="ttdeci">void createNewDeviceUnlocked(const DeviceID &amp;deviceID, const std::string &amp;type)</div><div class="ttdoc">Creates instance of Conrad device appends it into m_devices. </div></div>
 <div class="ttc" id="classBeeeOn_1_1ConradDeviceManager_html_a4b2f87d353bbe1ee485682f0a2ed1e20"><div class="ttname"><a href="classBeeeOn_1_1ConradDeviceManager.html#a4b2f87d353bbe1ee485682f0a2ed1e20">BeeeOn::ConradDeviceManager::setEventZmqIface</a></div><div class="ttdeci">void setEventZmqIface(const std::string &amp;eventZmqIface)</div><div class="ttdoc">Sets event ZMQ interface. </div></div>

@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.9.1-10-gaa1a876</span>
+   &#160;<span id="projectnumber">v2019.9.1-20-g27bc592</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -93,6 +93,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a4b2f87d353bbe1ee485682f0a2ed1e20">setEventZmqIface</a> (const std::string &amp;eventZmqIface)</td></tr>
 <tr class="memdesc:a4b2f87d353bbe1ee485682f0a2ed1e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets event ZMQ interface. <br/></td></tr>
 <tr class="separator:a4b2f87d353bbe1ee485682f0a2ed1e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5179daba72f349649eeed9371a3064b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5179daba72f349649eeed9371a3064b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setEventsExecutor</b> (AsyncExecutor::Ptr executor)</td></tr>
+<tr class="separator:ab5179daba72f349649eeed9371a3064b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aade32354148ddcd26fd00d022a0e46b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aade32354148ddcd26fd00d022a0e46b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>registerListener</b> (ConradListener::Ptr listener)</td></tr>
+<tr class="separator:aade32354148ddcd26fd00d022a0e46b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:a67184ffd5cd51ee3b5ef208c4add70b6 inherit pub_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67184ffd5cd51ee3b5ef208c4add70b6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DeviceManager</b> (const <a class="el" href="classBeeeOn_1_1Enum.html">DevicePrefix</a> &amp;<a class="el" href="classBeeeOn_1_1DeviceManager.html#a5409f8a69e76bd6b33b9b5ceffe18ba4">prefix</a>, const std::initializer_list&lt; std::type_index &gt; &amp;acceptable={})</td></tr>
@@ -150,6 +156,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a7ac0513192fca294f9c0027da108d606">createNewDeviceUnlocked</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;deviceID, const std::string &amp;type)</td></tr>
 <tr class="memdesc:a7ac0513192fca294f9c0027da108d606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates instance of Conrad device appends it into m_devices. <br/></td></tr>
 <tr class="separator:a7ac0513192fca294f9c0027da108d606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f484691d3bc27b13bfc7aafff1424a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f484691d3bc27b13bfc7aafff1424a7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a8f484691d3bc27b13bfc7aafff1424a7">fireMessage</a> (<a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> const &amp;deviceID, const Poco::JSON::Object::Ptr message)</td></tr>
+<tr class="memdesc:a8f484691d3bc27b13bfc7aafff1424a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms received/sent message into <a class="el" href="classBeeeOn_1_1ConradEvent.html">ConradEvent</a> and fires it. <br/></td></tr>
+<tr class="separator:a8f484691d3bc27b13bfc7aafff1424a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1DeviceManager"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1DeviceManager')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1DeviceManager.html">BeeeOn::DeviceManager</a></td></tr>
 <tr class="memitem:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1DeviceManager.html#abd40493771aabb83d6ee3d85bf5dc542">waitRemoteStatus</a> (const Poco::Timespan &amp;timeout)</td></tr>
 <tr class="memdesc:abd40493771aabb83d6ee3d85bf5dc542 inherit pro_methods_classBeeeOn_1_1DeviceManager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until the remote status is delivered or timeout exceeds. DO NOT USE this method, it is intended as a transition mechanism from calling of the deprecated method deviceList().  <a href="#abd40493771aabb83d6ee3d85bf5dc542">More...</a><br/></td></tr>
