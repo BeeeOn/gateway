@@ -57,7 +57,7 @@ char *ur_field_names_static[] = {
 (char *)   "SENT_FAILED",
 (char *)   "SIZE",
 (char *)   "SOF_COUNT",
-(char *)   "TIME",
+(char *)   "TIMESTAMP",
 (char *)   "TX_ACLS",
 (char *)   "TX_BYTES",
 (char *)   "TX_CMDS",
@@ -128,7 +128,7 @@ short ur_field_sizes_static[] = {
    8, /* SENT_FAILED */
    8, /* SIZE */
    8, /* SOF_COUNT */
-   8, /* TIME */
+   8, /* TIMESTAMP */
    8, /* TX_ACLS */
    8, /* TX_BYTES */
    8, /* TX_CMDS */
@@ -199,7 +199,7 @@ ur_field_type_t ur_field_types_static[] = {
    UR_TYPE_DOUBLE, /* SENT_FAILED */
    UR_TYPE_DOUBLE, /* SIZE */
    UR_TYPE_DOUBLE, /* SOF_COUNT */
-   UR_TYPE_TIME, /* TIME */
+   UR_TYPE_TIME, /* TIMESTAMP */
    UR_TYPE_DOUBLE, /* TX_ACLS */
    UR_TYPE_DOUBLE, /* TX_BYTES */
    UR_TYPE_DOUBLE, /* TX_CMDS */
