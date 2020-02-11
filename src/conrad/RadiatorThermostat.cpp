@@ -38,33 +38,23 @@ RadiatorThermostat::~RadiatorThermostat()
 /**
  * Message example:
  * {
- *     "channels": {
- *         "Clima": {
- *             "state": "T: 22.8 desired: 17.0 valve: 0"
- *         },
- *         "ClimaTeam": {
- *             "state": "unpeered"
- *         },
- *         "Climate": {
- *             "state": "unpeered"
- *         },
- *         "Main": "CMDs_done",
- *         "Weather": {
- *             "state": "22.8"
- *         },
- *         "WindowRec": {
- *             "state": "last:trigLast"
- *         },
- *         "remote": {
- *             "state": "unpeered"
- *         }
+ *     "channels" : {
+ *         "Clima" : "T: 21.2 desired: 17.0 valve: 0",
+ *         "ClimaTeam" : "unpeered",
+ *         "Climate" : "unpeered",
+ *         "Main" : "CMDs_done",
+ *         "Weather" : "21.2",
+ *         "WindowRec" : "last:trigLast",
+ *         "remote" : "unpeered"
  *     },
- *     "dev": "36BA59",
- *     "event": "message",
- *     "raw": "A0F9B861036BA590000000A88E4110000",
- *     "rssi": -31.5,
- *     "type": "thermostat"
- * }
+ *     "dev" : "HM_36BA59",
+ *     "event" : "message",
+ *     "model" : "HM-CC-RT-DN",
+ *     "raw" : "A0FE0861036BA590000000A88D40C0000",
+ *     "rssi" : -41.5,
+ *     "serial" : "MEQ0233325",
+ *     "type" : "thermostat"
+ *  }
  */
 SensorData RadiatorThermostat::parseMessage(const Object::Ptr message)
 {
@@ -72,11 +62,11 @@ SensorData RadiatorThermostat::parseMessage(const Object::Ptr message)
 	Poco::RegularExpression::MatchVec matches;
 
 	data.setDeviceID(m_deviceId);
-	Object::Ptr object = message->getObject("channels")->getObject("Clima");
+	Object::Ptr object = message->getObject("channels");
 
 	Poco::RegularExpression re("T: ([+-]?[0-9]+(\\.[0-9]+)?) desired: ([+-]?[0-9]+(\\.[0-9]+)?) valve: (0|1)");
 
-	string str = object->getValue<std::string>("state");
+	string str = object->getValue<std::string>("Clima");
 	if (re.match(str, 0, matches) == 0)
 		throw IllegalStateException("cannot parse Radiator Thermostat message");
 
