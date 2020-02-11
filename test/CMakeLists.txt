@@ -38,7 +38,6 @@ find_package(OpenZWave)
 find_library (LIBTRAP trap)
 find_library (UNIREC unirec)
 find_library (PCAP pcap)
-find_library (ZMQ zmq)
 
 if(GLIB_FOUND AND GIO_UNIX_FOUND)
 	include_directories(${GIO_UNIX_INCLUDE_DIRS})
@@ -177,9 +176,8 @@ if (ENABLE_IQRF AND MOSQUITTO_CPP)
 	list(APPEND TEST_MODULE_LIBS BeeeOnIQRF BeeeOnIQRFTest BeeeOnMosquitto)
 endif()
 
-if (ZMQ AND ENABLE_CONRAD)
+if (ENABLE_CONRAD)
 	list(APPEND TEST_MODULE_LIBS BeeeOnConrad)
-	list(APPEND LIBS ${ZMQ})
 endif()
 
 if(LIBTRAP AND UNIREC AND PCAP AND ENABLE_NEMEA)

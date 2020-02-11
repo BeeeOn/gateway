@@ -18,6 +18,7 @@
 			<add name="runnables" ref="iqrfMqttConnector" if-yes="${iqrf.enable}" />
 			<add name="runnables" ref="vektivaDeviceManager" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="conradDeviceManager" if-yes="${conrad.enable}" />
+			<add name="runnables" ref="conradFHEMClient" if-yes="${conrad.enable}" />
 			<add name="runnables" ref="vektivaMqttClient" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="vektivaStatusMqttClient" if-yes="${vektiva.enable}" />
 			<add name="runnables" ref="sonoffDeviceManager" if-yes="${sonoff.enable}" />
@@ -272,11 +273,17 @@
 			<set name="deviceCache" ref="deviceCache" />
 			<set name="distributor" ref="distributor" />
 			<set name="commandDispatcher" ref="commandDispatcher" />
-			<set name="cmdZmqIface" text="${conrad.cmdZmqIface}" />
-			<set name="eventZmqIface" text="${conrad.eventZmqIface}" />
+			<set name="fhemClient" ref="conradFHEMClient"/>
 			<set name="eventsExecutor" ref="asyncExecutor"/>
 			<add name="listeners" ref="loggingCollector" if-yes="${testing.collector.enable}" />
 			<add name="listeners" ref="nemeaCollector" if-yes="${nemea.collector.enable}" />
+		</instance>
+
+		<instance name="conradFHEMClient" class="BeeeOn::FHEMClient">
+			<set name="address" text="${conrad.fhem.address}" />
+			<set name="refreshTime" time="${conrad.fhem.refreshTime}" />
+			<set name="receiveTimeout" time="${conrad.fhem.receiveTimeout}" />
+			<set name="reconnectTime" time="${conrad.fhem.reconnectTime}" />
 		</instance>
 
 		<instance name="iqrfMqttConnector" class="BeeeOn::IQRFMqttConnector">
