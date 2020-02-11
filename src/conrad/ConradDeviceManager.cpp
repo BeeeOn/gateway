@@ -81,6 +81,18 @@ void ConradDeviceManager::run()
 
 void ConradDeviceManager::processEvent(const Object::Ptr event)
 {
+	if (logger().trace()) {
+		ostringstream jsonStream;
+		event->stringify(jsonStream, 2);
+
+		logger().dump(
+			"received event of size " +
+			to_string(jsonStream.str().size()) + " B",
+			jsonStream.str().c_str(),
+			jsonStream.str().size(),
+			Message::PRIO_TRACE);
+	}
+
 	if (!event->has("dev"))
 		throw IllegalStateException("event does not contain 'dev' element");
 
