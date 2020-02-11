@@ -207,6 +207,30 @@ void ConradDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 	DeviceManager::handleAccept(cmd);
 }
 
+AsyncWork<double>::Ptr ConradDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Timespan &timeout)
+{
+	ScopedLock<FastMutex> lock(m_devicesMutex, timeout.totalMilliseconds());
+
+	auto it = m_devices.find(id);
+	if (it == m_devices.end())
+		throw NotFoundException("set-value: " + id.toString());
+
+	it->second->requestModifyState(module, value, m_fhemClient);
+
+	if (logger().debug()) {
+		logger().debug("success to change state of device " + id.toString(),
+			__FILE__, __LINE__);
+	}
+
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(value);
+	return work;
+}
+
 AsyncWork<set<DeviceID>>::Ptr ConradDeviceManager::startUnpair(
 		const DeviceID &id,
 		const Timespan &timeout)

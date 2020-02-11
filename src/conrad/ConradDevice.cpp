@@ -48,6 +48,15 @@ string ConradDevice::productName() const
 	return m_productName;
 }
 
+void ConradDevice::requestModifyState(
+		const ModuleID&,
+		const double,
+		FHEMClient::Ptr)
+{
+	throw IllegalStateException(
+		"device " + m_productName + " does not allow change its state");
+}
+
 string ConradDevice::constructFHEMDeviceId(const DeviceID& id)
 {
 	// conrad ID is filled in the last 6 characters of Device ID

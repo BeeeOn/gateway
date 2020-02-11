@@ -38,6 +38,11 @@ public:
 
 protected:
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<double>::Ptr startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Poco::Timespan &timeout);
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
 		const DeviceID &id,
 		const Poco::Timespan &) override;
