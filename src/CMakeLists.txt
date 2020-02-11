@@ -222,6 +222,7 @@ if(ZMQ AND ENABLE_CONRAD)
 	file(GLOB CONRAD_SOURCES
 		${PROJECT_SOURCE_DIR}/conrad/ConradDeviceManager.cpp
 		${PROJECT_SOURCE_DIR}/conrad/ConradDevice.cpp
+		${PROJECT_SOURCE_DIR}/conrad/FHEMDeviceInfo.cpp
 		${PROJECT_SOURCE_DIR}/conrad/WirelessShutterContact.cpp
 		${PROJECT_SOURCE_DIR}/conrad/PowerMeterSwitch.cpp
 		${PROJECT_SOURCE_DIR}/conrad/RadiatorThermostat.cpp
