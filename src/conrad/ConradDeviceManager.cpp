@@ -115,11 +115,15 @@ void ConradDeviceManager::processEvent(const Object::Ptr event)
 
 	ScopedLock<FastMutex> lock(m_devicesMutex);
 
-	if (!event->getValue<string>("event").compare("new_device")) {
+	string eventType = event->getValue<string>("event");
+	if (eventType == "new_device") {
 		createNewDeviceUnlocked(deviceID, event->getValue<string>("type"));
 	}
-	else if (!event->getValue<string>("event").compare("message")) {
+	else if (eventType == "message") {
 		processMessageEvent(deviceID, event);
+	}
+	else if (eventType == "rcv_cnt" || eventType == "snd_cnt") {
+		return;
 	}
 	else {
 		throw IllegalStateException("unknown event");
