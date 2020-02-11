@@ -20,6 +20,11 @@ public:
 	PowerMeterSwitch(const DeviceID& id, const RefreshTime &refresh);
 	~PowerMeterSwitch();
 
+	void requestModifyState(
+		const ModuleID& moduleID,
+		const double value,
+		FHEMClient::Ptr fhemClient) override;
+
 	/**
 	 * @brief Parses the message from Conrad interface and creates
 	 * from it SensorData.

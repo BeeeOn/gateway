@@ -1,4 +1,5 @@
 #include <Poco/JSON/Object.h>
+#include <Poco/Exception.h>
 
 #include "conrad/PowerMeterSwitch.h"
 #include "util/JsonUtil.h"
@@ -11,6 +12,7 @@
 #define RSSI_MODULE_ID 5
 
 using namespace BeeeOn;
+using namespace Poco;
 using namespace Poco::JSON;
 using namespace std;
 
@@ -19,7 +21,7 @@ static list<ModuleType> DEVICE_MODULE_TYPES = {
 	{ModuleType::Type::TYPE_CURRENT},
 	{ModuleType::Type::TYPE_POWER},
 	{ModuleType::Type::TYPE_VOLTAGE},
-	{ModuleType::Type::TYPE_ON_OFF},
+	{ModuleType::Type::TYPE_ON_OFF, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
 	{ModuleType::Type::TYPE_RSSI},
 };
 
@@ -34,6 +36,26 @@ PowerMeterSwitch::PowerMeterSwitch(
 
 PowerMeterSwitch::~PowerMeterSwitch()
 {
+}
+
+void PowerMeterSwitch::requestModifyState(
+		const ModuleID& moduleID,
+		const double value,
+		FHEMClient::Ptr fhemClient)
+{
+	if (moduleID.value() != ON_OFF_MODULE_ID) {
+		throw InvalidArgumentException(
+			"module " + to_string(moduleID.value()) + " is not controllable");
+	}
+
+	string fhemDeviceId = ConradDevice::constructFHEMDeviceId(m_deviceId);
+	string request = "set " + fhemDeviceId + "_Sw ";
+	if (value >= 1)
+		request += "on";
+	else
+		request += "off";
+
+	fhemClient->sendRequest(request);
 }
 
 /**
