@@ -222,12 +222,8 @@ AsyncWork<set<DeviceID>>::Ptr ConradDeviceManager::startUnpair(
 	else {
 		deviceCache()->markUnpaired(id);
 
-		// conrad ID is filled in the last 6 characters of Device ID
-		string conradID = id.toString().substr(12, id.toString().size());
-		// must be formated as upper case to be acceptable by unpair command
-		for (auto & c: conradID) c = toupper(c);
-
-		string request = "delete HM_" + conradID;
+		string fhemDeviceId = ConradDevice::constructFHEMDeviceId(id);
+		string request = "delete " + fhemDeviceId;
 		m_fhemClient->sendRequest(request);
 
 		auto it = m_devices.find(id);

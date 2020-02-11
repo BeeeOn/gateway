@@ -41,6 +41,11 @@ public:
 	 */
 	virtual SensorData parseMessage(const Poco::JSON::Object::Ptr message) = 0;
 
+	/**
+	 * @brief Returns FHEM device id constructed from a given DeviceID.
+	 */
+	static std::string constructFHEMDeviceId(const DeviceID& id);
+
 protected:
 	/**
 	 * @brief Returns true or false depending if the string is number or not.

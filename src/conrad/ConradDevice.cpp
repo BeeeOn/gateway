@@ -48,6 +48,16 @@ string ConradDevice::productName() const
 	return m_productName;
 }
 
+string ConradDevice::constructFHEMDeviceId(const DeviceID& id)
+{
+	// conrad ID is filled in the last 6 characters of Device ID
+	string conradID = id.toString().substr(12, id.toString().size());
+	// must be formated as upper case to be acceptable by unpair command
+	for (auto & c: conradID) c = toupper(c);
+
+	return "HM_" + conradID;
+}
+
 bool ConradDevice::isNumber(const string& s)
 {
 	try {
