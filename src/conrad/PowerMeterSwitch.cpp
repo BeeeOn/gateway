@@ -39,32 +39,22 @@ PowerMeterSwitch::~PowerMeterSwitch()
 /**
  * Message example:
  * {
- *     "channels": {
- *         "Main": "CMDs_processing...",
- *         "Pwr": {
- *             "state": "0"
- *         },
- *         "SenF": {
- *             "state": "50.02"
- *         },
- *         "SenI": {
- *             "state": "0"
- *         },
- *         "SenPwr": {
- *             "state": "0"
- *         },
- *         "SenU": {
- *             "state": "234"
- *         },
- *         "Sw": {
- *             "state": "off"
- *         }
- *     },
- *     "dev": "38D649",
- *     "event": "message",
- *     "raw": "A1614A01038D649F1103402080022643006840085C88600",
- *     "rssi": -42.0,
- *     "type": "powerMeter"
+ *    "channels" : {
+ *        "Main" : "CMDs_done",
+ *        "Pwr" : "32.6",
+ *        "SenF" : "50.02",
+ *        "SenI" : "0",
+ *        "SenPwr" : "0",
+ *        "SenU" : "239.4",
+ *        "Sw" : "off"
+ *    },
+ *    "dev" : "HM_38D649",
+ *    "event" : "message",
+ *    "model" : "HM-ES-PMSW1-PL",
+ *    "raw" : "A1478845E38D6490000008001460000000000095A02",
+ *    "rssi" : -35.5,
+ *    "serial" : "MEQ0106579",
+ *    "type" : "powerMeter"
  * }
  */
 SensorData PowerMeterSwitch::parseMessage(const Object::Ptr message)
@@ -74,34 +64,28 @@ SensorData PowerMeterSwitch::parseMessage(const Object::Ptr message)
 	data.setDeviceID(m_deviceId);
 
 	Object::Ptr object = message->getObject("channels");
-	Object::Ptr tmp;
 
-	tmp = object->getObject("SenF");
-	if (isNumber(tmp->getValue<std::string>("state"))) {
+	if (isNumber(object->getValue<std::string>("SenF"))) {
 		data.insertValue(
-			SensorValue(FREQUENCY_MODULE_ID, tmp->getValue<double>("state")));
+			SensorValue(FREQUENCY_MODULE_ID, object->getValue<double>("SenF")));
 	}
 
-	tmp = object->getObject("SenI");
-	if (isNumber(tmp->getValue<std::string>("state"))) {
+	if (isNumber(object->getValue<std::string>("SenI"))) {
 		data.insertValue(
-			SensorValue(CURRENT_MODULE_ID, tmp->getValue<double>("state")));
+			SensorValue(CURRENT_MODULE_ID, object->getValue<double>("SenI")));
 	}
 
-	tmp = object->getObject("SenPwr");
-	if (isNumber(tmp->getValue<std::string>("state"))) {
+	if (isNumber(object->getValue<std::string>("SenPwr"))) {
 		data.insertValue(
-			SensorValue(POWER_MODULE_ID, tmp->getValue<double>("state")));
+			SensorValue(POWER_MODULE_ID, object->getValue<double>("SenPwr")));
 	}
 
-	tmp = object->getObject("SenU");
-	if (isNumber(tmp->getValue<std::string>("state"))) {
+	if (isNumber(object->getValue<std::string>("SenU"))) {
 		data.insertValue(
-			SensorValue(VOLTAGE_MODULE_ID, tmp->getValue<double>("state")));
+			SensorValue(VOLTAGE_MODULE_ID, object->getValue<double>("SenU")));
 	}
 
-	tmp = object->getObject("Sw");
-	if (tmp->getValue<std::string>("state").compare("on"))
+	if (object->getValue<std::string>("Sw") == "on")
 		data.insertValue(SensorValue(ON_OFF_MODULE_ID, 1));
 	else
 		data.insertValue(SensorValue(ON_OFF_MODULE_ID, 0));
