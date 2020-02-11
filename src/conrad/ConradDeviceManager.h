@@ -50,6 +50,14 @@ protected:
 	void processEvent(const Poco::JSON::Object::Ptr event);
 
 	/**
+	 * @brief Processes the message event. If the event's device
+	 * is paired then the data from the event are sent to the server.
+	 */
+	void processMessageEvent(
+		const DeviceID& deviceID,
+		const Poco::JSON::Object::Ptr event);
+
+	/**
 	 * @brief Creates instance of Conrad device appends it into m_devices.
 	 */
 	void createNewDeviceUnlocked(const DeviceID &deviceID, const std::string &type);

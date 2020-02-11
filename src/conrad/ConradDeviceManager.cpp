@@ -107,25 +107,31 @@ void ConradDeviceManager::processEvent(const Object::Ptr event)
 		createNewDeviceUnlocked(deviceID, event->getValue<string>("type"));
 	}
 	else if (!event->getValue<string>("event").compare("message")) {
-		auto it = m_devices.find(deviceID);
-		if (it == m_devices.end())
-			createNewDeviceUnlocked(deviceID, event->getValue<string>("type"));
-
-		SensorData data = it->second->parseMessage(event);
-
-		if (!deviceCache()->paired(deviceID))
-			return;
-
-		try {
-			if (data.size() > 0)
-				ship(data);
-		}
-		catch (const Exception& e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
+		processMessageEvent(deviceID, event);
 	}
 	else {
 		throw IllegalStateException("unknown event");
+	}
+}
+
+void ConradDeviceManager::processMessageEvent(
+		const DeviceID& deviceID,
+		const Object::Ptr event)
+{
+	auto it = m_devices.find(deviceID);
+	if (it == m_devices.end())
+		createNewDeviceUnlocked(deviceID, event->getValue<string>("type"));
+
+	if (!deviceCache()->paired(deviceID))
+		return;
+
+	SensorData data = it->second->parseMessage(event);
+	try {
+		if (data.size() > 0)
+			ship(data);
+	}
+	catch (const Exception& e) {
+		logger().log(e, __FILE__, __LINE__);
 	}
 }
 
