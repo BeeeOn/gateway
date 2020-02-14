@@ -177,7 +177,11 @@ if (ENABLE_IQRF AND MOSQUITTO_CPP)
 endif()
 
 if (ENABLE_CONRAD)
-	list(APPEND TEST_MODULE_LIBS BeeeOnConrad)
+	file(GLOB CONRAD_TEST_SOURCES
+		${PROJECT_SOURCE_DIR}/conrad/ConradDeviceTest.cpp
+	)
+	add_library(BeeeOnConradTest ${CONRAD_TEST_SOURCES})
+	list(APPEND TEST_MODULE_LIBS BeeeOnConrad BeeeOnConradTest)
 endif()
 
 if(LIBTRAP AND UNIREC AND PCAP AND ENABLE_NEMEA)
