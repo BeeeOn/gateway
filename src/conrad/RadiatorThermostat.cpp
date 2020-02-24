@@ -17,10 +17,13 @@ using namespace std;
 
 static list<ModuleType> DEVICE_MODULE_TYPES = {
 	{ModuleType::Type::TYPE_TEMPERATURE},
-	{ModuleType::Type::TYPE_TEMPERATURE},
+	{ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
 	{ModuleType::Type::TYPE_OPEN_RATIO},
 	{ModuleType::Type::TYPE_RSSI},
 };
+
+static uint32_t MIN_DESIRED_TEMPERATURE = 5;
+static uint32_t MAX_DESIRED_TEMPERATURE = 30;
 
 const string RadiatorThermostat::PRODUCT_NAME = "HM-CC-RT-DN";
 
@@ -33,6 +36,28 @@ RadiatorThermostat::RadiatorThermostat(
 
 RadiatorThermostat::~RadiatorThermostat()
 {
+}
+
+void RadiatorThermostat::requestModifyState(
+		const ModuleID& moduleID,
+		const double value,
+		FHEMClient::Ptr fhemClient)
+{
+	if (moduleID.value() != DESIRED_TEMPERATURE_MODULE_ID) {
+		throw InvalidArgumentException(
+			"module " + to_string(moduleID.value()) + " is not controllable");
+	}
+
+	string fhemDeviceId = ConradDevice::constructFHEMDeviceId(m_deviceId);
+	string request = "set " + fhemDeviceId + "_Clima desired-temp ";
+	if (value < MIN_DESIRED_TEMPERATURE)
+		request += to_string(MIN_DESIRED_TEMPERATURE) + ".0";
+	else if (value > MAX_DESIRED_TEMPERATURE)
+		request += to_string(MAX_DESIRED_TEMPERATURE) + ".0";
+	else
+		request += to_string(int(value)) + ".0";
+
+	fhemClient->sendRequest(request);
 }
 
 /**
