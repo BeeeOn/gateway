@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.12.1-2-g5837db0</span>
+   &#160;<span id="projectnumber">v2019.12.1-17-ge352b1b</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -92,6 +92,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9594a9eeadbb83265db57863dde7379f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9594a9eeadbb83265db57863dde7379f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>RadiatorThermostat</b> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id, const <a class="el" href="classBeeeOn_1_1RefreshTime.html">RefreshTime</a> &amp;refresh)</td></tr>
 <tr class="separator:a9594a9eeadbb83265db57863dde7379f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e03ac146af94c1b3071fb7bd39c7882"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e03ac146af94c1b3071fb7bd39c7882"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>requestModifyState</b> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value, FHEMClient::Ptr fhemClient) override</td></tr>
+<tr class="separator:a8e03ac146af94c1b3071fb7bd39c7882"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61ef3cd1f7c1d6161c1311f938ed71e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1RadiatorThermostat.html#a61ef3cd1f7c1d6161c1311f938ed71e7">parseMessage</a> (const Poco::JSON::Object::Ptr message) override</td></tr>
 <tr class="memdesc:a61ef3cd1f7c1d6161c1311f938ed71e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the message from Conrad interface and creates from it <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>.  <a href="#a61ef3cd1f7c1d6161c1311f938ed71e7">More...</a><br/></td></tr>
 <tr class="separator:a61ef3cd1f7c1d6161c1311f938ed71e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +130,11 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>V
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_static_methods_classBeeeOn_1_1ConradDevice"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classBeeeOn_1_1ConradDevice')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classBeeeOn_1_1ConradDevice.html">BeeeOn::ConradDevice</a></td></tr>
+<tr class="memitem:ad83a93f5969b9fb2917df9c438c84098 inherit pub_static_methods_classBeeeOn_1_1ConradDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad83a93f5969b9fb2917df9c438c84098"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDevice.html#ad83a93f5969b9fb2917df9c438c84098">constructFHEMDeviceId</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
+<tr class="memdesc:ad83a93f5969b9fb2917df9c438c84098 inherit pub_static_methods_classBeeeOn_1_1ConradDevice"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns FHEM device id constructed from a given <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>. <br/></td></tr>
+<tr class="separator:ad83a93f5969b9fb2917df9c438c84098 inherit pub_static_methods_classBeeeOn_1_1ConradDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classBeeeOn_1_1ConradDevice"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classBeeeOn_1_1ConradDevice')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classBeeeOn_1_1ConradDevice.html">BeeeOn::ConradDevice</a></td></tr>
 <tr class="memitem:a610cba5465dbfe428db6a0562c4615ee inherit pro_methods_classBeeeOn_1_1ConradDevice"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a610cba5465dbfe428db6a0562c4615ee"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDevice.html#a610cba5465dbfe428db6a0562c4615ee">isNumber</a> (const std::string &amp;s)</td></tr>
@@ -205,7 +213,7 @@ std::list&lt; <a class="el" href="classBeeeOn_1_1ModuleType.html">ModuleType</a>
 </div><div class="memdoc">
 
 <p>Parses the message from Conrad interface and creates from it <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>. </p>
-<p>Message example: { "channels": { "Clima": { "state": "T: 22.8 desired: 17.0 valve: 0" }, "ClimaTeam": { "state": "unpeered" }, "Climate": { "state": "unpeered" }, "Main": "CMDs_done", "Weather": { "state": "22.8" }, "WindowRec": { "state": "last:trigLast" }, "remote": { "state": "unpeered" } }, "dev": "36BA59", "event": "message", "raw": "A0F9B861036BA590000000A88E4110000", "rssi": -31.5, "type": "thermostat" } </p>
+<p>Message example: { "channels" : { "Clima" : "T: 21.2 desired: 17.0 valve: 0", "ClimaTeam" : "unpeered", "Climate" : "unpeered", "Main" : "CMDs_done", "Weather" : "21.2", "WindowRec" : "last:trigLast", "remote" : "unpeered" }, "dev" : "HM_36BA59", "event" : "message", "model" : "HM-CC-RT-DN", "raw" : "A0FE0861036BA590000000A88D40C0000", "rssi" : -41.5, "serial" : "MEQ0233325", "type" : "thermostat" } </p>
 
 <p>Implements <a class="el" href="classBeeeOn_1_1ConradDevice.html#a3ee0790fd76e13217a3c7b8730f2de18">BeeeOn::ConradDevice</a>.</p>
 

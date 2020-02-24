@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.12.1-2-g5837db0</span>
+   &#160;<span id="projectnumber">v2019.12.1-17-ge352b1b</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -54,6 +54,7 @@
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a>  </div>
@@ -106,10 +107,20 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>vendor</b> () 
 <tr class="memitem:af0bf79f73773f4849526c91fe19ea980"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0bf79f73773f4849526c91fe19ea980"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>productName</b> () const </td></tr>
 <tr class="separator:af0bf79f73773f4849526c91fe19ea980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a557c40857bccfc5d1850ba0ae164cadc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a557c40857bccfc5d1850ba0ae164cadc"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>requestModifyState</b> (const <a class="el" href="classBeeeOn_1_1ModuleID.html">ModuleID</a> &amp;moduleID, const double value, FHEMClient::Ptr fhemClient)</td></tr>
+<tr class="separator:a557c40857bccfc5d1850ba0ae164cadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ee0790fd76e13217a3c7b8730f2de18"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ee0790fd76e13217a3c7b8730f2de18"></a>
 virtual <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDevice.html#a3ee0790fd76e13217a3c7b8730f2de18">parseMessage</a> (const Poco::JSON::Object::Ptr message)=0</td></tr>
 <tr class="memdesc:a3ee0790fd76e13217a3c7b8730f2de18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms received ZMQ message to <a class="el" href="classBeeeOn_1_1SensorData.html">SensorData</a>. <br/></td></tr>
 <tr class="separator:a3ee0790fd76e13217a3c7b8730f2de18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ad83a93f5969b9fb2917df9c438c84098"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad83a93f5969b9fb2917df9c438c84098"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBeeeOn_1_1ConradDevice.html#ad83a93f5969b9fb2917df9c438c84098">constructFHEMDeviceId</a> (const <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a> &amp;id)</td></tr>
+<tr class="memdesc:ad83a93f5969b9fb2917df9c438c84098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns FHEM device id constructed from a given <a class="el" href="classBeeeOn_1_1DeviceID.html">DeviceID</a>. <br/></td></tr>
+<tr class="separator:ad83a93f5969b9fb2917df9c438c84098"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>

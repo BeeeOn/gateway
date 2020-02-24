@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.12.1-2-g5837db0</span>
+   &#160;<span id="projectnumber">v2019.12.1-17-ge352b1b</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -285,11 +285,13 @@
 <li>sonoff.mqtt.clientID - ID of the MQTT client</li>
 </ul>
 <h5>Conrad</h5>
-<p>Configuraton of Conrad device support. It requires running conrad-interface application. How to get and install the interface is mentioned at <a href="https://github.com/pepa-cz/conrad-interface">https://github.com/pepa-cz/conrad-interface</a>. Conrad device manager communicates with the interface using ZeroMQ networking library (<a href="https://zeromq.org">https://zeromq.org</a>) through tcp sockets available on ports 7778 (commands) an 7779 (events).</p>
+<p>Configuration of Conrad device support. It requires running FHEM server with correctly set up radio 868 MHz dongle which is named CUL_0 in FHEM.</p>
 <ul>
 <li>conrad.enable - enable Conrad devices support</li>
-<li>conrad.cmdZmqIface - command ZMQ interface, typically tcp://localhost:7778</li>
-<li>conrad.eventZmqIface - event ZMQ interface, typically tcp://localhost:7779 </li>
+<li>conrad.fhem.address - the socket address of the FHEM server (telnet)</li>
+<li>conrad.fhem.refreshTime - interval of obtaining data from FHEM server (seconds)</li>
+<li>conrad.fhem.receiveTimeout - timeout of telnet communication (seconds)</li>
+<li>conrad.fhem.reconnectTime - interval of reconnecting to FHEM server (seconds) </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->

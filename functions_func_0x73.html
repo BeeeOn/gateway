@@ -19,7 +19,7 @@
   <td id="projectlogo"><img alt="Logo" src="BeeeOn.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">BeeeOn Gateway
-   &#160;<span id="projectnumber">v2019.12.1-2-g5837db0</span>
+   &#160;<span id="projectnumber">v2019.12.1-17-ge352b1b</span>
    </div>
    <div id="projectbrief">Platform to interconnect the IoT world</div>
   </td>
@@ -143,8 +143,8 @@
 , <a class="el" href="classBeeeOn_1_1GWSConnector.html#ae6c7483cb34d17dc45c1674878d7e23b">BeeeOn::GWSConnector</a>
 , <a class="el" href="classBeeeOn_1_1PosixSignal.html#aa6ebaf3fd6a6e81eff4adb9b48b2e793">BeeeOn::PosixSignal</a>
 </li>
-<li>sendCmdRequest()
-: <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a6d20c17d9097f4acdf050bf60840fced">BeeeOn::ConradDeviceManager</a>
+<li>sendCommand()
+: <a class="el" href="classBeeeOn_1_1FHEMClient.html#a9483e26e2f50cdb869728b2723136676">BeeeOn::FHEMClient</a>
 </li>
 <li>sendEnroll()
 : <a class="el" href="classBeeeOn_1_1JablotronController.html#ac75763de6618afd15b52cd05ea208c5b">BeeeOn::JablotronController</a>
@@ -153,7 +153,8 @@
 : <a class="el" href="classBeeeOn_1_1Command.html#a0368b9c7b5a268f61d2c69caeabca840">BeeeOn::Command</a>
 </li>
 <li>sendRequest()
-: <a class="el" href="classBeeeOn_1_1AbstractHTTPScanner.html#a391ce2d0c72a0a0e756685fb4bc76010">BeeeOn::AbstractHTTPScanner</a>
+: <a class="el" href="classBeeeOn_1_1FHEMClient.html#af06088d38607981cc2937964ac4648fc">BeeeOn::FHEMClient</a>
+, <a class="el" href="classBeeeOn_1_1AbstractHTTPScanner.html#a391ce2d0c72a0a0e756685fb4bc76010">BeeeOn::AbstractHTTPScanner</a>
 </li>
 <li>sendTX()
 : <a class="el" href="classBeeeOn_1_1JablotronController.html#ad4084567ac9f33849e943a0fcbfe736e">BeeeOn::JablotronController</a>
@@ -193,9 +194,6 @@
 </li>
 <li>setClassicArtificialAvaibilityTimeout()
 : <a class="el" href="classBeeeOn_1_1DBusHciInterfaceManager.html#a18fe659e7a02ce67a0763127cd7071ed">BeeeOn::DBusHciInterfaceManager</a>
-</li>
-<li>setCmdZmqIface()
-: <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a0794824d4e3153786231a9c2e853ae31">BeeeOn::ConradDeviceManager</a>
 </li>
 <li>setColor()
 : <a class="el" href="classBeeeOn_1_1ColorBrightness.html#ae6c6213b3c7e1a6b4db27c019a927daa">BeeeOn::ColorBrightness</a>
@@ -259,9 +257,6 @@
 <li>setEventsExecutor()
 : <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a29f91118b41477c80ba434941b0c6211">BeeeOn::HciInfoReporter</a>
 , <a class="el" href="classBeeeOn_1_1GWSConnector.html#acecefbc1cc15192bdde367ee26262a07">BeeeOn::GWSConnector</a>
-</li>
-<li>setEventZmqIface()
-: <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a4b2f87d353bbe1ee485682f0a2ed1e20">BeeeOn::ConradDeviceManager</a>
 </li>
 <li>setExecutor()
 : <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a813f6d447fb21b98cf61cf7d5a6f07d2">BeeeOn::OZWNetwork</a>
@@ -491,8 +486,8 @@
 : <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a888ea5721376a8ad94a65569ce504b37">BeeeOn::JablotronDeviceManager</a>
 </li>
 <li>setup()
-: <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#aff94abfe05f6870c7b0f2e1c2ead11ae">BeeeOn::JournalQueuingStrategy</a>
-, <a class="el" href="classBeeeOn_1_1RecoverableJournalQueuingStrategy.html#ac2aeb2650c6df65f104c00c185da55b1">BeeeOn::RecoverableJournalQueuingStrategy</a>
+: <a class="el" href="classBeeeOn_1_1RecoverableJournalQueuingStrategy.html#ac2aeb2650c6df65f104c00c185da55b1">BeeeOn::RecoverableJournalQueuingStrategy</a>
+, <a class="el" href="classBeeeOn_1_1JournalQueuingStrategy.html#aff94abfe05f6870c7b0f2e1c2ead11ae">BeeeOn::JournalQueuingStrategy</a>
 </li>
 <li>setupPort()
 : <a class="el" href="classBeeeOn_1_1ZWaveSerialProber.html#a0bb21e1893474a58dc58b50e63004b26">BeeeOn::ZWaveSerialProber</a>
@@ -537,8 +532,8 @@
 : <a class="el" href="classBeeeOn_1_1DeviceStatusFetcher_1_1PrefixStatus.html#a085dede67f007c582cd4b427f3d67412">BeeeOn::DeviceStatusFetcher::PrefixStatus</a>
 </li>
 <li>shouldStop()
-: <a class="el" href="classBeeeOn_1_1Tool.html#ad77f117707e89802a02cb1076b5d97ae">BeeeOn::Tool</a>
-, <a class="el" href="classBeeeOn_1_1StopControl.html#a20eb5baf2db5bbe0195c5bec69e6d14c">BeeeOn::StopControl</a>
+: <a class="el" href="classBeeeOn_1_1StopControl.html#a20eb5baf2db5bbe0195c5bec69e6d14c">BeeeOn::StopControl</a>
+, <a class="el" href="classBeeeOn_1_1Tool.html#ad77f117707e89802a02cb1076b5d97ae">BeeeOn::Tool</a>
 </li>
 <li>size()
 : <a class="el" href="classBeeeOn_1_1InMemoryQueuingStrategy.html#a2851129ee3aa3f4a7a39b74bf184027b">BeeeOn::InMemoryQueuingStrategy</a>
@@ -559,25 +554,25 @@
 , <a class="el" href="classBeeeOn_1_1AbstractSeeker.html#aad5282f5eaa970abd512f58f92d16abe">BeeeOn::AbstractSeeker</a>
 , <a class="el" href="classBeeeOn_1_1GWServerConnector.html#af917b1f71b61c54793826336cfd12729">BeeeOn::GWServerConnector</a>
 , <a class="el" href="classBeeeOn_1_1LoopRunner.html#af682ba23ee20a70cd3fef20194b68150">BeeeOn::LoopRunner</a>
-, <a class="el" href="classBeeeOn_1_1StoppableLoopAdapter.html#aa9f5f7b26ff0f783347e9e4c7c838fbb">BeeeOn::StoppableLoopAdapter</a>
+, <a class="el" href="classBeeeOn_1_1StoppableLoop.html#a8e0c261b4723084d6d9cf0e854ac3f4f">BeeeOn::StoppableLoop</a>
 , <a class="el" href="classBeeeOn_1_1Tool.html#afc496034d380478bf6abc8b8c50b1b32">BeeeOn::Tool</a>
 , <a class="el" href="classBeeeOn_1_1PeriodicRunner.html#ae53c38d70876d47a7bff0c3a75fa5c59">BeeeOn::PeriodicRunner</a>
-, <a class="el" href="classBeeeOn_1_1StoppableLoop.html#a8e0c261b4723084d6d9cf0e854ac3f4f">BeeeOn::StoppableLoop</a>
+, <a class="el" href="classBeeeOn_1_1StoppableLoopAdapter.html#aa9f5f7b26ff0f783347e9e4c7c838fbb">BeeeOn::StoppableLoopAdapter</a>
 </li>
 <li>startDiscovery()
-: <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1d48ec939e0009357c7536b0e8995266">BeeeOn::BLESmartDeviceManager</a>
+: <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a6d7b023c1fc910893d284836ecae6a2d">BeeeOn::BluetoothAvailabilityManager</a>
 , <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#ab798a6e01b2fe869ff5e10398c9bb6a9">BeeeOn::ConradDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1DeviceManager.html#a56f32abaac4ec4840bcd0e150e7cf3f7">BeeeOn::DeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a7c0adc61509d9e6adad8b3e3940af2b6">BeeeOn::IQRFDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a881a6b34314b8b6424925a2e97ba2b28">BeeeOn::JablotronDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3069546597cdb7b1b3746017209590b2">BeeeOn::PhilipsHueDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1SonoffDeviceManager.html#af5f46413ca351ffef1a64fa347433884">BeeeOn::SonoffDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>
 , <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#a55cacd7477a9c95c05e10358962c60c4">BeeeOn::VektivaDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a6d1f261358207f6ab7857c03a2d59baf">BeeeOn::VPTDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#ace1e9322d79262107434a52e42212379">BeeeOn::PressureSensorManager</a>
-, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a975040389d845e376664997aff1ad06b">BeeeOn::BelkinWemoDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#af5556ff25587a08547e44d954bdce497">BeeeOn::ZWaveDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1SonoffDeviceManager.html#af5f46413ca351ffef1a64fa347433884">BeeeOn::SonoffDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a7c0adc61509d9e6adad8b3e3940af2b6">BeeeOn::IQRFDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a1d48ec939e0009357c7536b0e8995266">BeeeOn::BLESmartDeviceManager</a>
 </li>
 <li>startDocument()
 : <a class="el" href="classBeeeOn_1_1SAXHelper.html#ac9c94f6814f5b6620cadf9b80987aa7e">BeeeOn::SAXHelper</a>
@@ -586,11 +581,11 @@
 : <a class="el" href="classBeeeOn_1_1DenyDTDHandler.html#aac7080847192e5529f9f53e5b0f4e0e7">BeeeOn::DenyDTDHandler</a>
 </li>
 <li>startElement()
-: <a class="el" href="classBeeeOn_1_1SAXHelper.html#a4db20092609a659141f6ceee0b14c1fe">BeeeOn::SAXHelper</a>
+: <a class="el" href="classBeeeOn_1_1SAXHelper.html#a7e97dfcac16655d8a1f5e8f89c983fb2">BeeeOn::SAXHelper</a>
 </li>
 <li>startInclusion()
-: <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a5b797601a420463e2e920fe687fe59b0">BeeeOn::OZWNetwork</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a7b7f09c9d5ddf8fffc2c7af98f643bb6">BeeeOn::ZWaveNetwork</a>
+: <a class="el" href="classBeeeOn_1_1ZWaveNetwork.html#a7b7f09c9d5ddf8fffc2c7af98f643bb6">BeeeOn::ZWaveNetwork</a>
+, <a class="el" href="classBeeeOn_1_1OZWNetwork.html#a5b797601a420463e2e920fe687fe59b0">BeeeOn::OZWNetwork</a>
 </li>
 <li>startIO()
 : <a class="el" href="classBeeeOn_1_1JablotronController.html#a95cb6d5b53a8bc1c6ceb9845ed97f0c7">BeeeOn::JablotronController</a>
@@ -605,17 +600,19 @@
 <li>startSearch()
 : <a class="el" href="classBeeeOn_1_1DeviceManager.html#a17b1b2ebd078a3f91dc30e080d704325">BeeeOn::DeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a200888f0591f1a9869fcf05b626d9b43">BeeeOn::JablotronDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1DeviceManager.html#a5f1899333f2d948275c4dec4a99ffef6">BeeeOn::DeviceManager</a>
 </li>
 <li>startSession()
 : <a class="el" href="classBeeeOn_1_1Tool.html#a1801a8a358aad68c1f5fb7ab32c98219">BeeeOn::Tool</a>
 </li>
 <li>startSetValue()
-: <a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d">BeeeOn::DeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">BeeeOn::ZWaveDeviceManager</a>
+: <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a557bcc34684e09588c0d0b3711092cd8">BeeeOn::BLESmartDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a5a9ff190644265a5149183e5b55710e5">BeeeOn::BelkinWemoDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a952f313b44310ce64564e68e88d0ea1d">BeeeOn::PhilipsHueDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#a7b9be6c69c2342873ea82175a43e64bf">BeeeOn::ZWaveDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1DeviceManager.html#a2a460e34e2891288c80c2a18adb4aa7d">BeeeOn::DeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a06a5aa5675e6d3082c05111e584e6935">BeeeOn::JablotronDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a557bcc34684e09588c0d0b3711092cd8">BeeeOn::BLESmartDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a0d46848abf1965747c7d6e9b3e65b745">BeeeOn::ConradDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#a8c82f25ab102e648bb58a5c9bc5f8221">BeeeOn::VektivaDeviceManager</a>
 </li>
 <li>startSetValueByMode()
@@ -630,64 +627,65 @@
 <li>startUnpair()
 : <a class="el" href="classBeeeOn_1_1DeviceManager.html#a0304177883d9b37b4a49f93d74a5c313">BeeeOn::DeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#ac1f8e64164ce4cde36b32a9731cdad3e">BeeeOn::BluetoothAvailabilityManager</a>
-, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">BeeeOn::BelkinWemoDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a449011ef2b93423b46ba3ec46af6f72f">BeeeOn::BLESmartDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a38290f02cd6146dbf202e211eceb247f">BeeeOn::IQRFDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#a74e6e113a93d00fb72ccdb461de7ad1e">BeeeOn::VektivaDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1SonoffDeviceManager.html#a0009ea73b7eefbafc2b8d20b11538cb7">BeeeOn::SonoffDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a21eb2106e4a7376c4cf15179e5af9a10">BeeeOn::BelkinWemoDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a0b309d9757881044d0f17fbcf45c9e9e">BeeeOn::ConradDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a3414f89b277e758fa30ee60584208614">BeeeOn::PhilipsHueDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a36af3e994b74cb545025df2380309e9b">BeeeOn::VPTDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#adef548c10cdc0b842b6a036a1414b09e">BeeeOn::ZWaveDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a471fa567d5f4dd28f9cbe5fb3457e5e4">BeeeOn::JablotronDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1SonoffDeviceManager.html#a0009ea73b7eefbafc2b8d20b11538cb7">BeeeOn::SonoffDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#a36af3e994b74cb545025df2380309e9b">BeeeOn::VPTDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#a74e6e113a93d00fb72ccdb461de7ad1e">BeeeOn::VektivaDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a9d565bb5022533350b47b22da4ab2395">BeeeOn::PressureSensorManager</a>
 </li>
 <li>status()
-: <a class="el" href="classBeeeOn_1_1VektivaSmarwiStatus.html#af7b532de538feb868e4bf54cf82c8019">BeeeOn::VektivaSmarwiStatus</a>
-, <a class="el" href="classBeeeOn_1_1GWAck.html#aec9d4959c56f24d0fcf571e04c6ad75e">BeeeOn::GWAck</a>
+: <a class="el" href="classBeeeOn_1_1GWAck.html#aec9d4959c56f24d0fcf571e04c6ad75e">BeeeOn::GWAck</a>
+, <a class="el" href="classBeeeOn_1_1VektivaSmarwiStatus.html#af7b532de538feb868e4bf54cf82c8019">BeeeOn::VektivaSmarwiStatus</a>
 </li>
 <li>statusMessageAction()
 : <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#af5e99d8db9d2a7c765bc86e573db41a3">BeeeOn::VektivaDeviceManager</a>
 </li>
 <li>stop()
-: <a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">BeeeOn::DeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1TestingCenter.html#a0d3f29284bf2002e565688a1f78746ce">BeeeOn::TestingCenter</a>
-, <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a60102fe3ce9d8306c5a9060e64410cda">BeeeOn::ConradDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1GWSResender.html#aac5b87e5f1db5acc83f50481bfd19d4d">BeeeOn::GWSResender</a>
-, <a class="el" href="classBeeeOn_1_1StoppableLoopAdapter.html#a54008b6ebd5ca6af24b409a2aee9ce4d">BeeeOn::StoppableLoopAdapter</a>
-, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager</a>
-, <a class="el" href="classBeeeOn_1_1UDevMonitor.html#a9612e48caa6aa40dde3db0896daad0b9">BeeeOn::UDevMonitor</a>
-, <a class="el" href="classBeeeOn_1_1ParallelExecutor.html#ac323fccf6576fecc436147945e8fa388">BeeeOn::ParallelExecutor</a>
-, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">BeeeOn::BLESmartDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1GWServerConnector.html#a3a772fae2066ce618a781bf6b0a2d3b4">BeeeOn::GWServerConnector</a>
-, <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>
-, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">BeeeOn::JablotronDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1MosquittoClient.html#ae5510f4b004b913ee492450d88df42bb">BeeeOn::MosquittoClient</a>
-, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a8c944e7f63b4b72483a6efe4e62a7792">BeeeOn::BelkinWemoDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a78f048227428c6a89787fb2d22169c6d">BeeeOn::IQRFDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1Tool.html#a290079ac6723376aa9e59f4641c25af9">BeeeOn::Tool</a>
-, <a class="el" href="classBeeeOn_1_1GWSConnectorImpl.html#ad71f1bd7b4f5d19f6b41909733958a32">BeeeOn::GWSConnectorImpl</a>
-, <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a64c2b2623092cf1de4de091e01b26aec">BeeeOn::HciInfoReporter</a>
-, <a class="el" href="classBeeeOn_1_1IQRFMqttConnector.html#a883e882dbab7d21d453bbfffd325219a">BeeeOn::IQRFMqttConnector</a>
-, <a class="el" href="classBeeeOn_1_1StoppableLoop.html#a50e52efb08f8d789d4a6b2815931b047">BeeeOn::StoppableLoop</a>
-, <a class="el" href="classBeeeOn_1_1DeviceStatusFetcher.html#aef74283a734dcaa474edb9d2af14453b">BeeeOn::DeviceStatusFetcher</a>
-, <a class="el" href="classBeeeOn_1_1PipeHotplugMonitor.html#a9e17806381c59247102bac3be1d908cf">BeeeOn::PipeHotplugMonitor</a>
+: <a class="el" href="classBeeeOn_1_1StoppableLoopAdapter.html#a54008b6ebd5ca6af24b409a2aee9ce4d">BeeeOn::StoppableLoopAdapter</a>
 , <a class="el" href="classBeeeOn_1_1SonoffDeviceManager.html#ac09ca995851cf0b1b572df47efd7f2ae">BeeeOn::SonoffDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a30a185200ddd558f9cbd3f13b475519c">BeeeOn::FitpDeviceManager</a>
 , <a class="el" href="classBeeeOn_1_1PeriodicRunner.html#a63607aa5c00914bc24c8ff12f14c7b39">BeeeOn::PeriodicRunner</a>
+, <a class="el" href="classBeeeOn_1_1BelkinWemoDeviceManager.html#a8c944e7f63b4b72483a6efe4e62a7792">BeeeOn::BelkinWemoDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1GWSConnectorImpl.html#ad71f1bd7b4f5d19f6b41909733958a32">BeeeOn::GWSConnectorImpl</a>
+, <a class="el" href="classBeeeOn_1_1StoppableLoop.html#a50e52efb08f8d789d4a6b2815931b047">BeeeOn::StoppableLoop</a>
+, <a class="el" href="classBeeeOn_1_1LoopRunner.html#a043260f45bcd457b68ecc76af5c9a8c2">BeeeOn::LoopRunner</a>
+, <a class="el" href="classBeeeOn_1_1DeviceStatusFetcher.html#aef74283a734dcaa474edb9d2af14453b">BeeeOn::DeviceStatusFetcher</a>
+, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ab4dd110ff9a7c2294f448a8daa203f0b">BeeeOn::VPTDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1FitpDeviceManager.html#a30a185200ddd558f9cbd3f13b475519c">BeeeOn::FitpDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1IQRFDeviceManager.html#a78f048227428c6a89787fb2d22169c6d">BeeeOn::IQRFDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1FHEMClient.html#a743e3fb2814678d8186a4660425d3c85">BeeeOn::FHEMClient</a>
 , <a class="el" href="classBeeeOn_1_1SequentialAsyncExecutor.html#a7a25b7aef42be1de5f3b316cbde2330c">BeeeOn::SequentialAsyncExecutor</a>
-, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a0264bd591d710a35a11b8ff81c630506">BeeeOn::BluetoothAvailabilityManager</a>
-, <a class="el" href="classBeeeOn_1_1DevicePoller.html#af257c59c8db7bf3df3bf1b80ad5ca834">BeeeOn::DevicePoller</a>
+, <a class="el" href="classBeeeOn_1_1IQRFMqttConnector.html#a883e882dbab7d21d453bbfffd325219a">BeeeOn::IQRFMqttConnector</a>
+, <a class="el" href="classBeeeOn_1_1JablotronDeviceManager.html#a8b9286e194ee589921f8f72a4f041df8">BeeeOn::JablotronDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1GWSResender.html#aac5b87e5f1db5acc83f50481bfd19d4d">BeeeOn::GWSResender</a>
+, <a class="el" href="classBeeeOn_1_1BLESmartDeviceManager.html#a036789a80805cc2cff1c6d5100b469e7">BeeeOn::BLESmartDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1StoppableRunnable.html#ad637a7273d906652c230c1e3aa2f6c7c">BeeeOn::StoppableRunnable</a>
+, <a class="el" href="classBeeeOn_1_1MosquittoClient.html#ae5510f4b004b913ee492450d88df42bb">BeeeOn::MosquittoClient</a>
+, <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#aef236a1df8812664000ed9e328b6d646">BeeeOn::VektivaDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1PressureSensorManager.html#a0c44ee6aa33b0a3210e8c612d94dfd50">BeeeOn::PressureSensorManager</a>
 , <a class="el" href="classBeeeOn_1_1GWSQueuingExporter.html#aaaf55ec85c8e24466d803a4a82779652">BeeeOn::GWSQueuingExporter</a>
 , <a class="el" href="classBeeeOn_1_1ZWaveDeviceManager.html#ab0827462ce12a93fde8d47715a26a23e">BeeeOn::ZWaveDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1QueuingDistributor.html#af17f66371d42e6803e39739822e59b5d">BeeeOn::QueuingDistributor</a>
-, <a class="el" href="classBeeeOn_1_1LoopRunner.html#a043260f45bcd457b68ecc76af5c9a8c2">BeeeOn::LoopRunner</a>
-, <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a2cb13d1a1515183d13731bf9208ee077">BeeeOn::DongleDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1VPTDeviceManager.html#ab4dd110ff9a7c2294f448a8daa203f0b">BeeeOn::VPTDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1VektivaDeviceManager.html#aef236a1df8812664000ed9e328b6d646">BeeeOn::VektivaDeviceManager</a>
-, <a class="el" href="classBeeeOn_1_1GWSCommandSender.html#a48a0855563285afdfca22c84530b1068">BeeeOn::GWSCommandSender</a>
 , <a class="el" href="classBeeeOn_1_1VirtualDeviceManager.html#afa8424652f31f5952a4ddd86f472625f">BeeeOn::VirtualDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1HciInfoReporter.html#a64c2b2623092cf1de4de091e01b26aec">BeeeOn::HciInfoReporter</a>
+, <a class="el" href="classBeeeOn_1_1PhilipsHueDeviceManager.html#a733173bef96753cffbc4058833e575a6">BeeeOn::PhilipsHueDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1BluetoothAvailabilityManager.html#a0264bd591d710a35a11b8ff81c630506">BeeeOn::BluetoothAvailabilityManager</a>
+, <a class="el" href="classBeeeOn_1_1GWSCommandSender.html#a48a0855563285afdfca22c84530b1068">BeeeOn::GWSCommandSender</a>
+, <a class="el" href="classBeeeOn_1_1DongleDeviceManager.html#a2cb13d1a1515183d13731bf9208ee077">BeeeOn::DongleDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1UDevMonitor.html#a9612e48caa6aa40dde3db0896daad0b9">BeeeOn::UDevMonitor</a>
+, <a class="el" href="classBeeeOn_1_1GWServerConnector.html#a3a772fae2066ce618a781bf6b0a2d3b4">BeeeOn::GWServerConnector</a>
+, <a class="el" href="classBeeeOn_1_1Tool.html#a290079ac6723376aa9e59f4641c25af9">BeeeOn::Tool</a>
+, <a class="el" href="classBeeeOn_1_1ParallelExecutor.html#ac323fccf6576fecc436147945e8fa388">BeeeOn::ParallelExecutor</a>
+, <a class="el" href="classBeeeOn_1_1ConradDeviceManager.html#a60102fe3ce9d8306c5a9060e64410cda">BeeeOn::ConradDeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1QueuingDistributor.html#af17f66371d42e6803e39739822e59b5d">BeeeOn::QueuingDistributor</a>
+, <a class="el" href="classBeeeOn_1_1DevicePoller.html#af257c59c8db7bf3df3bf1b80ad5ca834">BeeeOn::DevicePoller</a>
+, <a class="el" href="classBeeeOn_1_1PipeHotplugMonitor.html#a9e17806381c59247102bac3be1d908cf">BeeeOn::PipeHotplugMonitor</a>
+, <a class="el" href="classBeeeOn_1_1DeviceManager.html#ac26f2187e2ed239017ceb3a530a8e9dd">BeeeOn::DeviceManager</a>
+, <a class="el" href="classBeeeOn_1_1TestingCenter.html#a0d3f29284bf2002e565688a1f78746ce">BeeeOn::TestingCenter</a>
 </li>
 <li>stopAll()
 : <a class="el" href="classBeeeOn_1_1LoopRunner.html#ad36687d84af52b9d2f6d316910915d73">BeeeOn::LoopRunner</a>
