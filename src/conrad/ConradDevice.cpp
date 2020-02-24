@@ -48,6 +48,25 @@ string ConradDevice::productName() const
 	return m_productName;
 }
 
+void ConradDevice::requestModifyState(
+		const ModuleID&,
+		const double,
+		FHEMClient::Ptr)
+{
+	throw IllegalStateException(
+		"device " + m_productName + " does not allow change its state");
+}
+
+string ConradDevice::constructFHEMDeviceId(const DeviceID& id)
+{
+	// conrad ID is filled in the last 6 characters of Device ID
+	string conradID = id.toString().substr(12, id.toString().size());
+	// must be formated as upper case to be acceptable by unpair command
+	for (auto & c: conradID) c = toupper(c);
+
+	return "HM_" + conradID;
+}
+
 bool ConradDevice::isNumber(const string& s)
 {
 	try {

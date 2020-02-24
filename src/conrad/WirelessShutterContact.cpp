@@ -31,14 +31,16 @@ WirelessShutterContact::~WirelessShutterContact()
 /**
  * Message example:
  * {
- *     "channels": {
- *         "Main": "open"
+ *     "channels" : {
+ *         "Main" : "open"
  *     },
- *     "dev": "30B0BE",
- *     "event": "message",
- *     "raw": "A0C3FA64130B0BEF11034013FC8",
- *     "rssi": -41.0,
- *     "type": "threeStateSensor"
+ *     "dev" : "HM_30B0BE",
+ *     "event" : "message",
+ *     "model" : "HM-SEC-SC-2",
+ *     "raw" : "A0C44A64130B0BEF11034013FC8",
+ *     "rssi" : -52,
+ *     "serial" : "LEQ1101988",
+ *     "type" : "threeStateSensor"
  * }
  */
 SensorData WirelessShutterContact::parseMessage(const Object::Ptr message)
@@ -48,7 +50,7 @@ SensorData WirelessShutterContact::parseMessage(const Object::Ptr message)
 
 	Object::Ptr object = message->getObject("channels");
 
-	if (!object->getValue<std::string>("Main").compare("open"))
+	if (object->getValue<std::string>("Main") == "open")
 		data.insertValue(SensorValue(OPEN_CLOSE_MODULE_ID, 1));
 	else
 		data.insertValue(SensorValue(OPEN_CLOSE_MODULE_ID, 0));

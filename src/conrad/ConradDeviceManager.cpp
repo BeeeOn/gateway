@@ -1,4 +1,4 @@
-#include <zmq.h>
+#include <Poco/RegularExpression.h>
 
 #include "commands/DeviceUnpairCommand.h"
 #include "commands/DeviceSetValueCommand.h"
@@ -17,7 +17,6 @@
 #include "model/DevicePrefix.h"
 
 #define CONRAD_VENDOR "Conrad"
-#define RSP_BUFFER_SIZE 129070
 
 BEEEON_OBJECT_BEGIN(BeeeOn, ConradDeviceManager)
 BEEEON_OBJECT_CASTABLE(StoppableRunnable)
@@ -26,8 +25,7 @@ BEEEON_OBJECT_CASTABLE(DeviceStatusHandler)
 BEEEON_OBJECT_PROPERTY("deviceCache", &ConradDeviceManager::setDeviceCache)
 BEEEON_OBJECT_PROPERTY("distributor", &ConradDeviceManager::setDistributor)
 BEEEON_OBJECT_PROPERTY("commandDispatcher", &ConradDeviceManager::setCommandDispatcher)
-BEEEON_OBJECT_PROPERTY("cmdZmqIface", &ConradDeviceManager::setCmdZmqIface)
-BEEEON_OBJECT_PROPERTY("eventZmqIface", &ConradDeviceManager::setEventZmqIface)
+BEEEON_OBJECT_PROPERTY("fhemClient", &ConradDeviceManager::setFHEMClient)
 BEEEON_OBJECT_PROPERTY("eventsExecutor", &ConradDeviceManager::setEventsExecutor)
 BEEEON_OBJECT_PROPERTY("listeners", &ConradDeviceManager::registerListener)
 BEEEON_OBJECT_END(BeeeOn, ConradDeviceManager)
@@ -47,14 +45,9 @@ ConradDeviceManager::ConradDeviceManager() :
 {
 }
 
-void ConradDeviceManager::setCmdZmqIface(const string &cmdZmqIface)
+void ConradDeviceManager::setFHEMClient(FHEMClient::Ptr fhemClient)
 {
-	m_cmdZmqIface = URI(cmdZmqIface);
-}
-
-void ConradDeviceManager::setEventZmqIface(const string &eventZmqIface)
-{
-	m_eventZmqIface = URI(eventZmqIface);
+	m_fhemClient = fhemClient;
 }
 
 void ConradDeviceManager::setEventsExecutor(AsyncExecutor::Ptr executor)
@@ -71,21 +64,12 @@ void ConradDeviceManager::run()
 {
 	logger().information("starting Conrad device manager", __FILE__, __LINE__);
 
-	char buffer[RSP_BUFFER_SIZE];
-	void *context = zmq_ctx_new();
-	void *subscriber = zmq_socket(context, ZMQ_SUB);
-	zmq_connect(subscriber, m_eventZmqIface.toString().c_str());
-	zmq_setsockopt(subscriber, ZMQ_SUBSCRIBE, "", 0);
-
 	StopControl::Run run(m_stopControl);
 	while (run) {
-		int size = zmq_recv(subscriber, buffer, RSP_BUFFER_SIZE, 0);
-		if (size < 0)
-			continue;
-		buffer[size] = '\0';
+		Object::Ptr event = m_fhemClient->receive(-1);
 
 		try {
-			processMessage(buffer);
+			processEvent(event);
 		}
 		catch (const Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
@@ -93,52 +77,77 @@ void ConradDeviceManager::run()
 	}
 
 	logger().information("stopping Conrad device manager", __FILE__, __LINE__);
-
-	zmq_close(subscriber);
-	zmq_ctx_destroy(context);
 }
 
-void ConradDeviceManager::processMessage(const string &message)
+void ConradDeviceManager::processEvent(const Object::Ptr event)
 {
-	Object::Ptr object = JsonUtil::parse(message);
-	if (!object->has("dev"))
-		throw IllegalStateException("message does not contain 'dev' element");
+	if (logger().trace()) {
+		ostringstream jsonStream;
+		event->stringify(jsonStream, 2);
 
-	uint32_t id = NumberParser::parseHex(object->getValue<string>("dev"));
+		logger().dump(
+			"received event of size " +
+			to_string(jsonStream.str().size()) + " B",
+			jsonStream.str().c_str(),
+			jsonStream.str().size(),
+			Message::PRIO_TRACE);
+	}
+
+	if (!event->has("dev"))
+		throw IllegalStateException("event does not contain 'dev' element");
+
+	string devId = event->getValue<string>("dev");
+	RegularExpression reDeviceId("HM_([a-fA-F0-9]+)");
+	RegularExpression::MatchVec matches;
+	if (reDeviceId.match(event->getValue<string>("dev"), 0, matches) == 0)
+		throw IllegalStateException("event contains 'dev' element with wrong format");
+
+	devId = devId.substr(matches[1].offset, matches[1].length);
+	uint32_t id = NumberParser::parseHex(devId);
 	DeviceID deviceID = DeviceID(DevicePrefix::PREFIX_CONRAD, id);
 
 	if (logger().debug()) {
-		logger().debug("Event " + object->getValue<string>("event") +
+		logger().debug("Event " + event->getValue<string>("event") +
 			" from " + deviceID.toString(), __FILE__, __LINE__);
 	}
 
-	fireMessage(deviceID, object);
+	fireMessage(deviceID, event);
 
 	ScopedLock<FastMutex> lock(m_devicesMutex);
 
-	if (!object->getValue<string>("event").compare("new_device")) {
-		createNewDeviceUnlocked(deviceID, object->getValue<string>("type"));
+	string eventType = event->getValue<string>("event");
+	if (eventType == "new_device") {
+		createNewDeviceUnlocked(deviceID, event->getValue<string>("type"));
 	}
-	else if (!object->getValue<string>("event").compare("message")) {
-		auto it = m_devices.find(deviceID);
-		if (it == m_devices.end())
-			createNewDeviceUnlocked(deviceID, object->getValue<string>("type"));
-
-		SensorData data = it->second->parseMessage(object);
-
-		if (!deviceCache()->paired(deviceID))
-			return;
-
-		try {
-			if (data.size() > 0)
-				ship(data);
-		}
-		catch (const Exception& e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
+	else if (eventType == "message") {
+		processMessageEvent(deviceID, event);
+	}
+	else if (eventType == "rcv_cnt" || eventType == "snd_cnt") {
+		return;
 	}
 	else {
-		throw IllegalStateException("unknown message");
+		throw IllegalStateException("unknown event");
+	}
+}
+
+void ConradDeviceManager::processMessageEvent(
+		const DeviceID& deviceID,
+		const Object::Ptr event)
+{
+	auto it = m_devices.find(deviceID);
+	if (it == m_devices.end())
+		createNewDeviceUnlocked(deviceID, event->getValue<string>("type"));
+
+	if (!deviceCache()->paired(deviceID))
+		return;
+
+	SensorData data = it->second->parseMessage(event);
+	try {
+		if (data.size() > 0)
+			ship(data);
+	}
+	catch (const Exception& e) {
+		logger().log(e, __FILE__, __LINE__);
 	}
 }
 
@@ -180,14 +189,9 @@ void ConradDeviceManager::stop()
 AsyncWork<>::Ptr ConradDeviceManager::startDiscovery(const Timespan &timeout)
 {
 	auto work = BlockingAsyncWork<>::instance();
-	Object::Ptr obj = new Object();
-	ostringstream cmdStream;
 
-	obj->set("cmd", "pair");
-	obj->set("tout", to_string(timeout.totalSeconds()));
-
-	obj->stringify(cmdStream);
-	sendCmdRequest(cmdStream.str());
+	string request = "set CUL_0 hmPairForSec " + to_string(timeout.totalSeconds());
+	m_fhemClient->sendRequest(request);
 
 	return work;
 }
@@ -203,13 +207,35 @@ void ConradDeviceManager::handleAccept(const DeviceAcceptCommand::Ptr cmd)
 	DeviceManager::handleAccept(cmd);
 }
 
+AsyncWork<double>::Ptr ConradDeviceManager::startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Timespan &timeout)
+{
+	ScopedLock<FastMutex> lock(m_devicesMutex, timeout.totalMilliseconds());
+
+	auto it = m_devices.find(id);
+	if (it == m_devices.end())
+		throw NotFoundException("set-value: " + id.toString());
+
+	it->second->requestModifyState(module, value, m_fhemClient);
+
+	if (logger().debug()) {
+		logger().debug("success to change state of device " + id.toString(),
+			__FILE__, __LINE__);
+	}
+
+	auto work = BlockingAsyncWork<double>::instance();
+	work->setResult(value);
+	return work;
+}
+
 AsyncWork<set<DeviceID>>::Ptr ConradDeviceManager::startUnpair(
 		const DeviceID &id,
 		const Timespan &timeout)
 {
 	auto work = BlockingAsyncWork<set<DeviceID>>::instance();
-	Object::Ptr obj = new Object();
-	ostringstream cmdStream;
 
 	ScopedLock<FastMutex> lock(m_devicesMutex, timeout.totalMilliseconds());
 
@@ -220,16 +246,9 @@ AsyncWork<set<DeviceID>>::Ptr ConradDeviceManager::startUnpair(
 	else {
 		deviceCache()->markUnpaired(id);
 
-		// conrad ID is filled in the last 6 characters of Device ID
-		string conradID = id.toString().substr(12, id.toString().size());
-		// must be formated as upper case to be acceptable by unpair command
-		for (auto & c: conradID) c = toupper(c);
-
-		obj->set("cmd", "unpair");
-		obj->set("device", conradID);
-
-		obj->stringify(cmdStream);
-		sendCmdRequest(cmdStream.str());
+		string fhemDeviceId = ConradDevice::constructFHEMDeviceId(id);
+		string request = "delete " + fhemDeviceId;
+		m_fhemClient->sendRequest(request);
 
 		auto it = m_devices.find(id);
 		if (it != m_devices.end())
@@ -239,24 +258,6 @@ AsyncWork<set<DeviceID>>::Ptr ConradDeviceManager::startUnpair(
 	}
 
 	return work;
-}
-
-Object::Ptr ConradDeviceManager::sendCmdRequest(const string &request)
-{
-	void *context = zmq_ctx_new();
-	void *requester = zmq_socket (context, ZMQ_REQ);
-	zmq_connect(requester, m_cmdZmqIface.toString().c_str());
-
-	fireMessage(DeviceID(),JsonUtil::parse(request));
-
-	char buffer[RSP_BUFFER_SIZE];
-	zmq_send(requester, request.c_str(), request.length(), 0);
-	zmq_recv(requester, buffer, RSP_BUFFER_SIZE, 0);
-
-	zmq_close(requester);
-	zmq_ctx_destroy(context);
-
-	return JsonUtil::parse(string(buffer));
 }
 
 void ConradDeviceManager::fireMessage(

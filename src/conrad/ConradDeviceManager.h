@@ -4,11 +4,11 @@
 
 #include <Poco/Timespan.h>
 #include <Poco/JSON/Object.h>
-#include <Poco/URI.h>
 
 #include "core/DeviceManager.h"
 #include "conrad/ConradDevice.h"
 #include "conrad/ConradListener.h"
+#include "conrad/FHEMClient.h"
 #include "model/DeviceID.h"
 #include "util/AsyncExecutor.h"
 #include "util/BlockingAsyncWork.h"
@@ -20,8 +20,9 @@ namespace BeeeOn {
 /**
  * @brief The class implements the work with Conrad devices. Allows us
  * to process and execute the commands from server and gather
- * data from the devices. This class requires ZMQ interface that is
- * available at https://github.com/pepa-cz/conrad-interface.
+ * data from the devices. It communicates with the Conrad devices
+ * using FHEM server. To communicate with FHEM server the class using
+ * FHEMClient which communicates with the FHEM server over telnet.
  */
 class ConradDeviceManager : public DeviceManager {
 public:
@@ -30,37 +31,36 @@ public:
 	void run() override;
 	void stop() override;
 
-	/**
-	 * @brief Sets command ZMQ interface.
-	 */
-	void setCmdZmqIface(const std::string &cmdZmqIface);
-
-	/**
-	 * @brief Sets event ZMQ interface.
-	 */
-	void setEventZmqIface(const std::string &eventZmqIface);
-
+	void setFHEMClient(FHEMClient::Ptr fhemClient);
 	void setEventsExecutor(AsyncExecutor::Ptr executor);
 
 	void registerListener(ConradListener::Ptr listener);
 
 protected:
 	AsyncWork<>::Ptr startDiscovery(const Poco::Timespan &timeout) override;
+	AsyncWork<double>::Ptr startSetValue(
+		const DeviceID &id,
+		const ModuleID &module,
+		const double value,
+		const Poco::Timespan &timeout);
 	AsyncWork<std::set<DeviceID>>::Ptr startUnpair(
 		const DeviceID &id,
 		const Poco::Timespan &) override;
 	void handleAccept(const DeviceAcceptCommand::Ptr cmd) override;
 
 	/**
-	 * @brief Send request via ZMQ conrad interface and returns response.
-	 */
-	Poco::JSON::Object::Ptr sendCmdRequest(const std::string &request);
-
-	/**
-	 * @brief Processes the incoming ZMQ message, which means creating
+	 * @brief Processes the incoming event, which means creating
 	 * a new device or sending the gathered data to the server.
 	 */
-	void processMessage(const std::string &message);
+	void processEvent(const Poco::JSON::Object::Ptr event);
+
+	/**
+	 * @brief Processes the message event. If the event's device
+	 * is paired then the data from the event are sent to the server.
+	 */
+	void processMessageEvent(
+		const DeviceID& deviceID,
+		const Poco::JSON::Object::Ptr event);
 
 	/**
 	 * @brief Creates instance of Conrad device appends it into m_devices.
@@ -73,12 +73,10 @@ protected:
 	void fireMessage(DeviceID const &deviceID, const Poco::JSON::Object::Ptr message);
 
 private:
-	Poco::URI m_cmdZmqIface;
-	Poco::URI m_eventZmqIface;
-
 	Poco::FastMutex m_devicesMutex;
 	std::map<DeviceID, ConradDevice::Ptr> m_devices;
 
+	FHEMClient::Ptr m_fhemClient;
 	EventSource<ConradListener> m_eventSource;
 };
 

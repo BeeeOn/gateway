@@ -17,10 +17,13 @@ using namespace std;
 
 static list<ModuleType> DEVICE_MODULE_TYPES = {
 	{ModuleType::Type::TYPE_TEMPERATURE},
-	{ModuleType::Type::TYPE_TEMPERATURE},
+	{ModuleType::Type::TYPE_TEMPERATURE, {ModuleType::Attribute::ATTR_CONTROLLABLE}},
 	{ModuleType::Type::TYPE_OPEN_RATIO},
 	{ModuleType::Type::TYPE_RSSI},
 };
+
+static uint32_t MIN_DESIRED_TEMPERATURE = 5;
+static uint32_t MAX_DESIRED_TEMPERATURE = 30;
 
 const string RadiatorThermostat::PRODUCT_NAME = "HM-CC-RT-DN";
 
@@ -35,36 +38,48 @@ RadiatorThermostat::~RadiatorThermostat()
 {
 }
 
+void RadiatorThermostat::requestModifyState(
+		const ModuleID& moduleID,
+		const double value,
+		FHEMClient::Ptr fhemClient)
+{
+	if (moduleID.value() != DESIRED_TEMPERATURE_MODULE_ID) {
+		throw InvalidArgumentException(
+			"module " + to_string(moduleID.value()) + " is not controllable");
+	}
+
+	string fhemDeviceId = ConradDevice::constructFHEMDeviceId(m_deviceId);
+	string request = "set " + fhemDeviceId + "_Clima desired-temp ";
+	if (value < MIN_DESIRED_TEMPERATURE)
+		request += to_string(MIN_DESIRED_TEMPERATURE) + ".0";
+	else if (value > MAX_DESIRED_TEMPERATURE)
+		request += to_string(MAX_DESIRED_TEMPERATURE) + ".0";
+	else
+		request += to_string(int(value)) + ".0";
+
+	fhemClient->sendRequest(request);
+}
+
 /**
  * Message example:
  * {
- *     "channels": {
- *         "Clima": {
- *             "state": "T: 22.8 desired: 17.0 valve: 0"
- *         },
- *         "ClimaTeam": {
- *             "state": "unpeered"
- *         },
- *         "Climate": {
- *             "state": "unpeered"
- *         },
- *         "Main": "CMDs_done",
- *         "Weather": {
- *             "state": "22.8"
- *         },
- *         "WindowRec": {
- *             "state": "last:trigLast"
- *         },
- *         "remote": {
- *             "state": "unpeered"
- *         }
+ *     "channels" : {
+ *         "Clima" : "T: 21.2 desired: 17.0 valve: 0",
+ *         "ClimaTeam" : "unpeered",
+ *         "Climate" : "unpeered",
+ *         "Main" : "CMDs_done",
+ *         "Weather" : "21.2",
+ *         "WindowRec" : "last:trigLast",
+ *         "remote" : "unpeered"
  *     },
- *     "dev": "36BA59",
- *     "event": "message",
- *     "raw": "A0F9B861036BA590000000A88E4110000",
- *     "rssi": -31.5,
- *     "type": "thermostat"
- * }
+ *     "dev" : "HM_36BA59",
+ *     "event" : "message",
+ *     "model" : "HM-CC-RT-DN",
+ *     "raw" : "A0FE0861036BA590000000A88D40C0000",
+ *     "rssi" : -41.5,
+ *     "serial" : "MEQ0233325",
+ *     "type" : "thermostat"
+ *  }
  */
 SensorData RadiatorThermostat::parseMessage(const Object::Ptr message)
 {
@@ -72,11 +87,11 @@ SensorData RadiatorThermostat::parseMessage(const Object::Ptr message)
 	Poco::RegularExpression::MatchVec matches;
 
 	data.setDeviceID(m_deviceId);
-	Object::Ptr object = message->getObject("channels")->getObject("Clima");
+	Object::Ptr object = message->getObject("channels");
 
 	Poco::RegularExpression re("T: ([+-]?[0-9]+(\\.[0-9]+)?) desired: ([+-]?[0-9]+(\\.[0-9]+)?) valve: (0|1)");
 
-	string str = object->getValue<std::string>("state");
+	string str = object->getValue<std::string>("Clima");
 	if (re.match(str, 0, matches) == 0)
 		throw IllegalStateException("cannot parse Radiator Thermostat message");
 

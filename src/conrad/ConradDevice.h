@@ -6,6 +6,7 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/JSON/Object.h>
 
+#include "conrad/FHEMClient.h"
 #include "model/DeviceID.h"
 #include "model/ModuleType.h"
 #include "model/RefreshTime.h"
@@ -36,10 +37,20 @@ public:
 	std::string vendor() const;
 	std::string productName() const;
 
+	virtual void requestModifyState(
+		const ModuleID& moduleID,
+		const double value,
+		FHEMClient::Ptr fhemClient);
+
 	/**
 	 * @brief Transforms received ZMQ message to SensorData.
 	 */
 	virtual SensorData parseMessage(const Poco::JSON::Object::Ptr message) = 0;
+
+	/**
+	 * @brief Returns FHEM device id constructed from a given DeviceID.
+	 */
+	static std::string constructFHEMDeviceId(const DeviceID& id);
 
 protected:
 	/**
