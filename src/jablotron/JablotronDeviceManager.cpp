@@ -568,7 +568,16 @@ AsyncWork<>::Ptr JablotronDeviceManager::startDiscovery(const Timespan &timeout)
 
 	FastMutex::ScopedLock guard(m_lock);
 
-	for (const auto &gadget : readGadgets(timeout)) {
+	vector<JablotronGadget> gadgets;
+	try {
+		gadgets = readGadgets(timeout);
+	}
+	catch (const Exception& e) {
+		logger().warning("reading of gadgets failed", __FILE__, __LINE__);
+		logger().log(e, __FILE__, __LINE__);
+	}
+
+	for (const auto &gadget : gadgets) {
 		if (!gadget.info())
 			continue;
 
