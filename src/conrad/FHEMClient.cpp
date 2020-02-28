@@ -69,23 +69,16 @@ void FHEMClient::run()
 {
 	logger().information("starting FHEM client", __FILE__, __LINE__);
 
+	initConnection();
+
 	StopControl::Run run(m_stopControl);
-
-	while (run) {
-		try {
-			initConnection();
-			break;
-		}
-		catch (const Exception& e) {
-			logger().log(e, __FILE__, __LINE__);
-		}
-
-		run.waitStoppable(m_reconnectTime);
-	}
-
 	while (run) {
 		try {
 			cycle();
+		}
+		catch (const IOException& e) {
+			logger().log(e, __FILE__, __LINE__);
+			initConnection();
 		}
 		catch (const Exception& e) {
 			logger().log(e, __FILE__, __LINE__);
@@ -144,8 +137,22 @@ Object::Ptr FHEMClient::receive(const Timespan &timeout)
 
 void FHEMClient::initConnection()
 {
-	m_telnetSocket = DialogSocket(m_fhemAddress);
-	m_telnetSocket.setReceiveTimeout(m_receiveTimeout);
+	logger().information("initiating the connection with FHEM server",
+		__FILE__, __LINE__);
+
+	while (!m_stopControl.shouldStop()) {
+		try {
+			m_telnetSocket = DialogSocket(m_fhemAddress);
+			m_telnetSocket.setReceiveTimeout(m_receiveTimeout);
+
+			break;
+		}
+		catch (const Exception& e) {
+			logger().log(e, __FILE__, __LINE__);
+		}
+
+		m_stopControl.waitStoppable(m_reconnectTime);
+	}
 }
 
 void FHEMClient::cycle()
