@@ -191,8 +191,14 @@ AsyncWork<>::Ptr ConradDeviceManager::startDiscovery(const Timespan &timeout)
 {
 	auto work = BlockingAsyncWork<>::instance();
 
-	string request = "set CUL_0 hmPairForSec " + to_string(timeout.totalSeconds());
-	m_fhemClient->sendRequest(request);
+	try {
+		string request = "set CUL_0 hmPairForSec " + to_string(timeout.totalSeconds());
+		m_fhemClient->sendRequest(request);
+	}
+	catch (const Exception& e) {
+		logger().warning("failed to switch the CUL_0 into pair mode", __FILE__, __LINE__);
+		logger().log(e, __FILE__, __LINE__);
+	}
 
 	return work;
 }
