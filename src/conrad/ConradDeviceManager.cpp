@@ -184,6 +184,7 @@ void ConradDeviceManager::stop()
 {
 	DeviceManager::stop();
 	answerQueue().dispose();
+	m_fhemClient->stop();
 }
 
 AsyncWork<>::Ptr ConradDeviceManager::startDiscovery(const Timespan &timeout)
