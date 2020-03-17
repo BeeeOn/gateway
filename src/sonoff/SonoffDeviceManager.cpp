@@ -39,6 +39,8 @@ using namespace Poco;
 using namespace Poco::JSON;
 using namespace std;
 
+static const Timespan DISCOVER_IDLE = 5 * Timespan::SECONDS;
+
 SonoffDeviceManager::SonoffDeviceManager() :
 	DeviceManager(DevicePrefix::PREFIX_SONOFF, {
 		typeid(GatewayListenCommand),
@@ -154,23 +156,31 @@ void SonoffDeviceManager::createNewDevice(const pair<DeviceID, string>& deviceIn
 	m_devices.emplace(deviceInfo.first, newDevice);
 }
 
-AsyncWork<>::Ptr SonoffDeviceManager::startDiscovery(const Timespan&)
+AsyncWork<>::Ptr SonoffDeviceManager::startDiscovery(const Timespan& duration)
 {
 	auto work = BlockingAsyncWork<>::instance();
+	Clock started;
 
-	for (auto& device : m_devices) {
-		if (device.second->lastSeen().elapsed() > m_maxLastSeen.totalMicroseconds())
-			continue;
+	while (!m_stopControl.shouldStop()) {
+		if (duration - DISCOVER_IDLE - started.elapsed() < 0)
+			break;
 
-		auto types = device.second->moduleTypes();
-		const auto description = DeviceDescription::Builder()
-			.id(device.second->id())
-			.type(device.second->vendor(), device.second->productName())
-			.modules(types)
-			.refreshTime(device.second->refreshTime())
-			.build();
+		for (auto& device : m_devices) {
+			if (device.second->lastSeen().elapsed() > m_maxLastSeen.totalMicroseconds())
+				continue;
 
-		dispatch(new NewDeviceCommand(description));
+			auto types = device.second->moduleTypes();
+			const auto description = DeviceDescription::Builder()
+				.id(device.second->id())
+				.type(device.second->vendor(), device.second->productName())
+				.modules(types)
+				.refreshTime(device.second->refreshTime())
+				.build();
+
+			dispatch(new NewDeviceCommand(description));
+		}
+
+		m_stopControl.waitStoppable(DISCOVER_IDLE);
 	}
 
 	return work;
