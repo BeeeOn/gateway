@@ -1,3 +1,6 @@
 [submodule "base"]
 	path = base
 	url = ../base
+[submodule "t/testing-lib"]
+	path = t/testing-lib
+	url = ../testing-lib.git
