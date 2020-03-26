@@ -112,8 +112,8 @@
 #define F_SIZE_T   double
 #define F_SOF_COUNT   53
 #define F_SOF_COUNT_T   double
-#define F_TIME   54
-#define F_TIME_T   ur_time_t
+#define F_TIMESTAMP   54
+#define F_TIMESTAMP_T   ur_time_t
 #define F_TX_ACLS   55
 #define F_TX_ACLS_T   double
 #define F_TX_BYTES   56
